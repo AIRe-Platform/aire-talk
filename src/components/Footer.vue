@@ -6,7 +6,7 @@ export default {
 
 <template>
     <div id="footer">
-        <b>Development</b>
+        <b>{{ $t('footer') }} </b>
     </div>
 </template>
 

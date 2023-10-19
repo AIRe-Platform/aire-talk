@@ -6,7 +6,7 @@ export default {
 
 <template>
     <div id="nav-bar">
-        <b>AIRe Talk</b>
+        <b>{{ $t("title") }}</b>
     </div>
 </template>
 

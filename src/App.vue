@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 
-export default {
+export default defineComponent({
   name: 'App',
   components: {
     NavBar,
     Footer
   }
-}
+})
 </script>
 
 <template>
@@ -42,6 +43,5 @@ body {
   flex-grow: 1;
   flex-direction: column;
   overflow: auto;
-  padding: 0.5rem;
 }
 </style>
