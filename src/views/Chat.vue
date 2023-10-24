@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
-import { chat } from '@/context/chat';
+import Chat from '@/context/chat';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 defineComponent({ name: "ChatView" })
-console.log(chat)
 </script>
 
 <template>
     <div id="chat-view">
-        <template v-for="(msg) in chat.state.history" v-bind:key="msg.timestamp">
+        <template v-for="(msg) in Chat.state.history" v-bind:key="msg.timestamp">
             <ChatBubble :message="msg" />
         </template>
     </div>
@@ -23,5 +22,6 @@ console.log(chat)
     flex-grow: 1;
     padding: 1rem;
     overflow: auto;
+    background-color: rgb(248, 248, 248);
 }
 </style>

@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import { chat } from '@/context/chat'
+import Chat from '@/context/chat'
 function submit(event: Event)
 {
     const form = event.target as HTMLFormElement;
     const el = form.firstChild as HTMLInputElement;
-    chat.send(el.value)
+    const prompt = el.value.trim()
+
+    if(prompt.length > 0)
+        Chat.send(el.value)
+    
     el.value = "" 
 }
 </script>
 
 <template>
     <form class="chat-input-bar" @submit.prevent="submit">
-        <input id="chat-input-field" type="text" autofocus autocomplete="off" :readonly=chat.state.awaitingResponse />
+        <input id="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.state.awaitingResponse />
     </form>
 </template>
 
 <style scoped>
 .chat-input-bar {
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;

@@ -58,7 +58,7 @@ export function resetContext() {
     context = undefined;
 }
 
-async function generate(req: OllamaGenerateRequest, callback: (_: OllamaGenerateResponse) => void) {
+async function generate(req: OllamaGenerateRequest, callback: (response: OllamaGenerateResponse) => void) {
     const response = await fetch(config.host, {
         method: "POST",
         headers: {
