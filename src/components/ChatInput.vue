@@ -11,7 +11,7 @@ function submit(event: Event)
 
 <template>
     <form class="chat-input-bar" @submit.prevent="submit">
-        <input id="chat-input-field" type="text" autofocus autocomplete="off" />
+        <input id="chat-input-field" type="text" autofocus autocomplete="off" :readonly=chat.state.awaitingResponse />
     </form>
 </template>
 

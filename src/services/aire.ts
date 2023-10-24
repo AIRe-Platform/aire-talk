@@ -24,7 +24,7 @@ interface System {
 
 //let aire: System = undefined;
 
-export function aireInit(config: AIReConfig)
+export function initAire(config: AIReConfig)
 {
     // TODO: Request service configuration from AIRe Services Hub
 }
