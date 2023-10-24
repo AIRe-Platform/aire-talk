@@ -6,6 +6,13 @@ export interface Locale {
     title: string;
     footer: string;
     not_found: string;
+
+    aire_bot: string;
+    aire_system: string;
+    system_greeting: string;
+
+    error_generic: string;
+    error_ai_not_responding: string;
 }
 
 export const supportedLocales = {

@@ -1,7 +1,8 @@
 import { scrollToMessage } from "@/helpers/scrollToMessage";
-import { ChatHistory } from "@/models/chat";
+import { ChatHistory, ChatMessage } from "@/models/chat";
 import { AireAI } from "@/services/aire/ai";
 import { AireID } from "@/services/aire/id";
+import { AireError } from "@/services/aire/models/error";
 import { AireIdentity } from "@/services/aire/models/identity";
 import { reactive } from "vue";
 
@@ -19,8 +20,8 @@ class ChatState
     }
 }
 
-export const bot_id = "bot"
-export const bot_name = "AIRe Bot"
+export const bot_name = "aire_bot"
+export const system_name = "aire_system"
 
 function initChatState(): ChatState
 {
@@ -32,11 +33,11 @@ function initChatState(): ChatState
 
     const state = new ChatState(id, [
         { 
-            sender_id: bot_id,
-            sender_name: bot_name, 
-            is_user: false,
-            message: "Hello! How can I help you today?", 
-            timestamp: Date.now() },
+            sender: system_name, 
+            type: "system",
+            message: "system_greeting", 
+            timestamp: Date.now()
+        },
     ]);
     return state;
 }
@@ -45,34 +46,50 @@ function sendChatMessage(message: string)
 {
     chat.state.awaitingResponse = true;
 
-    chat.state.history.push({
-        sender_id: chat.state.user.id,
-        sender_name: chat.state.user.first_name + " " + chat.state.user.last_name,
-        is_user: true,
+    const userMessage: ChatMessage = {
+        sender: chat.state.user.first_name + " " + chat.state.user.last_name,
+        type: "user",
         message: message,
         timestamp: Date.now()
-    })
+    }
 
-    chat.state.history.push({
-        sender_id: bot_id,
-        sender_name: bot_name,
-        is_user: false,
-        message: "",
-        timestamp: Date.now() + 1
-    })
+    chat.state.history.push(userMessage)
 
-    AireAI.submitChat(message, receiveChatMessage)
+    AireAI.submitChat(message, receiveChatMessage, onReceiveError)
 }
 
 function receiveChatMessage(msg: string, final: boolean)
 {
-    const last = chat.state.history[chat.state.history.length - 1];
-    last.message += msg;
+    let last = chat.state.history[chat.state.history.length - 1];
 
+    if(last.type !== "bot")
+    {
+        last = {
+            sender: bot_name,
+            type: "bot",
+            message: "",
+            timestamp: Date.now()
+        }
+        chat.state.history.push(last)
+    }
+
+    last.message += msg;
     chat.state.awaitingResponse = !final;
 
     if(final)
         scrollToMessage(last)
+}
+
+function onReceiveError(error: AireError)
+{
+    chat.state.history.push({
+        sender: system_name,
+        type: "error",
+        message: error.key || error.description || "",
+        timestamp: Date.now()
+    })
+
+    chat.state.awaitingResponse = false;
 }
 
 const chat = {

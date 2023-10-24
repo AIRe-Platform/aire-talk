@@ -1,13 +1,21 @@
 import { AireTalkReceiver } from "./talk";
 import { initOllama, send } from "../ollama";
+import { AireError, AireErrorHandler, AireErrorKey } from "./models/error";
 
 export const AireAI = {
     submitChat: submitChat
 }
 
-function submitChat(message: string, callback: AireTalkReceiver)
+function submitChat(message: string, callback: AireTalkReceiver, onError?: AireErrorHandler)
 {
-    send(message, callback)
+    send(message, callback).catch(() => {
+        const e: AireError = { key: AireErrorKey.AiNotResponding }
+        
+        if(onError)
+            onError(e)
+        else
+            console.error(e)
+    });
 }
 
 initOllama({

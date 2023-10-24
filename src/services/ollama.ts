@@ -38,7 +38,7 @@ export function initOllama(conf: OllamaConfig) {
     config = conf;
 }
 
-export function send(prompt: string, callback: (response: string, final: boolean) => void) {
+export async function send(prompt: string, callback: (response: string, final: boolean) => void) {
     const req: OllamaGenerateRequest = {
         model: config.model,
         prompt: prompt.trim(),
@@ -47,11 +47,11 @@ export function send(prompt: string, callback: (response: string, final: boolean
         stream: config.stream
     }
 
-    generate(req, (response: OllamaGenerateResponse) => {
+    await generate(req, (response: OllamaGenerateResponse) => {
         if (response.done)
             context = response.context
         callback(response.response, response.done)
-    });
+    })
 }
 
 export function resetContext() {
