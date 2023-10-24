@@ -76,4 +76,8 @@ onMounted(() => scrollToMessage(props.message));
     font-size: x-small;
     color: rgb(150, 150, 150);
 }
+
+.chat-message-text {
+    white-space: pre-line;
+}
 </style>
