@@ -10,7 +10,7 @@ const en: Locale = {
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
 
     error_generic: "An unknown error occurred!",
-    error_ai_not_responding: "Can't talk to the bot",
+    error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",
 }
 
 export default en

@@ -14,7 +14,7 @@ function getIdentity() : AireIdentity | undefined
     if(!identity)
     {
         identity = {
-            id: self.crypto.randomUUID(),
+            id: crypto.randomUUID(),
             first_name: "Tero",
             last_name: "Testaaja"
         }

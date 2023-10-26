@@ -85,7 +85,7 @@ function onReceiveError(error: AireError)
     chat.state.history.push({
         sender: system_name,
         type: "error",
-        message: error.key || error.description || "",
+        message: error.key || error.error?.message || "",
         timestamp: Date.now()
     })
 

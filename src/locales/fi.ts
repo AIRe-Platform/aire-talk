@@ -10,7 +10,7 @@ const fi: Locale = {
     system_greeting: "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
 
     error_generic: "Tapahtui tuntematon virhe!",
-    error_ai_not_responding: "Botilta ei saatu vastausta",
+    error_ai_not_responding: "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",
 }
 
 export default fi

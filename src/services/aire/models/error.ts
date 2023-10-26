@@ -1,7 +1,7 @@
 export interface AireError
 {
     key?: AireErrorKey;
-    description?: string;
+    error?: Error;
 }
 
 export type AireErrorHandler = (err: AireError) => void;
