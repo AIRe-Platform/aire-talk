@@ -1,0 +1,52 @@
+#app {
+    color: #dedede;
+    background-color: #4a4a4a;
+    font-family: sans-serif;
+}
+
+#nav-bar {
+    box-shadow: 0 0 5px gray;
+}
+
+#footer {
+    color: lightgray;
+}
+
+#cookie-banner {
+    box-shadow: 0 0 5px gray;
+}
+
+#chat-view {
+    background-color: rgb(50, 50, 50);
+}
+
+.panel {
+    border: 1px solid rgb(53, 53, 53);
+    border-radius: 2rem;
+    box-shadow: 0 0 5px gray;
+}
+
+.chat-input-bar {
+    box-shadow: 0 0 5px gray;
+}
+
+.chat-input-field {
+    border: 1px solid lightgray;
+    border-radius: 0.5rem;
+    background-color: #4a4a4a;
+    color: #dedede;
+}
+
+.chat-bubble {
+    background-color: rgb(87, 87, 87);
+    box-shadow: 0 0 5px gray;
+    border-radius: 1rem;
+}
+
+.chat-bubble-error {
+    border: 1px solid rgb(255, 192, 192);
+}
+
+.chat-bubble-system {
+    border: 1px solid rgb(62, 147, 251);
+}

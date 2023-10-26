@@ -17,6 +17,5 @@ export default {
     align-items: center;
     height: 2rem;
     padding: 0.5rem;
-    box-shadow: 0 0 5px gray;
 }
 </style>

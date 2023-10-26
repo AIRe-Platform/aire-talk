@@ -23,9 +23,6 @@ export default {
 
 .panel {
     display: block;
-    border: 1px solid lightgrey;
-    border-radius: 2rem;
-    box-shadow: 0 0 5px gray;
     padding: 2rem 3rem;
 }
 </style>

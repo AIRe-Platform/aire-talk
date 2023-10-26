@@ -15,7 +15,7 @@ function submit(event: Event)
 
 <template>
     <form class="chat-input-bar" @submit.prevent="submit">
-        <input id="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.state.awaitingResponse />
+        <input class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.state.awaitingResponse />
     </form>
 </template>
 
@@ -28,13 +28,10 @@ function submit(event: Event)
     justify-content: center;
     padding: 0.5rem;
     height: 2rem;
-    box-shadow: 0 0 5px gray;
 }
 
-#chat-input-field {
+.chat-input-field {
     flex-grow: 1;
-    border: 1px solid lightgray;
-    border-radius: 0.5rem;
     padding: 0.2rem 0.6rem;
 }
 </style>

@@ -19,6 +19,5 @@ export default {
     z-index: 10;
     height: 2rem;
     padding: 0.5rem;
-    box-shadow: 0 0 5px gray;
 }
 </style>

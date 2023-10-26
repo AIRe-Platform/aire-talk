@@ -19,7 +19,6 @@ export default {
     justify-content: center;
     z-index: 10;
     height: 1rem;
-    color: lightgray;
     font-size: xx-small;
 }
 </style>

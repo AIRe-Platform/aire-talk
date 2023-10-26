@@ -22,6 +22,5 @@ defineComponent({ name: "ChatView" })
     flex-grow: 1;
     padding: 1rem;
     overflow: auto;
-    background-color: rgb(248, 248, 248);
 }
 </style>

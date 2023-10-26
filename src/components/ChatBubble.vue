@@ -37,34 +37,24 @@ onMounted(() => scrollToMessage(props.message));
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
-    box-shadow: 0 0 5px gray;
-    border-radius: 1rem;
     margin: 1rem;
     line-height: 1.4rem;
     max-width: 42rem;
 }
 
 .chat-bubble-user {
-    background-color: rgb(255, 255, 255);
     align-self: flex-end;
     margin-left: 3rem;
 }
 
 .chat-bubble-bot {
-    background-color: rgb(255, 255, 255);
     align-self: flex-start;
     margin-right: 3rem;
 }
 
 .chat-bubble-system {
-    background-color: rgb(255, 255, 255);
     align-self: center;
     margin: 0 3rem;
-    border: 1px solid rgb(62, 147, 251);
-}
-
-.chat-bubble-error {
-    border: 1px solid rgb(255, 192, 192);
 }
 
 .chat-bubble-content {
@@ -74,7 +64,6 @@ onMounted(() => scrollToMessage(props.message));
 
 .chat-user-label {
     font-size: x-small;
-    color: rgb(150, 150, 150);
 }
 
 .chat-message-text {

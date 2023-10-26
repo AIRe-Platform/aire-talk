@@ -2,6 +2,9 @@
 import { defineComponent } from 'vue';
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
+import { theme } from '@/themes'
+
+import(`@/themes/styles/${theme.style}.css`);
 
 export default defineComponent({
   name: 'App',
@@ -29,8 +32,6 @@ body {
 }
 
 #app {
-  font-family: sans-serif;
-  color: #2c3e50;
   margin: 0;
   padding: 0;
   display: flex;
