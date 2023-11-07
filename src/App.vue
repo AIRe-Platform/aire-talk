@@ -20,7 +20,7 @@ export default defineComponent({
   <div id="content-wrapper">
     <router-view />
   </div>
-  <Footer />
+  <Footer></Footer>
 </template>
 
 <style>

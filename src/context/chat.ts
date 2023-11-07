@@ -4,6 +4,7 @@ import { AireAI } from "@/services/aire/ai";
 import { AireID } from "@/services/aire/id";
 import { AireError } from "@/services/aire/models/error";
 import { AireIdentity } from "@/services/aire/models/identity";
+import { OpenAIMessage } from "@/services/openai";
 import { reactive } from "vue";
 
 class ChatState
@@ -20,21 +21,21 @@ class ChatState
     }
 }
 
-export const bot_name = "aire_bot"
-export const system_name = "aire_system"
+const bot_name = "aire_bot"
+const system_name = "aire_system"
 
 function initChatState(): ChatState
 {
     const id = AireID.getIdentity();
     if(!id)
     {
-        throw "No user identity set"
+        throw Error("No user identity set")
     }
 
     const state = new ChatState(id, [
         { 
-            sender: system_name, 
-            type: "system",
+            sender: system_name,
+            role: "system",
             message: "system_greeting", 
             timestamp: Date.now()
         },
@@ -48,43 +49,56 @@ function sendChatMessage(message: string)
 
     const userMessage: ChatMessage = {
         sender: chat.state.user.first_name + " " + chat.state.user.last_name,
-        type: "user",
+        role: "user",
         message: message,
         timestamp: Date.now()
     }
 
     chat.state.history.push(userMessage)
+    const messages = chat.state.history
+        .filter(x => x.role === "assistant" || x.role === "user")
 
-    AireAI.submitChat(message, receiveChatMessage, onReceiveError)
+    AireAI.submitChat(messages, receiveChatMessage, onReceiveError)
 }
 
-function receiveChatMessage(msg: string, final: boolean)
+let scrolling = false;
+function receiveChatMessage(msg: OpenAIMessage | null, final: boolean)
 {
     let last = chat.state.history[chat.state.history.length - 1];
 
-    if(last.type !== "bot")
+    if(last.role !== "assistant")
     {
         last = {
             sender: bot_name,
-            type: "bot",
+            role: "assistant",
             message: "",
             timestamp: Date.now()
         }
         chat.state.history.push(last)
     }
 
-    last.message += msg;
+    if(msg != null)
+    {
+        last.message += msg.content;
+    }
     chat.state.awaitingResponse = !final;
 
-    if(final)
-        scrollToMessage(last)
+    if(!scrolling || final)
+    {
+        scrolling = true;
+        setTimeout(() => {
+            scrollToMessage(last, final ? "start" : "end")
+            scrolling = false;
+        }, 1000);
+    }
 }
 
 function onReceiveError(error: AireError)
 {
     chat.state.history.push({
         sender: system_name,
-        type: "error",
+        role: "system",
+        isError: true,
         message: error.key || error.error?.message || "",
         timestamp: Date.now()
     })

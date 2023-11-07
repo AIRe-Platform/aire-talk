@@ -1,6 +1,6 @@
 import { ChatMessage } from "@/models/chat";
 
-export function scrollToMessage(message: ChatMessage)
+export function scrollToMessage(message: ChatMessage, pos?: ScrollLogicalPosition)
 {
     const id = message.timestamp.toString();
     const bubble = document.getElementById(id);
@@ -9,7 +9,7 @@ export function scrollToMessage(message: ChatMessage)
     {
         bubble.scrollIntoView({
             behavior: "smooth",
-            block: "start"
+            block: pos || "start"
         });
     }
     else

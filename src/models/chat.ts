@@ -1,6 +1,9 @@
+import { Role } from "@/services/openai/models/Role";
+
 export interface ChatMessage {
     sender: string;
-    type: "user" | "bot" | "system" | "error";
+    role: Role;
+    isError?: boolean;
     timestamp: number;
     message: string;
 }

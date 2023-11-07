@@ -5,17 +5,21 @@ import { defineProps, onMounted } from 'vue';
 const props = defineProps<{message: ChatMessage}>()
 
 const id = props.message.timestamp.toString()
-const isSystem = props.message.type === "system" || props.message.type === "error";
-const isBot = props.message.type === "bot";
+const isSystem = props.message.role === "system";
+const isBot = props.message.role === "assistant" || props.message.role === "system";
 
 let classList: any[] = ["chat-bubble"]
-switch(props.message.type)
+switch(props.message.role)
 {
-    case "bot": classList.push("chat-bubble-bot"); break;
+    case "assistant": classList.push("chat-bubble-bot"); break;
     case "user": classList.push("chat-bubble-user"); break;
-    case "system": classList.push("chat-bubble-system"); break;
-    case "error": classList.push("chat-bubble-system", "chat-bubble-error"); break;
+    case "function":
+    case "system": 
+        classList.push("chat-bubble-system"); 
+        break;
 }
+if(props.message.isError)
+    classList.push("chat-bubble-error");
 
 onMounted(() => scrollToMessage(props.message));
 </script>
