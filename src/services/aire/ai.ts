@@ -68,8 +68,8 @@ It is important that you tell your patient that you are a bot.
 //     system: system_message,
 //     options: {
 //         // Adjust parameters here, like:
-//         // "temperature": "0.5",
-//         // "num_ctx": "4096"
+//         // "temperature": 0.5,
+//         "num_ctx": 8192
 //     },
 //     stream: true
 // });

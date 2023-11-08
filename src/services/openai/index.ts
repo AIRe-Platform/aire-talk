@@ -70,11 +70,17 @@ export async function chatCompletion(messages: Array<OpenAIMessage>, callback: O
 
     if(reader == null)
     {
-        console.warn("Did not receive any response from AI");
-        return;
+        throw Error("Did not receive any response from AI");
+    }
+
+    if(response.status !== 200)
+    {
+        throw Error(`Received status: ${response.status}`);
     }
 
     let done = false;
+    let lastChunk = "";
+
     while (!done) {
         let value: any = null;
         ({ value, done } = await reader.read());
@@ -82,21 +88,20 @@ export async function chatCompletion(messages: Array<OpenAIMessage>, callback: O
         if(config.options.stream && !done)
         {
             const responseString = new TextDecoder().decode(value);
-            console.log("Full response:", responseString);
+            const chunks = (lastChunk + responseString)
+                .split("\ndata:")
+                .filter(x => x.trim().length > 0);
 
-            const chunks = responseString
-            .split("\n")
-            .map(x => {
-                if(x.startsWith("data:"))
+            lastChunk = "";
+
+            chunks.forEach(x => {
+                // Skip "data:" from the start of the chunk
+                if(!handleResponse(x, true, callback))
                 {
-                    return x.slice(5).trim();
+                    lastChunk = x; 
+                    console.debug("Incomplete chunk detected")
                 }
-                return x;
-            })
-            .filter(x => x.length > 0);
-
-            console.log("Stream chunks", chunks);
-            chunks.forEach(chunk => handleResponse(chunk, true, callback));
+            });
         }
         else
         {
@@ -107,33 +112,41 @@ export async function chatCompletion(messages: Array<OpenAIMessage>, callback: O
 
 }
 
-function handleResponse(responseString: string, isStream: boolean, callback: OpenAIChatCompletionReceiver)
+function handleResponse(responseString: string, isStream: boolean, callback: OpenAIChatCompletionReceiver) : boolean
 {
     let completion: CreateChatCompletionResponse | null = null;
     let message: OpenAIMessage | null = null;
-    const final = isStream ? (responseString === "[DONE]") : true;
+    const final = isStream ? (responseString.trim() === "[DONE]") : true;
 
     if(responseString.length > 0 && (!isStream || !final))
     {
         console.log("Handling chunk:", responseString);
 
-        completion = JSON.parse(responseString);
-        if(completion !== null)
+        try
         {
-            if(completion.choices.length > 0)
+            completion = JSON.parse(responseString);
+            if(completion !== null)
             {
-                const resp = completion.choices[0];
-                const content = (isStream ? resp.delta?.content : resp.message.content);
-                const role = (isStream ? resp.delta?.role : resp.message.role);
-                if(typeof content === "string")
+                if(completion.choices.length > 0)
                 {
-                    message = {
-                        content: content,
-                        role: role || "assistant"
-                    };
+                    const resp = completion.choices[0];
+                    const content = (isStream ? resp.delta?.content : resp.message.content);
+                    const role = (isStream ? resp.delta?.role : resp.message.role);
+                    if(typeof content === "string")
+                    {
+                        message = {
+                            content: content,
+                            role: role || "assistant"
+                        };
+                    }
                 }
             }
         }
+        catch(reason)
+        {
+            return false;
+        }
     }
     callback(message, final);
+    return true;
 }
