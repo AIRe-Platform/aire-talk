@@ -2,14 +2,14 @@ interface OllamaConfig {
     host: string;
     model: string;
     system?: string;
-    options?: { [param: string]: string }
+    options?: { [param: string]: any }
     stream?: boolean;
 }
 
 interface OllamaGenerateRequest {
     model: string;
     prompt: string;
-    options?: { [param: string]: string }
+    options?: { [param: string]: any }
     system?: string;
     context?: any;
     stream?: boolean;
@@ -43,6 +43,7 @@ export async function send(prompt: string, callback: (response: string, final: b
         model: config.model,
         prompt: prompt.trim(),
         context: context,
+        options: config.options,
         system: config.system,
         stream: config.stream
     }
