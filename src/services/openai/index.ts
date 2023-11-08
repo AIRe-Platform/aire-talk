@@ -1,4 +1,4 @@
-import { CreateChatCompletionRequest, CreateChatCompletionRequestMessage } from "./models/CreateChatCompletionRequest";
+import { CreateChatCompletionRequest } from "./models/CreateChatCompletionRequest";
 import { CreateChatCompletionResponse } from "./models/CreateChatCompletionResponse";
 import { Role } from "./models/Role";
 
@@ -79,30 +79,61 @@ export async function chatCompletion(messages: Array<OpenAIMessage>, callback: O
         let value: any = null;
         ({ value, done } = await reader.read());
 
-        const responseString = new TextDecoder().decode(value);
-        if(responseString.length > 0)
+        if(config.options.stream && !done)
         {
-            if(responseString === "[DONE]")
-            {
-                callback(null, true);
-                return;
-            }
+            const responseString = new TextDecoder().decode(value);
+            console.log("Full response:", responseString);
 
-            const responseBody = JSON.parse(responseString) as CreateChatCompletionResponse;
-            console.log(responseBody)
-
-            if(responseBody.choices.length > 0)
-            {
-                const resp = responseBody.choices[0];
-                if(typeof resp.message.content === "string")
+            const chunks = responseString
+            .split("\n")
+            .map(x => {
+                if(x.startsWith("data:"))
                 {
-                    callback({
-                        content: resp.message.content,
-                        role: resp.message.role
-                    }, !(config.options.stream || false));
+                    return x.slice(5).trim();
+                }
+                return x;
+            })
+            .filter(x => x.length > 0);
+
+            console.log("Stream chunks", chunks);
+            chunks.forEach(chunk => handleResponse(chunk, true, callback));
+        }
+        else
+        {
+            const responseString = new TextDecoder().decode(value);
+            handleResponse(responseString, false, callback);
+        }
+    }
+
+}
+
+function handleResponse(responseString: string, isStream: boolean, callback: OpenAIChatCompletionReceiver)
+{
+    let completion: CreateChatCompletionResponse | null = null;
+    let message: OpenAIMessage | null = null;
+    const final = isStream ? (responseString === "[DONE]") : true;
+
+    if(responseString.length > 0 && (!isStream || !final))
+    {
+        console.log("Handling chunk:", responseString);
+
+        completion = JSON.parse(responseString);
+        if(completion !== null)
+        {
+            if(completion.choices.length > 0)
+            {
+                const resp = completion.choices[0];
+                const content = (isStream ? resp.delta?.content : resp.message.content);
+                const role = (isStream ? resp.delta?.role : resp.message.role);
+                if(typeof content === "string")
+                {
+                    message = {
+                        content: content,
+                        role: role || "assistant"
+                    };
                 }
             }
         }
     }
-
+    callback(message, final);
 }

@@ -7,7 +7,7 @@ export interface ChatCompletionResponseMessage
         arguments: any;
         name: string;
     };
-    role: Role;
+    role?: Role;
 }
 
 export interface CompletionUsage 
@@ -21,9 +21,10 @@ export interface CreateChatCompletionResponse
 {
     id: string;
     choices: Array<{
-        finish_reason: "length" | "stop" | "content_filter" | "function_call";
+        finish_reason: "length" | "stop" | "content_filter" | "function_call" | null;
         index: number;
-        message: ChatCompletionResponseMessage
+        message: ChatCompletionResponseMessage,
+        delta?: ChatCompletionResponseMessage
     }>;
     created: number;
     model: string;

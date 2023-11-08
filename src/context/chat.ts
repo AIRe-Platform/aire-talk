@@ -4,7 +4,7 @@ import { AireAI } from "@/services/aire/ai";
 import { AireID } from "@/services/aire/id";
 import { AireError } from "@/services/aire/models/error";
 import { AireIdentity } from "@/services/aire/models/identity";
-import { OpenAIMessage } from "@/services/openai";
+import { AireTalkMessage } from "@/services/aire/talk";
 import { reactive } from "vue";
 
 class ChatState
@@ -62,7 +62,7 @@ function sendChatMessage(message: string)
 }
 
 let scrolling = false;
-function receiveChatMessage(msg: OpenAIMessage | null, final: boolean)
+function receiveChatMessage(msg: AireTalkMessage)
 {
     let last = chat.state.history[chat.state.history.length - 1];
 
@@ -77,17 +77,17 @@ function receiveChatMessage(msg: OpenAIMessage | null, final: boolean)
         chat.state.history.push(last)
     }
 
-    if(msg != null)
+    if(msg && msg.message)
     {
-        last.message += msg.content;
+        last.message += msg.message;
     }
-    chat.state.awaitingResponse = !final;
+    chat.state.awaitingResponse = !msg.final;
 
-    if(!scrolling || final)
+    if(!scrolling || msg.final)
     {
         scrolling = true;
         setTimeout(() => {
-            scrollToMessage(last, final ? "start" : "end")
+            scrollToMessage(last, msg.final ? "start" : "end")
             scrolling = false;
         }, 1000);
     }
