@@ -20,6 +20,16 @@
     background-color: rgb(50, 50, 50);
 }
 
+a {
+    text-decoration: none;
+    color: #dedede;
+    transition: color 0.5s;
+
+    &:hover {
+        color: rgb(255, 65, 170);
+    }
+}
+
 .panel {
     border: 1px solid rgb(53, 53, 53);
     border-radius: 2rem;

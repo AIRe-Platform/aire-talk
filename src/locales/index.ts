@@ -11,6 +11,8 @@ export interface Locale {
     aire_system: string;
     system_greeting: string;
 
+    chat_link_button_label: string;
+
     error_generic: string;
     error_ai_not_responding: string;
 }

@@ -9,6 +9,8 @@ const en: Locale = {
     aire_system: "AIRe System",
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
 
+    chat_link_button_label: "New chat",
+
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",
 }

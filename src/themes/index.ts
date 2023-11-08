@@ -6,7 +6,7 @@ export interface Theme
 }
 
 const config: Theme = {
-    style: "dark"
+    style: "default"
 }
 
 function initTheme() : Theme
