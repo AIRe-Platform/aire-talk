@@ -13,7 +13,15 @@ function submitChat(chat: ChatHistory, callback: AireTalkReceiver, onError?: Air
         return { role: x.role, content: x.message }
     })
 
-    chatCompletion(messages, callback).catch((reason) => {
+    const openAICallback = (message: OpenAIMessage | null, final: boolean) => {
+        callback({
+            role: message?.role,
+            message: message?.content,
+            final: final
+        })
+    }
+
+    chatCompletion(messages, openAICallback).catch((reason) => {
         const e: AireError = { 
             key: AireErrorKey.AiNotResponding,
             error: reason
