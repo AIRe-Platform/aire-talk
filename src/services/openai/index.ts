@@ -88,11 +88,23 @@ export async function chatCompletion(messages: Array<OpenAIMessage>, callback: O
         if(config.options.stream && !done)
         {
             const responseString = new TextDecoder().decode(value);
-            const chunks = (lastChunk + responseString)
-                .split("\ndata:")
-                .filter(x => x.trim().length > 0);
+            const block = (lastChunk + responseString);
+
+            console.debug("Got block", block)
+
+            const chunks = block
+                .split(/\n\s*data:\s*/g)
+                .map(x => {
+                    if(x.startsWith("data: "))
+                        return x.substring(5);
+                    return x;
+                })
+                .filter(x => x.trim().length > 0)
+                
 
             lastChunk = "";
+
+            console.debug("Parsed chunks", chunks)
 
             chunks.forEach(x => {
                 // Skip "data:" from the start of the chunk
