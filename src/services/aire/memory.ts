@@ -1,19 +1,27 @@
 import { ChatHistory } from "@/models/chat";
+import { AireModule, AireModuleType } from "./models/service";
 
-export const AireMemory = {
-    submitChat: submitChatToMemory,
-    getChatHistory: getChatHistoryFromMemory
-}
-
-function submitChatToMemory(chat: ChatHistory)
+export class AireMemory
 {
-    // TODO
-    console.warn("Not implemented")
-}
+    private config: AireModule;
 
-function getChatHistoryFromMemory(): Promise<ChatHistory>
-{
-    return new Promise((resolve, reject) => {
-        reject("Not implemented")
-    });
+    constructor(config: AireModule)
+    {
+        if(config.type !== AireModuleType.Memory)
+            throw Error("Module configuration is not for a Memory module");
+
+        this.config = config;
+    }
+
+    public saveChat(chat: ChatHistory)
+    {
+        // TODO: Implement
+    }
+
+    public getHistory(): Promise<ChatHistory[]>
+    {
+        return new Promise((resolve, reject) => {
+            reject("Not implemented")
+        });
+    }
 }

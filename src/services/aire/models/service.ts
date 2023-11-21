@@ -1,18 +1,36 @@
-import { AireConfig } from "..";
-
-export enum AireServiceType {
+export enum AireModuleType {
     ID = 'id',
     AI = 'ai',
     Memory = 'memory',
 }
 
-export interface AireService {
-    name: string;
-    url: string;
-    key: string;
+export enum AireModuleAccess {
+    Public = 'public',
+    Private = 'private',
 }
 
-export interface AireSystem {
-    config: AireConfig;
-    services: { [id in AireServiceType]? : AireService }
+export interface AireService {
+    name: string;
+    modules: AireModule[];
+}
+
+export interface AireServiceCredentials {
+    name: string;
+    token: string;
+}
+
+export interface AireModule {
+    type: AireModuleType;
+    access: AireModuleAccess;
+    endpoint: string;
+}
+
+export interface AirePlatform {
+    name: string;
+    modules: { [id in AireModuleType]?: AireModule }
+}
+
+export interface AirePlatformConfiguration {
+    platform: AirePlatform;
+    services: AireService[];
 }

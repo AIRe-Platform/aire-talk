@@ -1,24 +1,18 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
 import { theme } from '@/themes'
+import { State } from './services/aire';
 
 import(`@/themes/styles/${theme.style}.css`);
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    NavBar,
-    Footer
-  }
-})
 </script>
 
 <template>
   <NavBar />
   <div id="content-wrapper">
-    <router-view />
+    <router-view v-if="State.status === 'ready'"/>
+    <div class="panel main-content" v-if="State.status === 'init'">...</div>
+    <div class="panel main-content" v-if="State.status === 'error'">{{ $t("error_generic") }}</div>
   </div>
   <Footer></Footer>
 </template>
@@ -44,5 +38,10 @@ body {
   flex-grow: 1;
   flex-direction: column;
   overflow: auto;
+}
+
+.main-content {
+    padding: 1rem;
+    margin: auto;
 }
 </style>

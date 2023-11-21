@@ -5,7 +5,7 @@ import i18n from './locales'
 import { initAire } from './services/aire'
 
 initAire({
-    api_url: "http://localhost:7071",
+    api_url: "http://localhost:7071/api",
     api_key: "asdf"
 })
 

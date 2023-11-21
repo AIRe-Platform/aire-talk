@@ -1,10 +1,7 @@
-import { AireTalkReceiver } from "./talk";
+import { AireTalkReceiver } from "./models/talk";
+import { AireModule, AireModuleType } from "./models/service";
 import { AireError, AireErrorHandler, AireErrorKey } from "./models/error";
 import { ChatHistory } from "@/models/chat";
-
-export const AireAI = {
-    submitChat: submitChat
-}
 
 /*
  * There are integrations for OpenAI and Ollama for demo and testing purposes.
@@ -17,7 +14,21 @@ export const AireAI = {
  * If you are using OpenAI, please change the api_key value to your own.
  */
 
-const system_message = `
+// import { initOllama, send } from "../ollama";
+import { OpenAIMessage, chatCompletion, initOpenAI } from "../openai";
+
+export class AireAI
+{
+    private config: AireModule;
+    private system_message: string;
+
+    constructor(config: AireModule)
+    {
+        if(config.type !== AireModuleType.AI)
+            throw Error("Module configuration is not for an AI module");
+
+        this.config = config;
+        this.system_message = `
 Act as a medical advisor.
 Your task is to find out what is bothering your patient and provide suggestions.
 Do not suggest anything that could worsen the condition of the patient.
@@ -34,84 +45,83 @@ For emergencies, people should call 112 to get immediate help.
 It is important that you tell your patient that you are a bot.
 `;
 
-// // Ollama
+    // initOllama({
+    //     host: "http://localhost:11434/api/generate",
+    //     model: "mistral-openorca", // see available models: https://ollama.ai/library
+    //     system: system_message,
+    //     options: {
+    //         // Adjust parameters here, like:
+    //         // "temperature": 0.5,
+    //         "num_ctx": 8192
+    //     },
+    //     stream: true
+    // });
 
-// import { initOllama, send } from "../ollama";
-
-// function submitChat(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
-// {
-//     const item = chat[chat.length - 1];
-//     const messageCallback = (message: string, final: boolean) => {
-//         callback({
-//             message: message,
-//             role: "assistant",
-//             final: final
-//         })
-//     };
-
-//     send(item.message, messageCallback).catch((reason) => {
-//         const e: AireError = { 
-//             key: AireErrorKey.AiNotResponding,
-//             error: reason
-//         }
-        
-//         if(onError)
-//             onError(e)
-
-//         console.error(reason)
-//     })
-// }
-
-// initOllama({
-//     host: "http://localhost:11434/api/generate",
-//     model: "mistral-openorca", // see available models: https://ollama.ai/library
-//     system: system_message,
-//     options: {
-//         // Adjust parameters here, like:
-//         // "temperature": 0.5,
-//         "num_ctx": 8192
-//     },
-//     stream: true
-// });
-
-// OpenAI
-
-import { OpenAIMessage, chatCompletion, initOpenAI } from "../openai";
-
-function submitChat(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
-{
-    const messages: Array<OpenAIMessage> = chat.map(x => {
-        return { role: x.role, content: x.message }
-    })
-
-    const openAICallback = (message: OpenAIMessage | null, final: boolean) => {
-        callback({
-            role: message?.role,
-            message: message?.content,
-            final: final
-        })
+        initOpenAI({
+            api_url: "https://api.openai.com",
+            api_key: "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",
+            model: "gpt-3.5-turbo", // See available models here: https://platform.openai.com/docs/guides/text-generation
+            system: this.system_message,
+            options: {
+                stream: true,
+                max_tokens: 1024
+            }
+        });
     }
 
-    chatCompletion(messages, openAICallback).catch((reason) => {
-        const e: AireError = { 
-            key: AireErrorKey.AiNotResponding,
-            error: reason
-        }
+    public submitChat(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
+    {
+        const submitOpenAi = () => 
+        {
+            const messages: Array<OpenAIMessage> = chat.map(x => {
+                return { role: x.role, content: x.message }
+            })
         
-        if(onError)
-            onError(e)
+            const openAICallback = (message: OpenAIMessage | null, final: boolean) => {
+                callback({
+                    role: message?.role,
+                    message: message?.content,
+                    final: final
+                })
+            }
+        
+            chatCompletion(messages, openAICallback).catch((reason) => {
+                const e: AireError = { 
+                    key: AireErrorKey.AiNotResponding,
+                    error: reason
+                }
+                
+                if(onError)
+                    onError(e)
+        
+                console.error(reason)
+            });
+        };
+        submitOpenAi();
 
-        console.error(reason)
-    });
+        // const submitOllama = () => 
+        // {
+        //     const item = chat[chat.length - 1];
+        //     const messageCallback = (message: string, final: boolean) => {
+        //         callback({
+        //             message: message,
+        //             role: "assistant",
+        //             final: final
+        //         })
+        //     };
+
+        //     send(item.message, messageCallback).catch((reason) => {
+        //         const e: AireError = { 
+        //             key: AireErrorKey.AiNotResponding,
+        //             error: reason
+        //         }
+                
+        //         if(onError)
+        //             onError(e)
+
+        //         console.error(reason)
+        //     })
+        // }
+        // submitOllama();
+    }
 }
-
-initOpenAI({
-    api_url: "https://api.openai.com",
-    api_key: "<insert your api key here>",
-    model: "gpt-3.5-turbo", // See available models here: https://platform.openai.com/docs/guides/text-generation
-    system: system_message,
-    options: {
-        stream: true,
-        max_tokens: 1024
-    }
-})

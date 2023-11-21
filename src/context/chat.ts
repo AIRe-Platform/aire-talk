@@ -1,19 +1,18 @@
 import { scrollToMessage } from "@/helpers/scrollToMessage";
 import { ChatHistory, ChatMessage } from "@/models/chat";
-import { AireAI } from "@/services/aire/ai";
-import { AireID } from "@/services/aire/id";
+import { Services } from "@/services/aire";
 import { AireError } from "@/services/aire/models/error";
-import { AireIdentity } from "@/services/aire/models/identity";
-import { AireTalkMessage } from "@/services/aire/talk";
+import { AireUser } from "@/services/aire/models/user";
+import { AireTalkMessage } from "@/services/aire/models/talk";
 import { reactive } from "vue";
 
 class ChatState
 {
-    public user: AireIdentity;
+    public user: AireUser | null;
     public history: ChatHistory;
     public awaitingResponse: boolean;
 
-    constructor(user: AireIdentity, history: ChatHistory)
+    constructor(user: AireUser | null, history: ChatHistory)
     {
         this.user = user;
         this.history = history;
@@ -26,13 +25,17 @@ const system_name = "aire_system"
 
 function initChatState(): ChatState
 {
-    const id = AireID.getIdentity();
-    if(!id)
+    let user = Services.ID?.User.profile;
+    if(!user) // Make anonymous user
     {
-        throw Error("No user identity set")
+        user = {
+            uuid: crypto.randomUUID(),
+            email: "",
+            verified: false
+        }
     }
 
-    const state = new ChatState(id, [
+    const state = new ChatState(user, [
         { 
             sender: system_name,
             role: "system",
@@ -47,8 +50,12 @@ function sendChatMessage(message: string)
 {
     chat.state.awaitingResponse = true;
 
+    const makeName = () => {
+        return "";
+    }
+
     const userMessage: ChatMessage = {
-        sender: chat.state.user.first_name + " " + chat.state.user.last_name,
+        sender: makeName(),
         role: "user",
         message: message,
         timestamp: Date.now()
@@ -58,7 +65,13 @@ function sendChatMessage(message: string)
     const messages = chat.state.history
         .filter(x => x.role === "assistant" || x.role === "user")
 
-    AireAI.submitChat(messages, receiveChatMessage, onReceiveError)
+    if(Services.AI === undefined)
+    {
+        console.warn("AI service is not configured");
+        return;
+    }
+
+    Services.AI.submitChat(messages, receiveChatMessage, onReceiveError);
 }
 
 let scrolling = false;

@@ -1,4 +1,4 @@
-import { Role } from "../openai/models/Role";
+import { Role } from "../../openai/models/Role";
 
 export interface AireTalkMessage
 {
