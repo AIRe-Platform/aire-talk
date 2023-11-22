@@ -13,6 +13,24 @@ export interface Locale {
 
     chat_link_button_label: string;
 
+    login_form_title: string;
+    login_form_submit: string;
+    login_label_email: string;
+    login_label_password: string;
+    login_failure_message: string;
+
+    signup_form_title: string;
+    signup_form_submit: string;
+    signup_label_email: string;
+    signup_label_password: string;
+    signup_label_confirm_password: string;
+    signup_failure_message: string;
+
+    nav_login: string;
+    nav_logout: string;
+    nav_signup: string;
+    nav_theme: string;
+
     error_generic: string;
     error_ai_not_responding: string;
 }

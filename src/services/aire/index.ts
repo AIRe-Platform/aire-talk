@@ -32,13 +32,13 @@ let conf: AireConfig;
 export const State = reactive(new AireState());
 export const Services: AireServices = {};
 
-export function initAire(config: AireConfig)
+export async function initAire(config: AireConfig) : Promise<boolean>
 {
     conf = config;
 
     // Request service configuration from AIRe Services Hub
     const url = new URL(conf.api_url + "/v1/config");
-    fetch(url, {
+    return fetch(url, {
         method: "GET",
         headers: {
             "Accept": "application/json",
@@ -57,6 +57,7 @@ export function initAire(config: AireConfig)
     .catch((reason) => {
         console.error(reason);
         State.status = "error";
+        return false;
     })
 }
 
@@ -71,7 +72,7 @@ function configureServices(config: AirePlatformConfiguration) : Promise<boolean>
             const id_config = config.platform.modules.id;
             if(id_config !== undefined)
             {
-                Services.ID = new AireID(id_config);
+                Services.ID = new AireID("default", id_config);
             }
 
             const ai_config = config.platform.modules.ai;

@@ -1,29 +1,23 @@
 import { AireUser } from "./models/user"
 import { AireModule, AireModuleType } from "./models/service";
 import { TokenResponse } from "./models/token";
-import { UnwrapNestedRefs, reactive } from "vue";
 
 export class AireID
 {
     private config: AireModule;
+    private name: string;
 
-    public User: UnwrapNestedRefs<{
+    public User: { 
         profile: AireUser | null,
         token: TokenResponse | null
-    }>;
+    } = { profile: null, token: null };
 
-    constructor(config: AireModule)
+    constructor(name: string, config: AireModule)
     {
         if(config.type !== AireModuleType.ID)
             throw Error("Module configuration is not for an ID module");
+        this.name = name;
         this.config = config;
-
-        this.User = reactive({
-            profile: null,
-            token: null
-        });
-
-        this.restoreSession();
     }
 
     public async login(email: string, password: string) : Promise<boolean>
@@ -47,13 +41,14 @@ export class AireID
             if(response.status === 200)
             {
                 const token = await response.json() as TokenResponse;
-                this.User = { profile: null, token: token };
+                this.User.token = token;
 
                 const user = await this.fetchUserData();
                 if(user !== undefined)
                 {
-                    this.User = { profile: user, token: token };
+                    this.User.profile = user;
                     this.storeSession();
+                    console.debug("Login successful!");
                     return true;
                 }
                 else
@@ -76,8 +71,45 @@ export class AireID
 
     public logout()
     {
-        localStorage.removeItem("token");
+        localStorage.removeItem(this.name + "_token");
         this.User = { profile: null, token: null };
+    }
+
+    public async restoreSession() : Promise<boolean>
+    {
+        const token = localStorage.getItem(this.name + "_token");
+        if(token !== null)
+        {
+            console.debug("Restoring session...");
+
+            return this.verifyToken(token)
+                .then(async tokenInfo => {
+                    if(tokenInfo != null)
+                    {
+                        this.User.token = tokenInfo;
+                        console.log("Token is valid", tokenInfo);
+                        const user = await this.fetchUserData();
+                        if(user !== null)
+                        {
+                            this.User.profile = user;
+                            return true;
+                        }
+                    }
+
+                    throw Error("Invalid token");
+                })
+                .catch((reason) => {
+                    console.error("Failed to restore session:", reason);
+                    this.logout();
+                    return false;
+                })
+        }
+        return new Promise((resolve) => resolve(false));
+    }
+
+    public saveUser()
+    {
+        // TODO: Send user data
     }
 
     private async verifyToken(token: string): Promise<TokenResponse | null>
@@ -103,11 +135,6 @@ export class AireID
             console.error(reason);
             return null;
         })
-    }
-
-    public saveUser()
-    {
-        // TODO: Send user data
     }
 
     private async fetchUserData() : Promise<AireUser | null>
@@ -138,38 +165,11 @@ export class AireID
         }));
     }
 
-    private restoreSession()
-    {
-        const token = localStorage.getItem("token");
-        if(token !== null)
-        {
-            this.verifyToken(token)
-            .then(async tokenInfo => {
-                if(tokenInfo != null)
-                {
-                    this.User = { profile: null, token: tokenInfo };
-                    const user = await this.fetchUserData();
-                    if(user !== null)
-                    {
-                        this.User = { profile: user, token: tokenInfo };
-                        return;
-                    }
-                }
-
-                throw Error("Invalid token");
-            })
-            .catch((reason) => {
-                console.error("Failed to restore session:", reason);
-                this.logout();
-            })
-        }
-    }
-
     private storeSession()
     {
         if(this.User.token !== null)
         {
-            localStorage.setItem("token", this.User.token.access_token);
+            localStorage.setItem(this.name + "_token", this.User.token.access_token);
         }
     }
 }
