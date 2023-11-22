@@ -12,6 +12,7 @@ export default {
 
 <style scoped>
 #footer {
+    color: var(--footer-color);
     display: flex;
     flex-direction: row;
     flex-shrink: 0;

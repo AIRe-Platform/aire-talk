@@ -28,10 +28,10 @@ function submit(event: Event)
     justify-content: center;
     padding: 0.5rem;
     height: 2rem;
+    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 .chat-input-field {
     flex-grow: 1;
-    padding: 0.2rem 0.6rem;
 }
 </style>
