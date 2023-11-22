@@ -17,15 +17,36 @@ export interface Locale {
     error_ai_not_responding: string;
 }
 
-export const supportedLocales = {
-    "en": { name: "English" },
-    "fi": { name: "suomi (Finnish)" }
+export type Lang = "en" | "fi";
+
+export const supportedLocales = [
+    { lang: "en", name: "English" },
+    { lang: "fi", name: "suomi (Finnish)" }
+]
+
+const i18n = createI18n(initLocale());
+export default i18n;
+
+function initLocale()
+{
+    const storedLocale = localStorage.getItem("locale");
+    const defaultLocale: Lang = "en";
+
+    const loc = storedLocale ?? defaultLocale;
+    document.documentElement.lang = loc;
+
+    return {
+        locale: loc,
+        messages: {
+            en: { ...en },
+            fi: { ...fi }
+        }
+    }
 }
 
-export default createI18n({
-    locale: "en",
-    messages: {
-        en: { ...en },
-        fi: { ...fi }
-    }
-})
+export function setLocale(lang: Lang)
+{
+    document.documentElement.lang = lang;
+    i18n.global.locale = lang;
+    localStorage.setItem("locale", lang);
+}
