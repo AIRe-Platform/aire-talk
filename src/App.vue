@@ -25,7 +25,7 @@ import { State } from './services/aire';
   --border-color: lightgray;
   --font-family: sans-serif;
   --panel-background-color: rgb(248, 248, 248);
-  --error-color: rgb(255, 192, 192);
+  --error-color: rgb(255, 120, 120);
   --chat-bubble-background-color: var(--background-color);
 }
 
@@ -39,7 +39,7 @@ import { State } from './services/aire';
   --border-color: darkgray;
   --font-family: sans-serif;
   --panel-background-color: rgb(53, 53, 53);
-  --error-color: rgb(255, 192, 192);
+  --error-color: rgb(255, 120, 120);
   --chat-bubble-background-color: var(--background-color);
 }
 

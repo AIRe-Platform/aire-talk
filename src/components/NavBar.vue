@@ -27,6 +27,10 @@ const setLang = (e: Event) => {
     <div id="nav-bar">
         <div id="nav-bar-left">
             <RouterLink id="nav-title" class="nav-link" to="/">{{ $t("title") }}</RouterLink>
+            <RouterLink class="nav-link" to="/chat">{{ $t("nav_chat") }}</RouterLink>
+            <template v-if="Login.logged_in">
+                <RouterLink class="nav-link" to="/profile">{{ $t("nav_profile") }}</RouterLink>
+            </template>
         </div>
         <div id="nav-bar-right">
             <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
