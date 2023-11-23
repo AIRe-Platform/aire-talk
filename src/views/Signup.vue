@@ -1,8 +1,65 @@
 <script setup lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import Spinner from '@/components/Spinner.vue';
+import { useI18n } from 'vue-i18n';
+import { Services } from '@/services/aire';
+import { l } from '@/locales';
+import { router } from '@/router';
+import { Login } from '@/context/login';
 
-const onSignup = () => {
-    alert("not implemented");
+const busy = ref(false);
+const error = ref<string | null>(null);
+const { t } = useI18n();
+
+const onSignup = (e: Event) => {
+    e.preventDefault();
+    
+    if(busy.value) return;
+    const email = document.getElementById("signup-email") as HTMLInputElement;
+    const pw1 = document.getElementById("signup-password") as HTMLInputElement;
+    const pw2 = document.getElementById("signup-password-confirm") as HTMLInputElement;
+
+    if(email.form?.checkValidity() !== true)
+    {
+        return;
+    }
+
+    if(pw1.value !== pw2.value)
+    {
+        error.value = t(l.error_signup_password_mismatch);
+        return;
+    }
+
+    if(Services.ID)
+    {
+        busy.value = true;
+        Services.ID.signup(email.value, pw1.value)
+            .then((status) => {
+                if(status === 204)
+                {
+                    Services.ID?.login(email.value, pw1.value)
+                        .then((result) => {
+                            Login.logged_in = result;
+                            if(result)
+                                router.push("/");
+                            else
+                                router.push("/login");
+                        })
+                }
+                else if (status === 400)
+                {
+                    error.value = t(l.error_signup_bad_request)
+                }
+                else
+                {
+                    error.value = t(l.error_signup_general)
+                }
+            })
+            .finally(() => {
+                busy.value = false;
+            })
+        return;
+    }
 }
 
 defineComponent({ name: "SignupView" })
@@ -10,17 +67,21 @@ defineComponent({ name: "SignupView" })
 
 <template>
     <div class="main-content">
-        <form class="form-content" :on-submit="onSignup">
-            <h2>{{ $t("signup_form_title") }}</h2>
-            <label class="form-label">{{ $t("signup_label_email") }}</label>
+        <form class="form-content" @submit.prevent v-if="busy === false">
+            <h2>{{ $t(l.signup_form_title) }}</h2>
+            <label class="form-label">{{ $t(l.signup_label_email) }}</label>
             <input type="email" id="signup-email" required="true" autocomplete="email"/>
-            <label class="form-label">{{ $t("signup_label_password") }}</label>
+            <label class="form-label">{{ $t(l.signup_label_password) }}</label>
             <input type="password" id="signup-password" required="true" autocomplete="off"/>
-            <label class="form-label">{{ $t("signup_label_confirm_password") }}</label>
+            <label class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"/>
             <br />
-            <input type="submit" :value="$t('signup_form_submit')"/>
+            <label id="signup-failed-message" v-if="error != null">{{ error }}</label>
+            <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup"/>
         </form>
+        <div class="busy-panel" v-if="busy">
+            <Spinner />
+        </div>
     </div>
 </template>
 
@@ -41,6 +102,23 @@ defineComponent({ name: "SignupView" })
     background-color: var(--panel-background-color);
     padding: 2rem 3rem;
     flex-grow: 1;
+}
+
+.busy-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    box-shadow: 0 0 5px var(--shadow-color);
+    background-color: var(--panel-background-color);
+    padding: 2rem 3rem;
+    flex-grow: 1;
+}
+
+#signup-failed-message
+{
+    color: var(--error-color);
+    white-space: pre-line;
 }
 
 .form-label {

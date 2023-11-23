@@ -3,38 +3,38 @@ import { Login } from '@/context/login';
 import { router } from '@/router';
 import { Services } from '@/services/aire';
 import { defineComponent, ref } from 'vue';
+import Spinner from '@/components/Spinner.vue';
 
 const busy = ref(false);
-const loginError = ref(false);
+const error = ref(false);
 
 const onLogin = (e: Event) => {
     e.preventDefault();
-
+    
     if(busy.value)
         return false;
-    busy.value = true;
 
     if(Services.ID)
     {
-        console.debug("Logging in...");
-
         const email = document.getElementById("login-email") as HTMLInputElement;
         const pw = document.getElementById("login-password") as HTMLInputElement;
 
+        if(email.form?.checkValidity() !== true)
+            return;
+
+        busy.value = true;
+        console.debug("Logging in...");
+
         Services.ID.login(email.value, pw.value)
-        .then((result) => {
-            loginError.value = !result;
-            Login.logged_in = result;
-            if(result)
-                router.push("/");
-        })
-        .catch((reason) => {
-            console.error(reason);
-            loginError.value = true;
-        })
-        .finally(() => {
-            busy.value = false;
-        })
+            .then((result) => {
+                error.value = !result;
+                Login.logged_in = result;
+                if(result)
+                    router.push("/");
+            })
+            .finally(() => {
+                busy.value = false;
+            })
     }
     return true;
 };
@@ -44,16 +44,19 @@ defineComponent({ name: "LoginView" })
 
 <template>
     <div class="main-content">
-        <form id="login-form" class="form-content" @submit.prevent>
+        <form id="login-form" class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t("login_form_title") }}</h2>
             <label class="form-label">{{ $t("login_label_email") }}</label>
-            <input type="email" id="login-email" required="true" autocomplete="email" :readonly="busy"/>
+            <input type="email" id="login-email" required="true" autocomplete="email"/>
             <label class="form-label">{{ $t("login_label_password") }}</label>
-            <input type="password" id="login-password" required="true" autocomplete="current-password" :readonly="busy"/>
+            <input type="password" id="login-password" required="true" autocomplete="current-password"/>
             <br />
-            <label id="login-failed-message" v-if="loginError">{{ $t("login_result_failed") }}</label>
-            <input type="submit" :value="$t('login_form_submit')" :readonly="busy" @click="onLogin" />
+            <label id="login-failed-message" v-if="error">{{ $t("login_failure_message") }}</label>
+            <input type="submit" :value="$t('login_form_submit')" @click="onLogin" />
         </form>
+        <div class="busy-panel" v-if="busy">
+            <Spinner />
+        </div>
     </div>
 </template>
 
@@ -76,9 +79,21 @@ defineComponent({ name: "LoginView" })
     flex-grow: 1;
 }
 
+.busy-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    box-shadow: 0 0 5px var(--shadow-color);
+    background-color: var(--panel-background-color);
+    padding: 2rem 3rem;
+    flex-grow: 1;
+}
+
 #login-failed-message
 {
     color: var(--error-color);
+    white-space: pre-line;
 }
 
 .form-label {

@@ -107,6 +107,26 @@ export class AireID
         return new Promise((resolve) => resolve(false));
     }
 
+    public async signup(email: string, password: string) : Promise<number>
+    {
+        const url = new URL(this.config.endpoint + "/v1/signup");
+        const body = { credentials: { email, password }};
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+        .then((result) => {
+            return result.status;
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return 0;
+        })
+    }
+
     public saveUser()
     {
         // TODO: Send user data
