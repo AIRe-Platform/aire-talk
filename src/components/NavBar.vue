@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { Services } from '@/services/aire';
 import { Theme, setTheme } from '@/context/theme';
 import { supportedLocales, setLocale, Lang } from '@/locales';
-import { Login } from '@/context/login';
-
-const logout = () => {
-    Services.ID?.logout();
-    Login.logged_in = false;
-};
+import { Login, logout } from '@/context/login';
 
 const toggleTheme = () => {
     if(Theme.style === "theme-dark")

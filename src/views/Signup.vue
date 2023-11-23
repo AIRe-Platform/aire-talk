@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { defineComponent, ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
-import { useI18n } from 'vue-i18n';
-import { Services } from '@/services/aire';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { Login } from '@/context/login';
+import { signup } from '@/context/login';
 
 const busy = ref(false);
 const error = ref<string | null>(null);
-const { t } = useI18n();
 
 const onSignup = (e: Event) => {
     e.preventDefault();
@@ -26,40 +23,29 @@ const onSignup = (e: Event) => {
 
     if(pw1.value !== pw2.value)
     {
-        error.value = t(l.error_signup_password_mismatch);
+        error.value = l.error_signup_password_mismatch;
         return;
     }
 
-    if(Services.ID)
-    {
-        busy.value = true;
-        Services.ID.signup(email.value, pw1.value)
-            .then((status) => {
-                if(status === 204)
-                {
-                    Services.ID?.login(email.value, pw1.value)
-                        .then((result) => {
-                            Login.logged_in = result;
-                            if(result)
-                                router.push("/");
-                            else
-                                router.push("/login");
-                        })
-                }
-                else if (status === 400)
-                {
-                    error.value = t(l.error_signup_bad_request)
-                }
-                else
-                {
-                    error.value = t(l.error_signup_general)
-                }
-            })
-            .finally(() => {
-                busy.value = false;
-            })
-        return;
-    }
+    busy.value = true;
+    signup(email.value, pw1.value)
+        .then((status) => {
+            if(status === 204)
+            {
+                router.push("/")
+            }
+            else if (status === 400)
+            {
+                error.value = l.error_signup_bad_request;
+            }
+            else
+            {
+                error.value = l.error_signup_general;
+            }
+        })
+        .finally(() => {
+            busy.value = false;
+        })
 }
 
 defineComponent({ name: "SignupView" })
@@ -76,7 +62,7 @@ defineComponent({ name: "SignupView" })
             <label class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"/>
             <br />
-            <label id="signup-failed-message" v-if="error != null">{{ error }}</label>
+            <label id="signup-failed-message" v-if="error != null">{{ $t(error) }}</label>
             <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup"/>
         </form>
         <div class="busy-panel" v-if="busy">

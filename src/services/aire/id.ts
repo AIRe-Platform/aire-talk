@@ -127,9 +127,82 @@ export class AireID
         })
     }
 
-    public saveUser()
+    public async saveProfileData(profile: AireUser) : Promise<boolean>
     {
-        // TODO: Send user data
+        if(this.User.profile == null)
+            return new Promise(res => res(false));
+
+        const url = new URL(this.config.endpoint + "/v1/user/" + profile.uuid)
+        return fetch(url, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${this.User.token?.access_token}`,
+                "Content-Type": "application/json",
+                "Accept": "applicaion/json" 
+            },
+            body: JSON.stringify(profile)
+        })
+        .then(async (result) => {
+            if(result.status === 200)
+            {
+                const updated = await result.json() as AireUser;
+                this.User.profile = updated;
+                return true;
+            }
+            else return false;
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
+    }
+
+    public async deleteProfile(password: string, keep_anonymized_data: boolean = false): Promise<boolean>
+    {
+        if(this.User.profile == null)
+            return new Promise(res => res(false));
+
+        const url = new URL(this.config.endpoint + "/v1/user/" + this.User.profile.uuid);
+        const body = { password, keep_anonymized_data };
+        return fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${this.User.token?.access_token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        })
+        .then((result) => {
+            return result.status === 204;
+        })
+        .catch((reason) => {
+            console.log(reason);
+            return false;
+        });
+    }
+
+    public async changePassword(current_password: string, new_password: string): Promise<boolean>
+    {        
+        if(this.User.profile == null)
+            return new Promise(res => res(false));
+
+        const url = new URL(this.config.endpoint + "/v1/user/" + this.User.profile.uuid + "/password");
+        const body = { current_password, new_password };
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${this.User.token?.access_token}`
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => {
+            return response.status === 204;
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
     }
 
     private async verifyToken(token: string): Promise<TokenResponse | null>
@@ -193,4 +266,3 @@ export class AireID
         }
     }
 }
-

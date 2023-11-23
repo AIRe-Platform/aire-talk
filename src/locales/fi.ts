@@ -30,15 +30,46 @@ const fi: Locale = {
     nav_signup: "Luo tili",
     nav_theme: "Vaihda teema",
 
+    profile_title: "Käyttäjäprofiilisi",
+    profile_label_first_name: "Etunimi",
+    profile_label_last_name: "Sukunimi",
+    profile_label_gender: "Sukupuoli",
+    profile_label_age: "Ikä",
+    profile_label_language: "Kieli",
+    profile_label_country: "Maa",
+    profile_button_save: "Tallenna muutokset",
+
+    profile_heading_connected_services: "Yhdistetyt palvelut",
+    profile_empty_service_list: "Ei yhdistettyjä palveluita",
+
+    profile_heading_password: "Vaihda salasana",
+    profile_description_password: "Salasanassa on oltava vähintään 6 merkkiä ja sisältää isoja sekä pieniä kirjaimia ja numeroita.",
+    profile_label_current_password: "Nykyinen salasana",
+    profile_label_new_password: "Uusi salasana",
+    profile_button_change_password: "Vaihda salasana",
+
+    profile_heading_delete_account: "Tilin poistaminen",
+    profile_description_delete_account: "Tämä poistaa tilisi AIRe-alustalta. Syötä salasanasi vahvistaaksesi poiston.",
+    profile_label_password_confirm: "Salasana",
+    profile_label_keep_anonymized_data: "Anonymisoi tietoni poistamisen sijaan. Tämä auttaa AIRe-alustan kehittämisessä. Tämä on täysin vapaaehtoista.",
+    profile_button_delete: "Poista tili",
+
+    gender_male: "mies",
+    gender_female: "nainen",
+    gender_other: "muu",
+
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",
     error_signup_password_mismatch: "Salasanat eivät täsmää",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
-    
+
 Sähköpostiosoite saattaa olla jo rekisteröity tai salasanasi ei täytä vähimmäisvaatimuksia. 
 
 Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja isoja kirjaimia sekä numeroita.`,
-    error_signup_general: "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen."
+    error_signup_general: "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_profile_edit: "Tallentaminen epäonnistui.",
+    error_profile_password: "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset",
+    error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen."
 }
 
 export default fi

@@ -63,6 +63,8 @@ a {
 input[type=text],
 input[type=password],
 input[type=email],
+input[type=number],
+input[type=checkbox],
 select {
   color: var(--text-color);
   padding: 0.2rem 0.6rem;

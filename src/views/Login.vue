@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Login } from '@/context/login';
+import { Login, login } from '@/context/login';
 import { router } from '@/router';
-import { Services } from '@/services/aire';
 import { defineComponent, ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 
@@ -14,29 +13,23 @@ const onLogin = (e: Event) => {
     if(busy.value)
         return false;
 
-    if(Services.ID)
-    {
-        const email = document.getElementById("login-email") as HTMLInputElement;
-        const pw = document.getElementById("login-password") as HTMLInputElement;
+    const email = document.getElementById("login-email") as HTMLInputElement;
+    const pw = document.getElementById("login-password") as HTMLInputElement;
 
-        if(email.form?.checkValidity() !== true)
-            return;
+    if(email.form?.checkValidity() !== true)
+        return;
 
-        busy.value = true;
-        console.debug("Logging in...");
+    busy.value = true;
+    console.debug("Logging in...");
 
-        Services.ID.login(email.value, pw.value)
-            .then((result) => {
-                error.value = !result;
-                Login.logged_in = result;
-                if(result)
-                    router.push("/");
-            })
-            .finally(() => {
-                busy.value = false;
-            })
-    }
-    return true;
+    login(email.value, pw.value)
+        .then((result) => {
+            error.value = !result;
+            Login.logged_in = result;
+            if(result)
+                router.push("/");
+        })
+        .finally(() => busy.value = false);
 };
 
 defineComponent({ name: "LoginView" })
