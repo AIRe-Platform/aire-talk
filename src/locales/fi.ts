@@ -1,7 +1,7 @@
 import { Locale } from ".";
 
 const fi: Locale = {
-    title: "AIRe Talk",
+    title : "AIRe Talk",
     footer: "Kehitysversio",
     not_found: "Sivua ei löytynyt",
 
@@ -22,8 +22,9 @@ const fi: Locale = {
     signup_label_email: "Sähköpostiosoite",
     signup_label_password: "Salasana",
     signup_label_confirm_password: "Vahvista salasana",
-    signup_failure_message: "Rekisteröityminen epäonnistui",
 
+    nav_chat: "Chat",
+    nav_profile: "Profiili",
     nav_login: "Kirjaudu sisään",
     nav_logout: "Kirjaudu ulos",
     nav_signup: "Luo tili",
@@ -31,6 +32,13 @@ const fi: Locale = {
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",
+    error_signup_password_mismatch: "Salasanat eivät täsmää",
+    error_signup_bad_request: `Rekisteröityminen epäonnistui.
+    
+Sähköpostiosoite saattaa olla jo rekisteröity tai salasanasi ei täytä vähimmäisvaatimuksia. 
+
+Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja isoja kirjaimia sekä numeroita.`,
+    error_signup_general: "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen."
 }
 
 export default fi
