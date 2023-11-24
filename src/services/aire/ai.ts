@@ -59,7 +59,7 @@ It is important that you tell your patient that you are a bot.
 
         initOpenAI({
             api_url: "https://api.openai.com",
-            api_key: "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",
+            api_key: "INSERT_YOUR_KEY_HERE",
             model: "gpt-3.5-turbo", // See available models here: https://platform.openai.com/docs/guides/text-generation
             system: this.system_message,
             options: {
