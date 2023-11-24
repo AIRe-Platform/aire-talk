@@ -1,5 +1,6 @@
 import { Services } from "@/services/aire";
 import { reactive } from "vue";
+import { Chat } from "./chat";
 
 export const Login = reactive({
     logged_in: false
@@ -11,6 +12,7 @@ export async function login(email: string, password: string) : Promise<boolean>
     {
         const result = await Services.ID.login(email, password);
         Login.logged_in = result;
+        Chat.reset();
         return result;
     }
     return new Promise(res => res(false));
@@ -60,5 +62,18 @@ export function logout()
     if(Services.ID)
     {
         Services.ID.logout();
+    }
+    Chat.reset();
+}
+
+export async function restoreSession()
+{
+    if(Services.ID)
+    {
+        Login.logged_in = await Services.ID.restoreSession();
+        if(Login.logged_in)
+        {
+            Chat.reset();
+        }
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Chat from '@/context/chat'
+import { Chat } from '@/context/chat'
 function submit(event: Event)
 {
     const form = event.target as HTMLFormElement;
@@ -15,7 +15,7 @@ function submit(event: Event)
 
 <template>
     <form class="chat-input-bar" @submit.prevent="submit">
-        <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.state.awaitingResponse />
+        <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.awaitingResponse />
     </form>
 </template>
 

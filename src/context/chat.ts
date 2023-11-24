@@ -6,52 +6,28 @@ import { AireUser } from "@/services/aire/models/user";
 import { AireTalkMessage } from "@/services/aire/models/talk";
 import { reactive } from "vue";
 
-class ChatState
-{
-    public user: AireUser | null;
-    public history: ChatHistory;
-    public awaitingResponse: boolean;
-
-    constructor(user: AireUser | null, history: ChatHistory)
-    {
-        this.user = user;
-        this.history = history;
-        this.awaitingResponse = false;
-    }
-}
-
 const bot_name = "aire_bot"
 const system_name = "aire_system"
 
-function initChatState(): ChatState
+export interface ChatState
 {
-    let user = Services.ID?.User.profile;
-    if(!user) // Make anonymous user
-    {
-        user = {
-            uuid: crypto.randomUUID(),
-            email: "",
-            verified: false
-        }
-    }
+    user: AireUser;
+    history: ChatHistory;
+    awaitingResponse: boolean;
+    scrolling: boolean;
 
-    const state = new ChatState(user, [
-        { 
-            sender: system_name,
-            role: "system",
-            message: "system_greeting", 
-            timestamp: Date.now()
-        },
-    ]);
-    return state;
+    send: (message: string) => void;
+    reset: (to_message?: number) => void;
 }
+
+export const Chat: ChatState = reactive(initChatState());
 
 function sendChatMessage(message: string)
 {
-    chat.state.awaitingResponse = true;
+    Chat.awaitingResponse = true;
 
     const makeName = () => {
-        return "";
+        return `${Chat.user.first_name || ""} ${Chat.user.last_name || ""}`.trim();
     }
 
     const userMessage: ChatMessage = {
@@ -61,23 +37,23 @@ function sendChatMessage(message: string)
         timestamp: Date.now()
     }
 
-    chat.state.history.push(userMessage)
-    const messages = chat.state.history
+    Chat.history.push(userMessage)
+    const messages = Chat.history
         .filter(x => x.role === "assistant" || x.role === "user")
 
-    if(Services.AI === undefined)
+    if(Services.AI)
+    {
+        Services.AI.submitChat(messages, receiver, error_handler);
+    }
+    else
     {
         console.warn("AI service is not configured");
-        return;
     }
-
-    Services.AI.submitChat(messages, receiveChatMessage, onReceiveError);
 }
 
-let scrolling = false;
-function receiveChatMessage(msg: AireTalkMessage)
+function receiver(msg: AireTalkMessage)
 {
-    let last = chat.state.history[chat.state.history.length - 1];
+    let last = Chat.history[Chat.history.length - 1];
 
     if(last.role !== "assistant")
     {
@@ -87,28 +63,28 @@ function receiveChatMessage(msg: AireTalkMessage)
             message: "",
             timestamp: Date.now()
         }
-        chat.state.history.push(last)
+        Chat.history.push(last)
     }
 
     if(msg && msg.message)
     {
         last.message += msg.message;
     }
-    chat.state.awaitingResponse = !msg.final;
+    Chat.awaitingResponse = !msg.final;
 
-    if(!scrolling || msg.final)
+    if(!Chat.scrolling || msg.final)
     {
-        scrolling = true;
+        Chat.scrolling = true;
         setTimeout(() => {
             scrollToMessage(last, msg.final ? "start" : "end")
-            scrolling = false;
+            Chat.scrolling = false;
         }, 1000);
     }
 }
 
-function onReceiveError(error: AireError)
+function error_handler(error: AireError)
 {
-    chat.state.history.push({
+    Chat.history.push({
         sender: system_name,
         role: "system",
         isError: true,
@@ -116,12 +92,70 @@ function onReceiveError(error: AireError)
         timestamp: Date.now()
     })
 
-    chat.state.awaitingResponse = false;
+    Chat.awaitingResponse = false;
 }
 
-const chat = {
-    state: reactive(initChatState()),
-    send: sendChatMessage
-};
+function getChatUser(): AireUser
+{
+    let user = Services.ID?.User.profile;
+    if(!user) // Make anonymous user
+    {
+        console.debug("Creating anonymous user");
+        user = {
+            uuid: crypto.randomUUID(),
+            email: "",
+            verified: false
+        }
+    }
+    else
+    {
+        console.debug("User chat initialized");
+    }
+    return user;
+}
 
-export default chat;
+function systemGreeting() : ChatMessage
+{
+    return { 
+        sender: system_name,
+        role: "system",
+        message: "system_greeting", 
+        timestamp: Date.now()
+    };
+}
+
+function initChatState(): ChatState
+{
+    return {
+        user: getChatUser(),
+        history: [ systemGreeting() ],
+        awaitingResponse: false,
+        scrolling: false,
+        send: sendChatMessage,
+        reset: resetChatState
+    }
+}
+
+function resetChatState(to_message?: number)
+{
+    console.debug("Resetting chat state");
+
+    Chat.user = getChatUser();
+    Chat.awaitingResponse = false;
+    Chat.scrolling = false;
+
+    let spliceStart = 0;
+
+    if(to_message)
+    {
+        const index = Chat.history.findIndex(x => x.timestamp === to_message);
+        if(index > 0)
+            spliceStart = index;
+    }
+    
+    Chat.history = Chat.history.slice(0, spliceStart);
+    console.debug(Chat, spliceStart);
+
+    if(Chat.history.length === 0)
+        Chat.history.push(systemGreeting());
+}

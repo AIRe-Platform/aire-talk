@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
-import Chat from '@/context/chat';
+import { Chat } from '@/context/chat';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 defineComponent({ name: "ChatView" })
@@ -8,7 +8,7 @@ defineComponent({ name: "ChatView" })
 
 <template>
     <div id="chat-view">
-        <template v-for="(msg) in Chat.state.history" v-bind:key="msg.timestamp">
+        <template v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
             <ChatBubble :message="msg" />
         </template>
     </div>

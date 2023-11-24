@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import { router } from './router'
 import App from './App.vue'
 import i18n from './locales'
-import { Services, initAire } from './services/aire'
-import { Login } from './context/login'
+import { initAire } from './services/aire'
+import { restoreSession } from './context/login'
 
 initAire({
     api_url: "http://localhost:7071/api",
@@ -11,10 +11,7 @@ initAire({
 }).then(async (result) => {
     if(result)
     {
-        if(Services.ID)
-        {
-            Login.logged_in = await Services.ID.restoreSession();
-        }
+        restoreSession();
     }
 });
 
