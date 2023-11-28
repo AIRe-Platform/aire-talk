@@ -12,7 +12,6 @@
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "npm: serve",
             "runtimeArgs": [
-                "--disable-web-security",
                 "--user-data-dir=./tmp"
             ]
         }
