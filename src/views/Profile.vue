@@ -72,7 +72,6 @@ const onChangePassword = (e: Event) => {
         busy.value = true;
         changePassword(current.value, newpw.value)
             .then((result) => {
-                console.debug(result);
                 if(result) {
                     pwError.value = undefined;
                 }

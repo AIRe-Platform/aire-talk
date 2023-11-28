@@ -1,10 +1,10 @@
-import { Role } from "../../openai/models/Role";
-
 export interface AireTalkMessage
 {
-    role?: Role;
+    role?: AireRole;
     message?: string;
     final: boolean;
 }
+
+export type AireRole = "ai" | "user" | "system";
 
 export type AireTalkReceiver = (message: AireTalkMessage) => void;

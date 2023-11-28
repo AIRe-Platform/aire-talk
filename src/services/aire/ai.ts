@@ -1,26 +1,21 @@
 import { AireTalkReceiver } from "./models/talk";
 import { AireModule, AireModuleType } from "./models/service";
-import { AireError, AireErrorHandler, AireErrorKey } from "./models/error";
+import { AireErrorHandler, AireErrorKey } from "./models/error";
 import { ChatHistory } from "@/models/chat";
-
-/*
- * There are integrations for OpenAI and Ollama for demo and testing purposes.
- *
- * If you wish to run language models locally, I suggest you install Ollama (https://ollama.ai)
- * and then uncomment Ollama code here and comment out OpenAI stuff.
- * Note that the context size for Ollama's conversation context is quite short with current implementation.
- * Expect the LLM to begin hallucinating after a while.
- * 
- * If you are using OpenAI, please change the api_key value to your own.
- */
-
-// import { initOllama, send } from "../ollama";
-import { OpenAIMessage, chatCompletion, initOpenAI } from "../openai";
+import { 
+    AireChatbotRequest, 
+    AireChatbot,
+     AireChatMessage, 
+     AireChatbotEventType, 
+     AireChatbotOutput, 
+     AireChatbotErrorEvent 
+} from "./models/chatbot";
+import { Services } from ".";
 
 export class AireAI
 {
     private config: AireModule;
-    private system_message: string;
+    private selectedBot: string;
 
     constructor(config: AireModule)
     {
@@ -28,100 +23,151 @@ export class AireAI
             throw Error("Module configuration is not for an AI module");
 
         this.config = config;
-        this.system_message = `
-Act as a medical advisor.
-Your task is to find out what is bothering your patient and provide suggestions.
-Do not suggest anything that could worsen the condition of the patient.
+        this.selectedBot = "default";
+    }
 
-Keep your responses short and coherent.
-Ask only a single question at a time.
-Avoid repeating yourself.
-Write clear and professional language.
+    public stream(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
+    {
+        const url = new URL(this.config.endpoint + "/bot/" + this.selectedBot + "/stream");
+        const headers: { [key: string]: string } = {
+            "Accept": "text/event-stream",
+            "Content-Type": "application/json"
+        };
 
-The user is located in Finland. 
-For non-emergencies, people can contact 116 117 for advice and guidance.
-For emergencies, people should call 112 to get immediate help.
+        if(Services.ID)
+        {
+            const token = Services.ID.getAccessToken();
+            if(token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
 
-It is important that you tell your patient that you are a bot.
-`;
-
-    // initOllama({
-    //     host: "http://localhost:11434/api/generate",
-    //     model: "mistral-openorca", // see available models: https://ollama.ai/library
-    //     system: system_message,
-    //     options: {
-    //         // Adjust parameters here, like:
-    //         // "temperature": 0.5,
-    //         "num_ctx": 8192
-    //     },
-    //     stream: true
-    // });
-
-        initOpenAI({
-            api_url: "https://api.openai.com",
-            api_key: "INSERT_YOUR_KEY_HERE",
-            model: "gpt-3.5-turbo", // See available models here: https://platform.openai.com/docs/guides/text-generation
-            system: this.system_message,
-            options: {
-                stream: true,
-                max_tokens: 1024
+        const req: AireChatbotRequest = {
+            input: { 
+                chat: chat.map(x => {
+                    const m: AireChatMessage = {
+                        name: x.role,
+                        content: x.message
+                    };
+                    return m;
+                }) 
             }
+        };
+
+        fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(req)
+        })
+        .then(async (response) => {
+            if(!response.ok)
+                throw Error(response.statusText);
+
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+
+            let done = false;
+            let value: any = null;
+            let buf: string = "";
+    
+            while(reader)
+            {
+                ({ value, done } = await reader.read());
+                if(done) break;
+                buf += decoder.decode(value);
+                
+                const lines = buf.split("\n");
+                let dataEvent: AireChatbotEventType | undefined;
+                buf = "";
+                lines.forEach(line => {
+                    if(buf.length > 0)
+                    {
+                        console.error("Incomplete data placed in buffer, buf it was not the last line.");
+                        throw Error(AireErrorKey.Unknown);
+                    }
+
+                    if(line.startsWith("event: "))
+                    {
+                        const eventType = line.substring(line.indexOf(":") + 1).trim();
+                        if(eventType === AireChatbotEventType.End)
+                        {
+                            callback({ final: true });
+                            return;
+                        }
+                        else if ((<any>Object).values(AireChatbotEventType).includes(eventType))
+                        {
+                            dataEvent = eventType as AireChatbotEventType;
+                        }
+                        else
+                        {
+                            buf += line;
+                        }
+                    }
+                    else if (line.startsWith("data: "))
+                    {
+                        const value = line.substring(line.indexOf(":") + 1).trim();
+                        if(dataEvent === AireChatbotEventType.Data)
+                        {
+                            try
+                            {
+                                const output = JSON.parse(value) as AireChatbotOutput;
+                                callback({ message: output.content, role: output.type, final: false});
+                            }
+                            catch(reason)
+                            {
+                                console.error(reason);
+
+                                // Probably incomplete data
+                                buf += "event: data\n";
+                                buf += line;
+                            }
+                        }
+                        else if (dataEvent == AireChatbotEventType.Error)
+                        {
+                            try
+                            {
+                                const err = JSON.parse(value) as AireChatbotErrorEvent;
+                                if(onError)
+                                {
+                                    onError({
+                                        key: AireErrorKey.AiNotResponding,
+                                        error: Error(`${err.status_code.toString()}: ${err.message}`)
+                                    });
+                                }
+                            }
+                            catch(reason)
+                            {
+                                console.error(reason);
+
+                                // Probably incomplete data
+                                buf += "event: error\n";
+                                buf += line;
+                            }
+                        }
+                        else if (dataEvent == AireChatbotEventType.Metadata)
+                        {
+                            console.debug("Metadata received");
+                        }
+                        else
+                        {
+                            console.warn("Unhandled data", line);
+                        }
+                    }
+                    else if(line.trim().length > 0)
+                    {
+                        buf += line;
+                    }
+                });
+            }
+        })
+        .catch((reason) => {
+            console.error(reason);
+            if(onError)
+                onError({ key: AireErrorKey.AiNotResponding });
         });
     }
 
-    public submitChat(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
+    private getBots(): Promise<AireChatbot[]>
     {
-        const submitOpenAi = () => 
-        {
-            const messages: Array<OpenAIMessage> = chat.map(x => {
-                return { role: x.role, content: x.message }
-            })
-        
-            const openAICallback = (message: OpenAIMessage | null, final: boolean) => {
-                callback({
-                    role: message?.role,
-                    message: message?.content,
-                    final: final
-                })
-            }
-        
-            chatCompletion(messages, openAICallback).catch((reason) => {
-                const e: AireError = { 
-                    key: AireErrorKey.AiNotResponding,
-                    error: reason
-                }
-                
-                if(onError)
-                    onError(e)
-        
-                console.error(reason)
-            });
-        };
-        submitOpenAi();
-
-        // const submitOllama = () => 
-        // {
-        //     const item = chat[chat.length - 1];
-        //     const messageCallback = (message: string, final: boolean) => {
-        //         callback({
-        //             message: message,
-        //             role: "assistant",
-        //             final: final
-        //         })
-        //     };
-
-        //     send(item.message, messageCallback).catch((reason) => {
-        //         const e: AireError = { 
-        //             key: AireErrorKey.AiNotResponding,
-        //             error: reason
-        //         }
-                
-        //         if(onError)
-        //             onError(e)
-
-        //         console.error(reason)
-        //     })
-        // }
-        // submitOllama();
+        return new Promise((res) => res([]));
     }
 }

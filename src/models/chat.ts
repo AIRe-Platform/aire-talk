@@ -1,8 +1,8 @@
-import { Role } from "@/services/openai/models/Role";
+import { AireRole } from "@/services/aire/models/talk";
 
 export interface ChatMessage {
     sender: string;
-    role: Role;
+    role: AireRole;
     isError?: boolean;
     timestamp: number;
     message: string;

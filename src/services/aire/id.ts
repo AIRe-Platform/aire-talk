@@ -43,11 +43,11 @@ export class AireID
                 const token = await response.json() as TokenResponse;
                 this.User.token = token;
 
-                const user = await this.fetchUserData();
+                const user = await this._fetchUserData();
                 if(user !== undefined)
                 {
                     this.User.profile = user;
-                    this.storeSession();
+                    this._storeSession();
                     console.debug("Login successful!");
                     return true;
                 }
@@ -82,13 +82,13 @@ export class AireID
         {
             console.debug("Restoring session...");
 
-            return this.verifyToken(token)
+            return this._verifyToken(token)
                 .then(async tokenInfo => {
                     if(tokenInfo != null)
                     {
                         this.User.token = tokenInfo;
                         console.log("Token is valid", tokenInfo);
-                        const user = await this.fetchUserData();
+                        const user = await this._fetchUserData();
                         if(user !== null)
                         {
                             this.User.profile = user;
@@ -205,7 +205,12 @@ export class AireID
         })
     }
 
-    private async verifyToken(token: string): Promise<TokenResponse | null>
+    public getAccessToken() : string | undefined
+    {
+        return this.User.token?.access_token;
+    }
+
+    private async _verifyToken(token: string): Promise<TokenResponse | null>
     {
         const url = new URL(this.config.endpoint + "/oauth/tokeninfo/" + encodeURIComponent(token));
         return fetch(url, {
@@ -230,7 +235,7 @@ export class AireID
         })
     }
 
-    private async fetchUserData() : Promise<AireUser | null>
+    private async _fetchUserData() : Promise<AireUser | null>
     {
         const url = new URL(this.config.endpoint + "/v1/user");
         if(this.User.token === null)
@@ -258,7 +263,7 @@ export class AireID
         }));
     }
 
-    private storeSession()
+    private _storeSession()
     {
         if(this.User.token !== null)
         {
