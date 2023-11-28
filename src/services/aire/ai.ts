@@ -81,7 +81,7 @@ export class AireAI
                 lines.forEach(line => {
                     if(buf.length > 0)
                     {
-                        console.error("Incomplete data placed in buffer, buf it was not the last line.");
+                        console.error("Incomplete data placed in buffer, buf it was not the last line.", lines, value);
                         throw Error(AireErrorKey.Unknown);
                     }
 
@@ -152,7 +152,7 @@ export class AireAI
                             console.warn("Unhandled data", line);
                         }
                     }
-                    else if(line.trim().length > 0)
+                    else if(line.trim().length > 0 && !line.startsWith(": ping"))
                     {
                         buf += line;
                     }
