@@ -14,9 +14,9 @@ const getProfile = () => {
 const profile = ref(getProfile());
 const busy = ref(false);
 
-const editError = ref<string|null>();
-const pwError = ref<string|null>();
-const delError = ref<string|null>();
+const editError = ref<string>();
+const pwError = ref<string>();
+const delError = ref<string>();
 
 const onSaveChanges = (e: Event) => {
     e.preventDefault();
@@ -48,6 +48,7 @@ const onSaveChanges = (e: Event) => {
             .then((result) => {
                 if(result) {
                     profile.value = getProfile();
+                    editError.value = undefined;
                 }
                 else {
                     editError.value = l.error_profile_edit;
@@ -71,7 +72,11 @@ const onChangePassword = (e: Event) => {
         busy.value = true;
         changePassword(current.value, newpw.value)
             .then((result) => {
-                if(!result) {
+                console.debug(result);
+                if(result) {
+                    pwError.value = undefined;
+                }
+                else {
                     pwError.value = l.error_profile_change_password;
                 }
             })
@@ -95,6 +100,10 @@ const onDeleteAccount = (e: Event) => {
             .then((result) => {
                 if(result) {
                     logout();
+                    delError.value = undefined;
+                }
+                else {
+                    delError.value = l.error_profile_delete_account;
                 }
             })
             .finally(() => busy.value = false);

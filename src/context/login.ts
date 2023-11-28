@@ -22,7 +22,7 @@ export async function signup(email: string, password: string): Promise<number>
 {
     if(Services.ID)
     {
-        Services.ID.signup(email, password)
+        return await Services.ID.signup(email, password)
             .then(async (status) => {
                 if(status === 204)
                 {
@@ -43,7 +43,7 @@ export async function changePassword(current_password: string, new_password: str
         const username = Services.ID.User.profile?.email;
         if(username)
         {
-            Services.ID.changePassword(current_password, new_password)
+            return await Services.ID.changePassword(current_password, new_password)
                 .then(async (result) => {
                     if(result) {
                         logout();
