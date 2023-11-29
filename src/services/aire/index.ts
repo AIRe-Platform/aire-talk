@@ -6,7 +6,6 @@ import { AireMemory } from "./memory";
 
 export interface AireConfig {
     api_url: string;
-    api_key: string;
 }
 
 export class AireState {
@@ -26,7 +25,6 @@ export interface AireServices
     ThirdParty?: AireService[];
 }
 
-let platform: AirePlatformConfiguration;
 let conf: AireConfig;
 
 export const State = reactive(new AireState());
@@ -41,8 +39,7 @@ export async function initAire(config: AireConfig) : Promise<boolean>
     return fetch(url, {
         method: "GET",
         headers: {
-            "Accept": "application/json",
-            "x-functions-key": conf.api_key
+            "Accept": "application/json"
         }
     })    
     .then(async (result) => {

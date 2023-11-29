@@ -6,8 +6,7 @@ import { initAire } from './services/aire'
 import { restoreSession } from './context/login'
 
 initAire({
-    api_url: "http://localhost:7071/api",
-    api_key: "asdf"
+    api_url: "http://localhost:7071/api"
 }).then(async (result) => {
     if(result)
     {
