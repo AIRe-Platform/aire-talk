@@ -1,4 +1,3 @@
-import { ChatHistory } from "@/models/chat";
 import { AireRole } from "./talk";
 
 export interface AireChatbot
@@ -30,22 +29,6 @@ export interface AireChatbotErrorEvent
 {
     status_code: number;
     message: string;
-}
-
-export interface AireChatbotRequest
-{
-    input: AireChatbotInput;
-    config?: object;
-    kwargs?: object;
-}
-
-export interface AireChatbotResponse
-{
-    output: AireChatbotOutput;
-    callback_events: any[];
-    metadata: {
-        run_id: string;
-    }
 }
 
 export enum AireChatbotEventType

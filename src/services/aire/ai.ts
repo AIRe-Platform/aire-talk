@@ -3,12 +3,12 @@ import { AireModule, AireModuleType } from "./models/service";
 import { AireErrorHandler, AireErrorKey } from "./models/error";
 import { ChatHistory } from "@/models/chat";
 import { 
-    AireChatbotRequest, 
     AireChatbot,
-     AireChatMessage, 
-     AireChatbotEventType, 
-     AireChatbotOutput, 
-     AireChatbotErrorEvent 
+    AireChatMessage, 
+    AireChatbotEventType, 
+    AireChatbotOutput, 
+    AireChatbotErrorEvent, 
+    AireChatbotInput
 } from "./models/chatbot";
 import { Services } from ".";
 
@@ -41,16 +41,14 @@ export class AireAI
                 headers["Authorization"] = `Bearer ${token}`
         }
 
-        const req: AireChatbotRequest = {
-            input: { 
-                chat: chat.map(x => {
-                    const m: AireChatMessage = {
-                        name: x.role,
-                        content: x.message
-                    };
-                    return m;
-                }) 
-            }
+        const req: AireChatbotInput = {
+            chat: chat.map(x => {
+                const m: AireChatMessage = {
+                    name: x.role,
+                    content: x.message
+                };
+                return m;
+            }) 
         };
 
         fetch(url, {
