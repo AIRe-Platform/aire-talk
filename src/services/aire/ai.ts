@@ -44,7 +44,7 @@ export class AireAI
         const req: AireChatbotInput = {
             chat: chat.map(x => {
                 const m: AireChatMessage = {
-                    name: x.role,
+                    role: x.role,
                     content: x.message
                 };
                 return m;

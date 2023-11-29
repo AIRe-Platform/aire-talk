@@ -39,7 +39,7 @@ function sendChatMessage(message: string)
 
     Chat.history.push(userMessage)
     const messages = Chat.history
-        .filter(x => x.role === "ai" || x.role === "user")
+        .filter(x => x.role === "assistant" || x.role === "user")
 
     if(Services.AI)
     {
@@ -55,11 +55,11 @@ function receiver(msg: AireTalkMessage)
 {
     let last = Chat.history[Chat.history.length - 1];
 
-    if(last.role !== "ai")
+    if(last.role !== "assistant")
     {
         last = {
             sender: bot_name,
-            role: "ai",
+            role: "assistant",
             message: "",
             timestamp: Date.now()
         }

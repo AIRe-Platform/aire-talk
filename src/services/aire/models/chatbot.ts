@@ -8,7 +8,7 @@ export interface AireChatbot
 
 export interface AireChatMessage
 {
-    name: string;
+    role: string;
     content: string;
 }
 

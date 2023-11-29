@@ -5,6 +5,6 @@ export interface AireTalkMessage
     final: boolean;
 }
 
-export type AireRole = "ai" | "user" | "system";
+export type AireRole = "assistant" | "user" | "system";
 
 export type AireTalkReceiver = (message: AireTalkMessage) => void;
