@@ -39,12 +39,12 @@ defineComponent({ name: "LoginView" })
     <div class="main-content">
         <form id="login-form" class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t("login_form_title") }}</h2>
-            <label class="form-label">{{ $t("login_label_email") }}</label>
+            <label for="login-email" class="form-label">{{ $t("login_label_email") }}</label>
             <input type="email" id="login-email" required="true" autocomplete="email"/>
-            <label class="form-label">{{ $t("login_label_password") }}</label>
+            <label for="login-password" class="form-label">{{ $t("login_label_password") }}</label>
             <input type="password" id="login-password" required="true" autocomplete="current-password"/>
             <br />
-            <label id="login-failed-message" v-if="error">{{ $t("login_failure_message") }}</label>
+            <small id="login-failed-message" v-if="error">{{ $t("login_failure_message") }}</small>
             <input type="submit" :value="$t('login_form_submit')" @click="onLogin" />
         </form>
         <div class="busy-panel" v-if="busy">

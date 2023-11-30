@@ -55,14 +55,14 @@ defineComponent({ name: "SignupView" })
     <div class="main-content">
         <form class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t(l.signup_form_title) }}</h2>
-            <label class="form-label">{{ $t(l.signup_label_email) }}</label>
+            <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
             <input type="email" id="signup-email" required="true" autocomplete="email"/>
-            <label class="form-label">{{ $t(l.signup_label_password) }}</label>
+            <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
             <input type="password" id="signup-password" required="true" autocomplete="off"/>
-            <label class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
+            <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"/>
             <br />
-            <label id="signup-failed-message" v-if="error != null">{{ $t(error) }}</label>
+            <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
             <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup"/>
         </form>
         <div class="busy-panel" v-if="busy">

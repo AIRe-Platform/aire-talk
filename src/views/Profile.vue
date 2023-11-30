@@ -133,11 +133,11 @@ defineComponent({ name: "ProfileView" })
         <form id="profile-form" v-if="busy===false" @submit.prevent>
             <span class="form-row">
                 <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
-                <input id="first_name" class="form-input" type="text" :value="profile?.first_name"/>
+                <input id="first_name" class="form-input" type="text" :value="profile?.first_name" autocomplete="given-name"/>
             </span>
             <span class="form-row">
                 <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
-                <input id="last_name" type="text" :value="profile?.last_name"/>
+                <input id="last_name" type="text" :value="profile?.last_name" autocomplete="family-name"/>
             </span>
             <span class="form-row">
                 <label for="gender">{{ $t(l.profile_label_gender) }}</label>
@@ -155,7 +155,7 @@ defineComponent({ name: "ProfileView" })
             </span>
             <span class="form-row">
                 <label for="country">{{ $t(l.profile_label_country) }}</label>
-                <input id="country" type="text" :value="profile?.country" />
+                <input id="country" type="text" :value="profile?.country" autocomplete="country-name" />
             </span>
             <span class="form-row">
                 <label for="bio">{{ $t(l.profile_label_bio) }}</label>
@@ -174,11 +174,11 @@ defineComponent({ name: "ProfileView" })
             <h3>{{ $t(l.profile_heading_password) }}</h3>
             <input hidden="true" type="text" id="username" autocomplete="off"/>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_current_password) }}</label>
+                <label for="current_password">{{ $t(l.profile_label_current_password) }}</label>
                 <input id="current_password" type="password" required="true" autocomplete="current-password"/>
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_new_password) }}</label>
+                <label for="new_password">{{ $t(l.profile_label_new_password) }}</label>
                 <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password"/>
             </span>
             <div class="desc">{{ $t(l.profile_description_password) }}</div>
@@ -189,12 +189,12 @@ defineComponent({ name: "ProfileView" })
             <h3>{{ $t(l.profile_heading_delete_accout) }}</h3>
             <div class="desc">{{ $t(l.profile_description_delete_account) }}</div>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_password_confirm) }}</label>
+                <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
                 <input id="confirm_password" type="password" required="true" autocomplete="off" />
             </span>
             <span class="form-row form-toggle">
                 <input id="keep_anonymized_data" type="checkbox" @change.prevent/>
-                <label class="checkbox-label"  @click="toggleCheckbox('keep_anonymized_data')">{{ $t(l.profile_label_keep_anonymized_data) }}</label>
+                <label for="keep_anonymized_data" class="checkbox-label"  @click="toggleCheckbox('keep_anonymized_data')">{{ $t(l.profile_label_keep_anonymized_data) }}</label>
             </span>
             <div class="error-message" v-if="delError">{{ $t(delError) }}</div>
             <input type="submit" :value="$t(l.profile_button_delete)" @click="onDeleteAccount" />
