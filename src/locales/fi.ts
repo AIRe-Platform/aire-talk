@@ -37,6 +37,7 @@ const fi: Locale = {
     profile_label_age: "Ikä",
     profile_label_language: "Kieli",
     profile_label_country: "Maa",
+    profile_label_bio: "Tietoja",
     profile_button_save: "Tallenna muutokset",
 
     profile_heading_connected_services: "Yhdistetyt palvelut",

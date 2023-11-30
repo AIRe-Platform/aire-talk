@@ -13,5 +13,6 @@ export interface AireUser
     email: string;
     language?: string;
     country?: string;
+    bio?: string;
     connected_services?: AireServiceCredentials[];
 }

@@ -30,6 +30,7 @@ const onSaveChanges = (e: Event) => {
     const age = document.getElementById("age") as HTMLInputElement;
     const language = document.getElementById("language") as HTMLInputElement;
     const country = document.getElementById("country") as HTMLInputElement;
+    const bio = document.getElementById("bio") as HTMLInputElement;
 
     if(!firstName.form?.checkValidity())
         return;
@@ -40,6 +41,7 @@ const onSaveChanges = (e: Event) => {
     profile.value.age = age.valueAsNumber;
     profile.value.language = language.value;
     profile.value.country = country.value;
+    profile.value.bio = bio.value;
 
     if(Services.ID)
     {
@@ -130,30 +132,34 @@ defineComponent({ name: "ProfileView" })
         <Spinner v-if="busy" />
         <form id="profile-form" v-if="busy===false" @submit.prevent>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_first_name) }}</label>
+                <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
                 <input id="first_name" class="form-input" type="text" :value="profile?.first_name"/>
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_last_name) }}</label>
+                <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
                 <input id="last_name" type="text" :value="profile?.last_name"/>
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_gender) }}</label>
+                <label for="gender">{{ $t(l.profile_label_gender) }}</label>
                 <select id="gender" :value="profile?.gender">
                     <option v-for="g in genderList" :key="g.id" :value="g.id">{{ $t(g.name) }}</option>
                 </select>
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_age) }}</label>
+                <label for="age">{{ $t(l.profile_label_age) }}</label>
                 <input id="age" type="number" :value="profile?.age" min="0" max="150"/>
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_language) }}</label>
+                <label for="language">{{ $t(l.profile_label_language) }}</label>
                 <input id="language" type="text" :value="profile?.language" />
             </span>
             <span class="form-row">
-                <label>{{ $t(l.profile_label_country) }}</label>
+                <label for="country">{{ $t(l.profile_label_country) }}</label>
                 <input id="country" type="text" :value="profile?.country" />
+            </span>
+            <span class="form-row">
+                <label for="bio">{{ $t(l.profile_label_bio) }}</label>
+                <textarea id="bio" rows="4" cols="30" :value="profile?.bio"></textarea>
             </span>
             <div class="error-message" v-if="editError">{{ $t(editError) }}</div>
             <input type="submit" :value="$t(l.profile_button_save)" @click="onSaveChanges" />

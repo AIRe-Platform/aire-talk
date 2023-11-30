@@ -36,7 +36,8 @@ const en: Locale = {
     profile_label_gender: "Gender",
     profile_label_age: "Age",
     profile_label_language: "Language",
-    profile_label_country: "County",
+    profile_label_country: "Country",
+    profile_label_bio: "Bio",
     profile_button_save: "Save changes",
 
     profile_heading_connected_services: "Connected Services",
