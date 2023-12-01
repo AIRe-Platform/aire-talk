@@ -11,6 +11,7 @@ import {
     AireChatbotInput
 } from "./models/chatbot";
 import { Services } from ".";
+import i18n from "@/locales";
 
 export class AireAI
 {
@@ -41,6 +42,7 @@ export class AireAI
                 headers["Authorization"] = `Bearer ${token}`
         }
 
+        const loc = i18n.global.locale as any;
         const req: AireChatbotInput = {
             chat: chat.map(x => {
                 const m: AireChatMessage = {
@@ -48,7 +50,8 @@ export class AireAI
                     content: x.message
                 };
                 return m;
-            }) 
+            }),
+            ui_lang: loc.value
         };
 
         fetch(url, {

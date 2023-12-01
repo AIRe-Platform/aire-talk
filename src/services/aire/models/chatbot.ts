@@ -15,6 +15,7 @@ export interface AireChatMessage
 export interface AireChatbotInput
 {
     chat: Array<AireChatMessage>;
+    ui_lang: string;
 }
 
 export interface AireChatbotOutput
