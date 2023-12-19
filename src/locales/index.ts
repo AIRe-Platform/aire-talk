@@ -1,15 +1,18 @@
 import { createI18n } from 'vue-i18n'
 import en from './en'
 import fi from './fi'
+import es from './es'
+
 import { LocalizationKey } from './keys';
 
 export const l = LocalizationKey;
 export type Locale = { [id in LocalizationKey]: string };
-export type Lang = "en" | "fi";
+export type Lang = "en" | "fi" | "es";
 
 export const supportedLocales = [
     { lang: "en", name: "English" },
-    { lang: "fi", name: "suomi (Finnish)" }
+    { lang: "fi", name: "suomi (Finnish)" },
+    { lang: "es", name: "Español (Spanish)" }
 ]
 
 const i18n = createI18n(initLocale());
@@ -28,7 +31,8 @@ function initLocale()
         legacy: false,
         messages: {
             en: { ...en },
-            fi: { ...fi }
+            fi: { ...fi },
+            es: { ...es }
         }
     }
 }
