@@ -4,6 +4,8 @@ import LoginView from './views/Login.vue'
 import SignupView from './views/Signup.vue'
 import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
+import LandingView from './views/Landing.vue'
+import CheckBoxView from './views/CheckBox.vue'
 import NotFoundView from './views/NotFound.vue'
 import { Login } from './context/login'
 
@@ -14,8 +16,9 @@ export const router = createRouter({
         { path: '/login', component: LoginView, name: "Login" },
         { path: '/signup', component: SignupView, name: "Signup" },
         { path: '/profile', component: ProfileView, name: "Profile" },
-        { path: '/chat', component: ChatView, name: "Chat" },
-        
+        { path: '/chat', component: ChatView, name: "Chat", props: true },
+        { path: '/landing', component: LandingView, name: "Landing" },
+        { path: '/checkBox', component: CheckBoxView, name: "CheckBox" },
         { path: '/:pathMatch(.*)*', component: NotFoundView }
     ]
 })

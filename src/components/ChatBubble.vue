@@ -8,6 +8,7 @@ const id = props.message.timestamp.toString()
 const isSystem = props.message.role === "system";
 const isBot = props.message.role === "assistant" || props.message.role === "system";
 
+
 let classList: any[] = ["chat-bubble"]
 switch(props.message.role)
 {

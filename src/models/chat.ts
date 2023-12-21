@@ -5,6 +5,7 @@ export interface ChatMessage {
     role: AireRole;
     isError?: boolean;
     timestamp: number;
+    title?: string;
     message: string;
 }
 

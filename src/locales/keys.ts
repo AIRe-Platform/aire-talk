@@ -7,6 +7,8 @@ export enum LocalizationKey
     aire_bot = "aire_bot",
     aire_system = "aire_system",
     system_greeting = "system_greeting",
+    system_greeting_header = "system_greeting_header",
+    system_greeting_text = "system_greeting_text",
 
     chat_link_button_label = "chat_link_button_label",
 
@@ -65,5 +67,26 @@ export enum LocalizationKey
     error_signup_general = "error_signup_general",
     error_profile_edit = "error_profile_edit",
     error_profile_change_password = "error_profile_password",
-    error_profile_delete_account = "error_profile_delete_account"
+    error_profile_delete_account = "error_profile_delete_account",
+
+    landing_view_title = "landing_view_title",
+    landing_view_text = "landing_view_text",
+    landing_view_first_question = "landing_view_first_question",
+    landing_view_second_question = "landing_view_second_question",
+    landing_view_form_continue_button = "landing_view_form_continue_button",
+    landing_view_form_button_cancel = "landing_view_form_button_cancel",
+    landing_view_occupations = "landing_view_occupations",
+
+    home_start_landing_button = "home_start_landing_button",
+
+    chat_data = "chat_data",
+    chat_age = "chat_age",
+    chat_occupation = "chat_occupation",
+
+    checkbox_title = "checkbox_title",
+    checkbox_text = "checkbox_text",
+    checkbox_question = "checkbox_question",
+    checkbox_continue_button = "checkbox_continue_button",
+    checkbox_button_cancel = "checkbox_button_cancel",
+    
 }

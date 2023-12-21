@@ -15,6 +15,10 @@ export interface ChatState
     history: ChatHistory;
     awaitingResponse: boolean;
     scrolling: boolean;
+    landingInfo: {
+        age?: number;
+        occupation?: string;
+    };
 
     send: (message: string) => void;
     reset: (to_message?: number) => void;
@@ -33,6 +37,7 @@ function sendChatMessage(message: string)
     const userMessage: ChatMessage = {
         sender: makeName(),
         role: "user",
+        title: "",
         message: message,
         timestamp: Date.now()
     }
@@ -60,6 +65,7 @@ function receiver(msg: AireTalkMessage)
         last = {
             sender: bot_name,
             role: "assistant",
+            title: "your answer",
             message: "",
             timestamp: Date.now()
         }
@@ -88,6 +94,7 @@ function error_handler(error: AireError)
         sender: system_name,
         role: "system",
         isError: true,
+        title:  error.key || "",
         message: error.key || error.error?.message || "",
         timestamp: Date.now()
     })
@@ -119,20 +126,54 @@ function systemGreeting() : ChatMessage
     return { 
         sender: system_name,
         role: "system",
-        message: "system_greeting", 
+        message: "system_greeting",
         timestamp: Date.now()
     };
 }
 
 function initChatState(): ChatState
 {
+    const testMessages: ChatHistory = [
+        { 
+            sender: system_name,
+            role: "system",
+            message: "system_greeting",
+            timestamp: Date.now()
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "your age is 19, is that correct?",
+            timestamp: Date.now()
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "Yes that is correct. I am close to 20 though",
+            timestamp: Date.now()
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "Yes, I know that. I know everything",
+            timestamp: Date.now()
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "You bots...are crazy scary",
+            timestamp: Date.now()
+        }
+    ];
+
     return {
         user: getChatUser(),
-        history: [ systemGreeting() ],
+        history: testMessages,
         awaitingResponse: false,
         scrolling: false,
         send: sendChatMessage,
-        reset: resetChatState
+        reset: resetChatState,
+        landingInfo: {}
     }
 }
 

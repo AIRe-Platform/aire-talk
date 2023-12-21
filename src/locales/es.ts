@@ -8,7 +8,12 @@ const es: Locale = {
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
     system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
-
+    system_greeting_header: "¡Bienvenido a la plataforma AIRe!",
+    system_greeting_text: `AIRe eAIRe es un servicio de chat de atención médica impulsado por IA que le ayudará a comprender mejor sus síntomas activos, la posible condición subyacente y con quién debe comunicarse para mejorar.
+    
+    Antes de continuar;
+     ara acelerar el proceso de incorporación, responda un par de preguntas:
+    `,
 
     chat_link_button_label: "Nuevo chat",
 
@@ -73,7 +78,28 @@ const es: Locale = {
     error_signup_general: "El registro ha fallado. Por favor, inténtelo de nuevo más tarde.",
     error_profile_edit: "Error al guardar.",
     error_profile_password: "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
-    error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde."
+    error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
+   
+    landing_view_title: "Bienvenido a la plataforma AIRe",
+    landing_view_text: "AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos, la posible afección subyacente y con quién debe comunicarse para mejorar.\\nAntes de continuar,\\n para acelerar el proceso de incorporación, por favor responda un par de preguntas.",
+    landing_view_first_question: "Tu edad",
+    landing_view_second_question: "Tu actual trabajo ( si tienes algun trabajo pasado que creas que merece la pena decir, puedes escribirlo también seaprado por comas).",
+    landing_view_form_continue_button: "verificar y continuar",
+    landing_view_form_button_cancel: "Cancelar",
+    landing_view_occupations: "profesiones",
+
+    home_start_landing_button: "EMPEZAR LANDING",
+    
+    chat_data: "Datos",
+    chat_age: "Edad",
+    chat_occupation: "Profesión",
+
+    checkbox_title:  "Bienvenido a la plataforma AIRe",
+    checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
+    checkbox_question: "¿Quieres continuar con algún tema?",
+    checkbox_continue_button: "verificar y continuar",
+    checkbox_button_cancel: "Cancelar",
+
 }
 
 export default es

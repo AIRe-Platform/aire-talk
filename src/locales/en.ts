@@ -8,6 +8,12 @@ const en: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "AIRe System",
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
+    system_greeting_header: "Welcome to AIRe platform!",
+    system_greeting_text: `AIRe is an AI powered heathcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
+    
+    Before proceeding;
+    to speed up the onboarding process, please answer a couple of questions:
+    `,
 
     chat_link_button_label: "New chat",
 
@@ -70,7 +76,27 @@ The password must contain at least lower and upper case letter as well as number
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
-    error_profile_delete_account: "Failed to delete the account. Try again later."
+    error_profile_delete_account: "Failed to delete the account. Try again later.",
+
+    landing_view_title: "Welcome to the AIRe paltform",
+    landing_view_text: "AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.\\nBefore proceeding,\\n to speed up the onboarding process pelase ansert a couple of questions.",
+    landing_view_first_question: "Your age",
+    landing_view_second_question: "Your current occupation (if you have noteworthy past occuptions you can also list them here by separating them with a comma).",
+    landing_view_form_continue_button: "Verify and proceed",
+    landing_view_form_button_cancel: "Cancel",
+    landing_view_occupations: "occupations",
+
+    home_start_landing_button: "START LANDING",
+
+    chat_data: "Data",
+    chat_age: "Age",
+    chat_occupation: "Occupation",
+
+    checkbox_title:  "Welcome to the AIRe paltform",
+    checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
+    checkbox_question: "Is there a topic that you would like to continue from?",
+    checkbox_continue_button: "Verify and proceed",
+    checkbox_button_cancel: "Cancel",
 }
 
 export default en
