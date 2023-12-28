@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import burgerMenu from './burgerMenu.vue';
-import { Home } from '@/context/home';
+import { BurgerMenuState } from '@/context/burgerMenuState';
 import { l } from '@/locales';
 import { defineComponent } from 'vue';
 defineComponent({ name: "HomeView" });
@@ -9,7 +9,7 @@ defineComponent({ name: "HomeView" });
 
 <template>
     <burger-menu></burger-menu>
-    <div id="home-view" v-bind:class = "( Home.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
+    <div id="home-view" v-bind:class = "( BurgerMenuState.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
         <router-link to="/chat" id="chat-link">
             <div id="chat-link-btn" class="panel">
                 {{ $t("chat_link_button_label") }}
@@ -41,3 +41,4 @@ defineComponent({ name: "HomeView" });
 }
 
 </style>
+@/context/burgerMenu

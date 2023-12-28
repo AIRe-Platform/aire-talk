@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
 import { Chat } from '@/context/chat';
-import { Home } from '@/context/home';
+import { BurgerMenuState } from '@/context/burgerMenuState';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 import { l } from '@/locales';
@@ -12,7 +12,7 @@ defineComponent({ name: "ChatView" })
 <template>
     <burger-menu></burger-menu>
 
-    <div v-bind:class = "( Home.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
+    <div v-bind:class = "( BurgerMenuState.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox">
             {{ $t(l.chat_data) }} 
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
@@ -79,4 +79,8 @@ defineComponent({ name: "ChatView" })
     box-shadow: 0 0 5px var(--shadow-color);
 }
 
+.chat-own-data{
+    
+}
 </style>
+@/context/burgerMenu

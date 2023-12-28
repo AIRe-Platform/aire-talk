@@ -2,7 +2,7 @@
     import { defineComponent } from 'vue';
     import { l } from '@/locales';
     defineComponent({ name: "BurgerMenuView" })
-    import { Home } from '@/context/home';
+    import { BurgerMenuState } from '@/context/burgerMenuState';
     import { RouterLink } from 'vue-router';
 
 
@@ -11,14 +11,14 @@
  */
 const togleMenu = (e: Event) => {
     e.preventDefault();
-    Home.isBurgerMenuOpen = !(Home.isBurgerMenuOpen);
+    BurgerMenuState.isBurgerMenuOpen = !(BurgerMenuState.isBurgerMenuOpen);
 };
 </script>
 
 <template>
     <div  class="burger-menu-menu">
         <div id="burger" :class="{
-            'active': Home.isBurgerMenuOpen
+            'active': BurgerMenuState.isBurgerMenuOpen
             }" @click="togleMenu">
             <button type="button" class="burger-button" title="Menu">
                 <span class="burger-bar burger-bar--1"></span>
@@ -26,7 +26,7 @@ const togleMenu = (e: Event) => {
                 <span class="burger-bar burger-bar--3"></span>
             </button>
         </div>
-        <div id="navbarNav" v-show="Home.isBurgerMenuOpen">
+        <div id="navbarNav" v-show="BurgerMenuState.isBurgerMenuOpen">
             <div class="nav-logo">
                 <img src="../../public/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
             </div>
@@ -165,4 +165,4 @@ const togleMenu = (e: Event) => {
             display: none;
         }
     } */
-</style>
+</style>@/context/burgerMenu
