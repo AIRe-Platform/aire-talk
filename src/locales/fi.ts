@@ -79,7 +79,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
 
     landing_view_title: "Tervetuloa AIRe Talk -palveluun!",
-    landing_view_text: "AIRe FINNISH is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.\\nBefore proceeding,\\n to speed up the onboarding process pelase ansert a couple of questions.",
+    landing_view_text: `AIRe FINNISH is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.
+    
+    Before proceeding,
+    to speed up the onboarding process pelase ansert a couple of questions.`,
     landing_view_first_question: "Ikäisi",
     landing_view_second_question: "Nykyinen ammattisi (jos sinulla on huomionarvoisia menneitä ammatteja, voit myös luetella ne tähän erottamalla ne pilkulla).",
     landing_view_form_continue_button: "jatka",
@@ -87,16 +90,25 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     landing_view_occupations: "ammatit",
 
     home_start_landing_button: "ALOITAA LANDING",
+    home_checkbox_button: "Checkbox kautta",
 
     chat_data: "data",
     chat_age: "Ikä",
     chat_occupation: "Ammati",
+    chat_topic: "Topic",
 
     checkbox_title:  "Tervetuloa AIRe Talk -palveluun!",
     checkbox_text: "Näen, että olet ollut AIRe-alustalla aiemmin ja on mukava nähdä sinut taas.",
     checkbox_question: "Onko sinulla aihe, josta haluaisit jatkaa?",
     checkbox_continue_button: "jatka",
     checkbox_button_cancel: "perutta",
+    
+    chat_input_title: "Kusu talla",
+
+    burger_menu_chat_log_history: "Chat-lokihistoria",
+    burger_menu_content_catalogue: "Sisältöluettelo",
+    burger_menu_current_user: "Käyttäjä",
+    burger_menu_settings: "Asetukset",
 }
 
 export default fi

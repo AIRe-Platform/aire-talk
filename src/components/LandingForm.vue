@@ -7,20 +7,29 @@ import { router } from "@/router";
 import { RouterLink } from 'vue-router';
 
 const occupation = ref("");
-const isFormCompleted = ref(false);
 const age = ref();
+const isFormCompleted = ref(false);
 
+
+/**
+ * Check if there is answwered all questions to activate the button to proceed.
+ */
 const checkForm = () => {  
     console.log("( occupation.value.length > 0 && age.value != null ) ", ( occupation.value.length > 0 && age.value != null ));
     isFormCompleted.value = ( occupation.value.length > 0 && age.value != null );
     console.log("isFormCompleted ", isFormCompleted);
 };
+
+/**
+ * Save the form imput and send the information to the next view.
+ */
 const saveForm = (e: Event) => {
     e.preventDefault();
     Chat.landingInfo.age = age.value; 
     Chat.landingInfo.occupation = occupation.value;
     router.push("/chat");
 };
+
 </script> 
 
 <template>
@@ -32,7 +41,7 @@ const saveForm = (e: Event) => {
                 <label>
                     {{ $t(l.landing_view_first_question) }}
                 </label>
-                <input id="" class="" type="number"  min="1" pattern="^[0-9]+" autofocus autocomplete="off" @change="checkForm" v-model="age"/>
+                <input id="" class="" type="number"  min="1" autofocus autocomplete="off" @change="checkForm" v-model.number="age"/>
                 <label>
                 {{ $t(l.landing_view_second_question) }}
                 </label>

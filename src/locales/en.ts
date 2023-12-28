@@ -79,7 +79,10 @@ The password must contain at least lower and upper case letter as well as number
     error_profile_delete_account: "Failed to delete the account. Try again later.",
 
     landing_view_title: "Welcome to the AIRe paltform",
-    landing_view_text: "AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.\\nBefore proceeding,\\n to speed up the onboarding process pelase ansert a couple of questions.",
+    landing_view_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.
+  
+    Before proceeding,
+    to speed up the onboarding process pelase ansert a couple of questions.`,
     landing_view_first_question: "Your age",
     landing_view_second_question: "Your current occupation (if you have noteworthy past occuptions you can also list them here by separating them with a comma).",
     landing_view_form_continue_button: "Verify and proceed",
@@ -87,16 +90,25 @@ The password must contain at least lower and upper case letter as well as number
     landing_view_occupations: "occupations",
 
     home_start_landing_button: "START LANDING",
+    home_checkbox_button: "Checkbox View",
 
     chat_data: "Data",
     chat_age: "Age",
     chat_occupation: "Occupation",
+    chat_topic: "Topic",
 
     checkbox_title:  "Welcome to the AIRe paltform",
     checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
     checkbox_question: "Is there a topic that you would like to continue from?",
     checkbox_continue_button: "Verify and proceed",
     checkbox_button_cancel: "Cancel",
+
+    chat_input_title: "Ask here you question",
+
+    burger_menu_chat_log_history: "Chat log history",
+    burger_menu_content_catalogue: "Content catalogue",
+    burger_menu_current_user: "Current user",
+    burger_menu_settings: "Settings",
 }
 
 export default en

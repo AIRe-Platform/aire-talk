@@ -5,7 +5,7 @@ import { State } from './services/aire';
 </script>
 
 <template>
-  <NavBar />
+  <NavBar></NavBar>
   <div id="content-wrapper">
     <router-view v-if="State.status === 'ready'"/>
     <div class="panel main-content" v-if="State.status === 'init'">...</div>

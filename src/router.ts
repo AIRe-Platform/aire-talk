@@ -12,7 +12,7 @@ import { Login } from './context/login'
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '/', component: HomeView, name: "Home" },
+        { path: '/', component: HomeView, name: "Home", props: true },
         { path: '/login', component: LoginView, name: "Login" },
         { path: '/signup', component: SignupView, name: "Signup" },
         { path: '/profile', component: ProfileView, name: "Profile" },

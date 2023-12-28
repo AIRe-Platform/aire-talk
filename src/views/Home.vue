@@ -1,19 +1,15 @@
 <script setup lang="ts">
-
+import burgerMenu from './burgerMenu.vue';
+import { Home } from '@/context/home';
 import { l } from '@/locales';
 import { defineComponent } from 'vue';
-defineComponent({ name: "HomeView" })
-/* export default {
-    name: "HomeView",
-    props: {
-        msg: String
-    }
-};
- */
+defineComponent({ name: "HomeView" });
+
 </script>
 
 <template>
-    <div id="home-view">
+    <burger-menu></burger-menu>
+    <div id="home-view" v-bind:class = "( Home.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
         <router-link to="/chat" id="chat-link">
             <div id="chat-link-btn" class="panel">
                 {{ $t("chat_link_button_label") }}
@@ -27,7 +23,7 @@ defineComponent({ name: "HomeView" })
         </router-link>
         <router-link to="/checkBox" id="">
             <div id="chat-link-btn" class="panel">
-                {{ $t(l.home_start_landing_button) }}
+                {{ $t(l.home_checkbox_button) }}
                 
             </div>
         </router-link>
@@ -43,4 +39,5 @@ defineComponent({ name: "HomeView" })
 #chat-link-btn {
     padding: 2rem;
 }
+
 </style>

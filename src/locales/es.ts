@@ -81,7 +81,10 @@ const es: Locale = {
     error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
    
     landing_view_title: "Bienvenido a la plataforma AIRe",
-    landing_view_text: "AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos, la posible afección subyacente y con quién debe comunicarse para mejorar.\\nAntes de continuar,\\n para acelerar el proceso de incorporación, por favor responda un par de preguntas.",
+    landing_view_text: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos, la posible afección subyacente y con quién debe comunicarse para mejorar.
+    
+    Antes de continuar,
+    para acelerar el proceso de incorporación, por favor responda un par de preguntas.`,
     landing_view_first_question: "Tu edad",
     landing_view_second_question: "Tu actual trabajo ( si tienes algun trabajo pasado que creas que merece la pena decir, puedes escribirlo también seaprado por comas).",
     landing_view_form_continue_button: "verificar y continuar",
@@ -89,16 +92,25 @@ const es: Locale = {
     landing_view_occupations: "profesiones",
 
     home_start_landing_button: "EMPEZAR LANDING",
+    home_checkbox_button: "Checkbox ver",
     
     chat_data: "Datos",
     chat_age: "Edad",
     chat_occupation: "Profesión",
+    chat_topic: "Topic",
 
     checkbox_title:  "Bienvenido a la plataforma AIRe",
     checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
     checkbox_question: "¿Quieres continuar con algún tema?",
     checkbox_continue_button: "verificar y continuar",
     checkbox_button_cancel: "Cancelar",
+
+    chat_input_title: "Haz tu regunta aquí",
+
+    burger_menu_chat_log_history: "Historial chat",
+    burger_menu_content_catalogue: "catalogo contenido",
+    burger_menu_current_user: "Usuario actual",
+    burger_menu_settings: "Configuración",
 
 }
 

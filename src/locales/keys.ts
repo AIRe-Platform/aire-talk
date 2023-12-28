@@ -78,15 +78,25 @@ export enum LocalizationKey
     landing_view_occupations = "landing_view_occupations",
 
     home_start_landing_button = "home_start_landing_button",
+    home_checkbox_button = "home_checkbox_button",
 
     chat_data = "chat_data",
     chat_age = "chat_age",
     chat_occupation = "chat_occupation",
+    chat_topic = "chat_topic",
 
     checkbox_title = "checkbox_title",
     checkbox_text = "checkbox_text",
     checkbox_question = "checkbox_question",
     checkbox_continue_button = "checkbox_continue_button",
     checkbox_button_cancel = "checkbox_button_cancel",
+
+    chat_input_title = "chat_input_title",
+
+    burger_menu_chat_log_history = "burger_menu_chat_log_history",
+    burger_menu_content_catalogue = "burger_menu_content_catalogue",
+    burger_menu_current_user = "burger_menu_current_user",
+    burger_menu_settings = "burger_menu_settings",
+    
     
 }

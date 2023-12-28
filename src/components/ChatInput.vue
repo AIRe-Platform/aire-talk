@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Chat } from '@/context/chat'
+import { l } from '@/locales';
 function submit(event: Event)
 {
     const form = event.target as HTMLFormElement;
@@ -14,12 +15,26 @@ function submit(event: Event)
 </script>
 
 <template>
-    <form class="chat-input-bar" @submit.prevent="submit">
-        <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.awaitingResponse />
-    </form>
+    <div class="chat-input-wrapper">
+        <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
+        <form class="chat-input-bar" @submit.prevent="submit">
+            <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.awaitingResponse />
+        </form>
+    </div> 
 </template>
 
 <style scoped>
+.chat-input-wrapper{
+    margin: auto;
+    width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--shadow-color);
+    margin-top: 1rem;
+    padding: 1rem;
+}
+.chat-input-title{
+
+}
 .chat-input-bar {
     display: flex;
     flex-shrink: 0;
@@ -28,7 +43,6 @@ function submit(event: Event)
     justify-content: center;
     padding: 0.5rem;
     height: 2rem;
-    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 .chat-input-field {

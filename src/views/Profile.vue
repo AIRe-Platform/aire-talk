@@ -13,10 +13,17 @@ const getProfile = () => {
 
 const profile = ref(getProfile());
 const busy = ref(false);
+const fistName = ref(profile.value?.first_name);
+const lastName = ref(profile.value?.last_name);
+const gender = ref(profile.value?.gender);
+const age = ref(profile.value?.age);
+const language = ref(profile.value?.language);
+const country = ref(profile.value?.country);
+const bio = ref(profile.value?.bio);
 
 const editError = ref<string>();
 const pwError = ref<string>();
-const delError = ref<string>();
+const delError = ref<string>(); 
 
 const onSaveChanges = (e: Event) => {
     e.preventDefault();
@@ -24,21 +31,13 @@ const onSaveChanges = (e: Event) => {
     if(profile.value == null)
         return;
 
-    const firstName = document.getElementById("first_name") as HTMLInputElement;
-    const lastName = document.getElementById("last_name") as HTMLInputElement;
-    const gender = document.getElementById("gender") as HTMLInputElement;
-    const age = document.getElementById("age") as HTMLInputElement;
-    const language = document.getElementById("language") as HTMLInputElement;
-    const country = document.getElementById("country") as HTMLInputElement;
-    const bio = document.getElementById("bio") as HTMLInputElement;
-
-    if(!firstName.form?.checkValidity())
-        return;
-
-    profile.value.first_name = firstName.value;
+  /*   if(!firstName.form?.checkValidity())
+        return; */
+        
+    profile.value.first_name = fistName.value;
     profile.value.last_name = lastName.value;
-    profile.value.gender = gender.value as "male" | "female" | "other" | undefined;
-    profile.value.age = age.valueAsNumber;
+    profile.value.gender = gender.value;
+    profile.value.age = age.value;
     profile.value.language = language.value;
     profile.value.country = country.value;
     profile.value.bio = bio.value;
@@ -133,33 +132,33 @@ defineComponent({ name: "ProfileView" })
         <form id="profile-form" v-if="busy===false" @submit.prevent>
             <span class="form-row">
                 <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
-                <input id="first_name" class="form-input" type="text" :value="profile?.first_name" autocomplete="given-name"/>
+                <input id="first_name" class="form-input" type="text" v-model="fistName" autocomplete="given-name"/>
             </span>
             <span class="form-row">
                 <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
-                <input id="last_name" type="text" :value="profile?.last_name" autocomplete="family-name"/>
+                <input id="last_name" type="text" v-model="lastName" autocomplete="family-name"/>
             </span>
             <span class="form-row">
                 <label for="gender">{{ $t(l.profile_label_gender) }}</label>
-                <select id="gender" :value="profile?.gender">
+                <select id="gender" v-model="gender">
                     <option v-for="g in genderList" :key="g.id" :value="g.id">{{ $t(g.name) }}</option>
                 </select>
             </span>
             <span class="form-row">
                 <label for="age">{{ $t(l.profile_label_age) }}</label>
-                <input id="age" type="number" :value="profile?.age" min="0" max="150"/>
+                <input id="age" type="number" v-model="age" min="0" max="150"/>
             </span>
             <span class="form-row">
                 <label for="language">{{ $t(l.profile_label_language) }}</label>
-                <input id="language" type="text" :value="profile?.language" />
+                <input id="language" type="text" v-model="language" />
             </span>
             <span class="form-row">
                 <label for="country">{{ $t(l.profile_label_country) }}</label>
-                <input id="country" type="text" :value="profile?.country" autocomplete="country-name" />
+                <input id="country" type="text" v-model="country" autocomplete="country-name" />
             </span>
             <span class="form-row">
                 <label for="bio">{{ $t(l.profile_label_bio) }}</label>
-                <textarea id="bio" rows="4" cols="30" :value="profile?.bio"></textarea>
+                <textarea id="bio" rows="4" cols="30" v-model="bio"></textarea>
             </span>
             <div class="error-message" v-if="editError">{{ $t(editError) }}</div>
             <input type="submit" :value="$t(l.profile_button_save)" @click="onSaveChanges" />
