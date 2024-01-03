@@ -84,6 +84,7 @@ export enum LocalizationKey
     chat_age = "chat_age",
     chat_occupation = "chat_occupation",
     chat_topic = "chat_topic",
+    chat_topic_onboarding = "chat_topic_onboarding",
 
     checkbox_title = "checkbox_title",
     checkbox_text = "checkbox_text",
@@ -98,5 +99,6 @@ export enum LocalizationKey
     burger_menu_current_user = "burger_menu_current_user",
     burger_menu_settings = "burger_menu_settings",
     
-    
+    onboarding_greetings = "onboarding_greetings",
+    onboarding_question = "onboarding_question"
 }

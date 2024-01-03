@@ -6,9 +6,7 @@
 
     const props = defineProps<{message: ChatMessage}>()
 
-    const id = props.message.timestamp.toString()
-    const isSystem = props.message.role === "system";
-    const isBot = props.message.role === "assistant" || props.message.role === "system";
+    const id = props.message.timestamp.toString();
 
     // Modal 
     const modalActivate = ref(false);
@@ -58,14 +56,9 @@
         </div>
         </BubbleModal>
     
-    <div :id=id :class=classList @click="toggleModal">
+    <div :id=id :class=classList @click="toggleModal" v-if="message.image || message.video">
         <div class="chat-bubble-content">
-            <span class="chat-user-label">{{ 
-                (isSystem || isBot) ? $t(message.sender) : message.sender
-            }}</span>
-            <span class="chat-message-text">{{
-                isSystem ? $t(message.message) : message.message
-            }}</span>
+            <span class="chat-message-text">{{ message.message }}</span>
             <div class="chat-message-image" v-if="message.image" >
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>
@@ -150,10 +143,13 @@
 }
 .chat-message-image{ 
     display: flex;
+    flex-direction: column;
+
     justify-content: center;
 }
 .chat-message-video{ 
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 .chat-message-image-contain {

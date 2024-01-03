@@ -5,15 +5,16 @@ import { BurgerMenuState } from '@/context/burgerMenuState';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 import { l } from '@/locales';
-import burgerMenu from './burgerMenu.vue';
+import BurgerMenu from './BurgerMenu.vue';
+
 defineComponent({ name: "ChatView" })
 </script>
 
 <template>
-    <burger-menu></burger-menu>
+    <Burger-menu></Burger-menu>
 
     <div v-bind:class = "( BurgerMenuState.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
-        <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox">
+        <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }} 
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
                 {{ $t(l.chat_age) }} {{ Chat.landingInfo.age }}
@@ -22,6 +23,9 @@ defineComponent({ name: "ChatView" })
             </div>
             <div class="chat-own-data-chexbox" v-if="Chat.checkbox">
                 {{ $t(l.chat_topic) }} {{ Chat.checkbox.name }}
+            </div>
+            <div class="chat-own-data-onboarding" v-if="Chat.OnboardingFromExternalSite">
+                {{ $t(l.chat_topic_onboarding) }} {{ Chat.OnboardingFromExternalSite.name }}
             </div>
         </div>
         <div class="chat-view">
@@ -80,7 +84,7 @@ defineComponent({ name: "ChatView" })
 }
 
 .chat-own-data{
-    
+
 }
 </style>
 @/context/burgerMenu

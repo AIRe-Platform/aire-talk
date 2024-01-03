@@ -7,6 +7,8 @@ export interface ChatMessage {
     timestamp: number;
     title?: string;
     message: string;
+    image?: string;
+    video?: string;
 }
 
 export type ChatHistory = Array<ChatMessage>

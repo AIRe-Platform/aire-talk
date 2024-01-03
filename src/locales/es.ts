@@ -97,7 +97,8 @@ const es: Locale = {
     chat_data: "Datos",
     chat_age: "Edad",
     chat_occupation: "Profesión",
-    chat_topic: "Topic",
+    chat_topic: "Tema",
+    chat_topic_onboarding: "Tema desde onboarding",
 
     checkbox_title:  "Bienvenido a la plataforma AIRe",
     checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
@@ -111,6 +112,9 @@ const es: Locale = {
     burger_menu_content_catalogue: "catalogo contenido",
     burger_menu_current_user: "Usuario actual",
     burger_menu_settings: "Configuración",
+
+    onboarding_greetings: "Hola",
+    onboarding_question: "¿Estas interesado en alguno de estos temas?"
 
 }
 

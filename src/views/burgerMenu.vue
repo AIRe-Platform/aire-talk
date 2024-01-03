@@ -1,25 +1,57 @@
 <script setup lang="ts">
-    import { defineComponent } from 'vue';
+    import { defineComponent, ref } from 'vue';
     import { l } from '@/locales';
     defineComponent({ name: "BurgerMenuView" })
     import { BurgerMenuState } from '@/context/burgerMenuState';
     import { RouterLink } from 'vue-router';
+    import { Login } from '@/context/login';
+    import { Chat } from '@/context/chat';
+    import ChatHistory from '@/components/ChatHistory.vue'
+    import CatalogueContent from '@/components/CatalogueContent.vue';
+    
 
+
+    const isChatHistoryOpen = ref(false);
+    const isCatologueContentOpen = ref(false);
 
 /**
- * Toogle the burger menu and send it to main view.
+ * Toggle the burger menu and send it to main view.
  */
-const togleMenu = (e: Event) => {
+ const toggleMenu = (e: Event) => {
     e.preventDefault();
     BurgerMenuState.isBurgerMenuOpen = !(BurgerMenuState.isBurgerMenuOpen);
+    if( BurgerMenuState.isBurgerMenuOpen === false){
+        isChatHistoryOpen.value = false;
+        isCatologueContentOpen.value = false;
+    }
+
+};
+
+/**
+ * Toggle the Chat History Menu and send it to main view.
+ */
+ const toggleChatHistoryMenu = (e: Event) => {
+    e.preventDefault();
+    isChatHistoryOpen.value = !(isChatHistoryOpen.value);
+    isCatologueContentOpen.value = false;
+};
+
+/**
+ * Toggle the catalogue content Menu and send it to main view.
+ */
+ const toggleCatalogueContentMenu = (e: Event) => {
+    e.preventDefault();
+    isCatologueContentOpen.value = !(isCatologueContentOpen.value);
+    isChatHistoryOpen.value = false;
+
 };
 </script>
 
 <template>
-    <div  class="burger-menu-menu">
+    <div class="burger-menu-menu">
         <div id="burger" :class="{
             'active': BurgerMenuState.isBurgerMenuOpen
-            }" @click="togleMenu">
+            }" @click="toggleMenu">
             <button type="button" class="burger-button" title="Menu">
                 <span class="burger-bar burger-bar--1"></span>
                 <span class="burger-bar burger-bar--2"></span>
@@ -31,21 +63,42 @@ const togleMenu = (e: Event) => {
                 <img src="../../public/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
             </div>
             <div class="nav-menu-list">
-                <div class="nav-item active">
+                <div class="nav-item" @click="toggleChatHistoryMenu">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_chat_log_history) }}</a>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item" @click="toggleCatalogueContentMenu">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
                 </div>
                 <div class="nav-item button-nav-item">
-                    <RouterLink class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
+                    <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_current_user) }}</RouterLink>
+                    <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                 </div>
                 <div class="nav-item">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_settings) }}</a>
                 </div>
             </div>
         </div> 
-    </div>   
+    </div>
+    <div class="burger-menu-menu-chat-history" v-if="isChatHistoryOpen">
+        <h1> chat history</h1>
+        <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
+            <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
+                <ChatHistory :message="msg" />
+            </div>
+            <div class="burger-menu-menu-chat-history-chat-bubble-user" v-if="msg.role == 'user'">
+                <ChatHistory :message="msg" />
+            </div>
+        </div>
+    </div> 
+
+    <div class="burger-menu-menu-catalogue-content" v-if="isCatologueContentOpen">
+        <h1> catalogue content</h1>
+        <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
+            <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
+                <CatalogueContent :message="msg" />
+            </div>
+        </div>
+    </div> 
 </template>
 
 <style scoped lang="scss">
@@ -60,6 +113,7 @@ const togleMenu = (e: Event) => {
         margin-bottom: 2rem;
         width: auto;
         border-radius: 10px;
+        z-index: 1;
     }
 
     .nav-logo{
@@ -74,6 +128,7 @@ const togleMenu = (e: Event) => {
         padding: 1rem;
         display: flex;
         justify-content: center;
+        cursor: pointer;
     }
     .button-nav-item{
         margin-top: 10rem;
@@ -153,7 +208,49 @@ const togleMenu = (e: Event) => {
         transform: rotate(-45deg);
         top: 50%;
     }
+    .burger-menu-menu-chat-history{
+        background-color: var(--panel-background-color);
+        position: absolute;
+        margin-top: 2rem;
+        left: 13rem;
+        height: 27.5rem;
+        width: 55%;
+        padding: 4rem;
+        border-radius: 10px;
+        z-index: 1;
+        overflow: scroll;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .burger-menu-menu-chat-history-chat{
+        width: 100%;
+    }
+    .burger-menu-menu-chat-history-chat-bubble-assistant{
+        display: flex;
+        justify-content: flex-start;
+    }
 
+    .burger-menu-menu-chat-history-chat-bubble-user{
+        display: flex;
+        justify-content: flex-end;
+
+    }
+.burger-menu-menu-catalogue-content{
+    background-color: var(--panel-background-color);
+        position: absolute;
+        margin-top: 2rem;
+        left: 13rem;
+        height: 27.5rem;
+        width: 55%;
+        padding: 4rem;
+        border-radius: 10px;
+        z-index: 1;
+        overflow: scroll;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+}
 /*     @media screen and (max-width: 991px) {
         #burger {
             display: block;

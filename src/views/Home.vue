@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import burgerMenu from './burgerMenu.vue';
+import BurgerMenu from './BurgerMenu.vue';
 import { BurgerMenuState } from '@/context/burgerMenuState';
 import { l } from '@/locales';
 import { defineComponent } from 'vue';
+import OnboardingFromExternalSiteVue from '@/components/OnboardingFromExternalSite.vue';
+
+
+
 defineComponent({ name: "HomeView" });
 
 </script>
 
 <template>
-    <burger-menu></burger-menu>
+    <Burger-menu></Burger-menu>
     <div id="home-view" v-bind:class = "( BurgerMenuState.isBurgerMenuOpen )?'add-opacity':'no-opacity'">
         <router-link to="/chat" id="chat-link">
             <div id="chat-link-btn" class="panel">
@@ -28,6 +32,7 @@ defineComponent({ name: "HomeView" });
             </div>
         </router-link>
     </div>
+    <OnboardingFromExternalSiteVue></OnboardingFromExternalSiteVue>
 </template>
 
 <style scoped>

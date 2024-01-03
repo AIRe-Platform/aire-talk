@@ -43,10 +43,10 @@ const saveCheckbox = (e: Event) => {
 
             <div class="checkbox-questions">
                 <div class="checkbox-button-questions" v-for="topic in topics" :key="topic.id" >
-                        <button @click="buttonSelected(topic)" :class="{ 'not-selected': !topic.isSelected,'is-selected': topic.isSelected }" v-on:click ="topic.isSelected = !topic.isSelected" >
-                            {{ topic.name }}
-                        </button>
-                    </div>
+                    <button @click="buttonSelected(topic)" :class="{ 'not-selected': !topic.isSelected,'is-selected': topic.isSelected }" v-on:click ="topic.isSelected = !topic.isSelected" >
+                        {{ topic.name }}
+                    </button>
+                </div>
             </div>
             <div class="checkbox-description">
                     {{ selectedTopic.description }}

@@ -96,6 +96,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_age: "Ikä",
     chat_occupation: "Ammati",
     chat_topic: "Topic",
+    chat_topic_onboarding: "Topic onboarding",
 
     checkbox_title:  "Tervetuloa AIRe Talk -palveluun!",
     checkbox_text: "Näen, että olet ollut AIRe-alustalla aiemmin ja on mukava nähdä sinut taas.",
@@ -109,6 +110,9 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     burger_menu_content_catalogue: "Sisältöluettelo",
     burger_menu_current_user: "Käyttäjä",
     burger_menu_settings: "Asetukset",
+
+    onboarding_greetings: "Terveisiä",
+    onboarding_question: "Etsitkö tietoa jostain näistä aiheista?"
 }
 
 export default fi
