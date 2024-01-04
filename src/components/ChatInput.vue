@@ -49,4 +49,13 @@ function submit(event: Event)
 .chat-input-field {
     flex-grow: 1;
 }
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+    .chat-input-wrapper{
+        width: 89%;
+        margin-bottom: 1rem;
+    }
+
+}
 </style>

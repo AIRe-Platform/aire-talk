@@ -44,9 +44,9 @@
                         <img v-bind:src="message.image" class="chat-message-image-contain">
                     </div>
                     <div class="modal-body-video" v-if="message.video" >
-                        <video width="320" height="240" controls>
-                            <source v-bind:resource="message.video" :key="message.video" type="video/mp4">
-                        </video>
+                        <video width="620" height="460" controls>
+                            <source v-bind:src="message.video" type="video/mp4">
+                        </video> 
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -70,11 +70,9 @@
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>
             <div class="chat-message-video" v-if="message.video" >
-                
-               <!--  <video width="320" height="240" controls>
+                <video width="320" height="240" controls>
                     <source v-bind:src="message.video" type="video/mp4">
-                </video> -->
-                <iframe width="460" height="320" src="https://www.youtube.com/embed/ca_cKWWzZgs?si=QRRLdzonA1005i1J" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                </video> 
             </div>
         </div>
     </div>
@@ -84,6 +82,7 @@
 .modal-component {
     display: flex;
     justify-content: space-between;
+    z-index: 2;
 }
 .modal-content{
 }

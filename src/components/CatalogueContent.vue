@@ -42,9 +42,9 @@
                         <img v-bind:src="message.image" class="chat-message-image-contain">
                     </div>
                     <div class="modal-body-video" v-if="message.video" >
-                        <video width="320" height="240" controls>
-                            <source v-bind:resource="message.video" :key="message.video" type="video/mp4">
-                        </video>
+                        <video width="620" height="460" controls>
+                            <source v-bind:src="message.video" type="video/mp4">
+                        </video> 
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -62,12 +62,10 @@
             <div class="chat-message-image" v-if="message.image" >
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>
-            <div class="chat-message-video" v-if="message.video" >
-                
-               <!--  <video width="320" height="240" controls>
+            <div class="chat-message-video" v-if="message.video">
+                <video class="video-settings" controls>
                     <source v-bind:src="message.video" type="video/mp4">
-                </video> -->
-                <iframe width="460" height="320" src="https://www.youtube.com/embed/ca_cKWWzZgs?si=QRRLdzonA1005i1J" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+                </video>
             </div>
         </div>
     </div>
@@ -157,4 +155,17 @@
     width: 80%;
     object-fit: contain;
 }
+.video-settings{
+/*     width: 36rem;
+    height: 22rem; */
+}
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+    .video-settings{
+        width: 8rem;
+        height: 6rem;
+    }
+}
+
 </style>

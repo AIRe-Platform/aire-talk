@@ -44,9 +44,9 @@
                         <img v-bind:src="message.image" class="chat-message-image-contain">
                     </div>
                     <div class="modal-body-video" v-if="message.video" >
-                        <video width="320" height="240" controls>
-                            <source v-bind:resource="message.video" :key="message.video" type="video/mp4">
-                        </video>
+                        <video width="620" height="460" controls>
+                            <source v-bind:src="message.video" type="video/mp4">
+                        </video> 
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -74,10 +74,8 @@
                 
             </div>
             <div class="chat-message-video" v-if="message.video" >
-                
-               <!--  <video width="320" height="240" controls>
-                    <source v-bind:src="message.video" type="video/mp4">
-                </video> -->video file:<a href="#">{{message.video}}</a>
+               video file:
+               <a href="#">{{message.video}}</a>
                 <div>
                     Check catalogue content
                 </div>

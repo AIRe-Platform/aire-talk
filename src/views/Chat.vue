@@ -69,11 +69,13 @@ defineComponent({ name: "ChatView" })
 }
 
 .chat-bubble-assistant{
-    margin-right: 40rem;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .chat-bubble-user{
-    margin-left: 20rem;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .chat-view-content{
@@ -84,7 +86,29 @@ defineComponent({ name: "ChatView" })
 }
 
 .chat-own-data{
+    margin-left: 64rem;
+}
 
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+    #chat-view{
+        padding-left: 0rem;
+        padding-top: 1rem;
+
+    }
+    .chat-view-content{
+        margin: auto;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 5px var(--shadow-color);
+        padding: 0rem;
+        padding-top: 1rem;
+    }
+    .chat-bubble-assistant{
+    }
+
+    .chat-bubble-user{
+    }
 }
 </style>
-@/context/burgerMenu

@@ -6,13 +6,12 @@ import { router } from "@/router";
 import { RouterLink } from 'vue-router';
 import { Chat } from "@/context/chat";
 import data from '../../public/topicsCheckBox.json';
+import { Topics } from "@/models/topic";
 
 const topics = ref(data);
 
 const isSelectedCheckBox = ref(false);
-const selectedTopic = ref(typeof topics.value);
-
-
+const selectedTopic = ref<Topics>();
 
 const buttonSelected = (topic: typeof topics) => {  
     //console.log(" topics ", topics.value);
@@ -49,7 +48,7 @@ const saveCheckbox = (e: Event) => {
                 </div>
             </div>
             <div class="checkbox-description">
-                    {{ selectedTopic.description }}
+                    {{ selectedTopic?.description }}
                 </div>
             <div class="checkbox-button">
                 <button class="btn">
@@ -61,10 +60,7 @@ const saveCheckbox = (e: Event) => {
                 </button>    
             </div>
         </div>
-        
-
     </div>
-
 </template>
 
 <style scoped>

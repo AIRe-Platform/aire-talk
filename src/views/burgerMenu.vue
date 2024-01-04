@@ -49,8 +49,11 @@
 
 <template>
     <div class="burger-menu-menu">
-        <div id="burger" :class="{
-            'active': BurgerMenuState.isBurgerMenuOpen
+        <div 
+        class="burger-menu-button"
+            id="burger" 
+            :class="{
+                'active': BurgerMenuState.isBurgerMenuOpen
             }" @click="toggleMenu">
             <button type="button" class="burger-button" title="Menu">
                 <span class="burger-bar burger-bar--1"></span>
@@ -59,9 +62,11 @@
             </button>
         </div>
         <div id="navbarNav" v-show="BurgerMenuState.isBurgerMenuOpen">
-            <div class="nav-logo">
-                <img src="../../public/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
-            </div>
+            <RouterLink class="nav-link" to="/" @click="toggleMenu">
+                <div class="nav-logo">
+                    <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
+                </div>
+            </RouterLink>
             <div class="nav-menu-list">
                 <div class="nav-item" @click="toggleChatHistoryMenu">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_chat_log_history) }}</a>
@@ -69,7 +74,7 @@
                 <div class="nav-item" @click="toggleCatalogueContentMenu">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
                 </div>
-                <div class="nav-item button-nav-item">
+                <div class="nav-item button-nav-item" @click="toggleMenu">
                     <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                     <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                 </div>
@@ -80,24 +85,37 @@
         </div> 
     </div>
     <div class="burger-menu-menu-chat-history" v-if="isChatHistoryOpen">
-        <h1> chat history</h1>
-        <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
-            <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
-                <ChatHistory :message="msg" />
-            </div>
-            <div class="burger-menu-menu-chat-history-chat-bubble-user" v-if="msg.role == 'user'">
-                <ChatHistory :message="msg" />
+        <div class="burger-menu-menu-chat-history-top-row">
+            <h1> chat history </h1>
+            <div class="burger-menu-menu-chat-history-close-button hide-big-screen-devices"  @click="toggleChatHistoryMenu">X</div>
+        </div>
+        <div class="burger-menu-menu-chat-history-chat-content">
+            <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
+                <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
+                    <ChatHistory :message="msg" />
+                </div>
+                <div class="burger-menu-menu-chat-history-chat-bubble-user" v-if="msg.role == 'user'">
+                    <ChatHistory :message="msg" />
+                </div>
             </div>
         </div>
     </div> 
 
     <div class="burger-menu-menu-catalogue-content" v-if="isCatologueContentOpen">
-        <h1> catalogue content</h1>
-        <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
-            <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
-                <CatalogueContent :message="msg" />
+        <div class="burger-menu-menu-catalogue-content-top-row">
+            <h1> catalogue content </h1>
+            <div class="burger-menu-menu-catalogue-content-close-button hide-big-screen-devices"  @click="toggleCatalogueContentMenu">
+                X
             </div>
         </div>
+        <div class="burger-menu-menu-catalogue-content-chat-content">
+            <div class="burger-menu-menu-chat-history-chat-catalogue-content" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
+                <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
+                    <CatalogueContent :message="msg" />
+                </div>
+            </div>
+        </div>
+        
     </div> 
 </template>
 
@@ -114,6 +132,7 @@
         width: auto;
         border-radius: 10px;
         z-index: 1;
+        margin-left: 1rem;
     }
 
     .nav-logo{
@@ -251,15 +270,77 @@
         display: flex;
         flex-direction: column;
 }
-/*     @media screen and (max-width: 991px) {
-        #burger {
-            display: block;
-        }
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+    .burger-menu-menu{
+
+        margin-left: 1rem;
+    }
+    .burger-menu-button{
+        width: 1rem;
+    }
+    .chat-input-wrapper{
+        width: 89%;
+        margin-bottom: 1rem;
+    }
+    .burger-button{
+        width: auto;
+        height: auto;
+    }
+    .burger-bar{
+        width: 1.5rem;
+        left: -0.2rem;
+    }
+    #burger.active .burger-button {
+        left: -0.9rem;
     }
 
-    @media screen and (min-width: 990px) {
-        #burger {
-            display: none;
-        }
-    } */
+    .burger-menu-menu-chat-history{
+        margin-top: 1rem;
+        left: 0.5rem;
+        height: 94%;
+        width: 92%;
+        padding: 0.5rem;
+    }
+    .burger-menu-menu-chat-history-top-row{
+        display: flex;
+        align-items: center;
+        position: fixed;
+        justify-content: space-around;
+        width: 94%;
+        background-color: var(--panel-background-color);
+        top: 1rem;
+        z-index: 1;
+        border-radius: 10px;
+    }
+    .burger-menu-menu-chat-history-chat-content{
+        position: relative;
+        top: 3.5rem;
+    } .burger-menu-menu-catalogue-content{
+        margin-top: 1rem;
+        left: 0.5rem;
+        height: 94%;
+        width: 92%;
+        padding: 0.5rem;
+    }
+    .burger-menu-menu-catalogue-content-top-row{
+        display: flex;
+        align-items: center;
+        position: fixed;
+        justify-content: space-around;
+        width: 94%;
+        background-color: var(--panel-background-color);
+        top: 1rem;
+        z-index: 1;
+        border-radius: 10px;
+    }
+    .burger-menu-menu-catalogue-content-chat-content{
+        position: relative;
+        top: 3.5rem;
+    }
+    .burger-menu-menu-chat-history-chat-catalogue-content{
+        width: 60%;
+    }
+}
 </style>@/context/burgerMenu

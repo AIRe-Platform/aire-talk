@@ -37,7 +37,7 @@ const buttonSelected = (topic) => {
             <div class="onboarding-from-external-site-question">{{ $t(l.onboarding_question) }} </div>
             <div class="onboarding-from-external-site-answers-panel">
                 <div class="onboarding-from-external-site-answers-left">
-                    <img src="../../public/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
+                    <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
                 </div>
                 <div class="onboarding-from-external-site-answers-right">
                     <div class="onboarding-from-external-site-anwsers" v-for="topic in topics" :key="topic.id" >
@@ -54,7 +54,7 @@ const buttonSelected = (topic) => {
     </div>
     <div class="onboarding-from-external-site-start-button">
         <button @click="toggleMenu">
-            <img src="../../public/logos/AIRE-Platform-Logo-400x400.png" class="onboarding-from-external-site-start-button-image" alt="Logo">
+            <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" class="onboarding-from-external-site-start-button-image" alt="Logo">
         </button>
     </div> 
 </template>

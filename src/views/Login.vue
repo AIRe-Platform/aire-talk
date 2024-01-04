@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Login, login } from '@/context/login';
+import BurgerMenu from './BurgerMenu.vue';
 import { router } from '@/router';
 import { defineComponent, ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
@@ -36,6 +37,7 @@ defineComponent({ name: "LoginView" })
 </script>
 
 <template>
+    <Burger-menu></Burger-menu>
     <div class="main-content">
         <form id="login-form" class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t("login_form_title") }}</h2>
@@ -101,4 +103,10 @@ input[type=email], input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
 }
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+
+}
+
 </style>

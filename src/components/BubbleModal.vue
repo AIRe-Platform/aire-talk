@@ -1,17 +1,17 @@
 <script setup lang="ts">
-    import { defineProps, defineEmits } from 'vue';
-
-    const emit = defineEmits(['close']);
+    import { defineProps } from 'vue';
 
 defineProps<{
   modalActivate: Boolean,
+  
 }>() 
+
 </script>
 
   
   <template>
     <transition name="modal-animation">
-      <div v-show="modalActivate" class="modal" @click="emit.close">
+      <div v-show="modalActivate" class="modal" >
         <transition name="modal-animation-inner">
           <div class="modal-inner">
             <!-- Modal Content -->
