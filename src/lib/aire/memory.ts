@@ -18,8 +18,7 @@ export class AireMemory
     {
         const token = AireServices.ID?.getAccessToken()
 
-        if(!token)
-            return Promise.reject("User is not logged in");
+        if(!token) return undefined;
 
         const url = new URL(this.config.endpoint + "/v1/chat-history");
         const headers: { [key: string]: string } = {
@@ -47,8 +46,7 @@ export class AireMemory
     {
         const token = AireServices.ID?.getAccessToken()
 
-        if(!token)
-            return Promise.reject("User is not logged in");
+        if(!token) return undefined
 
         const url = new URL(this.config.endpoint + "/v1/chat-history/" + id);
         const headers: { [key: string]: string } = {
@@ -76,8 +74,7 @@ export class AireMemory
     {
         const token = AireServices.ID?.getAccessToken()
 
-        if(!token)
-            return Promise.reject("User is not logged in");
+        if(!token) return undefined;
 
         const url = new URL(this.config.endpoint + "/v1/chat-history" + (id ? `/${id}` : ""));
         const headers: { [key: string]: string } = {
@@ -107,8 +104,7 @@ export class AireMemory
     {
         const token = AireServices.ID?.getAccessToken()
 
-        if(!token)
-            return Promise.reject("User is not logged in");
+        if(!token) return undefined;
 
         const url = new URL(this.config.endpoint + "/v1/chat-history/" + id);
         const headers: { [key: string]: string } = {
