@@ -59,6 +59,12 @@ const en: Locale = {
     gender_female: "female",
     gender_other: "other",
 
+    verification_heading: "Verify Your Account",
+    verification_description: "Enter the verification code you received in your email",
+    verification_button_verify: "Verify",
+    verification_code_resend: "Send me a new code",
+    verification_code_resend_done: "A new code is on its way!",
+
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",    
     error_signup_password_mismatch: "The passwords do not match!",
@@ -70,7 +76,9 @@ The password must contain at least lower and upper case letter as well as number
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
-    error_profile_delete_account: "Failed to delete the account. Try again later."
+    error_profile_delete_account: "Failed to delete the account. Try again later.",
+    error_verification_failure: "Could not verify the code. It may be expired.",
+    error_verification_resend_failed: "Could not resend the code. Try again later"
 }
 
 export default en

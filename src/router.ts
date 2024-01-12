@@ -6,6 +6,7 @@ import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
 import NotFoundView from './views/NotFound.vue'
 import { Login } from './context/login'
+import VerificationCodeView from './views/VerificationCode.vue'
 import { initApp } from './main'
 
 export const router = createRouter({
@@ -16,7 +17,7 @@ export const router = createRouter({
         { path: '/signup', component: SignupView, name: "Signup" },
         { path: '/profile', component: ProfileView, name: "Profile" },
         { path: '/chat', component: ChatView, name: "Chat" },
-        
+        { path: '/verify', component: VerificationCodeView, name: "VerificationCode" },
         { path: '/:pathMatch(.*)*', component: NotFoundView }
     ]
 })
@@ -34,5 +35,17 @@ router.beforeEach(async (to, from) => {
     {
         if(!Login.logged_in) 
             return "/login"
+        else if (!Login.verified) 
+            return "/verify"
+    }
+    else if (to.path === "/verify")
+    {
+        if(Login.verified || !Login.logged_in)
+            return "/"
+    }
+    
+    if (Login.logged_in && !Login.verified && to.path !== "/verify")
+    {
+        return "/verify"
     }
 });
