@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
-import { Services } from '@/services/aire';
+import { AireServices } from '@/lib/aire';
 import { defineComponent, ref } from 'vue';
-import { changePassword, logout } from '@/context/login';
+import { Login, changePassword, logout } from '@/context/login';
 
 const getProfile = () => {
-    if(Services.ID)
-        return Services.ID.User.profile;
-    return null;
+    return Login.user
 };
 
 const profile = ref(getProfile());
@@ -43,10 +41,10 @@ const onSaveChanges = (e: Event) => {
     profile.value.country = country.value;
     profile.value.bio = bio.value;
 
-    if(Services.ID)
+    if(AireServices.ID)
     {
         busy.value = true;
-        Services.ID.saveProfileData(profile.value)
+        AireServices.ID.saveProfileData(profile.value)
             .then((result) => {
                 if(result) {
                     profile.value = getProfile();
@@ -69,7 +67,7 @@ const onChangePassword = (e: Event) => {
     if(!current.form?.checkValidity())
         return;
 
-    if(Services.ID)
+    if(AireServices.ID)
     {
         busy.value = true;
         changePassword(current.value, newpw.value)
@@ -94,10 +92,10 @@ const onDeleteAccount = (e: Event) => {
     if(!pw.form?.checkValidity())
         return;
 
-    if(Services.ID)
+    if(AireServices.ID && profile.value)
     {
         busy.value = true;
-        Services.ID.deleteProfile(pw.value, keepData.checked)
+        AireServices.ID.deleteProfile(profile.value.uuid, pw.value, keepData.checked)
             .then((result) => {
                 if(result) {
                     logout();
