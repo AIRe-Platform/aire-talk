@@ -66,6 +66,12 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
+    verification_heading: "LOCALIZE TO ES: Verify Your Account",
+    verification_description: "LOCALIZE TO ES: Enter the verification code you received in your email",
+    verification_button_verify: "LOCALIZE TO ES: Verify",
+    verification_code_resend: "LOCALIZE TO ES: Send me a new code",
+    verification_code_resend_done: "LOCALIZE TO ES: A new code is on its way!",
+
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",    
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
@@ -118,7 +124,11 @@ const es: Locale = {
 
     summary_chag_log_title: "Resumen chat log",
     summary_classification_title: "CBR / ICF clasificación",
-    summary_log_button: "catalogue log"
+    summary_log_button: "catalogue log",
+
+    error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
+    error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
+    
 }
 
 export default es

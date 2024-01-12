@@ -1,5 +1,3 @@
-import { AireRole } from "./talk";
-
 export interface AireChatbot
 {
     name: string;
@@ -9,6 +7,7 @@ export interface AireChatbot
 export interface AireChatMessage
 {
     role: string;
+    timestamp?: number;
     content: string;
 }
 
@@ -38,4 +37,14 @@ export enum AireChatbotEventType
     Error = "error",
     Metadata = "metadata",
     End = "end"
+}
+
+export type AireRole = "assistant" | "user" | "system";
+
+export type AireChatHistory = Array<AireChatMessage>
+
+export interface AireChatMetadata
+{
+    id: string;
+    time: string;
 }

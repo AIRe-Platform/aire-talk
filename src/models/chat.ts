@@ -1,4 +1,4 @@
-import { AireRole } from "@/services/aire/models/talk";
+import { AireRole } from "@/lib/aire/models/chat";
 
 export interface Answer {
     id: number;

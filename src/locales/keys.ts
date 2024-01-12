@@ -60,6 +60,12 @@ export enum LocalizationKey
     gender_female = "gender_female",
     gender_other = "gender_other",
 
+    verification_heading = "verification_heading",
+    verification_description = "verification_description",
+    verification_button_verify = "verification_button_verify",
+    verification_code_resend = "verification_code_resend",
+    verification_code_resend_done = "verification_code_resend_done",
+
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
     error_signup_password_mismatch = "error_signup_password_mismatch",
@@ -104,6 +110,8 @@ export enum LocalizationKey
 
     summary_chag_log_title = "summary_chag_log_title",
     summary_classification_title = "summary_classification_title",
-    summary_log_button = "summary_log_button"
+    summary_log_button = "summary_log_button",
 
+    error_verification_resend_failed = "error_verification_resend_failed",
+    error_verification_failure = "error_verification_failure"
 }

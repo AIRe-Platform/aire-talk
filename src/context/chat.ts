@@ -1,18 +1,19 @@
 import { scrollToMessage } from "@/helpers/scrollToMessage";
 import { ChatHistory, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
-import { Services } from "@/services/aire";
-import { AireError } from "@/services/aire/models/error";
-import { AireUser } from "@/services/aire/models/user";
-import { AireTalkMessage } from "@/services/aire/models/talk";
+import { AireServices } from "@/lib/aire";
+import { AireError } from "@/lib/aire/models/error";
+import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
+import { Login } from "./login";
+import i18n from "@/locales";
+import { AireChatMessage, AireChatbotInput } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
 
 export interface ChatState
 {
-    user: AireUser;
     history: ChatHistory;
     awaitingResponse: boolean;
     scrolling: boolean;
@@ -34,7 +35,11 @@ function sendChatMessage(message: string)
     Chat.awaitingResponse = true;
 
     const makeName = () => {
-        return `${Chat.user.first_name || ""} ${Chat.user.last_name || ""}`.trim();
+        if(Login.user)
+        {
+            return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
+        }
+        return ""
     }
 
     const userMessage: ChatMessage = {
@@ -50,9 +55,21 @@ function sendChatMessage(message: string)
     const messages = Chat.history
         .filter(x => x.role === "assistant" || x.role === "user")
 
-    if(Services.AI)
+    if(AireServices.AI)
     {
-        Services.AI.stream(messages, receiver, error_handler);
+        const loc = i18n.global.locale as any;
+        const input: AireChatbotInput = {
+            chat: messages.map(x => {
+                const m: AireChatMessage = {
+                    role: x.role,
+                    content: x.message
+                };
+                return m;
+            }),
+            ui_lang: loc.value
+        };
+
+        AireServices.AI.stream(input, receiver, error_handler);
     }
     else
     {
@@ -104,25 +121,6 @@ function error_handler(error: AireError)
     })
 
     Chat.awaitingResponse = false;
-}
-
-function getChatUser(): AireUser
-{
-    let user = Services.ID?.User.profile;
-    if(!user) // Make anonymous user
-    {
-        console.debug("Creating anonymous user");
-        user = {
-            uuid: crypto.randomUUID(),
-            email: "",
-            verified: false
-        }
-    }
-    else
-    {
-        console.debug("User chat initialized");
-    }
-    return user;
 }
 
 function systemGreeting() : ChatMessage
@@ -312,7 +310,7 @@ function initChatState(): ChatState
     ];
 
     return {
-        user: getChatUser(),
+
         history: testMessages,
         awaitingResponse: false,
         scrolling: false,
@@ -326,7 +324,6 @@ function resetChatState(to_message?: number)
 {
     console.debug("Resetting chat state");
 
-    Chat.user = getChatUser();
     Chat.awaitingResponse = false;
     Chat.scrolling = false;
 

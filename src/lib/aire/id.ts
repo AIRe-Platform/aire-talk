@@ -6,11 +6,7 @@ export class AireID
 {
     private config: AireModule;
     private name: string;
-
-    public User: { 
-        profile: AireUser | null,
-        token: TokenResponse | null
-    } = { profile: null, token: null };
+    private token?: TokenResponse;
 
     constructor(name: string, config: AireModule)
     {
@@ -41,20 +37,9 @@ export class AireID
             if(response.status === 200)
             {
                 const token = await response.json() as TokenResponse;
-                this.User.token = token;
-
-                const user = await this._fetchUserData();
-                if(user !== undefined)
-                {
-                    this.User.profile = user;
-                    this._storeSession();
-                    console.debug("Login successful!");
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                this.token = token;
+                console.debug("Login successful!");
+                return true;
             }
             else
             {
@@ -72,39 +57,20 @@ export class AireID
     public logout()
     {
         localStorage.removeItem(this.name + "_token");
-        this.User = { profile: null, token: null };
+        this.token = undefined;
     }
 
-    public async restoreSession() : Promise<boolean>
+    public hasScope(scope: string) : boolean
     {
-        const token = localStorage.getItem(this.name + "_token");
-        if(token !== null)
+        if(this.token?.scope)
         {
-            console.debug("Restoring session...");
-
-            return this._verifyToken(token)
-                .then(async tokenInfo => {
-                    if(tokenInfo != null)
-                    {
-                        this.User.token = tokenInfo;
-                        console.log("Token is valid", tokenInfo);
-                        const user = await this._fetchUserData();
-                        if(user !== null)
-                        {
-                            this.User.profile = user;
-                            return true;
-                        }
-                    }
-
-                    throw Error("Invalid token");
-                })
-                .catch((reason) => {
-                    console.error("Failed to restore session:", reason);
-                    this.logout();
-                    return false;
-                })
+            const scopes = this.token.scope
+                .split(" ")
+                .map(x => x.trim())
+                .filter(x => x.length > 0)
+            return scopes.findIndex(x => x === scope) > -1
         }
-        return new Promise((resolve) => resolve(false));
+        return false
     }
 
     public async signup(email: string, password: string) : Promise<number>
@@ -127,16 +93,15 @@ export class AireID
         })
     }
 
-    public async saveProfileData(profile: AireUser) : Promise<boolean>
-    {
-        if(this.User.profile == null)
-            return new Promise(res => res(false));
+    public async saveProfileData(profile: AireUser) : Promise<AireUser | undefined>
+    {   
+        if(!this.token) return undefined;
 
         const url = new URL(this.config.endpoint + "/v1/user/" + profile.uuid)
         return fetch(url, {
             method: "PUT",
             headers: {
-                "Authorization": `Bearer ${this.User.token?.access_token}`,
+                "Authorization": `Bearer ${this.token.access_token}`,
                 "Content-Type": "application/json",
                 "Accept": "applicaion/json" 
             },
@@ -146,28 +111,26 @@ export class AireID
             if(result.status === 200)
             {
                 const updated = await result.json() as AireUser;
-                this.User.profile = updated;
-                return true;
+                return updated
             }
-            else return false;
+            return undefined;
         })
         .catch((reason) => {
             console.error(reason);
-            return false;
+            return undefined;
         })
     }
 
-    public async deleteProfile(password: string, keep_anonymized_data: boolean = false): Promise<boolean>
+    public async deleteProfile(uuid: string, password: string, keep_anonymized_data: boolean = false): Promise<boolean>
     {
-        if(this.User.profile == null)
-            return new Promise(res => res(false));
+        if(!this.token) return false;
 
-        const url = new URL(this.config.endpoint + "/v1/user/" + this.User.profile.uuid);
+        const url = new URL(this.config.endpoint + "/v1/user/" + uuid);
         const body = { password, keep_anonymized_data };
         return fetch(url, {
             method: "DELETE",
             headers: {
-                "Authorization": `Bearer ${this.User.token?.access_token}`,
+                "Authorization": `Bearer ${this.token.access_token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(body)
@@ -181,18 +144,17 @@ export class AireID
         });
     }
 
-    public async changePassword(current_password: string, new_password: string): Promise<boolean>
+    public async changePassword(uuid: string, current_password: string, new_password: string): Promise<boolean>
     {        
-        if(this.User.profile == null)
-            return new Promise(res => res(false));
+        if(!this.token) return false;
 
-        const url = new URL(this.config.endpoint + "/v1/user/" + this.User.profile.uuid + "/password");
+        const url = new URL(this.config.endpoint + "/v1/user/" + uuid + "/password");
         const body = { current_password, new_password };
         return fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${this.User.token?.access_token}`
+                "Authorization": `Bearer ${this.token.access_token}`
             },
             body: JSON.stringify(body)
         })
@@ -207,45 +169,19 @@ export class AireID
 
     public getAccessToken() : string | undefined
     {
-        return this.User.token?.access_token;
+        return this.token?.access_token;
     }
 
-    private async _verifyToken(token: string): Promise<TokenResponse | null>
+    public async getUser() : Promise<AireUser | undefined>
     {
-        const url = new URL(this.config.endpoint + "/oauth/tokeninfo/" + encodeURIComponent(token));
-        return fetch(url, {
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        })
-        .then(async (response) => {
-            if(response.status === 200)
-            {
-                return await response.json() as TokenResponse;
-            }
-            else
-            {
-                return null;
-            }
-        })
-        .catch((reason) => {
-            console.error(reason);
-            return null;
-        })
-    }
+        if(!this.token) return undefined;
 
-    private async _fetchUserData() : Promise<AireUser | null>
-    {
         const url = new URL(this.config.endpoint + "/v1/user");
-        if(this.User.token === null)
-            throw Error("Token is not set");
-
         return fetch(url, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
-                "Authorization": `Bearer ${this.User.token.access_token}`
+                "Authorization": `Bearer ${this.token.access_token}`
             }
         })
         .then(async (response) => {
@@ -259,15 +195,74 @@ export class AireID
         })
         .catch((reason => {
             console.error(reason);
-            return null;
+            return undefined;
         }));
     }
 
-    private _storeSession()
+    public async verifyUserCode(code: string) : Promise<boolean>
     {
-        if(this.User.token !== null)
-        {
-            localStorage.setItem(this.name + "_token", this.User.token.access_token);
-        }
+        if(!this.token) return false;
+
+        const url = new URL(this.config.endpoint + "/v1/verify/" + code);
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${this.token.access_token}`
+            }
+        })
+        .then(async (response) => {
+            return response.status === 204;
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
+    }
+
+    public async resendVerification() : Promise<boolean>
+    {
+        if(!this.token) return false;
+
+        const url = new URL(this.config.endpoint + "/v1/verify/resend");
+        return fetch(url, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${this.token.access_token}`
+            }
+        })
+        .then(async (response) => {
+            return response.status === 204;
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
+    }
+
+    public async verifyToken(token: string): Promise<boolean>
+    {
+        const url = new URL(this.config.endpoint + "/oauth/tokeninfo/" + encodeURIComponent(token));
+        return fetch(url, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        })
+        .then(async (response) => {
+            if(response.status === 200)
+            {
+                const tokenResponse = await response.json() as TokenResponse;
+                this.token = tokenResponse;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
     }
 }

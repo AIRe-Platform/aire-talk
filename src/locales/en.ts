@@ -65,6 +65,12 @@ const en: Locale = {
     gender_female: "female",
     gender_other: "other",
 
+    verification_heading: "Verify Your Account",
+    verification_description: "Enter the verification code you received in your email",
+    verification_button_verify: "Verify",
+    verification_code_resend: "Send me a new code",
+    verification_code_resend_done: "A new code is on its way!",
+
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",    
     error_signup_password_mismatch: "The passwords do not match!",
@@ -116,7 +122,9 @@ The password must contain at least lower and upper case letter as well as number
 
     summary_chag_log_title: "Chat log summary",
     summary_classification_title: "CBR / ICF classification",
-    summary_log_button: "catalogue log"
+    summary_log_button: "catalogue log",
+    error_verification_failure: "Could not verify the code. It may be expired.",
+    error_verification_resend_failed: "Could not resend the code. Try again later"
 }
 
 export default en
