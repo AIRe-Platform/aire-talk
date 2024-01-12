@@ -103,6 +103,8 @@ export function logout()
     Login.user = undefined;
     Login.credentials = undefined;
 
+    localStorage.removeItem("aire_session_token");
+
     if(AireServices.ID)
     {
         AireServices.ID.logout();

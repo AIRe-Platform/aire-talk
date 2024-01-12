@@ -56,7 +56,6 @@ export class AireID
 
     public logout()
     {
-        localStorage.removeItem(this.name + "_token");
         this.token = undefined;
     }
 
