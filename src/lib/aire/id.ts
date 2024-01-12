@@ -38,7 +38,6 @@ export class AireID
             {
                 const token = await response.json() as TokenResponse;
                 this.token = token;
-                this.storeSession();
                 console.debug("Login successful!");
                 return true;
             }
@@ -70,33 +69,6 @@ export class AireID
                 .map(x => x.trim())
                 .filter(x => x.length > 0)
             return scopes.findIndex(x => x === scope) > -1
-        }
-        return false
-    }
-
-    public async restoreSession() : Promise<boolean>
-    {
-        const token = localStorage.getItem(this.name + "_token");
-        if(token !== null)
-        {
-            console.debug("Restoring session...");
-
-            return this.verifyToken(token)
-                .then(async tokenInfo => {
-                    if(tokenInfo != null)
-                    {
-                        this.token = tokenInfo;
-                        console.log("Token is valid", tokenInfo);
-                        return true;
-                    }
-
-                    throw Error("Invalid token");
-                })
-                .catch((reason) => {
-                    console.error("Failed to restore session:", reason);
-                    this.logout();
-                    return false;
-                })
         }
         return false
     }
@@ -267,7 +239,7 @@ export class AireID
         })
     }
 
-    private async verifyToken(token: string): Promise<TokenResponse | null>
+    public async verifyToken(token: string): Promise<boolean>
     {
         const url = new URL(this.config.endpoint + "/oauth/tokeninfo/" + encodeURIComponent(token));
         return fetch(url, {
@@ -279,24 +251,18 @@ export class AireID
         .then(async (response) => {
             if(response.status === 200)
             {
-                return await response.json() as TokenResponse;
+                const tokenResponse = await response.json() as TokenResponse;
+                this.token = tokenResponse;
+                return true;
             }
             else
             {
-                return null;
+                return false;
             }
         })
         .catch((reason) => {
             console.error(reason);
-            return null;
+            return false;
         })
-    }
-
-    private storeSession()
-    {
-        if(this.token)
-        {
-            localStorage.setItem(this.name + "_token", this.token.access_token);
-        }
     }
 }

@@ -24,6 +24,7 @@ export async function login(email: string, password: string) : Promise<boolean>
         if(Login.verified)
         {
             Login.user = await AireServices.ID.getUser()
+            saveSession()
         }
         else
         {
@@ -112,19 +113,33 @@ export function logout()
 
 export async function restoreSession()
 {
-    if(AireServices.ID)
+    const token = localStorage.getItem("aire_session_token");
+    if(AireServices.ID && token)
     {
-        Login.logged_in = await AireServices.ID.restoreSession();
+        console.debug("Restoring session...")
+
+        Login.logged_in = await AireServices.ID.verifyToken(token);
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
         if(Login.logged_in)
         {
-            Login.user = await AireServices.ID.getUser();
+            Login.user = await AireServices.ID.getUser()
             
-            Chat.reset();
+            Chat.reset()
 
-            if(!Login.verified)
+            if(Login.verified)
+                saveSession()
+            else
                 router.push("/verify")
         }
+    }
+}
+
+async function saveSession()
+{
+    const token = AireServices.ID?.getAccessToken();
+    if(token)
+    {
+        localStorage.setItem("aire_session_token", token);
     }
 }
