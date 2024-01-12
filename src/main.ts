@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { router } from './router'
 import App from './App.vue'
 import i18n from './locales'
-import { initAire } from './services/aire'
+import { initAire } from './lib/aire'
 import { restoreSession } from './context/login'
 
 initAire({

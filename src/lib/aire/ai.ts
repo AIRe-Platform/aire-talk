@@ -1,17 +1,14 @@
 import { AireTalkReceiver } from "./models/talk";
 import { AireModule, AireModuleType } from "./models/service";
 import { AireErrorHandler, AireErrorKey } from "./models/error";
-import { ChatHistory } from "@/models/chat";
 import { 
     AireChatbot,
-    AireChatMessage, 
     AireChatbotEventType, 
     AireChatbotOutput, 
     AireChatbotErrorEvent, 
     AireChatbotInput
-} from "./models/chatbot";
-import { Services } from ".";
-import i18n from "@/locales";
+} from "./models/chat";
+import { AireServices } from ".";
 
 export class AireAI
 {
@@ -27,7 +24,7 @@ export class AireAI
         this.selectedBot = "default";
     }
 
-    public stream(chat: ChatHistory, callback: AireTalkReceiver, onError?: AireErrorHandler)
+    public stream(chat: AireChatbotInput, callback: AireTalkReceiver, onError?: AireErrorHandler)
     {
         const url = new URL(this.config.endpoint + "/bot/" + this.selectedBot + "/stream");
         const headers: { [key: string]: string } = {
@@ -35,29 +32,17 @@ export class AireAI
             "Content-Type": "application/json"
         };
 
-        if(Services.ID)
+        if(AireServices.ID)
         {
-            const token = Services.ID.getAccessToken();
+            const token = AireServices.ID.getAccessToken();
             if(token)
                 headers["Authorization"] = `Bearer ${token}`
         }
 
-        const loc = i18n.global.locale as any;
-        const req: AireChatbotInput = {
-            chat: chat.map(x => {
-                const m: AireChatMessage = {
-                    role: x.role,
-                    content: x.message
-                };
-                return m;
-            }),
-            ui_lang: loc.value
-        };
-
         fetch(url, {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(req)
+            body: JSON.stringify(chat)
         })
         .then(async (response) => {
             if(!response.ok)

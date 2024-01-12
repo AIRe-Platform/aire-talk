@@ -1,28 +1,47 @@
-import { Services } from "@/services/aire";
+import { AireServices } from "@/lib/aire";
+import { AireUser } from "@/lib/aire/models/user";
 import { reactive } from "vue";
 import { Chat } from "./chat";
+import { AireScope } from "@/lib/aire/models/scopes";
+import { router } from "@/router";
 
-export const Login = reactive({
-    logged_in: false
-});
+export const Login = reactive<{
+    logged_in: boolean,
+    verified: boolean,
+    user?: AireUser
+    credentials?: { email: string, pw: string }
+}>({ logged_in: false, verified: false });
 
 export async function login(email: string, password: string) : Promise<boolean>
 {
-    if(Services.ID)
+    if(AireServices.ID)
     {
-        const result = await Services.ID.login(email, password);
+        const result = await AireServices.ID.login(email, password);
+
         Login.logged_in = result;
+        Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
+
+        if(Login.verified)
+        {
+            Login.user = await AireServices.ID.getUser()
+        }
+        else
+        {
+            Login.credentials = { email: email, pw: password }
+            router.push("/verify")
+        }
+
         Chat.reset();
         return result;
     }
-    return new Promise(res => res(false));
+    return false;
 }
 
 export async function signup(email: string, password: string): Promise<number>
 {
-    if(Services.ID)
+    if(AireServices.ID)
     {
-        return await Services.ID.signup(email, password)
+        return await AireServices.ID.signup(email, password)
             .then(async (status) => {
                 if(status === 204)
                 {
@@ -33,47 +52,79 @@ export async function signup(email: string, password: string): Promise<number>
                 return status;
             })
     }
-    return new Promise(res => res(0));
+    return 0;
 }
 
 export async function changePassword(current_password: string, new_password: string): Promise<boolean>
 {
-    if(Services.ID)
+    if(AireServices.ID && Login.user)
     {
-        const username = Services.ID.User.profile?.email;
-        if(username)
+        return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
+            .then(async (result) => {
+                if(result) {
+                    logout();
+                    return await login(Login.user?.email!, new_password);
+                }
+                return result;
+            })
+    }
+    return false;
+}
+
+export async function verifyAccount(code: string) : Promise<boolean>
+{
+    if(AireServices.ID && Login.logged_in && !Login.verified && Login.credentials)
+    {
+        let result = await AireServices.ID.verifyUserCode(code);
+        if(result)
         {
-            return await Services.ID.changePassword(current_password, new_password)
-                .then(async (result) => {
-                    if(result) {
-                        logout();
-                        return await login(username, new_password);
-                    }
-                    return result;
-                })
+            result = await login(Login.credentials.email, Login.credentials.pw)
+            Login.credentials = undefined;
+            return result;
         }
     }
-    return new Promise(res => res(false));
+    return false;
+}
+
+export async function resendVerification() : Promise<boolean>
+{
+    if(AireServices.ID && Login.logged_in && !Login.verified)
+    {
+        return await AireServices.ID.resendVerification();
+    }
+    return false;
 }
 
 export function logout()
 {
     Login.logged_in = false;
-    if(Services.ID)
+    Login.verified = false;
+    Login.user = undefined;
+    Login.credentials = undefined;
+
+    if(AireServices.ID)
     {
-        Services.ID.logout();
+        AireServices.ID.logout();
     }
+
     Chat.reset();
 }
 
 export async function restoreSession()
 {
-    if(Services.ID)
+    if(AireServices.ID)
     {
-        Login.logged_in = await Services.ID.restoreSession();
+        Login.logged_in = await AireServices.ID.restoreSession();
+        Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
+
         if(Login.logged_in)
         {
+            Login.user = await AireServices.ID.getUser();
+            
             Chat.reset();
+
+            if(!Login.verified)
+                router.push("/verify")
         }
     }
 }
