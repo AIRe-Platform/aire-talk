@@ -6,6 +6,7 @@ import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
 import NotFoundView from './views/NotFound.vue'
 import { Login } from './context/login'
+import { initApp } from './main'
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -21,14 +22,17 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    if(Login.logged_in)
+    // Ensure app is initialized
+    await initApp();
+
+    if(to.path === "/login" || to.path === "/signup")
     {
-        if(to.name == "Login" || to.name == "Signup")
+        if(Login.logged_in)
             return "/"
     }
-    else
+    else if (to.path === "/profile")
     {
-        if(to.name == "Profile")
+        if(!Login.logged_in) 
             return "/login"
     }
 });

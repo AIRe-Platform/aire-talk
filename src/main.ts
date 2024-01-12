@@ -1,21 +1,37 @@
-import { createApp } from 'vue'
+import { createApp, ref } from 'vue'
 import { router } from './router'
 import App from './App.vue'
 import i18n from './locales'
 import { initAire } from './lib/aire'
 import { restoreSession } from './context/login'
 
-initAire({
-    api_url: (process.env.NODE_ENV === "production" 
-        ? "https://gl-dev-aire.azure-api.net/services/" 
-        : "http://localhost:7071/api"
-    )
-}).then(async (result) => {
-    if(result)
-    {
-        restoreSession();
-    }
-});
+export const AppState = ref<"init" | "loaded" | "error">("init");
+
+export async function initApp()
+{
+    if(AppState.value !== "init")
+        return;
+
+    const result = await initAire({
+        api_url: (process.env.NODE_ENV === "production" 
+            ? "https://gl-dev-aire.azure-api.net/services/" 
+            : "http://localhost:7071/api"
+        )
+    }).then(async (result) => {
+        if(result)
+        {
+            await restoreSession();
+            return true
+        }
+        return false;
+    }).catch(reason => {
+        console.error(reason);
+        return false
+    })
+
+    AppState.value = result ? "loaded" : "error"
+    console.debug("App init done")
+}
 
 const app = createApp(App)
 
@@ -24,7 +40,7 @@ app.config.errorHandler = (err, instance, info) => {
 }
 
 app
-    .use(router)
     .use(i18n)
+    .use(router)
     .mount('#app')
     
