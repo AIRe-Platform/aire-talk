@@ -117,20 +117,22 @@ export async function restoreSession()
     if(AireServices.ID && token)
     {
         console.debug("Restoring session...")
+        Chat.reset()
 
         Login.logged_in = await AireServices.ID.verifyToken(token);
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
         if(Login.logged_in)
         {
-            Login.user = await AireServices.ID.getUser()
-            
-            Chat.reset()
-
             if(Login.verified)
+            {
+                Login.user = await AireServices.ID.getUser()
                 saveSession()
+            }
             else
+            {
                 router.push("/verify")
+            }
         }
     }
 }
