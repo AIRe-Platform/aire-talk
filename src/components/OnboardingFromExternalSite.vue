@@ -118,8 +118,4 @@ const buttonSelected = (topic) => {
 .onboarding-from-external-site-start-button-image{
     width: 2rem;
 }
-.is-selected {
-    border-color: blue !important;
-    border-width: 3px;
-}
 </style>

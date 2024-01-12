@@ -2,7 +2,7 @@
     import { defineProps } from 'vue';
 
 defineProps<{
-  modalActivate: Boolean,
+  isModalActivate: Boolean,
   
 }>() 
 
@@ -11,7 +11,7 @@ defineProps<{
   
   <template>
     <transition name="modal-animation">
-      <div v-show="modalActivate" class="modal" >
+      <div v-show="isModalActivate" class="modal" >
         <transition name="modal-animation-inner">
           <div class="modal-inner">
             <!-- Modal Content -->
@@ -63,6 +63,7 @@ defineProps<{
     top: 0;
     left: 0;
     background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
   
     .modal-inner {
       position: relative;
@@ -71,7 +72,7 @@ defineProps<{
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       background-color: #fff;
       background-color: var(--panel-background-color);
-      padding: 64px 16px;
+      padding: 2rem;
       border-radius: 5px;
       border: solid 1px gray;
   
@@ -97,4 +98,16 @@ defineProps<{
       }
     }
   }
+
+  /* mobile*/
+@media screen and (max-width: 600px) {
+  .modal {
+    .modal-inner {
+      font-size: x-small;
+      padding: 1rem;
+    }
+  }
+
+
+}
   </style>

@@ -104,9 +104,4 @@ button:hover{
  background-color: #cccccc !important;
 }
 
-.is-selected {
-    border-color: blue !important;
-    border-width: 3px;
-}
-
 </style>

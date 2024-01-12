@@ -75,12 +75,12 @@ button {
   border: 1px solid var(--border-color);
   transition: all 0.1s;
 
-  &:hover {
+/*   &:hover {
     background-color: var(--accent-primary-color);
     border-color: transparent;
     color: var(--background-color);
     box-shadow: 0 0 5px var(--accent-primary-color);
-  }
+  } */
 
   &:active {
     color: var(--text-color);
@@ -120,11 +120,17 @@ button {
 }
 
 .hide-mobile-devices {
-  display:block;
+  display:block !important;
 }
 
 .hide-big-screen-devices {
-  display: none;
+  display: none !important;
+}
+
+.is-selected {
+  border-color: #00B49D;
+  border-width: 1px;
+  color: #00B49D !important;
 }
 
 /* mobile*/
@@ -133,7 +139,7 @@ button {
     display: none !important;
   }
   .hide-big-screen-devices {
-    display:block;
+    display:block !important;
   }
 
   input[type=submit],

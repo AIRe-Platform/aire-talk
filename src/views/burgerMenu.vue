@@ -4,7 +4,7 @@
     defineComponent({ name: "BurgerMenuView" })
     import { BurgerMenuState } from '@/context/burgerMenuState';
     import { RouterLink } from 'vue-router';
-    import { Login } from '@/context/login';
+    import { Login, logout } from '@/context/login';
     import { Chat } from '@/context/chat';
     import ChatHistory from '@/components/ChatHistory.vue'
     import CatalogueContent from '@/components/CatalogueContent.vue';
@@ -78,8 +78,16 @@
                     <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                     <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                 </div>
-                <div class="nav-item">
-                    <a class="nav-link" href="#">{{ $t(l.burger_menu_settings) }}</a>
+                
+                <div 
+                    class="nav-item button-nav-item"
+                    @click="toggleMenu"
+                    v-if="Login.logged_in === true"
+                    >
+                    <a href="#" class="nav-link" @click="logout">{{ $t("nav_logout") }}</a>
+                </div>
+                <div class="nav-item" @click="toggleMenu">
+                    <RouterLink class="nav-link" to="/settings">{{ $t(l.burger_menu_settings) }}</RouterLink>
                 </div>
             </div>
         </div> 
@@ -87,7 +95,9 @@
     <div class="burger-menu-menu-chat-history" v-if="isChatHistoryOpen">
         <div class="burger-menu-menu-chat-history-top-row">
             <h1> chat history </h1>
-            <div class="burger-menu-menu-chat-history-close-button hide-big-screen-devices"  @click="toggleChatHistoryMenu">X</div>
+            <div class="burger-menu-menu-chat-history-close-button hide-big-screen-devices"  @click="toggleChatHistoryMenu">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+            </div>
         </div>
         <div class="burger-menu-menu-chat-history-chat-content">
             <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
@@ -105,7 +115,7 @@
         <div class="burger-menu-menu-catalogue-content-top-row">
             <h1> catalogue content </h1>
             <div class="burger-menu-menu-catalogue-content-close-button hide-big-screen-devices"  @click="toggleCatalogueContentMenu">
-                X
+                <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
         </div>
         <div class="burger-menu-menu-catalogue-content-chat-content">
@@ -170,6 +180,7 @@
         background-color: transparent;
         pointer-events: all;
         transition: transform .6s cubic-bezier(.165, .84, .44, 1);
+        cursor: pointer;
     }
 
     .burger-bar {

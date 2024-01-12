@@ -17,6 +17,10 @@ function submit(event: Event)
 
 <template>
     <div class="chat-input-wrapper">
+        <div class="chat-input-image-container">
+            <img class="chat-input-image" src="@/assets/logos/AIRE-Platform-Logo-2-teal.png" alt="Logo">
+
+        </div>
         <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
         <form class="chat-input-bar" @submit.prevent="submit">
             <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off" :readonly=Chat.awaitingResponse />
@@ -27,11 +31,15 @@ function submit(event: Event)
 <style scoped>
 .chat-input-wrapper{
     margin: auto;
-    width: 50%;
+    width: 49%;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
     margin-top: 1rem;
     padding: 1rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 25.3%;
+    background-color: var(--background-color);
 }
 .chat-input-title{
 
@@ -50,12 +58,31 @@ function submit(event: Event)
     flex-grow: 1;
 }
 
+.chat-input-image-container{
+    position: relative;
+}
+.chat-input-image{
+    position: absolute;
+    height: 6rem;
+    bottom: -1rem;
+    left: 47.5rem;
+}
+
 /* mobile*/
 @media screen and (max-width: 600px) {
     .chat-input-wrapper{
-        width: 89%;
-        margin-bottom: 1rem;
+        width: 91%;
+        margin-bottom: 0rem;
+        left: 0;
+        bottom: 0;
     }
+    .chat-input-image-container{
 
+    }
+    .chat-input-image{
+        bottom: -1.5rem;
+        left: 8rem;
+        transform: scale(0.7);
+    }
 }
 </style>

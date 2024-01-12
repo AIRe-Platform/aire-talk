@@ -137,6 +137,7 @@ function systemGreeting() : ChatMessage
 
 function initChatState(): ChatState
 {
+
     const testMessages: ChatHistory = [
         { 
             sender: system_name,
@@ -145,122 +146,169 @@ function initChatState(): ChatState
             timestamp: Date.now(),
         },
         { 
+            sender: "Juan",
+            role: "user",
+            message: "I have headache and I feel horrible...",
+            timestamp: Date.now(),
+        },
+        { 
             sender: bot_name,
             role: "assistant",
-            message: "your age is 19, is that correct?",
+            message: "What is your age?",
             timestamp: Date.now(),
         },
         { 
             sender: "Juan",
             role: "user",
-            message: "Yes that is correct. I am close to 20 though",
+            message: "I am 36.",
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            message: "this is a question",
+            question:"How often do you have negative feelings such as blue mood, despair anxiety or depresion?",
+            answers:[
+                {
+                    id:0,
+                    answer:"Never",
+                    isSelected: false,
+                },
+                {
+                    id:1,
+                    answer:"Sheldom",
+                    isSelected: true,
+                },
+                {
+                    id:2,
+                    answer:"Quite often",
+                    isSelected: false,
+                },
+                {
+                    id:3,
+                    answer:"Very often",
+                    isSelected: false,
+                },
+                {
+                    id:4,
+                    answer:"Always",
+                    isSelected: false,
+                }
+            ],
             timestamp: Date.now(),
         },
         { 
             sender: "Juan",
             role: "user",
-            message: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            message: "Sheldom.",
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Make some sport",
+            message: "Make some sport every week.",
             video: require("@/assets/videos/skater.mp4"),
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            message: "This will help you with your stress.",
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "Loreishing software like <img src=\"paris.jpg\"> Aldus PageMaker including versions of Lorem Ipsum.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Just relax see the ocean",
+            message: "Also just take some time to relax, for example go and see the ocean.",
             video: require("@/assets/videos/sea.mp4"),
             timestamp: Date.now(),
         },
         { 
+            sender: "Juan",
+            role: "user",
+            message: "Yes, I know that. But How else I can do to my pain?",
+            timestamp: Date.now(),
+        },
+        { 
             sender: bot_name,
             role: "assistant",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            message: "this is a question",
+            question:"How do you describe your pain in a scale 0(no pain at all) to 10(I can not handle it any more)?",
+            answers:[
+                {
+                    id:0,
+                    isSelected: false,
+                },
+                {
+                    id:1,
+                    isSelected: false,
+                },
+                {
+                    id:2,
+                    isSelected: false,
+                },
+                {
+                    id:3,
+                    isSelected: false,
+                },
+                {
+                    id:4,
+                    isSelected: false,
+                },
+                {
+                    id:5,
+                    isSelected: false,
+                },
+                {
+                    id:6,
+                    isSelected: false,
+                },
+                {
+                    id:7,
+                    isSelected: false,
+                },
+                {
+                    id:8,
+                    isSelected: false,
+                },
+                {
+                    id:9,
+                    isSelected: true,
+                },
+                {
+                    id:10,
+                    isSelected: false,  
+                }
+            ],
             timestamp: Date.now(),
         },
         { 
             sender: "Juan",
             role: "user",
-            message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            message: "9",
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "Yes, I know that. I know everything",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "You bots...are crazy scary",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "imagen arbol",
+            message: "Just imagen to be alone in a open field ...",
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Eiche_bei_Graditz.jpg/1280px-Eiche_bei_Graditz.jpg",
             timestamp: Date.now(),
         },
         { 
             sender: bot_name,
             role: "assistant",
-            message: "see how you should pour water",
+            message: "Be water my friend",
             video: require("@/assets/videos/pouring.mp4"),
             timestamp: Date.now(),
-        }
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "Okay",
+            timestamp: Date.now(),
+        },
+       
     ];
 
     return {

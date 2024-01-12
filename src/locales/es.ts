@@ -15,7 +15,7 @@ const es: Locale = {
      ara acelerar el proceso de incorporación, responda un par de preguntas:
     `,
 
-    chat_link_button_label: "Nuevo chat",
+    chat_link_button_label: "Chat",
 
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",
@@ -106,7 +106,7 @@ const es: Locale = {
     checkbox_continue_button: "verificar y continuar",
     checkbox_button_cancel: "Cancelar",
 
-    chat_input_title: "Haz tu regunta aquí",
+    chat_input_title: "Pregunta aquí",
 
     burger_menu_chat_log_history: "Historial chat",
     burger_menu_content_catalogue: "catalogo contenido",
@@ -114,8 +114,11 @@ const es: Locale = {
     burger_menu_settings: "Configuración",
 
     onboarding_greetings: "Hola",
-    onboarding_question: "¿Estas interesado en alguno de estos temas?"
+    onboarding_question: "¿Estas interesado en alguno de estos temas?",
 
+    summary_chag_log_title: "Resumen chat log",
+    summary_classification_title: "CBR / ICF clasificación",
+    summary_log_button: "catalogue log"
 }
 
 export default es

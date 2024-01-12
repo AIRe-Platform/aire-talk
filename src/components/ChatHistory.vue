@@ -6,14 +6,14 @@
 
     const props = defineProps<{message: ChatMessage}>()
 
-    const id = props.message.timestamp.toString()
+    const id = props.message.timestamp.toString();
     const isSystem = props.message.role === "system";
     const isBot = props.message.role === "assistant" || props.message.role === "system";
 
     // Modal 
-    const modalActivate = ref(false);
+    const isModalActivate = ref(false);
     const toggleModal = () => {
-        modalActivate.value = ! modalActivate.value;
+        isModalActivate.value = ! isModalActivate.value;
     };
 
     let classList: any[] = ["chat-bubble"]
@@ -28,11 +28,12 @@
     if(props.message.isError)
         classList.push("chat-bubble-error");
 
-    onMounted(() => scrollToMessage(props.message));
+    onMounted(() => scrollToMessage(props.message, "end"));
+    
 </script>
 
 <template>
-    <BubbleModal :modalActivate="modalActivate">
+    <BubbleModal :isModalActivate="isModalActivate">
         <div class="modal-component">
             <div class="modal-content">
                 <div class="modal-header">
@@ -44,7 +45,7 @@
                         <img v-bind:src="message.image" class="chat-message-image-contain">
                     </div>
                     <div class="modal-body-video" v-if="message.video" >
-                        <video width="620" height="460" controls>
+                        <video class="chat-history-modal-body-video" controls>
                             <source v-bind:src="message.video" type="video/mp4">
                         </video> 
                     </div>
@@ -53,7 +54,9 @@
                 </div>
             </div>
             <div class="modal-button">
-                <div @click="toggleModal" type="button">X</div>
+                <div @click="toggleModal" type="button">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </div>
             </div>
         </div>
         </BubbleModal>
@@ -121,12 +124,12 @@
 }
 
 .chat-bubble-user {
-    align-self: flex-end;
+    align-self: flex-start;
     margin-left: 3rem;
 }
 
 .chat-bubble-bot {
-    align-self: flex-start;
+    align-self: flex-end;
     margin-right: 3rem;
 }
 
@@ -167,5 +170,17 @@
     height: 80%;
     width: 80%;
     object-fit: contain;
+}
+.chat-history-modal-body-video{
+    width: 39rem;
+    height: 26rem;
+}
+
+/* mobile*/
+@media screen and (max-width: 600px) {
+    .chat-history-modal-body-video{
+        width: 18rem;
+        height: 13rem;
+    }
 }
 </style>

@@ -15,7 +15,7 @@ const fi: Locale = {
     to speed up the onboarding process, please answer a couple of questions:
     `,
 
-    chat_link_button_label: "Uusi keskustelu",
+    chat_link_button_label: "Keskustelu",
 
     login_form_title: "Kirjaudu sisään",
     login_form_submit: "Kirjaudu",
@@ -112,7 +112,12 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     burger_menu_settings: "Asetukset",
 
     onboarding_greetings: "Terveisiä",
-    onboarding_question: "Etsitkö tietoa jostain näistä aiheista?"
+    onboarding_question: "Etsitkö tietoa jostain näistä aiheista?",
+
+    summary_chag_log_title: "Chat log yhteenveto",
+    summary_classification_title: "CBR / ICF luokittelu",
+    summary_log_button: "catalogue log"
+
 }
 
 export default fi

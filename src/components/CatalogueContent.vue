@@ -9,9 +9,9 @@
     const id = props.message.timestamp.toString();
 
     // Modal 
-    const modalActivate = ref(false);
+    const isModalActivate = ref(false);
     const toggleModal = () => {
-        modalActivate.value = ! modalActivate.value;
+        isModalActivate.value = ! isModalActivate.value;
     };
 
     let classList: any[] = ["chat-bubble"]
@@ -30,7 +30,7 @@
 </script>
 
 <template>
-    <BubbleModal :modalActivate="modalActivate">
+    <BubbleModal :isModalActivate="isModalActivate">
         <div class="modal-component">
             <div class="modal-content">
                 <div class="modal-header">
@@ -42,7 +42,7 @@
                         <img v-bind:src="message.image" class="chat-message-image-contain">
                     </div>
                     <div class="modal-body-video" v-if="message.video" >
-                        <video width="620" height="460" controls>
+                        <video class="video-settings-modal" controls>
                             <source v-bind:src="message.video" type="video/mp4">
                         </video> 
                     </div>
@@ -51,7 +51,9 @@
                 </div>
             </div>
             <div class="modal-button">
-                <div @click="toggleModal" type="button">X</div>
+                <div @click="toggleModal" type="button">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </div>
             </div>
         </div>
         </BubbleModal>
@@ -145,6 +147,10 @@
 
     justify-content: center;
 }
+.video-settings-modal{
+    width: 40rem;
+    height: 23rem;
+}
 .chat-message-video{ 
     display: flex;
     flex-direction: column;
@@ -156,8 +162,8 @@
     object-fit: contain;
 }
 .video-settings{
-/*     width: 36rem;
-    height: 22rem; */
+    width: 36rem;
+    height: 22rem;
 }
 
 /* mobile*/
@@ -165,6 +171,10 @@
     .video-settings{
         width: 8rem;
         height: 6rem;
+    }
+    .video-settings-modal{
+        width: 19rem;
+        height: 15rem;
     }
 }
 

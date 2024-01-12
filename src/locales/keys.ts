@@ -100,5 +100,10 @@ export enum LocalizationKey
     burger_menu_settings = "burger_menu_settings",
     
     onboarding_greetings = "onboarding_greetings",
-    onboarding_question = "onboarding_question"
+    onboarding_question = "onboarding_question",
+
+    summary_chag_log_title = "summary_chag_log_title",
+    summary_classification_title = "summary_classification_title",
+    summary_log_button = "summary_log_button"
+
 }

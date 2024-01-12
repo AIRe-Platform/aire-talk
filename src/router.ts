@@ -6,6 +6,7 @@ import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
 import LandingView from './views/Landing.vue'
 import CheckBoxView from './views/CheckBox.vue'
+import SettingsView from './views/Settings.vue'
 import NotFoundView from './views/NotFound.vue'
 import { Login } from './context/login'
 
@@ -19,6 +20,7 @@ export const router = createRouter({
         { path: '/chat', component: ChatView, name: "Chat", props: true },
         { path: '/landing', component: LandingView, name: "Landing" },
         { path: '/checkBox', component: CheckBoxView, name: "CheckBox" },
+        { path: '/settings', component: SettingsView, name: "Settings" },
         { path: '/:pathMatch(.*)*', component: NotFoundView }
     ]
 })

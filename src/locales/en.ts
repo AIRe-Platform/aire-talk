@@ -15,7 +15,7 @@ const en: Locale = {
     to speed up the onboarding process, please answer a couple of questions:
     `,
 
-    chat_link_button_label: "New chat",
+    chat_link_button_label: "Chat",
 
     login_form_title: "Login",
     login_form_submit: "Login",
@@ -104,7 +104,7 @@ The password must contain at least lower and upper case letter as well as number
     checkbox_continue_button: "Verify and proceed",
     checkbox_button_cancel: "Cancel",
 
-    chat_input_title: "Ask here you question",
+    chat_input_title: "Ask a question",
 
     burger_menu_chat_log_history: "Chat log history",
     burger_menu_content_catalogue: "Content catalogue",
@@ -112,8 +112,11 @@ The password must contain at least lower and upper case letter as well as number
     burger_menu_settings: "Settings",
 
     onboarding_greetings: "Hello there",
-    onboarding_question: "Are you looking for information of any of this topics?"
-    
+    onboarding_question: "Are you looking for information of any of this topics?",
+
+    summary_chag_log_title: "Chat log summary",
+    summary_classification_title: "CBR / ICF classification",
+    summary_log_button: "catalogue log"
 }
 
 export default en
