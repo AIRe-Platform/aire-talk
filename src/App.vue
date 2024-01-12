@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue'
 import Footer from './components/Footer.vue'
-import { State } from './services/aire';
+import Spinner from './components/Spinner.vue';
+import { AppState } from './main';
 </script>
 
 <template>
   <NavBar />
   <div id="content-wrapper">
-    <router-view v-if="State.status === 'ready'"/>
-    <div class="panel main-content" v-if="State.status === 'init'">...</div>
-    <div class="panel main-content" v-if="State.status === 'error'">{{ $t("error_generic") }}</div>
+    <router-view v-if="AppState === 'loaded'"/>
+    <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>
+    <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
   </div>
   <Footer></Footer>
 </template>

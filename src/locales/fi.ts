@@ -59,6 +59,12 @@ const fi: Locale = {
     gender_female: "nainen",
     gender_other: "muu",
 
+    verification_heading: "Vahvista tilisi",
+    verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
+    verification_button_verify: "Tarkista",
+    verification_code_resend: "Lähetä minulle uusi vahvistuskoodi",
+    verification_code_resend_done: "Uusi koodi on matkalla!",
+
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",
     error_signup_password_mismatch: "Salasanat eivät täsmää",
@@ -70,7 +76,9 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     error_signup_general: "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_profile_edit: "Tallentaminen epäonnistui.",
     error_profile_password: "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset",
-    error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen."
+    error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_verification_resend_failed: "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut."
 }
 
 export default fi
