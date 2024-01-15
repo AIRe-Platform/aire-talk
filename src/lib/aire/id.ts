@@ -56,7 +56,6 @@ export class AireID
 
     public logout()
     {
-        localStorage.removeItem(this.name + "_token");
         this.token = undefined;
     }
 
@@ -241,12 +240,17 @@ export class AireID
 
     public async verifyToken(token: string): Promise<boolean>
     {
-        const url = new URL(this.config.endpoint + "/oauth/tokeninfo/" + encodeURIComponent(token));
+        const url = new URL(this.config.endpoint + "/oauth/tokeninfo");
+
+        const form = new FormData();
+        form.append("token", token);
+
         return fetch(url, {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Accept": "application/json"
-            }
+            },
+            body: form
         })
         .then(async (response) => {
             if(response.status === 200)
