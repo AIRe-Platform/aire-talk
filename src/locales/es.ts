@@ -118,6 +118,8 @@ const es: Locale = {
     burger_menu_content_catalogue: "catalogo contenido",
     burger_menu_current_user: "Usuario actual",
     burger_menu_settings: "Configuración",
+    burger_menu_sign_in: "Identifícate",
+    burger_menu_sign_up: "Regístrate",
 
     onboarding_greetings: "Hola",
     onboarding_question: "¿Estas interesado en alguno de estos temas?",

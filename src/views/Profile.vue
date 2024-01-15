@@ -4,6 +4,7 @@ import { l } from '@/locales';
 import { AireServices } from '@/lib/aire';
 import { defineComponent, ref } from 'vue';
 import { Login, changePassword, logout } from '@/context/login';
+import BurgerMenu from './BurgerMenu.vue';
 
 const getProfile = () => {
     return Login.user
@@ -124,6 +125,7 @@ defineComponent({ name: "ProfileView" })
 </script>
 
 <template>
+    <Burger-menu></Burger-menu>
     <div id="profile-view">
         <h2>{{ $t(l.profile_title )}}</h2>
         <Spinner v-if="busy" />

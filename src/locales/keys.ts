@@ -104,7 +104,9 @@ export enum LocalizationKey
     burger_menu_content_catalogue = "burger_menu_content_catalogue",
     burger_menu_current_user = "burger_menu_current_user",
     burger_menu_settings = "burger_menu_settings",
-    
+    burger_menu_sign_in = "burger_menu_sign_in",
+    burger_menu_sign_up = "burger_menu_sign_up",
+
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
 

@@ -75,8 +75,11 @@
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
                 </div>
                 <div class="nav-item button-nav-item" @click="toggleMenu">
-                    <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_current_user) }}</RouterLink>
+                    <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_sign_in) }}</RouterLink>
                     <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
+                </div>
+                <div class="nav-item button-nav-item"  v-if="Login.logged_in === false" @click="toggleMenu">
+                    <RouterLink class="nav-link" to="/signup">{{ $t(l.burger_menu_sign_up) }}</RouterLink>
                 </div>
                 
                 <div 

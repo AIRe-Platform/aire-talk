@@ -116,6 +116,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     burger_menu_content_catalogue: "Sisältöluettelo",
     burger_menu_current_user: "Käyttäjä",
     burger_menu_settings: "Asetukset",
+    burger_menu_sign_in: "Kirjaudu sisään",
+    burger_menu_sign_up: "Rekisteröidy",
 
     onboarding_greetings: "Terveisiä",
     onboarding_question: "Etsitkö tietoa jostain näistä aiheista?",

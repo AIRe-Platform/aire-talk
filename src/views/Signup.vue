@@ -4,6 +4,8 @@ import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { signup } from '@/context/login';
+import BurgerMenu from './BurgerMenu.vue';
+
 
 const busy = ref(false);
 const error = ref<string | null>(null);
@@ -52,6 +54,8 @@ defineComponent({ name: "SignupView" })
 </script>
 
 <template>
+
+    <Burger-menu></Burger-menu>
     <div class="main-content">
         <form class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t(l.signup_form_title) }}</h2>
