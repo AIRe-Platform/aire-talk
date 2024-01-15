@@ -2,6 +2,7 @@
 import Footer from './components/Footer.vue'
 import Spinner from './components/Spinner.vue';
 import { AppState } from './main';
+
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import { AppState } from './main';
     <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>
     <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
   </div>
-  <Footer></Footer>
+ <Footer></Footer>
 </template>
 
 <style src="@/style/default.css" />

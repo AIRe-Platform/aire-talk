@@ -17,8 +17,8 @@
 /**
  * Toggle the burger menu and send it to main view.
  */
- const toggleMenu = (e: Event) => {
-    e.preventDefault();
+ const toggleMenu = () => {
+    
     BurgerMenuState.isBurgerMenuOpen = !(BurgerMenuState.isBurgerMenuOpen);
     if( BurgerMenuState.isBurgerMenuOpen === false){
         isChatHistoryOpen.value = false;
@@ -74,20 +74,20 @@
                 <div class="nav-item" @click="toggleCatalogueContentMenu">
                     <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
                 </div>
-                <div class="nav-item button-nav-item" @click="toggleMenu">
+                <div class="nav-item burger-menu-button-nav-item" @click="toggleMenu">
                     <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{ $t(l.burger_menu_sign_in) }}</RouterLink>
                     <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{ $t(l.burger_menu_current_user) }}</RouterLink>
                 </div>
-                <div class="nav-item button-nav-item"  v-if="Login.logged_in === false" @click="toggleMenu">
+                <div class="nav-item burger-menu-button-nav-item"  v-if="Login.logged_in === false" @click="toggleMenu">
                     <RouterLink class="nav-link" to="/signup">{{ $t(l.burger_menu_sign_up) }}</RouterLink>
                 </div>
                 
                 <div 
-                    class="nav-item button-nav-item"
+                    class="nav-item burger-menu-button-nav-item"
                     @click="toggleMenu"
                     v-if="Login.logged_in === true"
                     >
-                    <a href="#" class="nav-link" @click="logout">{{ $t("nav_logout") }}</a>
+                    <a href="#" class="nav-link" @click="logout">{{$t(l.burger_menu_log_out) }}</a>
                 </div>
                 <div class="nav-item" @click="toggleMenu">
                     <RouterLink class="nav-link" to="/settings">{{ $t(l.burger_menu_settings) }}</RouterLink>
@@ -162,7 +162,7 @@
         justify-content: center;
         cursor: pointer;
     }
-    .button-nav-item{
+    .burger-menu-button-nav-item{
         margin-top: 10rem;
     }
 
@@ -338,6 +338,7 @@
         width: 92%;
         padding: 0.5rem;
     }
+    
     .burger-menu-menu-catalogue-content-top-row{
         display: flex;
         align-items: center;
@@ -355,6 +356,9 @@
     }
     .burger-menu-menu-chat-history-chat-catalogue-content{
         width: 60%;
+    }
+    .burger-menu-button-nav-item{
+        margin-top: 0;
     }
 }
 </style>@/context/burgerMenu

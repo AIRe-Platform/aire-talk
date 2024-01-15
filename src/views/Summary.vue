@@ -17,45 +17,64 @@
 
     let summaryText = ref([]);
 
-    let arrayWords = ref([]);
+    
+    export interface Word {
+        id: number,
+        word: string,
+        isSelected: boolean,
+    }
 
-
-/*     const wordsArray = ref<Array<string>>([]);
- */
+    let selectedTextArray = ref<Array<Word>>([]);
+    let selectedWordsArray = ref<Array<Word>>([]);
 
 
      /**
-     * Toggle the burger menu and send it to main view.
+     * 
      */
     const loadTextFromFile = (ev) => {
     
         const file = ev.target.files[0];
-
         let reader = new FileReader();
       
         reader.readAsText(file);
 
         reader.onload = (res) => {
-          let text = res.target.result;
-          console.log("text??", text);
-
-          summaryText.value = text.split(" ");
-          console.log("myArray??", summaryText);
-          
+            if(res.target?.result == null)
+                return;
+            let text = res.target.result;
+            summaryText.value = text.split(" ");
+            for(let i = 0; i < summaryText.value.length; i++) {
+            let wordTemp = {id: i, word:  summaryText.value[i], isSelected: false};
+            selectedTextArray.value.push(wordTemp);
+            }
         };
     }
 
-    const selectedWord = (word) => {
-        console.log("selected ? ", word);
-        arrayWords.value.push(word);
-    }
-    const removeWord = (word) => {
-        console.log("removed ? ", word);
-        console.log("index??", arrayWords.value.indexOf(word));
+    
+    const selectedWord = (word: Word) => {
+        
+        const found = selectedWordsArray.value.find((element) => element.id == word.id);
+        if(!found){
+            selectedWordsArray.value.push(word);
+            let wordTemp = {id: word.id, word: word.word, isSelected: true};
+            selectedTextArray.value.splice(selectedTextArray.value.indexOf(word), 1, wordTemp);
+        }
+        else
+            console.log("word ALREADY SELECTED");
+    };
 
-        arrayWords.value.splice(arrayWords.value.indexOf(word), 1);
 
-    } 
+    const removeWord = (word: Word) => {
+        
+        selectedWordsArray.value.splice(selectedWordsArray.value.indexOf(word), 1);
+        const found = selectedTextArray.value.find((element) => element.id == word.id);
+        
+        if(!found)
+            return;
+        let wordTemp = {id: word.id, word: word.word, isSelected: false};
+        selectedTextArray.value.splice(selectedTextArray.value.indexOf(found), 1, wordTemp);
+    };
+
 </script>
 
 
@@ -69,17 +88,21 @@
                         <input type="file" @change="loadTextFromFile">
                     </label>
                     <div class="summary-chat-log-text">
-                        <div class="summary-chat-log-word" v-for=" word,id  in summaryText" :key="id">
-                            <div class="summary-chat-log-button"  @click="selectedWord(word)">
-                                {{ word }}
+                        <div class="summary-chat-log-word" v-for=" word ,id  in selectedTextArray" :key="id">
+                            <div
+                                class="summary-chat-log-button"
+                                @click="selectedWord(word)"
+                                :class="{ 'is-selected': word.isSelected }"
+                            >
+                                {{ word.word }}
                             </div> 
                         </div>            
                     </div>
                     <div class="summary-chat-log-array-words">
-                        <div class="" v-for=" word,id  in arrayWords" :key="id">
+                        <div class="summary-chat-log-array-words-wrapper" v-for=" word,id  in selectedWordsArray" :key="id">
                             <div class="summary-chat-log-array-word-wrapper">
                                 <div class="summary-chat-log-array-word">
-                                    {{ word }}
+                                    {{ word.word }}
                                 </div>
                                 <div class="summary-chat-log-array-word-button" @click="removeWord(word)">
                                     <font-awesome-icon icon="fa-solid fa-xmark" />
@@ -136,7 +159,7 @@
     top: 0;
     right: 4rem;
     width: 15%;
-    height: 94%;
+    height: auto;
     margin: 1rem;
     padding: 1rem;
     display: flex;
@@ -180,6 +203,11 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+.summary-chat-log-array-words-wrapper{
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
 }
 .summary-chat-log-array-word{
     margin-right: 1rem;
@@ -199,6 +227,7 @@ cursor: pointer;
 .summary-chat-log-button{
     display: flex;
     justify-content: center;
+    cursor: pointer;
 }
 .summary-cbr-icf-panel{
     background-color:var(--panel-background-color);
@@ -273,11 +302,15 @@ cursor: pointer;
     }
     .summary-chat-log-word{
         font-size: xx-small;
-        margin: 0.4rem;
-        padding: 0.3rem;
+        margin: 0.2rem;
+        padding: 0rem;
+        height: 1rem;
     }
     .summary-chat-log-button{
-        margin-top: 1rem;
+        margin-top: 0rem;
+    }
+    .summary-chat-log-array-words{
+        font-size: xx-small;
     }
     .summary-cbr-icf-panel{
     

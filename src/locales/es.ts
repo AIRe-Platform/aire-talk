@@ -120,6 +120,8 @@ const es: Locale = {
     burger_menu_settings: "Configuración",
     burger_menu_sign_in: "Identifícate",
     burger_menu_sign_up: "Regístrate",
+    burger_menu_log_out: "Cerrar sesión",
+
 
     onboarding_greetings: "Hola",
     onboarding_question: "¿Estas interesado en alguno de estos temas?",

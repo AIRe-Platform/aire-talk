@@ -106,6 +106,7 @@ export enum LocalizationKey
     burger_menu_settings = "burger_menu_settings",
     burger_menu_sign_in = "burger_menu_sign_in",
     burger_menu_sign_up = "burger_menu_sign_up",
+    burger_menu_log_out = "burger_menu_log_out",
 
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",

@@ -20,7 +20,7 @@
     const isMenuShown = ref( false );
 
 
-    const toggleModal = (message) => {
+    const toggleModal = (message: ChatMessage) => {
         if(!message.question)
             isModalActivate.value = !isModalActivate.value;
     };
@@ -33,8 +33,10 @@
      * First unselect all the anwsers and then select the correct one.
      * @param answer TO DO change into interface ask Niko how...
      */
-    const clickAnswer = (answer: typeof Answer) => {
+    const clickAnswer = (answer: Answer) => {
         selectedAnswer.value = answer;
+        if(!props.message.answers)
+            return;
         for(let oldAnswer of props.message.answers){
             if(oldAnswer.isSelected)
                 oldAnswer.isSelected = false; 

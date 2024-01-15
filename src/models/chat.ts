@@ -19,7 +19,7 @@ export interface ChatMessage {
     answers?: Answer[];
     isThumbsUp?: boolean;
     isThumbsDown?: boolean;
-    messageRate?: number;
+    rating?: number;
     isCopiedClipboard?: boolean;
     isDeletedByUSer?: boolean;
 

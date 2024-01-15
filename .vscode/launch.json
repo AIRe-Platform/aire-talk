@@ -10,10 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "npm: serve",
-            "runtimeArgs": [
-                "--user-data-dir=./tmp"
-            ]
+            "preLaunchTask": "npm: serve",            
         }
     ]
 }

@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from 'vue';
-import data from '../../public/topicsCheckBox.json';
 import { router } from "@/router";
 import { Chat } from "@/context/chat";
 import { l } from '@/locales';
 import { Login } from '@/context/login';
+import { initialTopics } from "@/models/topic";
 
 
 const isOpen = ref(false);
-const topics = ref(data);
+
 
 const toggleMenu = () => {
     isOpen.value = ! isOpen.value;
@@ -17,7 +17,7 @@ const toggleMenu = () => {
 const buttonSelected = (topic) => { 
     topic.isSelected = true;
     Chat.OnboardingFromExternalSite = topic;
-    for(let oldTopic of topics.value){
+    for(let oldTopic of initialTopics.value){
         if(oldTopic.isSelected)
             oldTopic.isSelected = false;
     }
@@ -40,7 +40,7 @@ const buttonSelected = (topic) => {
                     <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
                 </div>
                 <div class="onboarding-from-external-site-answers-right">
-                    <div class="onboarding-from-external-site-anwsers" v-for="topic in topics" :key="topic.id" >
+                    <div class="onboarding-from-external-site-anwsers" v-for="topic in initialTopics" :key="topic.id" >
                         <button 
                             class="onboarding-from-external-site-anwsers-button"
                             @click="buttonSelected(topic)" :class="{ 'not-selected': !topic.isSelected,'is-selected': topic.isSelected }"

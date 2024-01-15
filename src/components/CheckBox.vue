@@ -5,22 +5,19 @@ import { l } from '@/locales';
 import { router } from "@/router";
 import { RouterLink } from 'vue-router';
 import { Chat } from "@/context/chat";
-import data from '../../public/topicsCheckBox.json';
-import { Topics } from "@/models/topic";
+import { Topic, initialTopics } from "@/models/topic";
 
-const topics = ref(data);
 
 const isSelectedCheckBox = ref(false);
-const selectedTopic = ref<Topics>();
+const selectedTopic = ref<Topic>();
 
-const buttonSelected = (topic: typeof topics) => {  
+const buttonSelected = (topic: Topic) => {  
     //console.log(" topics ", topics.value);
-    for(let oldTopic of topics.value){
-        if(oldTopic.isSelected)
-            oldTopic.isSelected = false;
-    }
-    console.log(" boton selecionado ", topic);
+    if(selectedTopic.value)
+        selectedTopic.value.isSelected = false;
+    
     selectedTopic.value = topic;
+    selectedTopic.value.isSelected = true;
     console.log("selectedTopic ", selectedTopic);
     isSelectedCheckBox.value = true;
 };
@@ -41,8 +38,8 @@ const saveCheckbox = (e: Event) => {
             <div class="checkbox-line"> {{ $t(l.checkbox_question) }} </div>
 
             <div class="checkbox-questions">
-                <div class="checkbox-button-questions" v-for="topic in topics" :key="topic.id" >
-                    <button @click="buttonSelected(topic)" :class="{ 'not-selected': !topic.isSelected,'is-selected': topic.isSelected }" v-on:click ="topic.isSelected = !topic.isSelected" >
+                <div class="checkbox-button-questions" v-for="topic in initialTopics" :key="topic.id" >
+                    <button @click="buttonSelected(topic)" :class="{ 'not-selected': topic.id != selectedTopic?.id,'is-selected': topic.id == selectedTopic?.id }" v-on:click ="topic.isSelected = !topic.isSelected" >
                         {{ topic.name }}
                     </button>
                 </div>

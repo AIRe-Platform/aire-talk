@@ -118,6 +118,8 @@ The password must contain at least lower and upper case letter as well as number
     burger_menu_sign_in: "Sign in",
     burger_menu_sign_up: "Sign up",
     burger_menu_settings: "Settings",
+    burger_menu_log_out: "Log out",
+
 
     onboarding_greetings: "Hello there",
     onboarding_question: "Are you looking for information of any of this topics?",
