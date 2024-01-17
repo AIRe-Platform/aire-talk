@@ -5,14 +5,12 @@ import { TokenResponse } from "./models/token";
 export class AireID
 {
     private config: AireModule;
-    private name: string;
     private token?: TokenResponse;
 
-    constructor(name: string, config: AireModule)
+    constructor(config: AireModule)
     {
         if(config.type !== AireModuleType.ID)
             throw Error("Module configuration is not for an ID module");
-        this.name = name;
         this.config = config;
     }
 

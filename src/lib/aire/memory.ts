@@ -108,8 +108,6 @@ export class AireMemory
 
         const url = new URL(this.config.endpoint + "/v1/chat-history/" + id);
         const headers: { [key: string]: string } = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         };
 

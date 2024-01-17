@@ -54,7 +54,7 @@ function configureServices(config: AirePlatformConfiguration) : boolean
         const id_config = config.platform.modules.id;
         if(id_config !== undefined)
         {
-            AireServices.ID = new AireID("default", id_config);
+            AireServices.ID = new AireID(id_config);
         }
 
         const ai_config = config.platform.modules.ai;
