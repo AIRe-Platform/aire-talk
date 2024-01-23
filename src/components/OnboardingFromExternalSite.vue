@@ -11,13 +11,13 @@ const isOpen = ref(false);
 
 
 const toggleMenu = () => {
-    isOpen.value = ! isOpen.value;
+    isOpen.value = !isOpen.value;
    };
 
 const buttonSelected = (topic) => { 
     topic.isSelected = true;
     Chat.OnboardingFromExternalSite = topic;
-    for(let oldTopic of initialTopics.value){
+    for(let oldTopic of initialTopics){
         if(oldTopic.isSelected)
             oldTopic.isSelected = false;
     }
