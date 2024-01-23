@@ -8,8 +8,6 @@
     import { Chat } from '@/context/chat';
     import ChatHistory from '@/components/ChatHistory.vue'
     import CatalogueContent from '@/components/CatalogueContent.vue';
-    
-
 
     const isChatHistoryOpen = ref(false);
     const isCatologueContentOpen = ref(false);
@@ -25,6 +23,27 @@
         isCatologueContentOpen.value = false;
     }
 
+};
+/**
+ * Save the current chat to the ddbb
+ */
+ const onSaveChat = (e: Event) => {
+    e.preventDefault();
+    
+    Chat.saveChatHistory();
+};
+
+/**
+ * Retrieving the chat
+Make a button "Restore Chat" in the UI. Burger menu is fine again. We'll iterate when and how saving and retrieving is done later.
+Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
+Pick the latest chat and its ID, call getChat to retrieve it.
+Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
+ * 
+ */ const onLoadChat = (e: Event) => {
+    e.preventDefault();
+    
+    Chat.loadChatHistory();
 };
 
 /**
@@ -81,9 +100,20 @@
                 <div class="nav-item burger-menu-button-nav-item"  v-if="Login.logged_in === false" @click="toggleMenu">
                     <RouterLink class="nav-link" to="/signup">{{ $t(l.burger_menu_sign_up) }}</RouterLink>
                 </div>
-                
                 <div 
-                    class="nav-item burger-menu-button-nav-item"
+                    class="nav-item"
+                    v-if="Login.logged_in === true"
+                    >
+                    <a href="#" class="nav-link" @click="onSaveChat">Save chat</a>
+                </div>
+                <div 
+                    class="nav-item"
+                    v-if="Login.logged_in === true"
+                    >
+                    <a href="#" class="nav-link" @click="onLoadChat">Restore old chat</a>
+                </div>
+                <div 
+                    class="nav-item"
                     @click="toggleMenu"
                     v-if="Login.logged_in === true"
                     >

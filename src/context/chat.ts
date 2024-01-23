@@ -7,7 +7,7 @@ import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
-import { AireChatMessage, AireChatbotInput } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireChatHistory, AireChatMetadata } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
@@ -23,8 +23,11 @@ export interface ChatState
     };
     checkbox?: Topic;
     OnboardingFromExternalSite?: Topic;
+    chat_id?: string;
 
     send: (message: string) => void;
+    saveChatHistory: (chat_id?: string) => void;
+    loadChatHistory: (chat_id?: string) => void;
     reset: (to_message?: number) => void;
 }
 
@@ -50,10 +53,11 @@ function sendChatMessage(message: string)
         image: "",
         timestamp: Date.now()
     }
-
-    Chat.history.push(userMessage)
+    
+    Chat.history.push(userMessage);
+    
     const messages = Chat.history
-        .filter(x => x.role === "assistant" || x.role === "user")
+        .filter(x => x.role === "assistant" || x.role === "user");
 
     if(AireServices.AI)
     {
@@ -76,6 +80,78 @@ function sendChatMessage(message: string)
         console.warn("AI service is not configured");
     }
 }
+
+/**
+ * You then import AireServices , check that the AireServices.Memory is not undefined.
+ * You call the saveChat(...) function and pass the AireChatHistory to it.
+ * After this, the chat should appear in the database. 
+ * The response contains AireChatMetadata object which contains a timestamp and an ID for that particular chat. 
+ * Save the ID in the chat context, so you can pass it as second parameter to saveChat to update the chatlog in the database.
+ * @param chatHistory
+ */
+async function saveChatHistory(chat_id?: string){
+
+    if(AireServices.Memory) {
+        const history: AireChatHistory = Chat.history.map(x => {
+            const m: AireChatMessage = {
+                role: x.role,
+                content: x.message
+                };
+            return m;
+        });
+        await AireServices.Memory.saveChat(history, Chat.chat_id)
+        .then(result => {
+            if(result)
+                Chat.chat_id = result.id
+            console.log("Saving chat log as... ", result );
+        })
+
+        
+        
+    }else{
+        console.warn("MEMORY service is not configured");
+    }
+}
+
+/**
+ * Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
+Pick the latest chat and its ID, call getChat to retrieve it.
+Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
+ * @param chatHistory
+ */
+async function loadChatHistory(chat_id?: string){
+    
+    if(AireServices.Memory) {
+        const chats = await AireServices.Memory?.getChatlogs();
+        if(chats){
+            const latest = chats.sort((b, a) => {
+                return Date.parse(a.time) - Date.parse(b.time)
+             })
+           
+            console.log("chats ",chats);
+            console.log("latestChat ",latest[0]);
+            const chat = await AireServices.Memory.getChat(latest[0].id);
+            console.log("chat ", chat);
+            if(chat){
+                const history: AireChatHistory = chat.map(x => {
+                    const m: AireChatMessage = {
+                        role: x.role,
+                        content: x.content
+                        };
+                    return m;
+                });
+                console.log("history ", history);
+               // Chat.history.push(history);
+            }
+        }
+        
+       
+    }else{
+        console.warn("MEMORY service is not configured");
+    }
+}
+
+
 
 function receiver(msg: AireTalkMessage)
 {
@@ -315,7 +391,10 @@ function initChatState(): ChatState
         awaitingResponse: false,
         scrolling: false,
         send: sendChatMessage,
+        saveChatHistory: saveChatHistory,
+        loadChatHistory: loadChatHistory,
         reset: resetChatState,
+
         landingInfo: {},
     }
 }
