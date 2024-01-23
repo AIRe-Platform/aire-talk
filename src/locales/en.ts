@@ -119,7 +119,10 @@ The password must contain at least lower and upper case letter as well as number
     burger_menu_sign_up: "Sign up",
     burger_menu_settings: "Settings",
     burger_menu_log_out: "Log out",
-
+    burger_menu_save_chat: "Save chat",
+    burger_menu_restore_chat: "Restore chat",
+    burger_menu_chat_history: "Chat history",
+    burger_menu_catalogue_content: "Catalogue content",
 
     onboarding_greetings: "Hello there",
     onboarding_question: "Are you looking for information of any of this topics?",
@@ -128,7 +131,10 @@ The password must contain at least lower and upper case letter as well as number
     summary_classification_title: "CBR / ICF classification",
     summary_log_button: "catalogue log",
     error_verification_failure: "Could not verify the code. It may be expired.",
-    error_verification_resend_failed: "Could not resend the code. Try again later"
+    error_verification_resend_failed: "Could not resend the code. Try again later",
+    
+    chat_history_image: "Image file:",
+    chat_history_video: "Video file:"
 }
 
 export default en

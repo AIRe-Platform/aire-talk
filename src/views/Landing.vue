@@ -6,8 +6,7 @@
 </script>
 
 <template>
-    <LandingForm >
-    </LandingForm>
+    <LandingForm></LandingForm>
 </template>
 
 <style scoped>

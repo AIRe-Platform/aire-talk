@@ -11,7 +11,6 @@ export interface Topic {
         translation_name: string;
         translation_description: string;
     }
-
 }
 
 export type Topics = Array<Topic>;

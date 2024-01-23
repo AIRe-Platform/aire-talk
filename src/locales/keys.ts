@@ -107,6 +107,10 @@ export enum LocalizationKey
     burger_menu_sign_in = "burger_menu_sign_in",
     burger_menu_sign_up = "burger_menu_sign_up",
     burger_menu_log_out = "burger_menu_log_out",
+    burger_menu_save_chat = "burger_menu_save_chat",
+    burger_menu_restore_chat = "burger_menu_restore_chat",
+    burger_menu_chat_history = "burger_menu_chat_history",
+    burger_menu_catalogue_content = "burger_menu_catalogue_content",
 
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
@@ -116,5 +120,8 @@ export enum LocalizationKey
     summary_log_button = "summary_log_button",
 
     error_verification_resend_failed = "error_verification_resend_failed",
-    error_verification_failure = "error_verification_failure"
+    error_verification_failure = "error_verification_failure",
+
+    chat_history_image = "chat_history_image",
+    chat_history_video = "chat_history_video"
 }

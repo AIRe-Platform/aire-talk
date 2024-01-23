@@ -7,7 +7,7 @@ import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
-import { AireChatMessage, AireChatbotInput, AireChatHistory, AireChatMetadata } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireChatHistory, AireChatMetadata, AireRole } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
@@ -31,22 +31,27 @@ export interface ChatState
     reset: (to_message?: number) => void;
 }
 
+/*
+ * If the users is logged, returns first_name last_name else ""
+ * @returns 
+ */
+function getUserName()
+{
+    if(Login.user)
+    {
+        return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
+    }
+    return ""
+}
+
 export const Chat: ChatState = reactive(initChatState());
 
 function sendChatMessage(message: string)
 {
     Chat.awaitingResponse = true;
 
-    const makeName = () => {
-        if(Login.user)
-        {
-            return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
-        }
-        return ""
-    }
-
     const userMessage: ChatMessage = {
-        sender: makeName(),
+        sender: getUserName(),
         role: "user",
         title: "",
         message: message,
@@ -74,14 +79,13 @@ function sendChatMessage(message: string)
         };
 
         AireServices.AI.stream(input, receiver, error_handler);
-    }
-    else
-    {
+    } else {
         console.warn("AI service is not configured");
     }
 }
 
 /**
+ * Instructions
  * You then import AireServices , check that the AireServices.Memory is not undefined.
  * You call the saveChat(...) function and pass the AireChatHistory to it.
  * After this, the chat should appear in the database. 
@@ -89,13 +93,16 @@ function sendChatMessage(message: string)
  * Save the ID in the chat context, so you can pass it as second parameter to saveChat to update the chatlog in the database.
  * @param chatHistory
  */
-async function saveChatHistory(chat_id?: string){
-
-    if(AireServices.Memory) {
+async function saveChatHistory(chat_id?: string)
+{
+    console.log("Chat.history", Chat.history);
+    if(AireServices.Memory)
+    {
         const history: AireChatHistory = Chat.history.map(x => {
             const m: AireChatMessage = {
                 role: x.role,
-                content: x.message
+                content: x.message,
+                timestamp: x.timestamp
                 };
             return m;
         });
@@ -105,53 +112,48 @@ async function saveChatHistory(chat_id?: string){
                 Chat.chat_id = result.id
             console.log("Saving chat log as... ", result );
         })
-
-        
-        
-    }else{
+    } else {
         console.warn("MEMORY service is not configured");
     }
 }
 
 /**
+ * Instructions
  * Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
-Pick the latest chat and its ID, call getChat to retrieve it.
-Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
- * @param chatHistory
+ * Pick the latest chat and its ID, call getChat to retrieve it.
+ * Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
+ * @param chat_id 
  */
-async function loadChatHistory(chat_id?: string){
-    
+async function loadChatHistory(chat_id?: string)
+{
     if(AireServices.Memory) {
         const chats = await AireServices.Memory?.getChatlogs();
         if(chats){
             const latest = chats.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
-             })
-           
-            console.log("chats ",chats);
+            })
+
             console.log("latestChat ",latest[0]);
             const chat = await AireServices.Memory.getChat(latest[0].id);
             console.log("chat ", chat);
             if(chat){
-                const history: AireChatHistory = chat.map(x => {
-                    const m: AireChatMessage = {
-                        role: x.role,
-                        content: x.content
-                        };
+                const history: ChatHistory = chat.map(x => {
+                    const m: ChatMessage = {
+                        sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
+                        role: x.role as AireRole,
+                        message: x.content,
+                        timestamp: x.timestamp || 0
+                    };
                     return m;
                 });
                 console.log("history ", history);
-               // Chat.history.push(history);
+                Chat.history = history;
             }
         }
-        
-       
-    }else{
+    } else {
         console.warn("MEMORY service is not configured");
     }
 }
-
-
 
 function receiver(msg: AireTalkMessage)
 {

@@ -1,86 +1,87 @@
 <script setup lang="ts">
     import { defineComponent, ref } from 'vue';
     import { l } from '@/locales';
-    defineComponent({ name: "BurgerMenuView" })
-    import { BurgerMenuState } from '@/context/burgerMenuState';
     import { RouterLink } from 'vue-router';
     import { Login, logout } from '@/context/login';
     import { Chat } from '@/context/chat';
     import ChatHistory from '@/components/ChatHistory.vue'
     import CatalogueContent from '@/components/CatalogueContent.vue';
+    defineComponent({ name: "BurgerMenuView" })
 
     const isChatHistoryOpen = ref(false);
     const isCatologueContentOpen = ref(false);
 
-/**
- * Toggle the burger menu and send it to main view.
- */
- const toggleMenu = () => {
+    //to Toggle menu
+    let isBurgerMenuOpen = ref(false);
+    /**
+     * Toggle the burger menu and send it to main view.
+     */
+    const toggleMenu = () => {
     
-    BurgerMenuState.isBurgerMenuOpen = !(BurgerMenuState.isBurgerMenuOpen);
-    if( BurgerMenuState.isBurgerMenuOpen === false){
-        isChatHistoryOpen.value = false;
+        isBurgerMenuOpen.value = !(isBurgerMenuOpen.value);
+        if( isBurgerMenuOpen.value === false){
+            isChatHistoryOpen.value = false;
+            isCatologueContentOpen.value = false;
+        }
+    };
+
+    /**
+     * Save the current chat to the ddbb
+     */
+    const onSaveChat = (e: Event) => {
+        e.preventDefault();
+        
+        Chat.saveChatHistory();
+    };
+
+    /**
+     * Retrieving the chat
+    Make a button "Restore Chat" in the UI. Burger menu is fine again. We'll iterate when and how saving and retrieving is done later.
+    Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
+    Pick the latest chat and its ID, call getChat to retrieve it.
+    Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
+    * 
+    */ const onLoadChat = (e: Event) => {
+        e.preventDefault();
+        
+        Chat.loadChatHistory();
+    };
+
+    /**
+     * Toggle the Chat History Menu and send it to main view.
+     */
+    const toggleChatHistoryMenu = (e: Event) => {
+        e.preventDefault();
+        isChatHistoryOpen.value = !(isChatHistoryOpen.value);
         isCatologueContentOpen.value = false;
-    }
+    };
 
-};
-/**
- * Save the current chat to the ddbb
- */
- const onSaveChat = (e: Event) => {
-    e.preventDefault();
-    
-    Chat.saveChatHistory();
-};
-
-/**
- * Retrieving the chat
-Make a button "Restore Chat" in the UI. Burger menu is fine again. We'll iterate when and how saving and retrieving is done later.
-Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
-Pick the latest chat and its ID, call getChat to retrieve it.
-Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
- * 
- */ const onLoadChat = (e: Event) => {
-    e.preventDefault();
-    
-    Chat.loadChatHistory();
-};
-
-/**
- * Toggle the Chat History Menu and send it to main view.
- */
- const toggleChatHistoryMenu = (e: Event) => {
-    e.preventDefault();
-    isChatHistoryOpen.value = !(isChatHistoryOpen.value);
-    isCatologueContentOpen.value = false;
-};
-
-/**
- * Toggle the catalogue content Menu and send it to main view.
- */
- const toggleCatalogueContentMenu = (e: Event) => {
-    e.preventDefault();
-    isCatologueContentOpen.value = !(isCatologueContentOpen.value);
-    isChatHistoryOpen.value = false;
-
-};
+    /**
+     * Toggle the catalogue content Menu and send it to main view.
+     */
+    const toggleCatalogueContentMenu = (e: Event) => {
+        e.preventDefault();
+        isCatologueContentOpen.value = !(isCatologueContentOpen.value);
+        isChatHistoryOpen.value = false;
+    };
 </script>
 
 <template>
     <div class="burger-menu-menu">
         <div 
-        class="burger-menu-button"
+            class="burger-menu-button"
             id="burger" 
             :class="{
-                'active': BurgerMenuState.isBurgerMenuOpen
-            }" @click="toggleMenu">
+                'active': isBurgerMenuOpen
+            }" @click="toggleMenu"
+        >
             <button type="button" class="burger-button" title="Menu">
                 <span class="burger-bar burger-bar--1"></span>
                 <span class="burger-bar burger-bar--2"></span>
                 <span class="burger-bar burger-bar--3"></span>
             </button>
         </div>
-        <div id="navbarNav" v-show="BurgerMenuState.isBurgerMenuOpen">
+        <div id="navbarNav" v-show="isBurgerMenuOpen">
             <RouterLink class="nav-link" to="/" @click="toggleMenu">
                 <div class="nav-logo">
                     <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
@@ -103,20 +104,20 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
                 <div 
                     class="nav-item"
                     v-if="Login.logged_in === true"
-                    >
-                    <a href="#" class="nav-link" @click="onSaveChat">Save chat</a>
+                >
+                    <a href="#" class="nav-link" @click="onSaveChat">{{ $t(l.burger_menu_save_chat) }}</a>
                 </div>
                 <div 
                     class="nav-item"
                     v-if="Login.logged_in === true"
-                    >
-                    <a href="#" class="nav-link" @click="onLoadChat">Restore old chat</a>
+                >
+                    <a href="#" class="nav-link" @click="onLoadChat">{{ $t(l.burger_menu_restore_chat) }}</a>
                 </div>
                 <div 
                     class="nav-item"
                     @click="toggleMenu"
                     v-if="Login.logged_in === true"
-                    >
+                >
                     <a href="#" class="nav-link" @click="logout">{{$t(l.burger_menu_log_out) }}</a>
                 </div>
                 <div class="nav-item" @click="toggleMenu">
@@ -127,7 +128,7 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
     </div>
     <div class="burger-menu-menu-chat-history" v-if="isChatHistoryOpen">
         <div class="burger-menu-menu-chat-history-top-row">
-            <h1> chat history </h1>
+            <h1>{{ $t(l.burger_menu_chat_history) }} </h1>
             <div class="burger-menu-menu-chat-history-close-button hide-big-screen-devices"  @click="toggleChatHistoryMenu">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
@@ -143,10 +144,9 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
             </div>
         </div>
     </div> 
-
     <div class="burger-menu-menu-catalogue-content" v-if="isCatologueContentOpen">
         <div class="burger-menu-menu-catalogue-content-top-row">
-            <h1> catalogue content </h1>
+            <h1>{{ $t(l.burger_menu_catalogue_content) }}</h1>
             <div class="burger-menu-menu-catalogue-content-close-button hide-big-screen-devices"  @click="toggleCatalogueContentMenu">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
@@ -158,14 +158,24 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
                 </div>
             </div>
         </div>
-        
     </div> 
+    <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
+
+    </div>
 </template>
 
 <style scoped lang="scss">
     $burger-color: var(--text-color);
     $primary: var(--background-color);
 
+    .burger-menu-blur{
+        z-index: 1;
+        background: rgba(255,255,255,.7);
+        opacity: 0.4;
+        height: 100%;
+        width: 100vw;
+        position: fixed;
+    }
     .burger-menu-menu{
         background-color: var(--panel-background-color);
         position: absolute;
@@ -174,10 +184,9 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         margin-bottom: 2rem;
         width: auto;
         border-radius: 10px;
-        z-index: 1;
+        z-index: 2;
         margin-left: 1rem;
     }
-
     .nav-logo{
         width: 5rem;
         height: 5rem;
@@ -195,13 +204,11 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
     .burger-menu-button-nav-item{
         margin-top: 10rem;
     }
-
     .nav-logo{
         margin-top: 2rem;
         display: flex;
         justify-content: center;
     }
-
     .burger-button {
         position: relative;
         height: 30px;
@@ -215,7 +222,6 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         transition: transform .6s cubic-bezier(.165, .84, .44, 1);
         cursor: pointer;
     }
-
     .burger-bar {
         background-color: $burger-color;
         position: absolute;
@@ -227,46 +233,35 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         margin-top: -1px;
         transition: transform .6s cubic-bezier(.165, .84, .44, 1), opacity .3s cubic-bezier(.165, .84, .44, 1), background-color .6s cubic-bezier(.165, .84, .44, 1);
     }
-
     .burger-bar--1 {
         -webkit-transform: translateY(-6px);
         transform: translateY(-6px);
         top: 40%;
     }
-
     .burger-bar--2 {
         transform-origin: 100% 50%;
         transform: scaleX(1);
     }
-
     .burger-button:hover .burger-bar--2 {
         transform: scaleX(1);
     }
-
     .no-touchevents .burger-bar--2:hover {
         transform: scaleX(1);
     }
-
     .burger-bar--3 {
         transform: translateY(6px);
         top: 60%;
     }
-
     #burger.active .burger-button {
         transform: rotate(-180deg);
     }
-
-    
-
     #burger.active .burger-bar--1 {
         transform: rotate(45deg);
         top: 50%;
     }
-
     #burger.active .burger-bar--2 {
         opacity: 0;
     }
-
     #burger.active .burger-bar--3 {
         transform: rotate(-45deg);
         top: 50%;
@@ -280,7 +275,7 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         width: 55%;
         padding: 4rem;
         border-radius: 10px;
-        z-index: 1;
+        z-index: 2;
         overflow: scroll;
         overflow-x: hidden;
         display: flex;
@@ -293,14 +288,12 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         display: flex;
         justify-content: flex-start;
     }
-
     .burger-menu-menu-chat-history-chat-bubble-user{
         display: flex;
         justify-content: flex-end;
-
     }
-.burger-menu-menu-catalogue-content{
-    background-color: var(--panel-background-color);
+    .burger-menu-menu-catalogue-content{
+        background-color: var(--panel-background-color);
         position: absolute;
         margin-top: 2rem;
         left: 13rem;
@@ -308,87 +301,84 @@ Map the received messages to view models (AireChatMessage -> ChatMessage ) and p
         width: 55%;
         padding: 4rem;
         border-radius: 10px;
-        z-index: 1;
+        z-index: 2;
         overflow: scroll;
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
-}
-
-/* mobile*/
-@media screen and (max-width: 600px) {
-    .burger-menu-menu{
-
-        margin-left: 1rem;
     }
-    .burger-menu-button{
-        width: 1rem;
+    /* mobile*/
+    @media screen and (max-width: 600px) {
+        .burger-menu-menu{
+            margin-left: 1rem;
+        }
+        .burger-menu-button{
+            width: 1rem;
+        }
+        .chat-input-wrapper{
+            width: 89%;
+            margin-bottom: 1rem;
+        }
+        .burger-button{
+            width: auto;
+            height: auto;
+        }
+        .burger-bar{
+            width: 1.5rem;
+            left: -0.2rem;
+        }
+        #burger.active .burger-button {
+            left: -0.9rem;
+        }
+        .burger-menu-menu-chat-history{
+            margin-top: 1rem;
+            left: 0.5rem;
+            height: 94%;
+            width: 92%;
+            padding: 0.5rem;
+        }
+        .burger-menu-menu-chat-history-top-row{
+            display: flex;
+            align-items: center;
+            position: fixed;
+            justify-content: space-around;
+            width: 94%;
+            background-color: var(--panel-background-color);
+            top: 1rem;
+            z-index: 1;
+            border-radius: 10px;
+        }
+        .burger-menu-menu-chat-history-chat-content{
+            position: relative;
+            top: 3.5rem;
+        } .burger-menu-menu-catalogue-content{
+            margin-top: 1rem;
+            left: 0.5rem;
+            height: 94%;
+            width: 92%;
+            padding: 0.5rem;
+        }
+        
+        .burger-menu-menu-catalogue-content-top-row{
+            display: flex;
+            align-items: center;
+            position: fixed;
+            justify-content: space-around;
+            width: 94%;
+            background-color: var(--panel-background-color);
+            top: 1rem;
+            z-index: 1;
+            border-radius: 10px;
+        }
+        .burger-menu-menu-catalogue-content-chat-content{
+            position: relative;
+            top: 3.5rem;
+        }
+        .burger-menu-menu-chat-history-chat-catalogue-content{
+            width: 60%;
+        }
+        .burger-menu-button-nav-item{
+            margin-top: 0;
+        }
     }
-    .chat-input-wrapper{
-        width: 89%;
-        margin-bottom: 1rem;
-    }
-    .burger-button{
-        width: auto;
-        height: auto;
-    }
-    .burger-bar{
-        width: 1.5rem;
-        left: -0.2rem;
-    }
-    #burger.active .burger-button {
-        left: -0.9rem;
-    }
-
-    .burger-menu-menu-chat-history{
-        margin-top: 1rem;
-        left: 0.5rem;
-        height: 94%;
-        width: 92%;
-        padding: 0.5rem;
-    }
-    .burger-menu-menu-chat-history-top-row{
-        display: flex;
-        align-items: center;
-        position: fixed;
-        justify-content: space-around;
-        width: 94%;
-        background-color: var(--panel-background-color);
-        top: 1rem;
-        z-index: 1;
-        border-radius: 10px;
-    }
-    .burger-menu-menu-chat-history-chat-content{
-        position: relative;
-        top: 3.5rem;
-    } .burger-menu-menu-catalogue-content{
-        margin-top: 1rem;
-        left: 0.5rem;
-        height: 94%;
-        width: 92%;
-        padding: 0.5rem;
-    }
-    
-    .burger-menu-menu-catalogue-content-top-row{
-        display: flex;
-        align-items: center;
-        position: fixed;
-        justify-content: space-around;
-        width: 94%;
-        background-color: var(--panel-background-color);
-        top: 1rem;
-        z-index: 1;
-        border-radius: 10px;
-    }
-    .burger-menu-menu-catalogue-content-chat-content{
-        position: relative;
-        top: 3.5rem;
-    }
-    .burger-menu-menu-chat-history-chat-catalogue-content{
-        width: 60%;
-    }
-    .burger-menu-button-nav-item{
-        margin-top: 0;
-    }
-}
 </style>@/context/burgerMenu

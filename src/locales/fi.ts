@@ -119,7 +119,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     burger_menu_sign_in: "Kirjaudu sisään",
     burger_menu_sign_up: "Rekisteröidy",
     burger_menu_log_out: "Kirjaudu ulos",
-
+    burger_menu_save_chat: "Tallenna chat",
+    burger_menu_restore_chat: "Laita chat",
+    burger_menu_chat_history: "Keskusteluhistoria",
+    burger_menu_catalogue_content: "Katalogin sisältö",
 
     onboarding_greetings: "Terveisiä",
     onboarding_question: "Etsitkö tietoa jostain näistä aiheista?",
@@ -129,7 +132,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     summary_log_button: "catalogue log",
 
     error_verification_resend_failed: "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
-    error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut."
+    error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut.",
+
+    chat_history_image: "Kuvatiedosto:",
+    chat_history_video: "videotiedosto:"
 }
 
 export default fi

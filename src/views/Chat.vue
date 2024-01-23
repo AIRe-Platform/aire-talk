@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import { defineComponent } from 'vue';
-import { Chat } from '@/context/chat';
-import { BurgerMenuState } from '@/context/burgerMenuState';
-import ChatBubble from '@/components/ChatBubble.vue'
-import ChatInput from '@/components/ChatInput.vue'
-import { l } from '@/locales';
-import BurgerMenu from './BurgerMenu.vue';
-import Summary from './Summary.vue';
-import { SummaryState } from '@/context/summaryState';
-
-defineComponent({ name: "ChatView" })
+    import { defineComponent } from 'vue';
+    import { Chat } from '@/context/chat';
+    import ChatBubble from '@/components/ChatBubble.vue'
+    import ChatInput from '@/components/ChatInput.vue'
+    import { l } from '@/locales';
+    import Summary from './Summary.vue';
+    import { SummaryState } from '@/context/summaryState';
+    defineComponent({ name: "ChatView" })
 </script>
 
 <template>
-    <Burger-menu></Burger-menu>
-
-    <div
-        v-bind:class = "( BurgerMenuState.isBurgerMenuOpen )?'add-opacity':'no-opacity'"
-    >
+    <div>
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }} 
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
@@ -58,72 +51,61 @@ defineComponent({ name: "ChatView" })
 </template>
 
 <style scoped>
-.chat-view-wrapper{
-    margin-bottom: 7rem;
-}
-#chat-view {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 1rem;
-    overflow: auto;
-    background-color: var(--panel-background-color);
-
-}
-
-
-.chat-bubble-system{
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-bubble-assistant{
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 3rem;
-}
-
-.chat-bubble-user{
-    display: flex;
-    justify-content: flex-start;
-}
-
-.chat-view-content{
-    margin: auto;
-    width: 50%;
-   height: 90%;
-}
-
-.chat-own-data{
-    margin-left: 64rem;
-}
-
-
-/* mobile*/
-@media screen and (max-width: 600px) {
     .chat-view-wrapper{
-        margin-bottom: 4rem;
+        margin-bottom: 7rem;
     }
-    #chat-view{
-        padding-left: 0rem;
-        padding-top: 1rem;
-
+    #chat-view {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 1rem;
+        overflow: auto;
+        background-color: var(--panel-background-color);
+    }
+    .chat-bubble-system{
+        display: flex;
+        flex-direction: column;
+    }
+    .chat-bubble-assistant{
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 3rem;
+    }
+    .chat-bubble-user{
+        display: flex;
+        justify-content: flex-start;
     }
     .chat-view-content{
         margin: auto;
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 0 5px var(--shadow-color);
-        padding: 0rem;
-        padding-top: 1rem;
+        width: 50%;
+        height: 90%;
     }
-    .chat-bubble-assistant{
-        position: relative;
+    .chat-own-data{
+        margin-left: 64rem;
     }
 
-    .chat-bubble-assistant{
-
-        margin-bottom: -1rem;
+    /* mobile*/
+    @media screen and (max-width: 600px) {
+        .chat-view-wrapper{
+            margin-bottom: 4rem;
+        }
+        #chat-view{
+            padding-left: 0rem;
+            padding-top: 1rem;
+        }
+        .chat-view-content{
+            margin: auto;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 5px var(--shadow-color);
+            padding: 0rem;
+            padding-top: 1rem;
+        }
+        .chat-bubble-assistant{
+            position: relative;
+        }
+        .chat-bubble-assistant{
+            margin-bottom: -1rem;
+        }
     }
-}
 </style>

@@ -1,31 +1,28 @@
 <script setup lang="ts">
-    import { defineProps } from 'vue';
+  import { defineProps } from 'vue';
 
-defineProps<{
-  isModalActivate: Boolean,
-  
-}>() 
+  defineProps<{
+    isModalActivate: Boolean,
+  }>() 
 
 </script>
-
   
-  <template>
-    <transition name="modal-animation">
-      <div v-show="isModalActivate" class="modal" >
-        <transition name="modal-animation-inner">
-          <div class="modal-inner">
-            <!-- Modal Content -->
-            <slot />
-          </div>
-        </transition>
-      </div>
-    </transition>
-  </template>
+<template>
+  <transition name="modal-animation">
+    <div v-show="isModalActivate" class="modal" >
+      <transition name="modal-animation-inner">
+        <div class="modal-inner">
+          <!-- Modal Content -->
+          <slot />
+        </div>
+      </transition>
+    </div>
+  </transition>
+</template>
   
-  <style lang="scss" scoped>
-
-    $primary-color: var(--panel-background-color);
-    $secundary-color: var(--background-color);
+<style lang="scss" scoped>
+  $primary-color: var(--panel-background-color);
+  $secundary-color: var(--background-color);
   .modal-animation-enter-active,
   .modal-animation-leave-active {
     transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
@@ -100,14 +97,12 @@ defineProps<{
   }
 
   /* mobile*/
-@media screen and (max-width: 600px) {
-  .modal {
-    .modal-inner {
-      font-size: x-small;
-      padding: 1rem;
+    @media screen and (max-width: 600px) {
+    .modal {
+      .modal-inner {
+        font-size: x-small;
+        padding: 1rem;
+      }
     }
   }
-
-
-}
-  </style>
+</style>

@@ -121,7 +121,10 @@ const es: Locale = {
     burger_menu_sign_in: "Identifícate",
     burger_menu_sign_up: "Regístrate",
     burger_menu_log_out: "Cerrar sesión",
-
+    burger_menu_save_chat: "Guardar chat",
+    burger_menu_restore_chat: "Cargar chat",
+    burger_menu_chat_history: "Historial chat",
+    burger_menu_catalogue_content: "Catálogo contenido",
 
     onboarding_greetings: "Hola",
     onboarding_question: "¿Estas interesado en alguno de estos temas?",
@@ -132,6 +135,9 @@ const es: Locale = {
 
     error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
     error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
+
+    chat_history_image: "Imagen:",
+    chat_history_video: "Vídeo:"
     
 }
 

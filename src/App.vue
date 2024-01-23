@@ -2,10 +2,12 @@
 import Footer from './components/Footer.vue'
 import Spinner from './components/Spinner.vue';
 import { AppState } from './main';
+import BurgerMenu from './views/BurgerMenu.vue';
 
 </script>
 
 <template>
+  <Burger-menu></Burger-menu>
   <div id="content-wrapper">
     <router-view v-if="AppState === 'loaded'"/>
     <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>

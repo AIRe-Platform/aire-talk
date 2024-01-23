@@ -6,6 +6,11 @@ export interface Answer {
     isSelected: boolean;
 };
 
+/**
+ * TODO refactor isThumDown and up. Use rating.
+ * TODO isCOpiedOnClipboard does nothing. remove I think
+ * TODO isDeletedByUSer refactor do the "remove" until this message instead
+ */
 export interface ChatMessage {
     sender: string;
     role: AireRole;
@@ -22,7 +27,6 @@ export interface ChatMessage {
     rating?: number;
     isCopiedClipboard?: boolean;
     isDeletedByUSer?: boolean;
-
 }
 
 export type ChatHistory = Array<ChatMessage>

@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { Theme, setTheme } from '@/context/theme';
-import { supportedLocales, setLocale, Lang } from '@/locales';
-import { Login, logout } from '@/context/login';
+    import { Theme, setTheme } from '@/context/theme';
+    import { supportedLocales, setLocale, Lang } from '@/locales';
+    import { Login, logout } from '@/context/login';
 
-const toggleTheme = () => {
-    if(Theme.style === "theme-dark")
-        setTheme("theme-default")
-    else
-        setTheme("theme-dark");
-};
+    const toggleTheme = () => {
+        if(Theme.style === "theme-dark")
+            setTheme("theme-default")
+        else
+            setTheme("theme-dark");
+    };
 
-const setLang = (e: Event) => {
-    const el = e.target as HTMLSelectElement;
-    setLocale(el.value as Lang);
-    el.blur();
-}
+    const setLang = (e: Event) => {
+        const el = e.target as HTMLSelectElement;
+        setLocale(el.value as Lang);
+        el.blur();
+    }
 </script>
 
 <template>
@@ -43,24 +43,24 @@ const setLang = (e: Event) => {
 </template>
 
 <style scoped>
-#nav-bar {
-    display: flex;
-    flex-direction: row;
-    flex-shrink: 0;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-    height: 2rem;
-    padding: 0.5rem;
-    box-shadow: 0 0 5px var(--shadow-color);
-}
+    #nav-bar {
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 0;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+        height: 2rem;
+        padding: 0.5rem;
+        box-shadow: 0 0 5px var(--shadow-color);
+    }
 
-#nav-title {
-    padding: 1rem;
-    font-weight: bold;
-}
+    #nav-title {
+        padding: 1rem;
+        font-weight: bold;
+    }
 
-.nav-link {
-    padding: 1rem;
-}
+    .nav-link {
+        padding: 1rem;
+    }
 </style>
