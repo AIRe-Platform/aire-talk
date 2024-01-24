@@ -1,11 +1,12 @@
 <script setup lang="ts">
-    import { Answer, ChatMessage } from '@/models/chat';
+    import { ChatMessage } from '@/models/chat';
     import { scrollToMessage } from '@/helpers/scrollToMessage'
     import { defineProps, onMounted, ref } from 'vue';
     import BubbleModal from './BubbleModal.vue';
+    import SurveyQuestion from './SurveyQuestion.vue';
 
     const props = defineProps<{message: ChatMessage}>()
-    const selectedAnswer = ref<Answer>();
+
     const id = props.message.timestamp.toString();
     const isSystem = props.message.role === "system";
     const isBot = props.message.role === "assistant";
@@ -28,23 +29,6 @@
      */
     const toggleMenu = () => {
         isMenuShown.value = !isMenuShown.value;
-    };
-
-    /**
-     * Method to select the answer between the answers.
-     * First unselect all the anwsers and then select the correct one.
-     * @param answer TO DO change into interface ask Niko how...
-     */
-    const clickAnswer = (answer: Answer) => {
-        selectedAnswer.value = answer;
-        if(!props.message.answers)
-            return;
-        for(let oldAnswer of props.message.answers){
-            if(oldAnswer.isSelected)
-                oldAnswer.isSelected = false; 
-        }
-        answer.isSelected = true;
-        selectedAnswer.value.isSelected = true; 
     };
     
     /**
@@ -122,29 +106,7 @@
                             <source v-bind:src="message.video" type="video/mp4">
                         </video> 
                     </div>
-                    <div class="chat-message-question" v-if="message.question" >
-                        <span class="chat-message-text">
-                            {{ message.question }}
-                        </span>
-                    </div>
-                    <div class="chat-message-answers" v-if="message.answers" >
-                        <div class="chat-message-answer" v-for="anwser,id in message.answers" :key="id">
-                            <button 
-                                @click="clickAnswer(anwser)"
-                                class="chat-message-answer-button"
-                                :class="{ 'is-selected': anwser.isSelected }"
-                                v-if="anwser.answer">
-                                    {{ anwser.answer }}
-                            </button>
-                            <button 
-                                @click="clickAnswer(anwser)"
-                                class="chat-message-answer-button"
-                                :class="{ 'is-selected': anwser.isSelected }"
-                                v-if="!anwser.answer">
-                                    {{ anwser.id }}
-                            </button>
-                        </div>
-                    </div>
+                    <SurveyQuestion v-if="message.question" :question="message.question" />
                 </div>
               </div>
             <div class="modal-button">
@@ -170,29 +132,7 @@
                     <source v-bind:src="message.video" type="video/mp4">
                 </video> 
             </div>
-            <div class="chat-message-question" v-if="message.question" >
-                <span class="chat-message-text">
-                    {{ message.question }}
-                </span>
-            </div>
-            <div class="chat-message-answers" v-if="message.answers" >
-                <div class="chat-message-answer" v-for="anwser,id in message.answers" :key="id">
-                    <button 
-                        @click="clickAnswer(anwser)"
-                        class="chat-message-answer-button"
-                        :class="{ 'is-selected': anwser.isSelected }"
-                        v-if="anwser.answer">
-                            {{ anwser.answer }}
-                    </button>
-                    <button 
-                        @click="clickAnswer(anwser)"
-                        class="chat-message-answer-button"
-                        :class="{ 'is-selected': anwser.isSelected }"
-                        v-if="!anwser.answer">
-                            {{ anwser.id }}
-                    </button>
-                </div>
-            </div>
+            <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
     </div>
     <div class="chat-bubble-options-menu-relative">
@@ -317,18 +257,6 @@
         width: 80%;
         object-fit: contain;
     }
-    .chat-message-question{
-        font-weight: bold;
-        padding: 1rem;
-    }
-    .chat-message-answers{
-        display: flex;
-        justify-content: space-around;
-        padding: 1rem;
-    }
-    .chat-message-answer-button{
-        cursor: pointer;
-    }
     .chat-bubble-options-menu-relative{
         position: relative;
     }
@@ -360,25 +288,7 @@
     }
     /* mobile*/
     @media screen and (max-width: 600px) {
-
-        .chat-message-question{
-            padding: 0;
-        }
         .chat-bubble-content {
-            font-size: x-small;
-        }
-        .chat-message-answers{
-            display: flex;
-            flex-direction: column;
-            padding-left: 1rem;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-        .chat-message-answer{
-            margin-top: 0.3rem;
-        }
-        .chat-message-answer-button{
-            width: 14.5rem;
             font-size: x-small;
         }
         .chat-bubble-bot{

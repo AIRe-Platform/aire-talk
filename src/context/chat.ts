@@ -243,34 +243,88 @@ function initChatState(): ChatState
             sender: bot_name,
             role: "assistant",
             message: "this is a question",
-            question:"How often do you have negative feelings such as blue mood, despair anxiety or depresion?",
-            answers:[
-                {
-                    id:0,
-                    answer:"Never",
-                    isSelected: false,
-                },
-                {
-                    id:1,
-                    answer:"Sheldom",
-                    isSelected: true,
-                },
-                {
-                    id:2,
-                    answer:"Quite often",
-                    isSelected: false,
-                },
-                {
-                    id:3,
-                    answer:"Very often",
-                    isSelected: false,
-                },
-                {
-                    id:4,
-                    answer:"Always",
-                    isSelected: false,
+            question:
+            {
+                question: "How often do you have negative feelings such as blue mood, despair anxiety or depresion?",
+                options: {
+                    type: "single-select",
+                    answers: [
+                        {
+                            id:0,
+                            answer:"Never",
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            answer:"Sheldom",
+                            isSelected: true,
+                        },
+                        {
+                            id:2,
+                            answer:"Quite often",
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            answer:"Very often",
+                            isSelected: false,
+                        },
+                        {
+                            id:4,
+                            answer:"Always",
+                            isSelected: false,
+                        }
+                    ]
                 }
-            ],
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question:
+            {
+                question: "Tell with own words how you feel about this",
+                options: {
+                    type: "open",
+                }
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question:
+            {
+                question: "Select things you are worried about",
+                options: {
+                    type: "multi-select",
+                    answers: [
+                        {
+                            id:0,
+                            answer:"Work",
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            answer:"Family",
+                            isSelected: true,
+                        },
+                        {
+                            id:2,
+                            answer:"Money",
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            answer:"Very often",
+                            isSelected: false,
+                        },
+                    ]
+                }
+            },
             timestamp: Date.now(),
         },
         { 
@@ -309,53 +363,58 @@ function initChatState(): ChatState
             sender: bot_name,
             role: "assistant",
             message: "this is a question",
-            question:"How do you describe your pain in a scale 0(no pain at all) to 10(I can not handle it any more)?",
-            answers:[
-                {
-                    id:0,
-                    isSelected: false,
+            question: {
+                question:  "How do you describe your pain in a scale 0(no pain at all) to 10(I can not handle it any more)?",
+                options: {
+                    type: "range",
+                    answers: [
+                        {
+                            id:0,
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            isSelected: false,
+                        },
+                        {
+                            id:2,
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            isSelected: false,
+                        },
+                        {
+                            id:4,
+                            isSelected: false,
+                        },
+                        {
+                            id:5,
+                            isSelected: false,
+                        },
+                        {
+                            id:6,
+                            isSelected: false,
+                        },
+                        {
+                            id:7,
+                            isSelected: false,
+                        },
+                        {
+                            id:8,
+                            isSelected: false,
+                        },
+                        {
+                            id:9,
+                            isSelected: true,
+                        },
+                        {
+                            id:10,
+                            isSelected: false,  
+                        }
+                    ]
                 },
-                {
-                    id:1,
-                    isSelected: false,
-                },
-                {
-                    id:2,
-                    isSelected: false,
-                },
-                {
-                    id:3,
-                    isSelected: false,
-                },
-                {
-                    id:4,
-                    isSelected: false,
-                },
-                {
-                    id:5,
-                    isSelected: false,
-                },
-                {
-                    id:6,
-                    isSelected: false,
-                },
-                {
-                    id:7,
-                    isSelected: false,
-                },
-                {
-                    id:8,
-                    isSelected: false,
-                },
-                {
-                    id:9,
-                    isSelected: true,
-                },
-                {
-                    id:10,
-                    isSelected: false,  
-                }
-            ],
+            },
             timestamp: Date.now(),
         },
         { 
