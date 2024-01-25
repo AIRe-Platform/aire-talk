@@ -7,10 +7,22 @@
     import Summary from './Summary.vue';
     import { SummaryState } from '@/context/summaryState';
     defineComponent({ name: "ChatView" })
+    
+    /**
+     * Save the current chat to the ddbb. takes the chat_id from Chat.chat_id
+     */
+    const newChat = (e?: Event) => {
+        e?.preventDefault();
+        
+        console.log("creating a new chat ", Chat.newChat());
+    };
 </script>
 
 <template>
     <div>
+        <button class="chat-new-chat" @click="newChat">
+            <a class="nav-link" href="#"> New chat </a>
+        </button>
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }} 
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
@@ -51,6 +63,11 @@
 </template>
 
 <style scoped>
+    .chat-new-chat{
+        position: absolute;
+        left: 10rem;
+        top: 8rem;
+    }
     .chat-view-wrapper{
         margin-bottom: 7rem;
     }

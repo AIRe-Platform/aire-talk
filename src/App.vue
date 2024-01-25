@@ -7,7 +7,7 @@ import BurgerMenu from './views/BurgerMenu.vue';
 </script>
 
 <template>
-  <Burger-menu></Burger-menu>
+  <BurgerMenu></BurgerMenu>
   <div id="content-wrapper">
     <router-view v-if="AppState === 'loaded'"/>
     <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>

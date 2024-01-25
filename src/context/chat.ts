@@ -26,10 +26,11 @@ export interface ChatState
     chat_id?: string;
 
     send: (message: string) => void;
-    saveChatHistory: (chat_id?: string) => void;
+    saveChatHistory: () => void;
     loadChatHistory: (chat_id?: string) => void;
     reset: (to_message?: number) => void;
     getAllChats: () => Promise<AireChatMetadata[]>;
+    newChat: () => void;
 }
 
 /*
@@ -88,14 +89,15 @@ function sendChatMessage(message: string)
 
 /**
  * TODO I think this is not a good name for this function
- * Save the chat in the database with the chat_id: chat_id
+ * Save the chat in the database.
  * @param chatHistory
  */
-async function saveChatHistory(chat_id?: string)
+async function saveChatHistory()
 {
+    console.log("BEFORE saving chat_id",  Chat.chat_id);
     if(AireServices.Memory)
     {
-        const history: AireChatHistory = Chat.history.map(x => {
+        const history: AireChatHistory = await Chat.history.map(x => {
             const m: AireChatMessage = {
                 role: x.role,
                 content: x.message,
@@ -111,6 +113,7 @@ async function saveChatHistory(chat_id?: string)
     } else {
         console.warn("MEMORY service is not configured");
     }
+    console.log("Chat saved. chat_id",  Chat.chat_id);
 }
 
 /**
@@ -142,7 +145,7 @@ async function loadChatHistory(chat_id?: string)
         }
         if(chat)
         {
-            const history: ChatHistory = chat.map(x => {
+            const history: ChatHistory = await chat.map(x => {
                 const m: ChatMessage = {
                     sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
                     role: x.role as AireRole,
@@ -151,6 +154,7 @@ async function loadChatHistory(chat_id?: string)
                 };
                 return m;
             });
+            console.log("restored chat ID: ", chat_id_temp);
             Chat.history = history;
             Chat.chat_id = chat_id_temp;
         }
@@ -229,183 +233,18 @@ function systemGreeting() : ChatMessage
     };
 }
 
- function initChatState(): ChatState
+function initChatState(): ChatState
 {
+
     const testMessages: ChatHistory = [
         { 
             sender: system_name,
             role: "system",
             message: "system_greeting",
             timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "I have headache and I feel horrible...",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "What is your age?",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "I am 36.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "this is a question",
-            question:"How often do you have negative feelings such as blue mood, despair anxiety or depresion?",
-            answers:[
-                {
-                    id:0,
-                    answer:"Never",
-                    isSelected: false,
-                },
-                {
-                    id:1,
-                    answer:"Sheldom",
-                    isSelected: true,
-                },
-                {
-                    id:2,
-                    answer:"Quite often",
-                    isSelected: false,
-                },
-                {
-                    id:3,
-                    answer:"Very often",
-                    isSelected: false,
-                },
-                {
-                    id:4,
-                    answer:"Always",
-                    isSelected: false,
-                }
-            ],
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "Sheldom.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Make some sport every week.",
-            video: require("@/assets/videos/skater.mp4"),
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "This will help you with your stress.",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Also just take some time to relax, for example go and see the ocean.",
-            video: require("@/assets/videos/sea.mp4"),
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "Yes, I know that. But How else I can do to my pain?",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "this is a question",
-            question:"How do you describe your pain in a scale 0(no pain at all) to 10(I can not handle it any more)?",
-            answers:[
-                {
-                    id:0,
-                    isSelected: false,
-                },
-                {
-                    id:1,
-                    isSelected: false,
-                },
-                {
-                    id:2,
-                    isSelected: false,
-                },
-                {
-                    id:3,
-                    isSelected: false,
-                },
-                {
-                    id:4,
-                    isSelected: false,
-                },
-                {
-                    id:5,
-                    isSelected: false,
-                },
-                {
-                    id:6,
-                    isSelected: false,
-                },
-                {
-                    id:7,
-                    isSelected: false,
-                },
-                {
-                    id:8,
-                    isSelected: false,
-                },
-                {
-                    id:9,
-                    isSelected: true,
-                },
-                {
-                    id:10,
-                    isSelected: false,  
-                }
-            ],
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "9",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Just imagen to be alone in a open field ...",
-            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Eiche_bei_Graditz.jpg/1280px-Eiche_bei_Graditz.jpg",
-            timestamp: Date.now(),
-        },
-        { 
-            sender: bot_name,
-            role: "assistant",
-            message: "Be water my friend",
-            video: require("@/assets/videos/pouring.mp4"),
-            timestamp: Date.now(),
-        },
-        { 
-            sender: "Juan",
-            role: "user",
-            message: "Okay",
-            timestamp: Date.now(),
-        },
-       
-    ];
+        }];
 
     return {
-
         history: testMessages,
         awaitingResponse: false,
         scrolling: false,
@@ -415,7 +254,23 @@ function systemGreeting() : ChatMessage
         reset: resetChatState,
         getAllChats: getAllChats,
         landingInfo: {},
+        newChat: newChat,
     }
+}
+
+/**
+ * 
+ */
+function newChat()
+{
+    saveChatHistory();
+    /* console.log("new chat Chat.history", Chat.history);
+    Chat.history = Chat.history.slice(0, 0);
+    console.log("spliced Chat.history", Chat.history);
+    if(Chat.history.length === 0)
+        Chat.history.push(systemGreeting());
+    console.log("new chat pusehd greetings", Chat.history); */
+    initChatState();
 }
 
 function resetChatState(to_message?: number)

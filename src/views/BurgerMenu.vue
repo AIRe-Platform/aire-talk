@@ -1,4 +1,4 @@
-<script setup lang="ts" async>
+<script setup lang="ts">
     import { defineComponent, ref } from 'vue';
     import { l } from '@/locales';
     import { RouterLink } from 'vue-router';
@@ -7,15 +7,14 @@
     import ChatHistory from '@/components/ChatHistory.vue'
     import CatalogueContent from '@/components/CatalogueContent.vue';
     import {AireChatMetadata } from "@/lib/aire/models/chat";
-    import moment from 'moment';
     defineComponent({ name: "BurgerMenuView" })
-
+    
+    const { DateTime } = require("luxon");
     const isChatHistoryOpen = ref(false);
     const isCatologueContentOpen = ref(false);
     const isRestoreChatOpen = ref(false);
     let chats = ref<AireChatMetadata[]>();
     
-
     //to Toggle menu
     let isBurgerMenuOpen = ref(false);
     /**
@@ -43,16 +42,24 @@
     /**
      * Save the current chat to the ddbb. takes the chat_id from Chat.chat_id
      */
-    const onSaveChat = (e: Event) => {
-        e.preventDefault();
-        console.log("Chat.chat_id? ",Chat.chat_id);
-        Chat.saveChatHistory(Chat.chat_id);
+    const onSaveChat = (e?: Event) => {
+        e?.preventDefault();
+        console.log("save this chat chat_id? ",Chat.chat_id);
+        Chat.saveChatHistory();
     };
 
     /**
-     * Restore chat from the ddbb with the chat.id given.
+     * Restore chat from the ddbb with the chat.id given. SAve the current chat first
     */
      const onLoadChat = (chat: AireChatMetadata) => {
+       /*  console.log("--------------------------------------------------------------------");
+        console.log("Chat before load ? ", Chat);
+        console.log("load this chat chat_id? ", chat.id);
+        if(Chat.history.length > 1){
+            console.log("there is some conversations, lets save it first");
+            onSaveChat();
+        } */
+        
         Chat.loadChatHistory(chat.id);
         isRestoreChatOpen.value = false;
     };
@@ -194,7 +201,7 @@
         <div class="burger-menu-menu-restore-chat-content">
             <div class="burger-menu-menu-restore-chat-content" v-for="chat in chats" v-bind:key="chat">
                 <button class="burger-menu-menu-restore-chat-row"  @click="onLoadChat(chat)">
-                    {{ moment(chat.time).format('MM/DD/YYYY hh:mm') }} 
+                   {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
                 </button>
             </div>
         </div>
@@ -368,7 +375,8 @@
     .burger-menu-menu-restore-chat-content{
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;     
+        justify-content: space-between;    
+        padding: 1rem; 
     }
     
     /* mobile*/
