@@ -13,7 +13,7 @@
     // show Modal 
     const isModalActivate = ref(false);
     // show Menu
-    const isMenuShown = ref( false );
+    const isMenuShown = ref(false);
 
     /**
      * Toggle the modal of the ChatMessage selected.
@@ -28,6 +28,7 @@
      * Toggle the Menu
      */
     const toggleMenu = () => {
+        console.log("aqui");
         isMenuShown.value = !isMenuShown.value;
     };
     
@@ -137,7 +138,7 @@
     </div>
     <div class="chat-bubble-options-menu-relative">
         <div class="chat-bubble-options-menu"
-            v-if="isBot && isMenuShown"    
+            v-if="!isSystem && isMenuShown"    
         >   
             <button 
                 @click="thumbsUp(message)"
@@ -171,7 +172,7 @@
     </div>
     <div 
         class="chat-bubble-options-menu-dots"
-        v-if="isBot"
+        v-if="!isSystem"
         @click="toggleMenu()"
         >
         <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />

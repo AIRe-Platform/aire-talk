@@ -1,131 +1,129 @@
 <script setup lang="ts">
-import Spinner from '@/components/Spinner.vue';
-import { l } from '@/locales';
-import { AireServices } from '@/lib/aire';
-import { defineComponent, ref } from 'vue';
-import { Login, changePassword, logout } from '@/context/login';
-import BurgerMenu from './BurgerMenu.vue';
+    import Spinner from '@/components/Spinner.vue';
+    import { l } from '@/locales';
+    import { AireServices } from '@/lib/aire';
+    import { defineComponent, ref } from 'vue';
+    import { Login, changePassword, logout } from '@/context/login';
 
-const getProfile = () => {
-    return Login.user
-};
+    const getProfile = () => {
+        return Login.user
+    };
 
-const profile = ref(getProfile());
-const busy = ref(false);
-const fistName = ref(profile.value?.first_name);
-const lastName = ref(profile.value?.last_name);
-const gender = ref(profile.value?.gender);
-const age = ref(profile.value?.age);
-const language = ref(profile.value?.language);
-const country = ref(profile.value?.country);
-const bio = ref(profile.value?.bio);
+    const profile = ref(getProfile());
+    const busy = ref(false);
+    const fistName = ref(profile.value?.first_name);
+    const lastName = ref(profile.value?.last_name);
+    const gender = ref(profile.value?.gender);
+    const age = ref(profile.value?.age);
+    const language = ref(profile.value?.language);
+    const country = ref(profile.value?.country);
+    const bio = ref(profile.value?.bio);
 
-const editError = ref<string>();
-const pwError = ref<string>();
-const delError = ref<string>(); 
+    const editError = ref<string>();
+    const pwError = ref<string>();
+    const delError = ref<string>(); 
 
-const onSaveChanges = (e: Event) => {
-    e.preventDefault();
+    const onSaveChanges = (e: Event) => {
+        e.preventDefault();
 
-    if(profile.value == null)
-        return;
+        if(profile.value == null)
+            return;
 
-  /*   if(!firstName.form?.checkValidity())
-        return; */
-        
-    profile.value.first_name = fistName.value;
-    profile.value.last_name = lastName.value;
-    profile.value.gender = gender.value;
-    profile.value.age = age.value;
-    profile.value.language = language.value;
-    profile.value.country = country.value;
-    profile.value.bio = bio.value;
+    /*   if(!firstName.form?.checkValidity())
+            return; */
+            
+        profile.value.first_name = fistName.value;
+        profile.value.last_name = lastName.value;
+        profile.value.gender = gender.value;
+        profile.value.age = age.value;
+        profile.value.language = language.value;
+        profile.value.country = country.value;
+        profile.value.bio = bio.value;
 
-    if(AireServices.ID)
-    {
-        busy.value = true;
-        AireServices.ID.saveProfileData(profile.value)
-            .then((result) => {
-                if(result) {
-                    profile.value = getProfile();
-                    editError.value = undefined;
-                }
-                else {
-                    editError.value = l.error_profile_edit;
-                }
-            })
-            .finally(() => busy.value = false);
+        if(AireServices.ID)
+        {
+            busy.value = true;
+            AireServices.ID.saveProfileData(profile.value)
+                .then((result) => {
+                    if(result) {
+                        profile.value = getProfile();
+                        editError.value = undefined;
+                    }
+                    else {
+                        editError.value = l.error_profile_edit;
+                    }
+                })
+                .finally(() => busy.value = false);
+        }
     }
-}
 
-const onChangePassword = (e: Event) => {
-    e.preventDefault();
+    const onChangePassword = (e: Event) => {
+        e.preventDefault();
 
-    const current = document.getElementById("current_password") as HTMLInputElement;
-    const newpw = document.getElementById("new_password") as HTMLInputElement;
+        const current = document.getElementById("current_password") as HTMLInputElement;
+        const newpw = document.getElementById("new_password") as HTMLInputElement;
 
-    if(!current.form?.checkValidity())
-        return;
+        if(!current.form?.checkValidity())
+            return;
 
-    if(AireServices.ID)
-    {
-        busy.value = true;
-        changePassword(current.value, newpw.value)
-            .then((result) => {
-                if(result) {
-                    pwError.value = undefined;
-                }
-                else {
-                    pwError.value = l.error_profile_change_password;
-                }
-            })
-            .finally(() => busy.value = false)
+        if(AireServices.ID)
+        {
+            busy.value = true;
+            changePassword(current.value, newpw.value)
+                .then((result) => {
+                    if(result) {
+                        pwError.value = undefined;
+                    }
+                    else {
+                        pwError.value = l.error_profile_change_password;
+                    }
+                })
+                .finally(() => busy.value = false)
+        }
+    };
+
+    const onDeleteAccount = (e: Event) => {
+        e.preventDefault();
+
+        const pw = document.getElementById("confirm_password") as HTMLInputElement;
+        const keepData = document.getElementById("keep_anonymized_data") as HTMLInputElement;
+
+        if(!pw.form?.checkValidity())
+            return;
+
+        if(AireServices.ID && profile.value)
+        {
+            busy.value = true;
+            AireServices.ID.deleteProfile(profile.value.uuid, pw.value, keepData.checked)
+                .then((result) => {
+                    if(result) {
+                        logout();
+                        delError.value = undefined;
+                    }
+                    else {
+                        delError.value = l.error_profile_delete_account;
+                    }
+                })
+                .finally(() => busy.value = false);
+        }
     }
-};
 
-const onDeleteAccount = (e: Event) => {
-    e.preventDefault();
+    const genderList = [
+        { id: "male", name: l.gender_male },
+        { id: "female", name: l.gender_female },
+        { id: "other", name: l.gender_other }
+    ];
 
-    const pw = document.getElementById("confirm_password") as HTMLInputElement;
-    const keepData = document.getElementById("keep_anonymized_data") as HTMLInputElement;
-
-    if(!pw.form?.checkValidity())
-        return;
-
-    if(AireServices.ID && profile.value)
-    {
-        busy.value = true;
-        AireServices.ID.deleteProfile(profile.value.uuid, pw.value, keepData.checked)
-            .then((result) => {
-                if(result) {
-                    logout();
-                    delError.value = undefined;
-                }
-                else {
-                    delError.value = l.error_profile_delete_account;
-                }
-            })
-            .finally(() => busy.value = false);
+    const toggleCheckbox = (id: string) => {
+        const cb = document.getElementById(id) as HTMLInputElement;
+        if(cb)
+            cb.checked = !cb.checked;
     }
-}
 
-const genderList = [
-    { id: "male", name: l.gender_male },
-    { id: "female", name: l.gender_female },
-    { id: "other", name: l.gender_other }
-];
-
-const toggleCheckbox = (id: string) => {
-    const cb = document.getElementById(id) as HTMLInputElement;
-    if(cb)
-        cb.checked = !cb.checked;
-}
-
-defineComponent({ name: "ProfileView" })
+    defineComponent({ name: "ProfileView" })
 </script>
 
 <template>
-    <Burger-menu></Burger-menu>
     <div id="profile-view">
         <h2>{{ $t(l.profile_title )}}</h2>
         <Spinner v-if="busy" />
@@ -202,83 +200,91 @@ defineComponent({ name: "ProfileView" })
 </template>
 
 <style scoped>
-#profile-view {
-    padding: 1rem;
-}
+    #profile-view {
+        padding: 1rem;
+        padding-left: 7rem;
+    }
 
-#password-form,
-#delete-form,
-#profile-form,
-#profile-connections {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 600px;
-    min-width: 400px;
-    border-radius: 1rem;
-    background-color: var(--panel-background-color);
-    border: 1px solid var(--border-color);
-    padding: 1rem 1rem;
-    margin-bottom: 1rem;
-}
+    #password-form,
+    #delete-form,
+    #profile-form,
+    #profile-connections {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 600px;
+        min-width: 400px;
+        border-radius: 1rem;
+        background-color: var(--panel-background-color);
+        border: 1px solid var(--border-color);
+        padding: 1rem 1rem;
+        margin-bottom: 1rem;
+    }
 
-.form-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0.25rem 0;
-}
+    .form-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 0.25rem 0;
+    }
 
 
 
-.desc {
-    font-size: small;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    margin: 0.5rem 0;
-}
+    .desc {
+        font-size: small;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        margin: 0.5rem 0;
+    }
 
-h2 {
-    color: var(--accent-primary-color);
-}
+    h2 {
+        color: var(--accent-primary-color);
+    }
 
-h3 {
-    margin: 0;
-    padding: 0 0 1rem 0;
-    color: var(--accent-secondary-color);
-}
+    h3 {
+        margin: 0;
+        padding: 0 0 1rem 0;
+        color: var(--accent-secondary-color);
+    }
 
-input, select {
-    font-size: large;
-    flex-grow: 2;
-}
+    input, select {
+        font-size: large;
+        flex-grow: 2;
+    }
 
-input[type=submit] {
-    margin: 1rem 1rem 0 1rem;
-}
+    input[type=submit] {
+        margin: 1rem 1rem 0 1rem;
+    }
 
-input[type=checkbox] {
-    cursor: pointer;
-}
+    input[type=checkbox] {
+        cursor: pointer;
+    }
 
-label {
-    width: 40%;
-    margin-right: 1rem;
-}
-.checkbox-label {
-    width: 100%;
-    margin-left: 1rem;
-    margin-right: 0;
-    cursor: pointer;
-}
+    label {
+        width: 40%;
+        margin-right: 1rem;
+    }
+    .checkbox-label {
+        width: 100%;
+        margin-left: 1rem;
+        margin-right: 0;
+        cursor: pointer;
+    }
 
-.form-toggle {
-    width: 80%;
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    cursor: pointer;
-}
+    .form-toggle {
+        width: 80%;
+        margin: 0.5rem auto;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        cursor: pointer;
+    }
+    /* mobile*/
+    @media screen and (max-width: 600px) {
+        #profile-view {
+            padding: 1rem;
+            padding-left: 1rem;
+        }
+    }
 </style>

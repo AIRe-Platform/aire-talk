@@ -7,7 +7,7 @@ import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
-import { AireChatMessage, AireChatbotInput, AireChatHistory, AireChatMetadata, AireRole } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
@@ -26,9 +26,11 @@ export interface ChatState
     chat_id?: string;
 
     send: (message: string) => void;
-    saveChatHistory: (chat_id?: string) => void;
+    saveChatHistory: () => void;
     loadChatHistory: (chat_id?: string) => void;
     reset: (to_message?: number) => void;
+    getAllChats: () => Promise<AireChatMetadata[]>;
+    newChat: () => void;
 }
 
 /*
@@ -56,6 +58,7 @@ function sendChatMessage(message: string)
         title: "",
         message: message,
         image: "",
+        rating: 0,
         timestamp: Date.now()
     }
     
@@ -85,20 +88,16 @@ function sendChatMessage(message: string)
 }
 
 /**
- * Instructions
- * You then import AireServices , check that the AireServices.Memory is not undefined.
- * You call the saveChat(...) function and pass the AireChatHistory to it.
- * After this, the chat should appear in the database. 
- * The response contains AireChatMetadata object which contains a timestamp and an ID for that particular chat. 
- * Save the ID in the chat context, so you can pass it as second parameter to saveChat to update the chatlog in the database.
+ * TODO I think this is not a good name for this function
+ * Save the chat in the database.
  * @param chatHistory
  */
-async function saveChatHistory(chat_id?: string)
+async function saveChatHistory()
 {
-    console.log("Chat.history", Chat.history);
+    console.log("BEFORE saving chat_id",  Chat.chat_id);
     if(AireServices.Memory)
     {
-        const history: AireChatHistory = Chat.history.map(x => {
+        const history: AireChatHistory = await Chat.history.map(x => {
             const m: AireChatMessage = {
                 role: x.role,
                 content: x.message,
@@ -110,49 +109,71 @@ async function saveChatHistory(chat_id?: string)
         .then(result => {
             if(result)
                 Chat.chat_id = result.id
-            console.log("Saving chat log as... ", result );
         })
+    } else {
+        console.warn("MEMORY service is not configured");
+    }
+    console.log("Chat saved. chat_id",  Chat.chat_id);
+}
+
+/**
+ * Load the complete chat with the chat_id if it is give. If is not given any chat_id it takes the latest chat saved and put it in the Chat.history.
+ * @param chat_id 
+ */
+async function loadChatHistory(chat_id?: string)
+{
+    let chat;
+    let chat_id_temp;
+    if(AireServices.Memory) 
+    {
+        if(!chat_id)
+        {
+            const chats = await getAllChats();
+            if(chats)
+            {
+                const latest = chats.sort((b, a) => {
+                    return Date.parse(a.time) - Date.parse(b.time)
+                })
+    
+                console.log("latestChat ",latest[0]);
+                chat = await AireServices.Memory.getChat(latest[0].id);
+                chat_id_temp = latest[0].id;
+            }
+        } else {
+            chat = await AireServices.Memory.getChat(chat_id);
+            chat_id_temp = chat_id;
+        }
+        if(chat)
+        {
+            const history: ChatHistory = await chat.map(x => {
+                const m: ChatMessage = {
+                    sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
+                    role: x.role as AireRole,
+                    message: x.content,
+                    timestamp: x.timestamp || 0,
+                };
+                return m;
+            });
+            console.log("restored chat ID: ", chat_id_temp);
+            Chat.history = history;
+            Chat.chat_id = chat_id_temp;
+        }
     } else {
         console.warn("MEMORY service is not configured");
     }
 }
 
 /**
- * Instructions
- * Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
- * Pick the latest chat and its ID, call getChat to retrieve it.
- * Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
- * @param chat_id 
+ * Function that gets all the chats the user has save in the database order from newest to oldest.
+ * @returns array of chats format id: string, date: string
  */
-async function loadChatHistory(chat_id?: string)
+async function getAllChats() : Promise<AireChatMetadata[]>
 {
-    if(AireServices.Memory) {
-        const chats = await AireServices.Memory?.getChatlogs();
-        if(chats){
-            const latest = chats.sort((b, a) => {
-                return Date.parse(a.time) - Date.parse(b.time)
-            })
-
-            console.log("latestChat ",latest[0]);
-            const chat = await AireServices.Memory.getChat(latest[0].id);
-            console.log("chat ", chat);
-            if(chat){
-                const history: ChatHistory = chat.map(x => {
-                    const m: ChatMessage = {
-                        sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
-                        role: x.role as AireRole,
-                        message: x.content,
-                        timestamp: x.timestamp || 0
-                    };
-                    return m;
-                });
-                console.log("history ", history);
-                Chat.history = history;
-            }
-        }
-    } else {
-        console.warn("MEMORY service is not configured");
-    }
+    const chats = await AireServices.Memory?.getChatlogs() || [];
+    const orderedChats = chats.sort((b, a) => {
+        return Date.parse(a.time) - Date.parse(b.time)
+    });
+    return orderedChats;
 }
 
 function receiver(msg: AireTalkMessage)
@@ -207,6 +228,7 @@ function systemGreeting() : ChatMessage
         sender: system_name,
         role: "system",
         message: "system_greeting",
+        rating:0,
         timestamp: Date.now()
     };
 }
@@ -220,6 +242,7 @@ function initChatState(): ChatState
             role: "system",
             message: "system_greeting",
             timestamp: Date.now(),
+<<<<<<< HEAD
         },
         { 
             sender: "Juan",
@@ -445,9 +468,11 @@ function initChatState(): ChatState
         },
        
     ];
+=======
+        }];
+>>>>>>> main
 
     return {
-
         history: testMessages,
         awaitingResponse: false,
         scrolling: false,
@@ -455,9 +480,25 @@ function initChatState(): ChatState
         saveChatHistory: saveChatHistory,
         loadChatHistory: loadChatHistory,
         reset: resetChatState,
-
+        getAllChats: getAllChats,
         landingInfo: {},
+        newChat: newChat,
     }
+}
+
+/**
+ * 
+ */
+function newChat()
+{
+    saveChatHistory();
+    /* console.log("new chat Chat.history", Chat.history);
+    Chat.history = Chat.history.slice(0, 0);
+    console.log("spliced Chat.history", Chat.history);
+    if(Chat.history.length === 0)
+        Chat.history.push(systemGreeting());
+    console.log("new chat pusehd greetings", Chat.history); */
+    initChatState();
 }
 
 function resetChatState(to_message?: number)

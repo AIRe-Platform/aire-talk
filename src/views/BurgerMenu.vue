@@ -6,11 +6,15 @@
     import { Chat } from '@/context/chat';
     import ChatHistory from '@/components/ChatHistory.vue'
     import CatalogueContent from '@/components/CatalogueContent.vue';
+    import {AireChatMetadata } from "@/lib/aire/models/chat";
     defineComponent({ name: "BurgerMenuView" })
-
+    
+    const { DateTime } = require("luxon");
     const isChatHistoryOpen = ref(false);
     const isCatologueContentOpen = ref(false);
-
+    const isRestoreChatOpen = ref(false);
+    let chats = ref<AireChatMetadata[]>();
+    
     //to Toggle menu
     let isBurgerMenuOpen = ref(false);
     /**
@@ -22,29 +26,42 @@
         if( isBurgerMenuOpen.value === false){
             isChatHistoryOpen.value = false;
             isCatologueContentOpen.value = false;
+            isRestoreChatOpen.value = false;
         }
     };
 
     /**
-     * Save the current chat to the ddbb
+     * ??
      */
-    const onSaveChat = (e: Event) => {
-        e.preventDefault();
-        
+    /* function closeMenus() {
+        isChatHistoryOpen.value = false;
+        isCatologueContentOpen.value = false;
+        isRestoreChatOpen.value = false;
+    }; */
+
+    /**
+     * Save the current chat to the ddbb. takes the chat_id from Chat.chat_id
+     */
+    const onSaveChat = (e?: Event) => {
+        e?.preventDefault();
+        console.log("save this chat chat_id? ",Chat.chat_id);
         Chat.saveChatHistory();
     };
 
     /**
-     * Retrieving the chat
-    Make a button "Restore Chat" in the UI. Burger menu is fine again. We'll iterate when and how saving and retrieving is done later.
-    Make a function into chat context that calls AireServices.Memory.getChatlogs() , it returns an array of metadata.
-    Pick the latest chat and its ID, call getChat to retrieve it.
-    Map the received messages to view models (AireChatMessage -> ChatMessage ) and place the messages to the chat history.
-    * 
-    */ const onLoadChat = (e: Event) => {
-        e.preventDefault();
+     * Restore chat from the ddbb with the chat.id given. SAve the current chat first
+    */
+     const onLoadChat = (chat: AireChatMetadata) => {
+       /*  console.log("--------------------------------------------------------------------");
+        console.log("Chat before load ? ", Chat);
+        console.log("load this chat chat_id? ", chat.id);
+        if(Chat.history.length > 1){
+            console.log("there is some conversations, lets save it first");
+            onSaveChat();
+        } */
         
-        Chat.loadChatHistory();
+        Chat.loadChatHistory(chat.id);
+        isRestoreChatOpen.value = false;
     };
 
     /**
@@ -54,8 +71,19 @@
         e.preventDefault();
         isChatHistoryOpen.value = !(isChatHistoryOpen.value);
         isCatologueContentOpen.value = false;
+        isRestoreChatOpen.value = false;
     };
-
+    
+     /**
+     * Toggle the Restore Chat menu and get all the chats that has this user from the backend.
+     */
+    const toggleRestoreChatMenu = async(e: Event) => {
+        e.preventDefault();
+        isRestoreChatOpen.value = !(isRestoreChatOpen.value);
+        isCatologueContentOpen.value = false;
+        isChatHistoryOpen.value = false;
+        chats.value = await Chat.getAllChats();        
+    };
     /**
      * Toggle the catalogue content Menu and send it to main view.
      */
@@ -63,6 +91,7 @@
         e.preventDefault();
         isCatologueContentOpen.value = !(isCatologueContentOpen.value);
         isChatHistoryOpen.value = false;
+        isRestoreChatOpen.value = false;
     };
 </script>
 
@@ -111,7 +140,9 @@
                     class="nav-item"
                     v-if="Login.logged_in === true"
                 >
-                    <a href="#" class="nav-link" @click="onLoadChat">{{ $t(l.burger_menu_restore_chat) }}</a>
+                    <div class="nav-item" @click="toggleRestoreChatMenu">
+                        <a class="nav-link" href="#">{{ $t(l.burger_menu_restore_chat) }}</a>
+                    </div>
                 </div>
                 <div 
                     class="nav-item"
@@ -159,6 +190,22 @@
             </div>
         </div>
     </div> 
+    <div class="burger-menu-menu-restore-chat" v-if="isRestoreChatOpen">
+        <div class="burger-menu-menu-restore-chat-top-row">
+<!--             <h1>{{ $t(l.burger_menu_catalogue_content) }}</h1> -->
+            <h1> restore chats:</h1>
+            <div class="burger-menu-menu-restore-chat-close-button hide-big-screen-devices"  @click="toggleRestoreChatMenu">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+            </div>
+        </div>
+        <div class="burger-menu-menu-restore-chat-content">
+            <div class="burger-menu-menu-restore-chat-content" v-for="chat in chats" v-bind:key="chat">
+                <button class="burger-menu-menu-restore-chat-row"  @click="onLoadChat(chat)">
+                   {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
 
     </div>
@@ -284,9 +331,12 @@
     .burger-menu-menu-chat-history-chat{
         width: 100%;
     }
-    .burger-menu-menu-chat-history-chat-bubble-assistant{
+    .burger-menu-menu-chat-history-chat-bubble-assistant {
         display: flex;
         justify-content: flex-start;
+    }
+    .burger-menu-menu-restore-chat-row{
+        cursor: pointer;
     }
     .burger-menu-menu-chat-history-chat-bubble-user{
         display: flex;
@@ -307,6 +357,28 @@
         display: flex;
         flex-direction: column;
     }
+    .burger-menu-menu-restore-chat{
+        background-color: var(--panel-background-color);
+        position: absolute;
+        margin-top: 2rem;
+        left: 13rem;
+        height: 27.5rem;
+        width: 55%;
+        padding: 4rem;
+        border-radius: 10px;
+        z-index: 2;
+        overflow: scroll;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .burger-menu-menu-restore-chat-content{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;    
+        padding: 1rem; 
+    }
+    
     /* mobile*/
     @media screen and (max-width: 600px) {
         .burger-menu-menu{
@@ -351,7 +423,7 @@
         .burger-menu-menu-chat-history-chat-content{
             position: relative;
             top: 3.5rem;
-        } .burger-menu-menu-catalogue-content{
+        } .burger-menu-menu-catalogue-content .burger-menu-menu-restore-chat{
             margin-top: 1rem;
             left: 0.5rem;
             height: 94%;
@@ -359,7 +431,7 @@
             padding: 0.5rem;
         }
         
-        .burger-menu-menu-catalogue-content-top-row{
+        .burger-menu-menu-catalogue-content-top-row .burger-menu-menu-restore-chat-top-row{
             display: flex;
             align-items: center;
             position: fixed;
@@ -370,11 +442,11 @@
             z-index: 1;
             border-radius: 10px;
         }
-        .burger-menu-menu-catalogue-content-chat-content{
+        .burger-menu-menu-catalogue-content-chat-content .burger-menu-menu-restore-chat-content{
             position: relative;
             top: 3.5rem;
         }
-        .burger-menu-menu-chat-history-chat-catalogue-content{
+        .burger-menu-menu-chat-history-chat-catalogue-content .burger-menu-menu-chat-history-chat-catalogue-content{
             width: 60%;
         }
         .burger-menu-button-nav-item{
