@@ -23,6 +23,9 @@
         <button class="chat-new-chat" @click="newChat">
             <a class="nav-link" href="#"> New chat </a>
         </button>
+        <button class="load-test-messages" @click="() => Chat.loadTestMessages()">
+            <a class="nav-link" href="#"> Test messages </a>
+        </button>
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }} 
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
@@ -67,6 +70,11 @@
         position: absolute;
         left: 10rem;
         top: 8rem;
+    }
+    .load-test-messages {
+        position: absolute;
+        left: 10rem;
+        top: 10rem;
     }
     .chat-view-wrapper{
         margin-bottom: 7rem;

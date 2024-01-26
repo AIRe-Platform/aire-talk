@@ -1,6 +1,7 @@
 import { AireRole } from "@/lib/aire/models/chat";
 
 export interface Question {
+    id?: number,
     question: string,
     options: Option
 }

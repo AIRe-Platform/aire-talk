@@ -31,6 +31,7 @@ export interface ChatState
     reset: (to_message?: number) => void;
     getAllChats: () => Promise<AireChatMetadata[]>;
     newChat: () => void;
+    loadTestMessages: () => void;
 }
 
 /*
@@ -255,6 +256,7 @@ function initChatState(): ChatState
         getAllChats: getAllChats,
         landingInfo: {},
         newChat: newChat,
+        loadTestMessages: loadTestMessages
     }
 }
 
@@ -295,3 +297,235 @@ function resetChatState(to_message?: number)
     if(Chat.history.length === 0)
         Chat.history.push(systemGreeting());
 }
+
+function loadTestMessages() {
+
+    const testMessages: ChatHistory = [
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "I have headache and I feel horrible...",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "What is your age?",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "I am 36.",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question:
+            {
+                question: "How often do you have negative feelings such as blue mood, despair anxiety or depresion?",
+                options: {
+                    type: "single-select",
+                    answers: [
+                        {
+                            id:0,
+                            answer:"Never",
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            answer:"Sheldom",
+                            isSelected: true,
+                        },
+                        {
+                            id:2,
+                            answer:"Quite often",
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            answer:"Very often",
+                            isSelected: false,
+                        },
+                        {
+                            id:4,
+                            answer:"Always",
+                            isSelected: false,
+                        }
+                    ]
+                }
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question:
+            {
+                question: "Tell with own words how you feel about this",
+                options: {
+                    type: "open",
+                }
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question:
+            {
+                question: "Select things you are worried about",
+                options: {
+                    type: "multi-select",
+                    answers: [
+                        {
+                            id:0,
+                            answer:"Work",
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            answer:"Family",
+                            isSelected: true,
+                        },
+                        {
+                            id:2,
+                            answer:"Money",
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            answer:"Very often",
+                            isSelected: false,
+                        },
+                    ]
+                }
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "Sheldom.",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "Make some sport every week.",
+            video: require("@/assets/videos/skater.mp4"),
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "This will help you with your stress.",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "Also just take some time to relax, for example go and see the ocean.",
+            video: require("@/assets/videos/sea.mp4"),
+            timestamp: Date.now(),
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "Yes, I know that. But How else I can do to my pain?",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "this is a question",
+            question: {
+                question:  "How do you describe your pain in a scale 0(no pain at all) to 10(I can not handle it any more)?",
+                options: {
+                    type: "range",
+                    answers: [
+                        {
+                            id:0,
+                            isSelected: false,
+                        },
+                        {
+                            id:1,
+                            isSelected: false,
+                        },
+                        {
+                            id:2,
+                            isSelected: false,
+                        },
+                        {
+                            id:3,
+                            isSelected: false,
+                        },
+                        {
+                            id:4,
+                            isSelected: false,
+                        },
+                        {
+                            id:5,
+                            isSelected: false,
+                        },
+                        {
+                            id:6,
+                            isSelected: false,
+                        },
+                        {
+                            id:7,
+                            isSelected: false,
+                        },
+                        {
+                            id:8,
+                            isSelected: false,
+                        },
+                        {
+                            id:9,
+                            isSelected: true,
+                        },
+                        {
+                            id:10,
+                            isSelected: false,  
+                        }
+                    ]
+                },
+            },
+            timestamp: Date.now(),
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "9",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "Just imagen to be alone in a open field ...",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Eiche_bei_Graditz.jpg/1280px-Eiche_bei_Graditz.jpg",
+            timestamp: Date.now(),
+        },
+        { 
+            sender: bot_name,
+            role: "assistant",
+            message: "Be water my friend",
+            video: require("@/assets/videos/pouring.mp4"),
+            timestamp: Date.now(),
+        },
+        { 
+            sender: "Juan",
+            role: "user",
+            message: "Okay",
+            timestamp: Date.now(),
+        },
+    ]
+    
+    Chat.history = testMessages
+
+}
+
