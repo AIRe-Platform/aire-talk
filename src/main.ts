@@ -34,7 +34,7 @@ export async function initApp()
         : "http://localhost:7071/api"
     )
         // to run with azure
-        /* api_url: "https://gl-dev-aire.azure-api.net/services/" */
+        /* api_url: "https://gl-dev-aire.azure-api.net/services/"  */
     }).then(async (result) => {
         if(result)
         {

@@ -7,14 +7,13 @@
     import Summary from './Summary.vue';
     import { SummaryState } from '@/context/summaryState';
     defineComponent({ name: "ChatView" })
-    
+  
     /**
-     * Save the current chat to the ddbb. takes the chat_id from Chat.chat_id
+     * Create a new chat
      */
     const newChat = (e?: Event) => {
-        e?.preventDefault();
-        
-        console.log("creating a new chat ", Chat.newChat());
+        e?.preventDefault();  
+        Chat.newChat();
     };
 </script>
 

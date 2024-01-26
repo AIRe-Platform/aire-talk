@@ -53,6 +53,7 @@ function sendChatMessage(message: string)
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
+        id: generateRandomID(),
         sender: getUserName(),
         role: "user",
         title: "",
@@ -94,7 +95,7 @@ function sendChatMessage(message: string)
  */
 async function saveChatHistory()
 {
-    console.log("(saveChatHistory) Chat.chat_id:",  Chat.chat_id);
+    console.log("(saveChatHistory) current Chat.chat_id:",  Chat.chat_id);
     if(AireServices.Memory)
     {
         const history: AireChatHistory = await Chat.history.map(x => {
@@ -105,20 +106,13 @@ async function saveChatHistory()
                 };
             return m;
         });
-        console.log("(saveChatHistory) Loaded chat ID: ",  Chat.chat_id);
-        try {
-            await AireServices.Memory.saveChat(history, Chat.chat_id)
-            .then(result => {
-                if(result)
-                    Chat.chat_id = result.id
-            })
-        } catch (err) {
-            console.log("(saveChatHistory)err: ", err);
-        }
-        finally {
-            console.log("(saveChatHistory) finally ",  Chat.chat_id);
-        }
-
+        console.log("(saveChatHistory)  chat ID: ",  Chat.chat_id);
+        await AireServices.Memory.saveChat(history, Chat.chat_id)
+        .then(result => {
+            if(result)
+                Chat.chat_id = result.id
+        })
+        console.log("(saveChatHistory) finally ",  Chat.chat_id);
     } else {
         console.warn("MEMORY service is not configured");
     }
@@ -154,27 +148,21 @@ async function loadChatHistory(chat_id?: string)
             chat_id_temp = chat_id;
         }
         if(chat)
-        {
-            try {
-                console.log("(loadChatHistory)chat: ", chat);
-                const history: ChatHistory = await chat.map(x => {
-                    const m: ChatMessage = {
-                        sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
-                        role: x.role as AireRole,
-                        message: x.content,
-                        timestamp: x.timestamp || 0,
-                    };
-                    return m;
-                });
-                Chat.history = history;
-                Chat.chat_id = chat_id_temp;
-                console.log("(loadChatHistory) Loaded chat ID: ", chat_id_temp);
-            } catch (err) {
-                console.log("(loadChatHistory)err: ", err);
-            }
-            finally {
-                console.log("(loadChatHistory) finally ", chat_id_temp);
-            }
+        {    
+            console.log("(loadChatHistory)chat: ", chat);
+            const history: ChatHistory = await chat.map(x => {
+                const m: ChatMessage = {
+                    id: generateRandomID(),
+                    sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
+                    role: x.role as AireRole,
+                    message: x.content,
+                    timestamp: x.timestamp || 0,
+                };
+                return m;
+            });
+            Chat.history = history;
+            Chat.chat_id = chat_id_temp;
+            console.log("(loadChatHistory) Loaded chat ID: ", chat_id_temp);
         }
     } else {
         console.warn("MEMORY service is not configured");
@@ -201,6 +189,7 @@ function receiver(msg: AireTalkMessage)
     if(last.role !== "assistant")
     {
         last = {
+            id: generateRandomID(),
             sender: bot_name,
             role: "assistant",
             title: "your answer",
@@ -229,6 +218,7 @@ function receiver(msg: AireTalkMessage)
 function error_handler(error: AireError)
 {
     Chat.history.push({
+        id: generateRandomID(),
         sender: system_name,
         role: "system",
         isError: true,
@@ -243,6 +233,7 @@ function error_handler(error: AireError)
 function systemGreeting() : ChatMessage
 {
     return { 
+        id: generateRandomID(),
         sender: system_name,
         role: "system",
         message: "system_greeting",
@@ -255,7 +246,8 @@ function initChatState(): ChatState
 {
 
     const testMessages: ChatHistory = [
-        { 
+        {
+            id: generateRandomID(),
             sender: system_name,
             role: "system",
             message: "system_greeting",
@@ -279,19 +271,20 @@ function initChatState(): ChatState
 /**
  * 
  */
-function newChat()
+async function newChat()
 {
-    saveChatHistory();
-    /* console.log("new chat Chat.history", Chat.history);
-    Chat.history = Chat.history.slice(0, 0);
-    console.log("spliced Chat.history", Chat.history);
-    if(Chat.history.length === 0)
-        Chat.history.push(systemGreeting());
-    console.log("new chat pusehd greetings", Chat.history); */
-    initChatState();
+    await saveChatHistory();
+
+    Chat.chat_id =undefined;
+
+    resetChatState();
 }
 
-function resetChatState(to_message?: number)
+/**
+ * Function to revert the chat state to the chat message passed as param.
+ * @param to_message_id 
+ */
+function resetChatState(to_message_id?: number)
 {
     console.debug("Resetting chat state");
 
@@ -300,9 +293,9 @@ function resetChatState(to_message?: number)
 
     let spliceStart = 0;
 
-    if(to_message)
+    if(to_message_id)
     {
-        const index = Chat.history.findIndex(x => x.timestamp === to_message);
+        const index = Chat.history.findIndex(x => x.id === to_message_id);
         if(index > 0)
             spliceStart = index;
     }
@@ -312,4 +305,13 @@ function resetChatState(to_message?: number)
 
     if(Chat.history.length === 0)
         Chat.history.push(systemGreeting());
+}
+
+/**
+ * Fucntion to create an ID to the chat messages.
+ * @returns a random number
+ */
+function generateRandomID()
+{
+    return Math.floor(Math.random() * Date.now());
 }

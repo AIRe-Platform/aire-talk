@@ -3,16 +3,30 @@
     import { scrollToMessage } from '@/helpers/scrollToMessage'
     import { defineProps, onMounted, ref } from 'vue';
     import BubbleModal from './BubbleModal.vue';
+    import { Chat } from '@/context/chat';
+    import popUp from '@/components/PopUp.vue'
 
     const props = defineProps<{message: ChatMessage}>()
     const selectedAnswer = ref<Answer>();
     const id = props.message.timestamp.toString();
     const isSystem = props.message.role === "system";
     const isBot = props.message.role === "assistant";
+    let isPopUpRevertMessageOpen = ref(false);
+    let revertMessageTo = ref<ChatMessage>();
+
     // show Modal 
     const isModalActivate = ref(false);
     // show Menu
     const isMenuShown = ref(false);
+
+    /**
+     * Toggle the popup component to revert message
+     */
+     const toggleRevertMessagePopUp = (message?: ChatMessage) => {
+        isPopUpRevertMessageOpen.value = !(isPopUpRevertMessageOpen.value);
+        revertMessageTo.value = message;
+        toggleMenu();
+    };
 
     /**
      * Toggle the modal of the ChatMessage selected.
@@ -27,7 +41,6 @@
      * Toggle the Menu
      */
     const toggleMenu = () => {
-        console.log("aqui");
         isMenuShown.value = !isMenuShown.value;
     };
 
@@ -57,14 +70,22 @@
         console.log("message copied on Clipboard!", message);
     };
 
-     /**
+    /**
      *  TODO change into undo the next messages from this one.
-     * @param answer
+     * @param message 
      */
-     const revertToMessage = (message: { isDeletedByUser: boolean; }) => {
-        console.log("before", message.isDeletedByUser);
-        message.isDeletedByUser = !message.isDeletedByUser;
-        console.log("message deleted (alert before doing it.)", message.isDeletedByUser);
+     const revertToMessage = () => {
+        if(revertMessageTo.value){
+            console.log("revertToMessage:", revertMessageTo.value.id);
+            console.log("revertToMessage Chat:", Chat.history);
+            console.log("message reverted to (alert before doing it.)", revertMessageTo.value);
+            Chat.reset(revertMessageTo.value.id);
+            toggleMenu();
+            toggleRevertMessagePopUp();
+        } else {
+            console.log("Error while reverting to message...");
+        }
+        
     };
 
     /**
@@ -222,9 +243,8 @@
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
             <button 
-                @click="revertToMessage(message)"
+                @click="toggleRevertMessagePopUp(message)"
                 class="chat-message-answer-options-menu-button"
-                :class="{ 'is-selected': message.isDeletedByUSer }"
                 >
                 <font-awesome-icon icon="fa-solid fa-trash" />
             </button>
@@ -237,10 +257,44 @@
         >
         <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
     </div>
+    <popUp v-if="isPopUpRevertMessageOpen">
+        <div class="popup-content">
+            <div class="popup-question">
+                estas seguro de que quieres revertir el chat hasta este mensaje?
+            </div>
+            <div class="popup-buttons" >
+                <button class="popup-button-accept" @click="revertToMessage()">
+                    <a class="nav-link" href="#"> Accept </a>
+                </button>
+                <button class="popup-button-cancel" @click="toggleRevertMessagePopUp()">
+                    <a class="nav-link" href="#"> Cancel </a>
+                </button>
+            </div>
+            
+        </div>
+    </popUp>
 </template>
 
 <style scoped>
-    .modal-component {
+    .popup-content{
+        padding: 2rem;
+    }
+    .popup-question{
+        font-size: small;
+        font-family: var(--font-family);
+    }
+    .popup-buttons{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 3rem;
+    }
+
+    .popup-button-cancel{
+
+    }
+    .popup-button-accept{
+
+    }    .modal-component {
         display: flex;
         justify-content: space-between;
         z-index: 2;
