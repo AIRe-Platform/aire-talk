@@ -44,7 +44,7 @@
      */
     const onSaveChat = (e?: Event) => {
         e?.preventDefault();
-        console.log("save this chat chat_id? ",Chat.chat_id);
+        console.log("(onSaveChat) Chat.chat_id? ",Chat.chat_id);
         Chat.saveChatHistory();
     };
 
@@ -52,14 +52,14 @@
      * Restore chat from the ddbb with the chat.id given. SAve the current chat first
     */
      const onLoadChat = (chat: AireChatMetadata) => {
-       /*  console.log("--------------------------------------------------------------------");
-        console.log("Chat before load ? ", Chat);
-        console.log("load this chat chat_id? ", chat.id);
-        if(Chat.history.length > 1){
-            console.log("there is some conversations, lets save it first");
+        console.log("--------------------------------------------------------------------");
+        console.log("(onLoadChat) Chat? ", Chat);
+        console.log("(onLoadChat) chat.id? ", chat.id);
+        if(Chat.history.length > 1)
+        {
+            console.log("There is some conversations, lets save it first");
             onSaveChat();
-        } */
-        
+        } 
         Chat.loadChatHistory(chat.id);
         isRestoreChatOpen.value = false;
     };

@@ -94,7 +94,7 @@ function sendChatMessage(message: string)
  */
 async function saveChatHistory()
 {
-    console.log("BEFORE saving chat_id",  Chat.chat_id);
+    console.log("(saveChatHistory) Chat.chat_id:",  Chat.chat_id);
     if(AireServices.Memory)
     {
         const history: AireChatHistory = await Chat.history.map(x => {
@@ -105,15 +105,24 @@ async function saveChatHistory()
                 };
             return m;
         });
-        await AireServices.Memory.saveChat(history, Chat.chat_id)
-        .then(result => {
-            if(result)
-                Chat.chat_id = result.id
-        })
+        console.log("(saveChatHistory) Loaded chat ID: ",  Chat.chat_id);
+        try {
+            await AireServices.Memory.saveChat(history, Chat.chat_id)
+            .then(result => {
+                if(result)
+                    Chat.chat_id = result.id
+            })
+        } catch (err) {
+            console.log("(saveChatHistory)err: ", err);
+        }
+        finally {
+            console.log("(saveChatHistory) finally ",  Chat.chat_id);
+        }
+
     } else {
         console.warn("MEMORY service is not configured");
     }
-    console.log("Chat saved. chat_id",  Chat.chat_id);
+    console.log("(saveChatHistory) Chat saved. chat_id",  Chat.chat_id);
 }
 
 /**
@@ -126,6 +135,7 @@ async function loadChatHistory(chat_id?: string)
     let chat_id_temp;
     if(AireServices.Memory) 
     {
+        console.log("(loadChatHistory)chat_id: ", chat_id);
         if(!chat_id)
         {
             const chats = await getAllChats();
@@ -145,18 +155,26 @@ async function loadChatHistory(chat_id?: string)
         }
         if(chat)
         {
-            const history: ChatHistory = await chat.map(x => {
-                const m: ChatMessage = {
-                    sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
-                    role: x.role as AireRole,
-                    message: x.content,
-                    timestamp: x.timestamp || 0,
-                };
-                return m;
-            });
-            console.log("restored chat ID: ", chat_id_temp);
-            Chat.history = history;
-            Chat.chat_id = chat_id_temp;
+            try {
+                console.log("(loadChatHistory)chat: ", chat);
+                const history: ChatHistory = await chat.map(x => {
+                    const m: ChatMessage = {
+                        sender: x.role === "user" ? getUserName() : ( x.role === "assistant" ? bot_name : system_name ),
+                        role: x.role as AireRole,
+                        message: x.content,
+                        timestamp: x.timestamp || 0,
+                    };
+                    return m;
+                });
+                Chat.history = history;
+                Chat.chat_id = chat_id_temp;
+                console.log("(loadChatHistory) Loaded chat ID: ", chat_id_temp);
+            } catch (err) {
+                console.log("(loadChatHistory)err: ", err);
+            }
+            finally {
+                console.log("(loadChatHistory) finally ", chat_id_temp);
+            }
         }
     } else {
         console.warn("MEMORY service is not configured");

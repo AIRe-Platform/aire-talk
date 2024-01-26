@@ -59,7 +59,7 @@
         position: absolute;
         height: 6rem;
         bottom: -1rem;
-        left: 47.5rem;
+        left: 45%;
     }
 
     /* mobile*/

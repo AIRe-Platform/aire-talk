@@ -61,7 +61,7 @@
      *  TODO change into undo the next messages from this one.
      * @param answer
      */
-     const deleteMessage = (message: { isDeletedByUser: boolean; }) => {
+     const revertToMessage = (message: { isDeletedByUser: boolean; }) => {
         console.log("before", message.isDeletedByUser);
         message.isDeletedByUser = !message.isDeletedByUser;
         console.log("message deleted (alert before doing it.)", message.isDeletedByUser);
@@ -222,7 +222,7 @@
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
             <button 
-                @click="deleteMessage(message)"
+                @click="revertToMessage(message)"
                 class="chat-message-answer-options-menu-button"
                 :class="{ 'is-selected': message.isDeletedByUSer }"
                 >
