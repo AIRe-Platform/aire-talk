@@ -1,5 +1,4 @@
-export enum LocalizationKey
-{
+export enum LocalizationKey {
     title = "title",
     footer = "footer",
     not_found = "not_found",
@@ -127,6 +126,6 @@ export enum LocalizationKey
     chat_history_video = "chat_history_video",
 
     popup_question_one = "popup_question_one",
-    popup_button_accept ="popup_button_accept",
-    popup_button_cancel ="popup_button_cancel"
+    popup_button_accept = "popup_button_accept",
+    popup_button_cancel = "popup_button_cancel"
 }

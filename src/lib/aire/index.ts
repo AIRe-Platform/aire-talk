@@ -7,8 +7,7 @@ export interface AireConfig {
     api_url: string;
 }
 
-export interface AireServiceCollection
-{
+export interface AireServiceCollection {
     ID?: AireID;
     AI?: AireAI;
     Memory?: AireMemory;
@@ -18,8 +17,7 @@ export interface AireServiceCollection
 let conf: AireConfig;
 export const AireServices: AireServiceCollection = {};
 
-export async function initAire(config: AireConfig) : Promise<boolean>
-{
+export async function initAire(config: AireConfig): Promise<boolean> {
     conf = config;
 
     // Request service configuration from AIRe Services Hub
@@ -29,50 +27,44 @@ export async function initAire(config: AireConfig) : Promise<boolean>
         headers: {
             "Accept": "application/json"
         }
-    })    
-    .then(async (result) => {
-        if(result.status === 200) {
-            const plat = await result.json();
-            return configureServices(plat);
-        }
-        else {
-            throw Error(`Failed to get platform configuration: ${result.status}`);
-        }
     })
-    .catch((reason) => {
-        console.error(reason);
-        return false;
-    })
+        .then(async (result) => {
+            if (result.status === 200) {
+                const plat = await result.json();
+                return configureServices(plat);
+            }
+            else {
+                throw Error(`Failed to get platform configuration: ${result.status}`);
+            }
+        })
+        .catch((reason) => {
+            console.error(reason);
+            return false;
+        })
 }
 
-function configureServices(config: AirePlatformConfiguration) : boolean
-{
+function configureServices(config: AirePlatformConfiguration): boolean {
     console.debug("Platform config:", config)
 
-    try
-    {
+    try {
         const id_config = config.platform.modules.id;
-        if(id_config !== undefined)
-        {
+        if (id_config !== undefined) {
             AireServices.ID = new AireID(id_config);
         }
 
         const ai_config = config.platform.modules.ai;
-        if(ai_config !== undefined)
-        {
+        if (ai_config !== undefined) {
             AireServices.AI = new AireAI(ai_config);
         }
 
         const mem_config = config.platform.modules.memory;
-        if(mem_config !== undefined)
-        {
+        if (mem_config !== undefined) {
             AireServices.Memory = new AireMemory(mem_config);
         }
 
         return true
     }
-    catch(reason)
-    {
+    catch (reason) {
         console.error(reason);
         return false
     }

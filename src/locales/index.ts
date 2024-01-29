@@ -18,8 +18,7 @@ export const supportedLocales = [
 const i18n = createI18n(initLocale());
 export default i18n;
 
-function initLocale()
-{
+function initLocale() {
     const storedLocale = localStorage.getItem("locale");
     const defaultLocale: Lang = "en";
 
@@ -37,13 +36,12 @@ function initLocale()
     }
 }
 
-export function setLocale(lang: Lang)
-{
+export function setLocale(lang: Lang) {
     document.documentElement.lang = lang;
 
     // Is a ref in non-legacy mode
     const loc = i18n.global.locale as any;
-    loc.value  = lang;
+    loc.value = lang;
 
     localStorage.setItem("locale", lang);
 }

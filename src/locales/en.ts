@@ -72,7 +72,7 @@ const en: Locale = {
     verification_code_resend_done: "A new code is on its way!",
 
     error_generic: "An unknown error occurred!",
-    error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",    
+    error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
     
@@ -105,7 +105,7 @@ The password must contain at least lower and upper case letter as well as number
     chat_topic_onboarding: "Topic onboarding",
     chat_new_chat: "New chat",
 
-    checkbox_title:  "Welcome to the AIRe paltform",
+    checkbox_title: "Welcome to the AIRe paltform",
     checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
     checkbox_question: "Is there a topic that you would like to continue from?",
     checkbox_continue_button: "Verify and proceed",
@@ -133,13 +133,13 @@ The password must contain at least lower and upper case letter as well as number
     summary_log_button: "catalogue log",
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed: "Could not resend the code. Try again later",
-    
+
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
 
     popup_question_one: "Are you sure you want to revert the chat to this message?",
-    popup_button_accept:"Accept",
-    popup_button_cancel:"Cancel"
+    popup_button_accept: "Accept",
+    popup_button_cancel: "Cancel"
 }
 
 export default en

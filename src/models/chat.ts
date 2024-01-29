@@ -4,7 +4,7 @@ export interface Answer {
     id: number;
     answer?: string;
     isSelected: boolean;
-};
+}
 
 /**
  * TODO refactor isThumDown and up. Use rating.
