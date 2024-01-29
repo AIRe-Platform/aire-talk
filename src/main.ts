@@ -5,41 +5,25 @@ import i18n from './locales'
 import { initAire } from './lib/aire'
 import { restoreSession } from './context/login'
 
-
-/* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
-
-/* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-/* import specific icons */
 import { faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders } from '@fortawesome/free-solid-svg-icons'
 
-
-/* add icons to the library */
-library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders )
-
+library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders)
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
-export async function initApp()
-{
-    if(AppState.value !== "init")
+export async function initApp() {
+    if (AppState.value !== "init")
         return;
 
     const result = await initAire({
-        // To run in local postgreSQL
-        /*
-        api_url: (process.env.NODE_ENV === "production" 
-        ? "https://gl-dev-aire.azure-api.net/services/" 
-        : "http://localhost:7071/api"
-    )
-    */
-        // to run with azure
-         api_url: "https://gl-dev-aire.azure-api.net/services/"  
+        api_url: (process.env.NODE_ENV === "production"
+            ? "https://gl-dev-aire.azure-api.net/services/"
+            : "http://localhost:7071/api"
+        )
     }).then(async (result) => {
-        if(result)
-        {
+        if (result) {
             await restoreSession();
             return true
         }
@@ -54,7 +38,7 @@ export async function initApp()
 }
 
 const app = createApp(App)
-.component('font-awesome-icon', FontAwesomeIcon)
+    .component('font-awesome-icon', FontAwesomeIcon)
 
 
 app.config.errorHandler = (err, instance, info) => {
@@ -65,4 +49,3 @@ app
     .use(i18n)
     .use(router)
     .mount('#app')
-    

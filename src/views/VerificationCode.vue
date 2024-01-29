@@ -15,7 +15,7 @@ const onVerify = () => {
     busy.value = true;
     verifyAccount(code)
         .then((status) => {
-            if(status)
+            if (status)
                 router.push("/")
             else
                 error.value = l.error_verification_failure
@@ -34,7 +34,7 @@ const onResend = () => {
     busy.value = true;
     resendVerification()
         .then((status => {
-            if(status) 
+            if (status)
                 codeSent.value = true;
             else
                 error.value = l.error_verification_resend_failed
@@ -53,14 +53,18 @@ defineComponent({
             <h3>{{ $t(l.verification_heading) }}</h3>
             <div>{{ $t(l.verification_description) }}</div>
             <form id="verification-code-form" @submit.prevent>
-                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true" v-model="code" :readonly="busy" inputmode="numeric" @input="filterInput"/>
+                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true" v-model="code"
+                    :readonly="busy" inputmode="numeric" @input="filterInput" />
                 <div id="verification-error" v-if="error && !busy">{{ $t(error) }}</div>
-                <input type="submit" :value="$t(l.verification_button_verify)" @click="onVerify" :disabled="!validCode" v-if="!busy"/>
+                <input type="submit" :value="$t(l.verification_button_verify)" @click="onVerify" :disabled="!validCode"
+                    v-if="!busy" />
             </form>
             <Spinner v-if="busy" />
             <template v-if="!busy">
-                <span v-if="!codeSent" id="resend-verification-button" @click="onResend">{{ $t(l.verification_code_resend )}}</span>
-                <span v-if="codeSent" id="resend-verification-notify">{{ $t(l.verification_code_resend_done)}}</span>
+                <span v-if="!codeSent" id="resend-verification-button" @click="onResend">
+                    {{ $t(l.verification_code_resend) }}
+                </span>
+                <span v-if="codeSent" id="resend-verification-notify">{{ $t(l.verification_code_resend_done) }}</span>
             </template>
         </div>
     </div>

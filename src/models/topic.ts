@@ -22,8 +22,8 @@ export const initialTopics: Topics = [
         "description": "this is something about the back",
         "data": [],
         "isSelected": false,
-        translations:{
-            language_id:1,
+        translations: {
+            language_id: 1,
             language_name: "English",
             translation_name: "algo",
             translation_description: "esto significa algo",

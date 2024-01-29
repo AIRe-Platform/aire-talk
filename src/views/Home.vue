@@ -1,7 +1,7 @@
 <script setup lang="ts">
-    import { defineComponent } from 'vue';
-    import OnboardingFromExternalSiteVue from '@/components/OnboardingFromExternalSite.vue';
-    defineComponent({ name: "HomeView" });
+import { defineComponent } from 'vue';
+import OnboardingFromExternalSiteVue from '@/components/OnboardingFromExternalSite.vue';
+defineComponent({ name: "HomeView" });
 </script>
 
 <template>
@@ -16,11 +16,12 @@
 </template>
 
 <style scoped>
-    #home-view {
-        padding: 1rem;
-        margin: auto;
-    }
-    #chat-link-btn {
-        padding: 2rem;
-    }
+#home-view {
+    padding: 1rem;
+    margin: auto;
+}
+
+#chat-link-btn {
+    padding: 2rem;
+}
 </style>

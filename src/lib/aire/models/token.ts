@@ -1,5 +1,4 @@
-export interface TokenResponse
-{
+export interface TokenResponse {
     token_type: "bearer" | string;
     access_token: string;
     refresh_token?: string;

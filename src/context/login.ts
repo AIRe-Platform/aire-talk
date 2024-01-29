@@ -12,22 +12,18 @@ export const Login = reactive<{
     credentials?: { email: string, pw: string }
 }>({ logged_in: false, verified: false });
 
-export async function login(email: string, password: string) : Promise<boolean>
-{
-    if(AireServices.ID)
-    {
+export async function login(email: string, password: string): Promise<boolean> {
+    if (AireServices.ID) {
         const result = await AireServices.ID.login(email, password);
 
         Login.logged_in = result;
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
-        if(Login.verified)
-        {
+        if (Login.verified) {
             Login.user = await AireServices.ID.getUser()
             saveSession()
         }
-        else
-        {
+        else {
             Login.credentials = { email: email, pw: password }
             router.push("/verify")
         }
@@ -38,16 +34,13 @@ export async function login(email: string, password: string) : Promise<boolean>
     return false;
 }
 
-export async function signup(email: string, password: string): Promise<number>
-{
-    if(AireServices.ID)
-    {
+export async function signup(email: string, password: string): Promise<number> {
+    if (AireServices.ID) {
         return await AireServices.ID.signup(email, password)
             .then(async (status) => {
-                if(status === 204)
-                {
+                if (status === 204) {
                     const result = await login(email, password);
-                    if(!result)
+                    if (!result)
                         return 403;
                 }
                 return status;
@@ -56,13 +49,11 @@ export async function signup(email: string, password: string): Promise<number>
     return 0;
 }
 
-export async function changePassword(current_password: string, new_password: string): Promise<boolean>
-{
-    if(AireServices.ID && Login.user)
-    {
+export async function changePassword(current_password: string, new_password: string): Promise<boolean> {
+    if (AireServices.ID && Login.user) {
         return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
             .then(async (result) => {
-                if(result) {
+                if (result) {
                     logout();
                     return await login(Login.user?.email!, new_password);
                 }
@@ -72,13 +63,10 @@ export async function changePassword(current_password: string, new_password: str
     return false;
 }
 
-export async function verifyAccount(code: string) : Promise<boolean>
-{
-    if(AireServices.ID && Login.logged_in && !Login.verified && Login.credentials)
-    {
+export async function verifyAccount(code: string): Promise<boolean> {
+    if (AireServices.ID && Login.logged_in && !Login.verified && Login.credentials) {
         let result = await AireServices.ID.verifyUserCode(code);
-        if(result)
-        {
+        if (result) {
             result = await login(Login.credentials.email, Login.credentials.pw)
             Login.credentials = undefined;
             return result;
@@ -87,17 +75,14 @@ export async function verifyAccount(code: string) : Promise<boolean>
     return false;
 }
 
-export async function resendVerification() : Promise<boolean>
-{
-    if(AireServices.ID && Login.logged_in && !Login.verified)
-    {
+export async function resendVerification(): Promise<boolean> {
+    if (AireServices.ID && Login.logged_in && !Login.verified) {
         return await AireServices.ID.resendVerification();
     }
     return false;
 }
 
-export function logout()
-{
+export function logout() {
     Login.logged_in = false;
     Login.verified = false;
     Login.user = undefined;
@@ -105,45 +90,37 @@ export function logout()
 
     localStorage.removeItem("aire_session_token");
 
-    if(AireServices.ID)
-    {
+    if (AireServices.ID) {
         AireServices.ID.logout();
     }
 
     Chat.reset();
 }
 
-export async function restoreSession()
-{
+export async function restoreSession() {
     const token = localStorage.getItem("aire_session_token");
-    if(AireServices.ID && token)
-    {
+    if (AireServices.ID && token) {
         console.debug("Restoring session...")
         Chat.reset()
 
         Login.logged_in = await AireServices.ID.verifyToken(token);
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
-        if(Login.logged_in)
-        {
-            if(Login.verified)
-            {
+        if (Login.logged_in) {
+            if (Login.verified) {
                 Login.user = await AireServices.ID.getUser()
                 saveSession()
             }
-            else
-            {
+            else {
                 router.push("/verify")
             }
         }
     }
 }
 
-async function saveSession()
-{
+async function saveSession() {
     const token = AireServices.ID?.getAccessToken();
-    if(token)
-    {
+    if (token) {
         localStorage.setItem("aire_session_token", token);
     }
 }

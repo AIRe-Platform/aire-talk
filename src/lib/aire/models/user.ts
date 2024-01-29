@@ -1,7 +1,6 @@
 import { AireServiceCredentials } from "./service";
 
-export interface AireUser
-{
+export interface AireUser {
     uuid: string;
     last_login?: string;
     eula_accepted?: string;
