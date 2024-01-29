@@ -20,7 +20,7 @@
 <template>
     <div>
         <button class="chat-new-chat" @click="newChat">
-            <a class="nav-link" href="#"> New chat </a>
+            <a class="nav-link" href="#">  {{ $t(l.chat_new_chat) }} </a>
         </button>
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }} 

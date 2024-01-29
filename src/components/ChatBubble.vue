@@ -4,7 +4,8 @@
     import { defineProps, onMounted, ref } from 'vue';
     import BubbleModal from './BubbleModal.vue';
     import { Chat } from '@/context/chat';
-    import popUp from '@/components/PopUp.vue'
+    import popUp from './PopUp.vue';
+    import { l } from '@/locales';
 
     const props = defineProps<{message: ChatMessage}>()
     const selectedAnswer = ref<Answer>();
@@ -260,17 +261,16 @@
     <popUp v-if="isPopUpRevertMessageOpen">
         <div class="popup-content">
             <div class="popup-question">
-                estas seguro de que quieres revertir el chat hasta este mensaje?
+                {{ $t(l.popup_question_one) }}
             </div>
             <div class="popup-buttons" >
                 <button class="popup-button-accept" @click="revertToMessage()">
-                    <a class="nav-link" href="#"> Accept </a>
+                    <a class="nav-link" href="#">  {{ $t(l.popup_button_accept) }} </a>
                 </button>
                 <button class="popup-button-cancel" @click="toggleRevertMessagePopUp()">
-                    <a class="nav-link" href="#"> Cancel </a>
+                    <a class="nav-link" href="#">  {{ $t(l.popup_button_cancel) }} </a>
                 </button>
             </div>
-            
         </div>
     </popUp>
 </template>

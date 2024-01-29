@@ -32,8 +32,10 @@
     };
 
     const onBlur = () => {
-        console.log("onBlur");
         isBurgerMenuOpen.value = false;
+        isChatHistoryOpen.value = false;
+        isCatologueContentOpen.value = false;
+        isRestoreChatOpen.value = false;
     };
 
     /**
@@ -41,7 +43,6 @@
      */
     const onSaveChat = async (e?: Event) => {
         e?.preventDefault();
-        console.log("(onSaveChat) current Chat.chat_id? ",Chat.chat_id);
         await Chat.saveChatHistory();
     };
 
@@ -49,12 +50,8 @@
      * Restore chat from the ddbb with the chat.id given. SAve the current chat first
     */
      const onLoadChat = async (chat: AireChatMetadata) => {
-        console.log("--------------------------------------------------------------------");
-        console.log("(onLoadChat)current  Chat? ", Chat);
-        console.log("(onLoadChat) load this chat.id? ", chat.id);
         if(Chat.history.length > 1)
         {
-            console.log("There is some conversations, lets save it first");
             await onSaveChat();
         } 
         Chat.loadChatHistory(chat.id);

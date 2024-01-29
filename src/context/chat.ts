@@ -4,13 +4,16 @@ import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
 import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
+const constant_countdown_timer = 10000;// 30 seconds
+const isGoingToSave = ref(false);
+const myTimeout = ref<number>();
 
 export interface ChatState
 {
@@ -64,7 +67,15 @@ function sendChatMessage(message: string)
     }
     
     Chat.history.push(userMessage);
+
+    console.log("menssage sent. start the counter and save...");
     
+    if( isGoingToSave.value)
+        myStopFunction();
+    
+    isGoingToSave.value = true;
+    myTimeout.value = setTimeout(() => Chat.saveChatHistory(), constant_countdown_timer);
+
     const messages = Chat.history
         .filter(x => x.role === "assistant" || x.role === "user");
 
@@ -88,6 +99,12 @@ function sendChatMessage(message: string)
     }
 }
 
+function myStopFunction() 
+{
+    console.log("myStopFunction");
+    clearTimeout(myTimeout.value);
+}
+
 /**
  * TODO I think this is not a good name for this function
  * Save the chat in the database.
@@ -106,17 +123,15 @@ async function saveChatHistory()
                 };
             return m;
         });
-        console.log("(saveChatHistory)  chat ID: ",  Chat.chat_id);
         await AireServices.Memory.saveChat(history, Chat.chat_id)
         .then(result => {
             if(result)
                 Chat.chat_id = result.id
         })
-        console.log("(saveChatHistory) finally ",  Chat.chat_id);
     } else {
         console.warn("MEMORY service is not configured");
     }
-    console.log("(saveChatHistory) Chat saved. chat_id",  Chat.chat_id);
+    isGoingToSave.value = false;
 }
 
 /**
@@ -129,7 +144,6 @@ async function loadChatHistory(chat_id?: string)
     let chat_id_temp;
     if(AireServices.Memory) 
     {
-        console.log("(loadChatHistory)chat_id: ", chat_id);
         if(!chat_id)
         {
             const chats = await getAllChats();
@@ -138,8 +152,6 @@ async function loadChatHistory(chat_id?: string)
                 const latest = chats.sort((b, a) => {
                     return Date.parse(a.time) - Date.parse(b.time)
                 })
-    
-                console.log("latestChat ",latest[0]);
                 chat = await AireServices.Memory.getChat(latest[0].id);
                 chat_id_temp = latest[0].id;
             }
@@ -149,7 +161,6 @@ async function loadChatHistory(chat_id?: string)
         }
         if(chat)
         {    
-            console.log("(loadChatHistory)chat: ", chat);
             const history: ChatHistory = await chat.map(x => {
                 const m: ChatMessage = {
                     id: generateRandomID(),
@@ -162,7 +173,6 @@ async function loadChatHistory(chat_id?: string)
             });
             Chat.history = history;
             Chat.chat_id = chat_id_temp;
-            console.log("(loadChatHistory) Loaded chat ID: ", chat_id_temp);
         }
     } else {
         console.warn("MEMORY service is not configured");
@@ -269,7 +279,7 @@ function initChatState(): ChatState
 }
 
 /**
- * 
+ * Create a new chat
  */
 async function newChat()
 {
@@ -286,8 +296,6 @@ async function newChat()
  */
 function resetChatState(to_message_id?: number)
 {
-    console.debug("Resetting chat state");
-
     Chat.awaitingResponse = false;
     Chat.scrolling = false;
 
