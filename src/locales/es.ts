@@ -105,6 +105,7 @@ const es: Locale = {
     chat_occupation: "Profesión",
     chat_topic: "Tema",
     chat_topic_onboarding: "Tema desde onboarding",
+    chat_new_chat: "Nuevo chat",
 
     checkbox_title:  "Bienvenido a la plataforma AIRe",
     checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
@@ -137,7 +138,11 @@ const es: Locale = {
     error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
 
     chat_history_image: "Imagen:",
-    chat_history_video: "Vídeo:"
+    chat_history_video: "Vídeo:",
+
+    popup_question_one: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_button_accept:"Aceptar",
+    popup_button_cancel:"Cancelar"
     
 }
 

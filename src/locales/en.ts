@@ -103,6 +103,7 @@ The password must contain at least lower and upper case letter as well as number
     chat_occupation: "Occupation",
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
+    chat_new_chat: "New chat",
 
     checkbox_title:  "Welcome to the AIRe paltform",
     checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
@@ -134,7 +135,11 @@ The password must contain at least lower and upper case letter as well as number
     error_verification_resend_failed: "Could not resend the code. Try again later",
     
     chat_history_image: "Image file:",
-    chat_history_video: "Video file:"
+    chat_history_video: "Video file:",
+
+    popup_question_one: "Are you sure you want to revert the chat to this message?",
+    popup_button_accept:"Accept",
+    popup_button_cancel:"Cancel"
 }
 
 export default en

@@ -29,12 +29,14 @@ export async function initApp()
 
     const result = await initAire({
         // To run in local postgreSQL
+        /*
         api_url: (process.env.NODE_ENV === "production" 
         ? "https://gl-dev-aire.azure-api.net/services/" 
         : "http://localhost:7071/api"
     )
+    */
         // to run with azure
-        /* api_url: "https://gl-dev-aire.azure-api.net/services/"  */
+         api_url: "https://gl-dev-aire.azure-api.net/services/"  
     }).then(async (result) => {
         if(result)
         {

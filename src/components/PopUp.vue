@@ -1,5 +1,9 @@
 <script>
-
+    import { defineComponent } from 'vue';
+    defineComponent({ name: "PopUp.vue" })
+    export default {
+        name: "PopUp"
+    }
 </script>
 
 <template>
@@ -11,7 +15,6 @@
 </template>
 
 <style scoped>
-
     .popup{
         position: absolute;
         background-color: var(--panel-background-color);
