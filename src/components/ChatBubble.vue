@@ -144,9 +144,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                             <source v-bind:src="message.video" type="video/mp4">
                         </video>
                     </div>
-<<<<<<< HEAD
-                    <SurveyQuestion v-if="message.question" :question="message.question" />
-=======
                     <div class="chat-message-question" v-if="message.question">
                         <span class="chat-message-text">
                             {{ message.question }}
@@ -164,7 +161,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                             </button>
                         </div>
                     </div>
->>>>>>> main
                 </div>
             </div>
             <div class="modal-button">
@@ -190,9 +186,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     <source v-bind:src="message.video" type="video/mp4">
                 </video>
             </div>
-<<<<<<< HEAD
-            <SurveyQuestion v-if="message.question" :question="message.question" />
-=======
             <div class="chat-message-question" v-if="message.question">
                 <span class="chat-message-text">
                     {{ message.question }}
@@ -210,7 +203,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     </button>
                 </div>
             </div>
->>>>>>> main
         </div>
     </div>
     <div class="chat-bubble-options-menu-relative">
@@ -253,142 +245,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
 </template>
 
 <style scoped>
-<<<<<<< HEAD
-    .modal-component {
-        display: flex;
-        justify-content: space-between;
-        z-index: 2;
-    }
-    .modal-body-image{
-        display: flex;
-        justify-content: center;    
-    }
-    .modal-button{
-        cursor: pointer;
-        width: 2rem;
-        display: flex;
-        justify-content: center;
-    }
-    .chat-bubble {
-        display: block;
-        padding: 0.5rem 1rem;
-        margin: 1rem;
-        line-height: 1.4rem;
-        max-width: 42rem;
-        background-color: var(--chat-bubble-background-color);
-        box-shadow: 0 0 5px gray;
-        line-height: 1.4rem;
-        border-radius: 1rem;
-        border: 1px solid transparent;
-    }
-    .chat-bubble-user {
-        align-self: flex-start;
-        margin-left: 3rem;
-    }
-    .chat-bubble-bot {
-        margin-right: 0rem;
-        height: fit-content;
-    }
-    .chat-bubble-system {
-        align-self: center;
-        margin: 0 3rem;
-        border-color: var(--accent-secondary-color);
-    }
-    .chat-bubble-error {
-        border-color: var(--error-color);
-    }
-    .chat-bubble-content {
-        display: flex;
-        flex-direction: column;
-        font-size: small;
-    }
-    .chat-message-answer-options-menu-button{
-        cursor: pointer;
-    }
-    .chat-user-label {
-        font-size: small;
-    }
-    .chat-message-text {
-        white-space: pre-line;
-    }
-    .chat-message-image{ 
-        display: flex;
-        justify-content: center;
-    }
-    .chat-message-video{ 
-        display: flex;
-        justify-content: center;
-    }
-    .chat-message-video-video {
-        width: 42rem;
-        height: 20rem;
-    }
-    .chat-bubble-modal-body-video{
-        width: 40rem;
-        height: 20rem;
-    }
-    .chat-message-image-contain {
-        height: 80%;
-        width: 80%;
-        object-fit: contain;
-    }
-    .chat-bubble-options-menu-relative{
-        position: relative;
-    }
-    .chat-bubble-options-menu {
-        display: flex;
-        height: 10rem;
-        left: -3.5rem;
-        top: 1rem;
-        flex-direction: column;
-        justify-content: space-around;
-        position: absolute;
-    }
-    .chat-bubble-options-menu-dots {
-        background-color: var(--chat-bubble-background-color);
-        cursor: pointer;
-        margin: 1rem;
-        height: 1.2rem;
-        width: 1.2rem;
-        display: flex;
-        justify-content: center;
-        border-radius: 50px;
-        align-items: center;
-        border-color: white;
-        border-style: solid;
-        border: 1px solid transparent;
-        box-shadow: 0 0 5px gray;
-        line-height: 1.4rem;
-        margin-left: -0.35rem;
-    }
-    /* mobile*/
-    @media screen and (max-width: 600px) {
-        .chat-bubble-content {
-            font-size: x-small;
-        }
-        .chat-bubble-bot{
-            max-width: 70%;
-            margin-right: 0rem;
-        }
-        .chat-message-video-video{
-            max-width: 17rem;
-            max-height: 12rem;
-        }
-        .chat-bubble-modal-body-video-container{
-            margin-top: 1rem;
-        }
-        .chat-bubble-modal-body-video{
-            max-width: 18.5rem;
-            max-height: 15rem;
-        }
-        .chat-message-answer-options-menu-button {
-            transform: scale(0.5);
-        }
-        .chat-bubble-options-menu-relative{
-            position: unset;
-        }
-        .chat-bubble-options-menu {
-=======
 .popup-content {
     padding: 2rem;
 }
@@ -602,7 +458,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     }
 
     .chat-bubble-options-menu {
->>>>>>> main
         background-color: var(--chat-bubble-background-color);
         left: 19.5rem;
         width: 2rem;
