@@ -52,9 +52,9 @@ const toggleMenu = () => {
  */
 const clickAnswer = (answer: Answer) => {
     selectedAnswer.value = answer;
-    if (!props.message.answers)
+    if (!props.message.question?.options.answers)
         return;
-    for (let oldAnswer of props.message.answers) {
+    for (let oldAnswer of props.message.question?.options.answers) {
         if (oldAnswer.isSelected)
             oldAnswer.isSelected = false;
     }
@@ -149,8 +149,8 @@ onMounted(() => scrollToMessage(props.message, "end"));
                             {{ message.question }}
                         </span>
                     </div>
-                    <div class="chat-message-answers" v-if="message.answers">
-                        <div class="chat-message-answer" v-for="anwser, id in message.answers" :key="id">
+                    <div class="chat-message-answers" v-if="message.question?.options.answers">
+                        <div class="chat-message-answer" v-for="anwser, id in message.question?.options.answers" :key="id">
                             <button @click="clickAnswer(anwser)" class="chat-message-answer-button"
                                 :class="{ 'is-selected': anwser.isSelected }" v-if="anwser.answer">
                                 {{ anwser.answer }}
@@ -191,8 +191,8 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     {{ message.question }}
                 </span>
             </div>
-            <div class="chat-message-answers" v-if="message.answers">
-                <div class="chat-message-answer" v-for="anwser, id in message.answers" :key="id">
+            <div class="chat-message-answers" v-if="message?.question?.options.answers">
+                <div class="chat-message-answer" v-for="anwser, id in message.question?.options.answers" :key="id">
                     <button @click="clickAnswer(anwser)" class="chat-message-answer-button"
                         :class="{ 'is-selected': anwser.isSelected }" v-if="anwser.answer">
                         {{ anwser.answer }}
