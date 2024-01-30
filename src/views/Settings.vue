@@ -1,22 +1,22 @@
 <script setup lang="ts">
-    import { defineComponent } from 'vue';
-    import BurgerMenu from './BurgerMenu.vue';
-    defineComponent({ name: "SettingsView" });
-    import { Theme, setTheme } from '@/context/theme';
-    import { supportedLocales, setLocale, Lang } from '@/locales';
+import { defineComponent } from 'vue';
+import BurgerMenu from './BurgerMenu.vue';
+defineComponent({ name: "SettingsView" });
+import { Theme, setTheme } from '@/context/theme';
+import { supportedLocales, setLocale, Lang } from '@/locales';
 
-    const toggleTheme = () => {
-        if(Theme.style === "theme-dark")
-            setTheme("theme-default")
-        else
-            setTheme("theme-dark");
-    };
+const toggleTheme = () => {
+    if (Theme.style === "theme-dark")
+        setTheme("theme-default")
+    else
+        setTheme("theme-dark");
+};
 
-    const setLang = (e: Event) => {
-        const el = e.target as HTMLSelectElement;
-        setLocale(el.value as Lang);
-        el.blur();
-    }
+const setLang = (e: Event) => {
+    const el = e.target as HTMLSelectElement;
+    setLocale(el.value as Lang);
+    el.blur();
+}
 
 </script>
 
@@ -31,7 +31,7 @@
 </template>
 
 <style scoped>
-.main-content{
+.main-content {
     width: 15%;
     max-height: 10rem;
     display: flex;
@@ -46,9 +46,8 @@
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    .main-content{
-        width:40%;
+    .main-content {
+        width: 40%;
     }
-
 }
 </style>

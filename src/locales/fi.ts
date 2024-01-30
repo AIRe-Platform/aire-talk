@@ -1,7 +1,7 @@
 import { Locale } from ".";
 
 const fi: Locale = {
-    title : "AIRe Talk",
+    title: "AIRe Talk",
     footer: "Kehitysversio",
     not_found: "Sivua ei löytynyt",
 
@@ -103,13 +103,14 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_occupation: "Ammati",
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
+    chat_new_chat: "Uusi chat",
 
-    checkbox_title:  "Tervetuloa AIRe Talk -palveluun!",
+    checkbox_title: "Tervetuloa AIRe Talk -palveluun!",
     checkbox_text: "Näen, että olet ollut AIRe-alustalla aiemmin ja on mukava nähdä sinut taas.",
     checkbox_question: "Onko sinulla aihe, josta haluaisit jatkaa?",
     checkbox_continue_button: "jatka",
     checkbox_button_cancel: "perutta",
-    
+
     chat_input_title: "Kusu talla",
 
     burger_menu_chat_log_history: "Chat-lokihistoria",
@@ -135,7 +136,11 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut.",
 
     chat_history_image: "Kuvatiedosto:",
-    chat_history_video: "videotiedosto:"
+    chat_history_video: "videotiedosto:",
+
+    popup_question_one: "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
+    popup_button_accept: "Jatka",
+    popup_button_cancel: "Perutta"
 }
 
 export default fi

@@ -1,5 +1,4 @@
-export enum LocalizationKey
-{
+export enum LocalizationKey {
     title = "title",
     footer = "footer",
     not_found = "not_found",
@@ -91,6 +90,7 @@ export enum LocalizationKey
     chat_occupation = "chat_occupation",
     chat_topic = "chat_topic",
     chat_topic_onboarding = "chat_topic_onboarding",
+    chat_new_chat = "chat_new_chat",
 
     checkbox_title = "checkbox_title",
     checkbox_text = "checkbox_text",
@@ -123,5 +123,9 @@ export enum LocalizationKey
     error_verification_failure = "error_verification_failure",
 
     chat_history_image = "chat_history_image",
-    chat_history_video = "chat_history_video"
+    chat_history_video = "chat_history_video",
+
+    popup_question_one = "popup_question_one",
+    popup_button_accept = "popup_button_accept",
+    popup_button_cancel = "popup_button_cancel"
 }

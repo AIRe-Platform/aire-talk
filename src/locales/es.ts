@@ -73,7 +73,7 @@ const es: Locale = {
     verification_code_resend_done: "LOCALIZE TO ES: A new code is on its way!",
 
     error_generic: "¡Sucedió un error desconocido!",
-    error_ai_not_responding: "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",    
+    error_ai_not_responding: "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
     
@@ -85,7 +85,7 @@ const es: Locale = {
     error_profile_edit: "Error al guardar.",
     error_profile_password: "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
     error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
-   
+
     landing_view_title: "Bienvenido a la plataforma AIRe",
     landing_view_text: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos, la posible afección subyacente y con quién debe comunicarse para mejorar.
     
@@ -99,14 +99,15 @@ const es: Locale = {
 
     home_start_landing_button: "EMPEZAR LANDING",
     home_checkbox_button: "Checkbox ver",
-    
+
     chat_data: "Datos",
     chat_age: "Edad",
     chat_occupation: "Profesión",
     chat_topic: "Tema",
     chat_topic_onboarding: "Tema desde onboarding",
+    chat_new_chat: "Nuevo chat",
 
-    checkbox_title:  "Bienvenido a la plataforma AIRe",
+    checkbox_title: "Bienvenido a la plataforma AIRe",
     checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
     checkbox_question: "¿Quieres continuar con algún tema?",
     checkbox_continue_button: "verificar y continuar",
@@ -137,8 +138,12 @@ const es: Locale = {
     error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
 
     chat_history_image: "Imagen:",
-    chat_history_video: "Vídeo:"
-    
+    chat_history_video: "Vídeo:",
+
+    popup_question_one: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_button_accept: "Aceptar",
+    popup_button_cancel: "Cancelar"
+
 }
 
 export default es

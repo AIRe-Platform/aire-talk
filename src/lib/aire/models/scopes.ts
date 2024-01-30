@@ -1,5 +1,4 @@
-export enum AireScope
-{
+export enum AireScope {
     UnverifiedAccount = "unverified-account",
     EulaRequired = "eula-required",
     ProfileRead = "profile-read",
