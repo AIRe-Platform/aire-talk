@@ -1,22 +1,13 @@
 import { AireRole } from "@/lib/aire/models/chat";
-
-export interface Question {
-    id?: number,
-    question: string,
-    options: Option
-}
-
-export type OptionType = "single-select" | "range" | "open" | "multi-select"
-
-export interface Option {
-    type: OptionType,
-    answers?: Answer[]
-}
-
+import { Question } from "./questionnaire";
 export interface Answer {
-    id: number;
-    answer?: string;
-    isSelected: boolean;
+    question_id: string;
+    type?: string;
+    min: number;
+    max: number;
+    question: string;
+    prompt: string;
+    answer: any;
 }
 
 /**
@@ -34,6 +25,7 @@ export interface ChatMessage {
     image?: string;
     video?: string;
     question?: Question;
+    answer?: Answer;
     isThumbsUp?: boolean;
     isThumbsDown?: boolean;
     rating?: number;
