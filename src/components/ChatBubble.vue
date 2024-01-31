@@ -60,14 +60,11 @@ const copyClipboard = (message: ChatMessage) => {
  */
 const revertToMessage = () => {
     if (revertMessageTo.value) {
-        console.log("revertToMessage:", revertMessageTo.value.id);
-        console.log("revertToMessage Chat:", Chat.history);
-        console.log("message reverted to (alert before doing it.)", revertMessageTo.value);
         Chat.reset(revertMessageTo.value.id);
         toggleMenu();
         toggleRevertMessagePopUp();
     } else {
-        console.log("Error while reverting to message...");
+        console.log("Error while reverting to message.");
     }
 
 };
@@ -171,7 +168,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
             <button @click="toggleRevertMessagePopUp(message)" class="chat-message-answer-options-menu-button">
-                <font-awesome-icon icon="fa-solid fa-trash" />
+                <font-awesome-icon icon="fa-solid fa-arrows-spin" />
             </button>
         </div>
     </div>
@@ -181,7 +178,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
     <popUp v-if="isPopUpRevertMessageOpen">
         <div class="popup-content">
             <div class="popup-question">
-                {{ $t(l.popup_question_one) }}
+                {{ $t(l.popup_question_revert_message) }}
             </div>
             <div class="popup-buttons">
                 <button class="popup-button-accept" @click="revertToMessage()">

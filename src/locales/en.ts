@@ -103,7 +103,6 @@ The password must contain at least lower and upper case letter as well as number
     chat_occupation: "Occupation",
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
-    chat_new_chat: "New chat",
 
     checkbox_title: "Welcome to the AIRe paltform",
     checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
@@ -124,6 +123,8 @@ The password must contain at least lower and upper case letter as well as number
     burger_menu_restore_chat: "Restore chat",
     burger_menu_chat_history: "Chat history",
     burger_menu_catalogue_content: "Catalogue content",
+    burger_menu_saved_chats: "Saved chats:",
+    burger_menu_new_chat: "New chat",
 
     onboarding_greetings: "Hello there",
     onboarding_question: "Are you looking for information of any of this topics?",
@@ -137,7 +138,7 @@ The password must contain at least lower and upper case letter as well as number
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
 
-    popup_question_one: "Are you sure you want to revert the chat to this message?",
+    popup_question_revert_message: "Are you sure you want to revert the chat to this message?",
     popup_button_accept: "Accept",
     popup_button_cancel: "Cancel"
 }
