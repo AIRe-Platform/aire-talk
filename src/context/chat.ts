@@ -11,7 +11,7 @@ import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatM
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
-const constant_countdown_timer = 10000;//Change to 30 seconds
+const constant_countdown_timer = 30000;//Change to 30 seconds
 const isGoingToSave = ref<boolean>(false);
 const myTimeout = ref<number>();
 
@@ -26,6 +26,7 @@ export interface ChatState {
     checkbox?: Topic;
     OnboardingFromExternalSite?: Topic;
     chat_id?: string;
+    needsToSave: boolean;
 
     send: (message: string) => void;
     saveChatHistory: () => void;
@@ -101,7 +102,7 @@ function resetCountdownToSaveChat() {
  * @param chatHistory
  */
 async function saveChatHistory() {
-    console.log("(saveChatHistory) current Chat.chat_id:", Chat.chat_id);
+    console.debug("(saveChatHistory) current Chat.chat_id:", Chat.chat_id);
     if (AireServices.Memory) {
         const history: AireChatHistory = await Chat.history.map(x => {
             const m: AireChatMessage = {
@@ -120,6 +121,7 @@ async function saveChatHistory() {
         console.warn("MEMORY service is not configured");
     }
     isGoingToSave.value = false;
+    Chat.needsToSave = false;
 }
 
 /**
@@ -168,19 +170,35 @@ async function loadChatHistory(chat_id?: string) {
  */
 async function getAllChats(): Promise<AireChatMetadata[]> {
     const chats = await AireServices.Memory?.getChatlogs() || [];
+
+    //console.log("chats? ", chats);
+
+    if (AireServices.Memory) 
+    {
+        const chatsWithLogs = [];
+
+        for(let i= 0; i<chats.length; i++)
+        {
+            const chatMessages = await AireServices.Memory.getChat(chats[i].id);
+            
+           // console.log("chatMessages", chatMessages);
+
+            /* const chatsWithMessages: ChatHistory = await chats.map(x => {
+                const m: ChatMessage = {
+                    id: x.id,
+                    timestamp: x.timestamp || 0,
+                    chats: chatMessages
+                };
+                return m;
+            }); */
+        }
+    }
     const orderedChats = chats.sort((b, a) => {
         return Date.parse(a.time) - Date.parse(b.time)
     });
-    let chatsWithLogs: AireChatHistory[];
-    /* console.log("getAllChats; ", orderedChats);
-    console.log("getAllChats.length ", orderedChats.length);
-    for(let i= 0; i<orderedChats.length; i++){
-        let chatDataLogs = await orderedChats[i].id;
-        chatsWithLogs.push(chatDataLogs);
-    }
-    orderedChats.map( => {
+    
+    //console.log("orderedChats", orderedChats);
 
-    }); */
     return orderedChats;
 }
 
@@ -260,6 +278,7 @@ function initChatState(): ChatState {
         getAllChats: getAllChats,
         landingInfo: {},
         newChat: newChat,
+        needsToSave: false,
     }
 }
 
@@ -291,7 +310,6 @@ function resetChatState(to_message_id?: number) {
     }
 
     Chat.history = Chat.history.slice(0, spliceStart);
-    console.debug(Chat, spliceStart);
 
     if (Chat.history.length === 0)
         Chat.history.push(systemGreeting());

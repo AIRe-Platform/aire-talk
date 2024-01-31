@@ -9,7 +9,8 @@ function submit(event: Event) {
 
     if (prompt.length > 0)
         Chat.send(el.value)
-
+    
+    Chat.needsToSave = true;
     el.value = ""
 }
 </script>

@@ -112,7 +112,7 @@ The password must contain at least lower and upper case letter as well as number
 
     chat_input_title: "Ask a question",
 
-    burger_menu_chat_log_history: "Chat log history",
+    burger_menu_chat_log_history: "Chat history",
     burger_menu_content_catalogue: "Content catalogue",
     burger_menu_current_user: "Current user",
     burger_menu_sign_in: "Sign in",
