@@ -90,7 +90,6 @@ export enum LocalizationKey {
     chat_occupation = "chat_occupation",
     chat_topic = "chat_topic",
     chat_topic_onboarding = "chat_topic_onboarding",
-    chat_new_chat = "chat_new_chat",
 
     checkbox_title = "checkbox_title",
     checkbox_text = "checkbox_text",
@@ -110,7 +109,9 @@ export enum LocalizationKey {
     burger_menu_save_chat = "burger_menu_save_chat",
     burger_menu_restore_chat = "burger_menu_restore_chat",
     burger_menu_chat_history = "burger_menu_chat_history",
+    burger_menu_saved_chats = "burger_menu_saved_chats",
     burger_menu_catalogue_content = "burger_menu_catalogue_content",
+    burger_menu_new_chat = "burger_menu_new_chat",
 
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
@@ -125,7 +126,7 @@ export enum LocalizationKey {
     chat_history_image = "chat_history_image",
     chat_history_video = "chat_history_video",
 
-    popup_question_one = "popup_question_one",
+    popup_question_revert_message = "popup_question_revert_message",
     popup_button_accept = "popup_button_accept",
     popup_button_cancel = "popup_button_cancel"
 }

@@ -11,8 +11,8 @@ import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatM
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
-const constant_countdown_timer = 10000;// 30 seconds
-const isGoingToSave = ref(false);
+const constant_countdown_timer = 10000;//Change to 30 seconds
+const isGoingToSave = ref<boolean>(false);
 const myTimeout = ref<number>();
 
 export interface ChatState {
@@ -64,10 +64,8 @@ function sendChatMessage(message: string) {
 
     Chat.history.push(userMessage);
 
-    console.log("menssage sent. start the counter and save...");
-
     if (isGoingToSave.value)
-        myStopFunction();
+        resetCountdownToSaveChat();
 
     isGoingToSave.value = true;
     myTimeout.value = setTimeout(() => Chat.saveChatHistory(), constant_countdown_timer);
@@ -94,13 +92,11 @@ function sendChatMessage(message: string) {
     }
 }
 
-function myStopFunction() {
-    console.log("myStopFunction");
+function resetCountdownToSaveChat() {
     clearTimeout(myTimeout.value);
 }
 
 /**
- * TODO I think this is not a good name for this function
  * Save the chat in the database.
  * @param chatHistory
  */
@@ -175,6 +171,16 @@ async function getAllChats(): Promise<AireChatMetadata[]> {
     const orderedChats = chats.sort((b, a) => {
         return Date.parse(a.time) - Date.parse(b.time)
     });
+    let chatsWithLogs: AireChatHistory[];
+    /* console.log("getAllChats; ", orderedChats);
+    console.log("getAllChats.length ", orderedChats.length);
+    for(let i= 0; i<orderedChats.length; i++){
+        let chatDataLogs = await orderedChats[i].id;
+        chatsWithLogs.push(chatDataLogs);
+    }
+    orderedChats.map( => {
+
+    }); */
     return orderedChats;
 }
 
