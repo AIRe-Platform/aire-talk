@@ -60,9 +60,17 @@ const copyClipboard = (message: ChatMessage) => {
  */
 const revertToMessage = () => {
     if (revertMessageTo.value) {
-        Chat.reset(revertMessageTo.value.id);
+        const index = Chat.history.findIndex( x => x.id === revertMessageTo.value?.id);
+        const nextOne = Chat.history[index + 1];
+        if(index != -1 && nextOne !== undefined)
+        {
+            Chat.reset(nextOne.id);
+        }else{
+            console.log("This is last message you can not revert it, just go to previus ones to delete this one");
+        }
         toggleMenu();
         toggleRevertMessagePopUp();
+        Chat.needsToSave = true;
     } else {
         console.log("Error while reverting to message.");
     }
