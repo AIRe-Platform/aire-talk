@@ -7,9 +7,9 @@ import { restoreSession } from './context/login'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders } from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders)
+library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin)
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
