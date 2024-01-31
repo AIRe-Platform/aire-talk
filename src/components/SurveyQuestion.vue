@@ -1,41 +1,25 @@
 <script setup lang="ts">
 
 import { defineComponent, defineProps, ref } from 'vue';
-import { Question, Answer } from "@/models/chat";
+import { Question } from "@/models/questionnaire";
 defineComponent({ name: "SurveyQuestion" });
-const selectedAnswer = ref<Answer>();
+const selectedAnswer = ref<string>();
 
 const props = defineProps<{ question: Question }>()
 
-
-let openAnswer = ref([{}])
+let openAnswer = ref([{answer: ""}])
 
 /**
  * Method to select the answer between the answers.
- * First unselect all the anwsers and then select the correct one.
- * @param answer TO DO change into interface ask Niko how...
  */
-const clickAnswer = (e: Event, answer: Answer) => {
+const clickAnswer = (e: Event, answer: string) => {
     selectedAnswer.value = answer;
-    if (!props.question.options)
-        return;
-    if(props.question.options.type === "single-select") {
-        for (let oldAnswer of props.question.options.answers) {
-            if (oldAnswer.isSelected)
-                oldAnswer.isSelected = false;
-        }
-    }
-    if(props.question.options.type === "multi-select") { // TODO: doesn't work like this ->
-        let checked = (e.target as HTMLInputElement).checked;
-        answer.isSelected = checked
-    }
-    answer.isSelected = true;
-    selectedAnswer.value.isSelected = true;
 };
 
-const submitAnswer = (answer: Answer|Answer[]) => {
+const submitAnswer = (answer: string|string[]|undefined) => {
     // Stub function for submitting the answer 
-    console.log(answer);
+    if(answer)
+        console.log(answer);
     
 }
 
@@ -48,14 +32,14 @@ const submitAnswer = (answer: Answer|Answer[]) => {
         </span>
     </div>
     <div class="chat-message-answers" v-if="props.question.options.type==='single-select'">
-        <div class="chat-message-answer" v-for="answer, id in props.question.options.answers" :key="id">
+        <div class="chat-message-answer" v-for="answer, id in props.question.options.values" :key="id">
             <button @click="(e) => clickAnswer(e, answer)" class="chat-message-answer-button"
-                :class="{ 'is-selected': answer.isSelected }" v-if="answer.answer">
-                {{ answer.answer }}
+                :class="{ 'is-selected': answer }" v-if="answer">
+                {{ answer }}
             </button>
             <button @click="(e) => clickAnswer(e, answer)" class="chat-message-answer-button"
-                :class="{ 'is-selected': answer.isSelected }" v-if="!answer.answer">
-                {{ answer.id }}
+                :class="{ 'is-selected': answer }" v-if="!answer">
+                {{ answer }}
             </button>
         </div>
     </div>
@@ -67,11 +51,11 @@ const submitAnswer = (answer: Answer|Answer[]) => {
     </div>
     <div class="chat-message-answers" v-if="props.question.options.type==='multi-select'">
         <div class="chat-message-answer">
-            <div class="chat-message-answer-multi" v-for="answer, id in props.question.options.answers" :key="id">
-                <input type="checkbox" @change="(e) => clickAnswer(e, answer)" v-bind:checked="answer.isSelected" />
-                <label>{{ answer.answer }}</label>
+            <div class="chat-message-answer-multi" v-for="answer, id in props.question.options.values" :key="id">
+                <input type="checkbox" />
+                <label>{{ answer }}</label>
             </div>
-            <button @click="submitAnswer(props.question.options.answers)">Submit</button>
+            <button @click="submitAnswer(props.question.options.values)">Submit</button>
         </div>
     </div>
 </template>
