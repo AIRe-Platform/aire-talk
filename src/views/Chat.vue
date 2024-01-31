@@ -8,20 +8,10 @@ import Summary from './Summary.vue';
 import { SummaryState } from '@/context/summaryState';
 defineComponent({ name: "ChatView" })
 
-/**
- * Create a new chat
- */
-const newChat = (e?: Event) => {
-    e?.preventDefault();
-    Chat.newChat();
-};
 </script>
 
 <template>
     <div>
-        <button class="chat-new-chat" @click="newChat">
-            <a class="nav-link" href="#">  {{ $t(l.chat_new_chat) }} </a>
-        </button>
         <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
             {{ $t(l.chat_data) }}
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
@@ -57,12 +47,6 @@ const newChat = (e?: Event) => {
 </template>
 
 <style scoped>
-.chat-new-chat {
-    position: absolute;
-    left: 10rem;
-    top: 8rem;
-}
-
 .chat-view-wrapper {
     margin-bottom: 7rem;
 }

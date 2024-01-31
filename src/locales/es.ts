@@ -105,7 +105,6 @@ const es: Locale = {
     chat_occupation: "Profesión",
     chat_topic: "Tema",
     chat_topic_onboarding: "Tema desde onboarding",
-    chat_new_chat: "Nuevo chat",
 
     checkbox_title: "Bienvenido a la plataforma AIRe",
     checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
@@ -126,6 +125,8 @@ const es: Locale = {
     burger_menu_restore_chat: "Cargar chat",
     burger_menu_chat_history: "Historial chat",
     burger_menu_catalogue_content: "Catálogo contenido",
+    burger_menu_saved_chats: "Chats guardados:",
+    burger_menu_new_chat: "Nuevo chat",
 
     onboarding_greetings: "Hola",
     onboarding_question: "¿Estas interesado en alguno de estos temas?",
@@ -140,7 +141,7 @@ const es: Locale = {
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
 
-    popup_question_one: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_question_revert_message: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
     popup_button_accept: "Aceptar",
     popup_button_cancel: "Cancelar"
 

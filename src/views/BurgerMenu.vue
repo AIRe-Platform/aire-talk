@@ -5,7 +5,7 @@ import { l } from '@/locales';
 import { RouterLink } from 'vue-router';
 import { Login, logout } from '@/context/login';
 import { Chat } from '@/context/chat';
-import ChatHistory from '@/components/ChatHistory.vue'
+//import ChatHistory from '@/components/ChatHistory.vue'
 import CatalogueContent from '@/components/CatalogueContent.vue';
 import { AireChatMetadata } from "@/lib/aire/models/chat";
 defineComponent({ name: "BurgerMenuView" })
@@ -59,11 +59,14 @@ const onLoadChat = async (chat: AireChatMetadata) => {
 /**
  * Toggle the Chat History Menu and send it to main view.
  */
-const toggleChatHistoryMenu = (e: Event) => {
+const toggleChatHistoryMenu = async (e: Event) => {
     e.preventDefault();
     isChatHistoryOpen.value = !(isChatHistoryOpen.value);
     isCatologueContentOpen.value = false;
     isRestoreChatOpen.value = false;
+
+    chats.value = await Chat.getAllChats();
+    chats.value.splice(chats.value.findIndex((chat) => chat.id === Chat.chat_id), 1);
 };
 
 /**
@@ -85,6 +88,14 @@ const toggleCatalogueContentMenu = (e: Event) => {
     isCatologueContentOpen.value = !(isCatologueContentOpen.value);
     isChatHistoryOpen.value = false;
     isRestoreChatOpen.value = false;
+};
+
+/**
+ * Create a new chat
+ */
+ const newChat = (e?: Event) => {
+    e?.preventDefault();
+    Chat.newChat();
 };
 </script>
 
@@ -119,6 +130,9 @@ const toggleCatalogueContentMenu = (e: Event) => {
                         <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{
                             $t(l.burger_menu_current_user) }}</RouterLink>
                     </div>
+                    <div class="nav-item" @click="newChat">
+                        <a class="nav-link" href="#">  {{ $t(l.burger_menu_new_chat) }} </a>
+                    </div>
                     <div class="nav-item burger-menu-button-nav-item" v-if="Login.logged_in === false" @click="toggleMenu">
                         <RouterLink class="nav-link" to="/signup">{{ $t(l.burger_menu_sign_up) }}</RouterLink>
                     </div>
@@ -141,19 +155,35 @@ const toggleCatalogueContentMenu = (e: Event) => {
         </div>
         <div class="burger-menu-menu-chat-history" v-if="isChatHistoryOpen">
             <div class="burger-menu-menu-chat-history-top-row">
-                <h1>{{ $t(l.burger_menu_chat_history) }} </h1>
+                <!-- <h1>{{ $t(l.burger_menu_chat_history) }} </h1> -->
                 <div class="burger-menu-menu-chat-history-close-button hide-big-screen-devices"
                     @click="toggleChatHistoryMenu">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
             </div>
             <div class="burger-menu-menu-chat-history-chat-content">
+            <!-- THIS HAS THE SAME AS CHAT SO LET'S HAVE THIS APART UNTIL WE NOW WHAT TO DO HERE
                 <div class="burger-menu-menu-chat-history-chat" v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
                     <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
                         <ChatHistory :message="msg" />
                     </div>
                     <div class="burger-menu-menu-chat-history-chat-bubble-user" v-if="msg.role == 'user'">
                         <ChatHistory :message="msg" />
+                    </div>
+                </div>
+            -->
+                <div class="burger-menu-menu-restore-chat-top-row">
+                    <h1> {{ $t(l.burger_menu_saved_chats) }}</h1>
+                    <div class="burger-menu-menu-restore-chat-close-button hide-big-screen-devices"
+                        @click="toggleRestoreChatMenu">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                    </div>
+                </div>
+                <div class="burger-menu-menu-restore-chat-content">
+                    <div class="burger-menu-menu-restore-chat-content" v-for="chat in chats" v-bind:key="chat.id">
+                        <button class="burger-menu-menu-restore-chat-row" @click="onLoadChat(chat)">
+                            {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -167,8 +197,11 @@ const toggleCatalogueContentMenu = (e: Event) => {
                 </div>
             </div>
             <div class="burger-menu-menu-catalogue-content-chat-content">
-                <div class="burger-menu-menu-chat-history-chat-catalogue-content" v-for="(msg) in Chat.history"
-                    v-bind:key="msg.timestamp">
+                <div
+                    class="burger-menu-menu-chat-history-chat-catalogue-content" 
+                    v-for="(msg) in Chat.history"
+                    v-bind:key="msg.timestamp"
+                >
                     <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
                         <CatalogueContent :message="msg" />
                     </div>
@@ -177,8 +210,7 @@ const toggleCatalogueContentMenu = (e: Event) => {
         </div>
         <div class="burger-menu-menu-restore-chat" v-if="isRestoreChatOpen">
             <div class="burger-menu-menu-restore-chat-top-row">
-                <!--             <h1>{{ $t(l.burger_menu_catalogue_content) }}</h1> -->
-                <h1> restore chats:</h1>
+                <h1> {{ $t(l.burger_menu_saved_chats) }}</h1>
                 <div class="burger-menu-menu-restore-chat-close-button hide-big-screen-devices"
                     @click="toggleRestoreChatMenu">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
@@ -186,9 +218,16 @@ const toggleCatalogueContentMenu = (e: Event) => {
             </div>
             <div class="burger-menu-menu-restore-chat-content">
                 <div class="burger-menu-menu-restore-chat-content" v-for="chat in chats" v-bind:key="chat.id">
-                    <button class="burger-menu-menu-restore-chat-row" @click="onLoadChat(chat)">
-                        {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
-                    </button>
+                    <div class="burger-menu-menu-restore-chat-row"  @click="onLoadChat(chat)">
+                        <button class="burger-menu-menu-restore-chat-date">
+                            {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
+                        </button>
+                        <div class="burger-menu-menu-restore-chat-text">
+                            some text 
+                            
+                        </div>
+                        <font-awesome-icon icon="fa-solid fa-trash" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -239,7 +278,9 @@ $primary: var(--background-color);
     justify-content: center;
     cursor: pointer;
 }
+.burger-menu-menu-restore-chat-text{
 
+}
 .burger-menu-button-nav-item {
     margin-top: 10rem;
 }
