@@ -4,7 +4,6 @@ import App from './App.vue'
 import i18n from './locales'
 import { initAire } from './lib/aire'
 import { restoreSession } from './context/login'
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin } from '@fortawesome/free-solid-svg-icons'
@@ -17,7 +16,9 @@ export async function initApp() {
     if (AppState.value !== "init")
         return;
 
-    const result = await initAire({ 
+    const result = await initAire({
+
+        //To run in local postgreSQL
         api_url: (process.env.NODE_ENV === "production"
             ? "https://gl-dev-aire.azure-api.net/services/"
             : "http://localhost:7071/api"

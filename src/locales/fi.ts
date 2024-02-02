@@ -140,6 +140,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_history_video: "videotiedosto:",
 
     popup_question_revert_message: "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
+    popup_question_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
     popup_button_accept: "Jatka",
     popup_button_cancel: "Perutta"
 }
