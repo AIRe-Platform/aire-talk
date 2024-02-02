@@ -127,6 +127,7 @@ export enum LocalizationKey {
     chat_history_video = "chat_history_video",
 
     popup_question_revert_message = "popup_question_revert_message",
+    popup_question_remove_chat = "popup_question_remove_chat",
     popup_button_accept = "popup_button_accept",
     popup_button_cancel = "popup_button_cancel"
 }

@@ -9,6 +9,7 @@ import {
     AireChatbotInput
 } from "./models/chat";
 import { AireServices } from ".";
+import { Chat } from "@/context/chat";
 
 export class AireAI {
     private config: AireModule;
@@ -122,6 +123,7 @@ export class AireAI {
                             buf += line;
                         }
                     });
+                    Chat.updateLastMessage();
                 }
             })
             .catch((reason) => {

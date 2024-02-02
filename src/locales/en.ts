@@ -139,6 +139,7 @@ The password must contain at least lower and upper case letter as well as number
     chat_history_video: "Video file:",
 
     popup_question_revert_message: "Are you sure you want to revert the chat to this message?",
+    popup_question_remove_chat: "Are you sure you want to remove this chat?",
     popup_button_accept: "Accept",
     popup_button_cancel: "Cancel"
 }

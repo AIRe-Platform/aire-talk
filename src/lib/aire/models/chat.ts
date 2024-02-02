@@ -40,4 +40,5 @@ export type AireChatHistory = Array<AireChatMessage>
 export interface AireChatMetadata {
     id: string;
     time: string;
+    chatMessages?: AireChatHistory;
 }

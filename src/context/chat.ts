@@ -13,7 +13,7 @@ const bot_name = "aire_bot"
 const system_name = "aire_system"
 const constant_countdown_timer = 30000;//Change to 30 seconds
 const isGoingToSave = ref<boolean>(false);
-const myTimeout = ref<number>();
+const timeToSave = ref<number>();
 
 export interface ChatState {
     history: ChatHistory;
@@ -27,6 +27,7 @@ export interface ChatState {
     OnboardingFromExternalSite?: Topic;
     chat_id?: string;
     needsToSave: boolean;
+    lastMessageID?: number;
 
     send: (message: string) => void;
     saveChatHistory: () => void;
@@ -34,6 +35,9 @@ export interface ChatState {
     reset: (to_message?: number) => void;
     getAllChats: () => Promise<AireChatMetadata[]>;
     newChat: () => void;
+    startTimerSaver: () => void;
+    updateLastMessage:() => void;
+    removeChat:(chat_id: string) => void;
 }
 
 /*
@@ -64,12 +68,13 @@ function sendChatMessage(message: string) {
     }
 
     Chat.history.push(userMessage);
+    Chat.lastMessageID = userMessage.id;
 
     if (isGoingToSave.value)
         resetCountdownToSaveChat();
 
     isGoingToSave.value = true;
-    myTimeout.value = setTimeout(() => Chat.saveChatHistory(), constant_countdown_timer);
+    startCountDown();
 
     const messages = Chat.history
         .filter(x => x.role === "assistant" || x.role === "user");
@@ -91,10 +96,20 @@ function sendChatMessage(message: string) {
     } else {
         console.warn("AI service is not configured");
     }
+    updateLastMessage();
+}
+
+function startCountDown() {
+    timeToSave.value = setTimeout(() => Chat.saveChatHistory(), constant_countdown_timer);
+}
+
+async function removeChat(chat_id: string) {
+    console.debug("(removeChat) ,Chat_id ", chat_id);
+    await AireServices.Memory?.deleteChat(chat_id) || [];
 }
 
 function resetCountdownToSaveChat() {
-    clearTimeout(myTimeout.value);
+    clearTimeout(timeToSave.value);
 }
 
 /**
@@ -158,11 +173,17 @@ async function loadChatHistory(chat_id?: string) {
             });
             Chat.history = history;
             Chat.chat_id = chat_id_temp;
+            updateLastMessage();
         }
     } else {
         console.warn("MEMORY service is not configured");
     }
 }
+
+function updateLastMessage(){
+    Chat.lastMessageID = Chat.history.find( x => x.id === Chat.history[Chat.history.length-1].id)?.id;
+}
+
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
@@ -170,35 +191,16 @@ async function loadChatHistory(chat_id?: string) {
  */
 async function getAllChats(): Promise<AireChatMetadata[]> {
     const chats = await AireServices.Memory?.getChatlogs() || [];
-
-    //console.log("chats? ", chats);
-
-    if (AireServices.Memory) 
-    {
+    if (AireServices.Memory) {
         const chatsWithLogs = [];
-
-        for(let i= 0; i<chats.length; i++)
-        {
+        for (let i = 0; i < chats.length; i++) {
             const chatMessages = await AireServices.Memory.getChat(chats[i].id);
-            
-           // console.log("chatMessages", chatMessages);
-
-            /* const chatsWithMessages: ChatHistory = await chats.map(x => {
-                const m: ChatMessage = {
-                    id: x.id,
-                    timestamp: x.timestamp || 0,
-                    chats: chatMessages
-                };
-                return m;
-            }); */
+            chats[i].chatMessages = chatMessages;
         }
     }
     const orderedChats = chats.sort((b, a) => {
         return Date.parse(a.time) - Date.parse(b.time)
     });
-    
-    //console.log("orderedChats", orderedChats);
-
     return orderedChats;
 }
 
@@ -271,14 +273,18 @@ function initChatState(): ChatState {
         history: testMessages,
         awaitingResponse: false,
         scrolling: false,
+        landingInfo: {},
+        needsToSave: false,
+        lastMessageID: testMessages[0].id,
         send: sendChatMessage,
         saveChatHistory: saveChatHistory,
         loadChatHistory: loadChatHistory,
         reset: resetChatState,
         getAllChats: getAllChats,
-        landingInfo: {},
         newChat: newChat,
-        needsToSave: false,
+        startTimerSaver: startCountDown,
+        updateLastMessage: updateLastMessage,
+        removeChat: removeChat,
     }
 }
 

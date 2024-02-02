@@ -60,17 +60,18 @@ const copyClipboard = (message: ChatMessage) => {
  */
 const revertToMessage = () => {
     if (revertMessageTo.value) {
-        const index = Chat.history.findIndex( x => x.id === revertMessageTo.value?.id);
+        const index = Chat.history.findIndex(x => x.id === revertMessageTo.value?.id);
         const nextOne = Chat.history[index + 1];
-        if(index != -1 && nextOne !== undefined)
-        {
+        if (index != -1 && nextOne !== undefined) {
             Chat.reset(nextOne.id);
-        }else{
+        } else {
             console.log("This is last message you can not revert it, just go to previus ones to delete this one");
         }
         toggleMenu();
         toggleRevertMessagePopUp();
         Chat.needsToSave = true;
+        Chat.startTimerSaver();
+        Chat.updateLastMessage();
     } else {
         console.log("Error while reverting to message.");
     }
@@ -175,7 +176,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
                 :class="{ 'is-selected': message.isCopiedClipboard }">
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
-            <button @click="toggleRevertMessagePopUp(message)" class="chat-message-answer-options-menu-button">
+            <button @click="toggleRevertMessagePopUp(message)" class="chat-message-answer-options-menu-button" v-if="message.id !== Chat.lastMessageID">
                 <font-awesome-icon icon="fa-solid fa-arrows-spin" />
             </button>
         </div>

@@ -142,6 +142,7 @@ const es: Locale = {
     chat_history_video: "Vídeo:",
 
     popup_question_revert_message: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_question_remove_chat: "¿estas seguro de que quieres borrar este chat?",
     popup_button_accept: "Aceptar",
     popup_button_cancel: "Cancelar"
 
