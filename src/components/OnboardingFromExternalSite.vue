@@ -15,7 +15,7 @@ const toggleMenu = () => {
 
 const buttonSelected = (topic) => {
     topic.isSelected = true;
-    Chat.OnboardingFromExternalSite = topic;
+    Chat.onboardingFromExternalSite = topic;
     for (let oldTopic of initialTopics) {
         if (oldTopic.isSelected)
             oldTopic.isSelected = false;

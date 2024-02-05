@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Chat } from '@/context/chat'
+import { Chat, sendChatMessage } from '@/context/chat'
 import { l } from '@/locales';
 
 function submit(event: Event) {
@@ -8,9 +8,7 @@ function submit(event: Event) {
     const prompt = el.value.trim()
 
     if (prompt.length > 0)
-        Chat.send(el.value)
-
-    Chat.needsToSave = true;
+        sendChatMessage(el.value)
     el.value = ""
 }
 </script>

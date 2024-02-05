@@ -10,10 +10,6 @@ export interface Answer {
     answer: any;
 }
 
-/**
- * TODO refactor isThumDown and up. Use rating.
- * TODO isCOpiedOnClipboard does nothing. remove I think
- */
 export interface ChatMessage {
     id: number;
     sender: string;
@@ -26,10 +22,7 @@ export interface ChatMessage {
     video?: string;
     question?: Question;
     answer?: Answer;
-    isThumbsUp?: boolean;
-    isThumbsDown?: boolean;
     rating?: number;
-    isCopiedClipboard?: boolean;
 }
 
 export type ChatHistory = Array<ChatMessage>

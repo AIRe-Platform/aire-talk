@@ -1,7 +1,7 @@
 import { ChatMessage } from "@/models/chat";
 
 export function scrollToMessage(message: ChatMessage, pos?: ScrollLogicalPosition) {
-    const id = message.timestamp.toString();
+    const id = message.id.toString();
     const bubble = document.getElementById(id);
 
     if (bubble) {

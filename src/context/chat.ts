@@ -4,56 +4,43 @@ import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
 import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
-const constant_countdown_timer = 30000;//Change to 30 seconds
-const isGoingToSave = ref<boolean>(false);
-const timeToSave = ref<number>();
+//const isGoingToSave = ref<boolean>(false);
+
+let save_timer_id: number | undefined = undefined;
+const SAVE_TIMER_TIMEOUT = 10000;
 
 export interface ChatState {
+    chat_id?: string;
     history: ChatHistory;
     awaitingResponse: boolean;
     scrolling: boolean;
+    modified: boolean;
+
+    // TODO: Move to landing view
     landingInfo: {
         age?: number;
         occupation?: string;
     };
     checkbox?: Topic;
-    OnboardingFromExternalSite?: Topic;
-    chat_id?: string;
-    needsToSave: boolean;
-    lastMessageID?: number;
+    onboardingFromExternalSite?: Topic;
 
-    send: (message: string) => void;
-    saveChatHistory: () => void;
-    loadChatHistory: (chat_id?: string) => void;
-    reset: (to_message?: number) => void;
-    getAllChats: () => Promise<AireChatMetadata[]>;
-    newChat: () => void;
-    startTimerSaver: () => void;
-    updateLastMessage:() => void;
-    removeChat:(chat_id: string) => void;
-}
-
-/*
- * If the users is logged, returns first_name last_name else ""
- * @returns 
- */
-function getUserName() {
-    if (Login.user) {
-        return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
-    }
-    return ""
+    // TODO: Implement chat history preload cache
 }
 
 export const Chat: ChatState = reactive(initChatState());
 
-function sendChatMessage(message: string) {
+/**
+ * Sends a message to the chatbot
+ * @param message Message content
+ */
+export function sendChatMessage(message: string) {
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
@@ -67,14 +54,7 @@ function sendChatMessage(message: string) {
         timestamp: Date.now()
     }
 
-    Chat.history.push(userMessage);
-    Chat.lastMessageID = userMessage.id;
-
-    if (isGoingToSave.value)
-        resetCountdownToSaveChat();
-
-    isGoingToSave.value = true;
-    startCountDown();
+    pushMessage(userMessage)
 
     const messages = Chat.history
         .filter(x => x.role === "assistant" || x.role === "user");
@@ -96,28 +76,46 @@ function sendChatMessage(message: string) {
     } else {
         console.warn("AI service is not configured");
     }
-    updateLastMessage();
 }
 
-function startCountDown() {
-    timeToSave.value = setTimeout(() => Chat.saveChatHistory(), constant_countdown_timer);
+/**
+ * Reverts chat to an earlier state
+ * @param id Message ID to revert to
+ */
+export function revertToMessage(id: number) {
+    const index = Chat.history.findIndex(x => x.id === id);
+    if (index > -1) {
+        Chat.history = Chat.history.slice(0, index + 1);
+        startAutoSaveTimer()
+    }
+    else {
+        console.debug("Message not found, cannot revert", id)
+    }
 }
 
-async function removeChat(chat_id: string) {
-    console.debug("(removeChat) ,Chat_id ", chat_id);
-    await AireServices.Memory?.deleteChat(chat_id) || [];
-}
+/**
+ * Deletes a chat
+ * @param id Chat ID
+ */
+export async function deleteChat(id: string) {
+    console.debug("(removeChat) ,Chat_id ", id);
 
-function resetCountdownToSaveChat() {
-    clearTimeout(timeToSave.value);
+    if (id == Chat.chat_id)
+        await resetChat(true)
+
+    if (AireServices.Memory)
+        await AireServices.Memory.deleteChat(id)
 }
 
 /**
  * Save the chat in the database.
  * @param chatHistory
  */
-async function saveChatHistory() {
-    console.debug("(saveChatHistory) current Chat.chat_id:", Chat.chat_id);
+export async function saveChat() {
+    if (!Login.logged_in || !Chat.modified)
+        return
+
+    console.debug("(saveChat) current Chat.chat_id:", Chat.chat_id);
     if (AireServices.Memory) {
         const history: AireChatHistory = await Chat.history.map(x => {
             const m: AireChatMessage = {
@@ -135,19 +133,20 @@ async function saveChatHistory() {
     } else {
         console.warn("MEMORY service is not configured");
     }
-    isGoingToSave.value = false;
-    Chat.needsToSave = false;
 }
 
 /**
  * Load the complete chat with the chat_id if it is give. If is not given any chat_id it takes the latest chat saved and put it in the Chat.history.
  * @param chat_id 
  */
-async function loadChatHistory(chat_id?: string) {
+export async function loadChat(id?: string) {
+    if (Chat.modified)
+        await saveChat()
+
     let chat;
     let chat_id_temp;
     if (AireServices.Memory) {
-        if (!chat_id) {
+        if (!id) {
             const chats = await getAllChats();
             if (chats) {
                 const latest = chats.sort((b, a) => {
@@ -157,8 +156,8 @@ async function loadChatHistory(chat_id?: string) {
                 chat_id_temp = latest[0].id;
             }
         } else {
-            chat = await AireServices.Memory.getChat(chat_id);
-            chat_id_temp = chat_id;
+            chat = await AireServices.Memory.getChat(id);
+            chat_id_temp = id;
         }
         if (chat) {
             const history: ChatHistory = await chat.map(x => {
@@ -173,23 +172,45 @@ async function loadChatHistory(chat_id?: string) {
             });
             Chat.history = history;
             Chat.chat_id = chat_id_temp;
-            updateLastMessage();
         }
     } else {
         console.warn("MEMORY service is not configured");
     }
 }
 
-function updateLastMessage(){
-    Chat.lastMessageID = Chat.history.find( x => x.id === Chat.history[Chat.history.length-1].id)?.id;
+/**
+ * Create a new chat
+ */
+export async function createNewChat() {
+    await saveChat();
+    resetChat();
 }
 
+/**
+ * Function to revert the chat state to the chat message passed as param.
+ */
+export async function resetChat(skip_save: boolean = false) {
+    cancelAutoSaveTimer()
+
+    if (!skip_save)
+        await saveChat()
+
+    Chat.chat_id = undefined
+    Chat.awaitingResponse = false;
+    Chat.scrolling = false;
+    Chat.modified = false;
+    Chat.history = [systemGreeting()]
+    Chat.landingInfo = {}
+    Chat.checkbox = undefined
+    Chat.onboardingFromExternalSite = undefined
+}
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
  * @returns array of chats format id: string, date: string
  */
-async function getAllChats(): Promise<AireChatMetadata[]> {
+// TODO: Export or refactor?
+export async function getAllChats(): Promise<AireChatMetadata[]> {
     const chats = await AireServices.Memory?.getChatlogs() || [];
     if (AireServices.Memory) {
         const chatsWithLogs = [];
@@ -204,8 +225,13 @@ async function getAllChats(): Promise<AireChatMetadata[]> {
     return orderedChats;
 }
 
+/**
+ * Chatbot answer receiver callback
+ * @param msg Message or a part of it
+ */
 function receiver(msg: AireTalkMessage) {
     let last = Chat.history[Chat.history.length - 1];
+    let firstMessage = false // start of the answer stream?
 
     if (last.role !== "assistant") {
         last = {
@@ -216,13 +242,15 @@ function receiver(msg: AireTalkMessage) {
             message: "",
             timestamp: Date.now()
         }
-        Chat.history.push(last)
+        firstMessage = true
     }
 
     if (msg && msg.message) {
         last.message += msg.message;
     }
     Chat.awaitingResponse = !msg.final;
+
+    pushMessage(last, firstMessage, msg.final)
 
     if (!Chat.scrolling || msg.final) {
         Chat.scrolling = true;
@@ -233,6 +261,10 @@ function receiver(msg: AireTalkMessage) {
     }
 }
 
+/**
+ * Chatbot error callback
+ * @param error Error info
+ */
 function error_handler(error: AireError) {
     Chat.history.push({
         id: generateRandomID(),
@@ -247,6 +279,10 @@ function error_handler(error: AireError) {
     Chat.awaitingResponse = false;
 }
 
+/**
+ * Build default system greeting message
+ * @returns System greeting
+ */
 function systemGreeting(): ChatMessage {
     return {
         id: generateRandomID(),
@@ -258,6 +294,28 @@ function systemGreeting(): ChatMessage {
     };
 }
 
+/**
+ * Push a new message
+ * @param message Message
+ * @param create Set to false if you want to modify the last message
+ * @param final Set to false to delay triggering auto save
+ */
+function pushMessage(message: ChatMessage, create: boolean = true, final: boolean = true) {
+    if (create) {
+        Chat.history.push(message);
+    } else {
+        Chat.history[Chat.history.length - 1] = message
+    }
+
+    if (final)
+        startAutoSaveTimer()
+
+    Chat.modified = true
+}
+
+/**
+ * Initializes chat state object
+ */
 function initChatState(): ChatState {
 
     const testMessages: ChatHistory = [
@@ -272,53 +330,34 @@ function initChatState(): ChatState {
     return {
         history: testMessages,
         awaitingResponse: false,
+        modified: false,
         scrolling: false,
-        landingInfo: {},
-        needsToSave: false,
-        lastMessageID: testMessages[0].id,
-        send: sendChatMessage,
-        saveChatHistory: saveChatHistory,
-        loadChatHistory: loadChatHistory,
-        reset: resetChatState,
-        getAllChats: getAllChats,
-        newChat: newChat,
-        startTimerSaver: startCountDown,
-        updateLastMessage: updateLastMessage,
-        removeChat: removeChat,
+        landingInfo: {}
     }
 }
 
 /**
- * Create a new chat
+ * Starts the auto save timer
  */
-async function newChat() {
-    await saveChatHistory();
+function startAutoSaveTimer() {
+    console.debug("Starting auto save time")
+    cancelAutoSaveTimer()
 
-    Chat.chat_id = undefined;
-
-    resetChatState();
+    save_timer_id = setTimeout(async () => {
+        save_timer_id = undefined
+        console.debug("Auto save triggered!")
+        await saveChat()
+    }, SAVE_TIMER_TIMEOUT)
 }
 
 /**
- * Function to revert the chat state to the chat message passed as param.
- * @param to_message_id 
+ * Cancels auto save timer
  */
-function resetChatState(to_message_id?: number) {
-    Chat.awaitingResponse = false;
-    Chat.scrolling = false;
-
-    let spliceStart = 0;
-
-    if (to_message_id) {
-        const index = Chat.history.findIndex(x => x.id === to_message_id);
-        if (index > 0)
-            spliceStart = index;
-    }
-
-    Chat.history = Chat.history.slice(0, spliceStart);
-
-    if (Chat.history.length === 0)
-        Chat.history.push(systemGreeting());
+function cancelAutoSaveTimer() {
+    console.debug("Cancelling timer if set") // FIXME: Remove me
+    if (save_timer_id)
+        clearTimeout(save_timer_id);
+    save_timer_id = undefined
 }
 
 /**
@@ -327,4 +366,15 @@ function resetChatState(to_message_id?: number) {
  */
 function generateRandomID() {
     return Math.floor(Math.random() * Date.now());
+}
+
+/**
+ * If user is logged in, returns the user name
+ * @returns Name of the user
+ */
+function getUserName() {
+    if (Login.user) {
+        return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
+    }
+    return ""
 }

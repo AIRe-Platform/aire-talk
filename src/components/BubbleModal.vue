@@ -1,18 +1,47 @@
 <script setup lang="ts">
+import SurveyQuestion from './SurveyQuestion.vue'
+import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
 
-defineProps<{
-    isModalActivate: Boolean,
+const props = defineProps<{
+    active: boolean,
+    parent: ChatMessage,
+    onClose: () => void
 }>()
 
+const close = (e: Event) => {
+    e.stopPropagation()
+    props.onClose()
+}
 </script>
   
 <template>
     <transition name="modal-animation">
-        <div v-show="isModalActivate" class="modal">
+        <div v-show="active" class="modal">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
-                    <slot />
+                    <div class="modal-component">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1>{{ props.parent.sender }}</h1>
+                            </div>
+                            <div class="modal-body">
+                                <p v-if="!props.parent.question"> {{ props.parent.message }}</p>
+                                <div class="modal-body-image" v-if="props.parent.image">
+                                    <img v-bind:src="props.parent.image" class="chat-message-image-contain">
+                                </div>
+                                <div class="modal-body-video-container" v-if="props.parent.video">
+                                    <video class="modal-body-video" controls>
+                                        <source v-bind:src="props.parent.video" type="video/mp4">
+                                    </video>
+                                </div>
+                                <SurveyQuestion v-if="props.parent.question" :question="props.parent.question" />
+                            </div>
+                        </div>
+                        <div class="modal-button" @click="close">
+                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                        </div>
+                    </div>
                 </div>
             </transition>
         </div>
@@ -22,6 +51,29 @@ defineProps<{
 <style lang="scss" scoped>
 $primary-color: var(--panel-background-color);
 $secundary-color: var(--background-color);
+
+.modal-component {
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.modal-body-image {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-button {
+    cursor: pointer;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.modal-body-video {
+    width: 40rem;
+    height: 20rem;
+}
 
 .modal-animation-enter-active,
 .modal-animation-leave-active {
@@ -103,6 +155,15 @@ $secundary-color: var(--background-color);
             font-size: x-small;
             padding: 1rem;
         }
+    }
+
+    .modal-body-video-container {
+        margin-top: 1rem;
+    }
+
+    .modal-body-video {
+        max-width: 18.5rem;
+        max-height: 15rem;
     }
 }
 </style>

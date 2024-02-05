@@ -1,104 +1,27 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import SurveyQuestion from './SurveyQuestion.vue'
 import { scrollToMessage } from '@/helpers/scrollToMessage'
 import { defineProps, onMounted, ref } from 'vue';
-import BubbleModal from './BubbleModal.vue';
-import { Chat } from '@/context/chat';
-import popUp from './PopUp.vue';
+import { revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
+import BubbleModal from './BubbleModal.vue';
+import SurveyQuestion from './SurveyQuestion.vue'
+import ChatBubbleOptions from './ChatBubbleOptions.vue'
+import ConfirmDialog from './ConfirmDialog.vue';
 
-const props = defineProps<{ message: ChatMessage }>()
-const id = props.message.timestamp.toString();
+const props = defineProps<{ message: ChatMessage, can_revert: boolean }>()
 const isSystem = props.message.role === "system";
 const isBot = props.message.role === "assistant";
-let isPopUpRevertMessageOpen = ref(false);
-let revertMessageTo = ref<ChatMessage>();
 
-// show Modal 
-const isModalActivate = ref(false);
-// show Menu
-const isMenuShown = ref(false);
+const revertConfirmPopupOpen = ref(false);
+const modalOpen = ref(false);
 
-/**
- * Toggle the popup component to revert message
- */
-const toggleRevertMessagePopUp = (message?: ChatMessage) => {
-    isPopUpRevertMessageOpen.value = !(isPopUpRevertMessageOpen.value);
-    revertMessageTo.value = message;
-    toggleMenu();
+const toggleModal = () => {
+    modalOpen.value = !modalOpen.value;
 };
 
-/**
- * Toggle the modal of the ChatMessage selected.
- * @param message 
- */
-const toggleModal = (message: ChatMessage) => {
-    if (!message.question)
-        isModalActivate.value = !isModalActivate.value;
-};
-
-/**
- * Toggle the Menu
- */
-const toggleMenu = () => {
-    isMenuShown.value = !isMenuShown.value;
-};
-
-/**
- * TODO 
- * @param answer 
- */
-const copyClipboard = (message: ChatMessage) => {
-    message.isCopiedClipboard = !message.isCopiedClipboard;
-    console.log("message copied on Clipboard!", message);
-};
-
-/**
- *  TODO change into undo the next messages from this one.
- * @param message 
- */
-const revertToMessage = () => {
-    if (revertMessageTo.value) {
-        const index = Chat.history.findIndex(x => x.id === revertMessageTo.value?.id);
-        const nextOne = Chat.history[index + 1];
-        if (index != -1 && nextOne !== undefined) {
-            Chat.reset(nextOne.id);
-        } else {
-            console.log("This is last message you can not revert it, just go to previus ones to delete this one");
-        }
-        toggleMenu();
-        toggleRevertMessagePopUp();
-        Chat.needsToSave = true;
-        Chat.startTimerSaver();
-        Chat.updateLastMessage();
-    } else {
-        console.log("Error while reverting to message.");
-    }
-
-};
-
-/**
- * Method to switch the thumbs up button. Do the logic to swith off the other one if needed.
- * TODO change it into use the rating number 1 thumsUp 0 nothing -1 thumsDown
- * @param message 
- */
-const thumbsUp = (message: ChatMessage) => {
-
-    message.isThumbsUp = !message.isThumbsUp;
-    if (message.isThumbsUp && message.isThumbsDown)
-        message.isThumbsDown = false;
-};
-
-/**
- * Method to switch the thumbs down button. Do the logic to swith off the other one if needed.
- * @param message 
- */
-const thumbsDown = (message: ChatMessage) => {
-
-    message.isThumbsDown = !message.isThumbsDown;
-    if (message.isThumbsDown && message.isThumbsUp)
-        message.isThumbsUp = false;
+const onRevert = () => {
+    revertToMessage(props.message.id)
 };
 
 let classList: any[] = ["chat-bubble"]
@@ -117,33 +40,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
 </script>
 
 <template>
-    <BubbleModal :isModalActivate="isModalActivate">
-        <div class="modal-component">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1>{{ message.sender }}</h1>
-                </div>
-                <div class="modal-body">
-                    <p v-if="!message.question"> {{ message.message }}</p>
-                    <div class="modal-body-image" v-if="message.image">
-                        <img v-bind:src="message.image" class="chat-message-image-contain">
-                    </div>
-                    <div class="chat-bubble-modal-body-video-container" v-if="message.video">
-                        <video class="chat-bubble-modal-body-video" controls>
-                            <source v-bind:src="message.video" type="video/mp4">
-                        </video>
-                    </div>
-                    <SurveyQuestion v-if="message.question" :question="message.question" />
-                </div>
-            </div>
-            <div class="modal-button">
-                <div @click="toggleModal(message)" type="button">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </div>
-            </div>
-        </div>
-    </BubbleModal>
-    <div :id=id :class=classList @click="toggleModal(message)">
+    <div :id="props.message.id.toString()" :class=classList @click="toggleModal">
+        <BubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal"/>
+        <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
@@ -161,91 +60,25 @@ onMounted(() => scrollToMessage(props.message, "end"));
             </div>
             <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
+        <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
+            {{ $t(l.popup_question_revert_message) }}
+        </ConfirmDialog>
     </div>
-    <div class="chat-bubble-options-menu-relative">
-        <div class="chat-bubble-options-menu" v-if="!isSystem && isMenuShown">
-            <button @click="thumbsUp(message)" class="chat-message-answer-options-menu-button"
-                :class="{ 'is-selected': message.isThumbsUp }">
-                <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-            </button>
-            <button @click="thumbsDown(message)" class="chat-message-answer-options-menu-button"
-                :class="{ 'is-selected': message.isThumbsDown }">
-                <font-awesome-icon icon="fa-solid fa-thumbs-down" />
-            </button>
-            <button @click="copyClipboard(message)" class="chat-message-answer-options-menu-button"
-                :class="{ 'is-selected': message.isCopiedClipboard }">
-                <font-awesome-icon icon="fa-solid fa-copy" />
-            </button>
-            <button @click="toggleRevertMessagePopUp(message)" class="chat-message-answer-options-menu-button" v-if="message.id !== Chat.lastMessageID">
-                <font-awesome-icon icon="fa-solid fa-arrows-spin" />
-            </button>
-        </div>
-    </div>
-    <div class="chat-bubble-options-menu-dots" v-if="!isSystem" @click="toggleMenu()">
-        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-    </div>
-    <popUp v-if="isPopUpRevertMessageOpen">
-        <div class="popup-content">
-            <div class="popup-question">
-                {{ $t(l.popup_question_revert_message) }}
-            </div>
-            <div class="popup-buttons">
-                <button class="popup-button-accept" @click="revertToMessage()">
-                    <a class="nav-link" href="#"> {{ $t(l.popup_button_accept) }} </a>
-                </button>
-                <button class="popup-button-cancel" @click="toggleRevertMessagePopUp()">
-                    <a class="nav-link" href="#"> {{ $t(l.popup_button_cancel) }} </a>
-                </button>
-            </div>
-        </div>
-    </popUp>
 </template>
 
 <style scoped>
-.popup-content {
-    padding: 2rem;
-}
-
-.popup-question {
-    font-size: small;
-    font-family: var(--font-family);
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3rem;
-}
-
-.modal-component {
-    display: flex;
-    justify-content: space-between;
-    z-index: 2;
-}
-
-.modal-body-image {
-    display: flex;
-    justify-content: center;
-}
-
-.modal-button {
-    cursor: pointer;
-    width: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
     margin: 1rem;
     line-height: 1.4rem;
-    max-width: 42rem;
+    max-width: 80%;
     background-color: var(--chat-bubble-background-color);
     box-shadow: 0 0 5px gray;
     line-height: 1.4rem;
     border-radius: 1rem;
     border: 1px solid transparent;
+    margin-right: 3rem;
 }
 
 .chat-bubble-user {
@@ -274,10 +107,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     font-size: small;
 }
 
-.chat-message-answer-options-menu-button {
-    cursor: pointer;
-}
-
 .chat-user-label {
     font-size: small;
 }
@@ -298,11 +127,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-message-video-video {
     width: 42rem;
-    height: 20rem;
-}
-
-.chat-bubble-modal-body-video {
-    width: 40rem;
     height: 20rem;
 }
 
@@ -327,42 +151,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
     cursor: pointer;
 }
 
-.chat-bubble-options-menu-relative {
-    position: relative;
-}
-
-.chat-bubble-options-menu {
-    display: flex;
-    height: 10rem;
-    left: -3.5rem;
-    top: 1rem;
-    flex-direction: column;
-    justify-content: space-around;
-    position: absolute;
-}
-
-.chat-bubble-options-menu-dots {
-    background-color: var(--chat-bubble-background-color);
-    cursor: pointer;
-    margin: 1rem;
-    height: 1.2rem;
-    width: 1.2rem;
-    display: flex;
-    justify-content: center;
-    border-radius: 50px;
-    align-items: center;
-    border-color: white;
-    border-style: solid;
-    border: 1px solid transparent;
-    box-shadow: 0 0 5px gray;
-    line-height: 1.4rem;
-    margin-left: -0.35rem;
-}
-
 /* mobile*/
 @media screen and (max-width: 600px) {
-
-    .chat-message-question {
+    .chat-message-question { 
         padding: 0;
     }
 
@@ -395,34 +186,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     .chat-message-video-video {
         max-width: 17rem;
         max-height: 12rem;
-    }
-
-    .chat-bubble-modal-body-video-container {
-        margin-top: 1rem;
-    }
-
-    .chat-bubble-modal-body-video {
-        max-width: 18.5rem;
-        max-height: 15rem;
-    }
-
-    .chat-message-answer-options-menu-button {
-        transform: scale(0.5);
-    }
-
-    .chat-bubble-options-menu-relative {
-        position: unset;
-    }
-
-    .chat-bubble-options-menu {
-        background-color: var(--chat-bubble-background-color);
-        left: 19.5rem;
-        width: 2rem;
-        position: absolute;
-        display: flex;
-        height: -moz-fit-content;
-        height: fit-content;
-        align-items: center;
     }
 
     .chat-bubble-user {

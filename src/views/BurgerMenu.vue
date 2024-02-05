@@ -4,7 +4,7 @@ import { vOnClickOutside } from '@vueuse/components'
 import { l } from '@/locales';
 import { RouterLink } from 'vue-router';
 import { Login, logout } from '@/context/login';
-import { Chat } from '@/context/chat';
+import { Chat, loadChat, getAllChats, deleteChat, createNewChat } from '@/context/chat';
 import { router } from '@/router';
 //import ChatHistory from '@/components/ChatHistory.vue'
 import CatalogueContent from '@/components/CatalogueContent.vue';
@@ -18,19 +18,13 @@ const isCatologueContentOpen = ref(false);
 let chats = ref<AireChatMetadata[]>();
 let chatToDelete = ref<AireChatMetadata>();
 
-//to Toggle menu
 let isBurgerMenuOpen = ref(false);
 let isPopUpRemoveChatOpen = ref(false);
 
-/**
- * Toggle the popup component to remove a chat
- */
 const toggleRemoveChatPopUp = () => {
     isPopUpRemoveChatOpen.value = !(isPopUpRemoveChatOpen.value);
 };
-/**
- * Toggle the burger menu and send it to main view.
- */
+
 const toggleMenu = () => {
     isBurgerMenuOpen.value = !(isBurgerMenuOpen.value);
     if (isBurgerMenuOpen.value === false) {
@@ -45,71 +39,43 @@ const onBlur = () => {
     isCatologueContentOpen.value = false;
 };
 
-/**
- * Save the current chat to the ddbb. takes the chat_id from Chat.chat_id
- */
-const onSaveChat = async (e?: Event) => {
-    e?.preventDefault();
-    await Chat.saveChatHistory();
-};
-
-/**
- * Restore chat from the ddbb with the chat.id given. Save the current chat first and then move to the chat selected.
-*/
 const onLoadChat = async (chat: AireChatMetadata) => {
-
-    if (Chat.needsToSave && Chat.history.length > 1) {
-        await onSaveChat();
-    }
-    Chat.loadChatHistory(chat.id);
+    await loadChat(chat.id)
     toggleMenu();
     router.push("/chat");
 };
 
-/**
- * Remove the selected chat.
-*/
 const removeChatTogglePopup = async (chat: AireChatMetadata) => {
     chatToDelete.value = chat;
     toggleRemoveChatPopUp();
 };
 
-/**
- * Remove the selected chat.
-*/
 const updateChats = async () => {
-    chats.value = await Chat.getAllChats();
+    chats.value = await getAllChats()
 };
 
-/**
- * Remove the selected chat.
-*/
 const removeChat = async () => {
-    if( chatToDelete.value)
-        Chat.removeChat(chatToDelete?.value?.id);
-    updateChats();
-    toggleRemoveChatPopUp();
-};
-/**
- * Toggle the Chat History Menu and send it to main view.
- */
+    if (chatToDelete.value) {
+        deleteChat(chatToDelete.value.id);
+
+        updateChats();
+        toggleRemoveChatPopUp();
+    }
+}
+
 const toggleChatHistoryMenu = async (e: Event) => {
     e.preventDefault();
     isChatHistoryOpen.value = !(isChatHistoryOpen.value);
     isCatologueContentOpen.value = false;
     updateChats();
-
 };
 
-/**
-* Toggle the Restore Chat menu and get all the chats that has this user from the backend. All but the current chat
-*/
 const toggleRestoreChatMenu = async (e: Event) => {
     e.preventDefault();
     isCatologueContentOpen.value = false;
     isChatHistoryOpen.value = false;
-    chats.value = await Chat.getAllChats();
-    chats.value.splice(chats.value.findIndex((chat) => chat.id === Chat.chat_id), 1);
+    chats.value = await getAllChats();
+    //chats.value.splice(chats.value.findIndex((chat) => chat.id === Chat.chat_id), 1);
 };
 /**
  * Toggle the catalogue content Menu and send it to main view.
@@ -123,9 +89,10 @@ const toggleCatalogueContentMenu = (e: Event) => {
 /**
  * Create a new chat
  */
-const newChat = (e?: Event) => {
+const newChat = async (e?: Event) => {
     e?.preventDefault();
-    Chat.newChat();
+    await createNewChat()
+    router.push("/chat")
 };
 </script>
 
@@ -148,12 +115,14 @@ const newChat = (e?: Event) => {
                     </div>
                 </RouterLink>
                 <div class="nav-menu-list">
-                    <div class="nav-item" @click="toggleChatHistoryMenu">
+                    <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
                         <a class="nav-link" href="#">{{ $t(l.burger_menu_chat_log_history) }}</a>
                     </div>
+                    <!--
                     <div class="nav-item" @click="toggleCatalogueContentMenu">
                         <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
                     </div>
+                    -->
                     <div class="nav-item" @click="newChat">
                         <a class="nav-link" href="#"> {{ $t(l.burger_menu_new_chat) }} </a>
                     </div>
@@ -190,7 +159,7 @@ const newChat = (e?: Event) => {
                             {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
                         </div>
                         <div class="burger-menu-menu-restore-chat-text" v-if="chat.chatMessages">
-                            {{ chat.chatMessages[chat.chatMessages?.length-1].content }}
+                            {{ chat.chatMessages[chat.chatMessages?.length - 1].content }}
                         </div>
                     </div>
                     <div class="burger-menu-menu-restore-chat-remove-button" @click="removeChatTogglePopup(chat)">
@@ -203,7 +172,7 @@ const newChat = (e?: Event) => {
                             {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
                         </div>
                         <div class="burger-menu-menu-restore-chat-text" v-if="chat.chatMessages">
-                            {{ chat.chatMessages[chat.chatMessages?.length-1].content }}
+                            {{ chat.chatMessages[chat.chatMessages?.length - 1].content }}
                         </div>
                     </div>
                     <div class="burger-menu-menu-restore-chat-remove-button" @click="removeChatTogglePopup(chat)">
@@ -247,16 +216,16 @@ const newChat = (e?: Event) => {
     </div>
     <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
     </div>
-
 </template>
 
 <style scoped lang="scss">
 $burger-color: var(--text-color);
 $primary: var(--background-color);
 
-.current-chat{
+.current-chat {
     background-color: red;
 }
+
 .burger-menu-blur {
     z-index: 1;
     background: rgba(255, 255, 255, .7);
@@ -397,6 +366,7 @@ $primary: var(--background-color);
     display: flex;
     justify-content: flex-start;
 }
+
 .burger-menu-menu-chat-history-chat-bubble-user {
     display: flex;
     justify-content: flex-end;
@@ -442,7 +412,8 @@ $primary: var(--background-color);
     width: 90%;
     background-color: var(--background-color);
 }
-.burger-menu-menu-restore-chat-column{
+
+.burger-menu-menu-restore-chat-column {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -456,11 +427,12 @@ $primary: var(--background-color);
     position: relative;
     width: 95%;
 }
-.burger-menu-menu-restore-chat-remove-button{
+
+.burger-menu-menu-restore-chat-remove-button {
     position: absolute;
     right: -3rem;
 }
-.burger-menu-menu-restore-chat-text {}
+
 .popup-content {
     padding: 2rem;
 }

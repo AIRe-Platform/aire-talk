@@ -6,13 +6,19 @@ import ChatInput from '@/components/ChatInput.vue'
 import { l } from '@/locales';
 import Summary from './Summary.vue';
 import { SummaryState } from '@/context/summaryState';
+import { ChatMessage } from '@/models/chat';
 defineComponent({ name: "ChatView" })
+
+const canRevert = (msg: ChatMessage) => {
+    const lastMessageId = Chat.history[Chat.history.length - 1].id
+    return msg.id !== lastMessageId
+};
 
 </script>
 
 <template>
     <div>
-        <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.OnboardingFromExternalSite">
+        <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.onboardingFromExternalSite">
             {{ $t(l.chat_data) }}
             <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
                 {{ $t(l.chat_age) }} {{ Chat.landingInfo.age }}
@@ -22,22 +28,14 @@ defineComponent({ name: "ChatView" })
             <div class="chat-own-data-chexbox" v-if="Chat.checkbox">
                 {{ $t(l.chat_topic) }} {{ Chat.checkbox.name }}
             </div>
-            <div class="chat-own-data-onboarding" v-if="Chat.OnboardingFromExternalSite">
-                {{ $t(l.chat_topic_onboarding) }} {{ Chat.OnboardingFromExternalSite.name }}
+            <div class="chat-own-data-onboarding" v-if="Chat.onboardingFromExternalSite">
+                {{ $t(l.chat_topic_onboarding) }} {{ Chat.onboardingFromExternalSite.name }}
             </div>
         </div>
         <div class="chat-view-wrapper" v-bind:class="(SummaryState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'">
             <div id="chat-view" class="chat-view-content">
-                <template v-for="(msg) in Chat.history" v-bind:key="msg.timestamp">
-                    <div class="chat-bubble-system" v-if="msg.role == 'system'">
-                        <ChatBubble :message="msg" />
-                    </div>
-                    <div class="chat-bubble-assistant" v-if="msg.role == 'assistant'">
-                        <ChatBubble :message="msg" />
-                    </div>
-                    <div class="chat-bubble-user" v-if="msg.role == 'user'">
-                        <ChatBubble :message="msg" />
-                    </div>
+                <template v-for="(msg) in Chat.history" v-bind:key="msg.id">
+                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                 </template>
             </div>
         </div>
@@ -58,22 +56,6 @@ defineComponent({ name: "ChatView" })
     padding: 1rem;
     overflow: auto;
     background-color: var(--panel-background-color);
-}
-
-.chat-bubble-system {
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-bubble-assistant {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 3rem;
-}
-
-.chat-bubble-user {
-    display: flex;
-    justify-content: flex-start;
 }
 
 .chat-view-content {
@@ -104,14 +86,6 @@ defineComponent({ name: "ChatView" })
         box-shadow: 0 0 5px var(--shadow-color);
         padding: 0rem;
         padding-top: 1rem;
-    }
-
-    .chat-bubble-assistant {
-        position: relative;
-    }
-
-    .chat-bubble-assistant {
-        margin-bottom: -1rem;
     }
 }
 </style>
