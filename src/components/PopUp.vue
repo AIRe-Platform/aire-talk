@@ -28,7 +28,7 @@ export default {
     line-height: 1.4rem;
     border-radius: 10px;
     border: 1px solid transparent;
-    z-index: 2;
+    z-index: 9001;
 }
 
 .popup-inner {
