@@ -75,7 +75,7 @@ export function sendChatMessage(message: string) {
 
         AireServices.AI.stream(input, receiver, error_handler);
     } else {
-        console.warn("AI service is not configured");
+        console.warn("AI service is unavailable");
     }
 }
 
@@ -100,7 +100,7 @@ export function revertToMessage(id: number) {
  * @param id Chat ID
  */
 export async function deleteChat(id: string) {
-    console.debug("(removeChat) ,Chat_id ", id);
+    console.debug("Deleting chat log", id);
 
     if (id == Chat.id)
         await resetChat(true, false)
@@ -119,7 +119,8 @@ export async function saveChat() {
     if (!Login.logged_in || !Chat.modified)
         return
 
-    console.debug("(saveChat) current Chat.chat_id:", Chat.id);
+    console.debug("Saving chat", Chat.id);
+
     if (AireServices.Memory) {
         const messages = Chat.messages
             .map(x => {
@@ -140,7 +141,7 @@ export async function saveChat() {
                 }
             })
     } else {
-        console.warn("MEMORY service is not configured");
+        console.error("Memory service is unavailable");
     }
 }
 
@@ -170,12 +171,12 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
         return true
     }
 
+    console.debug("Loading chat to cache", id)
+
     if (AireServices.Memory) {
         const chatlog = await AireServices.Memory.getChat(id);
-        if (!chatlog) {
-            console.error("Chatlog not found with ID", id)
+        if (!chatlog)
             return false
-        }
 
         const messages = chatlog.map(x => {
             const m: ChatMessage = {
@@ -378,12 +379,10 @@ function initChatState(): ChatState {
  * Starts the auto save timer
  */
 function startAutoSaveTimer() {
-    console.debug("Starting auto save time")
     cancelAutoSaveTimer()
 
     save_timer_id = setTimeout(async () => {
         save_timer_id = undefined
-        console.debug("Auto save triggered!")
         await saveChat()
     }, SAVE_TIMER_TIMEOUT)
 }
@@ -392,7 +391,6 @@ function startAutoSaveTimer() {
  * Cancels auto save timer
  */
 function cancelAutoSaveTimer() {
-    console.debug("Cancelling timer if set") // FIXME: Remove me
     if (save_timer_id)
         clearTimeout(save_timer_id);
     save_timer_id = undefined
