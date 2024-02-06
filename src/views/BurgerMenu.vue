@@ -99,23 +99,7 @@ const newChat = async (e?: Event) => {
         </div>
         <ChatHistory v-if="isChatHistoryOpen" :onClosePanel="toggleChatHistoryMenu" />
         <!--
-        <div class="burger-menu-menu-catalogue-content" v-if="isCatologueContentOpen">
-            <div class="burger-menu-menu-catalogue-content-top-row">
-                <h1>{{ $t(l.burger_menu_catalogue_content) }}</h1>
-                <div class="burger-menu-menu-catalogue-content-close-button hide-big-screen-devices"
-                    @click="toggleCatalogueContentMenu">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </div>
-            </div>
-            <div class="burger-menu-menu-catalogue-content-chat-content">
-                <div class="burger-menu-menu-chat-history-chat-catalogue-content" v-for="(msg) in Chat.history"
-                    v-bind:key="msg.timestamp">
-                    <div class="burger-menu-menu-chat-history-chat-bubble-assistant" v-if="msg.role == 'assistant'">
-                        <CatalogueContent :message="msg" />
-                    </div>
-                </div>
-            </div>
-        </div>
+
         -->
     </div>
     <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
@@ -242,67 +226,6 @@ $primary: var(--background-color);
     top: 50%;
 }
 
-.burger-menu-menu-chat-history {
-    background-color: var(--panel-background-color);
-    position: absolute;
-    margin-top: 2rem;
-    left: 13rem;
-    height: 27.5rem;
-    width: 55%;
-    padding: 4rem;
-    border-radius: 10px;
-    z-index: 2;
-    overflow: scroll;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.burger-menu-menu-chat-history-chat {
-    width: 100%;
-}
-
-.burger-menu-menu-chat-history-chat-bubble-assistant {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.burger-menu-menu-chat-history-chat-bubble-user {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.burger-menu-menu-catalogue-content {
-    background-color: var(--panel-background-color);
-    position: absolute;
-    margin-top: 2rem;
-    left: 13rem;
-    height: 27.5rem;
-    width: 55%;
-    padding: 4rem;
-    border-radius: 10px;
-    z-index: 2;
-    overflow: scroll;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.popup-content {
-    padding: 2rem;
-}
-
-.popup-question {
-    font-size: small;
-    font-family: var(--font-family);
-}
-
-.popup-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3rem;
-}
-
 /* mobile*/
 @media screen and (max-width: 600px) {
     .burger-menu-menu {
@@ -311,11 +234,6 @@ $primary: var(--background-color);
 
     .burger-menu-button {
         width: 1rem;
-    }
-
-    .chat-input-wrapper {
-        width: 89%;
-        margin-bottom: 1rem;
     }
 
     .burger-button {
@@ -330,60 +248,6 @@ $primary: var(--background-color);
 
     #burger.active .burger-button {
         left: -0.9rem;
-    }
-
-    .burger-menu-menu-chat-history {
-        margin-top: 1rem;
-        left: 0.5rem;
-        height: 94%;
-        width: 92%;
-        padding: 0.5rem;
-    }
-
-    .burger-menu-menu-chat-history-top-row {
-        display: flex;
-        align-items: center;
-        position: fixed;
-        justify-content: space-around;
-        width: 94%;
-        background-color: var(--panel-background-color);
-        top: 1rem;
-        z-index: 1;
-        border-radius: 10px;
-    }
-
-    .burger-menu-menu-chat-history-chat-content {
-        position: relative;
-        top: 3.5rem;
-    }
-
-    .burger-menu-menu-catalogue-content .burger-menu-menu-restore-chat {
-        margin-top: 1rem;
-        left: 0.5rem;
-        height: 94%;
-        width: 92%;
-        padding: 0.5rem;
-    }
-
-    .burger-menu-menu-catalogue-content-top-row .burger-menu-menu-restore-chat-top-row {
-        display: flex;
-        align-items: center;
-        position: fixed;
-        justify-content: space-around;
-        width: 94%;
-        background-color: var(--panel-background-color);
-        top: 1rem;
-        z-index: 1;
-        border-radius: 10px;
-    }
-
-    .burger-menu-menu-catalogue-content-chat-content .burger-menu-menu-restore-chat-content {
-        position: relative;
-        top: 3.5rem;
-    }
-
-    .burger-menu-menu-chat-history-chat-catalogue-content .burger-menu-menu-chat-history-chat-catalogue-content {
-        width: 60%;
     }
 
     .burger-menu-button-nav-item {
