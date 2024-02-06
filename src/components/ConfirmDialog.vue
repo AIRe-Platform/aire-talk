@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineEmits } from 'vue';
 import { l } from '@/locales';
 import PopUp from './PopUp.vue';
 
-const props = defineProps<{
-    accept: () => void
-    decline: () => void
+defineEmits<{
+    accept: [e: Event],
+    decline: [e: Event]
 }>()
 
 </script>
@@ -17,10 +17,10 @@ const props = defineProps<{
                 <slot></slot>
             </div>
             <div class="popup-buttons">
-                <button class="popup-button-accept" @click="props.accept">
+                <button class="popup-button-accept" @click="(e: Event) => $emit('accept', e)">
                     <a class="nav-link" href="#"> {{ $t(l.popup_button_accept) }} </a>
                 </button>
-                <button class="popup-button-cancel" @click="props.decline">
+                <button class="popup-button-cancel" @click="(e: Event) => $emit('decline', e)">
                     <a class="nav-link" href="#"> {{ $t(l.popup_button_cancel) }} </a>
                 </button>
             </div>
