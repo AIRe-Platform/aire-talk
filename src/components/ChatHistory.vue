@@ -1,174 +1,195 @@
 <script setup lang="ts">
-import { ChatMessage } from '@/models/chat';
-import { scrollToMessage } from '@/helpers/scrollToMessage'
-import { defineProps, onMounted, ref } from 'vue';
-import BubbleModal from './BubbleModal.vue';
 import { l } from '@/locales';
+import { defineEmits, onMounted, ref } from 'vue';
+import { DateTime } from 'luxon';
+import { Chat, deleteChat, getAllChats, loadChat, openChat, getCache } from '@/context/chat';
+import ConfirmDialog from './ConfirmDialog.vue';
+import { router } from '@/router';
 
-const props = defineProps<{ message: ChatMessage }>()
-const id = props.message.timestamp.toString();
-const isSystem = props.message.role === "system";
-const isBot = props.message.role === "assistant" || props.message.role === "system";
+const emit = defineEmits<{
+    closePanel: [e: any]
+}>()
 
-// Modal 
-const isModalActivate = ref(false);
-const toggleModal = () => {
-    isModalActivate.value = !isModalActivate.value;
-};
+let delete_id: string | undefined;
+const showConfirmModal = ref(false)
 
-let classList: any[] = ["chat-bubble"]
-switch (props.message.role) {
-    case "assistant": classList.push("chat-bubble-bot"); break;
-    case "user": classList.push("chat-bubble-user"); break;
-    case "system":
-        classList.push("chat-bubble-system");
-        break;
+interface ChatLogItem {
+    id: string,
+    time: DateTime
 }
-if (props.message.isError)
-    classList.push("chat-bubble-error");
+const items = ref<Array<ChatLogItem>>()
 
-onMounted(() => scrollToMessage(props.message, "end"));
+const refresh = async () => {
+    const logs = await getAllChats()
+    const recent = logs.slice(0, Math.min(5, logs.length))
+    recent.forEach(x => {
+        loadChat(x.id)
+    })
+
+    items.value = logs.map(x => {
+        let item: ChatLogItem = {
+            id: x.id,
+            time: DateTime.fromISO(x.time)
+        }
+        return item
+    })
+}
+onMounted(refresh)
+
+const isOpen = (id: string) => {
+    console.debug("Chat IDs", Chat.id, id)
+    return id === Chat.id
+}
+
+const onSelect = async (id: string) => {
+    if (isOpen(id))
+        return
+
+    const open = await openChat(id)
+
+    if (open)
+        router.push("/chat")
+
+    emit("closePanel", undefined)
+}
+
+const onConfirmDelete = (e: Event) => {
+    e.stopPropagation()
+    showConfirmModal.value = false
+    deleteChat(delete_id!)
+        .then(async () => {
+            await refresh()
+        })
+        .finally(() => {
+            delete_id = undefined
+        })
+}
+
+const onCancelDelete = (e: Event) => {
+    e.stopPropagation()
+    showConfirmModal.value = false;
+    delete_id = undefined
+}
+
+const onDeleteChat = async (id: string) => {
+    delete_id = id
+    showConfirmModal.value = true
+}
+
+const getLastMessage = (id: string) => {
+    const log = getCache(id)
+    if (log)
+        return log[log.length - 1].message
+    return ""
+}
 
 </script>
 
 <template>
-    <BubbleModal :isModalActivate="isModalActivate">
-        <div class="modal-component">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1>{{ message.sender }}</h1>
-                </div>
-                <div class="modal-body">
-                    <p> {{ message.message }}</p>
-                    <div class="modal-body-image" v-if="message.image">
-                        <img v-bind:src="message.image" class="chat-message-image-contain">
-                    </div>
-                    <div class="modal-body-video" v-if="message.video">
-                        <video class="chat-history-modal-body-video" controls>
-                            <source v-bind:src="message.video" type="video/mp4">
-                        </video>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-            <div class="modal-button">
-                <div @click="toggleModal" type="button">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </div>
+    <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
+        {{ $t(l.popup_question_remove_chat) }}
+    </ConfirmDialog>
+    <div class="restore-chat-panel">
+        <div class="restore-chat-row-top">
+            <h1> {{ $t(l.burger_menu_saved_chats) }}</h1>
+            <div class="restore-chat-button-close hide-big-screen-devices" @click="(e: Event) => $emit('closePanel', e)">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
         </div>
-    </BubbleModal>
-    <div :id=id :class=classList @click="toggleModal">
-        <div class="chat-bubble-content">
-            <span class="chat-user-label">{{
-                (isSystem || isBot) ? $t(message.sender) : message.sender
-            }}</span>
-            <span class="chat-message-text">{{
-                isSystem ? $t(message.message) : message.message
-            }}</span>
-            <div class="chat-message-image" v-if="message.image">
-                {{ $t(l.chat_history_image) }} <a href="#">{{ message.image }}</a>
-            </div>
-            <div class="chat-message-video" v-if="message.video">
-                {{ $t(l.chat_history_image) }}
-                <a href="#">{{ message.video }}</a>
+        <div class="restore-chat-content" v-for="item in items" v-bind:key="item.id">
+            <div class="restore-chat-row">
+                <div class="restore-chat-column" @click="onSelect(item.id)">
+                    <div class="restore-chat-date">
+                        {{ item.time.toFormat('hh:mm:ss - dd.MM.yyyy') }}
+                    </div>
+                    <div class="restore-chat-text">
+                        {{ getLastMessage(item.id) }}
+                    </div>
+                </div>
+                <div class="restore-chat-button-delete" @click="onDeleteChat(item.id)">
+                    <font-awesome-icon icon="fa-solid fa-trash" />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.modal-component {
+.restore-chat-panel {
+    background-color: var(--panel-background-color);
+    position: absolute;
+    margin: 2rem;
+    left: 13rem;
+    height: 27.5rem;
+    width: 55%;
+    padding: 4rem;
+    border-radius: 10px;
+    z-index: 2;
+    overflow: scroll;
+    overflow-x: hidden;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
-.modal-body-image {
-    display: flex;
-    justify-content: center;
-}
-
-.modal-button {
-    cursor: pointer;
-    width: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.chat-bubble {
-    display: block;
-    padding: 0.5rem 1rem;
+.restore-chat-content {
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--shadow-color);
     margin: 1rem;
-    line-height: 1.4rem;
-    max-width: 42rem;
-    background-color: var(--chat-bubble-background-color);
-    box-shadow: 0 0 5px gray;
-    border-radius: 1rem;
-    border: 1px solid transparent;
+    padding: 1rem;
+    width: 90%;
+    background-color: var(--background-color);
 }
 
-.chat-bubble-user {
-    align-self: flex-start;
-    margin-left: 3rem;
-}
-
-.chat-bubble-bot {
-    align-self: flex-end;
-    margin-right: 3rem;
-}
-
-.chat-bubble-system {
-    align-self: center;
-    margin: 0 3rem;
-    border-color: var(--accent-secondary-color);
-}
-
-.chat-bubble-error {
-    border-color: var(--error-color);
-}
-
-.chat-bubble-content {
+.restore-chat-column {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
-.chat-user-label {
-    font-size: x-small;
-}
-
-.chat-message-text {
-    white-space: pre-line;
-}
-
-.chat-message-image {
+.restore-chat-row {
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 95%;
 }
 
-.chat-message-video {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.restore-chat-button-delete {
+    width: 2rem;
+    background-color: red;
 }
 
-.chat-message-image-contain {
-    height: 80%;
-    width: 80%;
-    object-fit: contain;
-}
-
-.chat-history-modal-body-video {
-    width: 39rem;
-    height: 26rem;
+.restore-chat-button-close {
+    position: absolute;
+    right: -3rem;
 }
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    .chat-history-modal-body-video {
-        width: 18rem;
-        height: 13rem;
+    .restore-chat {
+        margin-top: 1rem;
+        left: 0.5rem;
+        height: 94%;
+        width: 92%;
+        padding: 0.5rem;
+    }
+
+    .restore-chat-row-top {
+        display: flex;
+        align-items: center;
+        position: fixed;
+        justify-content: space-around;
+        width: 94%;
+        background-color: var(--panel-background-color);
+        top: 1rem;
+        z-index: 1;
+        border-radius: 10px;
+    }
+
+    .restore-chat-content {
+        position: relative;
+        top: 3.5rem;
     }
 }
 </style>

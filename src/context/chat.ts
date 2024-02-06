@@ -9,15 +9,16 @@ import { Login } from "./login";
 import i18n from "@/locales";
 import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 
-const bot_name = "aire_bot"
-const system_name = "aire_system"
+const BOT_NAME = "aire_bot"
+const SYSTEM_NAME = "aire_system"
 
 let save_timer_id: number | undefined = undefined;
 const SAVE_TIMER_TIMEOUT = 10000;
 
 export interface ChatState {
-    chat_id?: string;
-    history: ChatHistory;
+    id?: string;
+    messages: ChatHistory;
+    cache: Map<string, ChatHistory>;
     awaitingResponse: boolean;
     scrolling: boolean;
     modified: boolean;
@@ -83,9 +84,10 @@ export function sendChatMessage(message: string) {
  * @param id Message ID to revert to
  */
 export function revertToMessage(id: number) {
-    const index = Chat.history.findIndex(x => x.id === id);
+    const index = Chat.messages.findIndex(x => x.id === id);
     if (index > -1) {
-        Chat.history = Chat.history.slice(0, index + 1);
+        Chat.messages = Chat.messages.slice(0, index + 1)
+        Chat.modified = true
         startAutoSaveTimer()
     }
     else {
@@ -100,11 +102,13 @@ export function revertToMessage(id: number) {
 export async function deleteChat(id: string) {
     console.debug("(removeChat) ,Chat_id ", id);
 
-    if (id == Chat.chat_id)
-        await resetChat(true)
+    if (id == Chat.id)
+        await resetChat(true, false)
 
     if (AireServices.Memory)
         await AireServices.Memory.deleteChat(id)
+
+    clearCache(id)
 }
 
 /**
@@ -115,69 +119,81 @@ export async function saveChat() {
     if (!Login.logged_in || !Chat.modified)
         return
 
-    console.debug("(saveChat) current Chat.chat_id:", Chat.chat_id);
+    console.debug("(saveChat) current Chat.chat_id:", Chat.id);
     if (AireServices.Memory) {
-        const history: AireChatHistory = await Chat.history.map(x => {
-            const m: AireChatMessage = {
-                role: x.role,
-                content: x.message,
-                timestamp: x.timestamp
-            };
-            return m;
-        });
-        const history_without_system_messages = history.filter( x => x.role !== "system");//why there is aire_system??
+        const messages = Chat.messages
+            .map(x => {
+                const m: AireChatMessage = {
+                    role: x.role,
+                    content: x.message,
+                    timestamp: x.timestamp
+                };
+                return m;
+            });
 
-        await AireServices.Memory.saveChat(history_without_system_messages, Chat.chat_id)
+        await AireServices.Memory.saveChat(messages, Chat.id)
             .then(result => {
-                if (result)
-                    Chat.chat_id = result.id
+                if (result) {
+                    setCache(Chat.messages, result.id)
+                    Chat.id = result.id
+                    Chat.modified = false
+                }
             })
-        Chat.modified = false;
     } else {
         console.warn("MEMORY service is not configured");
     }
 }
 
-/**
- * Load the complete chat with the chat_id if it is give. If is not given any chat_id it takes the latest chat saved and put it in the Chat.history.
- * @param chat_id 
- */
-export async function loadChat(id?: string) {
-    if (Chat.modified)
-        await saveChat()
+export async function openChat(id: string): Promise<boolean> {
+    if (Chat.id === id)
+        return true
 
-    let chat;
-    let chat_id_temp;
+    const loaded = await loadChat(id)
+    if (!loaded)
+        return false
+
+    await resetChat(false, false)
+    Chat.id = id
+    Chat.messages = getCache(id)!
+
+    return true
+}
+
+/**
+ * Checks if the chat log has been cached and retrieves it if not
+ * @param id Chat log identifier
+ * @param force Force refreshing
+ * @returns True if the chat log is present
+ */
+export async function loadChat(id: string, force: boolean = false): Promise<boolean> {
+    if (id in Chat.cache && !force) {
+        return true
+    }
+
     if (AireServices.Memory) {
-        if (!id) {
-            const chats = await getAllChats();
-            if (chats) {
-                const latest = chats.sort((b, a) => {
-                    return Date.parse(a.time) - Date.parse(b.time)
-                })
-                chat = await AireServices.Memory.getChat(latest[0].id);
-                chat_id_temp = latest[0].id;
-            }
-        } else {
-            chat = await AireServices.Memory.getChat(id);
-            chat_id_temp = id;
+        const chatlog = await AireServices.Memory.getChat(id);
+        if (!chatlog) {
+            console.error("Chatlog not found with ID", id)
+            return false
         }
-        if (chat) {
-            const history: ChatHistory = await chat.map(x => {
-                const m: ChatMessage = {
-                    id: generateRandomID(),
-                    sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? bot_name : system_name),
-                    role: x.role as AireRole,
-                    message: x.content,
-                    timestamp: x.timestamp || 0,
-                };
-                return m;
-            });
-            Chat.history = history;
-            Chat.chat_id = chat_id_temp;
-        }
-    } else {
-        console.warn("MEMORY service is not configured");
+
+        const messages = chatlog.map(x => {
+            const m: ChatMessage = {
+                id: generateRandomID(),
+                sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? BOT_NAME : SYSTEM_NAME),
+                role: x.role as AireRole,
+                message: x.content,
+                timestamp: x.timestamp || 0,
+            };
+            return m;
+        });
+
+        setCache(messages, id)
+        return true
+    }
+    else {
+        console.error("Memory service is not available")
+        return false
     }
 }
 
@@ -185,47 +201,76 @@ export async function loadChat(id?: string) {
  * Create a new chat
  */
 export async function createNewChat() {
-    await saveChat();
-    resetChat();
+    resetChat(false, false);
 }
 
 /**
  * Function to revert the chat state to the chat message passed as param.
  */
-export async function resetChat(skip_save: boolean = false) {
+export async function resetChat(skip_save: boolean = false, clear_cache = true) {
     cancelAutoSaveTimer()
 
     if (!skip_save)
         await saveChat()
 
-    Chat.chat_id = undefined
+    Chat.id = undefined
+    Chat.messages = [systemGreeting()]
     Chat.awaitingResponse = false;
     Chat.scrolling = false;
     Chat.modified = false;
-    Chat.history = [systemGreeting()]
-    Chat.landingInfo = {}
-    Chat.checkbox = undefined
-    Chat.onboardingFromExternalSite = undefined
+    Chat.landingInfo = undefined
+    Chat.topic = undefined
+
+    if (clear_cache)
+        Chat.cache.clear()
 }
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
  * @returns array of chats format id: string, date: string
  */
-// TODO: Export or refactor?
 export async function getAllChats(): Promise<AireChatMetadata[]> {
-    const chats = await AireServices.Memory?.getChatlogs() || [];
     if (AireServices.Memory) {
-        const chatsWithLogs = [];
-        for (let i = 0; i < chats.length; i++) {
-            const chatMessages = await AireServices.Memory.getChat(chats[i].id);
-            chats[i].chatMessages = chatMessages;
+        const chats = await AireServices.Memory.getChatlogs()
+        if (chats) {
+            return chats.sort((b, a) => {
+                return Date.parse(a.time) - Date.parse(b.time)
+            });
         }
+    } else {
+        console.error("Memory service is not available")
     }
-    const orderedChats = chats.sort((b, a) => {
-        return Date.parse(a.time) - Date.parse(b.time)
-    });
-    return orderedChats;
+    return []
+}
+
+/**
+ * Get messages from the chatlog cache
+ * @param id Chatlog identifier
+ * @returns Messages if loaded, undefined if not present
+ */
+export function getCache(id: string): ChatHistory | undefined {
+    if (id && Chat.cache.has(id))
+        return Chat.cache.get(id)
+    return undefined
+}
+
+/**
+ * Set messages into the chatlog cache
+ * @param chat Chat history
+ * @param id Optional ID, if not given, caches the current chat
+ */
+function setCache(chat: ChatHistory, id?: string) {
+    const key = id || Chat.id
+    if (key)
+        Chat.cache.set(key, chat)
+}
+
+/**
+ * Remove a cached chat log
+ * @param id Chatlog identifier
+ */
+function clearCache(id: string) {
+    Chat.cache.delete(id)
 }
 
 /**
@@ -233,13 +278,13 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
  * @param msg Message or a part of it
  */
 function receiver(msg: AireTalkMessage) {
-    let last = Chat.history[Chat.history.length - 1];
+    let last = Chat.messages[Chat.messages.length - 1];
     let firstMessage = false // start of the answer stream?
 
     if (last.role !== "assistant") {
         last = {
             id: generateRandomID(),
-            sender: bot_name,
+            sender: BOT_NAME,
             role: "assistant",
             title: "your answer",
             message: "",
@@ -269,9 +314,9 @@ function receiver(msg: AireTalkMessage) {
  * @param error Error info
  */
 function error_handler(error: AireError) {
-    Chat.history.push({
+    pushMessage({
         id: generateRandomID(),
-        sender: system_name,
+        sender: SYSTEM_NAME,
         role: "system",
         isError: true,
         title: error.key || "",
@@ -289,7 +334,7 @@ function error_handler(error: AireError) {
 function systemGreeting(): ChatMessage {
     return {
         id: generateRandomID(),
-        sender: system_name,
+        sender: SYSTEM_NAME,
         role: "system",
         message: "system_greeting",
         rating: 0,
@@ -305,37 +350,27 @@ function systemGreeting(): ChatMessage {
  */
 function pushMessage(message: ChatMessage, create: boolean = true, final: boolean = true) {
     if (create) {
-        Chat.history.push(message);
+        Chat.messages.push(message);
     } else {
-        Chat.history[Chat.history.length - 1] = message
+        Chat.messages[Chat.messages.length - 1] = message
     }
 
-    if (final)
+    if (final && message.role !== "system") {
+        Chat.modified = true
         startAutoSaveTimer()
-
-    Chat.modified = true
+    }
 }
 
 /**
  * Initializes chat state object
  */
 function initChatState(): ChatState {
-
-    const testMessages: ChatHistory = [
-        {
-            id: generateRandomID(),
-            sender: system_name,
-            role: "system",
-            message: "system_greeting",
-            timestamp: Date.now(),
-        }];
-
     return {
-        history: testMessages,
+        messages: [systemGreeting()],
         awaitingResponse: false,
         modified: false,
         scrolling: false,
-        landingInfo: {}
+        cache: new Map
     }
 }
 

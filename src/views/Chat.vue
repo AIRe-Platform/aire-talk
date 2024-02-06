@@ -8,7 +8,7 @@ import { ChatMessage } from '@/models/chat';
 defineComponent({ name: "ChatView" })
 
 const canRevert = (msg: ChatMessage) => {
-    const lastMessageId = Chat.history[Chat.history.length - 1].id
+    const lastMessageId = Chat.messages[Chat.messages.length - 1].id
     return msg.id !== lastMessageId
 };
 

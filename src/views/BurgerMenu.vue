@@ -4,26 +4,15 @@ import { vOnClickOutside } from '@vueuse/components'
 import { l } from '@/locales';
 import { RouterLink } from 'vue-router';
 import { Login, logout } from '@/context/login';
-import { Chat, loadChat, getAllChats, deleteChat, createNewChat } from '@/context/chat';
+import { createNewChat } from '@/context/chat';
 import { router } from '@/router';
-//import ChatHistory from '@/components/ChatHistory.vue'
-import CatalogueContent from '@/components/CatalogueContent.vue';
-import { AireChatMetadata } from "@/lib/aire/models/chat";
-import { DateTime } from 'luxon';
-import popUp from '@/components/PopUp.vue';
+import ChatHistory from '@/components/ChatHistory.vue';
 defineComponent({ name: "BurgerMenuView" })
 
 const isChatHistoryOpen = ref(false);
 const isCatologueContentOpen = ref(false);
-let chats = ref<AireChatMetadata[]>();
-let chatToDelete = ref<AireChatMetadata>();
 
 let isBurgerMenuOpen = ref(false);
-let isPopUpRemoveChatOpen = ref(false);
-
-const toggleRemoveChatPopUp = () => {
-    isPopUpRemoveChatOpen.value = !(isPopUpRemoveChatOpen.value);
-};
 
 const toggleMenu = () => {
     isBurgerMenuOpen.value = !(isBurgerMenuOpen.value);
@@ -39,50 +28,14 @@ const onBlur = () => {
     isCatologueContentOpen.value = false;
 };
 
-const onLoadChat = async (chat: AireChatMetadata) => {
-    await loadChat(chat.id)
-    toggleMenu();
-    router.push("/chat");
-};
+const toggleChatHistoryMenu = async (e?: Event) => {
+    e?.preventDefault();
 
-const removeChatTogglePopup = async (chat: AireChatMetadata) => {
-    chatToDelete.value = chat;
-    toggleRemoveChatPopUp();
-};
-
-const updateChats = async () => {
-    chats.value = await getAllChats()
-};
-
-const removeChat = async () => {
-    if (chatToDelete.value) {
-        await deleteChat(chatToDelete.value.id);
-        updateChats();
-        toggleRemoveChatPopUp();
-    }
-}
-
-const toggleChatHistoryMenu = async (e: Event) => {
-    e.preventDefault();
     isChatHistoryOpen.value = !(isChatHistoryOpen.value);
     isCatologueContentOpen.value = false;
-    updateChats();
-};
 
-const toggleRestoreChatMenu = async (e: Event) => {
-    e.preventDefault();
-    isCatologueContentOpen.value = false;
-    isChatHistoryOpen.value = false;
-    chats.value = await getAllChats();
-    //chats.value.splice(chats.value.findIndex((chat) => chat.id === Chat.chat_id), 1);
-};
-/**
- * Toggle the catalogue content Menu and send it to main view.
- */
-const toggleCatalogueContentMenu = (e: Event) => {
-    e.preventDefault();
-    isCatologueContentOpen.value = !(isCatologueContentOpen.value);
-    isChatHistoryOpen.value = false;
+    if (!isChatHistoryOpen.value)
+        onBlur()
 };
 
 /**
@@ -144,43 +97,8 @@ const newChat = async (e?: Event) => {
                 </div>
             </div>
         </div>
-        <div class="burger-menu-menu-restore-chat" v-if="isChatHistoryOpen">
-            <div class="burger-menu-menu-restore-chat-top-row">
-                <h1> {{ $t(l.burger_menu_saved_chats) }}</h1>
-                <div class="burger-menu-menu-restore-chat-close-button hide-big-screen-devices"
-                    @click="toggleRestoreChatMenu">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </div>
-            </div>
-            <div class="burger-menu-menu-restore-chat-content" v-for="chat in chats" v-bind:key="chat.id">
-                <div class="burger-menu-menu-restore-chat-row" v-if="chat.id !== Chat.chat_id">
-                    <div class="burger-menu-menu-restore-chat-column" @click="onLoadChat(chat)">
-                        <div class="burger-menu-menu-restore-chat-date">
-                            {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
-                        </div>
-                        <div class="burger-menu-menu-restore-chat-text" v-if="chat.chatMessages">
-                            {{ chat.chatMessages[chat.chatMessages?.length - 1].content }}
-                        </div>
-                    </div>
-                    <div class="burger-menu-menu-restore-chat-remove-button" @click="removeChatTogglePopup(chat)">
-                        <font-awesome-icon icon="fa-solid fa-trash" />
-                    </div>
-                </div>
-                <div class="burger-menu-menu-restore-chat-row current-chat" v-if="chat.id === Chat.chat_id">
-                    <div class="burger-menu-menu-restore-chat-column">
-                        <div class="burger-menu-menu-restore-chat-date">
-                            {{ DateTime.fromISO(chat.time).toFormat('hh:mm:ss - dd.MM.yyyy') }}
-                        </div>
-                        <div class="burger-menu-menu-restore-chat-text" v-if="chat.chatMessages">
-                            {{ chat.chatMessages[chat.chatMessages?.length - 1].content }}
-                        </div>
-                    </div>
-                    <div class="burger-menu-menu-restore-chat-remove-button" @click="removeChatTogglePopup(chat)">
-                        <font-awesome-icon icon="fa-solid fa-trash" />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ChatHistory v-if="isChatHistoryOpen" :onClosePanel="toggleChatHistoryMenu" />
+        <!--
         <div class="burger-menu-menu-catalogue-content" v-if="isCatologueContentOpen">
             <div class="burger-menu-menu-catalogue-content-top-row">
                 <h1>{{ $t(l.burger_menu_catalogue_content) }}</h1>
@@ -198,21 +116,7 @@ const newChat = async (e?: Event) => {
                 </div>
             </div>
         </div>
-        <popUp v-if="isPopUpRemoveChatOpen">
-            <div class="popup-content">
-                <div class="popup-question">
-                    {{ $t(l.popup_question_remove_chat) }}
-                </div>
-                <div class="popup-buttons">
-                    <button class="popup-button-accept" @click="removeChat()">
-                        <a class="nav-link" href="#"> {{ $t(l.popup_button_accept) }} </a>
-                    </button>
-                    <button class="popup-button-cancel" @click="toggleRemoveChatPopUp()">
-                        <a class="nav-link" href="#"> {{ $t(l.popup_button_cancel) }} </a>
-                    </button>
-                </div>
-            </div>
-        </popUp>
+        -->
     </div>
     <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
     </div>
@@ -221,10 +125,6 @@ const newChat = async (e?: Event) => {
 <style scoped lang="scss">
 $burger-color: var(--text-color);
 $primary: var(--background-color);
-
-.current-chat {
-    background-color: red;
-}
 
 .burger-menu-blur {
     z-index: 1;
@@ -386,51 +286,6 @@ $primary: var(--background-color);
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-}
-
-.burger-menu-menu-restore-chat {
-    background-color: var(--panel-background-color);
-    position: absolute;
-    margin: 2rem;
-    left: 13rem;
-    height: 27.5rem;
-    width: 55%;
-    padding: 4rem;
-    border-radius: 10px;
-    z-index: 2;
-    overflow: scroll;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.burger-menu-menu-restore-chat-content {
-    border-radius: 10px;
-    box-shadow: 0 0 5px var(--shadow-color);
-    margin: 1rem;
-    padding: 1rem;
-    width: 90%;
-    background-color: var(--background-color);
-}
-
-.burger-menu-menu-restore-chat-column {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.burger-menu-menu-restore-chat-row {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 95%;
-}
-
-.burger-menu-menu-restore-chat-remove-button {
-    position: absolute;
-    right: -3rem;
 }
 
 .popup-content {
