@@ -21,16 +21,11 @@ export interface ChatState {
     awaitingResponse: boolean;
     scrolling: boolean;
     modified: boolean;
-
-    // TODO: Move to landing view
-    landingInfo: {
-        age?: number;
-        occupation?: string;
+    landingInfo?: {
+        age: number;
+        occupation: string;
     };
-    checkbox?: Topic;
-    onboardingFromExternalSite?: Topic;
-
-    // TODO: Implement chat history preload cache
+    topic?: Topic;
 }
 
 export const Chat: ChatState = reactive(initChatState());
@@ -55,20 +50,26 @@ export function sendChatMessage(message: string) {
 
     pushMessage(userMessage)
 
-    const messages = Chat.history
-        .filter(x => x.role === "assistant" || x.role === "user");
-
     if (AireServices.AI) {
         const loc = i18n.global.locale as any;
-        const input: AireChatbotInput = {
-            chat: messages.map(x => {
+        const messages = Chat.messages
+            .filter(x => x.role === "assistant" || x.role === "user")
+            .map(x => {
                 const m: AireChatMessage = {
                     role: x.role,
                     content: x.message
                 };
                 return m;
-            }),
-            ui_lang: loc.value
+            })
+
+        const input: AireChatbotInput = {
+            chat: messages,
+            context: {
+                age: Chat.landingInfo?.age,
+                occupation: Chat.landingInfo?.occupation,
+                topic: Chat.topic?.name,
+                language: loc.value
+            }
         };
 
         AireServices.AI.stream(input, receiver, error_handler);

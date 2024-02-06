@@ -5,7 +5,7 @@ defineComponent({ name: "LandingView" })
 </script>
 
 <template>
-    <LandingForm></LandingForm>
+    <LandingForm />
 </template>
 
 <style scoped></style>

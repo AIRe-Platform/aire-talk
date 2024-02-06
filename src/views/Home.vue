@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
-import OnboardingFromExternalSiteVue from '@/components/OnboardingFromExternalSite.vue';
+import OnboardingTopics from '@/components/OnboardingTopics.vue';
 defineComponent({ name: "HomeView" });
 </script>
 
@@ -12,7 +12,7 @@ defineComponent({ name: "HomeView" });
             </div>
         </routerLink>
     </div>
-    <OnboardingFromExternalSiteVue></OnboardingFromExternalSiteVue>
+    <OnboardingTopics />
 </template>
 
 <style scoped>

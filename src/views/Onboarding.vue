@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
 import CheckBox from '@/components/CheckBox.vue'
-defineComponent({ name: "CheckBoxView" })
+defineComponent({ name: "OnboardingView" })
 </script>
 
 <template>

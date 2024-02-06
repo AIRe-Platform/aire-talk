@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { initApp } from './main'
+import { Login } from './context/login'
+
 import HomeView from './views/Home.vue'
 import LoginView from './views/Login.vue'
 import SignupView from './views/Signup.vue'
 import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
 import LandingView from './views/Landing.vue'
-import CheckBoxView from './views/CheckBox.vue'
 import SettingsView from './views/Settings.vue'
 import NotFoundView from './views/NotFound.vue'
-import { Login } from './context/login'
+import OnboardingView from './views/Onboarding.vue'
 import VerificationCodeView from './views/VerificationCode.vue'
-import { initApp } from './main'
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -21,7 +22,7 @@ export const router = createRouter({
         { path: '/profile', component: ProfileView, name: "Profile" },
         { path: '/chat', component: ChatView, name: "Chat", props: true },
         { path: '/landing', component: LandingView, name: "Landing" },
-        { path: '/checkBox', component: CheckBoxView, name: "CheckBox" },
+        { path: '/onboarding', component: OnboardingView, name: "Onboarding" },
         { path: '/settings', component: SettingsView, name: "Settings" },
         { path: '/verify', component: VerificationCodeView, name: "VerificationCode" },
         { path: '/:pathMatch(.*)*', component: NotFoundView }

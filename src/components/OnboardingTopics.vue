@@ -15,13 +15,13 @@ const toggleMenu = () => {
 
 const buttonSelected = (topic) => {
     topic.isSelected = true;
-    Chat.onboardingFromExternalSite = topic;
+    Chat.topic = topic;
     for (let oldTopic of initialTopics) {
         if (oldTopic.isSelected)
             oldTopic.isSelected = false;
     }
     if (Login.logged_in)
-        router.push("/checkBox");
+        router.push("/onboarding");
     else
         router.push("/landing");
 };

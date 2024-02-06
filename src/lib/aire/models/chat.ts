@@ -9,9 +9,17 @@ export interface AireChatMessage {
     content: string;
 }
 
+export interface AireChatInputContext
+{
+    age?: number;
+    occupation?: string;
+    topic?: string;
+    language: string;
+}
+
 export interface AireChatbotInput {
     chat: Array<AireChatMessage>;
-    ui_lang: string;
+    context: AireChatInputContext
 }
 
 export interface AireChatbotOutput {
