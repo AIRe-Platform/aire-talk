@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 import { l } from '@/locales';
-import { SummaryState } from '@/context/summaryState';
-defineComponent({ name: "SummaryView" })
+import { UIState } from '@/context/ui';
 
 const isSmallDevice = ref(window.innerWidth < 600 ? true : false);
 const isSumaryyOpen = ref(isSmallDevice.value ? false : true);
@@ -24,8 +23,7 @@ let selectedWordsArray = ref<Array<Word>>([]);
  * If device screen >600px width then is always open and can not toggle.
  */
 const toggleSummary = () => {
-
-    SummaryState.isSummaryOpen = !(SummaryState.isSummaryOpen);
+    UIState.isSummaryOpen = !UIState.isSummaryOpen;
     isSumaryyOpen.value = !isSumaryyOpen.value;
 };
 

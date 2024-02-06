@@ -24,8 +24,10 @@ const checkForm = () => {
  */
 const saveForm = (e: Event) => {
     e.preventDefault();
-    Chat.landingInfo.age = age.value;
-    Chat.landingInfo.occupation = occupation.value;
+    Chat.landingInfo = { 
+        age: age.value,
+        occupation: occupation.value
+    }
     router.push("/chat");
 };
 

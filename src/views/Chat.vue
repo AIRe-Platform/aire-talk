@@ -3,9 +3,7 @@ import { defineComponent } from 'vue';
 import { Chat } from '@/context/chat';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
-import { l } from '@/locales';
-import Summary from './Summary.vue';
-import { SummaryState } from '@/context/summaryState';
+import { UIState } from '@/context/ui';
 import { ChatMessage } from '@/models/chat';
 defineComponent({ name: "ChatView" })
 
@@ -17,31 +15,14 @@ const canRevert = (msg: ChatMessage) => {
 </script>
 
 <template>
-    <div>
-        <div class="chat-own-data" v-if="Chat.landingInfo.age != null || Chat.checkbox || Chat.onboardingFromExternalSite">
-            {{ $t(l.chat_data) }}
-            <div class="chat-own-data-landing" v-if="Chat.landingInfo.age != null">
-                {{ $t(l.chat_age) }} {{ Chat.landingInfo.age }}
-
-                {{ $t(l.chat_occupation) }} {{ Chat.landingInfo.occupation }}
-            </div>
-            <div class="chat-own-data-chexbox" v-if="Chat.checkbox">
-                {{ $t(l.chat_topic) }} {{ Chat.checkbox.name }}
-            </div>
-            <div class="chat-own-data-onboarding" v-if="Chat.onboardingFromExternalSite">
-                {{ $t(l.chat_topic_onboarding) }} {{ Chat.onboardingFromExternalSite.name }}
-            </div>
+    <div class="chat-view-wrapper" v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'">
+        <div id="chat-view" class="chat-view-content">
+            <template v-for="(msg) in Chat.messages" v-bind:key="msg.id">
+                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+            </template>
         </div>
-        <div class="chat-view-wrapper" v-bind:class="(SummaryState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'">
-            <div id="chat-view" class="chat-view-content">
-                <template v-for="(msg) in Chat.history" v-bind:key="msg.id">
-                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                </template>
-            </div>
-        </div>
-        <ChatInput v-bind:class="(SummaryState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
-        <Summary></Summary>
     </div>
+    <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
 </template>
 
 <style scoped>
