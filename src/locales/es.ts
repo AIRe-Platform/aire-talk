@@ -29,6 +29,7 @@ const es: Locale = {
     signup_label_password: "Contraseña",
     signup_label_confirm_password: "Confirma contraseña",
 
+    nav_home: "Home",
     nav_chat: "Chat",
     nav_profile: "Perfil",
     nav_login: "Identifícate",

@@ -51,10 +51,9 @@ const newChat = async (e?: Event) => {
 
 <template>
     <div v-on-click-outside="onBlur">
-        <div class="burger-menu-menu">
-            <div class="burger-menu-button" id="burger" :class="{
-                'active': isBurgerMenuOpen
-            }" @click="toggleMenu">
+        <div class="burger-menu" :class="{ 'burger-menu-open': isBurgerMenuOpen }">
+            <div class="burger-menu-button" id="burger" :class="{ 'active': isBurgerMenuOpen }"
+                @click="toggleMenu">
                 <button type="button" class="burger-button" title="Menu">
                     <span class="burger-bar burger-bar--1"></span>
                     <span class="burger-bar burger-bar--2"></span>
@@ -68,6 +67,9 @@ const newChat = async (e?: Event) => {
                     </div>
                 </RouterLink>
                 <div class="nav-menu-list">
+                    <div class="nav-item">
+                        <RouterLink class="nav-link" to="/">{{ $t(l.nav_home) }}</RouterLink>
+                    </div>
                     <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
                         <a class="nav-link" href="#">{{ $t(l.burger_menu_chat_log_history) }}</a>
                     </div>
@@ -119,22 +121,37 @@ $primary: var(--background-color);
     position: fixed;
 }
 
-.burger-menu-menu {
+.burger-menu {
     background-color: var(--panel-background-color);
     position: absolute;
     padding: 1rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    width: auto;
+    width: 2.5rem;
     border-radius: 10px;
     z-index: 2;
     margin-left: 1rem;
+    transition: width 0.25s;
+}
+
+.burger-menu-open {
+    width: 10rem;
 }
 
 .nav-logo {
-    width: 5rem;
+    width: 100%;
     height: 5rem;
-    margin-left: 2.5rem;
+    margin-top: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        display: block;
+        object-fit: contain;
+        width: 80%;
+    }
 }
 
 .nav-menu-list {
@@ -150,12 +167,6 @@ $primary: var(--background-color);
 
 .burger-menu-button-nav-item {
     margin-top: 10rem;
-}
-
-.nav-logo {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
 }
 
 .burger-button {
