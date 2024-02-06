@@ -37,7 +37,6 @@ const refresh = async () => {
 onMounted(refresh)
 
 const isOpen = (id: string) => {
-    console.debug("Chat IDs", Chat.id, id)
     return id === Chat.id
 }
 
@@ -96,7 +95,8 @@ const getLastMessage = (id: string) => {
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
         </div>
-        <div class="restore-chat-content" v-for="item in items" v-bind:key="item.id">
+        <div class="restore-chat-item" v-for="item in items" v-bind:key="item.id"
+            :class="{ 'restore-chat-item-open': isOpen(item.id) }">
             <div class="restore-chat-row">
                 <div class="restore-chat-column" @click="onSelect(item.id)">
                     <div class="restore-chat-date">
@@ -131,36 +131,58 @@ const getLastMessage = (id: string) => {
     flex-direction: column;
 }
 
-.restore-chat-content {
+.restore-chat-item {
+    display: flex;
+    flex-direction: row;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
-    margin: 1rem;
-    padding: 1rem;
-    width: 90%;
+    margin: 1rem 0rem;
     background-color: var(--background-color);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.restore-chat-item-open {
+    border: 1px solid var(--accent-primary-color);
+    cursor: default;
+    background-color: var(--panel-background-color);
 }
 
 .restore-chat-column {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex-grow: 1;
 }
 
 .restore-chat-row {
-    cursor: pointer;
     display: flex;
+    width: 100%;
+    padding: 1rem;
     align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 95%;
 }
 
 .restore-chat-button-delete {
-    width: 2rem;
-    background-color: red;
+    cursor: pointer;
+    * {
+        width: auto;
+        height: 2rem;
+    }
+}
+
+.restore-chat-text {
+    max-height: 2rem;
+    margin-right: 1rem;
+    overflow: hidden;
+    font-size: small;
+}
+
+.restore-chat-date {
+    margin-bottom: 0.5rem;
+    font-size: large;
 }
 
 .restore-chat-button-close {
+    cursor: pointer;
     position: absolute;
     right: -3rem;
 }

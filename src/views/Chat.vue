@@ -11,12 +11,11 @@ const canRevert = (msg: ChatMessage) => {
     const lastMessageId = Chat.messages[Chat.messages.length - 1].id
     return msg.id !== lastMessageId
 };
-
 </script>
 
 <template>
     <div class="chat-view-wrapper" v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'">
-        <div id="chat-view" class="chat-view-content">
+        <div class="chat-view-content">
             <template v-for="(msg) in Chat.messages" v-bind:key="msg.id">
                 <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
             </template>
@@ -27,26 +26,22 @@ const canRevert = (msg: ChatMessage) => {
 
 <style scoped>
 .chat-view-wrapper {
-    margin-bottom: 7rem;
+    display: block;
+    overflow: hidden;
+    height: 100%;
+    flex-grow: 1;
 }
 
-#chat-view {
+.chat-view-content {    
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem;
     overflow: auto;
+    padding: 3.5rem 1rem;
     background-color: var(--panel-background-color);
-}
-
-.chat-view-content {
     margin: auto;
-    width: 50%;
-    height: 90%;
-}
-
-.chat-own-data {
-    margin-left: 64rem;
+    width: 60%;
+    height: 80%;
 }
 
 /* mobile*/
@@ -55,12 +50,9 @@ const canRevert = (msg: ChatMessage) => {
         margin-bottom: 4rem;
     }
 
-    #chat-view {
+    .chat-view-content {        
         padding-left: 0rem;
         padding-top: 1rem;
-    }
-
-    .chat-view-content {
         margin: auto;
         width: 100%;
         border-radius: 10px;

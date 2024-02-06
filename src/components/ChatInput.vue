@@ -29,14 +29,12 @@ function submit(event: Event) {
 <style scoped>
 .chat-input-wrapper {
     margin: auto;
-    width: 49%;
+    width: 50%;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
     margin-top: 1rem;
+    margin-bottom: 0.5rem;
     padding: 1rem;
-    position: absolute;
-    bottom: 1rem;
-    right: 25.3%;
     background-color: var(--background-color);
 }
 
