@@ -11,7 +11,6 @@ import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatM
 
 const bot_name = "aire_bot"
 const system_name = "aire_system"
-//const isGoingToSave = ref<boolean>(false);
 
 let save_timer_id: number | undefined = undefined;
 const SAVE_TIMER_TIMEOUT = 10000;
@@ -125,11 +124,14 @@ export async function saveChat() {
             };
             return m;
         });
-        await AireServices.Memory.saveChat(history, Chat.chat_id)
+        const history_without_system_messages = history.filter( x => x.role !== "system");//why there is aire_system??
+
+        await AireServices.Memory.saveChat(history_without_system_messages, Chat.chat_id)
             .then(result => {
                 if (result)
                     Chat.chat_id = result.id
             })
+        Chat.modified = false;
     } else {
         console.warn("MEMORY service is not configured");
     }

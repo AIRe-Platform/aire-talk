@@ -56,8 +56,7 @@ const updateChats = async () => {
 
 const removeChat = async () => {
     if (chatToDelete.value) {
-        deleteChat(chatToDelete.value.id);
-
+        await deleteChat(chatToDelete.value.id);
         updateChats();
         toggleRemoveChatPopUp();
     }
@@ -92,6 +91,7 @@ const toggleCatalogueContentMenu = (e: Event) => {
 const newChat = async (e?: Event) => {
     e?.preventDefault();
     await createNewChat()
+    onBlur();
     router.push("/chat")
 };
 </script>
