@@ -36,6 +36,7 @@ const setLang = (e: Event) => {
     flex-direction: column;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
     justify-content: space-around;

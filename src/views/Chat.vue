@@ -20,15 +20,15 @@ const canRevert = (msg: ChatMessage) => {
                 <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
             </template>
         </div>
+        <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
     </div>
-    <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
 </template>
 
 <style scoped>
 .chat-view-wrapper {
-    display: block;
+    display: flex;
     overflow: hidden;
-    height: 100%;
+    flex-direction: column;
     flex-grow: 1;
 }
 
@@ -38,10 +38,11 @@ const canRevert = (msg: ChatMessage) => {
     flex-grow: 1;
     overflow: auto;
     padding: 3.5rem 1rem;
+    padding-bottom: 3.5rem;
     background-color: var(--panel-background-color);
     margin: auto;
     width: 60%;
-    height: 80%;
+    height: 100%;
 }
 
 /* mobile*/

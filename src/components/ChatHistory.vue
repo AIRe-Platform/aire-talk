@@ -114,19 +114,24 @@ const getLastMessage = (id: string) => {
 
 <style scoped>
 .restore-chat-panel {
-    background-color: var(--panel-background-color);
     position: absolute;
-    margin: 2rem;
     left: 13rem;
     height: 27.5rem;
     width: 55%;
-    padding: 4rem;
-    border-radius: 10px;
     z-index: 2;
-    overflow: scroll;
-    overflow-x: hidden;
+
+    background-color: var(--panel-background-color);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+
+    margin: 2rem;
+    padding: 4rem;
+    
     display: flex;
     flex-direction: column;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .restore-chat-item {
