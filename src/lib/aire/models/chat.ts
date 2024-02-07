@@ -6,7 +6,8 @@ export interface AireChatbot {
 export interface AireChatMessage {
     role: string;
     timestamp?: number;
-    content: string;
+    content?: string;
+    rating?: number;
 }
 
 export interface AireChatInputContext

@@ -48,7 +48,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
             <span class="chat-message-text" v-if="!(message.question)"> {{
-                isSystem ? $t(message.message) : message.message
+                isSystem ? $t(message.message!) : message.message
             }}</span>
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">

@@ -33,9 +33,11 @@ const onThumbsDown = (e: Event) => {
     e.stopPropagation()
 }
 
-const onCopyClipboard = async (e: Event) => { 
-    await clipboard.copy(props.parent.message)
-    copiedToClipboard.value = true
+const onCopyClipboard = async (e: Event) => {
+    if (props.parent.message) {
+        await clipboard.copy(props.parent.message)
+        copiedToClipboard.value = true
+    }
     // TODO: Change icon to checkmark
     e.stopPropagation()
 }
@@ -46,7 +48,7 @@ const onConfirmRevert = (e: Event) => {
     e.stopPropagation()
 }
 
-const onRevert = (e: Event) => { 
+const onRevert = (e: Event) => {
     confirmRevertOpen.value = true;
     e.stopPropagation()
 }
@@ -94,7 +96,7 @@ const onCancelRevert = (e: Event) => {
 .chat-bubble-options-button {
     position: absolute;
     top: -1.1rem;
-    right: -1.6rem;    
+    right: -1.6rem;
     width: 1.2rem;
     height: 1.2rem;
 

@@ -127,7 +127,8 @@ export async function saveChat() {
                 const m: AireChatMessage = {
                     role: x.role,
                     content: x.message,
-                    timestamp: x.timestamp
+                    timestamp: x.timestamp,
+                    rating: x.rating
                 };
                 return m;
             });
