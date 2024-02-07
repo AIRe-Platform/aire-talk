@@ -5,6 +5,7 @@ import { revertToMessage, changeRating } from '@/context/chat';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
 import { defineProps, ref } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
 
 const props = defineProps<{
     parent: ChatMessage
@@ -59,7 +60,7 @@ const onCancelRevert = () => {
         <div class="chat-bubble-options-button" @click.stop="onToggleMenu">
             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="chat-bubble-options-icon" />
         </div>
-        <div class="chat-bubble-options-menu" v-if="menuOpen">
+        <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button"
                 :class="{ 'is-selected': props.parent.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
