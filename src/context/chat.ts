@@ -185,6 +185,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 role: x.role as AireRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
+                rating: 0
             };
             return m;
         });
@@ -205,6 +206,24 @@ export async function createNewChat() {
     resetChat(false, false);
 }
 
+/**
+ * Function to change the rating of the message
+ * @param message to change
+ * @param rating given by the user
+ */
+export function changeRating(message: ChatMessage, rating: number){
+
+    const new_message = Chat.messages.find(x => x.id === message.id);
+    if(new_message)
+    {
+        if(rating < 0)
+            new_message.rating = -1;
+        else if(rating > 0)
+            new_message.rating = 1;
+        else
+            new_message.rating = 0;
+    }
+}
 /**
  * Function to revert the chat state to the chat message passed as param.
  */
@@ -289,7 +308,8 @@ function receiver(msg: AireTalkMessage) {
             role: "assistant",
             title: "your answer",
             message: "",
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            rating: 0
         }
         firstMessage = true
     }
@@ -322,7 +342,8 @@ function error_handler(error: AireError) {
         isError: true,
         title: error.key || "",
         message: error.key || error.error?.message || "",
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        rating: 0
     })
 
     Chat.awaitingResponse = false;
@@ -371,7 +392,7 @@ function initChatState(): ChatState {
         awaitingResponse: false,
         modified: false,
         scrolling: false,
-        cache: new Map
+        cache: new Map,
     }
 }
 

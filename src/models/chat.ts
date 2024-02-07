@@ -22,7 +22,7 @@ export interface ChatMessage {
     video?: string;
     question?: Question;
     answer?: Answer;
-    rating?: number;
+    rating: number;
 }
 
 export type ChatHistory = Array<ChatMessage>

@@ -140,6 +140,7 @@ const getLastMessage = (id: string) => {
     background-color: var(--background-color);
     cursor: pointer;
     overflow: hidden;
+    min-height: 4rem;
 }
 
 .restore-chat-item-open {

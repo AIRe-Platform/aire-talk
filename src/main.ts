@@ -8,10 +8,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
     faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash,
-    faEllipsisVertical, faXmark, faSliders, faArrowsSpin
+    faEllipsisVertical, faXmark, faSliders, faArrowsSpin, faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin)
+library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin, faCheck)
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
