@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { vOnClickOutside } from '@vueuse/components'
 import { l } from '@/locales';
-import { RouterLink } from 'vue-router';
 import { Login, logout } from '@/context/login';
 import { Chat, createNewChat } from '@/context/chat';
 import { router } from '@/router';
@@ -40,6 +39,11 @@ const newChat = async () => {
     onBlur();
     router.push("/chat")
 };
+
+const navigateTo = (path: string) => {
+    onBlur()
+    router.push(path)
+}
 </script>
 
 <template>
@@ -47,35 +51,35 @@ const newChat = async () => {
         <div class="nav-menu" :class="{ 'nav-menu-open': menuOpen }">
             <MenuButton :open="menuOpen" @click.stop="toggleMenu" />
             <div class="nav-menu-bar" v-show="menuOpen">
-                <RouterLink class="nav-link" to="/" @click="toggleMenu">
+                <div class="nav-link" @click="navigateTo('/')">
                     <div class="nav-logo">
                         <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
                     </div>
-                </RouterLink>
+                </div>
                 <div class="nav-menu-list">
                     <div class="nav-item">
-                        <RouterLink class="nav-link" to="/">
+                        <div class="nav-link" @click="navigateTo('/')">
                             {{ $t(l.nav_home) }}
-                        </RouterLink>
+                        </div>
                     </div>
-                    <div class="nav-item" @click="toggleMenu">
-                        <RouterLink v-if="Login.logged_in === false" class="nav-link" to="/login">{{
+                    <div class="nav-item">
+                        <div v-if="Login.logged_in === false" class="nav-link" @click="navigateTo('/login')">{{
                             $t(l.nav_login) }}
-                        </RouterLink>
-                        <RouterLink v-if="Login.logged_in === true" class="nav-link" to="/profile">{{
+                        </div>
+                        <div v-if="Login.logged_in === true" class="nav-link" @click="navigateTo('/profile')">{{
                             $t(l.nav_profile) }}
-                        </RouterLink>
+                        </div>
                     </div>
-                    <div class="nav-item" v-if="Login.logged_in === false" @click="toggleMenu">
-                        <RouterLink class="nav-link" to="/signup">
+                    <div class="nav-item" v-if="Login.logged_in === false">
+                        <div class="nav-link" @click="navigateTo('/signup')">
                             {{ $t(l.nav_signup) }}
-                        </RouterLink>
+                        </div>
                     </div>
                     <div class="nav-spacer"></div>
                     <div class="nav-item">
-                        <RouterLink class="nav-link" to="/chat">
+                        <div class="nav-link" @click="navigateTo('/chat')">
                             {{ $t(l.nav_chat) }}
-                        </RouterLink>
+                        </div>
                     </div>
                     <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
                         <a class="nav-link" href="#">{{ $t(l.nav_chat_history) }}</a>
@@ -93,10 +97,10 @@ const newChat = async () => {
                     <div class="nav-item" @click="toggleMenu" v-if="Login.logged_in === true">
                         <a href="#" class="nav-link" @click="logout">{{ $t(l.nav_logout) }}</a>
                     </div>
-                    <div class="nav-item" @click="toggleMenu">
-                        <RouterLink class="nav-link" to="/settings">
+                    <div class="nav-item">
+                        <div class="nav-link" @click="navigateTo('/settings')">
                             {{ $t(l.nav_preferences) }}
-                        </RouterLink>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -138,7 +142,7 @@ const newChat = async () => {
     margin-bottom: 2rem;
     margin-left: 1rem;
 
-    transition: 
+    transition:
         width 0.25s,
         height 0.25s;
 }
