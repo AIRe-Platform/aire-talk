@@ -1,0 +1,149 @@
+import { Locale } from ".";
+
+const vi: Locale = {
+    title: "AIRe Talk",
+    footer: "Phát triển",
+    not_found: "Không tìm thấy trang",
+
+    aire_bot: "AIRe bot",
+    aire_system: "AIRe System",
+    system_greeting: "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
+    system_greeting_header: "Chào mừng đến với AIRe platform!",
+    system_greeting_text: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, tình trạng cơ bản có thể xảy ra và người bạn nên liên hệ để khỏi bệnh.
+    Trước khi tiếp tục;
+    để đẩy nhanh quá trình giới thiệu, vui lòng trả lời một số câu hỏi:
+    `,
+    chat_link_button_label: "Trò chuyện",
+
+    login_form_title: "Đăng nhập",
+    login_form_submit: "Đăng nhập",
+    login_label_email: "E-mail",
+    login_label_password: "Mật khẩu",
+    login_failure_message: "Đăng nhập thất bại",
+
+    signup_label_email: "E-mail",
+    signup_label_password: "Contraseña",
+    signup_form_title: "Tạo tài khoản",
+    signup_form_submit: "Đăng ký",
+    signup_label_confirm_password: "Xác nhận mật khẩu",
+
+    nav_home: "Trang chủ",
+    nav_chat: "Trò chuyện",
+    nav_profile: "Hồ sơ",
+    nav_signup: "Đăng ký",
+    nav_login: "Đăng nhập",
+    nav_logout: "Đăng xuất",
+    nav_theme: "Thay đổi chủ đề",
+
+    profile_title: "Tài khoản của bạn",
+    profile_label_first_name: "Tên đầu tiên",
+    profile_label_last_name: "Họ",
+    profile_label_gender: "Giới tính",
+    profile_label_age: "Tuổi",
+    profile_label_language: "Ngôn ngữ",
+    profile_label_country: "Quốc gia",
+    profile_label_bio: "Tiểu sử",
+    profile_button_save: "Lưu thay đổi",
+
+    profile_heading_connected_services: "Dịch vụ được kết nối",
+    profile_empty_service_list: "Không có dịch vụ được kết nối",
+
+    profile_heading_password: "Đổi mật khẩu",
+    profile_description_password: "Mật khẩu phải có ít nhất 6 ký tự và chứa cả chữ thường và chữ in hoa cũng như số.",
+    profile_label_current_password: "Mật khẩu hiện tại",
+    profile_label_new_password: "Mật khẩu mới",
+    profile_button_change_password: "Đổi mật khẩu",
+
+    profile_heading_delete_account: "Xóa tài khoản",
+    profile_description_delete_account: "Việc này sẽ xóa tài khoản của bạn khỏi nền tảng AIRe. Xác nhận xóa bằng cách nhập mật khẩu của bạn.",
+    profile_label_password_confirm: "Xác nhận mật khẩu",
+    profile_label_keep_anonymized_data: "Ẩn danh dữ liệu của tôi thay vì xóa nó. Điều này giúp phát triển nền tảng AIRe. Điều này là hoàn toàn tùy chọn.",
+    profile_button_delete: "Xóa tài khoản",
+
+    gender_male: "nam giới",
+    gender_female: "nữ giới",
+    gender_other: "khác",
+
+    verification_heading: "Xác thực tài khoản của bạn",
+    verification_description: "Nhập mã xác minh bạn nhận được trong email",
+    verification_button_verify: "Xác minh",
+    verification_code_resend: "Gửi cho tôi mã mới",
+    verification_code_resend_done: "Một mã mới đang trên đường đến!",
+
+    error_generic: "Đã xảy ra lỗi không xác định!",
+    error_ai_not_responding: "Đã xảy ra lỗi khi nói chuyện với Bot. Nếu nó trả lời, đừng tin nó!",
+    error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
+    error_signup_bad_request: `Đăng ký không thành công. 
+ 
+Email có thể đã được đăng ký hoặc mật khẩu không đáp ứng yêu cầu tối thiểu.
+Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng như số.`,
+
+    error_signup_general: "Đăng ký không thành công. Vui lòng thử lại sau.",
+    error_profile_edit: "Lưu không thành công.",
+    error_profile_password: "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
+    error_profile_delete_account: "Không thể xóa tài khoản. Thử lại sau.",
+
+    landing_view_title: "Chào mừng đến với AIRe platform",
+    landing_view_text: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, tình trạng cơ bản có thể xảy ra và người bạn nên liên hệ để được cải thiện.
+    Trước khi tiếp tục,
+    để đẩy nhanh quá trình giới thiệu, vui lòng chèn một số câu hỏi.`,
+
+    landing_view_first_question: "Tuổi của bạn",
+    landing_view_second_question: "Nghề nghiệp hiện tại của bạn (nếu bạn có những nghề nghiệp đáng chú ý trong quá khứ, bạn cũng có thể liệt kê chúng ở đây bằng cách phân tách chúng bằng dấu phẩy).",
+    landing_view_form_continue_button: "Xác minh và tiến hành",
+    landing_view_form_button_cancel: "Hủy bỏ",
+    landing_view_occupations: "nghề nghiệp",
+
+    home_start_landing_button: "BẮT ĐẦU ĐẠI",
+    home_checkbox_button: "Xem hộp kiểm",
+
+    chat_data: "Dữ liệu",
+    chat_age: "Tuổi",
+    chat_occupation: "Nghề nghiệp",
+    chat_topic: "Đề tài",
+    chat_topic_onboarding: "Giới thiệu chủ đề",
+
+    checkbox_title: "Chào mừng đến với AIRe platform",
+    checkbox_text: "Tôi thấy bạn đã từng tham gia AIRe platform trước đây và rất vui được gặp lại bạn.",
+    checkbox_question: "Có chủ đề nào mà bạn muốn tiếp tục không?",
+    checkbox_continue_button: "Xác minh và tiến hành",
+    checkbox_button_cancel: "Hủy bỏ",
+
+    chat_input_title: "Đặt một câu hỏi",
+
+    burger_menu_chat_log_history: "Lịch sử trò chuyện",
+    burger_menu_content_catalogue: "Danh mục nội dung",
+    burger_menu_current_user: "Người dùng hiện tại",
+
+    burger_menu_sign_in: "Đăng nhập",
+    burger_menu_sign_up: "Đăng ký",
+    burger_menu_settings: "Cài đặt",
+    burger_menu_log_out: "Đăng xuất",
+    burger_menu_save_chat: "Lưu cuộc trò chuyện",
+    burger_menu_restore_chat: "Khôi phục trò chuyện",
+    burger_menu_chat_history: "Lịch sử trò chuyện",
+    burger_menu_catalogue_content: "Nội dung danh mục",
+    burger_menu_saved_chats: "Cuộc trò chuyện đã lưu:",
+    burger_menu_new_chat: "Cuộc trò truyện mới",
+    
+    onboarding_greetings: "Xin chào",
+    onboarding_question: "Bạn đang tìm kiếm thông tin về bất kỳ chủ đề này?",
+    
+    summary_chag_log_title: "Tóm tắt nhật ký trò chuyện",
+    summary_classification_title: "Phân loại CBR/ICF",
+    summary_log_button: "nhật ký danh mục",
+
+    error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
+    error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",
+
+    chat_history_image: "Tập tin hình ảnh:",
+    chat_history_video: "Tập tin video:",
+
+    popup_question_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
+    popup_question_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+    popup_button_accept: "Chấp nhận",
+    popup_button_cancel: "Hủy bỏ"
+}
+
+export default vi
+

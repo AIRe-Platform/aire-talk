@@ -9,8 +9,7 @@ const en: Locale = {
     aire_system: "AIRe System",
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_greeting_header: "Welcome to AIRe platform!",
-    system_greeting_text: `AIRe is an AI powered heathcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
-    
+    system_greeting_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
     Before proceeding;
     to speed up the onboarding process, please answer a couple of questions:
     `,
@@ -76,22 +75,22 @@ const en: Locale = {
     error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
+ 
+    The email may already be registered or the password does not meet the minimum requirements.
     
-The email may already be registered or the password does not meet the minimum requirements.
-
-The password must contain at least lower and upper case letter as well as numbers.`,
+    The password must contain at least lower and upper case letter as well as numbers.`,
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
     error_profile_delete_account: "Failed to delete the account. Try again later.",
 
-    landing_view_title: "Welcome to the AIRe paltform",
-    landing_view_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.
-  
+    landing_view_title: "Welcome to the AIRe platform",
+    landing_view_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in other to get better.
+
     Before proceeding,
-    to speed up the onboarding process pelase ansert a couple of questions.`,
+    to speed up the onboarding process please insert a couple of questions.`,
     landing_view_first_question: "Your age",
-    landing_view_second_question: "Your current occupation (if you have noteworthy past occuptions you can also list them here by separating them with a comma).",
+    landing_view_second_question: "Your current occupation (if you have noteworthy past occupations you can also list them here by separating them with a comma).",
     landing_view_form_continue_button: "Verify and proceed",
     landing_view_form_button_cancel: "Cancel",
     landing_view_occupations: "occupations",
@@ -105,8 +104,8 @@ The password must contain at least lower and upper case letter as well as number
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
 
-    checkbox_title: "Welcome to the AIRe paltform",
-    checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again.",
+    checkbox_title: "Welcome to the AIRe platform",
+    checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again",
     checkbox_question: "Is there a topic that you would like to continue from?",
     checkbox_continue_button: "Verify and proceed",
     checkbox_button_cancel: "Cancel",

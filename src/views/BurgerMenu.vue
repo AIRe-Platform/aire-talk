@@ -100,9 +100,6 @@ const newChat = async (e?: Event) => {
             </div>
         </div>
         <ChatHistory v-if="isChatHistoryOpen" :onClosePanel="toggleChatHistoryMenu" />
-        <!--
-
-        -->
     </div>
     <div class="burger-menu-blur" v-if="isBurgerMenuOpen">
     </div>
