@@ -1,3 +1,5 @@
+import { Questionnaire } from "@/models/questionnaire";
+
 export interface AireChatbot {
     name: string;
     description?: string;

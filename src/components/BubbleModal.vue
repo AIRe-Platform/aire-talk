@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SurveyQuestion from './SurveyQuestion.vue'
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
 
@@ -26,7 +25,7 @@ const close = (e: Event) => {
                                 <h1>{{ props.parent.sender }}</h1>
                             </div>
                             <div class="modal-body">
-                                <p v-if="!props.parent.question"> {{ props.parent.message }}</p>
+                                <p v-if="!props.parent.questionItem"> {{ props.parent.message }}</p>
                                 <div class="modal-body-image" v-if="props.parent.image">
                                     <img v-bind:src="props.parent.image" class="chat-message-image-contain">
                                 </div>
@@ -35,7 +34,6 @@ const close = (e: Event) => {
                                         <source v-bind:src="props.parent.video" type="video/mp4">
                                     </video>
                                 </div>
-                                <SurveyQuestion v-if="props.parent.question" :question="props.parent.question" />
                             </div>
                         </div>
                         <div class="modal-button" @click="close">

@@ -1,23 +1,51 @@
-export interface Question {
+export interface QuestionItem {
     id?: number;
     question: string;
     keywords: Array<string>;
     prompt: string;
-    options: Option;
+    type: QuestionOptionType;
+    options: QuestionOption;
     required: boolean;
 }
 
-export type OptionType = "single-select" | "range" | "open" | "multi-select" | "number";
+export enum QuestionOptionType {
+    Range = "range",
+    Checkbox = "checkbox",
+    Open = "open",
+    Number = "number"
+}
 
-export interface Option {
-    type: OptionType;
+export interface QuestionOption {
     values?: Array<string>;
     max_len?: number;
     min?: number;
     max?: number;
     default?: number;
     match?: string;
+    multiselect?: boolean;
 }
+
+// export interface QuestionOptionRange extends QuestionOption {
+//     min: number;
+//     max: number;
+// }
+
+// export interface QuestionOptionCheckbox extends QuestionOption {
+//     values?: Array<string>;
+//     multiselect: boolean;
+// }
+
+// export interface QuestionOptionOpen extends QuestionOption {
+//     max_len?: number;
+//     match?: string;
+//     multiline: boolean
+// }
+
+// export interface QuestionOptionOpen extends QuestionOption {
+//     min?: number;
+//     max?: number;
+//     default?: number
+// }
 
 export interface Preliminary {
     properties: {
@@ -33,6 +61,12 @@ export interface Questionnaire {
     modified: Date;
     keywords: Array<string>;
     preliminary?: Preliminary;
-    content: Array<Question>;
+    content: Array<QuestionnaireContent>;
 }
 
+export interface QuestionnaireContent {
+    id: string;
+    name: string;
+    keywords: Array<string>;
+    questions: Array<QuestionItem>;
+}

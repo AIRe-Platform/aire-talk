@@ -5,7 +5,6 @@ import { defineProps, onMounted, ref } from 'vue';
 import { revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import BubbleModal from './BubbleModal.vue';
-import SurveyQuestion from './SurveyQuestion.vue'
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
 import ConfirmDialog from './ConfirmDialog.vue';
 
@@ -47,7 +46,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.question)"> {{
+            <span class="chat-message-text" v-if="!(message.questionItem)"> {{
                 isSystem ? $t(message.message) : message.message
             }}</span>
             <div class="chat-message-image" v-if="message.image">
@@ -58,7 +57,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     <source v-bind:src="message.video" type="video/mp4">
                 </video>
             </div>
-            <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
             {{ $t(l.popup_question_revert_message) }}

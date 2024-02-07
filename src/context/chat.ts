@@ -8,6 +8,7 @@ import { reactive } from "vue";
 import { Login } from "./login";
 import i18n from "@/locales";
 import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import { Questionnaire } from "@/models/questionnaire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -272,6 +273,29 @@ function setCache(chat: ChatHistory, id?: string) {
  */
 function clearCache(id: string) {
     Chat.cache.delete(id)
+}
+
+export async function getQuestionnaire() {
+    const questionnaire = await AireServices.Memory?.getQuestionnaire("d65b8044-3679-4cdf-8422-0f472aec6edb");
+    
+
+    if(questionnaire?.content) {
+        questionnaire.content.map((c => {
+            c.questions.map(qi => {
+                const msg: ChatMessage = {
+                    id: generateRandomID(),
+                    sender: BOT_NAME,
+                    role: "assistant",
+                    message: "Please answer to this question",
+                    questionItem: qi,
+                    timestamp: Date.now(),
+                };
+                Chat.messages.push(msg);
+            })
+        }))
+    }
+
+    
 }
 
 /**

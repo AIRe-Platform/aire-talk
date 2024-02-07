@@ -1,5 +1,5 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { Question } from "./questionnaire";
+import { QuestionItem } from "./questionnaire";
 export interface Answer {
     question_id: string;
     type?: string;
@@ -20,7 +20,7 @@ export interface ChatMessage {
     message: string;
     image?: string;
     video?: string;
-    question?: Question;
+    questionItem?: QuestionItem;
     answer?: Answer;
     rating?: number;
 }

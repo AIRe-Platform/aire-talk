@@ -5,6 +5,7 @@ import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
 import { UIState } from '@/context/ui';
 import { ChatMessage } from '@/models/chat';
+import QuestionWrapper from '@/components/questionnaire/QuestionWrapper.vue';
 defineComponent({ name: "ChatView" })
 
 const canRevert = (msg: ChatMessage) => {
@@ -17,7 +18,8 @@ const canRevert = (msg: ChatMessage) => {
     <div class="chat-view-wrapper" v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'">
         <div class="chat-view-content">
             <template v-for="(msg) in Chat.messages" v-bind:key="msg.id">
-                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="!msg.questionItem" />
+                <QuestionWrapper :question-item="msg.questionItem" v-if="msg.questionItem" />
             </template>
         </div>
     </div>
