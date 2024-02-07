@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { router } from "@/router";
-import { Chat } from "@/context/chat";
+import { Chat, createNewChat } from "@/context/chat";
 import { l } from '@/locales';
 import { Login } from '@/context/login';
 import { initialTopics } from "@/models/topic";
@@ -13,17 +13,20 @@ const toggleMenu = () => {
     isOpen.value = !isOpen.value;
 };
 
-const buttonSelected = (topic) => {
+const buttonSelected = async (topic) => {
     topic.isSelected = true;
     Chat.topic = topic;
     for (let oldTopic of initialTopics) {
         if (oldTopic.isSelected)
             oldTopic.isSelected = false;
     }
-    if (Login.logged_in)
+    if (Login.logged_in) {
+        await createNewChat()
         router.push("/chat");
-    else
+    }
+    else {
         router.push("/landing");
+    }
 };
 
 </script>
