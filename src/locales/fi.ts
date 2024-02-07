@@ -31,11 +31,15 @@ const fi: Locale = {
 
     nav_home: "Koti",
     nav_chat: "Chat",
+    nav_chat_history: "Historia",
+    nav_chat_new: "Uusi keskustelu",
+    nav_content_catalogue: "Sisältöluettelo",
     nav_profile: "Profiili",
     nav_login: "Kirjaudu sisään",
     nav_logout: "Kirjaudu ulos",
     nav_signup: "Luo tili",
-    nav_theme: "Vaihda teema",
+    nav_theme: "Vaihda teema",    
+    nav_preferences: "Asetukset",
 
     profile_title: "Käyttäjäprofiilisi",
     profile_label_first_name: "Etunimi",
@@ -108,24 +112,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     checkbox_title: "Tervetuloa AIRe Talk -palveluun!",
     checkbox_text: "Näen, että olet ollut AIRe-alustalla aiemmin ja on mukava nähdä sinut taas.",
     checkbox_question: "Onko sinulla aihe, josta haluaisit jatkaa?",
-    checkbox_continue_button: "jatka",
-    checkbox_button_cancel: "perutta",
+    checkbox_continue_button: "Jatka",
+    checkbox_button_cancel: "Peruuta",
 
-    chat_input_title: "Kusu talla",
-
-    burger_menu_chat_log_history: "Chat-lokihistoria",
-    burger_menu_content_catalogue: "Sisältöluettelo",
-    burger_menu_current_user: "Käyttäjä",
-    burger_menu_settings: "Asetukset",
-    burger_menu_sign_in: "Kirjaudu sisään",
-    burger_menu_sign_up: "Rekisteröidy",
-    burger_menu_log_out: "Kirjaudu ulos",
-    burger_menu_save_chat: "Tallenna chat",
-    burger_menu_restore_chat: "Laita chat",
-    burger_menu_chat_history: "Keskusteluhistoria",
-    burger_menu_catalogue_content: "Katalogin sisältö",
-    burger_menu_saved_chats: "Tallennetut chatit:",
-    burger_menu_new_chat: "Uusi chat",
+    chat_input_title: "Mitä haluat kysyä?",
 
     onboarding_greetings: "Terveisiä",
     onboarding_question: "Etsitkö tietoa jostain näistä aiheista?",
@@ -137,13 +127,15 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     error_verification_resend_failed: "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut.",
 
+    chat_history_title: "Keskusteluhistoria",
     chat_history_image: "Kuvatiedosto:",
     chat_history_video: "videotiedosto:",
 
-    popup_question_revert_message: "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
-    popup_question_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
-    popup_button_accept: "Jatka",
-    popup_button_cancel: "Perutta"
+    popup_confirm_revert_message: "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
+    popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
+
+    button_accept: "Jatka",
+    button_cancel: "Peruuta"
 }
 
 export default fi

@@ -53,7 +53,7 @@ const onCancelRevert = () => {
 
 <template>
     <ConfirmDialog v-if="confirmRevertOpen" v-on:accept="onConfirmRevert"  v-on:decline="onCancelRevert">
-        {{ $t(l.popup_question_revert_message) }}
+        {{ $t(l.popup_confirm_revert_message) }}
     </ConfirmDialog>
     <div class="chat-bubble-options">
         <div class="chat-bubble-options-button" @click.stop="onToggleMenu">

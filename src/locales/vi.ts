@@ -29,11 +29,15 @@ const vi: Locale = {
 
     nav_home: "Trang chủ",
     nav_chat: "Trò chuyện",
+    nav_chat_history: "Lịch sử trò chuyện",
+    nav_chat_new: "Cuộc trò truyện mới",
+    nav_content_catalogue: "Danh mục nội dung",
     nav_profile: "Hồ sơ",
-    nav_signup: "Đăng ký",
     nav_login: "Đăng nhập",
     nav_logout: "Đăng xuất",
-    nav_theme: "Thay đổi chủ đề",
+    nav_signup: "Đăng ký",
+    nav_theme: "Thay đổi chủ đề",    
+    nav_preferences: "Cài đặt",
 
     profile_title: "Tài khoản của bạn",
     profile_label_first_name: "Tên đầu tiên",
@@ -110,21 +114,6 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     checkbox_button_cancel: "Hủy bỏ",
 
     chat_input_title: "Đặt một câu hỏi",
-
-    burger_menu_chat_log_history: "Lịch sử trò chuyện",
-    burger_menu_content_catalogue: "Danh mục nội dung",
-    burger_menu_current_user: "Người dùng hiện tại",
-
-    burger_menu_sign_in: "Đăng nhập",
-    burger_menu_sign_up: "Đăng ký",
-    burger_menu_settings: "Cài đặt",
-    burger_menu_log_out: "Đăng xuất",
-    burger_menu_save_chat: "Lưu cuộc trò chuyện",
-    burger_menu_restore_chat: "Khôi phục trò chuyện",
-    burger_menu_chat_history: "Lịch sử trò chuyện",
-    burger_menu_catalogue_content: "Nội dung danh mục",
-    burger_menu_saved_chats: "Cuộc trò chuyện đã lưu:",
-    burger_menu_new_chat: "Cuộc trò truyện mới",
     
     onboarding_greetings: "Xin chào",
     onboarding_question: "Bạn đang tìm kiếm thông tin về bất kỳ chủ đề này?",
@@ -136,13 +125,15 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
     error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",
 
+    chat_history_title: "Lịch sử trò chuyện",
     chat_history_image: "Tập tin hình ảnh:",
     chat_history_video: "Tập tin video:",
 
-    popup_question_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
-    popup_question_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
-    popup_button_accept: "Chấp nhận",
-    popup_button_cancel: "Hủy bỏ"
+    popup_confirm_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
+    popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+
+    button_accept: "Chấp nhận",
+    button_cancel: "Hủy bỏ"
 }
 
 export default vi

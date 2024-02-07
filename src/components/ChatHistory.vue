@@ -52,8 +52,7 @@ const onSelect = async (id: string) => {
     emit("closePanel", undefined)
 }
 
-const onConfirmDelete = (e: Event) => {
-    e.stopPropagation()
+const onConfirmDelete = () => {
     showConfirmModal.value = false
     deleteChat(delete_id!)
         .then(async () => {
@@ -64,8 +63,7 @@ const onConfirmDelete = (e: Event) => {
         })
 }
 
-const onCancelDelete = (e: Event) => {
-    e.stopPropagation()
+const onCancelDelete = () => {
     showConfirmModal.value = false;
     delete_id = undefined
 }
@@ -86,11 +84,11 @@ const getLastMessage = (id: string) => {
 
 <template>
     <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
-        {{ $t(l.popup_question_remove_chat) }}
+        {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
     <div class="restore-chat-panel">
         <div class="restore-chat-row-top">
-            <h1> {{ $t(l.burger_menu_saved_chats) }}</h1>
+            <h1> {{ $t(l.chat_history_title) }}</h1>
             <div class="restore-chat-button-close hide-big-screen-devices" @click="(e: Event) => $emit('closePanel', e)">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>

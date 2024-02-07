@@ -6,11 +6,11 @@ defineComponent({ name: "HomeView" });
 
 <template>
     <div id="home-view">
-        <routerLink to="/chat" id="chat-link">
+        <RouterLink to="/chat" id="chat-link">
             <div id="chat-link-btn" class="panel">
                 {{ $t("chat_link_button_label") }}
             </div>
-        </routerLink>
+        </RouterLink>
     </div>
     <OnboardingTopics />
 </template>

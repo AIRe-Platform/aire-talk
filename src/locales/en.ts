@@ -30,11 +30,15 @@ const en: Locale = {
 
     nav_home: "Home",
     nav_chat: "Chat",
+    nav_chat_history: "Chat history",
+    nav_chat_new: "New chat",
+    nav_content_catalogue: "Content catalogue",
     nav_profile: "Profile",
     nav_login: "Log in",
     nav_logout: "Logout",
     nav_signup: "Sign up",
     nav_theme: "Change theme",
+    nav_preferences: "Settings",
 
     profile_title: "Your Account",
     profile_label_first_name: "First Name",
@@ -112,20 +116,6 @@ const en: Locale = {
 
     chat_input_title: "Ask a question",
 
-    burger_menu_chat_log_history: "Chat history",
-    burger_menu_content_catalogue: "Content catalogue",
-    burger_menu_current_user: "Current user",
-    burger_menu_sign_in: "Sign in",
-    burger_menu_sign_up: "Sign up",
-    burger_menu_settings: "Settings",
-    burger_menu_log_out: "Log out",
-    burger_menu_save_chat: "Save chat",
-    burger_menu_restore_chat: "Restore chat",
-    burger_menu_chat_history: "Chat history",
-    burger_menu_catalogue_content: "Catalogue content",
-    burger_menu_saved_chats: "Saved chats:",
-    burger_menu_new_chat: "New chat",
-
     onboarding_greetings: "Hello there",
     onboarding_question: "Are you looking for information of any of this topics?",
 
@@ -135,13 +125,15 @@ const en: Locale = {
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed: "Could not resend the code. Try again later",
 
+    chat_history_title: "Chat History",
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
 
-    popup_question_revert_message: "Are you sure you want to revert the chat to this message?",
-    popup_question_remove_chat: "Are you sure you want to remove this chat?",
-    popup_button_accept: "Accept",
-    popup_button_cancel: "Cancel"
+    popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",
+    popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
+
+    button_accept: "Accept",
+    button_cancel: "Cancel"
 }
 
 export default en

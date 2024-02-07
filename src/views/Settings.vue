@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { defineComponent } from 'vue';
-import BurgerMenu from './BurgerMenu.vue';
 defineComponent({ name: "SettingsView" });
 import { Theme, setTheme } from '@/context/theme';
 import { supportedLocales, setLocale, Lang } from '@/locales';
@@ -21,7 +20,6 @@ const setLang = (e: Event) => {
 </script>
 
 <template>
-    <Burger-menu></Burger-menu>
     <div class="main-content">
         <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
             <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">{{ lang.name }}</option>

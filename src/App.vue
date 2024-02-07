@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Footer from './components/Footer.vue'
-import Spinner from './components/Spinner.vue';
 import { AppState } from './main';
-import BurgerMenu from './views/BurgerMenu.vue';
+import FooterBar from './components/FooterBar.vue';
+import Spinner from './components/Spinner.vue';
+import NavMenu from './components/NavMenu.vue';
 </script>
 
 <template>
-    <BurgerMenu></BurgerMenu>
+    <NavMenu />
     <div id="content-wrapper">
         <RouterView v-if="AppState === 'loaded'" />
         <div class="panel main-content" v-if="AppState === 'init'">
@@ -14,7 +14,7 @@ import BurgerMenu from './views/BurgerMenu.vue';
         </div>
         <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
     </div>
-    <Footer></Footer>
+    <FooterBar />
 </template>
 
 <style src="@/style/default.css" />

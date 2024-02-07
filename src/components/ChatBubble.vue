@@ -62,7 +62,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
-            {{ $t(l.popup_question_revert_message) }}
+            {{ $t(l.popup_confirm_revert_message) }}
         </ConfirmDialog>
     </div>
 </template>
@@ -154,7 +154,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    .chat-message-question { 
+    .chat-message-question {
         padding: 0;
     }
 

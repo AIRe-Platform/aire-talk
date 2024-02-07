@@ -31,11 +31,15 @@ const es: Locale = {
 
     nav_home: "Home",
     nav_chat: "Chat",
+    nav_chat_history: "Historial chat",
+    nav_chat_new: "Nuevo chat",
+    nav_content_catalogue: "Catalogo contenido",
     nav_profile: "Perfil",
     nav_login: "Identifícate",
     nav_logout: "Salir",
     nav_signup: "Regístrate",
     nav_theme: "Cambiar tema",
+    nav_preferences: "Configuración",
 
     profile_title: "Tu cuenta",
     profile_label_first_name: "Nombre",
@@ -115,20 +119,6 @@ const es: Locale = {
 
     chat_input_title: "Pregunta aquí",
 
-    burger_menu_chat_log_history: "Historial chat",
-    burger_menu_content_catalogue: "catalogo contenido",
-    burger_menu_current_user: "Usuario actual",
-    burger_menu_settings: "Configuración",
-    burger_menu_sign_in: "Identifícate",
-    burger_menu_sign_up: "Regístrate",
-    burger_menu_log_out: "Cerrar sesión",
-    burger_menu_save_chat: "Guardar chat",
-    burger_menu_restore_chat: "Cargar chat",
-    burger_menu_chat_history: "Historial chat",
-    burger_menu_catalogue_content: "Catálogo contenido",
-    burger_menu_saved_chats: "Chats guardados:",
-    burger_menu_new_chat: "Nuevo chat",
-
     onboarding_greetings: "Hola",
     onboarding_question: "¿Estas interesado en alguno de estos temas?",
 
@@ -139,13 +129,15 @@ const es: Locale = {
     error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
     error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
 
+    chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
 
-    popup_question_revert_message: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
-    popup_question_remove_chat: "¿estas seguro de que quieres borrar este chat?",
-    popup_button_accept: "Aceptar",
-    popup_button_cancel: "Cancelar"
+    popup_confirm_revert_message: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
+    
+    button_accept: "Aceptar",
+    button_cancel: "Cancelar"
 
 }
 

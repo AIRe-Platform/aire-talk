@@ -25,11 +25,15 @@ export enum LocalizationKey {
 
     nav_home = "nav_home",
     nav_chat = "nav_chat",
+    nav_chat_history = "nav_chat_history",
+    nav_chat_new = "nav_chat_new",
+    nav_content_catalogue = "nav_content_catalogue",
     nav_profile = "nav_profile",
     nav_login = "nav_login",
     nav_logout = "nav_logout",
     nav_signup = "nav_signup",
     nav_theme = "nav_theme",
+    nav_preferences = "nav_preferences",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -100,20 +104,6 @@ export enum LocalizationKey {
 
     chat_input_title = "chat_input_title",
 
-    burger_menu_chat_log_history = "burger_menu_chat_log_history",
-    burger_menu_content_catalogue = "burger_menu_content_catalogue",
-    burger_menu_current_user = "burger_menu_current_user",
-    burger_menu_settings = "burger_menu_settings",
-    burger_menu_sign_in = "burger_menu_sign_in",
-    burger_menu_sign_up = "burger_menu_sign_up",
-    burger_menu_log_out = "burger_menu_log_out",
-    burger_menu_save_chat = "burger_menu_save_chat",
-    burger_menu_restore_chat = "burger_menu_restore_chat",
-    burger_menu_chat_history = "burger_menu_chat_history",
-    burger_menu_saved_chats = "burger_menu_saved_chats",
-    burger_menu_catalogue_content = "burger_menu_catalogue_content",
-    burger_menu_new_chat = "burger_menu_new_chat",
-
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
 
@@ -124,11 +114,13 @@ export enum LocalizationKey {
     error_verification_resend_failed = "error_verification_resend_failed",
     error_verification_failure = "error_verification_failure",
 
+    chat_history_title = "chat_history_title",
     chat_history_image = "chat_history_image",
     chat_history_video = "chat_history_video",
 
-    popup_question_revert_message = "popup_question_revert_message",
-    popup_question_remove_chat = "popup_question_remove_chat",
-    popup_button_accept = "popup_button_accept",
-    popup_button_cancel = "popup_button_cancel"
+    popup_confirm_revert_message = "popup_confirm_revert_message",
+    popup_confirm_remove_chat = "popup_confirm_remove_chat",
+
+    button_accept = "button_accept",
+    button_cancel = "button_cancel"
 }
