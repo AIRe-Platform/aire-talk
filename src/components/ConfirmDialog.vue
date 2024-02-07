@@ -4,8 +4,8 @@ import { l } from '@/locales';
 import PopUp from './PopUp.vue';
 
 defineEmits<{
-    accept: [e: Event],
-    decline: [e: Event]
+    accept: [],
+    decline: []
 }>()
 
 </script>
@@ -17,10 +17,10 @@ defineEmits<{
                 <slot></slot>
             </div>
             <div class="popup-buttons">
-                <button class="popup-button-accept" @click="(e: Event) => $emit('accept', e)">
+                <button class="popup-button-accept" @click.stop="() => $emit('accept')">
                     <a class="nav-link" href="#"> {{ $t(l.popup_button_accept) }} </a>
                 </button>
-                <button class="popup-button-cancel" @click="(e: Event) => $emit('decline', e)">
+                <button class="popup-button-cancel" @click.stop="() => $emit('decline')">
                     <a class="nav-link" href="#"> {{ $t(l.popup_button_cancel) }} </a>
                 </button>
             </div>
