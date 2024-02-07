@@ -21,7 +21,7 @@ const buttonSelected = (topic) => {
             oldTopic.isSelected = false;
     }
     if (Login.logged_in)
-        router.push("/onboarding");
+        router.push("/chat");
     else
         router.push("/landing");
 };
