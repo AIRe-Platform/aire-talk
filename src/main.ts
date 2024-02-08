@@ -11,7 +11,8 @@ import {
     faEllipsisVertical, faXmark, faSliders, faArrowsSpin, faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, faEllipsisVertical, faXmark, faSliders, faArrowsSpin, faCheck)
+library.add(faUserSecret, faThumbsDown, faThumbsUp, faCopy, faTrash, 
+    faEllipsisVertical, faXmark, faSliders, faArrowsSpin, faCheck)
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
