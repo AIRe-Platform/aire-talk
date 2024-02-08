@@ -41,6 +41,7 @@ const canRevert = (msg: ChatMessage) => {
     padding: 3.5rem 1rem;
     padding-bottom: 3.5rem;
     margin: auto;
+    width: 75%;
     height: 100%;
     gap: 1.5rem;
 }
