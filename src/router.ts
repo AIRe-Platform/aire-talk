@@ -10,7 +10,6 @@ import ChatView from './views/Chat.vue'
 import LandingView from './views/Landing.vue'
 import SettingsView from './views/Settings.vue'
 import NotFoundView from './views/NotFound.vue'
-import OnboardingView from './views/Onboarding.vue'
 import VerificationCodeView from './views/VerificationCode.vue'
 import { nextTick } from 'vue'
 import i18n, { l } from './locales'
@@ -35,23 +34,19 @@ export const router = createRouter({
             name: "Profile", meta: { title: l.nav_profile }
         },
         {
-            path: '/chat', component: ChatView, 
+            path: '/chat', component: ChatView,
             name: "Chat", meta: { title: l.nav_chat }
         },
         {
-            path: '/landing', component: LandingView, 
+            path: '/landing', component: LandingView,
             name: "Landing"
         },
         {
-            path: '/onboarding', component: OnboardingView, 
-            name: "Onboarding"
-        },
-        {
-            path: '/settings', component: SettingsView, 
+            path: '/settings', component: SettingsView,
             name: "Settings", meta: { title: l.nav_preferences }
         },
         {
-            path: '/verify', component: VerificationCodeView, 
+            path: '/verify', component: VerificationCodeView,
             name: "VerificationCode", meta: { title: l.verification_heading }
         },
         {
