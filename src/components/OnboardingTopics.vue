@@ -5,6 +5,7 @@ import { createNewChat } from "@/context/chat";
 import { l } from '@/locales';
 import { Login } from '@/context/login';
 import { initialTopics } from "@/models/topic";
+import { vOnClickOutside } from '@vueuse/components';
 
 //to Toggle menu
 const isOpen = ref(false);
@@ -32,7 +33,7 @@ const buttonSelected = async (topic) => {
 
 <template>
     <div class="onboarding-topics" v-if="isOpen">
-        <div class="onboarding-topics-panel">
+        <div class="onboarding-topics-panel" v-on-click-outside="toggleMenu">
             <div class="onboarding-topics-header"> {{ $t(l.onboarding_greetings) }} </div>
             <div class="onboarding-topics-question">{{ $t(l.onboarding_question) }} </div>
             <div class="onboarding-topics-choices">
