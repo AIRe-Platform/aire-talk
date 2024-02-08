@@ -30,6 +30,7 @@ const canRevert = (msg: ChatMessage) => {
     overflow: hidden;
     flex-direction: column;
     flex-grow: 1;
+    background-color: var(--panel-background-color);
 }
 
 .chat-view-content {    
@@ -39,9 +40,7 @@ const canRevert = (msg: ChatMessage) => {
     overflow: auto;
     padding: 3.5rem 1rem;
     padding-bottom: 3.5rem;
-    background-color: var(--panel-background-color);
     margin: auto;
-    width: 60%;
     height: 100%;
     gap: 1.5rem;
 }

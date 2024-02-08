@@ -19,7 +19,7 @@
     align-items: center;
     justify-content: center;
 
-    background: rgba(255, 255, 255, .7);
+    background: var(--overlay-color);
 }
 
 .popup-panel {

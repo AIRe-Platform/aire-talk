@@ -200,7 +200,6 @@ defineComponent({ name: "ProfileView" })
 <style scoped>
 #profile-view {
     padding: 1rem;
-    padding-left: 7rem;
 }
 
 #password-form,

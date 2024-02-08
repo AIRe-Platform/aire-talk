@@ -18,3 +18,18 @@ import NavMenu from './components/NavMenu.vue';
 </template>
 
 <style src="@/style/default.css" />
+<style scoped>
+#content-wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow: auto;
+    margin: 0 8rem;
+}
+
+.main-content {
+    display: flex;
+    padding: 1rem;
+    margin: auto;
+}
+</style>

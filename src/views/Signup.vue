@@ -80,6 +80,7 @@ defineComponent({ name: "SignupView" })
     width: 60%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
@@ -91,6 +92,7 @@ defineComponent({ name: "SignupView" })
     width: 50%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }

@@ -30,14 +30,16 @@ const setLang = (e: Event) => {
 
 <style scoped>
 .main-content {
-    width: 15%;
+    width: 15vw;
     max-height: 10rem;
     display: flex;
     flex-direction: column;
+
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     padding: 2rem 3rem;
+    
     flex-grow: 1;
     justify-content: space-around;
     align-items: center;
