@@ -47,7 +47,7 @@ const navigateTo = (path: string) => {
 </script>
 
 <template>
-    <div v-on-click-outside="onBlur">
+    <div class="menu-container" v-on-click-outside="onBlur">
         <div class="nav-menu" :class="{ 'nav-menu-open': menuOpen }">
             <MenuButton :open="menuOpen" @click.stop="toggleMenu" />
             <div class="nav-menu-bar" v-show="menuOpen">
@@ -112,24 +112,36 @@ const navigateTo = (path: string) => {
 </template>
 
 <style scoped lang="scss">
+.menu-container {
+    position: absolute;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    height: calc(100vh - 2rem);
+    padding: 1rem;
+    gap: 1rem;
+}
+
 .menu-blur {
-    z-index: 1;
-    background: rgba(255, 255, 255, .7);
-    opacity: 0.4;
+    position: fixed;
     height: 100%;
     width: 100vw;
-    position: fixed;
+    z-index: 1;
+    
+    background: rgba(255, 255, 255, .7);
+    opacity: 0.4;
 }
 
 .nav-menu {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    overflow: hidden;
+    flex-grow: 0;
+    flex-shrink: 0;
 
-    position: absolute;
-    width: 2.5rem;
-    height: 2rem;
+    overflow: hidden;
     z-index: 2;
 
     background-color: var(--panel-background-color);
@@ -138,9 +150,8 @@ const navigateTo = (path: string) => {
     box-shadow: 0 0 5px var(--shadow-color);
 
     padding: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    margin-left: 1rem;
+    width: 2.5rem;
+    height: 2rem;
 
     transition:
         width 0.25s,
@@ -161,6 +172,7 @@ const navigateTo = (path: string) => {
     flex-direction: column;
     flex-grow: 1;
     height: 100%;
+    overflow: auto;
 }
 
 .nav-logo {

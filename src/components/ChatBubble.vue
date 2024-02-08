@@ -71,8 +71,8 @@ onMounted(() => scrollToMessage(props.message, "end"));
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
-    margin: 1rem;
     margin-right: 3rem;
+    margin-left: 3rem;
     line-height: 1.4rem;
     max-width: 40%;
     background-color: var(--chat-bubble-background-color);
@@ -93,7 +93,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-bubble-system {
     align-self: center;
-    margin: 0 3rem;
     border-color: var(--accent-secondary-color);
     max-width: 80%;
 }
@@ -110,6 +109,14 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-user-label {
     font-size: small;
+}
+
+.chat-bubble-bot .chat-user-label {
+    color: var(--accent-secondary-color);
+}
+
+.chat-bubble-user .chat-user-label {
+    color: var(--accent-primary-color);
 }
 
 .chat-message-text {

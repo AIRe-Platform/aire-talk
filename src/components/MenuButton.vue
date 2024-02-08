@@ -47,6 +47,10 @@ const props = defineProps<{
         background-color .6s cubic-bezier(.165, .84, .44, 1);
 }
 
+.menu-button:hover .button-bar {
+    background-color: var(--accent-primary-color);
+}
+
 .button-bar--1 {
     -webkit-transform: translateY(-6px);
     transform: translateY(-6px);
