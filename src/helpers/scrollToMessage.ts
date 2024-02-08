@@ -1,19 +1,16 @@
 import { ChatMessage } from "@/models/chat";
 
-export function scrollToMessage(message: ChatMessage, pos?: ScrollLogicalPosition)
-{
-    const id = message.timestamp.toString();
+export function scrollToMessage(message: ChatMessage, pos?: ScrollLogicalPosition) {
+    const id = message.id.toString();
     const bubble = document.getElementById(id);
 
-    if(bubble)
-    {
+    if (bubble) {
         bubble.scrollIntoView({
             behavior: "smooth",
             block: pos || "start"
         });
     }
-    else
-    {
+    else {
         console.warn("Could not find message:", message.timestamp)
     }
 }

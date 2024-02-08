@@ -9,14 +9,14 @@ const error = ref(false);
 
 const onLogin = (e: Event) => {
     e.preventDefault();
-    
-    if(busy.value)
+
+    if (busy.value)
         return false;
 
     const email = document.getElementById("login-email") as HTMLInputElement;
     const pw = document.getElementById("login-password") as HTMLInputElement;
 
-    if(email.form?.checkValidity() !== true)
+    if (email.form?.checkValidity() !== true)
         return;
 
     busy.value = true;
@@ -26,7 +26,7 @@ const onLogin = (e: Event) => {
         .then((result) => {
             error.value = !result;
             Login.logged_in = result;
-            if(result)
+            if (result)
                 router.push("/");
         })
         .finally(() => busy.value = false);
@@ -40,9 +40,9 @@ defineComponent({ name: "LoginView" })
         <form id="login-form" class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t("login_form_title") }}</h2>
             <label for="login-email" class="form-label">{{ $t("login_label_email") }}</label>
-            <input type="email" id="login-email" required="true" autocomplete="email"/>
+            <input type="email" id="login-email" required="true" autocomplete="email" />
             <label for="login-password" class="form-label">{{ $t("login_label_password") }}</label>
-            <input type="password" id="login-password" required="true" autocomplete="current-password"/>
+            <input type="password" id="login-password" required="true" autocomplete="current-password" />
             <br />
             <small id="login-failed-message" v-if="error">{{ $t("login_failure_message") }}</small>
             <input type="submit" :value="$t('login_form_submit')" @click="onLogin" />
@@ -54,20 +54,19 @@ defineComponent({ name: "LoginView" })
 </template>
 
 <style scoped>
-.main-content
-{
+.main-content {
     width: 50%;
     min-width: 300px;
     max-width: 500px;
 }
 
-.form-content
-{
+.form-content {
     display: flex;
     flex-direction: column;
     width: 50%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
@@ -77,14 +76,16 @@ defineComponent({ name: "LoginView" })
     align-items: center;
     justify-content: center;
     width: 50%;
+
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
+
     flex-grow: 1;
 }
 
-#login-failed-message
-{
+#login-failed-message {
     color: var(--error-color);
     white-space: pre-line;
 }
@@ -97,8 +98,15 @@ input[type=submit] {
     margin: 1rem;
 }
 
-input[type=email], input[type=password] {
+input[type=email],
+input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
+}
+
+@media screen and (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
 }
 </style>

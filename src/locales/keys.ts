@@ -1,5 +1,4 @@
-export enum LocalizationKey
-{
+export enum LocalizationKey {
     title = "title",
     footer = "footer",
     not_found = "not_found",
@@ -7,6 +6,10 @@ export enum LocalizationKey
     aire_bot = "aire_bot",
     aire_system = "aire_system",
     system_greeting = "system_greeting",
+    system_topic = "system_topic",
+
+    frontpage_greeting = "frontpage_greeting",
+    frontpage_paragraph = "frontpage_paragraph",
 
     chat_link_button_label = "chat_link_button_label",
 
@@ -22,12 +25,17 @@ export enum LocalizationKey
     signup_label_password = "signup_label_password",
     signup_label_confirm_password = "signup_label_confirm_password",
 
+    nav_home = "nav_home",
     nav_chat = "nav_chat",
+    nav_chat_history = "nav_chat_history",
+    nav_chat_new = "nav_chat_new",
+    nav_content_catalogue = "nav_content_catalogue",
     nav_profile = "nav_profile",
     nav_login = "nav_login",
     nav_logout = "nav_logout",
     nav_signup = "nav_signup",
     nav_theme = "nav_theme",
+    nav_preferences = "nav_preferences",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -72,6 +80,40 @@ export enum LocalizationKey
     error_profile_edit = "error_profile_edit",
     error_profile_change_password = "error_profile_password",
     error_profile_delete_account = "error_profile_delete_account",
+
+    landing_view_title = "landing_view_title",
+    landing_view_text = "landing_view_text",
+    landing_label_age = "landing_label_age",
+    landing_label_occupation = "landing_label_occupation",
+
+    chat_topic = "chat_topic",
+    chat_topic_onboarding = "chat_topic_onboarding",
+    chat_input_title = "chat_input_title",
+
+    onboarding_greetings = "onboarding_greetings",
+    onboarding_question = "onboarding_question",
+    topic_backpain = "topic_backpain",
+    topic_neckpain = "topic_neckpain",
+    topic_sleep_apnea = "topic_sleep_apnea",
+    topic_increased_weight = "topic_increased_weight",
+    topic_trouble_talking = "topic_trouble_talking",
+
+    summary_chag_log_title = "summary_chag_log_title",
+    summary_classification_title = "summary_classification_title",
+    summary_log_button = "summary_log_button",
+
     error_verification_resend_failed = "error_verification_resend_failed",
-    error_verification_failure = "error_verification_failure"
+    error_verification_failure = "error_verification_failure",
+
+    chat_history_title = "chat_history_title",
+    chat_history_image = "chat_history_image",
+    chat_history_video = "chat_history_video",
+
+    popup_confirm_revert_message = "popup_confirm_revert_message",
+    popup_confirm_remove_chat = "popup_confirm_remove_chat",
+
+    button_accept = "button_accept",
+    button_cancel = "button_cancel",
+    button_back = "button_back",
+    button_continue = "button_continue"
 }

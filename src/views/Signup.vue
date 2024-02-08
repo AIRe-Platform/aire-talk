@@ -5,24 +5,23 @@ import { l } from '@/locales';
 import { router } from '@/router';
 import { signup } from '@/context/login';
 
+
 const busy = ref(false);
 const error = ref<string | null>(null);
 
 const onSignup = (e: Event) => {
     e.preventDefault();
-    
-    if(busy.value) return;
+
+    if (busy.value) return;
     const email = document.getElementById("signup-email") as HTMLInputElement;
     const pw1 = document.getElementById("signup-password") as HTMLInputElement;
     const pw2 = document.getElementById("signup-password-confirm") as HTMLInputElement;
 
-    if(email.form?.checkValidity() !== true)
-    {
+    if (email.form?.checkValidity() !== true) {
         return;
     }
 
-    if(pw1.value !== pw2.value)
-    {
+    if (pw1.value !== pw2.value) {
         error.value = l.error_signup_password_mismatch;
         return;
     }
@@ -30,16 +29,13 @@ const onSignup = (e: Event) => {
     busy.value = true;
     signup(email.value, pw1.value)
         .then((status) => {
-            if(status === 204)
-            {
+            if (status === 204) {
                 router.push("/")
             }
-            else if (status === 400)
-            {
+            else if (status === 400) {
                 error.value = l.error_signup_bad_request;
             }
-            else
-            {
+            else {
                 error.value = l.error_signup_general;
             }
         })
@@ -56,14 +52,14 @@ defineComponent({ name: "SignupView" })
         <form class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t(l.signup_form_title) }}</h2>
             <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
-            <input type="email" id="signup-email" required="true" autocomplete="email"/>
+            <input type="email" id="signup-email" required="true" autocomplete="email" />
             <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
-            <input type="password" id="signup-password" required="true" autocomplete="off"/>
+            <input type="password" id="signup-password" required="true" autocomplete="off" />
             <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
-            <input type="password" id="signup-password-confirm" required="true" autocomplete="off"/>
+            <input type="password" id="signup-password-confirm" required="true" autocomplete="off" />
             <br />
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup"/>
+            <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup" />
         </form>
         <div class="busy-panel" v-if="busy">
             <Spinner />
@@ -72,20 +68,19 @@ defineComponent({ name: "SignupView" })
 </template>
 
 <style scoped>
-.main-content
-{
+.main-content {
     width: 50%;
     min-width: 300px;
     max-width: 500px;
 }
 
-.form-content
-{
+.form-content {
     display: flex;
     flex-direction: column;
     width: 60%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
@@ -97,12 +92,12 @@ defineComponent({ name: "SignupView" })
     width: 50%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
 
-#signup-failed-message
-{
+#signup-failed-message {
     color: var(--error-color);
     white-space: pre-line;
 }
@@ -115,8 +110,15 @@ input[type=submit] {
     margin: 1rem;
 }
 
-input[type=email], input[type=password] {
+input[type=email],
+input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
+}
+
+@media screen and (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
 }
 </style>

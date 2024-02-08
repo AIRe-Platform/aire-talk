@@ -8,8 +8,12 @@ const en: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "AIRe System",
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
+    system_topic: "You have selected a topic: ",
 
-    chat_link_button_label: "New chat",
+    frontpage_greeting: "Welcome to the AIRe platform!",
+    frontpage_paragraph: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying conditions. AIRe guides you in follow-up procedures if necessary, and offers you helpful suggestions tailored just for you.`,
+
+    chat_link_button_label: "Chat",
 
     login_form_title: "Login",
     login_form_submit: "Login",
@@ -23,12 +27,17 @@ const en: Locale = {
     signup_label_password: "Password",
     signup_label_confirm_password: "Confirm password",
 
+    nav_home: "Home",
     nav_chat: "Chat",
+    nav_chat_history: "Chat history",
+    nav_chat_new: "New chat",
+    nav_content_catalogue: "Content catalogue",
     nav_profile: "Profile",
     nav_login: "Log in",
     nav_logout: "Logout",
     nav_signup: "Sign up",
     nav_theme: "Change theme",
+    nav_preferences: "Settings",
 
     profile_title: "Your Account",
     profile_label_first_name: "First Name",
@@ -66,19 +75,52 @@ const en: Locale = {
     verification_code_resend_done: "A new code is on its way!",
 
     error_generic: "An unknown error occurred!",
-    error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",    
+    error_ai_not_responding: "Something went wrong when talking to the Bot. If it answers, don't trust it!",
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
+ 
+    The email may already be registered or the password does not meet the minimum requirements.
     
-The email may already be registered or the password does not meet the minimum requirements.
-
-The password must contain at least lower and upper case letter as well as numbers.`,
+    The password must contain at least lower and upper case letter as well as numbers.`,
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
     error_profile_delete_account: "Failed to delete the account. Try again later.",
+
+    landing_view_title: "Welcome to the AIRe platform!",
+    landing_view_text: "Let's begin by filling the following preliminary information about yourself.",
+    landing_label_age: "Your age",
+    landing_label_occupation: "Your current and past occupations (Use commas to separate the occupations)",
+
+    chat_topic: "Topic",
+    chat_topic_onboarding: "Topic onboarding",
+    chat_input_title: "Ask a question",
+
+    onboarding_greetings: "Hello there!",
+    onboarding_question: "Would you like to discuss about these topics?",    
+    topic_backpain: "Back pain",
+    topic_neckpain: "Neck pain",
+    topic_sleep_apnea: "Sleep apnea",
+    topic_increased_weight: "Increased weight",
+    topic_trouble_talking: "Trouble talking",
+
+    summary_chag_log_title: "Chat log summary",
+    summary_classification_title: "CBR / ICF classification",
+    summary_log_button: "catalogue log",
     error_verification_failure: "Could not verify the code. It may be expired.",
-    error_verification_resend_failed: "Could not resend the code. Try again later"
+    error_verification_resend_failed: "Could not resend the code. Try again later",
+
+    chat_history_title: "Chat History",
+    chat_history_image: "Image file:",
+    chat_history_video: "Video file:",
+
+    popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",
+    popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
+
+    button_accept: "Accept",
+    button_cancel: "Cancel",
+    button_back: "Back",
+    button_continue: "Continue"
 }
 
 export default en

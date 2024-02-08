@@ -8,9 +8,12 @@ const es: Locale = {
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
     system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
+    system_topic: "Has seleccionado un tema: ",
 
+    frontpage_greeting: "¡Bienvenido a la plataforma AIRe!",
+    frontpage_paragraph: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos y las posibles afecciones subyacentes. AIRe le guía en los procedimientos de seguimiento si es necesario y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
 
-    chat_link_button_label: "Nuevo chat",
+    chat_link_button_label: "Chat",
 
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",
@@ -24,12 +27,17 @@ const es: Locale = {
     signup_label_password: "Contraseña",
     signup_label_confirm_password: "Confirma contraseña",
 
+    nav_home: "Home",
     nav_chat: "Chat",
+    nav_chat_history: "Historial chat",
+    nav_chat_new: "Nuevo chat",
+    nav_content_catalogue: "Catalogo contenido",
     nav_profile: "Perfil",
     nav_login: "Identifícate",
     nav_logout: "Salir",
     nav_signup: "Regístrate",
     nav_theme: "Cambiar tema",
+    nav_preferences: "Configuración",
 
     profile_title: "Tu cuenta",
     profile_label_first_name: "Nombre",
@@ -68,7 +76,7 @@ const es: Locale = {
     verification_code_resend_done: "LOCALIZE TO ES: A new code is on its way!",
 
     error_generic: "¡Sucedió un error desconocido!",
-    error_ai_not_responding: "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",    
+    error_ai_not_responding: "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
     
@@ -80,8 +88,42 @@ const es: Locale = {
     error_profile_edit: "Error al guardar.",
     error_profile_password: "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
     error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
+
+    landing_view_title: "Bienvenido a la plataforma AIRe",
+    landing_view_text: "Comencemos completando la siguiente información preliminar sobre usted.",
+    landing_label_age: "Tu edad",
+    landing_label_occupation: "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
+
+    chat_topic: "Tema",
+    chat_topic_onboarding: "Tema desde onboarding",
+    chat_input_title: "Pregunta aquí",
+
+    onboarding_greetings: "¡Hola!",
+    onboarding_question: "¿Le gustaría discutir sobre estos temas?",    
+    topic_backpain: "Dolor de espalda",
+    topic_neckpain: "Dolor de cuello",
+    topic_sleep_apnea: "Apnea del sueño",
+    topic_increased_weight: "Aumento de peso",
+    topic_trouble_talking: "Problemas para hablar",
+
+    summary_chag_log_title: "Resumen chat log",
+    summary_classification_title: "CBR / ICF clasificación",
+    summary_log_button: "catalogue log",
+
     error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
-    error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later"
+    error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",
+
+    chat_history_title: "Historial chat",
+    chat_history_image: "Imagen:",
+    chat_history_video: "Vídeo:",
+
+    popup_confirm_revert_message: "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
+    
+    button_accept: "Aceptar",
+    button_cancel: "Cancelar",
+    button_back: "Regresar",
+    button_continue: "Continuar"
 }
 
 export default es

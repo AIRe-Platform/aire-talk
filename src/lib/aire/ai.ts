@@ -1,41 +1,37 @@
 import { AireTalkReceiver } from "./models/talk";
 import { AireModule, AireModuleType } from "./models/service";
 import { AireErrorHandler, AireErrorKey } from "./models/error";
-import { 
+import {
     AireChatbot,
-    AireChatbotEventType, 
-    AireChatbotOutput, 
-    AireChatbotErrorEvent, 
+    AireChatbotEventType,
+    AireChatbotOutput,
+    AireChatbotErrorEvent,
     AireChatbotInput
 } from "./models/chat";
 import { AireServices } from ".";
 
-export class AireAI
-{
+export class AireAI {
     private config: AireModule;
     private selectedBot: string;
 
-    constructor(config: AireModule)
-    {
-        if(config.type !== AireModuleType.AI)
+    constructor(config: AireModule) {
+        if (config.type !== AireModuleType.AI)
             throw Error("Module configuration is not for an AI module");
 
         this.config = config;
         this.selectedBot = "default";
     }
 
-    public stream(chat: AireChatbotInput, callback: AireTalkReceiver, onError?: AireErrorHandler)
-    {
+    public stream(chat: AireChatbotInput, callback: AireTalkReceiver, onError?: AireErrorHandler) {
         const url = new URL(this.config.endpoint + "/bot/" + this.selectedBot + "/stream");
         const headers: { [key: string]: string } = {
             "Accept": "text/event-stream",
             "Content-Type": "application/json"
         };
 
-        if(AireServices.ID)
-        {
+        if (AireServices.ID) {
             const token = AireServices.ID.getAccessToken();
-            if(token)
+            if (token)
                 headers["Authorization"] = `Bearer ${token}`
         }
 
@@ -44,116 +40,98 @@ export class AireAI
             headers: headers,
             body: JSON.stringify(chat)
         })
-        .then(async (response) => {
-            if(!response.ok)
-                throw Error(response.statusText);
+            .then(async (response) => {
+                if (!response.ok)
+                    throw Error(response.statusText);
 
-            const reader = response.body?.getReader();
-            const decoder = new TextDecoder();
+                const reader = response.body?.getReader();
+                const decoder = new TextDecoder();
 
-            let done = false;
-            let value: any = null;
-            let buf: string = "";
-    
-            while(reader)
-            {
-                ({ value, done } = await reader.read());
-                if(done) break;
-                buf += decoder.decode(value);
-                
-                const lines = buf.split("\n");
-                let dataEvent: AireChatbotEventType | undefined;
-                buf = "";
-                lines.forEach(line => {
-                    if(buf.length > 0)
-                    {
-                        console.error("Incomplete data placed in buffer, buf it was not the last line.", lines, value);
-                        throw Error(AireErrorKey.Unknown);
-                    }
+                let done = false;
+                let value: any = null;
+                let buf: string = "";
 
-                    if(line.startsWith("event: "))
-                    {
-                        const eventType = line.substring(line.indexOf(":") + 1).trim();
-                        if(eventType === AireChatbotEventType.End)
-                        {
-                            callback({ final: true });
-                            return;
+                while (reader) {
+                    ({ value, done } = await reader.read());
+                    if (done) break;
+                    buf += decoder.decode(value);
+
+                    const lines = buf.split("\n");
+                    let dataEvent: AireChatbotEventType | undefined;
+                    buf = "";
+                    lines.forEach(line => {
+                        if (buf.length > 0) {
+                            console.error("Incomplete data placed in buffer, buf it was not the last line.", lines, value);
+                            throw Error(AireErrorKey.Unknown);
                         }
-                        else if ((<any>Object).values(AireChatbotEventType).includes(eventType))
-                        {
-                            dataEvent = eventType as AireChatbotEventType;
-                        }
-                        else
-                        {
-                            buf += line;
-                        }
-                    }
-                    else if (line.startsWith("data: "))
-                    {
-                        const value = line.substring(line.indexOf(":") + 1).trim();
-                        if(dataEvent === AireChatbotEventType.Data)
-                        {
-                            try
-                            {
-                                const output = JSON.parse(value) as AireChatbotOutput;
-                                callback({ message: output.content, role: output.type, final: false});
+
+                        if (line.startsWith("event: ")) {
+                            const eventType = line.substring(line.indexOf(":") + 1).trim();
+                            if (eventType === AireChatbotEventType.End) {
+                                callback({ final: true });
+                                return;
                             }
-                            catch(reason)
-                            {
-                                console.error(reason);
-
-                                // Probably incomplete data
-                                buf += "event: data\n";
+                            else if ((<any>Object).values(AireChatbotEventType).includes(eventType)) {
+                                dataEvent = eventType as AireChatbotEventType;
+                            }
+                            else {
                                 buf += line;
                             }
                         }
-                        else if (dataEvent == AireChatbotEventType.Error)
-                        {
-                            try
-                            {
-                                const err = JSON.parse(value) as AireChatbotErrorEvent;
-                                if(onError)
-                                {
-                                    onError({
-                                        key: AireErrorKey.AiNotResponding,
-                                        error: Error(`${err.status_code.toString()}: ${err.message}`)
-                                    });
+                        else if (line.startsWith("data: ")) {
+                            const value = line.substring(line.indexOf(":") + 1).trim();
+                            if (dataEvent === AireChatbotEventType.Data) {
+                                try {
+                                    const output = JSON.parse(value) as AireChatbotOutput;
+                                    callback({ message: output.content, role: output.type, final: false });
+                                }
+                                catch (reason) {
+                                    console.error(reason);
+
+                                    // Probably incomplete data
+                                    buf += "event: data\n";
+                                    buf += line;
                                 }
                             }
-                            catch(reason)
-                            {
-                                console.error(reason);
+                            else if (dataEvent == AireChatbotEventType.Error) {
+                                try {
+                                    const err = JSON.parse(value) as AireChatbotErrorEvent;
+                                    if (onError) {
+                                        onError({
+                                            key: AireErrorKey.AiNotResponding,
+                                            error: Error(`${err.status_code.toString()}: ${err.message}`)
+                                        });
+                                    }
+                                }
+                                catch (reason) {
+                                    console.error(reason);
 
-                                // Probably incomplete data
-                                buf += "event: error\n";
-                                buf += line;
+                                    // Probably incomplete data
+                                    buf += "event: error\n";
+                                    buf += line;
+                                }
+                            }
+                            else if (dataEvent == AireChatbotEventType.Metadata) {
+                                console.debug("Metadata received");
+                            }
+                            else {
+                                console.warn("Unhandled data", line);
                             }
                         }
-                        else if (dataEvent == AireChatbotEventType.Metadata)
-                        {
-                            console.debug("Metadata received");
+                        else if (line.trim().length > 0 && !line.startsWith(": ping")) {
+                            buf += line;
                         }
-                        else
-                        {
-                            console.warn("Unhandled data", line);
-                        }
-                    }
-                    else if(line.trim().length > 0 && !line.startsWith(": ping"))
-                    {
-                        buf += line;
-                    }
-                });
-            }
-        })
-        .catch((reason) => {
-            console.error(reason);
-            if(onError)
-                onError({ key: AireErrorKey.AiNotResponding });
-        });
+                    });
+                }
+            })
+            .catch((reason) => {
+                console.error(reason);
+                if (onError)
+                    onError({ key: AireErrorKey.AiNotResponding });
+            });
     }
 
-    private getBots(): Promise<AireChatbot[]>
-    {
+    private getBots(): Promise<AireChatbot[]> {
         return new Promise((res) => res([]));
     }
 }

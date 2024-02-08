@@ -23,3 +23,8 @@ pnpm-debug.log*
 
 # Temporary files
 /tmp
+
+# Azurite
+__azurite*__.json
+/__blobstorage__
+/__queuestorage__

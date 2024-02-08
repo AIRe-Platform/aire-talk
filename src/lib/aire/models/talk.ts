@@ -1,7 +1,6 @@
 import { AireRole } from "./chat";
 
-export interface AireTalkMessage
-{
+export interface AireTalkMessage {
     role?: AireRole;
     message?: string;
     final: boolean;

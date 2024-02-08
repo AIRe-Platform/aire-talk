@@ -4,7 +4,7 @@ import { supportedLocales, setLocale, Lang } from '@/locales';
 import { Login, logout } from '@/context/login';
 
 const toggleTheme = () => {
-    if(Theme.style === "theme-dark")
+    if (Theme.style === "theme-dark")
         setTheme("theme-default")
     else
         setTheme("theme-dark");
