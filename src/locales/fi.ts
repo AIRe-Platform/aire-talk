@@ -10,12 +10,8 @@ const fi: Locale = {
     system_greeting: "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
 
-    system_greeting_header: "Welcome to AIRe platform!",
-    system_greeting_text: `AIRe is an AI powered heathcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
-    
-    Before proceeding;
-    to speed up the onboarding process, please answer a couple of questions:
-    `,
+    frontpage_greeting: "Tervetuloa AIRe-alustalle!",
+    frontpage_paragraph: `AIRe on tekoälyavusteinen terveyspalvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä vinkkejä, jotka ovat juuri sinulle suunniteltuja!`,
 
     chat_link_button_label: "Keskustelu",
 
@@ -137,7 +133,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
 
     button_accept: "Jatka",
-    button_cancel: "Peruuta"
+    button_cancel: "Peruuta",
+    button_back: "Takaisin"
 }
 
 export default fi

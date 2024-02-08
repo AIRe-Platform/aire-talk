@@ -8,8 +8,8 @@ export enum LocalizationKey {
     system_greeting = "system_greeting",
     system_topic = "system_topic",
 
-    system_greeting_header = "system_greeting_header",
-    system_greeting_text = "system_greeting_text",
+    frontpage_greeting = "frontpage_greeting",
+    frontpage_paragraph = "frontpage_paragraph",
 
     chat_link_button_label = "chat_link_button_label",
 
@@ -124,5 +124,6 @@ export enum LocalizationKey {
     popup_confirm_remove_chat = "popup_confirm_remove_chat",
 
     button_accept = "button_accept",
-    button_cancel = "button_cancel"
+    button_cancel = "button_cancel",
+    button_back = "button_back"
 }

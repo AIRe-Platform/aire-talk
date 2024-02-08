@@ -10,11 +10,8 @@ const en: Locale = {
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
 
-    system_greeting_header: "Welcome to AIRe platform!",
-    system_greeting_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
-    Before proceeding;
-    to speed up the onboarding process, please answer a couple of questions:
-    `,
+    frontpage_greeting: "Welcome to AIRe platform!",
+    frontpage_paragraph: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying conditions. AIRe guides you in follow-up procedures if necessary, and offers you helpful suggestions tailored just for you.`,
 
     chat_link_button_label: "Chat",
 
@@ -135,7 +132,8 @@ const en: Locale = {
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
 
     button_accept: "Accept",
-    button_cancel: "Cancel"
+    button_cancel: "Cancel",
+    button_back: "Back"
 }
 
 export default en

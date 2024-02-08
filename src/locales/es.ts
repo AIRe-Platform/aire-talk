@@ -10,12 +10,8 @@ const es: Locale = {
     system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_topic: "Has seleccionado un tema: ",
 
-    system_greeting_header: "¡Bienvenido a la plataforma AIRe!",
-    system_greeting_text: `AIRe eAIRe es un servicio de chat de atención médica impulsado por IA que le ayudará a comprender mejor sus síntomas activos, la posible condición subyacente y con quién debe comunicarse para mejorar.
-    
-    Antes de continuar;
-     ara acelerar el proceso de incorporación, responda un par de preguntas:
-    `,
+    frontpage_greeting: "¡Bienvenido a la plataforma AIRe!",
+    frontpage_paragraph: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos y las posibles afecciones subyacentes. AIRe le guía en los procedimientos de seguimiento si es necesario y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
 
     chat_link_button_label: "Chat",
 
@@ -139,8 +135,8 @@ const es: Locale = {
     popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
     
     button_accept: "Aceptar",
-    button_cancel: "Cancelar"
-
+    button_cancel: "Cancelar",
+    button_back: "Regresar"
 }
 
 export default es

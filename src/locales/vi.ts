@@ -10,11 +10,9 @@ const vi: Locale = {
     system_greeting: "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
     system_topic: "Bạn đã chọn chủ đề: ",
 
-    system_greeting_header: "Chào mừng đến với AIRe platform!",
-    system_greeting_text: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, tình trạng cơ bản có thể xảy ra và người bạn nên liên hệ để khỏi bệnh.
-    Trước khi tiếp tục;
-    để đẩy nhanh quá trình giới thiệu, vui lòng trả lời một số câu hỏi:
-    `,
+    frontpage_greeting: "Chào mừng đến với AIRe platform!",
+    frontpage_paragraph: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, các tình trạng tiềm ẩn có thể xảy ra. AIRe hướng dẫn bạn các quy trình tiếp theo nếu cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
+
     chat_link_button_label: "Trò chuyện",
 
     login_form_title: "Đăng nhập",
@@ -135,7 +133,8 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
 
     button_accept: "Chấp nhận",
-    button_cancel: "Hủy bỏ"
+    button_cancel: "Hủy bỏ",
+    button_back: "Quay lại"
 }
 
 export default vi
