@@ -123,6 +123,7 @@ export async function saveChat() {
 
     if (AireServices.Memory) {
         const messages = Chat.messages
+            .filter(x => x.role !== "system")
             .map(x => {
                 const m: AireChatMessage = {
                     role: x.role,
