@@ -2,7 +2,8 @@
 import { defineComponent } from 'vue';
 defineComponent({ name: "SettingsView" });
 import { Theme, setTheme } from '@/context/theme';
-import { supportedLocales, setLocale, Lang } from '@/locales';
+import { supportedLocales, setLocale, Lang, l } from '@/locales';
+import { router } from '@/router';
 
 const toggleTheme = () => {
     if (Theme.style === "theme-dark")
@@ -25,6 +26,9 @@ const setLang = (e: Event) => {
             <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">{{ lang.name }}</option>
         </select>
         <a href="#" class="nav-link" @click="toggleTheme">{{ $t("nav_theme") }}</a>
+        <button @click="router.back">
+            {{ $t(l.button_back) }}
+        </button>
     </div>
 </template>
 
