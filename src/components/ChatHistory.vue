@@ -200,5 +200,15 @@ const getLastMessage = (id: string) => {
     right: -3rem;
 }
 
-@media screen and (max-width: 600px) {}
+@media screen and (max-width: 600px) {
+    .restore-chat-panel {
+        position: fixed;
+        top: 4rem;
+        left: 1rem;
+        right: 1rem;
+        width: unset;
+        z-index: 10;
+        padding: 0.5rem;
+    }
+}
 </style>

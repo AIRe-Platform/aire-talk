@@ -281,8 +281,16 @@ label {
 /* mobile*/
 @media screen and (max-width: 600px) {
     #profile-view {
-        padding: 1rem;
-        padding-left: 1rem;
+        padding: 0.2rem;
+    }
+
+    #password-form,
+    #delete-form,
+    #profile-form,
+    #profile-connections {
+        min-width: unset;
+        max-width: unset;
+        width: unset;
     }
 }
 </style>

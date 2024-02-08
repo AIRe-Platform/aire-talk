@@ -18,10 +18,15 @@ const props = defineProps<{
 </template>
 
 <style scoped>
+.menu-button {
+    width: 3.5rem;
+    height: 3.2rem;
+}
+
 .button-graphics {
     position: relative;
-    height: 30px;
     width: 40px;
+    height: 30px;
     display: block;
     z-index: 99;
     border: 0;
@@ -91,26 +96,5 @@ const props = defineProps<{
 .menu-button-active .button-bar--3 {
     transform: rotate(-45deg);
     top: 50%;
-}
-
-/* mobile*/
-@media screen and (max-width: 600px) {
-    .menu-button {
-        width: 1rem;
-    }
-
-    .menu-button-graphics {
-        width: auto;
-        height: auto;
-    }
-
-    .button-bar {
-        width: 1.5rem;
-        left: -0.2rem;
-    }
-
-    .menu-button-active .nav-menu-button-graphics {
-        left: -0.9rem;
-    }
 }
 </style>

@@ -136,12 +136,4 @@ button {
     .hide-big-screen-devices {
         display: block !important;
     }
-
-    input[type=submit],
-    button {
-        &:hover {
-            background-color: transparent;
-            box-shadow: 0 0 0 transparent;
-        }
-    }
 }

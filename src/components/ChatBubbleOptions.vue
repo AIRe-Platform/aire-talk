@@ -131,19 +131,10 @@ const onCancelRevert = () => {
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    /* .chat-message-answer-options-menu-button {
-        transform: scale(0.5);
-    }
-
     .chat-bubble-options-menu {
-        background-color: var(--chat-bubble-background-color);
-        left: 19.5rem;
-        width: 2rem;
-        position: absolute;
-        display: flex;
-        height: -moz-fit-content;
-        height: fit-content;
-        align-items: center;
-    } */
+        top: -1rem;
+        right: 1rem;
+        flex-direction: row;
+    }
 }
 </style>

@@ -8,12 +8,14 @@
 
 <style scoped>
 .popup-overlay {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    bottom: 0;
+    right: 0;
+
     z-index: 9001;
+    padding: 1rem;
 
     display: flex;
     align-items: center;

@@ -217,5 +217,36 @@ const navigateTo = (path: string) => {
     flex-grow: 1;
 }
 
-@media screen and (max-width: 600px) {}
+@media screen and (max-width: 600px) {
+    .menu-container {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        height: unset;
+    }
+
+    .nav-menu-bar {
+        align-items: center;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-menu {
+        padding: 0.5rem;
+        margin: 0.5rem;
+    }
+
+    .nav-menu-open {
+        width: calc(100vw - 2rem);
+        height: calc(100vh - 6rem);
+    }
+
+    .nav-logo {
+        width: 50%;
+    }
+}
 </style>

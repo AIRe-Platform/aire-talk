@@ -167,6 +167,11 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 /* mobile*/
 @media screen and (max-width: 600px) {
+    .chat-bubble {
+        max-width: unset;
+        margin: 1rem;
+    }
+
     .chat-message-question {
         padding: 0;
     }
@@ -192,18 +197,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
         font-size: x-small;
     }
 
-    .chat-bubble-bot {
-        max-width: 70%;
-        margin-right: 0rem;
-    }
-
     .chat-message-video-video {
         max-width: 17rem;
         max-height: 12rem;
-    }
-
-    .chat-bubble-user {
-        margin-left: 0.5rem;
     }
 }
 </style>

@@ -52,7 +52,7 @@ const setLang = (e: Event) => {
 /* mobile*/
 @media screen and (max-width: 600px) {
     .main-content {
-        width: 40%;
+        width: 90%;
     }
 }
 </style>

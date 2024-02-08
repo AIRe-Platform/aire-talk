@@ -123,4 +123,27 @@ const buttonSelected = async (topic: Topic) => {
     width: 2.4rem;
     margin: 0.2rem;
 }
+
+@media screen and (max-width: 600px) {
+    .onboarding-button {
+        width: 3.5rem;
+        height: 3.2rem;
+        padding: 0.2rem;
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .onboarding-topics {
+        left: 0;
+        right: 0;
+        top: 4rem;
+        bottom: 1rem;
+    }
+
+    .onboarding-topics-choices {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
 </style>

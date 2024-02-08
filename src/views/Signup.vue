@@ -115,4 +115,10 @@ input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
 }
+
+@media screen and (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
+}
 </style>

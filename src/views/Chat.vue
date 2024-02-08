@@ -31,36 +31,29 @@ const canRevert = (msg: ChatMessage) => {
     flex-direction: column;
     flex-grow: 1;
     background-color: var(--panel-background-color);
+    border-radius: 0.5rem;
 }
 
 .chat-view-content {    
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 3.5rem 1rem;
-    padding-bottom: 3.5rem;
     margin: auto;
     width: 75%;
     height: 100%;
     gap: 1.5rem;
 }
 
-/* mobile*/
 @media screen and (max-width: 600px) {
-    .chat-view-wrapper {
-        margin-bottom: 4rem;
-    }
-
-    .chat-view-content {        
-        padding-left: 0rem;
-        padding-top: 1rem;
-        margin: auto;
+    .chat-view-content {
         width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 0 5px var(--shadow-color);
-        padding: 0rem;
         padding-top: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
     }
 }
 </style>

@@ -32,4 +32,11 @@ import NavMenu from './components/NavMenu.vue';
     padding: 1rem;
     margin: auto;
 }
+
+@media screen and (max-width: 600px) {
+    #content-wrapper {
+        margin: 0.2rem;
+        margin-top: 4rem;
+    }
+}
 </style>

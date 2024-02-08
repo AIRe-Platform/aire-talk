@@ -104,6 +104,9 @@ input[type=password] {
     margin: 0.2rem 0;
 }
 
-/* mobile*/
-@media screen and (max-width: 600px) {}
+@media screen and (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
+}
 </style>
