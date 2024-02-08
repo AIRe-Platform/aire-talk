@@ -29,7 +29,8 @@ function submit(event: Event) {
 <style scoped>
 .chat-input-wrapper {
     margin: auto;
-    width: 50%;
+    width: 80%;
+    max-width: 42rem;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
     margin-top: 1rem;
