@@ -99,7 +99,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-bubble-system {
     align-self: center;
-    border-color: var(--accent-secondary-color);
+    border-color: var(--border-color);
     max-width: 80%;
 }
 
