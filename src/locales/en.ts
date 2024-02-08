@@ -115,8 +115,13 @@ const en: Locale = {
 
     chat_input_title: "Ask a question",
 
-    onboarding_greetings: "Hello there",
-    onboarding_question: "Are you looking for information of any of this topics?",
+    onboarding_greetings: "Hello there!",
+    onboarding_question: "Would you like to discuss about these topics?",    
+    topic_backpain: "Back pain",
+    topic_neckpain: "Neck pain",
+    topic_sleep_apnea: "Sleep apnea",
+    topic_increased_weight: "Increased weight",
+    topic_trouble_talking: "Trouble talking",
 
     summary_chag_log_title: "Chat log summary",
     summary_classification_title: "CBR / ICF classification",

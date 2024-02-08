@@ -14,10 +14,7 @@ const selectedTopic = ref<Topic>();
  * @param topic 
  */
 const buttonSelected = (topic: Topic) => {
-    if (selectedTopic.value)
-        selectedTopic.value.isSelected = false;
     selectedTopic.value = topic;
-    selectedTopic.value.isSelected = true;
     isSelectedCheckBox.value = true;
 };
 
@@ -42,14 +39,10 @@ defineComponent({ name: "OnboardingView" })
             <div class="checkbox-questions">
                 <div class="checkbox-button-questions" v-for="topic in initialTopics" :key="topic.id">
                     <button @click="buttonSelected(topic)"
-                        :class="{ 'not-selected': topic.id != selectedTopic?.id, 'is-selected': topic.id == selectedTopic?.id }"
-                        v-on:click="topic.isSelected = !topic.isSelected">
+                        :class="{ 'not-selected': topic.id != selectedTopic?.id, 'is-selected': topic.id == selectedTopic?.id }">
                         {{ topic.name }}
                     </button>
                 </div>
-            </div>
-            <div class="checkbox-description">
-                {{ selectedTopic?.description }}
             </div>
             <div class="checkbox-button">
                 <button class="btn">

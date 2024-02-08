@@ -1,67 +1,38 @@
+import { l } from "@/locales";
 
 export interface Topic {
     id: number;
     name: string;
-    description: string;
-    data?: object;
-    isSelected?: boolean;
-    translations?: {
-        language_id: number;
-        language_name: string;
-        translation_name: string;
-        translation_description: string;
-    }
+    localization_key: string;
 }
 
 export type Topics = Array<Topic>;
 
 export const initialTopics: Topics = [
     {
-        "id": 0,
-        "name": "Back pain",
-        "description": "this is something about the back",
-        "data": [],
-        "isSelected": false,
-        translations: {
-            language_id: 1,
-            language_name: "English",
-            translation_name: "algo",
-            translation_description: "esto significa algo",
-        }
+        id: 0,
+        name: "Back pain",
+        localization_key: l.topic_backpain
     },
     {
-        "id": 1,
-        "name": "Neck pain",
-        "description": "this is something about the neck",
-        "data": [],
-        "isSelected": false
+        id: 1,
+        name: "Neck pain",
+        localization_key: l.topic_neckpain
     },
     {
-        "id": 2,
-        "name": "Sleep apnea",
-        "description": "this is something about the sleep problems",
-        "data": [],
-        "isSelected": false
+        id: 2,
+        name: "Sleep apnea",
+        localization_key: l.topic_sleep_apnea
+        
     },
     {
-        "id": 3,
-        "name": "Increased weight",
-        "description": "this is something about your weight",
-        "data": [],
-        "isSelected": false
+        id: 3,
+        name: "Increased weight",
+        localization_key: l.topic_increased_weight
     },
     {
-        "id": 4,
-        "name": "Trouble walking",
-        "description": "this is something about your next steps",
-        "data": [],
-        "isSelected": false
-    },
-    {
-        "id": 5,
-        "name": "Other...",
-        "description": "You have no clue of your pains",
-        "data": [],
-        "isSelected": false
+        id: 4,
+        name: "Trouble walking",
+        localization_key: l.topic_trouble_talking
     }
-];
+]

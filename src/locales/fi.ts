@@ -115,8 +115,13 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
 
     chat_input_title: "Mitä haluat kysyä?",
 
-    onboarding_greetings: "Terveisiä",
-    onboarding_question: "Etsitkö tietoa jostain näistä aiheista?",
+    onboarding_greetings: "Hei!",
+    onboarding_question: "Haluaisitko keskustella esimerkiksi näistä aiheista?",
+    topic_backpain: "Selkäkipu",
+    topic_neckpain: "Niskakipu",
+    topic_sleep_apnea: "Uniapnea",
+    topic_increased_weight: "Painonnousu",
+    topic_trouble_talking: "Puhevaikeudet",
 
     summary_chag_log_title: "Chat log yhteenveto",
     summary_classification_title: "CBR / ICF luokittelu",

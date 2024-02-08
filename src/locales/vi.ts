@@ -116,7 +116,12 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     chat_input_title: "Đặt một câu hỏi",
     
     onboarding_greetings: "Xin chào",
-    onboarding_question: "Bạn đang tìm kiếm thông tin về bất kỳ chủ đề này?",
+    onboarding_question: "Bạn có muốn thảo luận về những chủ đề này?",
+    topic_backpain: "Đau lưng",
+    topic_neckpain: "Đau cổ",
+    topic_sleep_apnea: "Chứng ngưng thở lúc ngủ",
+    topic_increased_weight: "Tăng cân",
+    topic_trouble_talking: "Khó nói chuyện",
     
     summary_chag_log_title: "Tóm tắt nhật ký trò chuyện",
     summary_classification_title: "Phân loại CBR/ICF",

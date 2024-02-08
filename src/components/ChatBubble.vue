@@ -51,8 +51,8 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-message-text" v-if="!(message.question)">
                 {{
                     isSystem
-                    ? (message.message === l.system_topic
-                        ? ($t(message.message!) + (Chat.topic?.name || ""))
+                    ? (message.message === l.system_topic && Chat.topic
+                        ? ($t(message.message!) + $t(Chat.topic.localization_key))
                         : $t(message.message!))
                     : message.message
                 }}

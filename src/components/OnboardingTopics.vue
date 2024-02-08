@@ -1,25 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { router } from "@/router";
 import { createNewChat } from "@/context/chat";
 import { l } from '@/locales';
 import { Login } from '@/context/login';
-import { initialTopics } from "@/models/topic";
+import { Topic, initialTopics } from "@/models/topic";
 import { vOnClickOutside } from '@vueuse/components';
 
-//to Toggle menu
 const isOpen = ref(false);
 
-const toggleMenu = () => {
-    isOpen.value = !isOpen.value;
+const onTogglePanel = (e: Event) => {
+    e.stopImmediatePropagation()
+    isOpen.value = !isOpen.value
 };
 
-const buttonSelected = async (topic) => {
-    topic.isSelected = true;
-    for (let oldTopic of initialTopics) {
-        if (oldTopic.isSelected)
-            oldTopic.isSelected = false;
-    }
+const buttonSelected = async (topic: Topic) => {
     if (Login.logged_in) {
         await createNewChat(topic)
         router.push("/chat");
@@ -33,25 +28,24 @@ const buttonSelected = async (topic) => {
 
 <template>
     <div class="onboarding-topics" v-if="isOpen">
-        <div class="onboarding-topics-panel" v-on-click-outside="toggleMenu">
-            <div class="onboarding-topics-header"> {{ $t(l.onboarding_greetings) }} </div>
-            <div class="onboarding-topics-question">{{ $t(l.onboarding_question) }} </div>
+        <div class="onboarding-topics-panel" v-on-click-outside="onTogglePanel">
+            <div class="onboarding-topics-header">{{ $t(l.onboarding_greetings) }}</div>
+            <div class="onboarding-topics-question">{{ $t(l.onboarding_question) }}</div>
             <div class="onboarding-topics-choices">
                 <div class="onboarding-topics-column-1">
-                    <img src="@/assets/images/aire-logo-512.png" alt="Logo">
+                    <img src="@/assets/images/aire-bot.png" alt="Logo">
                 </div>
                 <div class="onboarding-topics-column-2">
                     <div class="onboarding-topics-buttons" v-for="topic in initialTopics" :key="topic.id">
-                        <button class="onboarding-topics-button" @click="buttonSelected(topic)"
-                            :class="{ 'not-selected': !topic.isSelected, 'is-selected': topic.isSelected }">
-                            {{ topic.name }}
+                        <button class="onboarding-topics-button" @click="buttonSelected(topic)">
+                            {{ $t(topic.localization_key) }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <button class="onboarding-button" @click.stop="toggleMenu">
+    <button class="onboarding-button" @click="onTogglePanel">
         <img src="@/assets/images/aire-logo-512.png"
             class="onboarding-button-image" alt="Logo">
     </button>
@@ -68,6 +62,7 @@ const buttonSelected = async (topic) => {
 .onboarding-topics-header {
     font-size: large;
     font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
 .onboarding-button {

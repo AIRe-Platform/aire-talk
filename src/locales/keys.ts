@@ -108,6 +108,11 @@ export enum LocalizationKey {
 
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
+    topic_backpain = "topic_backpain",
+    topic_neckpain = "topic_neckpain",
+    topic_sleep_apnea = "topic_sleep_apnea",
+    topic_increased_weight = "topic_increased_weight",
+    topic_trouble_talking = "topic_trouble_talking",
 
     summary_chag_log_title = "summary_chag_log_title",
     summary_classification_title = "summary_classification_title",

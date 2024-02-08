@@ -117,8 +117,13 @@ const es: Locale = {
 
     chat_input_title: "Pregunta aquí",
 
-    onboarding_greetings: "Hola",
-    onboarding_question: "¿Estas interesado en alguno de estos temas?",
+    onboarding_greetings: "¡Hola!",
+    onboarding_question: "¿Le gustaría discutir sobre estos temas?",    
+    topic_backpain: "Dolor de espalda",
+    topic_neckpain: "Dolor de cuello",
+    topic_sleep_apnea: "Apnea del sueño",
+    topic_increased_weight: "Aumento de peso",
+    topic_trouble_talking: "Problemas para hablar",
 
     summary_chag_log_title: "Resumen chat log",
     summary_classification_title: "CBR / ICF clasificación",
