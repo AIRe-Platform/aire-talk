@@ -6,8 +6,8 @@ import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
-import i18n from "@/locales";
-import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import i18n, { l } from "@/locales";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -103,7 +103,7 @@ export async function deleteChat(id: string) {
     console.debug("Deleting chat log", id);
 
     if (id == Chat.id)
-        await resetChat(true, false)
+        await resetChatState(true, false)
 
     if (AireServices.Memory)
         await AireServices.Memory.deleteChat(id)
@@ -155,7 +155,7 @@ export async function openChat(id: string): Promise<boolean> {
     if (!loaded)
         return false
 
-    await resetChat(false, false)
+    await resetChatState(false, false)
     Chat.id = id
     Chat.messages = getCache(id)!
 
@@ -187,7 +187,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 role: x.role as AireRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
-                rating: 0
+                rating: x.rating || 0
             };
             return m;
         });
@@ -226,38 +226,14 @@ export async function createNewChat(topic?: Topic) {
  * @param message to change
  * @param rating given by the user
  */
-export function changeRating(message: ChatMessage, rating: number){
+export function setMessageRating(id: number, rating: number) {
 
-    const new_message = Chat.messages.find(x => x.id === message.id);
-    if(new_message)
-    {
-        if(rating < 0)
-            new_message.rating = -1;
-        else if(rating > 0)
-            new_message.rating = 1;
-        else
-            new_message.rating = 0;
+    const message = Chat.messages.find(x => x.id === id);
+    if (message) {
+        message.rating = rating < 0 ? -1 : (rating > 0 ? 1 : 0)
+        Chat.modified = true
+        startAutoSaveTimer()
     }
-}
-/**
- * Function to revert the chat state to the chat message passed as param.
- */
-export async function resetChat(skip_save: boolean = false, clear_cache = true) {
-    cancelAutoSaveTimer()
-
-    if (!skip_save)
-        await saveChat()
-
-    Chat.id = undefined
-    Chat.messages = [systemGreeting()]
-    Chat.awaitingResponse = false;
-    Chat.scrolling = false;
-    Chat.modified = false;
-    Chat.landingInfo = undefined
-    Chat.topic = undefined
-
-    if (clear_cache)
-        Chat.cache.clear()
 }
 
 /**
@@ -373,7 +349,7 @@ function systemGreeting(): ChatMessage {
         id: generateRandomID(),
         sender: SYSTEM_NAME,
         role: "system",
-        message: "system_greeting",
+        message: l.system_greeting,
         rating: 0,
         timestamp: Date.now()
     };
@@ -409,6 +385,29 @@ function initChatState(): ChatState {
         scrolling: false,
         cache: new Map,
     }
+}
+
+/**
+ * Resets the chat state
+ * @param skip_save Skips saving current chat, default is false
+ * @param clear_cache Set to false, if you don't want to clear the cache
+ */
+async function resetChatState(skip_save: boolean = false, clear_cache = true) {
+    cancelAutoSaveTimer()
+
+    if (!skip_save)
+        await saveChat()
+
+    Chat.id = undefined
+    Chat.messages = [systemGreeting()]
+    Chat.awaitingResponse = false;
+    Chat.scrolling = false;
+    Chat.modified = false;
+    Chat.landingInfo = undefined
+    Chat.topic = undefined
+
+    if (clear_cache)
+        Chat.cache.clear()
 }
 
 /**

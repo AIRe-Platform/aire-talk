@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import ConfirmDialog from './ConfirmDialog.vue';
-import { revertToMessage, changeRating } from '@/context/chat';
+import { revertToMessage, setMessageRating } from '@/context/chat';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
 import { defineProps, ref } from 'vue';
@@ -22,11 +22,11 @@ const onToggleMenu = () => {
     menuOpen.value = !menuOpen.value
 }
 const onThumbsUp = () => {
-    changeRating(props.parent, 1);
+    setMessageRating(props.parent.id, 1);
 }
 
 const onThumbsDown = () => {
-    changeRating(props.parent, -1);
+    setMessageRating(props.parent.id, -1);
 }
 
 const onCopyClipboard = async () => { 
