@@ -169,10 +169,16 @@ const getLastMessage = (id: string) => {
 
 .restore-chat-button-delete {
     cursor: pointer;
+}
 
-    * {
-        width: auto;
-        height: 2rem;
+.restore-chat-button-delete svg {
+    width: auto;
+    height: 2rem;
+    color: var(--text-color);
+    transition: color 0.25s;
+
+    &:hover {
+        color: var(--accent-primary-color);
     }
 }
 
