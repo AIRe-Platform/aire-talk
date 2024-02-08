@@ -53,7 +53,7 @@ const navigateTo = (path: string) => {
             <div class="nav-menu-bar" v-show="menuOpen">
                 <div class="nav-link" @click="navigateTo('/')">
                     <div class="nav-logo">
-                        <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
+                        <img src="@/assets/images/aire-logo-512.png" alt="Logo">
                     </div>
                 </div>
                 <div class="nav-menu-list">

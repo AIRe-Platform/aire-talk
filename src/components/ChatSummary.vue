@@ -130,7 +130,7 @@ const removeWord = (word: Word) => {
             </div>
             <div class="summary-cbr-icf-content">
                 <div class="summary-cbr-icf-logo">
-                    <img class="summary-cbr-icf-logo-image" src="@/assets/logos/Conversation-topic-logo.png" alt="Logo">
+                    <img class="summary-cbr-icf-logo-image" src="@/assets/images/topic.png" alt="Logo">
                 </div>
                 <div class="summary-cbr-icf-text">
                     <p> this is cbr/ocf clasificartion some text here lorem ipsum blab bla blasome text here lorem ipsum

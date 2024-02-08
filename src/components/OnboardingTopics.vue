@@ -37,7 +37,7 @@ const buttonSelected = async (topic) => {
             <div class="onboarding-topics-question">{{ $t(l.onboarding_question) }} </div>
             <div class="onboarding-topics-choices">
                 <div class="onboarding-topics-column-1">
-                    <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png" alt="Logo">
+                    <img src="@/assets/images/aire-logo-512.png" alt="Logo">
                 </div>
                 <div class="onboarding-topics-column-2">
                     <div class="onboarding-topics-buttons" v-for="topic in initialTopics" :key="topic.id">
@@ -51,7 +51,7 @@ const buttonSelected = async (topic) => {
         </div>
     </div>
     <button class="onboarding-button" @click.stop="toggleMenu">
-        <img src="@/assets/logos/AIRE-Platform-Logo-400x400.png"
+        <img src="@/assets/images/aire-logo-512.png"
             class="onboarding-button-image" alt="Logo">
     </button>
 </template>

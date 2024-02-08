@@ -16,7 +16,7 @@ function submit(event: Event) {
 <template>
     <div class="chat-input-wrapper">
         <div class="chat-input-image-container">
-            <img class="chat-input-image" src="@/assets/logos/AIRE-Platform-Logo-2-teal.png" alt="Logo">
+            <img class="chat-input-image" src="@/assets/images/aire-bot.png" alt="Logo">
         </div>
         <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
         <form class="chat-input-bar" @submit.prevent="submit">
