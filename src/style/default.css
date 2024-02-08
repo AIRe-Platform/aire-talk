@@ -1,8 +1,9 @@
 :root.theme-default {
     --background-color: #ffffff;
     --text-color: #2c3e50;
-    --accent-primary-color: rgb(255, 65, 170);
-    --accent-secondary-color: rgb(62, 147, 251);
+    --accent-primary-color: rgb(0, 180, 157);
+    --accent-secondary-color: rgb(255, 5, 110);
+    --disabled-color: rgba(0, 180, 156, 0.5);
     --shadow-color: gray;
     --border-color: lightgray;
     --font-family: sans-serif;
@@ -15,8 +16,9 @@
 :root.theme-dark {
     --background-color: #4a4a4a;
     --text-color: #dedede;
-    --accent-primary-color: rgb(255, 65, 170);
-    --accent-secondary-color: rgb(62, 147, 251);
+    --accent-primary-color: rgb(0, 180, 157);
+    --accent-secondary-color: rgb(255, 5, 110);
+    --disabled-color: rgba(0, 180, 156, 0.5);
     --shadow-color: gray;
     --border-color: darkgray;
     --font-family: sans-serif;
@@ -89,6 +91,7 @@ button {
 
     &:disabled {
         cursor: not-allowed;
+        background-color: var(--disabled-color);
     }
 }
 
