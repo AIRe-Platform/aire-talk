@@ -63,29 +63,33 @@ const navigateTo = (path: string) => {
                         </div>
                     </div>
                     <div class="nav-item">
-                        <div v-if="Login.logged_in === false" class="nav-link" @click="navigateTo('/login')">{{
-                            $t(l.nav_login) }}
+                        <div class="nav-link" @click="navigateTo('/login')" v-if="!Login.logged_in">
+                            {{ $t(l.nav_login) }}
                         </div>
-                        <div v-if="Login.logged_in === true" class="nav-link" @click="navigateTo('/profile')">{{
-                            $t(l.nav_profile) }}
+                        <div class="nav-link" @click="navigateTo('/profile')" v-if="Login.logged_in">
+                            {{ $t(l.nav_profile) }}
                         </div>
                     </div>
-                    <div class="nav-item" v-if="Login.logged_in === false">
+                    <div class="nav-item" v-if="!Login.logged_in">
                         <div class="nav-link" @click="navigateTo('/signup')">
                             {{ $t(l.nav_signup) }}
                         </div>
                     </div>
                     <div class="nav-spacer"></div>
                     <div class="nav-item">
-                        <div class="nav-link" @click="navigateTo('/chat')">
+                        <div class="nav-link" @click="navigateTo('/chat')" v-if="Login.logged_in">
                             {{ $t(l.nav_chat) }}
                         </div>
                     </div>
                     <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
-                        <a class="nav-link" href="#">{{ $t(l.nav_chat_history) }}</a>
+                        <a class="nav-link" href="#">
+                            {{ $t(l.nav_chat_history) }}
+                        </a>
                     </div>
                     <div class="nav-item" @click="newChat" v-if="Chat.id">
-                        <a class="nav-link" href="#"> {{ $t(l.nav_chat_new) }} </a>
+                        <a class="nav-link" href="#">
+                            {{ $t(l.nav_chat_new) }}
+                        </a>
                     </div>
                     <div class="nav-spacer"></div>
                     <!--
@@ -94,8 +98,10 @@ const navigateTo = (path: string) => {
                     </div>
                     -->
                     <div class="nav-spacer"></div>
-                    <div class="nav-item" @click="toggleMenu" v-if="Login.logged_in === true">
-                        <a href="#" class="nav-link" @click="logout">{{ $t(l.nav_logout) }}</a>
+                    <div class="nav-item" @click="toggleMenu" v-if="Login.logged_in">
+                        <a href="#" class="nav-link" @click="logout">
+                            {{ $t(l.nav_logout) }}
+                        </a>
                     </div>
                     <div class="nav-item">
                         <div class="nav-link" @click="navigateTo('/settings')">
@@ -130,7 +136,7 @@ const navigateTo = (path: string) => {
     height: 100%;
     width: 100vw;
     z-index: 1;
-    
+
     background: var(--overlay-color);
     opacity: 0.4;
 }

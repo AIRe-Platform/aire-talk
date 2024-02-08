@@ -35,7 +35,7 @@ const navigateTo = (path: string) => {
             </button>
         </div>
     </div>
-    <OnboardingTopics />
+    <OnboardingTopics v-if="Login.logged_in" />
 </template>
 
 <style scoped>
