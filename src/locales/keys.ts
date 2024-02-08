@@ -6,6 +6,8 @@ export enum LocalizationKey {
     aire_bot = "aire_bot",
     aire_system = "aire_system",
     system_greeting = "system_greeting",
+    system_topic = "system_topic",
+
     system_greeting_header = "system_greeting_header",
     system_greeting_text = "system_greeting_text",
 

@@ -8,6 +8,8 @@ const es: Locale = {
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
     system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
+    system_topic: "Has seleccionado un tema: ",
+
     system_greeting_header: "¡Bienvenido a la plataforma AIRe!",
     system_greeting_text: `AIRe eAIRe es un servicio de chat de atención médica impulsado por IA que le ayudará a comprender mejor sus síntomas activos, la posible condición subyacente y con quién debe comunicarse para mejorar.
     

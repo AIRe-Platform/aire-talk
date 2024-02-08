@@ -203,8 +203,21 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
 /**
  * Create a new chat
  */
-export async function createNewChat() {
-    resetChat(false, false);
+export async function createNewChat(topic?: Topic) {
+    await resetChatState(false, false);
+    if (topic) {
+        Chat.topic = topic;
+
+        pushMessage({
+            id: generateRandomID(),
+            role: "system",
+            message: l.system_topic,
+            sender: SYSTEM_NAME,
+            rating: 0,
+            timestamp: Date.now()
+        })
+    }
+
 }
 
 /**

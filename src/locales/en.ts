@@ -8,6 +8,8 @@ const en: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "AIRe System",
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
+    system_topic: "You have selected a topic: ",
+
     system_greeting_header: "Welcome to AIRe platform!",
     system_greeting_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
     Before proceeding;

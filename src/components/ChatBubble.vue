@@ -2,7 +2,7 @@
 import { ChatMessage } from '@/models/chat';
 import { scrollToMessage } from '@/helpers/scrollToMessage'
 import { defineProps, onMounted, ref } from 'vue';
-import { revertToMessage } from '@/context/chat';
+import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import BubbleModal from './BubbleModal.vue';
 import SurveyQuestion from './SurveyQuestion.vue'
@@ -48,9 +48,15 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.question)"> {{
-                isSystem ? $t(message.message!) : message.message
-            }}</span>
+            <span class="chat-message-text" v-if="!(message.question)">
+                {{
+                    isSystem
+                    ? (message.message === l.system_topic
+                        ? ($t(message.message!) + (Chat.topic?.name || ""))
+                        : $t(message.message!))
+                    : message.message
+                }}
+            </span>
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>

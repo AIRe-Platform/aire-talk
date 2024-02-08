@@ -8,6 +8,8 @@ const fi: Locale = {
     aire_bot: "AIRe-botti",
     aire_system: "AIRe-järjestelmä",
     system_greeting: "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
+    system_topic: "Olet valinnut aiheeksi: ",
+
     system_greeting_header: "Welcome to AIRe platform!",
     system_greeting_text: `AIRe is an AI powered heathcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in order to get better.
     

@@ -8,6 +8,8 @@ const vi: Locale = {
     aire_bot: "AIRe bot",
     aire_system: "AIRe System",
     system_greeting: "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
+    system_topic: "Bạn đã chọn chủ đề: ",
+
     system_greeting_header: "Chào mừng đến với AIRe platform!",
     system_greeting_text: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, tình trạng cơ bản có thể xảy ra và người bạn nên liên hệ để khỏi bệnh.
     Trước khi tiếp tục;
