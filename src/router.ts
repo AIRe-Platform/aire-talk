@@ -64,11 +64,11 @@ router.beforeEach(async (to, from) => {
     // Ensure app is initialized
     await initApp();
 
-    if (to.path === "/login" || to.path === "/signup") {
+    if (to.path === "/login" || to.path === "/signup" || to.path === "/landing") {
         if (Login.logged_in)
             return "/"
     }
-    else if (to.path === "/profile") {
+    else if (to.path === "/profile" || to.path === "/chat") {
         if (!Login.logged_in)
             return "/login"
         else if (!Login.verified)
@@ -87,7 +87,7 @@ router.beforeEach(async (to, from) => {
 router.afterEach((to, from) => {
     nextTick(() => {
         let title = "AIRe Talk"
-        if(to.meta && typeof to.meta.title === 'string')
+        if (to.meta && typeof to.meta.title === 'string')
             title += " | " + i18n.global.t(to.meta.title)
         document.title = title
     })
