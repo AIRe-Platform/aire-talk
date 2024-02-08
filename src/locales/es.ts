@@ -90,31 +90,12 @@ const es: Locale = {
     error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
 
     landing_view_title: "Bienvenido a la plataforma AIRe",
-    landing_view_text: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos, la posible afección subyacente y con quién debe comunicarse para mejorar.
-    
-    Antes de continuar,
-    para acelerar el proceso de incorporación, por favor responda un par de preguntas.`,
-    landing_view_first_question: "Tu edad",
-    landing_view_second_question: "Tu actual trabajo ( si tienes algun trabajo pasado que creas que merece la pena decir, puedes escribirlo también seaprado por comas).",
-    landing_view_form_continue_button: "verificar y continuar",
-    landing_view_form_button_cancel: "Cancelar",
-    landing_view_occupations: "profesiones",
+    landing_view_text: "Comencemos completando la siguiente información preliminar sobre usted.",
+    landing_label_age: "Tu edad",
+    landing_label_occupation: "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
 
-    home_start_landing_button: "EMPEZAR LANDING",
-    home_checkbox_button: "Checkbox ver",
-
-    chat_data: "Datos",
-    chat_age: "Edad",
-    chat_occupation: "Profesión",
     chat_topic: "Tema",
     chat_topic_onboarding: "Tema desde onboarding",
-
-    checkbox_title: "Bienvenido a la plataforma AIRe",
-    checkbox_text: "Veo que has estado en la plataforma AIRe antes, está muy bien verte de nuevo.",
-    checkbox_question: "¿Quieres continuar con algún tema?",
-    checkbox_continue_button: "verificar y continuar",
-    checkbox_button_cancel: "Cancelar",
-
     chat_input_title: "Pregunta aquí",
 
     onboarding_greetings: "¡Hola!",
@@ -141,7 +122,8 @@ const es: Locale = {
     
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
-    button_back: "Regresar"
+    button_back: "Regresar",
+    button_continue: "Continuar"
 }
 
 export default es

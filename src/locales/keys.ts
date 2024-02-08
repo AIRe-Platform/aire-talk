@@ -83,27 +83,11 @@ export enum LocalizationKey {
 
     landing_view_title = "landing_view_title",
     landing_view_text = "landing_view_text",
-    landing_view_first_question = "landing_view_first_question",
-    landing_view_second_question = "landing_view_second_question",
-    landing_view_form_continue_button = "landing_view_form_continue_button",
-    landing_view_form_button_cancel = "landing_view_form_button_cancel",
-    landing_view_occupations = "landing_view_occupations",
+    landing_label_age = "landing_label_age",
+    landing_label_occupation = "landing_label_occupation",
 
-    home_start_landing_button = "home_start_landing_button",
-    home_checkbox_button = "home_checkbox_button",
-
-    chat_data = "chat_data",
-    chat_age = "chat_age",
-    chat_occupation = "chat_occupation",
     chat_topic = "chat_topic",
     chat_topic_onboarding = "chat_topic_onboarding",
-
-    checkbox_title = "checkbox_title",
-    checkbox_text = "checkbox_text",
-    checkbox_question = "checkbox_question",
-    checkbox_continue_button = "checkbox_continue_button",
-    checkbox_button_cancel = "checkbox_button_cancel",
-
     chat_input_title = "chat_input_title",
 
     onboarding_greetings = "onboarding_greetings",
@@ -130,5 +114,6 @@ export enum LocalizationKey {
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",
-    button_back = "button_back"
+    button_back = "button_back",
+    button_continue = "button_continue"
 }

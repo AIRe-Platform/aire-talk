@@ -87,32 +87,13 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     error_profile_password: "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset",
     error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
 
-    landing_view_title: "Tervetuloa AIRe Talk -palveluun!",
-    landing_view_text: `AIRe FINNISH is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in orther to get better.
-    
-    Before proceeding,
-    to speed up the onboarding process pelase ansert a couple of questions.`,
-    landing_view_first_question: "Ikäisi",
-    landing_view_second_question: "Nykyinen ammattisi (jos sinulla on huomionarvoisia menneitä ammatteja, voit myös luetella ne tähän erottamalla ne pilkulla).",
-    landing_view_form_continue_button: "jatka",
-    landing_view_form_button_cancel: "perutta",
-    landing_view_occupations: "ammatit",
+    landing_view_title: "Tervetuloa AIReen!",
+    landing_view_text: "Aloitetaan täyttämällä seuraavat taustatiedot itsestäsi.",
+    landing_label_age: "Ikäsi",
+    landing_label_occupation: "Nykyinen ja aiemmat ammattisi (Voit erottaa ammatit pilkulla)",
 
-    home_start_landing_button: "ALOITAA LANDING",
-    home_checkbox_button: "Checkbox kautta",
-
-    chat_data: "data",
-    chat_age: "Ikä",
-    chat_occupation: "Ammati",
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
-
-    checkbox_title: "Tervetuloa AIRe Talk -palveluun!",
-    checkbox_text: "Näen, että olet ollut AIRe-alustalla aiemmin ja on mukava nähdä sinut taas.",
-    checkbox_question: "Onko sinulla aihe, josta haluaisit jatkaa?",
-    checkbox_continue_button: "Jatka",
-    checkbox_button_cancel: "Peruuta",
-
     chat_input_title: "Mitä haluat kysyä?",
 
     onboarding_greetings: "Hei!",
@@ -137,9 +118,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_revert_message: "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
 
-    button_accept: "Jatka",
+    button_accept: "Hyväksy",
     button_cancel: "Peruuta",
-    button_back: "Takaisin"
+    button_back: "Takaisin",
+    button_continue: "Jatka"
 }
 
 export default fi

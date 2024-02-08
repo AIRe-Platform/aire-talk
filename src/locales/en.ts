@@ -10,7 +10,7 @@ const en: Locale = {
     system_greeting: "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
 
-    frontpage_greeting: "Welcome to AIRe platform!",
+    frontpage_greeting: "Welcome to the AIRe platform!",
     frontpage_paragraph: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying conditions. AIRe guides you in follow-up procedures if necessary, and offers you helpful suggestions tailored just for you.`,
 
     chat_link_button_label: "Chat",
@@ -87,32 +87,13 @@ const en: Locale = {
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
     error_profile_delete_account: "Failed to delete the account. Try again later.",
 
-    landing_view_title: "Welcome to the AIRe platform",
-    landing_view_text: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying condition and who you should contact in other to get better.
+    landing_view_title: "Welcome to the AIRe platform!",
+    landing_view_text: "Let's begin by filling the following preliminary information about yourself.",
+    landing_label_age: "Your age",
+    landing_label_occupation: "Your current and past occupations (Use commas to separate the occupations)",
 
-    Before proceeding,
-    to speed up the onboarding process please insert a couple of questions.`,
-    landing_view_first_question: "Your age",
-    landing_view_second_question: "Your current occupation (if you have noteworthy past occupations you can also list them here by separating them with a comma).",
-    landing_view_form_continue_button: "Verify and proceed",
-    landing_view_form_button_cancel: "Cancel",
-    landing_view_occupations: "occupations",
-
-    home_start_landing_button: "START LANDING",
-    home_checkbox_button: "Checkbox View",
-
-    chat_data: "Data",
-    chat_age: "Age",
-    chat_occupation: "Occupation",
     chat_topic: "Topic",
     chat_topic_onboarding: "Topic onboarding",
-
-    checkbox_title: "Welcome to the AIRe platform",
-    checkbox_text: "I see you have been on the AIRe platform before and it is nice to see you again",
-    checkbox_question: "Is there a topic that you would like to continue from?",
-    checkbox_continue_button: "Verify and proceed",
-    checkbox_button_cancel: "Cancel",
-
     chat_input_title: "Ask a question",
 
     onboarding_greetings: "Hello there!",
@@ -138,7 +119,8 @@ const en: Locale = {
 
     button_accept: "Accept",
     button_cancel: "Cancel",
-    button_back: "Back"
+    button_back: "Back",
+    button_continue: "Continue"
 }
 
 export default en

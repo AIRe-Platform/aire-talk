@@ -88,31 +88,12 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     error_profile_delete_account: "Không thể xóa tài khoản. Thử lại sau.",
 
     landing_view_title: "Chào mừng đến với AIRe platform",
-    landing_view_text: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, tình trạng cơ bản có thể xảy ra và người bạn nên liên hệ để được cải thiện.
-    Trước khi tiếp tục,
-    để đẩy nhanh quá trình giới thiệu, vui lòng chèn một số câu hỏi.`,
+    landing_view_text: "Hãy bắt đầu bằng cách điền những thông tin sơ bộ sau đây về bản thân bạn.",
+    landing_label_age: "Tuổi của bạn",
+    landing_label_occupation: "Nghề nghiệp hiện tại và quá khứ của bạn. (Dùng dấu phẩy để phân cách các nghề nghiệp)",
 
-    landing_view_first_question: "Tuổi của bạn",
-    landing_view_second_question: "Nghề nghiệp hiện tại của bạn (nếu bạn có những nghề nghiệp đáng chú ý trong quá khứ, bạn cũng có thể liệt kê chúng ở đây bằng cách phân tách chúng bằng dấu phẩy).",
-    landing_view_form_continue_button: "Xác minh và tiến hành",
-    landing_view_form_button_cancel: "Hủy bỏ",
-    landing_view_occupations: "nghề nghiệp",
-
-    home_start_landing_button: "BẮT ĐẦU ĐẠI",
-    home_checkbox_button: "Xem hộp kiểm",
-
-    chat_data: "Dữ liệu",
-    chat_age: "Tuổi",
-    chat_occupation: "Nghề nghiệp",
     chat_topic: "Đề tài",
     chat_topic_onboarding: "Giới thiệu chủ đề",
-
-    checkbox_title: "Chào mừng đến với AIRe platform",
-    checkbox_text: "Tôi thấy bạn đã từng tham gia AIRe platform trước đây và rất vui được gặp lại bạn.",
-    checkbox_question: "Có chủ đề nào mà bạn muốn tiếp tục không?",
-    checkbox_continue_button: "Xác minh và tiến hành",
-    checkbox_button_cancel: "Hủy bỏ",
-
     chat_input_title: "Đặt một câu hỏi",
     
     onboarding_greetings: "Xin chào",
@@ -139,7 +120,8 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",
-    button_back: "Quay lại"
+    button_back: "Quay lại",
+    button_continue: "Tiếp tục"
 }
 
 export default vi
