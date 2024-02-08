@@ -25,7 +25,7 @@ const setLang = (e: Event) => {
         <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
             <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">{{ lang.name }}</option>
         </select>
-        <a href="#" class="nav-link" @click="toggleTheme">{{ $t("nav_theme") }}</a>
+        <a class="nav-link" @click="toggleTheme">{{ $t("nav_theme") }}</a>
         <button @click="router.back">
             {{ $t(l.button_back) }}
         </button>
