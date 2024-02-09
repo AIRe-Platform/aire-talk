@@ -2,7 +2,7 @@
 import { ChatMessage } from '@/models/chat';
 import { scrollToMessage } from '@/helpers/scrollToMessage'
 import { defineProps, onMounted, ref } from 'vue';
-import { revertToMessage } from '@/context/chat';
+import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import BubbleModal from './BubbleModal.vue';
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
@@ -40,15 +40,22 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 <template>
     <div :id="props.message.id.toString()" :class=classList @click="toggleModal">
-        <BubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal"/>
-        <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert" />
+        <BubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
+        <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
+            v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.questionItem)"> {{
-                isSystem ? $t(message.message) : message.message
-            }}</span>
+            <span class="chat-message-text" v-if="!(message.question)">
+                {{
+                    isSystem
+                    ? (message.message === l.system_topic && Chat.topic
+                        ? ($t(message.message!) + $t(Chat.topic.localization_key))
+                        : $t(message.message!))
+                    : message.message
+                }}
+            </span>
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>
@@ -59,7 +66,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             </div>
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
-            {{ $t(l.popup_question_revert_message) }}
+            {{ $t(l.popup_confirm_revert_message) }}
         </ConfirmDialog>
     </div>
 </template>
@@ -68,8 +75,8 @@ onMounted(() => scrollToMessage(props.message, "end"));
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
-    margin: 1rem;
     margin-right: 3rem;
+    margin-left: 3rem;
     line-height: 1.4rem;
     max-width: 40%;
     background-color: var(--chat-bubble-background-color);
@@ -90,8 +97,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-bubble-system {
     align-self: center;
-    margin: 0 3rem;
-    border-color: var(--accent-secondary-color);
+    border-color: var(--border-color);
     max-width: 80%;
 }
 
@@ -107,6 +113,14 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 .chat-user-label {
     font-size: small;
+}
+
+.chat-bubble-bot .chat-user-label {
+    color: var(--accent-secondary-color);
+}
+
+.chat-bubble-user .chat-user-label {
+    color: var(--accent-primary-color);
 }
 
 .chat-message-text {
@@ -151,7 +165,12 @@ onMounted(() => scrollToMessage(props.message, "end"));
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    .chat-message-question { 
+    .chat-bubble {
+        max-width: unset;
+        margin: 1rem;
+    }
+
+    .chat-message-question {
         padding: 0;
     }
 
@@ -176,18 +195,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
         font-size: x-small;
     }
 
-    .chat-bubble-bot {
-        max-width: 70%;
-        margin-right: 0rem;
-    }
-
     .chat-message-video-video {
         max-width: 17rem;
         max-height: 12rem;
-    }
-
-    .chat-bubble-user {
-        margin-left: 0.5rem;
     }
 }
 </style>

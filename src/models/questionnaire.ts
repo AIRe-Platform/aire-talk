@@ -23,6 +23,7 @@ export interface QuestionOption {
     default?: number;
     match?: string;
     multiselect?: boolean;
+    multiline?: boolean;
 }
 
 // export interface QuestionOptionRange extends QuestionOption {

@@ -80,6 +80,7 @@ defineComponent({ name: "SignupView" })
     width: 60%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
@@ -91,6 +92,7 @@ defineComponent({ name: "SignupView" })
     width: 50%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
+    border-radius: 1rem;
     padding: 2rem 3rem;
     flex-grow: 1;
 }
@@ -112,5 +114,11 @@ input[type=email],
 input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
+}
+
+@media screen and (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
 }
 </style>

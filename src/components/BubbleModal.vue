@@ -22,10 +22,12 @@ const close = (e: Event) => {
                     <div class="modal-component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1>{{ props.parent.sender }}</h1>
+                                <h1>{{ props.parent.role !== 'user' ? $t(props.parent.sender) : props.parent.sender }}</h1>
                             </div>
                             <div class="modal-body">
-                                <p v-if="!props.parent.questionItem"> {{ props.parent.message }}</p>
+                                <p v-if="props.parent.message">
+                                    {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message }}
+                                </p>
                                 <div class="modal-body-image" v-if="props.parent.image">
                                     <img v-bind:src="props.parent.image" class="chat-message-image-contain">
                                 </div>

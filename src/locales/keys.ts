@@ -6,8 +6,10 @@ export enum LocalizationKey {
     aire_bot = "aire_bot",
     aire_system = "aire_system",
     system_greeting = "system_greeting",
-    system_greeting_header = "system_greeting_header",
-    system_greeting_text = "system_greeting_text",
+    system_topic = "system_topic",
+
+    frontpage_greeting = "frontpage_greeting",
+    frontpage_paragraph = "frontpage_paragraph",
 
     chat_link_button_label = "chat_link_button_label",
 
@@ -25,11 +27,15 @@ export enum LocalizationKey {
 
     nav_home = "nav_home",
     nav_chat = "nav_chat",
+    nav_chat_history = "nav_chat_history",
+    nav_chat_new = "nav_chat_new",
+    nav_content_catalogue = "nav_content_catalogue",
     nav_profile = "nav_profile",
     nav_login = "nav_login",
     nav_logout = "nav_logout",
     nav_signup = "nav_signup",
     nav_theme = "nav_theme",
+    nav_preferences = "nav_preferences",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -77,45 +83,20 @@ export enum LocalizationKey {
 
     landing_view_title = "landing_view_title",
     landing_view_text = "landing_view_text",
-    landing_view_first_question = "landing_view_first_question",
-    landing_view_second_question = "landing_view_second_question",
-    landing_view_form_continue_button = "landing_view_form_continue_button",
-    landing_view_form_button_cancel = "landing_view_form_button_cancel",
-    landing_view_occupations = "landing_view_occupations",
+    landing_label_age = "landing_label_age",
+    landing_label_occupation = "landing_label_occupation",
 
-    home_start_landing_button = "home_start_landing_button",
-    home_checkbox_button = "home_checkbox_button",
-
-    chat_data = "chat_data",
-    chat_age = "chat_age",
-    chat_occupation = "chat_occupation",
     chat_topic = "chat_topic",
     chat_topic_onboarding = "chat_topic_onboarding",
-
-    checkbox_title = "checkbox_title",
-    checkbox_text = "checkbox_text",
-    checkbox_question = "checkbox_question",
-    checkbox_continue_button = "checkbox_continue_button",
-    checkbox_button_cancel = "checkbox_button_cancel",
-
     chat_input_title = "chat_input_title",
-
-    burger_menu_chat_log_history = "burger_menu_chat_log_history",
-    burger_menu_content_catalogue = "burger_menu_content_catalogue",
-    burger_menu_current_user = "burger_menu_current_user",
-    burger_menu_settings = "burger_menu_settings",
-    burger_menu_sign_in = "burger_menu_sign_in",
-    burger_menu_sign_up = "burger_menu_sign_up",
-    burger_menu_log_out = "burger_menu_log_out",
-    burger_menu_save_chat = "burger_menu_save_chat",
-    burger_menu_restore_chat = "burger_menu_restore_chat",
-    burger_menu_chat_history = "burger_menu_chat_history",
-    burger_menu_saved_chats = "burger_menu_saved_chats",
-    burger_menu_catalogue_content = "burger_menu_catalogue_content",
-    burger_menu_new_chat = "burger_menu_new_chat",
 
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
+    topic_backpain = "topic_backpain",
+    topic_neckpain = "topic_neckpain",
+    topic_sleep_apnea = "topic_sleep_apnea",
+    topic_increased_weight = "topic_increased_weight",
+    topic_trouble_talking = "topic_trouble_talking",
 
     summary_chag_log_title = "summary_chag_log_title",
     summary_classification_title = "summary_classification_title",
@@ -124,11 +105,15 @@ export enum LocalizationKey {
     error_verification_resend_failed = "error_verification_resend_failed",
     error_verification_failure = "error_verification_failure",
 
+    chat_history_title = "chat_history_title",
     chat_history_image = "chat_history_image",
     chat_history_video = "chat_history_video",
 
-    popup_question_revert_message = "popup_question_revert_message",
-    popup_question_remove_chat = "popup_question_remove_chat",
-    popup_button_accept = "popup_button_accept",
-    popup_button_cancel = "popup_button_cancel"
+    popup_confirm_revert_message = "popup_confirm_revert_message",
+    popup_confirm_remove_chat = "popup_confirm_remove_chat",
+
+    button_accept = "button_accept",
+    button_cancel = "button_cancel",
+    button_back = "button_back",
+    button_continue = "button_continue"
 }

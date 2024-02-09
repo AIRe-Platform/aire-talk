@@ -1,7 +1,7 @@
 import { AireServices } from "@/lib/aire";
 import { AireUser } from "@/lib/aire/models/user";
 import { reactive } from "vue";
-import { resetChat } from "./chat";
+import { createNewChat } from "./chat";
 import { AireScope } from "@/lib/aire/models/scopes";
 import { router } from "@/router";
 
@@ -28,7 +28,7 @@ export async function login(email: string, password: string): Promise<boolean> {
             router.push("/verify")
         }
 
-        await resetChat()
+        await createNewChat()
         return result;
     }
     return false;
@@ -94,14 +94,14 @@ export async function logout() {
         AireServices.ID.logout();
     }
 
-    await resetChat()
+    await createNewChat()
 }
 
 export async function restoreSession() {
     const token = localStorage.getItem("aire_session_token");
     if (AireServices.ID && token) {
         console.debug("Restoring session...")
-        await resetChat()
+        await createNewChat()
 
         Login.logged_in = await AireServices.ID.verifyToken(token);
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);

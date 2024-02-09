@@ -18,7 +18,8 @@ const submitAnswer = (answer: string|string[]|undefined) => {
 <template>
     <div class="chat-message-answers">
         <div class="chat-message-answer">
-            <textarea rows="3" class="chat-message-answer-open"></textarea>
+            <textarea rows="3" class="chat-message-answer-open" :maxlength="props.questionItem.options.max_len" v-if="props.questionItem.options.multiline"></textarea>
+            <input type="text" class="chat-message-answer-open" :maxlength="props.questionItem.options.max_len" v-if="!props.questionItem.options.multiline" />
             <button @click="submitAnswer('test')">Submit</button>
         </div>
     </div>

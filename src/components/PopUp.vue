@@ -1,37 +1,34 @@
-<script>
-import { defineComponent } from 'vue';
-defineComponent({ name: "PopUp.vue" })
-export default {
-    name: "PopUp"
-}
-</script>
-
 <template>
-    <div class="popup">
-        <div class="popup-inner">
-            <slot />
+    <div class="popup-overlay">
+        <div class="popup-panel" @click.stop="">
+            <slot></slot>
         </div>
     </div>
 </template>
 
 <style scoped>
-.popup {
-    position: absolute;
-    background-color: var(--panel-background-color);
-    left: 40%;
-    top: 30%;
-    width: 20rem;
-    height: 15rem;
-    align-self: center;
-    margin: 0 3rem;
-    box-shadow: 0 0 5px gray;
-    line-height: 1.4rem;
-    border-radius: 10px;
-    border: 1px solid transparent;
+.popup-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
     z-index: 9001;
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--overlay-color);
 }
 
-.popup-inner {
+.popup-panel {
     display: flex;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    background-color: var(--panel-background-color);
 }
 </style>

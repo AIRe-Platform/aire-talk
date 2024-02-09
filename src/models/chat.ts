@@ -17,12 +17,12 @@ export interface ChatMessage {
     isError?: boolean;
     timestamp: number;
     title?: string;
-    message: string;
+    message?: string;
     image?: string;
     video?: string;
     questionItem?: QuestionItem;
     answer?: Answer;
-    rating?: number;
+    rating: number;
 }
 
 export type ChatHistory = Array<ChatMessage>

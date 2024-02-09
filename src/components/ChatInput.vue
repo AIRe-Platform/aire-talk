@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Chat, getQuestionnaire, sendChatMessage } from '@/context/chat'
+import { Chat, sendChatMessage } from '@/context/chat'
 import { l } from '@/locales';
 
 function submit(event: Event) {
@@ -16,7 +16,7 @@ function submit(event: Event) {
 <template>
     <div class="chat-input-wrapper">
         <div class="chat-input-image-container">
-            <img class="chat-input-image" src="@/assets/logos/AIRE-Platform-Logo-2-teal.png" alt="Logo" @click="getQuestionnaire">
+            <img class="chat-input-image" src="@/assets/images/aire-bot.png" alt="Logo">
         </div>
         <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
         <form class="chat-input-bar" @submit.prevent="submit">
@@ -29,7 +29,8 @@ function submit(event: Event) {
 <style scoped>
 .chat-input-wrapper {
     margin: auto;
-    width: 50%;
+    width: 80%;
+    max-width: 42rem;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
     margin-top: 1rem;

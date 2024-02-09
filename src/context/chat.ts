@@ -6,9 +6,8 @@ import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
-import i18n from "@/locales";
-import { AireChatMessage, AireChatbotInput, AireChatHistory, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
-import { Questionnaire } from "@/models/questionnaire";
+import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import i18n, { l } from "@/locales";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -104,7 +103,7 @@ export async function deleteChat(id: string) {
     console.debug("Deleting chat log", id);
 
     if (id == Chat.id)
-        await resetChat(true, false)
+        await resetChatState(true, false)
 
     if (AireServices.Memory)
         await AireServices.Memory.deleteChat(id)
@@ -124,11 +123,13 @@ export async function saveChat() {
 
     if (AireServices.Memory) {
         const messages = Chat.messages
+            .filter(x => x.role !== "system")
             .map(x => {
                 const m: AireChatMessage = {
                     role: x.role,
                     content: x.message,
-                    timestamp: x.timestamp
+                    timestamp: x.timestamp,
+                    rating: x.rating
                 };
                 return m;
             });
@@ -154,7 +155,7 @@ export async function openChat(id: string): Promise<boolean> {
     if (!loaded)
         return false
 
-    await resetChat(false, false)
+    await resetChatState(false, false)
     Chat.id = id
     Chat.messages = getCache(id)!
 
@@ -186,6 +187,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 role: x.role as AireRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
+                rating: x.rating || 0
             };
             return m;
         });
@@ -202,29 +204,36 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
 /**
  * Create a new chat
  */
-export async function createNewChat() {
-    resetChat(false, false);
+export async function createNewChat(topic?: Topic) {
+    await resetChatState(false, false);
+    if (topic) {
+        Chat.topic = topic;
+
+        pushMessage({
+            id: generateRandomID(),
+            role: "system",
+            message: l.system_topic,
+            sender: SYSTEM_NAME,
+            rating: 0,
+            timestamp: Date.now()
+        })
+    }
+
 }
 
 /**
- * Function to revert the chat state to the chat message passed as param.
+ * Function to change the rating of the message
+ * @param message to change
+ * @param rating given by the user
  */
-export async function resetChat(skip_save: boolean = false, clear_cache = true) {
-    cancelAutoSaveTimer()
+export function setMessageRating(id: number, rating: number) {
 
-    if (!skip_save)
-        await saveChat()
-
-    Chat.id = undefined
-    Chat.messages = [systemGreeting()]
-    Chat.awaitingResponse = false;
-    Chat.scrolling = false;
-    Chat.modified = false;
-    Chat.landingInfo = undefined
-    Chat.topic = undefined
-
-    if (clear_cache)
-        Chat.cache.clear()
+    const message = Chat.messages.find(x => x.id === id);
+    if (message) {
+        message.rating = rating < 0 ? -1 : (rating > 0 ? 1 : 0)
+        Chat.modified = true
+        startAutoSaveTimer()
+    }
 }
 
 /**
@@ -289,6 +298,7 @@ export async function getQuestionnaire() {
                     message: "Please answer to this question",
                     questionItem: qi,
                     timestamp: Date.now(),
+                    rating: 0
                 };
                 Chat.messages.push(msg);
             })
@@ -313,7 +323,8 @@ function receiver(msg: AireTalkMessage) {
             role: "assistant",
             title: "your answer",
             message: "",
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            rating: 0
         }
         firstMessage = true
     }
@@ -346,7 +357,8 @@ function error_handler(error: AireError) {
         isError: true,
         title: error.key || "",
         message: error.key || error.error?.message || "",
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        rating: 0
     })
 
     Chat.awaitingResponse = false;
@@ -361,7 +373,7 @@ function systemGreeting(): ChatMessage {
         id: generateRandomID(),
         sender: SYSTEM_NAME,
         role: "system",
-        message: "system_greeting",
+        message: l.system_greeting,
         rating: 0,
         timestamp: Date.now()
     };
@@ -395,8 +407,31 @@ function initChatState(): ChatState {
         awaitingResponse: false,
         modified: false,
         scrolling: false,
-        cache: new Map
+        cache: new Map,
     }
+}
+
+/**
+ * Resets the chat state
+ * @param skip_save Skips saving current chat, default is false
+ * @param clear_cache Set to false, if you don't want to clear the cache
+ */
+async function resetChatState(skip_save: boolean = false, clear_cache = true) {
+    cancelAutoSaveTimer()
+
+    if (!skip_save)
+        await saveChat()
+
+    Chat.id = undefined
+    Chat.messages = [systemGreeting()]
+    Chat.awaitingResponse = false;
+    Chat.scrolling = false;
+    Chat.modified = false;
+    Chat.landingInfo = undefined
+    Chat.topic = undefined
+
+    if (clear_cache)
+        Chat.cache.clear()
 }
 
 /**

@@ -22,45 +22,40 @@ const canRevert = (msg: ChatMessage) => {
                 <QuestionWrapper :question-item="msg.questionItem" v-if="msg.questionItem" />
             </template>
         </div>
+        <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
     </div>
-    <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
 </template>
 
 <style scoped>
 .chat-view-wrapper {
-    display: block;
+    display: flex;
     overflow: hidden;
-    height: 100%;
+    flex-direction: column;
     flex-grow: 1;
+    background-color: var(--panel-background-color);
+    border-radius: 0.5rem;
 }
 
 .chat-view-content {    
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 3.5rem 1rem;
-    background-color: var(--panel-background-color);
     margin: auto;
-    width: 60%;
-    height: 80%;
+    width: 75%;
+    height: 100%;
+    gap: 1.5rem;
 }
 
-/* mobile*/
 @media screen and (max-width: 600px) {
-    .chat-view-wrapper {
-        margin-bottom: 4rem;
-    }
-
-    .chat-view-content {        
-        padding-left: 0rem;
-        padding-top: 1rem;
-        margin: auto;
+    .chat-view-content {
         width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 0 5px var(--shadow-color);
-        padding: 0rem;
         padding-top: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
     }
 }
 </style>

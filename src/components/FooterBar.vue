@@ -1,9 +1,3 @@
-<script>
-export default {
-    name: "FooterBar"
-}
-</script>
-
 <template>
     <div id="footer">
         <b>{{ $t("footer") }}</b>
