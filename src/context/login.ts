@@ -49,6 +49,19 @@ export async function signup(email: string, password: string): Promise<number> {
     return 0;
 }
 
+export async function saveProfile(user: AireUser): Promise<AireUser | undefined> {
+    if (AireServices.ID) {
+        return await AireServices.ID.saveProfileData(user)
+            .then((result) => {
+                if (result) {
+                    Login.user = result
+                }
+                return result
+            })
+    }
+    return undefined
+}
+
 export async function changePassword(current_password: string, new_password: string): Promise<boolean> {
     if (AireServices.ID && Login.user) {
         return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)

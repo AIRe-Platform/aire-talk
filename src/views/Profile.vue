@@ -2,103 +2,97 @@
 import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { AireServices } from '@/lib/aire';
-import { defineComponent, ref } from 'vue';
-import { Login, changePassword, logout } from '@/context/login';
+import { defineComponent, reactive, ref } from 'vue';
+import { Login, saveProfile, changePassword, logout } from '@/context/login';
+import { AireUser } from '@/lib/aire/models/user';
+import { router } from '@/router';
 
-const getProfile = () => {
-    return Login.user
-};
-
-const profile = ref(getProfile());
 const busy = ref(false);
-const fistName = ref(profile.value?.first_name);
-const lastName = ref(profile.value?.last_name);
-const gender = ref(profile.value?.gender);
-const age = ref(profile.value?.age);
-const language = ref(profile.value?.language);
-const country = ref(profile.value?.country);
-const bio = ref(profile.value?.bio);
+const profile = reactive<{
+    uuid?: string
+    first_name?: string
+    last_name?: string
+    gender?: "male" | "female" | "other"
+    age?: number
+    language?: string
+    country?: string,
+    bio?: string
+}>(Login.user || {});
 
-const editError = ref<string>();
-const pwError = ref<string>();
-const delError = ref<string>();
+const errors = reactive<{
+    editProfile?: string,
+    passwordChange?: string,
+    deleteAccount?: string
+}>({})
 
 const onSaveChanges = (e: Event) => {
     e.preventDefault();
 
-    if (profile.value == null)
-        return;
-
-    /*   if(!firstName.form?.checkValidity())
-            return; */
-
-    profile.value.first_name = fistName.value;
-    profile.value.last_name = lastName.value;
-    profile.value.gender = gender.value;
-    profile.value.age = age.value;
-    profile.value.language = language.value;
-    profile.value.country = country.value;
-    profile.value.bio = bio.value;
-
-    if (AireServices.ID) {
+    if (AireServices.ID && Login.user) {
         busy.value = true;
-        AireServices.ID.saveProfileData(profile.value)
+        const data: AireUser = { ...Login.user, ...profile }
+        saveProfile(data)
             .then((result) => {
                 if (result) {
-                    profile.value = getProfile();
-                    editError.value = undefined;
+                    Object.assign(profile, result)
+                    errors.editProfile = undefined;
                 }
                 else {
-                    editError.value = l.error_profile_edit;
+                    errors.editProfile = l.error_profile_edit;
                 }
             })
             .finally(() => busy.value = false);
     }
 }
 
+const currentPassword = ref<string>("")
+const newPassword = ref<string>("")
 const onChangePassword = (e: Event) => {
     e.preventDefault();
+    const form = document.getElementById("password-form") as HTMLFormElement
 
-    const current = document.getElementById("current_password") as HTMLInputElement;
-    const newpw = document.getElementById("new_password") as HTMLInputElement;
-
-    if (!current.form?.checkValidity())
+    if (!form.checkValidity())
         return;
 
     if (AireServices.ID) {
         busy.value = true;
-        changePassword(current.value, newpw.value)
+        changePassword(currentPassword.value, newPassword.value)
             .then((result) => {
                 if (result) {
-                    pwError.value = undefined;
+                    errors.passwordChange = undefined;
                 }
                 else {
-                    pwError.value = l.error_profile_change_password;
+                    errors.passwordChange = l.error_profile_change_password;
                 }
             })
-            .finally(() => busy.value = false)
+            .finally(() => {
+                busy.value = false
+                currentPassword.value = ""
+                newPassword.value = ""
+            })
     }
 };
 
+const confirmPassword = ref("")
+const keepAnonymizedData = ref(false)
 const onDeleteAccount = (e: Event) => {
     e.preventDefault();
+    const form = document.getElementById("delete-form") as HTMLFormElement
 
-    const pw = document.getElementById("confirm_password") as HTMLInputElement;
-    const keepData = document.getElementById("keep_anonymized_data") as HTMLInputElement;
-
-    if (!pw.form?.checkValidity())
+    if (!form.checkValidity())
         return;
 
-    if (AireServices.ID && profile.value) {
+    if (AireServices.ID && profile.uuid) {
         busy.value = true;
-        AireServices.ID.deleteProfile(profile.value.uuid, pw.value, keepData.checked)
-            .then((result) => {
+        AireServices.ID.deleteProfile(profile.uuid, confirmPassword.value, keepAnonymizedData.value)
+            .then(async (result) => {
                 if (result) {
-                    logout();
-                    delError.value = undefined;
+                    await logout();
+                    errors.deleteAccount = undefined;
+                    router.push("/")
                 }
                 else {
-                    delError.value = l.error_profile_delete_account;
+                    errors.deleteAccount = l.error_profile_delete_account;
                 }
             })
             .finally(() => busy.value = false);
@@ -111,12 +105,6 @@ const genderList = [
     { id: "other", name: l.gender_other }
 ];
 
-const toggleCheckbox = (id: string) => {
-    const cb = document.getElementById(id) as HTMLInputElement;
-    if (cb)
-        cb.checked = !cb.checked;
-}
-
 defineComponent({ name: "ProfileView" })
 </script>
 
@@ -128,35 +116,35 @@ defineComponent({ name: "ProfileView" })
             <form id="profile-form" v-if="busy === false" @submit.prevent>
                 <span class="form-row">
                     <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
-                    <input id="first_name" class="form-input" type="text" v-model="fistName" autocomplete="given-name" />
+                    <input id="first_name" class="form-input" type="text" v-model="profile.first_name" autocomplete="given-name" />
                 </span>
                 <span class="form-row">
                     <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
-                    <input id="last_name" type="text" v-model="lastName" autocomplete="family-name" />
+                    <input id="last_name" type="text" v-model="profile.last_name" autocomplete="family-name" />
                 </span>
                 <span class="form-row">
                     <label for="gender">{{ $t(l.profile_label_gender) }}</label>
-                    <select id="gender" v-model="gender">
+                    <select id="gender" v-model="profile.gender">
                         <option v-for="g in genderList" :key="g.id" :value="g.id">{{ $t(g.name) }}</option>
                     </select>
                 </span>
                 <span class="form-row">
                     <label for="age">{{ $t(l.profile_label_age) }}</label>
-                    <input id="age" type="number" v-model="age" min="0" max="150" />
+                    <input id="age" type="number" v-model="profile.age" min="0" max="150" />
                 </span>
                 <span class="form-row">
                     <label for="language">{{ $t(l.profile_label_language) }}</label>
-                    <input id="language" type="text" v-model="language" />
+                    <input id="language" type="text" v-model="profile.language" />
                 </span>
                 <span class="form-row">
                     <label for="country">{{ $t(l.profile_label_country) }}</label>
-                    <input id="country" type="text" v-model="country" autocomplete="country-name" />
+                    <input id="country" type="text" v-model="profile.country" autocomplete="country-name" />
                 </span>
                 <span class="form-row">
                     <label for="bio">{{ $t(l.profile_label_bio) }}</label>
-                    <textarea id="bio" rows="4" cols="30" v-model="bio"></textarea>
+                    <textarea id="bio" rows="4" cols="30" v-model="profile.bio"></textarea>
                 </span>
-                <div class="error-message" v-if="editError">{{ $t(editError) }}</div>
+                <div class="error-message" v-if="errors.editProfile">{{ $t(errors.editProfile) }}</div>
                 <input type="submit" :value="$t(l.profile_button_save)" @click="onSaveChanges" />
             </form>
             <div id="profile-connections" v-if="busy === false">
@@ -170,14 +158,14 @@ defineComponent({ name: "ProfileView" })
                 <input hidden="true" type="text" id="username" autocomplete="off" />
                 <span class="form-row">
                     <label for="current_password">{{ $t(l.profile_label_current_password) }}</label>
-                    <input id="current_password" type="password" required="true" autocomplete="current-password" />
+                    <input id="current_password" type="password" required="true" autocomplete="current-password" v-model="currentPassword"/>
                 </span>
                 <span class="form-row">
                     <label for="new_password">{{ $t(l.profile_label_new_password) }}</label>
-                    <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password" />
+                    <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password" v-model="newPassword" />
                 </span>
                 <div class="desc">{{ $t(l.profile_description_password) }}</div>
-                <div class="error-message" v-if="pwError">{{ $t(pwError) }}</div>
+                <div class="error-message" v-if="errors.passwordChange">{{ $t(errors.passwordChange) }}</div>
                 <input type="submit" :value="$t(l.profile_button_change_password)" @click="onChangePassword" />
             </form>
             <form id="delete-form" v-if="busy === false" @submit.prevent>
@@ -185,15 +173,15 @@ defineComponent({ name: "ProfileView" })
                 <div class="desc">{{ $t(l.profile_description_delete_account) }}</div>
                 <span class="form-row">
                     <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
-                    <input id="confirm_password" type="password" required="true" autocomplete="off" />
+                    <input id="confirm_password" type="password" required="true" autocomplete="off" v-model="confirmPassword"/>
                 </span>
-                <span class="form-row form-toggle">
-                    <input id="keep_anonymized_data" type="checkbox" @change.prevent />
-                    <label for="keep_anonymized_data" class="checkbox-label"
-                        @click="toggleCheckbox('keep_anonymized_data')">{{
-                            $t(l.profile_label_keep_anonymized_data) }}</label>
+                <span class="form-row form-toggle" @click.stop="keepAnonymizedData = !keepAnonymizedData">
+                    <input id="keep_anonymized_data" type="checkbox" v-model="keepAnonymizedData" />
+                    <label for="keep_anonymized_data" class="checkbox-label" @click.stop="">
+                        {{ $t(l.profile_label_keep_anonymized_data) }}
+                    </label>
                 </span>
-                <div class="error-message" v-if="delError">{{ $t(delError) }}</div>
+                <div class="error-message" v-if="errors.deleteAccount">{{ $t(errors.deleteAccount) }}</div>
                 <input type="submit" :value="$t(l.profile_button_delete)" @click="onDeleteAccount" />
             </form>
         </div>
@@ -232,7 +220,6 @@ defineComponent({ name: "ProfileView" })
     flex-direction: row;
     align-items: center;
     margin: 0.25rem 0;
-    overflow: hidden;
     flex-wrap: wrap;
 }
 
@@ -281,12 +268,13 @@ label {
 }
 
 .form-toggle {
-    width: 80%;
     margin: 0.5rem auto;
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     cursor: pointer;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 /* mobile*/
