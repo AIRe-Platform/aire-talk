@@ -124,82 +124,92 @@ defineComponent({ name: "ProfileView" })
     <div id="profile-view">
         <h2>{{ $t(l.profile_title) }}</h2>
         <Spinner v-if="busy" />
-        <form id="profile-form" v-if="busy === false" @submit.prevent>
-            <span class="form-row">
-                <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
-                <input id="first_name" class="form-input" type="text" v-model="fistName" autocomplete="given-name" />
-            </span>
-            <span class="form-row">
-                <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
-                <input id="last_name" type="text" v-model="lastName" autocomplete="family-name" />
-            </span>
-            <span class="form-row">
-                <label for="gender">{{ $t(l.profile_label_gender) }}</label>
-                <select id="gender" v-model="gender">
-                    <option v-for="g in genderList" :key="g.id" :value="g.id">{{ $t(g.name) }}</option>
-                </select>
-            </span>
-            <span class="form-row">
-                <label for="age">{{ $t(l.profile_label_age) }}</label>
-                <input id="age" type="number" v-model="age" min="0" max="150" />
-            </span>
-            <span class="form-row">
-                <label for="language">{{ $t(l.profile_label_language) }}</label>
-                <input id="language" type="text" v-model="language" />
-            </span>
-            <span class="form-row">
-                <label for="country">{{ $t(l.profile_label_country) }}</label>
-                <input id="country" type="text" v-model="country" autocomplete="country-name" />
-            </span>
-            <span class="form-row">
-                <label for="bio">{{ $t(l.profile_label_bio) }}</label>
-                <textarea id="bio" rows="4" cols="30" v-model="bio"></textarea>
-            </span>
-            <div class="error-message" v-if="editError">{{ $t(editError) }}</div>
-            <input type="submit" :value="$t(l.profile_button_save)" @click="onSaveChanges" />
-        </form>
-        <div id="profile-connections" v-if="busy === false">
-            <h3>{{ $t(l.profile_heading_connected_services) }}</h3>
-            <div id="service-list">
-                {{ $t(l.profile_empty_service_list) }}
+        <div class="profile-content">
+            <form id="profile-form" v-if="busy === false" @submit.prevent>
+                <span class="form-row">
+                    <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
+                    <input id="first_name" class="form-input" type="text" v-model="fistName" autocomplete="given-name" />
+                </span>
+                <span class="form-row">
+                    <label for="last_name">{{ $t(l.profile_label_last_name) }}</label>
+                    <input id="last_name" type="text" v-model="lastName" autocomplete="family-name" />
+                </span>
+                <span class="form-row">
+                    <label for="gender">{{ $t(l.profile_label_gender) }}</label>
+                    <select id="gender" v-model="gender">
+                        <option v-for="g in genderList" :key="g.id" :value="g.id">{{ $t(g.name) }}</option>
+                    </select>
+                </span>
+                <span class="form-row">
+                    <label for="age">{{ $t(l.profile_label_age) }}</label>
+                    <input id="age" type="number" v-model="age" min="0" max="150" />
+                </span>
+                <span class="form-row">
+                    <label for="language">{{ $t(l.profile_label_language) }}</label>
+                    <input id="language" type="text" v-model="language" />
+                </span>
+                <span class="form-row">
+                    <label for="country">{{ $t(l.profile_label_country) }}</label>
+                    <input id="country" type="text" v-model="country" autocomplete="country-name" />
+                </span>
+                <span class="form-row">
+                    <label for="bio">{{ $t(l.profile_label_bio) }}</label>
+                    <textarea id="bio" rows="4" cols="30" v-model="bio"></textarea>
+                </span>
+                <div class="error-message" v-if="editError">{{ $t(editError) }}</div>
+                <input type="submit" :value="$t(l.profile_button_save)" @click="onSaveChanges" />
+            </form>
+            <div id="profile-connections" v-if="busy === false">
+                <h3>{{ $t(l.profile_heading_connected_services) }}</h3>
+                <div id="service-list">
+                    {{ $t(l.profile_empty_service_list) }}
+                </div>
             </div>
+            <form id="password-form" v-if="busy === false" @submit.prevent>
+                <h3>{{ $t(l.profile_heading_password) }}</h3>
+                <input hidden="true" type="text" id="username" autocomplete="off" />
+                <span class="form-row">
+                    <label for="current_password">{{ $t(l.profile_label_current_password) }}</label>
+                    <input id="current_password" type="password" required="true" autocomplete="current-password" />
+                </span>
+                <span class="form-row">
+                    <label for="new_password">{{ $t(l.profile_label_new_password) }}</label>
+                    <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password" />
+                </span>
+                <div class="desc">{{ $t(l.profile_description_password) }}</div>
+                <div class="error-message" v-if="pwError">{{ $t(pwError) }}</div>
+                <input type="submit" :value="$t(l.profile_button_change_password)" @click="onChangePassword" />
+            </form>
+            <form id="delete-form" v-if="busy === false" @submit.prevent>
+                <h3>{{ $t(l.profile_heading_delete_accout) }}</h3>
+                <div class="desc">{{ $t(l.profile_description_delete_account) }}</div>
+                <span class="form-row">
+                    <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
+                    <input id="confirm_password" type="password" required="true" autocomplete="off" />
+                </span>
+                <span class="form-row form-toggle">
+                    <input id="keep_anonymized_data" type="checkbox" @change.prevent />
+                    <label for="keep_anonymized_data" class="checkbox-label"
+                        @click="toggleCheckbox('keep_anonymized_data')">{{
+                            $t(l.profile_label_keep_anonymized_data) }}</label>
+                </span>
+                <div class="error-message" v-if="delError">{{ $t(delError) }}</div>
+                <input type="submit" :value="$t(l.profile_button_delete)" @click="onDeleteAccount" />
+            </form>
         </div>
-        <form id="password-form" v-if="busy === false" @submit.prevent>
-            <h3>{{ $t(l.profile_heading_password) }}</h3>
-            <input hidden="true" type="text" id="username" autocomplete="off" />
-            <span class="form-row">
-                <label for="current_password">{{ $t(l.profile_label_current_password) }}</label>
-                <input id="current_password" type="password" required="true" autocomplete="current-password" />
-            </span>
-            <span class="form-row">
-                <label for="new_password">{{ $t(l.profile_label_new_password) }}</label>
-                <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password" />
-            </span>
-            <div class="desc">{{ $t(l.profile_description_password) }}</div>
-            <div class="error-message" v-if="pwError">{{ $t(pwError) }}</div>
-            <input type="submit" :value="$t(l.profile_button_change_password)" @click="onChangePassword" />
-        </form>
-        <form id="delete-form" v-if="busy === false" @submit.prevent>
-            <h3>{{ $t(l.profile_heading_delete_accout) }}</h3>
-            <div class="desc">{{ $t(l.profile_description_delete_account) }}</div>
-            <span class="form-row">
-                <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
-                <input id="confirm_password" type="password" required="true" autocomplete="off" />
-            </span>
-            <span class="form-row form-toggle">
-                <input id="keep_anonymized_data" type="checkbox" @change.prevent />
-                <label for="keep_anonymized_data" class="checkbox-label" @click="toggleCheckbox('keep_anonymized_data')">{{
-                    $t(l.profile_label_keep_anonymized_data) }}</label>
-            </span>
-            <div class="error-message" v-if="delError">{{ $t(delError) }}</div>
-            <input type="submit" :value="$t(l.profile_button_delete)" @click="onDeleteAccount" />
-        </form>
     </div>
 </template>
 
 <style scoped>
 #profile-view {
     padding: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-content {
+    overflow: auto;
 }
 
 #password-form,
@@ -208,9 +218,8 @@ defineComponent({ name: "ProfileView" })
 #profile-connections {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - 4rem);
     max-width: 600px;
-    min-width: 400px;
     border-radius: 1rem;
     background-color: var(--panel-background-color);
     border: 1px solid var(--border-color);
@@ -223,6 +232,8 @@ defineComponent({ name: "ProfileView" })
     flex-direction: row;
     align-items: center;
     margin: 0.25rem 0;
+    overflow: hidden;
+    flex-wrap: wrap;
 }
 
 .desc {
@@ -291,6 +302,19 @@ label {
         min-width: unset;
         max-width: unset;
         width: unset;
+    }
+
+    .form-row {
+        flex-direction: column;
+        margin: 0.5rem 0;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+
+    label {
+        width: unset;
+        margin: 0;
+        margin-bottom: 0.25rem;
     }
 }
 </style>
