@@ -51,6 +51,7 @@ const navigateTo = (path: string) => {
 .quick-nav {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     margin: 2rem 0;
     gap: 1rem;
 }
