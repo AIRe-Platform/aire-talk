@@ -48,7 +48,7 @@ defineComponent({ name: "SignupView" })
 </script>
 
 <template>
-    <div class="main-content">
+    <div class="signup-view">
         <form class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t(l.signup_form_title) }}</h2>
             <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
@@ -68,10 +68,14 @@ defineComponent({ name: "SignupView" })
 </template>
 
 <style scoped>
-.main-content {
-    width: 50%;
-    min-width: 300px;
-    max-width: 500px;
+.signup-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 42rem;
+    margin: auto;
 }
 
 .form-content {
@@ -117,8 +121,9 @@ input[type=password] {
 }
 
 @media screen and (max-width: 600px) {
-    .main-content {
-        width: 90%;
+    .form-content {
+        width: 70%;
+        padding: 1rem 2rem;
     }
 }
 </style>

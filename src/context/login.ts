@@ -49,13 +49,28 @@ export async function signup(email: string, password: string): Promise<number> {
     return 0;
 }
 
+export async function saveProfile(user: AireUser): Promise<AireUser | undefined> {
+    if (AireServices.ID) {
+        return await AireServices.ID.saveProfileData(user)
+            .then((result) => {
+                if (result) {
+                    Login.user = result
+                }
+                return result
+            })
+    }
+    return undefined
+}
+
 export async function changePassword(current_password: string, new_password: string): Promise<boolean> {
     if (AireServices.ID && Login.user) {
         return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
             .then(async (result) => {
                 if (result) {
-                    logout();
-                    return await login(Login.user?.email!, new_password);
+                    const email = Login.user?.email
+                    await logout();
+                    if(email)
+                        return await login(email, new_password);
                 }
                 return result;
             })
@@ -118,7 +133,7 @@ export async function restoreSession() {
     }
 }
 
-async function saveSession() {
+function saveSession() {
     const token = AireServices.ID?.getAccessToken();
     if (token) {
         localStorage.setItem("aire_session_token", token);

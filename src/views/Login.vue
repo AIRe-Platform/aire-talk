@@ -36,7 +36,7 @@ defineComponent({ name: "LoginView" })
 </script>
 
 <template>
-    <div class="main-content">
+    <div class="login-view">
         <form id="login-form" class="form-content" @submit.prevent v-if="busy === false">
             <h2>{{ $t("login_form_title") }}</h2>
             <label for="login-email" class="form-label">{{ $t("login_label_email") }}</label>
@@ -54,10 +54,14 @@ defineComponent({ name: "LoginView" })
 </template>
 
 <style scoped>
-.main-content {
-    width: 50%;
-    min-width: 300px;
-    max-width: 500px;
+.login-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 42rem;
+    margin: auto;
 }
 
 .form-content {
@@ -105,8 +109,9 @@ input[type=password] {
 }
 
 @media screen and (max-width: 600px) {
-    .main-content {
-        width: 90%;
+    .form-content {
+        width: 70%;
+        padding: 1rem 2rem;
     }
 }
 </style>
