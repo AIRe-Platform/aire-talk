@@ -67,8 +67,10 @@ export async function changePassword(current_password: string, new_password: str
         return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
             .then(async (result) => {
                 if (result) {
-                    logout();
-                    return await login(Login.user?.email!, new_password);
+                    const email = Login.user?.email
+                    await logout();
+                    if(email)
+                        return await login(email, new_password);
                 }
                 return result;
             })
@@ -131,7 +133,7 @@ export async function restoreSession() {
     }
 }
 
-async function saveSession() {
+function saveSession() {
     const token = AireServices.ID?.getAccessToken();
     if (token) {
         localStorage.setItem("aire_session_token", token);
