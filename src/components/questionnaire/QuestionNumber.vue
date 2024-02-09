@@ -1,36 +1,36 @@
 <script setup lang="ts">
 
-import { defineComponent, defineProps } from 'vue';
-import { QuestionItem, QuestionOption } from "@/models/questionnaire";
-defineComponent({ name: "QuestionNumber" });
+import { defineProps, ref } from 'vue';
+import { ChatMessage, Answer } from "@/models/chat";
+import { answerQuestion } from '@/context/chat';
 
-const props = defineProps<{ questionItem: QuestionItem }>()
+const props = defineProps<{ message: ChatMessage }>()
 
+const answer = ref('')
 
-/**
- * Method to select the answer between the answers.
- */
- const clickAnswer = (e: Event, answer: number) => {
-    console.log(e);
-    console.log(answer);
-};
+const submitAnswer = () => {
+    const answerObject: Answer = {
+        question_id: props.message.questionItem?.id,
+        type: props.message.questionItem?.type,
+        answer: answer,
+        options: props.message.questionItem?.options,
+        question: props.message.questionItem?.question
 
-// const options : QuestionOption = props.questionItem.options;
-// const min : number = options?.min;
-// const max : number = options?.max;
+    }
+    if (props.message.questionItem)
+        answerQuestion(props.message.questionItem,answerObject);
+}
 
 </script>
 
 <template>
     <div class="chat-message-answers">
-        <div class="chat-message-answer" v-for="answer, id in props.questionItem.options.max-props.questionItem.options.min" :key="id">
-            <button @click="(e) => clickAnswer(e, answer)" class="chat-message-answer-button" :class="{ 'is-selected': answer }" v-if="answer">
-                {{ answer }}
-            </button>
+        <div class="chat-message-answer">
+            <input type="number" v-model="answer" :min="props.message.questionItem?.options.min" :max="props.message.questionItem?.options.max">
+            <button @click="submitAnswer">Submit</button>
+            <span v-if="props.message.answer?.answer">You answered: {{ props.message.answer.answer }}</span>
         </div>
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

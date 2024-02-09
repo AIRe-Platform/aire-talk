@@ -1,10 +1,9 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { QuestionItem } from "./questionnaire";
+import { QuestionItem, QuestionOption } from "./questionnaire";
 export interface Answer {
     question_id: string;
     type?: string;
-    min: number;
-    max: number;
+    options: QuestionOption
     question: string;
     prompt: string;
     answer: any;

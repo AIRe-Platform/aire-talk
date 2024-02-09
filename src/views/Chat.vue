@@ -19,7 +19,7 @@ const canRevert = (msg: ChatMessage) => {
         <div class="chat-view-content">
             <template v-for="(msg) in Chat.messages" v-bind:key="msg.id">
                 <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="!msg.questionItem" />
-                <QuestionWrapper :question-item="msg.questionItem" v-if="msg.questionItem" />
+                <QuestionWrapper :message="msg" v-if="msg.questionItem" />
             </template>
         </div>
         <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />

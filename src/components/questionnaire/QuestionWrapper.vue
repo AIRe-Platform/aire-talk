@@ -1,30 +1,33 @@
 <script setup lang="ts">
 
-import { defineComponent, defineProps } from 'vue';
-import { QuestionItem, QuestionOptionType } from "@/models/questionnaire";
-import QuestionCheckbox from "@/components/questionnaire/QuestionCheckbox";
-import QuestionRange from "@/components/questionnaire/QuestionRange";
-import QuestionOpen from "@/components/questionnaire/QuestionOpen";
+import { defineProps } from 'vue';
+import { QuestionOptionType } from "@/models/questionnaire";
+import QuestionCheckbox from "@/components/questionnaire/QuestionCheckbox.vue";
+import QuestionRange from "@/components/questionnaire/QuestionRange.vue";
+import QuestionOpen from "@/components/questionnaire/QuestionOpen.vue";
+import QuestionNumber from "@/components/questionnaire/QuestionNumber.vue";
+import { ChatMessage } from '@/models/chat';
 
-defineComponent({ name: "QuestionWrapper" });
-
-const props = defineProps<{ questionItem: QuestionItem }>()
+const props = defineProps<{ message: ChatMessage }>()
 
 </script>
 
 <template>
-    <div class="chat-message-question" v-if="props.questionItem">
-        <span class="chat-message-text">
-            {{ questionItem.question }}
-        </span>
+    <div class="chat-message-question">
+        <div class="chat-message-question-text " v-if="props.message.questionItem">
+            <span class="chat-message-text">
+                {{ props.message.questionItem.question }}
+            </span>
+        </div>
+        <QuestionCheckbox :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Checkbox" />
+        <QuestionRange :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Range" />
+        <QuestionOpen :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Open" />
+        <QuestionNumber :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Number" />
     </div>
-    <QuestionCheckbox :questionItem="props.questionItem" v-if="props.questionItem.type==QuestionOptionType.Checkbox" />
-    <QuestionRange :questionItem="props.questionItem" v-if="props.questionItem.type==QuestionOptionType.Range" />
-    <QuestionOpen :questionItem="props.questionItem" v-if="props.questionItem.type==QuestionOptionType.Open" />
 </template>
 
 <style scoped>
-.chat-message-question {
+.chat-message-question-text {
     font-weight: bold;
     padding: 1rem;
 }
@@ -38,6 +41,24 @@ const props = defineProps<{ questionItem: QuestionItem }>()
 .chat-message-answer-button {
     cursor: pointer;
 }
+
+.chat-message-question {
+    display: block;
+    padding: 0.5rem 1rem;
+    margin-right: 3rem;
+    margin-left: 3rem;
+    line-height: 1.4rem;
+    max-width: 40%;
+    background-color: var(--chat-bubble-background-color);
+    box-shadow: 0 0 5px gray;
+    line-height: 1.4rem;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    align-self: flex-end;
+    height: fit-content;
+}
+
+.chat-message-answer-button {}
 
 
 /* mobile*/
@@ -67,4 +88,5 @@ const props = defineProps<{ questionItem: QuestionItem }>()
         width: 14.5rem;
         font-size: x-small;
     }
-}</style>
+}
+</style>

@@ -1,5 +1,5 @@
 import { scrollToMessage } from "@/helpers/scrollToMessage";
-import { ChatHistory, ChatMessage } from "@/models/chat";
+import { Answer, ChatHistory, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
@@ -8,6 +8,7 @@ import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
+import { QuestionItem } from "@/models/questionnaire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -35,7 +36,7 @@ export const Chat: ChatState = reactive(initChatState());
  * Sends a message to the chatbot
  * @param message Message content
  */
-export function sendChatMessage(message: string) {
+export function sendChatMessage(message: string, answer? : Answer) {
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
@@ -285,6 +286,7 @@ function clearCache(id: string) {
 }
 
 export async function getQuestionnaire() {
+    
     const questionnaire = await AireServices.Memory?.getQuestionnaire("d65b8044-3679-4cdf-8422-0f472aec6edb");
     
 
@@ -304,8 +306,16 @@ export async function getQuestionnaire() {
             })
         }))
     }
+}
 
-    
+export async function answerQuestion(questionItem:QuestionItem, answer:Answer) {
+    const message = Chat.messages.find(x => x.questionItem?.id == questionItem.id);
+    if(message) {
+        answer.question = JSON.stringify(questionItem);
+        message.answer = answer;
+        Chat.modified = true;
+        startAutoSaveTimer();
+    }
 }
 
 /**

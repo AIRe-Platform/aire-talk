@@ -1,29 +1,42 @@
 <script setup lang="ts">
 
-import { defineComponent, defineProps } from 'vue';
-import { QuestionItem } from "@/models/questionnaire";
-defineComponent({ name: "QuestionRange" });
+import { defineProps } from 'vue';
+import { ChatMessage, Answer } from "@/models/chat";
+import { answerQuestion } from '@/context/chat';
 
-const props = defineProps<{ questionItem: QuestionItem }>()
+const props = defineProps<{ message: ChatMessage }>()
 
-/**
- * Method to select the answer between the answers.
- */
- const clickAnswer = (e: Event, answer: number) => {
-    console.log(e);
-    console.log(answer);
-    
-};
+const submitAnswer = (answer:number) => {
+    const answerObject: Answer = {
+        question_id: props.message.questionItem?.id,
+        type: props.message.questionItem?.type,
+        answer: answer,
+        options: props.message.questionItem?.options,
+        question: props.message.questionItem?.question
+
+    }
+    if (props.message.questionItem)
+        answerQuestion(props.message.questionItem,answerObject);
+}
+
+function getRange() : number {
+    const min = props.message.questionItem?.options.min;
+    const max = props.message.questionItem?.options.max;
+    if (min != null && max != null)
+        return max-min;
+    else return 0;
+}
 
 </script>
 
 <template>
     <div class="chat-message-answers">
-        <div class="chat-message-answer" v-for="answer, id in props.questionItem.options.max-props.questionItem.options.min" :key="id">
-            <button @click="(e) => clickAnswer(e, answer)" class="chat-message-answer-button" :class="{ 'is-selected': answer }" v-if="answer">
+        <div class="chat-message-answer" v-for="answer, id in getRange()" :key="id">
+            <button @click="(e) => submitAnswer(answer)" class="chat-message-answer-button" :class="{ 'is-selected': answer }" v-if="answer">
                 {{ answer }}
             </button>
         </div>
+        <span v-if="props.message.answer?.answer">You answered: {{ props.message.answer.answer }}</span>
     </div>
 </template>
 
