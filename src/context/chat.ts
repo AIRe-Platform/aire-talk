@@ -287,29 +287,6 @@ function clearCache(id: string) {
     Chat.cache.delete(id)
 }
 
-export async function getQuestionnaire() {
-    
-    const questionnaire = await AireServices.Memory?.getQuestionnaire("d65b8044-3679-4cdf-8422-0f472aec6edb");
-    
-
-    if(questionnaire?.content) {
-        questionnaire.content.map((c => {
-            c.questions.map(qi => {
-                const msg: ChatMessage = {
-                    id: generateRandomID(),
-                    sender: BOT_NAME,
-                    role: "assistant",
-                    message: "Question",
-                    questionItem: qi,
-                    timestamp: Date.now(),
-                    rating: 0
-                };
-                Chat.messages.push(msg);
-            })
-        }))
-    }
-}
-
 export async function answerQuestion(questionItem:QuestionItem, answer:any) {
     const answerObject: Answer = {
         question_id: questionItem.id,

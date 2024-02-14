@@ -47,7 +47,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.question)">
+            <span class="chat-message-text" v-if="!(message.questionItem)">
                 {{
                     isSystem
                     ? (message.message === l.system_topic && Chat.topic
