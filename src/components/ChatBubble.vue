@@ -5,7 +5,6 @@ import { defineProps, onMounted, ref } from 'vue';
 import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import BubbleModal from './BubbleModal.vue';
-import SurveyQuestion from './SurveyQuestion.vue'
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
 import ConfirmDialog from './ConfirmDialog.vue';
 
@@ -48,7 +47,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.question)">
+            <span class="chat-message-text" v-if="!(message.questionItem)">
                 {{
                     isSystem
                     ? (message.message === l.system_topic && Chat.topic
@@ -65,7 +64,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     <source v-bind:src="message.video" type="video/mp4">
                 </video>
             </div>
-            <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
             {{ $t(l.popup_confirm_revert_message) }}
@@ -155,16 +153,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     padding: 1rem;
 }
 
-.chat-message-answers {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-}
-
-.chat-message-answer-button {
-    cursor: pointer;
-}
-
 /* mobile*/
 @media screen and (max-width: 600px) {
     .chat-bubble {
@@ -177,23 +165,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     }
 
     .chat-bubble-content {
-        font-size: x-small;
-    }
-
-    .chat-message-answers {
-        display: flex;
-        flex-direction: column;
-        padding-left: 1rem;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .chat-message-answer {
-        margin-top: 0.3rem;
-    }
-
-    .chat-message-answer-button {
-        width: 14.5rem;
         font-size: x-small;
     }
 

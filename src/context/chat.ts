@@ -1,5 +1,5 @@
 import { scrollToMessage } from "@/helpers/scrollToMessage";
-import { ChatHistory, ChatMessage } from "@/models/chat";
+import { Answer, ChatHistory, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
@@ -8,6 +8,7 @@ import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatAbstract } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
+import { QuestionItem } from "@/models/questionnaire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -37,7 +38,7 @@ export const Chat: ChatState = reactive(initChatState());
  * Sends a message to the chatbot
  * @param message Message content
  */
-export function sendChatMessage(message: string) {
+export function sendChatMessage(message: string, answer? : Answer) {
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
@@ -288,7 +289,8 @@ export async function saveChat() {
                     role: x.role,
                     content: x.message,
                     timestamp: x.timestamp,
-                    rating: x.rating
+                    rating: x.rating,
+                    questionnaire_answer: x.answer
                 };
                 return m;
             });
@@ -345,7 +347,8 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 role: x.role as AireRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
-                rating: x.rating || 0
+                rating: x.rating || 0,
+                answer: x.questionnaire_answer
             };
             return m;
         });
@@ -440,6 +443,24 @@ function setCache(chat: ChatHistory, id?: string) {
  */
 function clearCache(id: string) {
     Chat.cache.delete(id)
+}
+
+export async function answerQuestion(questionItem:QuestionItem, answer:any) {
+    const answerObject: Answer = {
+        question_id: questionItem.id,
+        type: questionItem.type,
+        answer: answer,
+        options: questionItem.options,
+        question: questionItem.question,
+        prompt: questionItem.prompt
+    }
+
+    const message = Chat.messages.find(x => x.questionItem?.id == questionItem.id);
+    if(message) {
+        message.answer = answerObject;
+        Chat.modified = true;
+        startAutoSaveTimer();
+    }
 }
 
 /**

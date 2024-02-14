@@ -1,6 +1,7 @@
 import { AireModule, AireModuleType } from "./models/service";
 import { AireChatHistory, AireChatMetadata } from "./models/chat";
 import { AireServices } from ".";
+import { Questionnaire } from "@/models/questionnaire";
 
 export class AireMemory {
     private config: AireModule;
@@ -112,6 +113,33 @@ export class AireMemory {
             .then(async (response) => {
                 if (response.status !== 204)
                     throw Error("Failed to delete chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+    }
+
+    public async getQuestionnaire(id: string): Promise<Questionnaire | undefined> {
+        const token = AireServices.ID?.getAccessToken()
+
+        if (!token) return undefined
+
+        const url = new URL(this.config.endpoint + "/v1/questionnaire/" + id);
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Authorization": `Bearer ${token}`
+        };
+
+        return await fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as Questionnaire;
+                else
+                    throw Error("Failed to retrieve chat log");
             })
             .catch(reason => {
                 console.error(reason);

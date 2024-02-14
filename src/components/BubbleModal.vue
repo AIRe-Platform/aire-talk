@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SurveyQuestion from './SurveyQuestion.vue'
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
 
@@ -37,7 +36,6 @@ const close = (e: Event) => {
                                         <source v-bind:src="props.parent.video" type="video/mp4">
                                     </video>
                                 </div>
-                                <SurveyQuestion v-if="props.parent.question" :question="props.parent.question" />
                             </div>
                         </div>
                         <div class="modal-button" @click="close">
