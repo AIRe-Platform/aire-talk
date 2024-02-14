@@ -2,20 +2,17 @@
 import { ref } from 'vue';
 import { l } from '@/locales';
 import { UIState } from '@/context/ui';
+import { Chat, getAbstract } from '@/context/chat';
 
 const isSmallDevice = ref(window.innerWidth < 600 ? true : false);
 const isSumaryyOpen = ref(isSmallDevice.value ? false : true);
 //To read form the imput a text and save it in a string.
-let summaryText = ref<string[]>([]);
 export interface Word {
     id: number,
     word: string,
     isSelected: boolean,
 }
 
-//Arrays of Word: to do the selection  of words.
-let selectedTextArray = ref<Array<Word>>([]);
-let selectedWordsArray = ref<Array<Word>>([]);
 
 /**
  * Toogle the summary panel:
@@ -27,64 +24,28 @@ const toggleSummary = () => {
     isSumaryyOpen.value = !isSumaryyOpen.value;
 };
 
-/**
- * Load a file in the summary to read its content and save in an array of Words.
- */
-const loadTextFromFile = (e: Event) => {
-    if (!e.target) return
+const loadTextFromSummary = () => {
+    clearSummary();
+    clearKeywords();
 
-    const input = e.target as HTMLInputElement
-    if (!input.files) return
+    getAbstract();
 
-    const file = input.files[0];
-    let reader = new FileReader();
-
-    reader.readAsText(file);
-
-    reader.onload = (res) => {
-        if (res.target?.result == null)
-            return;
-        let text = res.target.result;
-
-        if (typeof text === 'string')
-            summaryText.value = text.split(" ");
-
-        for (let i = 0; i < summaryText.value.length; i++) {
-            let wordTemp = { id: i, word: summaryText.value[i], isSelected: false };
-            selectedTextArray.value.push(wordTemp);
-        }
-    };
+    //getSummary();
+    //getKeywords(false);
 }
 
-/**
- * Select the Word word. Puts it activate(some css)in selectedTextArray. and it saves in the array of selectedWordsArray.
- * @param word 
- */
-const selectedWord = (word: Word) => {
+const removeWord = (word: string) => {
+    if(Chat.keywords){     
+        Chat.keywords.splice(Chat.keywords.indexOf(word), 1);
+    } 
+}
 
-    const found = selectedWordsArray.value.find((element) => element.id == word.id);
-    if (!found) {
-        selectedWordsArray.value.push(word);
-        let wordTemp = { id: word.id, word: word.word, isSelected: true };
-        selectedTextArray.value.splice(selectedTextArray.value.indexOf(word), 1, wordTemp);
-    }
-    else
-        console.log("word ALREADY SELECTED");
-};
-
-/**
- * Remove the Word word form the selectedWordsArray. Also unactivate it in selectedTextArray.
- */
-const removeWord = (word: Word) => {
-
-    selectedWordsArray.value.splice(selectedWordsArray.value.indexOf(word), 1);
-    const found = selectedTextArray.value.find((element) => element.id == word.id);
-
-    if (!found)
-        return;
-    let wordTemp = { id: word.id, word: word.word, isSelected: false };
-    selectedTextArray.value.splice(selectedTextArray.value.indexOf(found), 1, wordTemp);
-};
+const clearSummary = () => {
+    Chat.summary = undefined;
+}
+const clearKeywords = () => {
+    Chat.keywords = undefined;
+}
 </script>
 
 <template>
@@ -94,37 +55,28 @@ const removeWord = (word: Word) => {
                 {{ $t(l.summary_chag_log_title) }}
             </div>
             <div class="summary-chat-log-content">
-                <label class="text-reader">
-                    <input type="file" @change="loadTextFromFile">
-                </label>
                 <div class="summary-chat-log-text">
-                    <div class="summary-chat-log-word" v-for=" word, id  in selectedTextArray" :key="id">
-                        <div class="summary-chat-log-button" @click="selectedWord(word)"
-                            :class="{ 'is-selected': word.isSelected }">
-                            {{ word.word }}
-                        </div>
-                    </div>
+                    {{ Chat.summary }}
                 </div>
-                <div class="summary-chat-log-array-words">
-                    <div class="summary-chat-log-array-words-wrapper" v-for=" word, id  in selectedWordsArray" :key="id">
-                        <div class="summary-chat-log-array-word-wrapper">
-                            <div class="summary-chat-log-array-word">
-                                {{ word.word }}
-                            </div>
-                            <div class="summary-chat-log-array-word-button" @click="removeWord(word)">
+                <div class="summary-chat-log-key-words" >
+                    <div class="summary-chat-log-word" v-for=" word, id  in Chat.keywords" :key="id">
+                        <button class="summary-chat-log-word-button">
+                            {{ word }}
+                            <div class="summary-chat-log-word-button-action" @click="removeWord(word)">
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                             </div>
-                        </div>
+                        </button>
                     </div>
                 </div>
-                <div class="summary-chat-log-button">
-                    <button @click="loadTextFromFile">
-                        {{ $t(l.summary_log_button) }}
-                    </button>
-                </div>
+            </div>
+            <div class="summary-chat-log-button">
+                <button @click="loadTextFromSummary">
+                    {{ $t(l.summary_log_button) }}
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" class="chat-bubble-options-icon" />
+                </button>
             </div>
         </div>
-        <div class="summary-cbr-icf-panel">
+        <div class="summary-cbr-icf-panel" style="display: none;">
             <div class="summary-cbr-icf-title">
                 {{ $t(l.summary_classification_title) }}
             </div>
@@ -156,21 +108,22 @@ const removeWord = (word: Word) => {
 .summary-wrapper {
     position: absolute;
     top: 0;
-    right: 4rem;
-    width: 15%;
-    height: auto;
-    margin: 1rem;
+    right: 0rem;
+    width: 14rem;
+    height: 80%;
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .summary-chat-log-panel {
-    background-color: var(--panel-background-color);
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    padding: 2rem;
     min-height: 50%;
+    background-color: var(--panel-background-color);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    padding: 1rem;
 }
 
 .summary-chat-log-title {
@@ -182,17 +135,12 @@ const removeWord = (word: Word) => {
 .summary-chat-log-content {
     display: flex;
     flex-direction: column;
+    font-size: x-small;
 }
 
 .summary-chat-log-text {
     display: flex;
     flex-wrap: wrap;
-}
-
-.summary-chat-log-words {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 1rem;
 }
 
 .summary-chat-log-word {
@@ -203,11 +151,24 @@ const removeWord = (word: Word) => {
     height: 2rem;
 }
 
-.summary-chat-log-array-words {
+.summary-chat-log-word-button{
+    display: flex;
+    flex-direction: row;
+    cursor: unset;
+    justify-content: space-between;
+    width: fit-content;
+    align-items: center;
+}
+
+.summary-chat-log-word-button-action{
+    cursor: pointer;
+}
+.summary-chat-log-key-words {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     margin-bottom: 3rem;
+    margin-top: 2rem;
 }
 
 .summary-chat-log-array-words-wrapper {
@@ -217,10 +178,6 @@ const removeWord = (word: Word) => {
 
 .summary-chat-log-array-word {
     margin-right: 1rem;
-}
-
-.summary-chat-log-array-word-button {
-    cursor: pointer;
 }
 
 .summary-chat-log-array-word-wrapper {
@@ -241,9 +198,14 @@ const removeWord = (word: Word) => {
 
 .summary-cbr-icf-panel {
     background-color: var(--panel-background-color);
-    border-radius: 10px;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    padding: 1rem;
+    margin-top: 2rem;
     margin-bottom: 2rem;
-    padding: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .summary-cbr-icf-title {

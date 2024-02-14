@@ -6,7 +6,7 @@ import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
-import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatAbstract } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
 
 const BOT_NAME = "aire_bot"
@@ -27,6 +27,8 @@ export interface ChatState {
         occupation: string;
     };
     topic?: Topic;
+    summary?: string;
+    keywords?: Array<string>;
 }
 
 export const Chat: ChatState = reactive(initChatState());
@@ -77,6 +79,163 @@ export function sendChatMessage(message: string) {
     } else {
         console.warn("AI service is unavailable");
     }
+}
+
+
+/**
+ * Get the summary from this Chat
+ */
+export async function getSummary() {
+    Chat.awaitingResponse = true;
+
+    const messages = Chat.messages
+    .filter(x => x.role === "assistant" || x.role === "user")
+    .map(x => {
+        const m: AireChatMessage = {
+            role: x.role,
+            content: x.message
+        };
+        return m;
+    })
+    if (AireServices.AI) {
+        const loc = i18n.global.locale as any;
+        const messages = Chat.messages
+            .filter(x => x.role === "assistant" || x.role === "user")
+            .map(x => {
+                const m: AireChatMessage = {
+                    role: x.role,
+                    content: x.message
+                };
+                return m;
+            })
+
+        const input: AireChatbotInput = {
+            chat: messages,
+            context: {
+                age: Chat.landingInfo?.age,
+                occupation: Chat.landingInfo?.occupation,
+                topic: Chat.topic?.name,
+                language: loc.value
+            }
+        };
+        await AireServices.AI.summary(input)
+        .then((result) => {
+        if (result) {
+            Chat.summary = result;
+        }else{
+            console.warn("There is no generated summary.")
+        }
+    }) 
+    } else {
+        console.warn("AI service is unavailable");
+    }
+    Chat.awaitingResponse = false;
+}
+
+/**
+ * Get the keywords from this Chat
+ */
+export async function getKeywords(addRandomness: boolean ) {
+    Chat.awaitingResponse = true;
+
+    const messages = Chat.messages
+    .filter(x => x.role === "assistant" || x.role === "user")
+    .map(x => {
+        const m: AireChatMessage = {
+            role: x.role,
+            content: x.message
+        };
+        return m;
+    })
+    if (AireServices.AI) {
+        const loc = i18n.global.locale as any;
+        const messages = Chat.messages
+            .filter(x => x.role === "assistant" || x.role === "user")
+            .map(x => {
+                const m: AireChatMessage = {
+                    role: x.role,
+                    content: x.message
+                };
+                return m;
+            })
+
+        const input: AireChatbotInput = {
+            chat: messages,
+            context: {
+                age: Chat.landingInfo?.age,
+                occupation: Chat.landingInfo?.occupation,
+                topic: Chat.topic?.name,
+                language: loc.value
+            }
+        };
+        await AireServices.AI.keywords(input, addRandomness)
+            .then((result) => {
+            if (result) {
+                const keywords: Array<string> = [];
+                for(let i=0; i<result.length; i++){
+                    keywords.push(result[i]);
+                }
+                Chat.keywords = keywords;
+            }else{
+                console.warn("There is no generated abstract.")
+            }
+        })  
+    } else {
+        console.warn("AI service is unavailable");
+    }
+    Chat.awaitingResponse = false;
+}
+
+/**
+ * Get the abstract from this Chat: summary and keywords
+ */
+export async function getAbstract() {
+    Chat.awaitingResponse = true;
+
+    const messages = Chat.messages
+    .filter(x => x.role === "assistant" || x.role === "user")
+    .map(x => {
+        const m: AireChatMessage = {
+            role: x.role,
+            content: x.message
+        };
+        return m;
+    })
+    if (AireServices.AI) {
+        const loc = i18n.global.locale as any;
+        const messages = Chat.messages
+            .filter(x => x.role === "assistant" || x.role === "user")
+            .map(x => {
+                const m: AireChatMessage = {
+                    role: x.role,
+                    content: x.message
+                };
+                return m;
+            })
+
+        const input: AireChatbotInput = {
+            chat: messages,
+            context: {
+                age: Chat.landingInfo?.age,
+                occupation: Chat.landingInfo?.occupation,
+                topic: Chat.topic?.name,
+                language: loc.value
+            }
+        };
+        
+        await AireServices.AI.generateAbstract(input)
+            .then((result) => {
+            if (result) {
+                Chat.keywords = result.keywords;
+                Chat.summary = result.summary;
+            }else{
+                console.warn("There is no generated abstract.")
+            }
+        })      
+    } else {
+        console.warn("AI service is unavailable");
+    }
+    Chat.awaitingResponse = false;
 }
 
 /**
@@ -158,7 +317,6 @@ export async function openChat(id: string): Promise<boolean> {
     await resetChatState(false, false)
     Chat.id = id
     Chat.messages = getCache(id)!
-
     return true
 }
 
@@ -403,9 +561,10 @@ async function resetChatState(skip_save: boolean = false, clear_cache = true) {
     Chat.awaitingResponse = false;
     Chat.scrolling = false;
     Chat.modified = false;
-    Chat.landingInfo = undefined
-    Chat.topic = undefined
-
+    Chat.landingInfo = undefined;
+    Chat.topic = undefined;
+    Chat.summary = undefined;
+    Chat.keywords = undefined;
     if (clear_cache)
         Chat.cache.clear()
 }

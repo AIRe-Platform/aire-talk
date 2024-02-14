@@ -51,3 +51,8 @@ export interface AireChatMetadata {
     time: string;
     chatMessages?: AireChatHistory;
 }
+
+export interface AireChatAbstract {
+    keywords: Array<string>;
+    summary: string
+}

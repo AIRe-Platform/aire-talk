@@ -3,6 +3,7 @@ import { defineComponent } from 'vue';
 import { Chat } from '@/context/chat';
 import ChatBubble from '@/components/ChatBubble.vue'
 import ChatInput from '@/components/ChatInput.vue'
+import ChatSummary from '@/components/ChatSummary.vue'
 import { UIState } from '@/context/ui';
 import { ChatMessage } from '@/models/chat';
 defineComponent({ name: "ChatView" })
@@ -22,6 +23,7 @@ const canRevert = (msg: ChatMessage) => {
         </div>
         <ChatInput v-bind:class="(UIState.isSummaryOpen) ? 'add-opacity' : 'no-opacity'" />
     </div>
+    <ChatSummary />
 </template>
 
 <style scoped>
