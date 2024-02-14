@@ -153,16 +153,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     padding: 1rem;
 }
 
-.chat-message-answers {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-}
-
-.chat-message-answer-button {
-    cursor: pointer;
-}
-
 /* mobile*/
 @media screen and (max-width: 600px) {
     .chat-bubble {
@@ -175,23 +165,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     }
 
     .chat-bubble-content {
-        font-size: x-small;
-    }
-
-    .chat-message-answers {
-        display: flex;
-        flex-direction: column;
-        padding-left: 1rem;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .chat-message-answer {
-        margin-top: 0.3rem;
-    }
-
-    .chat-message-answer-button {
-        width: 14.5rem;
         font-size: x-small;
     }
 

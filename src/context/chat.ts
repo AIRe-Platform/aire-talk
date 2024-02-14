@@ -130,7 +130,8 @@ export async function saveChat() {
                     role: x.role,
                     content: x.message,
                     timestamp: x.timestamp,
-                    rating: x.rating
+                    rating: x.rating,
+                    questionnaire_answer: x.answer
                 };
                 return m;
             });
@@ -188,7 +189,8 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 role: x.role as AireRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
-                rating: x.rating || 0
+                rating: x.rating || 0,
+                answer: x.questionnaire_answer
             };
             return m;
         });
@@ -297,7 +299,7 @@ export async function getQuestionnaire() {
                     id: generateRandomID(),
                     sender: BOT_NAME,
                     role: "assistant",
-                    message: "Please answer to this question",
+                    message: "Question",
                     questionItem: qi,
                     timestamp: Date.now(),
                     rating: 0
@@ -308,11 +310,19 @@ export async function getQuestionnaire() {
     }
 }
 
-export async function answerQuestion(questionItem:QuestionItem, answer:Answer) {
+export async function answerQuestion(questionItem:QuestionItem, answer:any) {
+    const answerObject: Answer = {
+        question_id: questionItem.id,
+        type: questionItem.type,
+        answer: answer,
+        options: questionItem.options,
+        question: questionItem.question,
+        prompt: questionItem.prompt
+    }
+
     const message = Chat.messages.find(x => x.questionItem?.id == questionItem.id);
     if(message) {
-        answer.question = JSON.stringify(questionItem);
-        message.answer = answer;
+        message.answer = answerObject;
         Chat.modified = true;
         startAutoSaveTimer();
     }

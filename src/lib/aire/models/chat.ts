@@ -1,4 +1,5 @@
-import { Questionnaire } from "@/models/questionnaire";
+import { Answer } from "@/models/chat";
+import { QuestionItem } from "@/models/questionnaire";
 
 export interface AireChatbot {
     name: string;
@@ -10,6 +11,7 @@ export interface AireChatMessage {
     timestamp?: number;
     content?: string;
     rating?: number;
+    questionnaire_answer?: Answer;
 }
 
 export interface AireChatInputContext

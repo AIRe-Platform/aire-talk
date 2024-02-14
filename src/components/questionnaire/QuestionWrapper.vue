@@ -14,15 +14,19 @@ const props = defineProps<{ message: ChatMessage }>()
 
 <template>
     <div class="chat-message-question">
-        <div class="chat-message-question-text " v-if="props.message.questionItem">
+        <div class="chat-message-question-text " v-if="props.message.questionItem && !props.message.answer?.answer">
             <span class="chat-message-text">
                 {{ props.message.questionItem.question }}
             </span>
         </div>
-        <QuestionCheckbox :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Checkbox" />
-        <QuestionRange :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Range" />
-        <QuestionOpen :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Open" />
-        <QuestionNumber :message="props.message" v-if="props.message.questionItem?.type == QuestionOptionType.Number" />
+        <QuestionCheckbox :message="props.message"
+            v-if="props.message.questionItem?.type == QuestionOptionType.Checkbox || props.message.answer?.type == QuestionOptionType.Checkbox" />
+        <QuestionRange :message="props.message"
+            v-if="props.message.questionItem?.type == QuestionOptionType.Range || props.message.answer?.type == QuestionOptionType.Range" />
+        <QuestionOpen :message="props.message"
+            v-if="props.message.questionItem?.type == QuestionOptionType.Open || props.message.answer?.type == QuestionOptionType.Open" />
+        <QuestionNumber :message="props.message"
+            v-if="props.message.questionItem?.type == QuestionOptionType.Number || props.message.answer?.type == QuestionOptionType.Number" />
     </div>
 </template>
 
@@ -38,8 +42,8 @@ const props = defineProps<{ message: ChatMessage }>()
     padding: 1rem;
 }
 
-.chat-message-answer-button {
-    cursor: pointer;
+.chat-message-answer {
+    display: flex;
 }
 
 .chat-message-question {
@@ -57,8 +61,6 @@ const props = defineProps<{ message: ChatMessage }>()
     align-self: flex-end;
     height: fit-content;
 }
-
-.chat-message-answer-button {}
 
 
 /* mobile*/
@@ -88,5 +90,4 @@ const props = defineProps<{ message: ChatMessage }>()
         width: 14.5rem;
         font-size: x-small;
     }
-}
-</style>
+}</style>

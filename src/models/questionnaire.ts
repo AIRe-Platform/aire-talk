@@ -1,5 +1,5 @@
 export interface QuestionItem {
-    id?: string;
+    id: string;
     question: string;
     keywords: Array<string>;
     prompt: string;
