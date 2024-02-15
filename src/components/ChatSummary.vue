@@ -1,25 +1,17 @@
 <script setup lang="ts">
 import { l } from '@/locales';
-import { UIState } from '@/context/ui';
 import { Chat, refreshAbstract } from '@/context/chat';
-import { onMounted } from 'vue';
+import { ref } from 'vue';
+import Spinner from './Spinner.vue';
 
-/**
- * Toogle the summary panel:
- * If device screen size  < 600px width it is hide by default. and you can activate with a button. 
- * If device screen >600px width then is always open and can not toggle.
- */
-const toggleSummary = () => {
-    UIState.isSummaryOpen = !UIState.isSummaryOpen;
-};
+const busy = ref(false);
 
-const loadSummary = () => {
+const loadSummary = async () => {
+    busy.value = true;
     clearSummary();
     clearKeywords();
-    refreshAbstract();
-
-    //getSummary();
-    //getKeywords(false);
+    await refreshAbstract();
+    busy.value = false;
 }
 
 const getQuerySurveys = () => {
@@ -38,68 +30,53 @@ const clearSummary = () => {
 const clearKeywords = () => {
     Chat.keywords = undefined;
 }
-
-onMounted(() => {
-    UIState.isSummaryOpen = !(window.innerWidth < 600)
-})
 </script>
 
 <template>
-    <div class="summary-panel-wraper" v-if="UIState.isSummaryOpen">
-        <div class="summary-panel">
-            <div class="summary-title">
-                {{ $t(l.summary_chag_log_title) }}
-            </div>
-            <div class="summary-text">
-                {{ Chat.summary }}
-            </div>
-            <div class="summary-keywords">
-                <div class="summary-keyword-item" v-for="word, id  in Chat.keywords" :key="id">
-                    <span class="summary-keyword-text">{{ word }}</span>
-                    <div class="summary-keyword-delete" @click="removeWord(word)">
-                        <font-awesome-icon icon="fa-solid fa-xmark" />
-                    </div>
+    <div class="summary-panel">
+        <div class="summary-title">
+            {{ $t(l.summary_chag_log_title) }}
+        </div>
+        <Spinner v-if="busy" />
+        <div class="summary-text" v-if="Chat.summary">
+            {{ Chat.summary }}
+        </div>
+        <div class="summary-keywords" v-if="Chat.keywords">
+            <div class="summary-keyword-item" v-for="word, id  in Chat.keywords" :key="id">
+                <span class="summary-keyword-text">{{ word }}</span>
+                <div class="summary-keyword-delete" @click="removeWord(word)">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
             </div>
-            <div class="summary-buttons">
-                <button class="summary-button" @click="loadSummary">
-                    <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
-                </button>
-                <button class="summary-button" @click="getQuerySurveys">
-                    <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
-                </button>
-            </div>
         </div>
-    </div>
-    <div class="summary-toggle-button">
-        <button class="summary-toggle-button-icon" @click="toggleSummary()">
-            <font-awesome-icon icon="fa-solid fa-sliders" />
-        </button>
+        <div class="summary-buttons" v-if="!busy">
+            <button class="summary-button" @click="loadSummary">
+                <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
+                <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
+            </button>
+            <button class="summary-button" @click="getQuerySurveys">
+                <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
+                <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
+            </button>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.summary-panel-wraper {
-    position: absolute;
-    top: 0;
-    right: 0rem;
-    width: 14rem;
-    height: 80%;
-    padding: 1rem;
+.summary-panel {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-}
+    flex-shrink: 0;
+    align-items: center;
 
-.summary-panel {
-    min-height: 50%;
+    width: 12rem;
+    padding: 1rem;
+    margin: 1rem;
+
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
-    padding: 1rem;
 }
 
 .summary-title {
@@ -179,35 +156,9 @@ onMounted(() => {
     margin-right: 0.5rem;
 }
 
-.summary-toggle-button {
-    display: none;
-}
-
-.summary-toggle-button-icon {
-    width: 1.3rem;
-    height: 1.3em;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    justify-content: center;
-}
-
-/* mobile*/
 @media screen and (max-width: 600px) {
-    .summary-toggle-button {
-        display: block;
-        position: absolute;
-        bottom: 7%;
-        right: 5%;
-        border-radius: 50px;
-    }
-
-    .summary-panel-wraper {
-        top: 0px;
-        right: 0;
-        left: 2.5rem;
-        width: 70%;
-        overflow: scroll;
+    .summary-panel {
+        width: unset;
     }
 
     .summary-title {

@@ -1,11 +1,13 @@
 import { reactive } from "vue";
 
 export interface UIStateOptions {
-    isBurgerMenuEnabled: boolean;
-    isSummaryOpen: boolean;
+    showMenu: boolean;
+    showChatHistory: boolean;
+    showContentCatalog: boolean;
 }
 
 export const UIState = reactive<UIStateOptions>({ 
-    isBurgerMenuEnabled: false,
-    isSummaryOpen: false
+    showMenu: true,
+    showChatHistory: false,
+    showContentCatalog: false
 })

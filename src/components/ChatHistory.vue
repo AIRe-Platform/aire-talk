@@ -4,6 +4,9 @@ import { defineEmits, onMounted, ref } from 'vue';
 import { Chat, deleteChat, getAllChats, loadChat, openChat, getCache } from '@/context/chat';
 import ConfirmDialog from './ConfirmDialog.vue';
 import { router } from '@/router';
+import { vOnClickOutside } from '@vueuse/components'
+import { UIState } from '@/context/ui';
+import Spinner from './Spinner.vue';
 
 const emit = defineEmits<{
     closePanel: [e: any]
@@ -11,6 +14,7 @@ const emit = defineEmits<{
 
 let delete_id: string | undefined;
 const showConfirmModal = ref(false)
+const busy = ref(false)
 
 interface ChatLogItem {
     id: string,
@@ -19,9 +23,9 @@ interface ChatLogItem {
 const items = ref<Array<ChatLogItem>>()
 
 const refresh = async () => {
+    busy.value = true
     const logs = await getAllChats()
-    const recent = logs.slice(0, Math.min(5, logs.length))
-    recent.forEach(x => {
+    logs.forEach(x => {
         loadChat(x.id)
     })
 
@@ -32,6 +36,7 @@ const refresh = async () => {
         }
         return item
     })
+    busy.value = false
 }
 onMounted(refresh)
 
@@ -49,6 +54,7 @@ const onSelect = async (id: string) => {
         router.push("/chat")
 
     emit("closePanel", undefined)
+    UIState.showChatHistory = false
 }
 
 const onConfirmDelete = () => {
@@ -79,20 +85,20 @@ const getLastMessage = (id: string) => {
     return ""
 }
 
+const onClickOutside = (e: Event) => {
+    e.stopImmediatePropagation()
+    UIState.showChatHistory = false
+}
+
 </script>
 
 <template>
     <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
-    <div class="restore-chat-panel">
-        <div class="restore-chat-row-top">
-            <h1> {{ $t(l.chat_history_title) }}</h1>
-            <div class="restore-chat-button-close hide-big-screen-devices" @click="(e: Event) => $emit('closePanel', e)">
-                <font-awesome-icon icon="fa-solid fa-xmark" />
-            </div>
-        </div>
+    <div class="restore-chat-panel" v-on-click-outside="onClickOutside">
         <div class="restore-chat-list">
+            <Spinner v-if="busy" />
             <div class="restore-chat-item" v-for="item in items" v-bind:key="item.id"
                 :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                 <div class="restore-chat-row">
@@ -117,10 +123,9 @@ const getLastMessage = (id: string) => {
 .restore-chat-panel {
     display: flex;
     flex-direction: column;
-    align-self: stretch;
     z-index: 2;
-    height: 80%;
-    width: 60vw;
+    height: 100%;
+    width: 24rem;
 
     background-color: var(--panel-background-color);
     border-radius: 1rem;
@@ -128,10 +133,13 @@ const getLastMessage = (id: string) => {
     box-shadow: 0 0 5px var(--shadow-color);
 
     overflow: hidden;
-    padding: 1rem 2rem;
+    margin: 1rem;
 }
 
 .restore-chat-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow: auto;
     padding: 1rem;
 }
@@ -141,7 +149,7 @@ const getLastMessage = (id: string) => {
     flex-direction: row;
     border-radius: 10px;
     box-shadow: 0 0 5px var(--shadow-color);
-    margin: 1rem 0rem;
+    margin-bottom: 1rem;
     background-color: var(--background-color);
     cursor: pointer;
     overflow: hidden;
@@ -202,13 +210,10 @@ const getLastMessage = (id: string) => {
 
 @media screen and (max-width: 600px) {
     .restore-chat-panel {
-        position: fixed;
-        top: 4rem;
-        left: 1rem;
-        right: 1rem;
         width: unset;
         z-index: 10;
         padding: 0.5rem;
+        height: 100%;
     }
 }
 </style>

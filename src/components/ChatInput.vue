@@ -15,8 +15,8 @@ function submit(event: Event) {
 
 <template>
     <div class="chat-input-wrapper">
-        <div class="chat-input-image-container">
-            <img class="chat-input-image" src="@/assets/images/aire-bot.png" alt="Logo">
+        <div class="chat-input-bot">
+            <img class="chatbot-icon" src="@/assets/images/aire-bot.png" alt="Logo">
         </div>
         <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
         <form class="chat-input-bar" @submit.prevent="submit">
@@ -28,13 +28,9 @@ function submit(event: Event) {
 
 <style scoped>
 .chat-input-wrapper {
-    margin: auto;
-    width: 80%;
-    max-width: 42rem;
-    border-radius: 10px;
+    border-radius: 1rem 1rem 0 0;
     box-shadow: 0 0 5px var(--shadow-color);
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin: 1rem 5px 0 5px;
     padding: 1rem;
     background-color: var(--background-color);
 }
@@ -53,30 +49,19 @@ function submit(event: Event) {
     flex-grow: 1;
 }
 
-.chat-input-image-container {
-    position: relative;
+.chat-input-bot {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 0;
+    overflow: visible;
 }
 
-.chat-input-image {
-    position: absolute;
+.chatbot-icon {
+    display: block;
     height: 6rem;
-    bottom: -1rem;
-    left: 45%;
+    padding-bottom: 3rem;
 }
 
-/* mobile*/
-@media screen and (max-width: 600px) {
-    .chat-input-wrapper {
-        width: 91%;
-        margin-bottom: 0rem;
-        left: 0;
-        bottom: 0;
-    }
-
-    .chat-input-image {
-        bottom: -1.5rem;
-        left: 8rem;
-        transform: scale(0.7);
-    }
-}
 </style>

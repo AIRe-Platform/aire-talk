@@ -19,8 +19,26 @@ const props = defineProps<{
 
 <style scoped>
 .menu-button {
+    position: absolute;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem;
+    left: 1.5rem;
+    top: 1.5rem;
     width: 3.5rem;
     height: 3.2rem;
+    z-index: 10;
+
+    background-color: var(--panel-background-color);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+
+    cursor: pointer;
 }
 
 .button-graphics {
@@ -96,5 +114,17 @@ const props = defineProps<{
 .menu-button-active .button-bar--3 {
     transform: rotate(-45deg);
     top: 50%;
+}
+
+@media screen and (max-width: 600px) {
+    .menu-button {
+        padding: 0.5rem;
+        left: 0.5rem;
+        top: 0.5rem;
+        width: 2.2rem;
+        height: 2rem;
+        border: none;
+        box-shadow: unset;
+    }
 }
 </style>

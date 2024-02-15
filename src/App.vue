@@ -3,28 +3,50 @@ import { AppState } from './main';
 import FooterBar from './components/FooterBar.vue';
 import Spinner from './components/Spinner.vue';
 import NavMenu from './components/NavMenu.vue';
+import ChatHistory from './components/ChatHistory.vue';
+import { UIState } from './context/ui';
 </script>
 
 <template>
-    <NavMenu />
-    <div id="content-wrapper">
-        <RouterView v-if="AppState === 'loaded'" />
-        <div class="panel main-content" v-if="AppState === 'init'">
-            <Spinner />
+    <div id="main" v-if="AppState === 'loaded'">
+        <NavMenu />
+        <div id="content-wrapper">
+            <RouterView />
+            <div id="floating-panels">
+                <ChatHistory v-if="UIState.showChatHistory" />
+            </div>
         </div>
-        <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
     </div>
+
+    <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>
+    <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
+
     <FooterBar />
 </template>
 
 <style src="@/style/default.css" />
 <style scoped>
+#main {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
+}
+
 #content-wrapper {
     display: flex;
+    flex-direction: row;
     flex-grow: 1;
-    flex-direction: column;
     overflow: auto;
-    margin: 0 8rem;
+}
+
+#floating-panels {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 100%;
 }
 
 .main-content {
@@ -37,6 +59,12 @@ import NavMenu from './components/NavMenu.vue';
     #content-wrapper {
         margin: 0.2rem;
         margin-top: 4rem;
+    }
+
+    #floating-panels {
+        top: 4rem;
+        bottom: 1rem;
+        left: 0;
     }
 }
 </style>

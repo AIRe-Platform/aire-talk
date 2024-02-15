@@ -194,6 +194,8 @@ defineComponent({ name: "ProfileView" })
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    margin: auto;
+    padding: 0 8rem;
 }
 
 .profile-content {
