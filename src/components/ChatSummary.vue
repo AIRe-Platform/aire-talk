@@ -23,13 +23,13 @@ const loadSummary = () => {
 }
 
 const getQuerySurveys = () => {
-  console.log("getQuerySurveys");
+    console.log("getQuerySurveys");
 }
 
 const removeWord = (word: string) => {
-    if(Chat.keywords){     
+    if (Chat.keywords) {
         Chat.keywords.splice(Chat.keywords.indexOf(word), 1);
-    } 
+    }
 }
 
 const clearSummary = () => {
@@ -50,31 +50,25 @@ onMounted(() => {
             <div class="summary-title">
                 {{ $t(l.summary_chag_log_title) }}
             </div>
-            <div class="summary-content">
-                <div class="summary-text">
-                    {{ Chat.summary }}
-                </div>
-                <div class="summary-key-words-panel" >
-                    <div class="summary-key-word" v-for=" word, id  in Chat.keywords" :key="id">
-                        <button class="summary-key-word-button">
-                            {{ word }}
-                            <div class="summary-key-word-button-action" @click="removeWord(word)">
-                                <font-awesome-icon icon="fa-solid fa-xmark" />
-                            </div>
-                        </button>
+            <div class="summary-text">
+                {{ Chat.summary }}
+            </div>
+            <div class="summary-keywords">
+                <div class="summary-keyword-item" v-for="word, id  in Chat.keywords" :key="id">
+                    <span class="summary-keyword-text">{{ word }}</span>
+                    <div class="summary-keyword-delete" @click="removeWord(word)">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>
             </div>
-            <div class="summary-chat-button">
-                <button @click="loadSummary">
-                    {{ $t(l.summary_log_button) }}
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate"/>
+            <div class="summary-buttons">
+                <button class="summary-button" @click="loadSummary">
+                    <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
-            </div>
-            <div class="summary-chat-button">
-                <button @click="getQuerySurveys">
-                    {{ $t(l.summary_query_surveys_button) }}
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate"/>
+                <button class="summary-button" @click="getQuerySurveys">
+                    <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
             </div>
         </div>
@@ -111,52 +105,80 @@ onMounted(() => {
 .summary-title {
     display: flex;
     justify-content: center;
-    font-size: larger;
-}
-
-.summary-content {
-    display: flex;
-    flex-direction: column;
-    font-size: x-small;
+    margin-bottom: 1rem;
 }
 
 .summary-text {
     display: flex;
+    font-size: small;
     flex-wrap: wrap;
+    line-height: 1.5rem;
+    text-align: justify;
 }
 
-.summary-key-word {
-    width: fit-content;
-    display: flex;
-    justify-content: center;
-    margin-right: 0.3rem;
-    height: 2rem;
-}
-
-.summary-key-word-button{
+.summary-keyword-item {
     display: flex;
     flex-direction: row;
-    cursor: unset;
-    justify-content: space-between;
-    width: fit-content;
-    align-items: center;
+    font-size: small;
+    justify-content: center;
+    align-items: stretch;
+    height: 2rem;
+    border-radius: 1rem;
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
 }
 
-.summary-key-word-button-action{
-    cursor: pointer;
+.summary-keyword-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-secondary-color);
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
-.summary-key-words-panel {
+
+.summary-keyword-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 2rem;
+    transition: color .2s;
+
+    &:hover {
+        color: var(--accent-secondary-color);
+    }
+}
+
+.summary-keywords {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    margin-bottom: 3rem;
-    margin-top: 2rem;
+    gap: 0.5rem;
+    margin: 1rem 0 1rem 0;
+    padding: 1rem 0 1rem 0;
+    border-top: 2px dotted var(--border-color);
+    border-bottom: 2px dotted var(--border-color);
 }
-.summary-chat-button {
+
+.summary-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.summary-button {
     display: flex;
     justify-content: center;
     cursor: pointer;
 }
+
+.summary-button-text {
+    margin-right: 0.5rem;
+}
+
 .summary-toggle-button {
     display: none;
 }
@@ -192,14 +214,14 @@ onMounted(() => {
         font-size: medium;
     }
 
-    .summary-key-word {
+    .summary-keyword {
         font-size: xx-small;
         margin: 0.2rem;
         padding: 0rem;
         height: 1rem;
     }
 
-    .summary-chat-button {
+    .summary-button {
         margin-top: 0rem;
     }
 

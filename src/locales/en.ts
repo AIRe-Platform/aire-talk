@@ -106,7 +106,7 @@ const en: Locale = {
 
     summary_chag_log_title: "Chat summary",
     summary_classification_title: "CBR / ICF classification",
-    summary_log_button: "catalogue log",
+    summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
 
     error_verification_failure: "Could not verify the code. It may be expired.",

@@ -106,7 +106,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     
     summary_chag_log_title: "Tóm tắt nhật ký trò chuyện",
     summary_classification_title: "Phân loại CBR/ICF",
-    summary_log_button: "nhật ký danh mục",
+    summary_generate_summary: "Tóm tắt",
     summary_query_surveys_button: "khảo sát truy vấn",
 
     error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",

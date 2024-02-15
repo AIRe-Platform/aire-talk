@@ -108,7 +108,7 @@ const es: Locale = {
 
     summary_chag_log_title: "Resumen chat",
     summary_classification_title: "CBR / ICF clasificación",
-    summary_log_button: "catalogue log",
+    summary_generate_summary: "Resumir",
     summary_query_surveys_button: "Consultar encuestas",
 
     error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
