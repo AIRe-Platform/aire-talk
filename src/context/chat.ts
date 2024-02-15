@@ -119,7 +119,7 @@ export async function getSummary() {
                 language: loc.value
             }
         };
-        await AireServices.AI.summary(input)
+        await AireServices.AI.generateSummary(input)
         .then((result) => {
         if (result) {
             Chat.summary = result;
@@ -169,7 +169,7 @@ export async function getKeywords(addRandomness: boolean ) {
                 language: loc.value
             }
         };
-        await AireServices.AI.keywords(input, addRandomness)
+        await AireServices.AI.generateKeywords(input, addRandomness)
             .then((result) => {
             if (result) {
                 const keywords: Array<string> = [];

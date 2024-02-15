@@ -19,7 +19,6 @@ export const AppState = ref<"init" | "loaded" | "error">("init");
 export async function initApp() {
     if (AppState.value !== "init")
         return;
-    
     const result = await initAire({
         api_url: (process.env.NODE_ENV === "production"
             ? "https://gl-dev-aire.azure-api.net/services/"

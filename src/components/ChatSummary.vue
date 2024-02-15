@@ -5,14 +5,7 @@ import { UIState } from '@/context/ui';
 import { Chat, getAbstract } from '@/context/chat';
 
 const isSmallDevice = ref(window.innerWidth < 600 ? true : false);
-const isSumaryyOpen = ref(isSmallDevice.value ? false : true);
-//To read form the imput a text and save it in a string.
-export interface Word {
-    id: number,
-    word: string,
-    isSelected: boolean,
-}
-
+const isSumaryOpen = ref(isSmallDevice.value ? false : true);
 
 /**
  * Toogle the summary panel:
@@ -21,17 +14,20 @@ export interface Word {
  */
 const toggleSummary = () => {
     UIState.isSummaryOpen = !UIState.isSummaryOpen;
-    isSumaryyOpen.value = !isSumaryyOpen.value;
+    isSumaryOpen.value = !isSumaryOpen.value;
 };
 
-const loadTextFromSummary = () => {
+const loadSummary = () => {
     clearSummary();
     clearKeywords();
-
     getAbstract();
 
     //getSummary();
     //getKeywords(false);
+}
+
+const getQuerySurveys = () => {
+  console.log("getQuerySurveys");
 }
 
 const removeWord = (word: string) => {
@@ -49,51 +45,37 @@ const clearKeywords = () => {
 </script>
 
 <template>
-    <div class="summary-wrapper" v-if="isSumaryyOpen">
-        <div class="summary-chat-log-panel">
-            <div class="summary-chat-log-title">
+    <div class="summary-panel-wraper" v-if="isSumaryOpen">
+        <div class="summary-panel">
+            <div class="summary-title">
                 {{ $t(l.summary_chag_log_title) }}
             </div>
-            <div class="summary-chat-log-content">
-                <div class="summary-chat-log-text">
+            <div class="summary-content">
+                <div class="summary-text">
                     {{ Chat.summary }}
                 </div>
-                <div class="summary-chat-log-key-words" >
-                    <div class="summary-chat-log-word" v-for=" word, id  in Chat.keywords" :key="id">
-                        <button class="summary-chat-log-word-button">
+                <div class="summary-key-words-panel" >
+                    <div class="summary-key-word" v-for=" word, id  in Chat.keywords" :key="id">
+                        <button class="summary-key-word-button">
                             {{ word }}
-                            <div class="summary-chat-log-word-button-action" @click="removeWord(word)">
+                            <div class="summary-key-word-button-action" @click="removeWord(word)">
                                 <font-awesome-icon icon="fa-solid fa-xmark" />
                             </div>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="summary-chat-log-button">
-                <button @click="loadTextFromSummary">
+            <div class="summary-chat-button">
+                <button @click="loadSummary">
                     {{ $t(l.summary_log_button) }}
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" class="chat-bubble-options-icon" />
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate"/>
                 </button>
             </div>
-        </div>
-        <div class="summary-cbr-icf-panel" style="display: none;">
-            <div class="summary-cbr-icf-title">
-                {{ $t(l.summary_classification_title) }}
-            </div>
-            <div class="summary-cbr-icf-content">
-                <div class="summary-cbr-icf-logo">
-                    <img class="summary-cbr-icf-logo-image" src="@/assets/images/topic.png" alt="Logo">
-                </div>
-                <div class="summary-cbr-icf-text">
-                    <p> this is cbr/ocf clasificartion some text here lorem ipsum blab bla blasome text here lorem ipsum
-                        blab bla blasome text here lorem ipsum blab bla blasome text here lorem ipsum blab bla blasome text
-                        here lorem ipsum blab bla bla</p>
-                </div>
-                <div class="summary-cbr-icf-button">
-                    <button>
-                        CBR / ICF
-                    </button>
-                </div>
+            <div class="summary-chat-button">
+                <button @click="getQuerySurveys">
+                    {{ $t(l.summary_query_surveys_button) }}
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate"/>
+                </button>
             </div>
         </div>
     </div>
@@ -105,7 +87,7 @@ const clearKeywords = () => {
 </template>
 
 <style scoped>
-.summary-wrapper {
+.summary-panel-wraper {
     position: absolute;
     top: 0;
     right: 0rem;
@@ -117,7 +99,7 @@ const clearKeywords = () => {
     overflow: hidden;
 }
 
-.summary-chat-log-panel {
+.summary-panel {
     min-height: 50%;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
@@ -126,24 +108,24 @@ const clearKeywords = () => {
     padding: 1rem;
 }
 
-.summary-chat-log-title {
+.summary-title {
     display: flex;
     justify-content: center;
     font-size: larger;
 }
 
-.summary-chat-log-content {
+.summary-content {
     display: flex;
     flex-direction: column;
     font-size: x-small;
 }
 
-.summary-chat-log-text {
+.summary-text {
     display: flex;
     flex-wrap: wrap;
 }
 
-.summary-chat-log-word {
+.summary-key-word {
     width: fit-content;
     display: flex;
     justify-content: center;
@@ -151,7 +133,7 @@ const clearKeywords = () => {
     height: 2rem;
 }
 
-.summary-chat-log-word-button{
+.summary-key-word-button{
     display: flex;
     flex-direction: row;
     cursor: unset;
@@ -160,81 +142,25 @@ const clearKeywords = () => {
     align-items: center;
 }
 
-.summary-chat-log-word-button-action{
+.summary-key-word-button-action{
     cursor: pointer;
 }
-.summary-chat-log-key-words {
+.summary-key-words-panel {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     margin-bottom: 3rem;
     margin-top: 2rem;
 }
-
-.summary-chat-log-array-words-wrapper {
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
-}
-
-.summary-chat-log-array-word {
-    margin-right: 1rem;
-}
-
-.summary-chat-log-array-word-wrapper {
-    color: var(--text-color);
-    background-color: var(--background-color);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
-    transition: all 0.1s;
-    display: flex;
-}
-
-.summary-chat-log-button {
+.summary-chat-button {
     display: flex;
     justify-content: center;
     cursor: pointer;
 }
-
-.summary-cbr-icf-panel {
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
-    padding: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-
-.summary-cbr-icf-title {
-    display: flex;
-    justify-content: center;
-    font-size: larger;
-}
-
-.summary-cbr-icf-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.summary-cbr-icf-logo {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.summary-cbr-icf-button {
-    display: flex;
-    justify-content: center;
-    margin-top: 5rem;
-}
-
 .summary-toggle-button {
     position: absolute;
-    bottom: 4.5rem;
-    right: 0.5rem;
+    bottom: 7%;
+    right: 5%;
     border-radius: 50px;
 }
 
@@ -249,7 +175,7 @@ const clearKeywords = () => {
 
 /* mobile*/
 @media screen and (max-width: 600px) {
-    .summary-wrapper {
+    .summary-panel-wraper {
         top: 0px;
         right: 0;
         left: 2.5rem;
@@ -257,31 +183,19 @@ const clearKeywords = () => {
         overflow: scroll;
     }
 
-    .summary-chat-log-title {
+    .summary-title {
         font-size: medium;
     }
 
-    .summary-cbr-icf-text {
-        font-size: x-small;
-    }
-
-    .summary-cbr-icf-title {
-        font-size: medium;
-    }
-
-    .summary-chat-log-word {
+    .summary-key-word {
         font-size: xx-small;
         margin: 0.2rem;
         padding: 0rem;
         height: 1rem;
     }
 
-    .summary-chat-log-button {
+    .summary-chat-button {
         margin-top: 0rem;
-    }
-
-    .summary-chat-log-array-words {
-        font-size: xx-small;
     }
 
     input[type=submit],

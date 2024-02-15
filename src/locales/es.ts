@@ -106,9 +106,10 @@ const es: Locale = {
     topic_increased_weight: "Aumento de peso",
     topic_trouble_talking: "Problemas para hablar",
 
-    summary_chag_log_title: "Resumen chat log",
+    summary_chag_log_title: "Resumen chat",
     summary_classification_title: "CBR / ICF clasificación",
     summary_log_button: "catalogue log",
+    summary_query_surveys_button: "Consultar encuestas",
 
     error_verification_failure: "LOCALIZE TO ES: Could not verify the code. It may be expired.",
     error_verification_resend_failed: "LOCALIZE TO ES: Could not resend the code. Try again later",

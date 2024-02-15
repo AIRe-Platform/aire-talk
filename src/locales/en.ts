@@ -104,9 +104,11 @@ const en: Locale = {
     topic_increased_weight: "Increased weight",
     topic_trouble_talking: "Trouble talking",
 
-    summary_chag_log_title: "Chat log summary",
+    summary_chag_log_title: "Chat summary",
     summary_classification_title: "CBR / ICF classification",
     summary_log_button: "catalogue log",
+    summary_query_surveys_button: "Query surveys",
+
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed: "Could not resend the code. Try again later",
 

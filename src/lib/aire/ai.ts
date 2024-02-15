@@ -132,7 +132,7 @@ export class AireAI {
             });
     }
     
-    public async summary(chat: AireChatbotInput) {
+    public async generateSummary(chat: AireChatbotInput) {
         const url = new URL(this.config.endpoint + "/chat/summary");
         const headers: { [key: string]: string } = {
             "Accept": "text/event-stream",
@@ -160,7 +160,7 @@ export class AireAI {
             })
     }
 
-    public async keywords(chat: AireChatbotInput, regen?: boolean) {
+    public async generateKeywords(chat: AireChatbotInput, regen?: boolean) {
         
         let url;
         if(regen){
