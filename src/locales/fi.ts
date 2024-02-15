@@ -107,7 +107,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     summary_chag_log_title: "Chat log yhteenveto",
     summary_classification_title: "CBR / ICF luokittelu",
     summary_log_button: "catalogue log",
-    summary_query_surveys_button: "kyselytutkimuksia",
+    summary_query_surveys_button: "Hae kyselyitä",
 
     error_verification_resend_failed: "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_verification_failure: "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut.",

@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { l } from '@/locales';
 import { UIState } from '@/context/ui';
-import { Chat, getAbstract } from '@/context/chat';
-
-const isSmallDevice = ref(window.innerWidth < 600 ? true : false);
-const isSumaryOpen = ref(isSmallDevice.value ? false : true);
+import { Chat, refreshAbstract } from '@/context/chat';
+import { onMounted } from 'vue';
 
 /**
  * Toogle the summary panel:
@@ -14,13 +11,12 @@ const isSumaryOpen = ref(isSmallDevice.value ? false : true);
  */
 const toggleSummary = () => {
     UIState.isSummaryOpen = !UIState.isSummaryOpen;
-    isSumaryOpen.value = !isSumaryOpen.value;
 };
 
 const loadSummary = () => {
     clearSummary();
     clearKeywords();
-    getAbstract();
+    refreshAbstract();
 
     //getSummary();
     //getKeywords(false);
@@ -42,10 +38,14 @@ const clearSummary = () => {
 const clearKeywords = () => {
     Chat.keywords = undefined;
 }
+
+onMounted(() => {
+    UIState.isSummaryOpen = !(window.innerWidth < 600)
+})
 </script>
 
 <template>
-    <div class="summary-panel-wraper" v-if="isSumaryOpen">
+    <div class="summary-panel-wraper" v-if="UIState.isSummaryOpen">
         <div class="summary-panel">
             <div class="summary-title">
                 {{ $t(l.summary_chag_log_title) }}
@@ -80,7 +80,7 @@ const clearKeywords = () => {
         </div>
     </div>
     <div class="summary-toggle-button">
-        <button class="summary-toggle-button-icon" v-if="isSmallDevice" @click="toggleSummary()">
+        <button class="summary-toggle-button-icon" @click="toggleSummary()">
             <font-awesome-icon icon="fa-solid fa-sliders" />
         </button>
     </div>
@@ -158,10 +158,7 @@ const clearKeywords = () => {
     cursor: pointer;
 }
 .summary-toggle-button {
-    position: absolute;
-    bottom: 7%;
-    right: 5%;
-    border-radius: 50px;
+    display: none;
 }
 
 .summary-toggle-button-icon {
@@ -175,6 +172,14 @@ const clearKeywords = () => {
 
 /* mobile*/
 @media screen and (max-width: 600px) {
+    .summary-toggle-button {
+        display: block;
+        position: absolute;
+        bottom: 7%;
+        right: 5%;
+        border-radius: 50px;
+    }
+
     .summary-panel-wraper {
         top: 0px;
         right: 0;

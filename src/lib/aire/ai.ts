@@ -131,18 +131,20 @@ export class AireAI {
                     onError({ key: AireErrorKey.AiNotResponding });
             });
     }
-    
+
     public async generateSummary(chat: AireChatbotInput) {
         const url = new URL(this.config.endpoint + "/chat/summary");
         const headers: { [key: string]: string } = {
-            "Accept": "text/event-stream",
+            "Accept": "application/json",
             "Content-Type": "application/json"
         };
+
         if (AireServices.ID) {
             const token = AireServices.ID.getAccessToken();
             if (token)
                 headers["Authorization"] = `Bearer ${token}`
         }
+
         return await fetch(url, {
             method: "POST",
             headers: headers,
@@ -161,24 +163,18 @@ export class AireAI {
     }
 
     public async generateKeywords(chat: AireChatbotInput, regen?: boolean) {
-        
-        let url;
-        if(regen){
-            url = new URL(this.config.endpoint + "/chat/keywords/?" + regen);
-        } else{
-            url = new URL(this.config.endpoint + "/chat/keywords");
-        }
-            
-        console.log("url", url);
+        const url = new URL(this.config.endpoint + "/chat/keywords/?regen=" + (regen ? "1" : "0"));
         const headers: { [key: string]: string } = {
-            "Accept": "text/event-stream",
+            "Accept": "application/json",
             "Content-Type": "application/json"
         };
+
         if (AireServices.ID) {
             const token = AireServices.ID.getAccessToken();
             if (token)
                 headers["Authorization"] = `Bearer ${token}`
         }
+
         return await fetch(url, {
             method: "POST",
             headers: headers,
@@ -196,17 +192,19 @@ export class AireAI {
             })
     }
 
-    public async generateAbstract(chat: AireChatbotInput) : Promise<AireChatAbstract | undefined > { 
+    public async generateAbstract(chat: AireChatbotInput): Promise<AireChatAbstract | undefined> {
         const url = new URL(this.config.endpoint + "/chat/abstract");
         const headers: { [key: string]: string } = {
-            "Accept": "text/event-stream",
+            "Accept": "application/json",
             "Content-Type": "application/json"
         };
+
         if (AireServices.ID) {
             const token = AireServices.ID.getAccessToken();
             if (token)
                 headers["Authorization"] = `Bearer ${token}`
         }
+
         return await fetch(url, {
             method: "POST",
             headers: headers,
@@ -224,8 +222,32 @@ export class AireAI {
             })
     }
 
+    public async getBots(): Promise<AireChatbot[] | undefined> {
+        const url = new URL(this.config.endpoint + "/bot");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        };
 
-    private getBots(): Promise<AireChatbot[]> {
-        return new Promise((res) => res([]));
+        if (AireServices.ID) {
+            const token = AireServices.ID.getAccessToken();
+            if (token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
+
+        return await fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as AireChatbot[];
+                else
+                    throw Error("Failed to get the abstract chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
     }
 }

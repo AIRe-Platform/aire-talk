@@ -6,7 +6,7 @@ import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
-import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatAbstract } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
 import { QuestionItem } from "@/models/questionnaire";
 
@@ -38,7 +38,7 @@ export const Chat: ChatState = reactive(initChatState());
  * Sends a message to the chatbot
  * @param message Message content
  */
-export function sendChatMessage(message: string, answer? : Answer) {
+export function sendChatMessage(message: string, answer?: Answer) {
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
@@ -82,22 +82,9 @@ export function sendChatMessage(message: string, answer? : Answer) {
     }
 }
 
-
-/**
- * Get the summary from this Chat
- */
-export async function getSummary() {
+export async function refreshSummary() {
     Chat.awaitingResponse = true;
 
-    const messages = Chat.messages
-    .filter(x => x.role === "assistant" || x.role === "user")
-    .map(x => {
-        const m: AireChatMessage = {
-            role: x.role,
-            content: x.message
-        };
-        return m;
-    })
     if (AireServices.AI) {
         const loc = i18n.global.locale as any;
         const messages = Chat.messages
@@ -120,34 +107,22 @@ export async function getSummary() {
             }
         };
         await AireServices.AI.generateSummary(input)
-        .then((result) => {
-        if (result) {
-            Chat.summary = result;
-        }else{
-            console.warn("There is no generated summary.")
-        }
-    }) 
+            .then((result) => {
+                if (result) {
+                    Chat.summary = result;
+                } else {
+                    console.warn("There is no generated summary.")
+                }
+            })
     } else {
         console.warn("AI service is unavailable");
     }
     Chat.awaitingResponse = false;
 }
 
-/**
- * Get the keywords from this Chat
- */
-export async function getKeywords(addRandomness: boolean ) {
+export async function refreshKeywords(addRandomness: boolean) {
     Chat.awaitingResponse = true;
 
-    const messages = Chat.messages
-    .filter(x => x.role === "assistant" || x.role === "user")
-    .map(x => {
-        const m: AireChatMessage = {
-            role: x.role,
-            content: x.message
-        };
-        return m;
-    })
     if (AireServices.AI) {
         const loc = i18n.global.locale as any;
         const messages = Chat.messages
@@ -171,37 +146,25 @@ export async function getKeywords(addRandomness: boolean ) {
         };
         await AireServices.AI.generateKeywords(input, addRandomness)
             .then((result) => {
-            if (result) {
-                const keywords: Array<string> = [];
-                for(let i=0; i<result.length; i++){
-                    keywords.push(result[i]);
+                if (result) {
+                    const keywords: Array<string> = [];
+                    for (let i = 0; i < result.length; i++) {
+                        keywords.push(result[i]);
+                    }
+                    Chat.keywords = keywords;
+                } else {
+                    console.warn("There is no generated abstract.")
                 }
-                Chat.keywords = keywords;
-            }else{
-                console.warn("There is no generated abstract.")
-            }
-        })  
+            })
     } else {
         console.warn("AI service is unavailable");
     }
     Chat.awaitingResponse = false;
 }
 
-/**
- * Get the abstract from this Chat: summary and keywords
- */
-export async function getAbstract() {
+export async function refreshAbstract() {
     Chat.awaitingResponse = true;
 
-    const messages = Chat.messages
-    .filter(x => x.role === "assistant" || x.role === "user")
-    .map(x => {
-        const m: AireChatMessage = {
-            role: x.role,
-            content: x.message
-        };
-        return m;
-    })
     if (AireServices.AI) {
         const loc = i18n.global.locale as any;
         const messages = Chat.messages
@@ -223,16 +186,17 @@ export async function getAbstract() {
                 language: loc.value
             }
         };
-        
+
         await AireServices.AI.generateAbstract(input)
             .then((result) => {
-            if (result) {
-                Chat.keywords = result.keywords;
-                Chat.summary = result.summary;
-            }else{
-                console.warn("There is no generated abstract.")
-            }
-        })      
+                if (result) {
+                    Chat.keywords = result.keywords;
+                    Chat.summary = result.summary;
+                    return result;
+                } else {
+                    console.warn("There is no generated abstract.")
+                }
+            })
     } else {
         console.warn("AI service is unavailable");
     }
@@ -445,7 +409,7 @@ function clearCache(id: string) {
     Chat.cache.delete(id)
 }
 
-export async function answerQuestion(questionItem:QuestionItem, answer:any) {
+export async function answerQuestion(questionItem: QuestionItem, answer: any) {
     const answerObject: Answer = {
         question_id: questionItem.id,
         type: questionItem.type,
@@ -456,7 +420,7 @@ export async function answerQuestion(questionItem:QuestionItem, answer:any) {
     }
 
     const message = Chat.messages.find(x => x.questionItem?.id == questionItem.id);
-    if(message) {
+    if (message) {
         message.answer = answerObject;
         Chat.modified = true;
         startAutoSaveTimer();
