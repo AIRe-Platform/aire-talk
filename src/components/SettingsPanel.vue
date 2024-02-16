@@ -25,27 +25,56 @@ const onClickOutside = (e: Event) => {
 <template>
     <div class="settings-view" v-on-click-outside="onClickOutside">
         <div class="settings-content">
-            <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
-                <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">{{ lang.name }}</option>
-            </select>
-            <a class="nav-link" @click="toggleTheme">{{ $t("nav_theme") }}</a>
+            <div class="settings">
+                <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
+                    <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">{{ lang.name }}</option>
+                </select>
+                <a class="nav-link" @click="toggleTheme">{{ $t("nav_theme") }}</a>
+            </div>
+            <div class="settings-button" @click="onClickOutside">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+.settings-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    width: 2rem;
+    height: 1rem;
+    z-index: 10;
+    background-color: var(--panel-background-color);
+    border-radius: .5rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    cursor: pointer;
+    align-self: flex-start;
+}
 .settings-view {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    margin-top: auto;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+}
+
+.settings{
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-top: 87vh;
-    margin-bottom: 1rem;
+    justify-content: space-around;
+    height: 6rem;
+    margin-top: 2rem;
 }
 
 .settings-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 60%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
@@ -62,10 +91,17 @@ const onClickOutside = (e: Event) => {
     .settings-view {
         z-index: 8;
         margin-bottom: 2rem;
+        margin-top: 63vh;
+        width: 100vw;
+        height: 26vh;
     }   
      .settings-content {
-        width: 70%;
+        width: 75%;
         padding: 1rem 2rem;
+    }
+    .settings-button{
+        width: 1rem;
+        margin-left: 3rem;
     }
 }
 </style>

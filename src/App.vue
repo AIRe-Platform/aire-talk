@@ -49,6 +49,7 @@ import SettingsPanel from './components/SettingsPanel.vue';
     flex-direction: column;
     overflow: hidden;
     max-height: 100%;
+    min-height: 100vh;
 }
 
 .main-content {
@@ -67,6 +68,7 @@ import SettingsPanel from './components/SettingsPanel.vue';
         top: 4rem;
         bottom: 1rem;
         left: 0;
+        min-height: 87vh;
     }
 }
 </style>
