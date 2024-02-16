@@ -60,20 +60,19 @@ const toggleSettingsPanel = () => {
                         {{ $t(l.nav_signup) }}
                     </div>
                 </div>
-                <div class="nav-spacer"></div>
                 <div class="nav-item">
                     <div class="nav-link" @click="navigateTo('/chat')" v-if="Login.logged_in">
                         {{ $t(l.nav_chat) }}
                     </div>
                 </div>
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
-                    <a class="nav-link" href="#">
-                        {{ $t(l.nav_chat_history) }}
-                    </a>
-                </div>
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
                     <a class="nav-link" href="#">
                         {{ $t(l.nav_chat_new) }}
+                    </a>
+                </div>
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
+                    <a class="nav-link" href="#">
+                        {{ $t(l.nav_chat_history) }}
                     </a>
                 </div>
                 <div class="nav-spacer"></div>
