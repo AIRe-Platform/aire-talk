@@ -45,22 +45,14 @@ const toggleSettingsPanel = () => {
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
         <div class="nav-menu-bar">
             <div class="nav-link" @click="navigateTo('/')">
-                <div class="nav-logo">
-                    <img src="@/assets/images/aire-logo-512.png" alt="Logo">
+                <div class="nav-logo dotted-border-botton">
+                    <img src="@/assets/images/aire-logo-letter.png" alt="Logo">
                 </div>
             </div>
             <div class="nav-menu-list">
                 <div class="nav-item">
                     <div class="nav-link" @click="navigateTo('/')">
                         {{ $t(l.nav_home) }}
-                    </div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link" @click="navigateTo('/login')" v-if="!Login.logged_in">
-                        {{ $t(l.nav_login) }}
-                    </div>
-                    <div class="nav-link" @click="navigateTo('/profile')" v-if="Login.logged_in">
-                        {{ $t(l.nav_profile) }}
                     </div>
                 </div>
                 <div class="nav-item" v-if="!Login.logged_in">
@@ -91,15 +83,23 @@ const toggleSettingsPanel = () => {
                     </div>
                     -->
                 <div class="nav-spacer"></div>
+                <div class="nav-item">
+                    <div class="nav-link" @click="navigateTo('/login')" v-if="!Login.logged_in">
+                        {{ $t(l.nav_login) }}
+                    </div>
+                    <div class="nav-link" @click="navigateTo('/profile')" v-if="Login.logged_in">
+                        {{ $t(l.nav_profile) }}
+                    </div>
+                </div>
+                <div class="nav-item dotted-border-botton">
+                    <div class="nav-link" @click="toggleSettingsPanel">
+                        {{ $t(l.nav_preferences) }}
+                    </div>
+                </div>
                 <div class="nav-item" @click="onOpen" v-if="Login.logged_in">
                     <a href="#" class="nav-link" @click="logout">
                         {{ $t(l.nav_logout) }}
                     </a>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link" @click="toggleSettingsPanel">
-                        {{ $t(l.nav_preferences) }}
-                    </div>
                 </div>
             </div>
         </div>
@@ -123,6 +123,11 @@ const toggleSettingsPanel = () => {
         box-shadow 0.25s,
         width 0.25s,
         height 0.25s;
+}
+.dotted-border-botton{
+    border-bottom: 2px dotted var(--border-color);
+    padding-bottom: 2rem;
+
 }
 
 .nav-menu-open {

@@ -140,6 +140,7 @@ const onClickOutside = (e: Event) => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-items: stretch;
     overflow: auto;
     padding: 1rem;
 }
