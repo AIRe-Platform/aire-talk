@@ -5,6 +5,7 @@ import Spinner from './components/Spinner.vue';
 import NavMenu from './components/NavMenu.vue';
 import ChatHistory from './components/ChatHistory.vue';
 import { UIState } from './context/ui';
+import SettingsPanel from './components/SettingsPanel.vue';
 </script>
 
 <template>
@@ -14,6 +15,7 @@ import { UIState } from './context/ui';
             <RouterView />
             <div id="floating-panels">
                 <ChatHistory v-if="UIState.showChatHistory" />
+                <SettingsPanel v-if="UIState.showSettingsPanel" />
             </div>
         </div>
     </div>

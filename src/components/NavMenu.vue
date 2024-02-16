@@ -16,6 +16,7 @@ const onBlur = () => {
         UIState.showMenu = false;
         UIState.showChatHistory = false;
         UIState.showContentCatalog = false;
+        UIState.showSettingsPanel = false;
     }
 };
 
@@ -33,6 +34,10 @@ const navigateTo = (path: string) => {
     onBlur()
     router.push(path)
 }
+const toggleSettingsPanel = () => {
+    UIState.showSettingsPanel = !(UIState.showSettingsPanel);
+};
+
 </script>
 
 <template>
@@ -92,7 +97,7 @@ const navigateTo = (path: string) => {
                     </a>
                 </div>
                 <div class="nav-item">
-                    <div class="nav-link" @click="navigateTo('/settings')">
+                    <div class="nav-link" @click="toggleSettingsPanel">
                         {{ $t(l.nav_preferences) }}
                     </div>
                 </div>
@@ -102,7 +107,6 @@ const navigateTo = (path: string) => {
 </template>
 
 <style scoped>
-
 .nav-menu {
     display: flex;
     flex-direction: column;

@@ -8,7 +8,6 @@ import SignupView from './views/Signup.vue'
 import ProfileView from './views/Profile.vue'
 import ChatView from './views/Chat.vue'
 import LandingView from './views/Landing.vue'
-import SettingsView from './views/Settings.vue'
 import NotFoundView from './views/NotFound.vue'
 import VerificationCodeView from './views/VerificationCode.vue'
 import { nextTick } from 'vue'
@@ -40,10 +39,6 @@ export const router = createRouter({
         {
             path: '/landing', component: LandingView,
             name: "Landing"
-        },
-        {
-            path: '/settings', component: SettingsView,
-            name: "Settings", meta: { title: l.nav_preferences }
         },
         {
             path: '/verify', component: VerificationCodeView,

@@ -4,10 +4,12 @@ export interface UIStateOptions {
     showMenu: boolean;
     showChatHistory: boolean;
     showContentCatalog: boolean;
+    showSettingsPanel: boolean;
 }
 
 export const UIState = reactive<UIStateOptions>({ 
     showMenu: true,
     showChatHistory: false,
-    showContentCatalog: false
+    showContentCatalog: false,
+    showSettingsPanel: false,
 })
