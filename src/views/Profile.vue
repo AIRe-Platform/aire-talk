@@ -110,10 +110,10 @@ defineComponent({ name: "ProfileView" })
 
 <template>
     <div id="profile-view">
-        <h2>{{ $t(l.profile_title) }}</h2>
         <Spinner v-if="busy" />
         <div class="profile-content">
             <form id="profile-form" v-if="busy === false" @submit.prevent>
+                <h2>{{ $t(l.profile_title) }}</h2>
                 <span class="form-row">
                     <label for="first_name">{{ $t(l.profile_label_first_name) }}</label>
                     <input id="first_name" class="form-input" type="text" v-model="profile.first_name" autocomplete="given-name" />
@@ -190,12 +190,11 @@ defineComponent({ name: "ProfileView" })
 
 <style scoped>
 #profile-view {
-    padding: 1rem;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     margin: auto;
-    padding: 0 8rem;
+    padding: 4rem 8rem;
 }
 
 .profile-content {
@@ -208,11 +207,8 @@ defineComponent({ name: "ProfileView" })
 #profile-connections {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 4rem);
-    max-width: 600px;
-    border-radius: 1rem;
     background-color: var(--panel-background-color);
-    border: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
     padding: 1rem 1rem;
     margin-bottom: 1rem;
 }
@@ -233,14 +229,9 @@ defineComponent({ name: "ProfileView" })
     margin: 0.5rem 0;
 }
 
-h2 {
-    color: var(--accent-primary-color);
-}
-
 h3 {
     margin: 0;
     padding: 0 0 1rem 0;
-    color: var(--accent-secondary-color);
 }
 
 input,
