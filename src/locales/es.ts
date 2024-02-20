@@ -124,7 +124,8 @@ const es: Locale = {
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
     button_back: "Regresar",
-    button_continue: "Continuar"
+    button_continue: "Continuar",
+    button_close: "Cerrar"
 }
 
 export default es

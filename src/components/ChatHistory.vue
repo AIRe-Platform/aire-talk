@@ -138,8 +138,8 @@ const onClickOutside = (e: Event) => {
     display: flex;
     flex-direction: column;
     z-index: 2;
-    height: 100%;
     width: 24rem;
+    max-height: 100%;
 
     background-color: var(--panel-background-color);
     border-radius: 1rem;
@@ -147,7 +147,7 @@ const onClickOutside = (e: Event) => {
     box-shadow: 0 0 5px var(--shadow-color);
 
     overflow: hidden;
-    margin: 1rem;
+    margin: 0;
 }
 
 .restore-chat-list {
@@ -169,6 +169,7 @@ const onClickOutside = (e: Event) => {
     cursor: pointer;
     overflow: hidden;
     min-height: 4rem;
+    width: 100%;
 }
 
 .restore-chat-item-open {
@@ -228,7 +229,7 @@ const onClickOutside = (e: Event) => {
         width: unset;
         z-index: 10;
         padding: 0.5rem;
-        height: 100%;
+        max-height: 80%;
     }
 }
 </style>

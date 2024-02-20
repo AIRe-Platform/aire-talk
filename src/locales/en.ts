@@ -122,7 +122,8 @@ const en: Locale = {
     button_accept: "Accept",
     button_cancel: "Cancel",
     button_back: "Back",
-    button_continue: "Continue"
+    button_continue: "Continue",
+    button_close: "Close"
 }
 
 export default en

@@ -116,5 +116,6 @@ export enum LocalizationKey {
     button_accept = "button_accept",
     button_cancel = "button_cancel",
     button_back = "button_back",
-    button_continue = "button_continue"
+    button_continue = "button_continue",
+    button_close = "button_close"
 }

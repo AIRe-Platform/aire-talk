@@ -46,10 +46,13 @@ import SettingsPanel from './components/SettingsPanel.vue';
 #floating-panels {
     position: absolute;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
     overflow: hidden;
-    max-height: 100%;
-    min-height: 100vh;
+    padding: 1rem;
+    top: 0;
+    bottom: 0;
 }
 
 .main-content {
@@ -68,7 +71,10 @@ import SettingsPanel from './components/SettingsPanel.vue';
         top: 4rem;
         bottom: 1rem;
         left: 0;
-        min-height: 87vh;
+        right: 0;
+        
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>

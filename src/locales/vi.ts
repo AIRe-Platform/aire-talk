@@ -122,7 +122,8 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",
     button_back: "Quay lại",
-    button_continue: "Tiếp tục"
+    button_continue: "Tiếp tục",
+    button_close: "Đóng"
 }
 
 export default vi

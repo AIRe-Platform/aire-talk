@@ -122,7 +122,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
     button_back: "Takaisin",
-    button_continue: "Jatka"
+    button_continue: "Jatka",
+    button_close: "Sulje"
 }
 
 export default fi
