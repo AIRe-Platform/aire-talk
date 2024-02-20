@@ -183,10 +183,6 @@ const toggleSettingsPanel = () => {
         height: unset;
     }
 
-    .nav-menu-bar {
-        align-items: center;
-    }
-
     .nav-menu {
         margin: 0;
     }
@@ -196,7 +192,8 @@ const toggleSettingsPanel = () => {
     }
 
     .nav-menu-bar {
-        margin: 0.25rem;
+        margin: 0.25rem !important;
+        align-items: center;
     }
 
     .nav-logo {
