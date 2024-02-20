@@ -18,9 +18,11 @@ const menuOpen = ref(false)
 const copiedToClipboard = ref(false)
 const confirmRevertOpen = ref(false)
 
-const onToggleMenu = () => {
+const onToggleMenu = (e: Event) => {
+    e.stopImmediatePropagation();
     menuOpen.value = !menuOpen.value
 }
+
 const onThumbsUp = () => {
     setMessageRating(props.parent.id, 1);
 }
@@ -105,10 +107,17 @@ const onCancelRevert = () => {
 
     cursor: pointer;
 
-    background-color: var(--chat-bubble-background-color);
+    color: var(--chat-bubble-background-color);
+    background-color: var(--shadow-color);
     border: 1px solid transparent;
     box-shadow: 0 0 3px gray;
     border-radius: 0.6rem;
+
+    transition: background-color 0.25s;
+
+    &:hover {
+        background-color: var(--accent-primary-color);
+    }
 }
 
 .chat-bubble-options-menu {
@@ -122,7 +131,6 @@ const onCancelRevert = () => {
 
 .chat-bubble-options-icon {
     height: 0.8rem;
-    rotate: 90deg;
 }
 
 .chat-message-answer-options-menu-button {
