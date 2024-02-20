@@ -3,26 +3,13 @@ import { l } from "@/locales";
 import { Login, logout } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import MenuButton from "./MenuButton.vue";
-import ToggleSwitch from "./ToggleSwitch.vue";
 import { UIState } from "@/context/ui";
-import { onMounted, ref } from "vue";
-
-const showSwitchMode = ref(false);
-const switchValue = ref(true);
+import MenuButton from "./MenuButton.vue";
+import ThemeSwitch from "./ThemeSwitch.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-};
-
-const onBlur = () => {
-    if (UIState.showMenu) {
-        UIState.showMenu = false;
-        UIState.showChatHistory = false;
-        UIState.showContentCatalog = false;
-        UIState.showSettingsPanel = false;
-    }
 };
 
 const toggleChatHistoryMenu = async () => {
@@ -31,21 +18,16 @@ const toggleChatHistoryMenu = async () => {
 
 const newChat = async () => {
     await createNewChat();
-    onBlur();
     router.push("/chat");
 };
 
 const navigateTo = (path: string) => {
-    onBlur();
     router.push(path);
 };
+
 const toggleSettingsPanel = () => {
     UIState.showSettingsPanel = !UIState.showSettingsPanel;
 };
-
-onMounted(() => {
-    showSwitchMode.value = !(window.innerWidth >= 600);
-});
 </script>
 
 <template>
@@ -58,78 +40,44 @@ onMounted(() => {
                 </div>
             </div>
             <div class="nav-menu-list">
-                <div class="nav-item">
-                    <div class="nav-link" @click="navigateTo('/')">
-                        {{ $t(l.nav_home) }}
-                    </div>
+                <hr class="nav-separator" />
+                <div class="nav-item" @click="navigateTo('/')"
+                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Home') }">
+                    <div class="nav-link">{{ $t(l.nav_home) }}</div>
                 </div>
-                <div class="nav-item" v-if="!Login.logged_in">
-                    <div class="nav-link" @click="navigateTo('/signup')">
-                        {{ $t(l.nav_signup) }}
-                    </div>
-                </div>
-                <div class="nav-item">
-                    <div
-                        class="nav-link"
-                        @click="navigateTo('/chat')"
-                        v-if="Login.logged_in"
-                    >
-                        {{ $t(l.nav_chat) }}
-                    </div>
+                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.logged_in"
+                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Chat') }">
+                    <div class="nav-link">{{ $t(l.nav_chat) }}</div>
                 </div>
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
-                    <a class="nav-link" href="#">
-                        {{ $t(l.nav_chat_new) }}
-                    </a>
+                    <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
                 </div>
-                <div
-                    class="nav-item"
-                    @click="toggleChatHistoryMenu"
-                    v-if="Login.logged_in"
-                >
-                    <a class="nav-link" href="#">
-                        {{ $t(l.nav_chat_history) }}
-                    </a>
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in"
+                    :class="{ 'nav-item-active': UIState.showChatHistory }">
+                    <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
                 </div>
                 <div class="nav-spacer"></div>
-                <!--
-                    <div class="nav-item" @click="toggleCatalogueContentMenu">
-                        <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
-                    </div>
-                    -->
-                <div class="nav-spacer"></div>
-                <div class="nav-item dotted-border-botton">
-                    <div
-                        class="nav-link"
-                        @click="navigateTo('/login')"
-                        v-if="!Login.logged_in"
-                    >
-                        {{ $t(l.nav_login) }}
-                    </div>
-                    <div
-                        class="nav-link"
-                        @click="navigateTo('/profile')"
-                        v-if="Login.logged_in"
-                    >
-                        {{ $t(l.nav_profile) }}
-                    </div>
+                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.logged_in"
+                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Login') }">
+                    <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
-                <div class="nav-item" v-if="showSwitchMode">
-                    <ToggleSwitch
-                        v-model="switchValue"
-                        :label_left="'Light mode'"
-                        :label_right="'Dark mode'"
-                    />
+                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.logged_in"
+                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Signup') }">
+                    <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
-                <div class="nav-item dotted-border-botton">
-                    <div class="nav-link" @click="toggleSettingsPanel">
-                        {{ $t(l.nav_preferences) }}
-                    </div>
+                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.logged_in"
+                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Profile') }">
+                    <div class="nav-link">{{ $t(l.nav_profile) }}</div>
                 </div>
-                <div class="nav-item" @click="onOpen" v-if="Login.logged_in">
-                    <a href="#" class="nav-link" @click="logout">
-                        {{ $t(l.nav_logout) }}
-                    </a>
+                <hr class="nav-separator" />
+                <ThemeSwitch />
+                <hr class="nav-separator" />
+                <div class="nav-item" @click="toggleSettingsPanel"
+                    :class="{ 'nav-item-active': UIState.showSettingsPanel }">
+                    <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
+                </div>
+                <div class="nav-item" @click="logout" v-if="Login.logged_in">
+                    <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>
         </div>
@@ -152,9 +100,10 @@ onMounted(() => {
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
 }
 
-.dotted-border-botton {
+.nav-separator {
+    border: 0;
     border-bottom: 2px dotted var(--border-color);
-    padding-bottom: 2rem;
+    margin: 1rem;
 }
 
 .nav-menu-open {
@@ -170,7 +119,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 4rem 0rem 1rem 0rem;
     margin: 1rem;
     overflow: auto;
 
@@ -191,7 +140,7 @@ onMounted(() => {
     img {
         display: block;
         object-fit: contain;
-        width: 80%;
+        width: 8rem;
     }
 }
 
@@ -200,6 +149,8 @@ onMounted(() => {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    align-items: stretch;
+    width: 100%;
     height: 100%;
     opacity: 0;
     transition: opacity 0.25s 0.25s;
@@ -210,6 +161,18 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item-active {
+    background-color: var(--border-color);
 }
 
 .nav-spacer {
@@ -226,12 +189,6 @@ onMounted(() => {
 
     .nav-menu-bar {
         align-items: center;
-    }
-
-    .nav-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 
     .nav-menu {
