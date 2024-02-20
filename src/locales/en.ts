@@ -11,7 +11,7 @@ const en: Locale = {
     system_topic: "You have selected a topic: ",
 
     frontpage_greeting: "Welcome to the AIRe platform!",
-    frontpage_paragraph: `AIRe is an AI powered healthcare chat service that will help you to better understand your active symptoms, the possible underlying conditions. AIRe guides you in follow-up procedures if necessary, and offers you helpful suggestions tailored just for you.`,
+    frontpage_paragraph: `AIRe is an AI powered healthcare service platform that helps you better understand your symptoms and their possible underlying conditions. AIRe also guides you in any necessary follow-up procedures, and offers you helpful suggestions tailored just for you.`,
 
     chat_link_button_label: "Chat",
 

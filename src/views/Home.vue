@@ -30,9 +30,6 @@ const navigateTo = (path: string) => {
             <button class="get-started" @click="navigateTo('/signup')" v-if="!Login.logged_in">
                 {{ $t(l.nav_signup) }}
             </button>
-            <button class="get-started" @click="navigateTo('/settings')">
-                {{ $t(l.nav_preferences) }}
-            </button>
         </div>
     </div>
     <OnboardingTopics v-if="Login.logged_in" />
