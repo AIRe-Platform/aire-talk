@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { Theme, setTheme } from "@/context/theme";
 import { supportedLocales, setLocale, Lang, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIPanels, UIState } from "@/context/ui";
 import Panel from "./Panel.vue";
 
-const toggleTheme = () => {
-    if (Theme.style === "theme-dark") setTheme("theme-default");
-    else setTheme("theme-dark");
-};
 const setLang = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     setLocale(el.value as Lang);
@@ -27,7 +22,6 @@ const onClickOutside = (e: Event) => {
                 {{ lang.name }}
             </option>
         </select>
-        <div class="nav-link" @click="toggleTheme">{{ $t(l.nav_theme) }}</div>
         <button @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
