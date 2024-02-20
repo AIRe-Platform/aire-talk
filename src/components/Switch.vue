@@ -48,7 +48,7 @@ defineEmits<{
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     background-color: var(--panel-background-color);
-    width: 50%;
+    width: 45%;
     height: 100%;
     transition: background-color 0.25s;
 

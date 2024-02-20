@@ -3,6 +3,7 @@ import { Theme, setTheme } from "@/context/theme";
 import { supportedLocales, setLocale, Lang, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIPanels, UIState } from "@/context/ui";
+import Panel from "./Panel.vue";
 
 const toggleTheme = () => {
     if (Theme.style === "theme-dark") setTheme("theme-default");
@@ -20,7 +21,7 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <div class="settings-panel" v-on-click-outside="onClickOutside">
+    <Panel class="settings-panel" v-on-click-outside="onClickOutside">
         <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
             <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">
                 {{ lang.name }}
@@ -28,7 +29,7 @@ const onClickOutside = (e: Event) => {
         </select>
         <div class="nav-link" @click="toggleTheme">{{ $t(l.nav_theme) }}</div>
         <button @click="onClickOutside">{{ $t(l.button_close) }}</button>
-    </div>
+    </Panel>
 </template>
 
 <style scoped>
@@ -43,9 +44,6 @@ const onClickOutside = (e: Event) => {
     gap: 2rem;
     z-index: 8;
 
-    box-shadow: 0 0 5px var(--shadow-color);
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
     padding: 2rem 3rem;
 }
 

@@ -3,6 +3,7 @@ import { l } from '@/locales';
 import { Chat, refreshAbstract } from '@/context/chat';
 import { ref } from 'vue';
 import Spinner from './Spinner.vue';
+import Panel from './Panel.vue';
 
 const busy = ref(false);
 
@@ -33,7 +34,7 @@ const clearKeywords = () => {
 </script>
 
 <template>
-    <div class="summary-panel">
+    <Panel class="summary-panel">
         <div class="summary-title">
             {{ $t(l.summary_chag_log_title) }}
         </div>
@@ -41,7 +42,7 @@ const clearKeywords = () => {
         <div class="summary-text" v-if="Chat.summary">
             {{ Chat.summary }}
         </div>
-        <div class="summary-keywords" v-if="Chat.keywords">
+        <div class="summary-keywords" v-if="(Chat.keywords || []).length > 0">
             <div class="summary-keyword-item" v-for="word, id  in Chat.keywords" :key="id">
                 <span class="summary-keyword-text">{{ word }}</span>
                 <div class="summary-keyword-delete" @click="removeWord(word)">
@@ -59,7 +60,7 @@ const clearKeywords = () => {
                 <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
             </button>
         </div>
-    </div>
+    </Panel>
 </template>
 
 <style scoped>
@@ -72,17 +73,12 @@ const clearKeywords = () => {
     width: 12rem;
     padding: 1rem;
     margin: 1rem;
-
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
+    gap: 1rem;
 }
 
 .summary-title {
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
 }
 
 .summary-text {
@@ -132,10 +128,10 @@ const clearKeywords = () => {
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 1rem 0 1rem 0;
     padding: 1rem 0 1rem 0;
     border-top: 2px dotted var(--border-color);
     border-bottom: 2px dotted var(--border-color);
+    width: 100%;
 }
 
 .summary-buttons {

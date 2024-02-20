@@ -6,6 +6,7 @@ import { router } from "@/router";
 import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import ThemeSwitch from "./ThemeSwitch.vue";
+import Panel from "./Panel.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
@@ -33,7 +34,7 @@ const toggleSettingsPanel = () => {
 <template>
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
-        <div class="nav-menu-bar">
+        <Panel class="nav-menu-bar">
             <div class="nav-link" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
                     <img src="@/assets/images/aire-logo-512.png" alt="Logo" />
@@ -80,7 +81,7 @@ const toggleSettingsPanel = () => {
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>
-        </div>
+        </Panel>
     </div>
 </template>
 
@@ -122,11 +123,6 @@ const toggleSettingsPanel = () => {
     padding: 4rem 0rem 1rem 0rem;
     margin: 1rem;
     overflow: auto;
-
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 .nav-logo {

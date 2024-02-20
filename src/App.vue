@@ -34,6 +34,7 @@ import SettingsPanel from './components/SettingsPanel.vue';
     overflow: hidden;
     height: 100%;
     max-height: 100%;
+    background-color: var(--background-color);
 }
 
 #content-wrapper {

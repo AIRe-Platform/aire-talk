@@ -44,7 +44,8 @@ const onConfirmRevert = () => {
     confirmRevertOpen.value = false;
 }
 
-const onRevert = () => { 
+const onRevert = () => {
+    menuOpen.value = false;
     confirmRevertOpen.value = true;
 }
 
