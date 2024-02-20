@@ -17,7 +17,7 @@ function submit(event: Event) {
         <div class="chat-input-bot">
             <img
                 class="chatbot-icon"
-                src="@/assets/images/aire-logo-a.png"
+                src="@/assets/images/aire-bot.png"
                 alt="Logo"
             />
         </div>
@@ -69,9 +69,8 @@ function submit(event: Event) {
 
 .chatbot-icon {
     display: block;
-    height: 8rem;
+    height: 6rem;
     padding-bottom: 3rem;
-    margin-right: 1rem;
 }
 
 @media screen and (max-width: 600px) {

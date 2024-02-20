@@ -54,10 +54,7 @@ onMounted(() => {
         <div class="nav-menu-bar">
             <div class="nav-link" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
-                    <img
-                        src="@/assets/images/aire-logo-letter.png"
-                        alt="Logo"
-                    />
+                    <img src="@/assets/images/aire-logo-512.png" alt="Logo" />
                 </div>
             </div>
             <div class="nav-menu-list">
@@ -154,6 +151,7 @@ onMounted(() => {
 
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
 }
+
 .dotted-border-botton {
     border-bottom: 2px dotted var(--border-color);
     padding-bottom: 2rem;
