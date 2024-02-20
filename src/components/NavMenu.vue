@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { l } from '@/locales';
-import { Login, logout } from '@/context/login';
-import { Chat, createNewChat } from '@/context/chat';
-import { router } from '@/router';
-import MenuButton from './MenuButton.vue';
-import { UIState } from '@/context/ui';
+import { l } from "@/locales";
+import { Login, logout } from "@/context/login";
+import { Chat, createNewChat } from "@/context/chat";
+import { router } from "@/router";
+import MenuButton from "./MenuButton.vue";
+import ToggleSwitch from "./ToggleSwitch.vue";
+import { UIState } from "@/context/ui";
+import { onMounted, ref } from "vue";
+
+const showSwitchMode = ref(false);
+const switchValue = ref(true);
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
-    UIState.showMenu = !(UIState.showMenu);
+    UIState.showMenu = !UIState.showMenu;
 };
 
 const onBlur = () => {
@@ -21,23 +26,26 @@ const onBlur = () => {
 };
 
 const toggleChatHistoryMenu = async () => {
-    UIState.showChatHistory = !(UIState.showChatHistory);
+    UIState.showChatHistory = !UIState.showChatHistory;
 };
 
 const newChat = async () => {
-    await createNewChat()
+    await createNewChat();
     onBlur();
-    router.push("/chat")
+    router.push("/chat");
 };
 
 const navigateTo = (path: string) => {
-    onBlur()
-    router.push(path)
-}
+    onBlur();
+    router.push(path);
+};
 const toggleSettingsPanel = () => {
-    UIState.showSettingsPanel = !(UIState.showSettingsPanel);
+    UIState.showSettingsPanel = !UIState.showSettingsPanel;
 };
 
+onMounted(() => {
+    showSwitchMode.value = !(window.innerWidth >= 600);
+});
 </script>
 
 <template>
@@ -46,7 +54,10 @@ const toggleSettingsPanel = () => {
         <div class="nav-menu-bar">
             <div class="nav-link" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
-                    <img src="@/assets/images/aire-logo-letter.png" alt="Logo">
+                    <img
+                        src="@/assets/images/aire-logo-letter.png"
+                        alt="Logo"
+                    />
                 </div>
             </div>
             <div class="nav-menu-list">
@@ -61,7 +72,11 @@ const toggleSettingsPanel = () => {
                     </div>
                 </div>
                 <div class="nav-item">
-                    <div class="nav-link" @click="navigateTo('/chat')" v-if="Login.logged_in">
+                    <div
+                        class="nav-link"
+                        @click="navigateTo('/chat')"
+                        v-if="Login.logged_in"
+                    >
                         {{ $t(l.nav_chat) }}
                     </div>
                 </div>
@@ -70,7 +85,11 @@ const toggleSettingsPanel = () => {
                         {{ $t(l.nav_chat_new) }}
                     </a>
                 </div>
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
+                <div
+                    class="nav-item"
+                    @click="toggleChatHistoryMenu"
+                    v-if="Login.logged_in"
+                >
                     <a class="nav-link" href="#">
                         {{ $t(l.nav_chat_history) }}
                     </a>
@@ -82,13 +101,28 @@ const toggleSettingsPanel = () => {
                     </div>
                     -->
                 <div class="nav-spacer"></div>
-                <div class="nav-item">
-                    <div class="nav-link" @click="navigateTo('/login')" v-if="!Login.logged_in">
+                <div class="nav-item dotted-border-botton">
+                    <div
+                        class="nav-link"
+                        @click="navigateTo('/login')"
+                        v-if="!Login.logged_in"
+                    >
                         {{ $t(l.nav_login) }}
                     </div>
-                    <div class="nav-link" @click="navigateTo('/profile')" v-if="Login.logged_in">
+                    <div
+                        class="nav-link"
+                        @click="navigateTo('/profile')"
+                        v-if="Login.logged_in"
+                    >
                         {{ $t(l.nav_profile) }}
                     </div>
+                </div>
+                <div class="nav-item" v-if="showSwitchMode">
+                    <ToggleSwitch
+                        v-model="switchValue"
+                        :label_left="'Light mode'"
+                        :label_right="'Dark mode'"
+                    />
                 </div>
                 <div class="nav-item dotted-border-botton">
                     <div class="nav-link" @click="toggleSettingsPanel">
@@ -118,15 +152,11 @@ const toggleSettingsPanel = () => {
     height: 100%;
     margin: 0rem;
 
-    transition:
-        box-shadow 0.25s,
-        width 0.25s,
-        height 0.25s;
+    transition: box-shadow 0.25s, width 0.25s, height 0.25s;
 }
-.dotted-border-botton{
+.dotted-border-botton {
     border-bottom: 2px dotted var(--border-color);
     padding-bottom: 2rem;
-
 }
 
 .nav-menu-open {
@@ -147,7 +177,7 @@ const toggleSettingsPanel = () => {
     overflow: auto;
 
     background-color: var(--panel-background-color);
-    border-radius: 1rem;    
+    border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
 }

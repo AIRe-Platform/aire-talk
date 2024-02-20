@@ -1,106 +1,117 @@
 <script setup lang="ts">
-import { l } from '@/locales';
-import { defineEmits, onMounted, ref } from 'vue';
-import { Chat, deleteChat, getAllChats, loadChat, openChat, getCache } from '@/context/chat';
-import ConfirmDialog from './ConfirmDialog.vue';
-import { router } from '@/router';
-import { vOnClickOutside } from '@vueuse/components'
-import { UIState } from '@/context/ui';
-import Spinner from './Spinner.vue';
+import { l } from "@/locales";
+import { defineEmits, onMounted, ref } from "vue";
+import {
+    Chat,
+    deleteChat,
+    getAllChats,
+    loadChat,
+    openChat,
+    getCache,
+} from "@/context/chat";
+import ConfirmDialog from "./ConfirmDialog.vue";
+import { router } from "@/router";
+import { vOnClickOutside } from "@vueuse/components";
+import { UIState } from "@/context/ui";
+import Spinner from "./Spinner.vue";
 
 const emit = defineEmits<{
-    closePanel: [e: any]
-}>()
+    closePanel: [e: any];
+}>();
 
 let delete_id: string | undefined;
-const showConfirmModal = ref(false)
-const busy = ref(false)
+const showConfirmModal = ref(false);
+const busy = ref(false);
 
 interface ChatLogItem {
-    id: string,
-    time: Date
+    id: string;
+    time: Date;
 }
-const items = ref<Array<ChatLogItem>>()
+const items = ref<Array<ChatLogItem>>();
 
 const refresh = async () => {
-    busy.value = true
-    const logs = await getAllChats()
-    logs.forEach(x => {
-        loadChat(x.id)
-    })
+    busy.value = true;
+    const logs = await getAllChats();
+    logs.forEach((x) => {
+        loadChat(x.id);
+    });
 
-    items.value = logs.map(x => {
+    items.value = logs.map((x) => {
         let item: ChatLogItem = {
             id: x.id,
-            time: new Date(x.time)
-        }
-        return item
-    })
-    busy.value = false
-}
-onMounted(refresh)
+            time: new Date(x.time),
+        };
+        return item;
+    });
+    busy.value = false;
+};
+onMounted(refresh);
 
 const isOpen = (id: string) => {
-    return id === Chat.id
-}
+    return id === Chat.id;
+};
 
 const onSelect = async (id: string) => {
-    if (isOpen(id))
-        return
+    if (isOpen(id)) return;
 
-    const open = await openChat(id)
+    const open = await openChat(id);
 
-    if (open)
-        router.push("/chat")
+    if (open) router.push("/chat");
 
-    emit("closePanel", undefined)
-    UIState.showChatHistory = false
-}
+    emit("closePanel", undefined);
+    UIState.showChatHistory = false;
+};
 
 const onConfirmDelete = () => {
-    showConfirmModal.value = false
+    showConfirmModal.value = false;
     deleteChat(delete_id!)
         .then(async () => {
-            await refresh()
+            await refresh();
         })
         .finally(() => {
-            delete_id = undefined
-        })
-}
+            delete_id = undefined;
+        });
+};
 
 const onCancelDelete = () => {
     showConfirmModal.value = false;
-    delete_id = undefined
-}
+    delete_id = undefined;
+};
 
 const onDeleteChat = async (id: string) => {
-    delete_id = id
-    showConfirmModal.value = true
-}
+    delete_id = id;
+    showConfirmModal.value = true;
+};
 
 const getLastMessage = (id: string) => {
-    const log = getCache(id)
-    if (log)
-        return log[log.length - 1].message || ""
-    return ""
-}
+    const log = getCache(id);
+    if (log) return log[log.length - 1].message || "";
+    return "";
+};
 
 const onClickOutside = (e: Event) => {
-    e.stopImmediatePropagation()
-    UIState.showChatHistory = false
-}
-
+    e.stopImmediatePropagation();
+    UIState.showChatHistory = false;
+};
 </script>
 
 <template>
-    <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
+    <ConfirmDialog
+        v-if="showConfirmModal"
+        :onAccept="onConfirmDelete"
+        :onDecline="onCancelDelete"
+    >
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
     <div class="restore-chat-panel" v-on-click-outside="onClickOutside">
         <div class="restore-chat-list">
             <Spinner v-if="busy" />
-            <div class="restore-chat-item" v-for="item in items" v-bind:key="item.id"
-                :class="{ 'restore-chat-item-open': isOpen(item.id) }">
+            <div
+                class="restore-chat-item"
+                v-for="item in items"
+                v-bind:key="item.id"
+                :class="{ 'restore-chat-item-open': isOpen(item.id) }"
+            >
                 <div class="restore-chat-row">
                     <div class="restore-chat-column" @click="onSelect(item.id)">
                         <div class="restore-chat-date">
@@ -110,7 +121,10 @@ const onClickOutside = (e: Event) => {
                             {{ getLastMessage(item.id) }}
                         </div>
                     </div>
-                    <div class="restore-chat-button-delete" @click="onDeleteChat(item.id)">
+                    <div
+                        class="restore-chat-button-delete"
+                        @click="onDeleteChat(item.id)"
+                    >
                         <font-awesome-icon icon="fa-solid fa-trash" />
                     </div>
                 </div>

@@ -1,27 +1,36 @@
 <script setup lang="ts">
-import { Chat, sendChatMessage } from '@/context/chat'
-import { l } from '@/locales';
+import { Chat, sendChatMessage } from "@/context/chat";
+import { l } from "@/locales";
 
 function submit(event: Event) {
     const form = event.target as HTMLFormElement;
     const el = form.firstChild as HTMLInputElement;
-    const prompt = el.value.trim()
+    const prompt = el.value.trim();
 
-    if (prompt.length > 0)
-        sendChatMessage(el.value)
-    el.value = ""
+    if (prompt.length > 0) sendChatMessage(el.value);
+    el.value = "";
 }
 </script>
 
 <template>
     <div class="chat-input-wrapper">
         <div class="chat-input-bot">
-            <img class="chatbot-icon" src="@/assets/images/aire-bot.png" alt="Logo">
+            <img
+                class="chatbot-icon"
+                src="@/assets/images/aire-logo-a.png"
+                alt="Logo"
+            />
         </div>
-        <div class="chat-input-title"> {{ $t(l.chat_input_title) }} </div>
+        <div class="chat-input-title">{{ $t(l.chat_input_title) }}</div>
         <form class="chat-input-bar" @submit.prevent="submit">
-            <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                :readonly=Chat.awaitingResponse />
+            <input
+                id="message-input"
+                class="chat-input-field"
+                type="text"
+                autofocus
+                autocomplete="off"
+                :readonly="Chat.awaitingResponse"
+            />
         </form>
     </div>
 </template>
@@ -60,8 +69,17 @@ function submit(event: Event) {
 
 .chatbot-icon {
     display: block;
-    height: 6rem;
+    height: 8rem;
     padding-bottom: 3rem;
+    margin-right: 1rem;
 }
 
+@media screen and (max-width: 600px) {
+    .chatbot-icon {
+        display: block;
+        height: 6rem;
+        padding-bottom: 3rem;
+        margin-right: 1rem;
+    }
+}
 </style>

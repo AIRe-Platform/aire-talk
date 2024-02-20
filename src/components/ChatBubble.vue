@@ -75,10 +75,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
-    margin-right: 3rem;
-    margin-left: 3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
     line-height: 1.4rem;
-    max-width: 40%;
     background-color: var(--chat-bubble-background-color);
     box-shadow: 0 0 5px gray;
     line-height: 1.4rem;
@@ -99,6 +98,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
     align-self: center;
     border-color: var(--border-color);
     max-width: 80%;
+    margin-left: 3rem;
 }
 
 .chat-bubble-error {
@@ -153,11 +153,10 @@ onMounted(() => scrollToMessage(props.message, "end"));
     padding: 1rem;
 }
 
-/* mobile*/
 @media screen and (max-width: 600px) {
     .chat-bubble {
         max-width: unset;
-        margin: 1rem;
+        margin: 0.5rem 1rem 0.5rem 0.3rem
     }
 
     .chat-message-question {
