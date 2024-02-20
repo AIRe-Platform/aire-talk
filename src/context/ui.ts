@@ -1,15 +1,17 @@
 import { reactive } from "vue";
 
+export enum UIPanels {
+    ChatHistory = "chat-history",
+    Settings = "settings",
+    ContentCatalog = "content-catalog"
+}
+
 export interface UIStateOptions {
     showMenu: boolean;
-    showChatHistory: boolean;
-    showContentCatalog: boolean;
-    showSettingsPanel: boolean;
+    panels: Set<UIPanels>;
 }
 
 export const UIState = reactive<UIStateOptions>({ 
     showMenu: true,
-    showChatHistory: false,
-    showContentCatalog: false,
-    showSettingsPanel: false,
+    panels: new Set<UIPanels>
 })

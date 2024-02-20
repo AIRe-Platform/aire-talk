@@ -4,7 +4,7 @@ import FooterBar from './components/FooterBar.vue';
 import Spinner from './components/Spinner.vue';
 import NavMenu from './components/NavMenu.vue';
 import ChatHistory from './components/ChatHistory.vue';
-import { UIState } from './context/ui';
+import { UIPanels, UIState } from './context/ui';
 import SettingsPanel from './components/SettingsPanel.vue';
 </script>
 
@@ -13,9 +13,9 @@ import SettingsPanel from './components/SettingsPanel.vue';
         <NavMenu />
         <div id="content-wrapper">
             <RouterView />
-            <div id="floating-panels">
-                <ChatHistory v-if="UIState.showChatHistory" />
-                <SettingsPanel v-if="UIState.showSettingsPanel" />
+            <div id="floating-panels" v-if="UIState.panels.size > 0">
+                <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
+                <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
         </div>
     </div>

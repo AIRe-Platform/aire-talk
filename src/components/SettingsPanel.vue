@@ -2,7 +2,7 @@
 import { Theme, setTheme } from "@/context/theme";
 import { supportedLocales, setLocale, Lang, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIState } from "@/context/ui";
+import { UIPanels, UIState } from "@/context/ui";
 
 const toggleTheme = () => {
     if (Theme.style === "theme-dark") setTheme("theme-default");
@@ -15,7 +15,7 @@ const setLang = (e: Event) => {
 };
 const onClickOutside = (e: Event) => {
     e.stopImmediatePropagation();
-    UIState.showSettingsPanel = false;
+    UIState.panels.delete(UIPanels.Settings)
 };
 </script>
 

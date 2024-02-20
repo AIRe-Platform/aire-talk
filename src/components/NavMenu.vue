@@ -3,7 +3,7 @@ import { l } from "@/locales";
 import { Login, logout } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import { UIState } from "@/context/ui";
+import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import ThemeSwitch from "./ThemeSwitch.vue";
 
@@ -12,8 +12,8 @@ const onOpen = (e: Event) => {
     UIState.showMenu = !UIState.showMenu;
 };
 
-const toggleChatHistoryMenu = async () => {
-    UIState.showChatHistory = !UIState.showChatHistory;
+const toggleChatHistoryMenu = () => {
+    UIState.panels.add(UIPanels.ChatHistory)
 };
 
 const newChat = async () => {
@@ -26,7 +26,7 @@ const navigateTo = (path: string) => {
 };
 
 const toggleSettingsPanel = () => {
-    UIState.showSettingsPanel = !UIState.showSettingsPanel;
+    UIState.panels.add(UIPanels.Settings)
 };
 </script>
 
@@ -53,7 +53,7 @@ const toggleSettingsPanel = () => {
                     <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
                 </div>
                 <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in"
-                    :class="{ 'nav-item-active': UIState.showChatHistory }">
+                    :class="{ 'nav-item-active': UIState.panels.has(UIPanels.ChatHistory) }">
                     <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
                 </div>
                 <div class="nav-spacer"></div>
@@ -73,7 +73,7 @@ const toggleSettingsPanel = () => {
                 <ThemeSwitch />
                 <hr class="nav-separator" />
                 <div class="nav-item" @click="toggleSettingsPanel"
-                    :class="{ 'nav-item-active': UIState.showSettingsPanel }">
+                    :class="{ 'nav-item-active': UIState.panels.has(UIPanels.Settings) }">
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
                 <div class="nav-item" @click="logout" v-if="Login.logged_in">

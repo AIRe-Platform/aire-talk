@@ -12,7 +12,7 @@ import {
 import ConfirmDialog from "./ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIState } from "@/context/ui";
+import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "./Spinner.vue";
 
 const emit = defineEmits<{
@@ -59,7 +59,7 @@ const onSelect = async (id: string) => {
     if (open) router.push("/chat");
 
     emit("closePanel", undefined);
-    UIState.showChatHistory = false;
+    UIState.panels.delete(UIPanels.ChatHistory);
 };
 
 const onConfirmDelete = () => {
@@ -91,7 +91,7 @@ const getLastMessage = (id: string) => {
 
 const onClickOutside = (e: Event) => {
     e.stopImmediatePropagation();
-    UIState.showChatHistory = false;
+    UIState.panels.delete(UIPanels.ChatHistory);
 };
 </script>
 
