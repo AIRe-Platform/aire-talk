@@ -33,53 +33,28 @@ onMounted(() => {
                 <div class="chat-view-row">
                     <div class="chat-view-content-left">
                         <div class="chat-view-user" v-if="msg.role === 'user'">
-                            <ChatBubble
-                                :message="msg"
-                                :can_revert="canRevert(msg)"
-                                v-if="!msg.questionItem && !msg.answer"
-                            />
-                            <QuestionWrapper
-                                :message="msg"
-                                v-if="msg.questionItem || msg.answer"
-                            />
+                            <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                v-if="!msg.questionItem && !msg.answer" />
+                            <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
                         </div>
                     </div>
                     <div class="chat-view-content-right">
-                        <div
-                            class="chat-view-assistant"
-                            v-if="msg.role === 'assistant'"
-                        >
-                            <ChatBubble
-                                :message="msg"
-                                :can_revert="canRevert(msg)"
-                                v-if="!msg.questionItem && !msg.answer"
-                            />
-                            <QuestionWrapper
-                                :message="msg"
-                                v-if="msg.questionItem || msg.answer"
-                            />
+                        <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
+                            <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                v-if="!msg.questionItem && !msg.answer" />
+                            <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
                         </div>
                     </div>
                 </div>
                 <div class="chat-view-system" v-if="msg.role === 'system'">
-                    <ChatBubble
-                        :message="msg"
-                        :can_revert="canRevert(msg)"
-                        v-if="!msg.questionItem && !msg.answer"
-                    />
-                    <QuestionWrapper
-                        :message="msg"
-                        v-if="msg.questionItem || msg.answer"
-                    />
+                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="!msg.questionItem && !msg.answer" />
+                    <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
                 </div>
             </template>
         </div>
         <ChatInput />
     </div>
-    <div
-        class="chat-side-panels"
-        :class="{ 'chat-side-panels-open': showSideBar }"
-    >
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
         <ChatSummary />
     </div>
 </template>
@@ -87,7 +62,9 @@ onMounted(() => {
 <style scoped>
 .chat-view-row {
     display: flex;
+    padding: 0rem 3rem;
 }
+
 .chat-side-panels {
     display: flex;
     flex-direction: column;
@@ -126,12 +103,14 @@ onMounted(() => {
     padding-bottom: 4rem;
     gap: 1.5rem;
 }
+
 .chat-view-system {
     padding-top: 1rem;
     padding-bottom: 1rem;
     display: flex;
     justify-content: space-around;
 }
+
 .chat-view-content-left {
     display: flex;
     justify-content: flex-end;
@@ -155,6 +134,7 @@ onMounted(() => {
     display: flex;
     justify-content: flex-start;
 }
+
 @media screen and (max-width: 600px) {
     .chat-view-content {
         width: 100%;
@@ -172,14 +152,18 @@ onMounted(() => {
     .chat-side-panels-open {
         width: 100%;
     }
+
     .chat-view-row {
         display: block;
+        padding: unset;
     }
+
     .chat-view-content-left {
         justify-content: flex-start;
         width: unset;
         border-right: none;
     }
+
     .chat-view-content-right {
         width: unset;
         justify-content: flex-end;
