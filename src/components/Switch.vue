@@ -36,6 +36,12 @@ defineEmits<{
     margin: 0.5rem;
     height: 1rem;
     flex-grow: 1;
+
+    &:hover {
+        .switch-handle {
+            background-color: var(--accent-primary-color);
+        }
+    }
 }
 
 .switch-handle {
@@ -44,6 +50,7 @@ defineEmits<{
     background-color: var(--panel-background-color);
     width: 50%;
     height: 100%;
+    transition: background-color 0.25s;
 
     align-self: flex-start;
 }
