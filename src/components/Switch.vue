@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, defineComponent } from "vue";
-defineComponent({ name: "SwitchComponent"})
+defineComponent({ name: "SwitchComponent" });
 
 const props = defineProps({
     isOn: {
         required: true,
         type: Boolean,
-    }
+    },
 });
 
 defineEmits<{
-    change: [value: boolean]
+    change: [value: boolean];
 }>();
 </script>
 
 <template>
     <div class="switch" @click="$emit('change', !props.isOn)">
-        <div class="switch-handle" :class="{ 'switch-handle-on': props.isOn }"></div>
+        <div
+            class="switch-handle"
+            :class="{ 'switch-handle-on': props.isOn }"
+        ></div>
     </div>
 </template>
 
@@ -24,9 +27,7 @@ defineEmits<{
 .switch {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-
     cursor: pointer;
 
     border: 1px solid var(--border-color);
@@ -52,10 +53,88 @@ defineEmits<{
     height: 100%;
     transition: background-color 0.25s;
 
-    align-self: flex-start;
+    /* align-self: flex-start; */
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
 }
 
 .switch-handle-on {
-    align-self: flex-end;
+    /* align-self: flex-end; */
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-in {
+    0% {
+        margin-left: 5rem;
+    }
+    100% {
+        margin-left: 0rem;
+    }
+}
+
+@-webkit-keyframes slide-in {
+    0% {
+        margin-left: 5rem;
+    }
+    100% {
+        margin-left: 0rem;
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        margin-left: 0rem;
+    }
+    100% {
+        margin-left: 5rem;
+    }
+}
+
+@-webkit-keyframes slide-out {
+    0% {
+        margin-left: 0rem;
+    }
+    100% {
+        margin-left: 5rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    @keyframes slide-in {
+        0% {
+            margin-left: 55%;
+        }
+        100% {
+            margin-left: 0rem;
+        }
+    }
+
+    @-webkit-keyframes slide-in {
+        0% {
+            margin-left: 55%;
+        }
+        100% {
+            margin-left: 0rem;
+        }
+    }
+
+    @keyframes slide-out {
+        0% {
+            margin-left: 0rem;
+        }
+        100% {
+            margin-left: 55%;
+        }
+    }
+
+    @-webkit-keyframes slide-out {
+        0% {
+            margin-left: 0rem;
+        }
+        100% {
+            margin-left: 55%;
+        }
+    }
 }
 </style>
