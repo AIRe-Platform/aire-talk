@@ -117,14 +117,17 @@ onMounted(() => {
                         {{ $t(l.nav_profile) }}
                     </div>
                 </div>
-                <div class="nav-item" v-if="showSwitchMode">
+                <div
+                    class="nav-item dotted-border-botton"
+                    v-if="showSwitchMode"
+                >
                     <ToggleSwitch
                         v-model="switchValue"
                         :label_left="'Light mode'"
                         :label_right="'Dark mode'"
                     />
                 </div>
-                <div class="nav-item dotted-border-botton">
+                <div class="nav-item">
                     <div class="nav-link" @click="toggleSettingsPanel">
                         {{ $t(l.nav_preferences) }}
                     </div>
@@ -156,7 +159,7 @@ onMounted(() => {
 }
 .dotted-border-botton {
     border-bottom: 2px dotted var(--border-color);
-    padding-bottom: 2rem;
+    padding-bottom: 2rem !important;
 }
 
 .nav-menu-open {

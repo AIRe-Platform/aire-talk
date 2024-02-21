@@ -51,6 +51,9 @@ const toggleTheme = () => {
     flex-direction: column;
     align-self: center;
     width: 15rem;
+    height: 3rem;
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 .toggle-switch-labels {
     display: flex;
@@ -65,33 +68,31 @@ const toggleTheme = () => {
 }
 .toggle-switch {
     background: var(--border-color);
+    border-color: red;
     border-radius: 0.75em;
     box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08) inset;
     cursor: pointer;
     flex: none;
-    height: 1.5em;
+    height: 1em;
     position: relative;
     transition: background-color 150ms;
     width: 100%;
+    padding-right: 0.25rem;
 }
 
 .toggle-switch::before {
     background: var(--background-color);
-    background-image: radial-gradient(
-        circle at 0.375em 0.375em,
-        rgba(0, 0, 0, 0) 0,
-        rgba(0, 0, 0, 0.05) 1em
-    );
+    background-color: var(--shadow-color);
     border-radius: 0.625em;
     box-shadow: 0.0625em 0.0625em 0.0625em rgba(0, 0, 0, 0.08);
     content: "";
     display: block;
-    height: 1.25em;
+    height: 0.8rem;
     left: 10.125em;
     position: absolute;
     top: 0.125em;
     transition: left 150ms;
-    width: 3.25em;
+    width: 5rem;
     will-change: left;
 }
 
@@ -105,7 +106,7 @@ const toggleTheme = () => {
         rgba(0, 0, 0, 0) 0,
         rgba(0, 0, 0, 0.05) 1em
     );
-    left: 1.625em;
+    left: 0.1rem;
 }
 
 .toggle-switch:hover {
