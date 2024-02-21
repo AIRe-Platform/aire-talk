@@ -37,7 +37,10 @@ const toggleSettingsPanel = () => {
         <Panel class="nav-menu-bar">
             <div class="nav-link" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
-                    <img src="@/assets/images/aire-logo-512.png" alt="Logo" />
+                    <img
+                        src="@/assets/images/aire-logo-letter.svg"
+                        alt="Logo"
+                    />
                 </div>
             </div>
             <div class="nav-menu-list">
