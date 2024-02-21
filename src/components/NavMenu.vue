@@ -14,7 +14,7 @@ const onOpen = (e: Event) => {
 };
 
 const toggleChatHistoryMenu = () => {
-    UIState.panels.add(UIPanels.ChatHistory)
+    UIState.panels.add(UIPanels.ChatHistory);
 };
 
 const newChat = async () => {
@@ -27,7 +27,7 @@ const navigateTo = (path: string) => {
 };
 
 const toggleSettingsPanel = () => {
-    UIState.panels.add(UIPanels.Settings)
+    UIState.panels.add(UIPanels.Settings);
 };
 </script>
 
@@ -42,39 +42,93 @@ const toggleSettingsPanel = () => {
             </div>
             <div class="nav-menu-list">
                 <hr class="nav-separator" />
-                <div class="nav-item" @click="navigateTo('/')"
-                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Home') }">
+                <div
+                    class="nav-item"
+                    @click="navigateTo('/')"
+                    :class="{
+                        'nav-item-active': $route.matched.some(
+                            (p) => p.name === 'Home'
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_home) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.logged_in"
-                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Chat') }">
+                <div
+                    class="nav-item"
+                    @click="navigateTo('/chat')"
+                    v-if="Login.logged_in"
+                    :class="{
+                        'nav-item-active': $route.matched.some(
+                            (p) => p.name === 'Chat'
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_chat) }}</div>
                 </div>
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
                     <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
                 </div>
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in"
-                    :class="{ 'nav-item-active': UIState.panels.has(UIPanels.ChatHistory) }">
+                <div
+                    class="nav-item"
+                    @click="toggleChatHistoryMenu"
+                    v-if="Login.logged_in"
+                    :class="{
+                        'nav-item-active': UIState.panels.has(
+                            UIPanels.ChatHistory
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
                 </div>
                 <div class="nav-spacer"></div>
-                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.logged_in"
-                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Login') }">
+                <div
+                    class="nav-item"
+                    @click="navigateTo('/login')"
+                    v-if="!Login.logged_in"
+                    :class="{
+                        'nav-item-active': $route.matched.some(
+                            (p) => p.name === 'Login'
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.logged_in"
-                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Signup') }">
+                <div
+                    class="nav-item"
+                    @click="navigateTo('/signup')"
+                    v-if="!Login.logged_in"
+                    :class="{
+                        'nav-item-active': $route.matched.some(
+                            (p) => p.name === 'Signup'
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.logged_in"
-                    :class="{ 'nav-item-active': $route.matched.some(p => p.name === 'Profile') }">
+                <div
+                    class="nav-item"
+                    @click="navigateTo('/profile')"
+                    v-if="Login.logged_in"
+                    :class="{
+                        'nav-item-active': $route.matched.some(
+                            (p) => p.name === 'Profile'
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_profile) }}</div>
                 </div>
                 <hr class="nav-separator" />
                 <ThemeSwitch />
                 <hr class="nav-separator" />
-                <div class="nav-item" @click="toggleSettingsPanel"
-                    :class="{ 'nav-item-active': UIState.panels.has(UIPanels.Settings) }">
+                <div
+                    class="nav-item"
+                    @click="toggleSettingsPanel"
+                    :class="{
+                        'nav-item-active': UIState.panels.has(
+                            UIPanels.Settings
+                        ),
+                    }"
+                >
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
                 <div class="nav-item" @click="logout" v-if="Login.logged_in">
