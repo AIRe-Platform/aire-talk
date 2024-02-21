@@ -1,5 +1,5 @@
 import { AireModule, AireModuleType } from "./models/service";
-import { AireChatHistory, AireChatMetadata } from "./models/chat";
+import { AireChatHistory, AireChatMetadata, AireChatLog } from "./models/chat";
 import { AireServices } from ".";
 import { Questionnaire } from "@/models/questionnaire";
 
@@ -40,7 +40,7 @@ export class AireMemory {
             })
     }
 
-    public async getChat(id: string): Promise<AireChatHistory | undefined> {
+    public async getChat(id: string): Promise<AireChatLog | undefined> {
         const token = AireServices.ID?.getAccessToken()
 
         if (!token) return undefined
@@ -57,7 +57,7 @@ export class AireMemory {
         })
             .then(async (response) => {
                 if (response.status === 200)
-                    return await response.json() as AireChatHistory;
+                    return await response.json() as AireChatLog;
                 else
                     throw Error("Failed to retrieve chat log");
             })
@@ -67,7 +67,7 @@ export class AireMemory {
             })
     }
 
-    public async saveChat(chat: AireChatHistory, id?: string): Promise<AireChatMetadata | undefined> {
+    public async saveChat(chat: AireChatLog, id?: string): Promise<AireChatMetadata | undefined> {
         const token = AireServices.ID?.getAccessToken()
 
         if (!token) return undefined;

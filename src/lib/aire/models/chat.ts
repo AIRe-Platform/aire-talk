@@ -46,9 +46,19 @@ export enum AireChatbotEventType {
     End = "end"
 }
 
+export interface AireChatState {
+    question_queue?: Array<QuestionItem>;
+    questionnaire_id?: string;
+}
+
 export type AireRole = "assistant" | "user" | "system";
 
 export type AireChatHistory = Array<AireChatMessage>
+
+export interface AireChatLog {
+    messages: Array<AireChatMessage>;
+    state: AireChatState;
+}
 
 export interface AireChatMetadata {
     id: string;

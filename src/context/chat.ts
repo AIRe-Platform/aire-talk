@@ -6,7 +6,7 @@ import { AireError } from "@/lib/aire/models/error";
 import { AireTalkMessage } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
-import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata } from "@/lib/aire/models/chat";
+import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatState, AireChatLog } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
 import { QuestionItem } from "@/models/questionnaire";
 
@@ -19,6 +19,8 @@ const SAVE_TIMER_TIMEOUT = 10000;
 export interface ChatState {
     id?: string;
     messages: ChatHistory;
+    questionQueue?: Array<QuestionItem>;
+    questionnaireId?: string;
     cache: Map<string, ChatHistory>;
     awaitingResponse: boolean;
     scrolling: boolean;
@@ -259,7 +261,17 @@ export async function saveChat() {
                 return m;
             });
 
-        await AireServices.Memory.saveChat(messages, Chat.id)
+        const chatState: AireChatState = {
+            question_queue: Chat.questionQueue,
+            questionnaire_id: Chat.questionnaireId
+        }
+
+        const chatLog: AireChatLog = {
+            messages: messages,
+            state: chatState
+        }
+
+        await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
                 if (result) {
                     setCache(Chat.messages, result.id)
@@ -304,7 +316,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
         if (!chatlog)
             return false
 
-        const messages = chatlog.map(x => {
+        const messages = chatlog.messages.map(x => {
             const m: ChatMessage = {
                 id: generateRandomID(),
                 sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? BOT_NAME : SYSTEM_NAME),
@@ -317,6 +329,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
             return m;
         });
 
+        setChatState(chatlog.state);
         setCache(messages, id)
         return true
     }
@@ -399,6 +412,11 @@ function setCache(chat: ChatHistory, id?: string) {
     const key = id || Chat.id
     if (key)
         Chat.cache.set(key, chat)
+}
+
+function setChatState(state: AireChatState) {
+    Chat.questionQueue = state.question_queue;
+    Chat.questionnaireId = state.questionnaire_id;
 }
 
 /**
@@ -527,6 +545,7 @@ function initChatState(): ChatState {
         modified: false,
         scrolling: false,
         cache: new Map,
+        questionQueue: [],
     }
 }
 
