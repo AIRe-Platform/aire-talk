@@ -55,7 +55,7 @@ onMounted(() => {
             <div class="nav-link" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
                     <img
-                        src="@/assets/images/aire-logo-letter.png"
+                        src="@/assets/images/aire-logo-letter.svg"
                         alt="Logo"
                     />
                 </div>
