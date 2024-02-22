@@ -126,6 +126,7 @@ const es: Locale = {
     summary_classification_title: "CBR / ICF clasificación",
     summary_generate_summary: "Resumir",
     summary_query_surveys_button: "Consultar encuestas",
+    summary_send_survey_button: "Enviar respuestas a la encuesta",
 
     error_verification_failure:
         "LOCALIZE TO ES: Could not verify the code. It may be expired.",

@@ -1,5 +1,5 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { AireQuestion, AireQuestionnaireItem } from "@/lib/aire/models/questionnaire";
+import { AireQuestionnaireItem } from "@/lib/aire/models/questionnaire";
 
 export interface ChatMessage {
     id: number;

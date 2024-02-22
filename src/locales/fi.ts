@@ -122,6 +122,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     summary_classification_title: "CBR / ICF luokittelu",
     summary_generate_summary: "Tee yhteenveto",
     summary_query_surveys_button: "Hae kyselyitä",
+    summary_send_survey_button: "Lähetä kyselyn vastaukset",
 
     error_verification_resend_failed:
         "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",

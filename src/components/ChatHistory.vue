@@ -85,7 +85,7 @@ const onDeleteChat = async (id: string) => {
 
 const getLastMessage = (id: string) => {
     const log = getCache(id);
-    if (log) return log[log.length - 1].message || "";
+    if (log) return log.messages[log.messages.length - 1].message || "";
     return "";
 };
 

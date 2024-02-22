@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { l } from '@/locales';
-import { Chat, queryAndStartQuestionnaire, refreshAbstract } from '@/context/chat';
+import {
+    Chat,
+    queryAndStartQuestionnaire,
+    refreshAbstract,
+    sendQuestionnaireAnswers
+} from '@/context/chat';
 import { ref } from 'vue';
 import Spinner from './Spinner.vue';
 import Panel from './Panel.vue';
@@ -27,9 +32,16 @@ const removeWord = (word: string) => {
     }
 }
 
+const sendSurvey = async () => {
+    busy.value = true;
+    await sendQuestionnaireAnswers();
+    busy.value = false;
+}
+
 const clearSummary = () => {
     Chat.summary = undefined;
 }
+
 const clearKeywords = () => {
     Chat.keywords = undefined;
 }
@@ -58,8 +70,13 @@ const clearKeywords = () => {
                     <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
-                <button class="summary-button" @click="querySurveys" v-if="(Chat.keywords || []).length > 0">
+                <button class="summary-button" @click="querySurveys"
+                    v-if="(Chat.keywords || []).length > 0 && !Chat.questionnaire">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
+                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
+                </button>
+                <button class="summary-button" @click="sendSurvey" v-if="Chat.questionnaire?.completed">
+                    <span class="summary-button-text">{{ $t(l.summary_send_survey_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
             </div>

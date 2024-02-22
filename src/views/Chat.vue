@@ -7,6 +7,7 @@ import ChatSummary from "@/components/ChatSummary.vue";
 import { ChatMessage } from "@/models/chat";
 import OptionsButton from "@/components/OptionsButton.vue";
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
+import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 defineComponent({ name: "ChatView" });
 
 const showSideBar = ref(false);
@@ -22,6 +23,7 @@ const toggleSummary = () => {
 
 onMounted(() => {
     showSideBar.value = !(window.innerWidth < 600);
+    scrollChatToBottom()
 });
 </script>
 

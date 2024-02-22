@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted } from 'vue';
+import { defineProps } from 'vue';
 import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionRange } from '@/lib/aire/models/questionnaire';
 
@@ -15,8 +15,6 @@ const range = [...Array(1 + props.options.max - props.options.min).keys()].map(x
 const onSubmitAnswer = async (value: number) => {
     await answerQuestion(props.message_id, value)
 }
-
-onMounted(() => console.debug("Range mounted"))
 </script>
 
 <template>

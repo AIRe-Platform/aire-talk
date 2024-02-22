@@ -123,6 +123,7 @@ const en: Locale = {
     summary_classification_title: "CBR / ICF classification",
     summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
+    summary_send_survey_button: "Send survey answers",
 
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed:
