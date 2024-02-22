@@ -11,14 +11,26 @@ const setLang = (e: Event) => {
 };
 const onClickOutside = (e: Event) => {
     e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.Settings)
+    UIState.panels.delete(UIPanels.Settings);
 };
 </script>
 
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
-        <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
-            <option v-for="lang in supportedLocales" :value="lang.lang" :key="lang.lang">
+        <span>
+            {{ $t(l.profile_label_language) }}
+        </span>
+        <select
+            name="language"
+            id="langs"
+            @change="setLang"
+            :value="$i18n.locale"
+        >
+            <option
+                v-for="lang in supportedLocales"
+                :value="lang.lang"
+                :key="lang.lang"
+            >
                 {{ lang.name }}
             </option>
         </select>
