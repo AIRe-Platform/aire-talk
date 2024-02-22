@@ -66,6 +66,11 @@ const en: Locale = {
     profile_label_password_confirm: "Confirm password",
     profile_label_keep_anonymized_data:
         "Anonymize my data instead of deleting it. This helps the development of AIRe platform. This is completely optional.",
+    profile_user_info_intro:
+        "The current user information according to AIRe analysis:",
+    profile_years_old: " years old.",
+    profile_from: " From ",
+    profile_speaks: " Who speaks ",
     profile_button_delete: "Delete account",
 
     gender_male: "male",

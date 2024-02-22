@@ -17,6 +17,9 @@ const onClickOutside = (e: Event) => {
 
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
+        <div class="settings-header">
+            {{ $t(l.nav_preferences) }}
+        </div>
         <span>
             {{ $t(l.profile_label_language) }}
         </span>
@@ -39,6 +42,13 @@ const onClickOutside = (e: Event) => {
 </template>
 
 <style scoped>
+.settings-header {
+    border-bottom-style: dotted;
+    padding-bottom: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 .settings-panel {
     display: flex;
     flex-direction: column;

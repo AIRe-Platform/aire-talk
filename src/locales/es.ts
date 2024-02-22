@@ -67,6 +67,11 @@ const es: Locale = {
     profile_label_password_confirm: "Confirma tu contraseña.",
     profile_label_keep_anonymized_data:
         "Haz mis datos anónimos en lugar de borrarlos. Esto ayudaría a desarroyar la plataforma AIRe. Esto es completamente opcional.",
+    profile_user_info_intro:
+        "La información actual del usuario según análisis de AIRe:",
+    profile_years_old: " años.",
+    profile_from: " De ",
+    profile_speaks: " Quien habla en ",
     profile_button_delete: "Borrar cuenta",
 
     gender_male: "hombre",

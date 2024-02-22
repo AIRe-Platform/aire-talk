@@ -130,10 +130,19 @@ defineComponent({ name: "ProfileView" });
             </div>
             <div class="profile-text-content">
                 <div class="profile-text-content-info">
-                    The current user according to AIRe analysis:
-                    {{ profile.first_name }} {{ profile.last_name }},
-                    {{ profile.age }} years old. From {{ profile.country }},
-                    that speaks in {{ profile.language }}.
+                    {{ $t(l.profile_user_info_intro) }}
+                    <span v-if="profile.first_name && profile.last_name">
+                        {{ profile.first_name }} {{ profile.last_name }},
+                    </span>
+                    <span v-if="profile.age">
+                        {{ profile.age }} {{ $t(l.profile_years_old) }}
+                    </span>
+                    <span v-if="profile.country">
+                        {{ $t(l.profile_from) }} {{ profile.country }}.
+                    </span>
+                    <span v-if="profile.language">
+                        {{ $t(l.profile_speaks) }} {{ profile.language }}.
+                    </span>
                 </div>
             </div>
             <form id="profile-form" v-if="busy === false" @submit.prevent>
@@ -329,7 +338,7 @@ defineComponent({ name: "ProfileView" });
                     />
                 </span>
                 <span
-                    class="form-row form-toggle"
+                    class="form-row form-toggle nowrap"
                     @click.stop="keepAnonymizedData = !keepAnonymizedData"
                 >
                     <input
@@ -568,6 +577,7 @@ label {
         width: 30%;
         align-items: center;
         display: flex;
+        margin-bottom: 1rem;
     }
     textarea {
         width: 40%;
@@ -584,6 +594,13 @@ label {
         min-width: 8rem;
         font-size: small;
         justify-content: space-around;
+    }
+
+    .nowrap {
+        flex-wrap: nowrap;
+    }
+    .checkbox-label {
+        margin-bottom: unset;
     }
 }
 </style>

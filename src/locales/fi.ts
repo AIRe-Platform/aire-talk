@@ -66,6 +66,10 @@ const fi: Locale = {
     profile_label_password_confirm: "Salasana",
     profile_label_keep_anonymized_data:
         "Anonymisoi tietoni poistamisen sijaan. Tämä auttaa AIRe-alustan kehittämisessä. Tämä on täysin vapaaehtoista.",
+    profile_user_info_intro: "Nykyiset käyttäjätiedot AIRe-analyysin mukaan:",
+    profile_years_old: " vuotta vanha.",
+    profile_from: " Mistä ",
+    profile_speaks: " Puhuu ",
     profile_button_delete: "Poista tili",
 
     gender_male: "mies",

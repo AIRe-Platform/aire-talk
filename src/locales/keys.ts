@@ -60,6 +60,10 @@ export enum LocalizationKey {
     profile_description_delete_account = "profile_description_delete_account",
     profile_label_password_confirm = "profile_label_password_confirm",
     profile_label_keep_anonymized_data = "profile_label_keep_anonymized_data",
+    profile_user_info_intro = "profile_user_info_intro",
+    profile_years_old = "profile_years_old",
+    profile_from = "profile_from",
+    profile_speaks = "profile_speaks",
     profile_button_delete = "profile_button_delete",
 
     gender_male = "gender_male",
@@ -117,5 +121,5 @@ export enum LocalizationKey {
     button_cancel = "button_cancel",
     button_back = "button_back",
     button_continue = "button_continue",
-    button_close = "button_close"
+    button_close = "button_close",
 }
