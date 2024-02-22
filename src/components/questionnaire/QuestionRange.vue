@@ -1,81 +1,87 @@
 <script setup lang="ts">
-
-import { defineProps, ref, toRaw } from 'vue';
-import { ChatMessage } from "@/models/chat";
+import { defineProps, onMounted } from 'vue';
 import { answerQuestion } from '@/context/chat';
-import { QuestionOptionType } from '@/models/questionnaire';
+import { AireQuestionOptionRange } from '@/lib/aire/models/questionnaire';
 
-const props = defineProps<{ message: ChatMessage }>()
+const props = defineProps<{
+    message_id: number;
+    options: AireQuestionOptionRange;
+    answer?: any
+}>();
 
-let selectedAnswer = ref();
+const answered = (answer: any) => (answer !== undefined);
+const range = [...Array(1 + props.options.max - props.options.min).keys()].map(x => x + props.options.min)
 
-const clickAnswer = (answer: number) => {
-    selectedAnswer.value = answer;
+const onSubmitAnswer = async (value: number) => {
+    await answerQuestion(props.message_id, value)
 }
 
-const submitAnswer = () => {
-    if (props.message.questionItem && selectedAnswer.value) {
-        answerQuestion(toRaw(props.message.questionItem), toRaw(selectedAnswer.value));
-    }
-}
-
-const getRange = (): number => {
-    const min = props.message.questionItem?.options.min;
-    const max = props.message.questionItem?.options.max;
-    if (min != null && max != null)
-        return max - min;
-    else
-        return 0;
-}
-
+onMounted(() => console.debug("Range mounted"))
 </script>
 
 <template>
-    <div v-if="props.message.questionItem?.type == QuestionOptionType.Range && !props.message.answer?.answer">
-        <div class="chat-message-answers">
-            <div class="chat-message-answer" v-for="answer, id in getRange()" :key="id">
-                <button @click="(e) => clickAnswer(answer)" class="chat-message-answer-option"
-                    :class="{ 'is-selected': selectedAnswer == answer }" v-if="answer">
-                    {{ answer }}
+    <div class="questionnaire-answer">
+        <div class="questionnaire-answer-options">
+            <template v-for="ans, id in range" :key="id">
+                <button @click="onSubmitAnswer(ans)" class="questionnaire-range-button"
+                    :class="{ 'questionnaire-range-button-selected': props.answer == ans }" :disabled="answered(props.answer)">
+                    {{ ans }}
                 </button>
-            </div>
-        </div>
-        <button class="chat-message-answer-button" @click="() => submitAnswer()"
-            v-if="props.message.questionItem && !props.message.answer?.answer">{{
-                $t("button_accept") }}</button>
-    </div>
-    <div v-if="props.message.answer?.answer">
-        <div v-if="props.message.answer.question">
-            <span class="questionnaire-question">Question: {{ props.message.answer.question }}</span>
-        </div>
-        <div v-if="props.message.answer?.answer">
-            <span class="questionnaire-answer">You answered: {{ props.message.answer.answer }}</span>
+            </template>
         </div>
     </div>
 </template>
 
 <style scoped>
-.chat-message-answers {
-    display: flex;
-    flex-direction: row;
-}
-
-.chat-message-answer-option {
-    display: flex;
-    flex-direction: row;
-}
-
-.chat-message-answer-button {
-    margin-top: 1em;
-    border-color: var(--accent-primary-color);
-    float: right;
-}
-
 .questionnaire-answer {
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
 }
 
-.questionnaire-question {
-    font-weight: bold;
+.questionnaire-answer-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-answer-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-confirm-button {
+    border-color: var(--accent-primary-color);
+}
+
+.questionnaire-range-button {
+    border: 1px solid var(--border-color);
+    background-color: var(--panel-background-color);
+    height: 3rem;
+    width: 3rem;
+    border-radius: 1.5rem;
+    transition: all .25s;
+}
+
+.questionnaire-range-button:disabled {
+    background-color: transparent;
+    color: var(--border-color);
+}
+
+.questionnaire-range-button-selected {
+    background-color: var(--accent-primary-color);
+    color: var(--background-color);
+}
+
+.questionnaire-range-button-selected:disabled {
+    color: var(--accent-primary-color);
+    border: 1px solid var(--accent-primary-color);
 }
 </style>

@@ -1,91 +1,105 @@
 <script setup lang="ts">
-
-import { defineProps, ref, toRaw } from 'vue';
-import { ChatMessage } from '@/models/chat';
+import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
+import { AireQuestionOptionCheckbox } from '@/lib/aire/models/questionnaire';
 
-const props = defineProps<{ message: ChatMessage }>();
+const props = defineProps<{ 
+    message_id: number;
+    options: AireQuestionOptionCheckbox;
+    answer?: any
+ }>();
 
-interface MultiselectAnswer {
-    id: string,
-    value: string;
-    checked: boolean;
-}
+const answers = ref<string[]>(props.answer || []);
+const answered = (answer: any) => (answer !== undefined);
 
-let multiselectAnswers = ref(Array<MultiselectAnswer>());
-let singleAnswer = ref("");
-
-props.message.questionItem?.options.values?.map(value => {
-    multiselectAnswers.value.push({ id: value, value: value, checked: false })
-})
-
-const clickAnswer = (answer: string) => {
-    singleAnswer.value = answer;
-}
-
-const submitAnswer = () => {
-    if (props.message.questionItem) {
-        let answers: string[] = []
-        multiselectAnswers.value.map(a => {
-            if (a.checked)
-                answers.push(a.value)
-        });
-        answerQuestion(toRaw(props.message.questionItem), answers)
+const onClickOption = (answer: string) => {
+    if (props.options.multiselect) {
+        if (answers.value.includes(answer))
+            answers.value = answers.value.filter(x => x !== answer)
+        else
+            answers.value.push(answer)
     }
+    else {
+        answers.value = [answer]
+        onSubmitAnswer();
+    }
+}
+
+const onSubmitAnswer = () => {
+    if (props.options.multiselect)
+        answerQuestion(props.message_id, answers.value)
+    else
+        answerQuestion(props.message_id, answers.value.values().next().value)
 }
 
 </script>
 
 <template>
-    <div class="chat-message-answers"
-        v-if="!props.message.questionItem?.options.multiselect && !props.message.answer?.answer">
-        <div class="chat-message-answer" v-for="answer, id in props.message.questionItem?.options.values" :key="id">
-            <button @click="(e) => clickAnswer(answer)" class="chat-message-answer"
-                :class="{ 'is-selected': singleAnswer == answer }" v-if="answer">
-                {{ answer }}
+    <div class="questionnaire-answer">
+        <div class="questionnaire-answer-options" v-if="props.options.values">
+            <template v-for="ans, id in props.options.values" :key="id">
+                <button class="questionnaire-answer-button" @click="onClickOption(ans)" :disabled="answered(props.answer)"
+                    :class="{ 'questionnaire-answer-button-selected': answers.includes(ans) }">
+                    {{ ans }}
+                </button>
+            </template>
+        </div>
+        <div class="questionnaire-answer-actions" v-if="props.options.multiselect && !answered(props.answer)">
+            <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
+                {{ $t("button_accept") }}
             </button>
-        </div>
-    </div>
-    <div class="chat-message-answers"
-        v-if="props.message.questionItem?.options.multiselect && !props.message.answer?.answer">
-        <div class="chat-message-answer">
-            <div class="chat-message-answer-multi" v-for="answer, id in multiselectAnswers" :key="id">
-                <input type="checkbox" v-model="answer.checked" />
-                <label :for="answer.id">{{ answer.value }}</label>
-            </div>
-        </div>
-    </div>
-    <button class="chat-message-answer-button" @click="() => submitAnswer()"
-        v-if="props.message.questionItem && !props.message.answer?.answer">{{
-            $t("button_accept") }}</button>
-    <div v-if="props.message.answer?.answer">
-        <div v-if="props.message.answer.question">
-            <span class="questionnaire-question">Question: {{ props.message.answer.question }}</span>
-        </div>
-        <div v-if="props.message.answer?.options.multiselect">
-            <span class="questionnaire-answer">You answered: {{ props.message.answer.answer.join(", ") }}</span>
-        </div>
-        <div v-if="!props.message.answer?.options.multiselect">
-            <span class="questionnaire-answer">You answered: {{ props.message.answer.answer }}</span>
         </div>
     </div>
 </template>
 
 <style scoped>
-.chat-message-answers {
-    display: flex;
-}
-
-.chat-message-answer-button {
-    margin-top: 1em;
-    border-color: var(--accent-primary-color);
-    float: right;
-}
-
 .questionnaire-answer {
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
 }
 
-.questionnaire-question {
-    font-weight: bold;
-}</style>
+.questionnaire-answer-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-answer-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-confirm-button {
+    border-color: var(--accent-primary-color);
+}
+
+.questionnaire-answer-button {
+    border: 1px solid var(--border-color);
+    background-color: var(--panel-background-color);
+
+    transition: all .25s;
+}
+
+.questionnaire-answer-button-selected {
+    background-color: var(--accent-primary-color);
+    color: var(--background-color);
+}
+
+.questionnaire-answer-button:disabled {
+    background-color: transparent;
+    color: var(--border-color);
+}
+
+.questionnaire-answer-button-selected:disabled {
+    color: var(--accent-primary-color);
+    border: 1px solid var(--accent-primary-color);
+}
+</style>

@@ -5,8 +5,8 @@ import ChatBubble from "@/components/ChatBubble.vue";
 import ChatInput from "@/components/ChatInput.vue";
 import ChatSummary from "@/components/ChatSummary.vue";
 import { ChatMessage } from "@/models/chat";
-import QuestionWrapper from "@/components/questionnaire/QuestionWrapper.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
+import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 defineComponent({ name: "ChatView" });
 
 const showSideBar = ref(false);
@@ -28,28 +28,30 @@ onMounted(() => {
 <template>
     <OptionsButton @click="toggleSummary" :open="showSideBar" />
     <div class="chat-view">
-        <div class="chat-view-content">
+        <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
-                <div class="chat-view-row">
-                    <div class="chat-view-content-left">
-                        <div class="chat-view-user" v-if="msg.role === 'user'">
-                            <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                v-if="!msg.questionItem && !msg.answer" />
-                            <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
+                <!-- If chat bubble -->
+                <template v-if="msg.question === undefined">
+                    <div class="chat-view-row">
+                        <div class="chat-view-content-left">
+                            <div class="chat-view-user" v-if="msg.role === 'user'">
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                            </div>
+                        </div>
+                        <div class="chat-view-content-right">
+                            <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                            </div>
                         </div>
                     </div>
-                    <div class="chat-view-content-right">
-                        <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                            <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                v-if="!msg.questionItem && !msg.answer" />
-                            <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
-                        </div>
+                    <div class="chat-view-system" v-if="msg.role === 'system'">
+                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                     </div>
-                </div>
-                <div class="chat-view-system" v-if="msg.role === 'system'">
-                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="!msg.questionItem && !msg.answer" />
-                    <QuestionWrapper :message="msg" v-if="msg.questionItem || msg.answer" />
-                </div>
+                </template>
+                <!-- If questionnaire item -->
+                <template v-if="msg.question">
+                    <QuestionItem :message="msg" />
+                </template>
             </template>
         </div>
         <ChatInput />

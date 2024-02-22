@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { scrollToMessage } from '@/helpers/scrollToMessage'
-import { defineProps, onMounted, ref } from 'vue';
+import { defineProps, ref } from 'vue';
 import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import BubbleModal from './BubbleModal.vue';
@@ -33,9 +32,6 @@ switch (props.message.role) {
 }
 if (props.message.isError)
     classList.push("chat-bubble-error");
-
-onMounted(() => scrollToMessage(props.message, "end"));
-
 </script>
 
 <template>
@@ -47,7 +43,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.questionItem)">
+            <span class="chat-message-text">
                 {{
                     isSystem
                     ? (message.message === l.system_topic && Chat.topic

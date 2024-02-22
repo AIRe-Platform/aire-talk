@@ -1,5 +1,4 @@
-import { Answer } from "@/models/chat";
-import { QuestionItem } from "@/models/questionnaire";
+import { AireQuestion, AireQuestionnaireItem } from "./questionnaire";
 
 export interface AireChatbot {
     name: string;
@@ -11,7 +10,7 @@ export interface AireChatMessage {
     timestamp?: number;
     content?: string;
     rating?: number;
-    questionnaire_answer?: Answer;
+    question?: AireQuestionnaireItem;
 }
 
 export interface AireChatInputContext
@@ -47,7 +46,7 @@ export enum AireChatbotEventType {
 }
 
 export interface AireChatState {
-    question_queue?: Array<QuestionItem>;
+    question_queue?: Array<AireQuestion>;
     questionnaire_id?: string;
 }
 
@@ -57,13 +56,12 @@ export type AireChatHistory = Array<AireChatMessage>
 
 export interface AireChatLog {
     messages: Array<AireChatMessage>;
-    state: AireChatState;
+    state?: AireChatState;
 }
 
 export interface AireChatMetadata {
     id: string;
     time: string;
-    chatMessages?: AireChatHistory;
 }
 
 export interface AireChatAbstract {

@@ -1,66 +1,71 @@
 <script setup lang="ts">
-
-import { defineProps, ref, toRaw } from 'vue';
-import { ChatMessage } from "@/models/chat";
+import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
+import { AireQuestionOptionOpen } from '@/lib/aire/models/questionnaire';
 
-const props = defineProps<{ message: ChatMessage }>()
-const answer = ref('')
+const props = defineProps<{
+    message_id: number;
+    options: AireQuestionOptionOpen;
+    answer?: any
+}>();
 
-const submitAnswer = () => {
-    if (props.message.questionItem) {
-        answerQuestion(toRaw(props.message.questionItem), toRaw(answer.value));
-    }
+const answer = ref<string>(props.answer || "")
+const answered = (answer: any) => (answer !== undefined);
+
+const onSubmitAnswer = () => {
+    answerQuestion(props.message_id, answer.value)
 }
-
 </script>
 
 <template>
-    <div v-if="!props.message.answer?.answer">
-        <div class="chat-message-answers">
-            <div class="chat-message-answer">
-                <textarea rows="3" class="chat-message-answer-open" v-model="answer"
-                    :maxlength="props.message.questionItem?.options.max_len"
-                    v-if="props.message.questionItem?.options.multiline"></textarea>
-                <input type="text" class="chat-message-answer-open" v-model="answer"
-                    :maxlength="props.message.questionItem?.options.max_len"
-                    v-if="!props.message.questionItem?.options.multiline" />
-            </div>
+    <div class="questionnaire-answer">
+        <div class="questionnaire-answer-options">
+            <textarea class="text-input" rows="3" v-model="answer" :maxlength="props.options.max_len"
+                v-if="props.options.multiline" :readonly="answered(props.answer)">
+            </textarea>
+            <input type="text" class="text-input" v-model="answer" :maxlength="props.options.max_len"
+                v-if="!props.options?.multiline" :readonly="answered(props.answer)" />
         </div>
-        <button class="chat-message-answer-button" @click="submitAnswer()"
-            v-if="props.message.questionItem">{{ $t("button_accept")
-            }}</button>
-    </div>
-    <div v-if="props.message.answer?.answer">
-        <div v-if="props.message.answer.question">
-            <span class="questionnaire-question">Question: {{ props.message.answer.question }}</span>
-        </div>
-        <div v-if="props.message.answer?.answer">
-            <span class="questionnaire-answer">You answered: {{ props.message.answer.answer }}</span>
+        <div class="questionnaire-answer-actions" v-if="!answered(props.answer)">
+            <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
+                {{ $t("button_accept") }}
+            </button>
         </div>
     </div>
 </template>
 
 <style scoped>
-.chat-message-answer-open {
-    width: 100%;
-    margin-bottom: 0.6rem;
-}
-
-.chat-message-answer {
-    display: flex;
-}
-
-.chat-message-answer-button {
-    border-color: var(--accent-primary-color);
-    float: right;
-}
-
 .questionnaire-answer {
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
 }
 
-.questionnaire-question {
-    font-weight: bold;
+.questionnaire-answer-options {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-answer-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-confirm-button {
+    border-color: var(--accent-primary-color);
+}
+
+.text-input:read-only {
+    cursor: not-allowed;
+    &:hover {
+        box-shadow: unset;
+    }
 }
 </style>

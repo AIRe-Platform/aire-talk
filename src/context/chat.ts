@@ -1,5 +1,5 @@
-import { scrollToMessage } from "@/helpers/scrollToMessage";
-import { Answer, ChatHistory, ChatMessage } from "@/models/chat";
+import { scrollChatToBottom, scrollToMessage } from "@/helpers/scrollToMessage";
+import { ChatHistory, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
@@ -8,7 +8,7 @@ import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatState, AireChatLog } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
-import { QuestionItem } from "@/models/questionnaire";
+import { AireQuestion } from "@/lib/aire/models/questionnaire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -19,11 +19,10 @@ const SAVE_TIMER_TIMEOUT = 10000;
 export interface ChatState {
     id?: string;
     messages: ChatHistory;
-    questionQueue?: Array<QuestionItem>;
+    questionQueue?: Array<AireQuestion>;
     questionnaireId?: string;
     cache: Map<string, ChatHistory>;
     awaitingResponse: boolean;
-    scrolling: boolean;
     modified: boolean;
     landingInfo?: {
         age: number;
@@ -40,7 +39,7 @@ export const Chat: ChatState = reactive(initChatState());
  * Sends a message to the chatbot
  * @param message Message content
  */
-export function sendChatMessage(message: string, answer?: Answer) {
+export function sendChatMessage(message: string) {
     Chat.awaitingResponse = true;
 
     const userMessage: ChatMessage = {
@@ -256,7 +255,7 @@ export async function saveChat() {
                     content: x.message,
                     timestamp: x.timestamp,
                     rating: x.rating,
-                    questionnaire_answer: x.answer
+                    question: x.question
                 };
                 return m;
             });
@@ -295,6 +294,7 @@ export async function openChat(id: string): Promise<boolean> {
     await resetChatState(false, false)
     Chat.id = id
     Chat.messages = getCache(id)!
+    scrollChatToBottom()
     return true
 }
 
@@ -324,12 +324,12 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 message: x.content,
                 timestamp: x.timestamp || 0,
                 rating: x.rating || 0,
-                answer: x.questionnaire_answer
+                question: x.question
             };
             return m;
         });
 
-        setChatState(chatlog.state);
+        setChatState(chatlog.state || {});
         setCache(messages, id)
         return true
     }
@@ -404,6 +404,73 @@ export function getCache(id: string): ChatHistory | undefined {
 }
 
 /**
+ * Query questionnaires with current keywords and start a questionnaire
+ * @returns Boolean to indicate whether the questionnaire was found and started
+ */
+export async function queryAndStartQuestionnaire(): Promise<boolean> {
+    if (!Chat.keywords || Chat.keywords.length < 1)
+        return false;
+
+    if (AireServices.Memory) {
+        const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.keywords)
+        if (questionnaire) {
+            // TODO: Check for saved answers
+
+            // Pick relevant questions from the questionnaire
+            const questions = questionnaire.content.flatMap(x => {
+                let match_content = x.keywords === undefined;
+                if (x.keywords)
+                    x.keywords.forEach(k => match_content = Chat.keywords?.includes(k) || match_content)
+
+                if (match_content) {
+                    return x.questions.filter(q => {
+                        let match_question = q.keywords === undefined;
+                        if (q.keywords)
+                            q.keywords.forEach(k => match_question = Chat.keywords?.includes(k) || match_content)
+                        return match_question
+                    })
+                }
+                return []
+            })
+
+            if (questions.length === 0) {
+                console.warn("This questionnaire does not have suitable questions")
+                return false;
+            }
+
+            // Add questions to queue and push first question to chat
+            Chat.questionnaireId = questionnaire.id;
+            Chat.questionQueue = questions
+            return pushNextQuestion();
+        }
+    } else {
+        console.error("Memory service is not available")
+    }
+    return false
+}
+
+/**
+ * Set questionnaire answer
+ * @param message_id 
+ * @param answer 
+ */
+export async function answerQuestion(message_id: number, answer: any) {
+    const i = Chat.messages.findIndex(x => x.id === message_id);
+    if (i > -1) {
+        if (Chat.messages[i].question) {
+            Chat.messages[i].question!.answer = answer
+            Chat.modified = true;
+        }
+
+        startAutoSaveTimer();
+        pushNextQuestion();
+    }
+    else {
+        console.warn("Did not find the question message or the message is not a question");
+    }
+}
+
+/**
  * Set messages into the chatlog cache
  * @param chat Chat history
  * @param id Optional ID, if not given, caches the current chat
@@ -425,24 +492,6 @@ function setChatState(state: AireChatState) {
  */
 function clearCache(id: string) {
     Chat.cache.delete(id)
-}
-
-export async function answerQuestion(questionItem: QuestionItem, answer: any) {
-    const answerObject: Answer = {
-        question_id: questionItem.id,
-        type: questionItem.type,
-        answer: answer,
-        options: questionItem.options,
-        question: questionItem.question,
-        prompt: questionItem.prompt
-    }
-
-    const message = Chat.messages.find(x => x.questionItem?.id == questionItem.id);
-    if (message) {
-        message.answer = answerObject;
-        Chat.modified = true;
-        startAutoSaveTimer();
-    }
 }
 
 /**
@@ -472,14 +521,6 @@ function receiver(msg: AireTalkMessage) {
     Chat.awaitingResponse = !msg.final;
 
     pushMessage(last, firstMessage, msg.final)
-
-    if (!Chat.scrolling || msg.final) {
-        Chat.scrolling = true;
-        setTimeout(() => {
-            scrollToMessage(last, msg.final ? "start" : "end")
-            Chat.scrolling = false;
-        }, 1000);
-    }
 }
 
 /**
@@ -533,6 +574,39 @@ function pushMessage(message: ChatMessage, create: boolean = true, final: boolea
         Chat.modified = true
         startAutoSaveTimer()
     }
+
+    scrollChatToBottom();
+}
+
+function pushNextQuestion(): boolean {
+    const next = Chat.questionQueue?.shift()
+    if (!next) {
+        Chat.questionQueue = undefined;
+        if (Chat.questionnaireId) {
+            console.debug("TODO: Process and save questionnaire results")
+
+            Chat.questionnaireId = undefined;
+        }
+        return false;
+    }
+
+    const item: ChatMessage = {
+        id: generateRandomID(),
+        sender: SYSTEM_NAME,
+        role: "assistant",
+        rating: 0,
+        timestamp: Date.now(),
+        question: {
+            question_id: next.id,
+            type: next.type,
+            question: next.question,
+            prompt: next.prompt,
+            options: next.options
+        }
+    };
+
+    pushMessage(item);
+    return true;
 }
 
 /**
@@ -543,7 +617,6 @@ function initChatState(): ChatState {
         messages: [systemGreeting()],
         awaitingResponse: false,
         modified: false,
-        scrolling: false,
         cache: new Map,
         questionQueue: [],
     }
@@ -563,7 +636,6 @@ async function resetChatState(skip_save: boolean = false, clear_cache = true) {
     Chat.id = undefined
     Chat.messages = [systemGreeting()]
     Chat.awaitingResponse = false;
-    Chat.scrolling = false;
     Chat.modified = false;
     Chat.landingInfo = undefined;
     Chat.topic = undefined;

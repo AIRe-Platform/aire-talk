@@ -10,6 +10,7 @@ import {
     AireChatAbstract
 } from "./models/chat";
 import { AireServices } from ".";
+import { AireQuestionnaireItem, AireQuestionnaireResults } from "./models/questionnaire";
 
 export class AireAI {
     private config: AireModule;
@@ -249,5 +250,38 @@ export class AireAI {
                 console.error(reason);
                 return undefined
             })
+    }
+
+    public async processQuestionnaire(questionnaire_id: string, answers: AireQuestionnaireItem[]): Promise<AireQuestionnaireResults | undefined> {
+        const token = AireServices.ID?.getAccessToken()
+
+        if (!token) return undefined
+
+        const url = new URL(this.config.endpoint + "/questionnaire-results");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        };
+
+        return await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+                questionnaire_id: questionnaire_id,
+                answers: answers
+            })
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as AireQuestionnaireResults;
+                else
+                    throw Error("Failed to process questionnaire results");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+        return undefined
     }
 }

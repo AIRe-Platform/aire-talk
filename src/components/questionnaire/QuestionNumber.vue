@@ -1,63 +1,76 @@
 <script setup lang="ts">
-
-import { defineProps, ref, toRaw } from 'vue';
-import { ChatMessage } from "@/models/chat";
+import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
-import { QuestionOptionType } from '@/models/questionnaire';
+import { AireQuestionOptionNumber } from '@/lib/aire/models/questionnaire';
 
-const props = defineProps<{ message: ChatMessage }>()
-const answer = ref('')
+const props = defineProps<{
+    message_id: number;
+    options?: AireQuestionOptionNumber;
+    answer?: any
+}>();
 
-const submitAnswer = () => {
-    if (props.message.questionItem) {
-        answerQuestion(toRaw(props.message.questionItem), toRaw(answer.value));
-    }
+const answered = (answer: any) => (answer !== undefined);
+const answer = ref(props.answer as number || props.options?.default)
+
+const onSubmitAnswer = () => {
+    if (answer.value)
+        answerQuestion(props.message_id, answer.value)
 }
-
 </script>
 
 <template>
-    <div v-if="props.message.questionItem?.type == QuestionOptionType.Number && !props.message.answer?.answer">
-        <div class="chat-message-answers">
-            <div class="chat-message-answer">
-                <input type="number" class="chat-message-answer-number" v-model="answer"
-                    :min="props.message.questionItem?.options.min" :max="props.message.questionItem?.options.max">
-            </div>
+    <div class="questionnaire-answer">
+        <div class="questionnaire-answer-options">
+            <input type="number" v-model="answer" :min="props.options?.min" :max="props.options?.max"
+                :disabled="answered(props.answer)">
         </div>
-        <button class="chat-message-answer-button" @click="submitAnswer" v-if="props.message.questionItem">{{
-            $t("button_accept")
-        }}</button>
-    </div>
-    <div v-if="props.message.answer">
-        <div v-if="props.message.answer.question">
-            <span class="questionnaire-question">Question: {{ props.message.answer.question }}</span>
-        </div>
-        <div v-if="props.message.answer?.answer">
-            <span class="questionnaire-answer">You answered: {{ props.message.answer.answer }}</span>
+        <div class="questionnaire-answer-actions" v-if="!answered(props.answer)">
+            <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
+                {{ $t("button_accept") }}
+            </button>
         </div>
     </div>
 </template>
 
 <style scoped>
-.chat-message-answer-number {
-    width: 100%;
-    margin-bottom: 0.6rem;
-}
-
-.chat-message-answer {
-    display: flex;
-}
-
-.chat-message-answer-button {
-    border-color: var(--accent-primary-color);
-    float: right;
-}
-
 .questionnaire-answer {
-    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
 }
 
-.questionnaire-question {
-    font-weight: bold;
+.questionnaire-answer-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    input {
+        font-size: 2rem;
+        width: 10rem;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+
+        &:hover {
+            box-shadow: unset;
+        }
+    }
+}
+
+.questionnaire-answer-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.questionnaire-confirm-button {
+    border-color: var(--accent-primary-color);
 }
 </style>
