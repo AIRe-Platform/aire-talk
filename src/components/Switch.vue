@@ -66,7 +66,7 @@ defineEmits<{
 
 @keyframes slide-in {
     0% {
-        margin-left: 5rem;
+        margin-left: calc(100% - 4.2rem);
     }
     100% {
         margin-left: 0rem;
@@ -75,7 +75,7 @@ defineEmits<{
 
 @-webkit-keyframes slide-in {
     0% {
-        margin-left: 5rem;
+        margin-left: calc(100% - 4.2rem);
     }
     100% {
         margin-left: 0rem;
@@ -87,7 +87,7 @@ defineEmits<{
         margin-left: 0rem;
     }
     100% {
-        margin-left: 5rem;
+        margin-left: calc(100% - 4.2rem);
     }
 }
 
@@ -96,14 +96,14 @@ defineEmits<{
         margin-left: 0rem;
     }
     100% {
-        margin-left: 5rem;
+        margin-left: calc(100% - 4.2rem);
     }
 }
 
 @media screen and (max-width: 600px) {
     @keyframes slide-in {
         0% {
-            margin-left: 55%;
+            margin-left: calc(100% - 8.2rem);
         }
         100% {
             margin-left: 0rem;
@@ -112,7 +112,7 @@ defineEmits<{
 
     @-webkit-keyframes slide-in {
         0% {
-            margin-left: 55%;
+            margin-left: calc(100% - 8.2rem);
         }
         100% {
             margin-left: 0rem;
@@ -124,7 +124,7 @@ defineEmits<{
             margin-left: 0rem;
         }
         100% {
-            margin-left: 55%;
+            margin-left: calc(100% - 45.4%);
         }
     }
 
@@ -133,7 +133,7 @@ defineEmits<{
             margin-left: 0rem;
         }
         100% {
-            margin-left: 55%;
+            margin-left: calc(100% - 45.4%);
         }
     }
 }
