@@ -1,5 +1,5 @@
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatHistory, ChatMessage } from "@/models/chat";
+import { ChatCache, ChatContext, ChatMessage, ChatState } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
@@ -8,45 +8,12 @@ import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
-import { AireQuestion } from "@/lib/aire/models/questionnaire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
 
 let save_timer_id: number | undefined = undefined;
 const SAVE_TIMER_TIMEOUT = 10000;
-
-export interface QuestionnaireState {
-    active_id: string;
-    question_queue: Array<AireQuestion>;
-    completed: boolean;
-}
-
-export interface ChatState {
-    topic?: Topic;
-    summary?: string;
-    keywords?: Array<string>;
-    questionnaire?: QuestionnaireState;
-}
-
-export interface ChatCache {
-    messages: ChatMessage[]
-    state?: ChatState
-}
-
-export interface ChatContext {
-    id?: string;
-    messages: ChatHistory;
-    cache: Map<string, ChatCache>;
-    awaitingResponse: boolean;
-    modified: boolean;
-    current: ChatState;
-
-    landingInfo?: {
-        age: number;
-        occupation: string;
-    };
-}
 
 export const Chat: ChatContext = reactive(initChatState());
 

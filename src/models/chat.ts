@@ -1,5 +1,6 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { AireQuestionnaireAnswer } from "@/lib/aire/models/questionnaire";
+import { AireQuestion, AireQuestionnaireAnswer } from "@/lib/aire/models/questionnaire";
+import { Topic } from "./topic";
 
 export interface ChatMessage {
     id: number;
@@ -13,6 +14,38 @@ export interface ChatMessage {
     question?: AireQuestionnaireAnswer;
     rating: number;
     hidden?: boolean;
+}
+
+export interface QuestionnaireState {
+    active_id: string;
+    question_queue: Array<AireQuestion>;
+    completed: boolean;
+}
+
+export interface ChatState {
+    topic?: Topic;
+    summary?: string;
+    keywords?: Array<string>;
+    questionnaire?: QuestionnaireState;
+}
+
+export interface ChatCache {
+    messages: ChatMessage[]
+    state?: ChatState
+}
+
+export interface ChatContext {
+    id?: string;
+    messages: ChatHistory;
+    cache: Map<string, ChatCache>;
+    awaitingResponse: boolean;
+    modified: boolean;
+    current: ChatState;
+
+    landingInfo?: {
+        age: number;
+        occupation: string;
+    };
 }
 
 export type ChatHistory = Array<ChatMessage>
