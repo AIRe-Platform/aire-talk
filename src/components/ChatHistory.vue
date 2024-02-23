@@ -60,6 +60,9 @@ const onSelect = async (id: string) => {
 
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
+
+    if (window.innerWidth < 600)
+        UIState.showMenu = false;
 };
 
 const onConfirmDelete = () => {
