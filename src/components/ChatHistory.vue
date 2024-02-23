@@ -85,7 +85,10 @@ const onDeleteChat = async (id: string) => {
 
 const getLastMessage = (id: string) => {
     const log = getCache(id);
-    if (log) return log.messages[log.messages.length - 1].message || "";
+    if (log) return (
+        log.messages[log.messages.length - 1].message
+        || log.messages[log.messages.length - 1].question?.question
+        || "");
     return "";
 };
 
@@ -96,22 +99,14 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <ConfirmDialog
-        v-if="showConfirmModal"
-        :onAccept="onConfirmDelete"
-        :onDecline="onCancelDelete"
-    >
+    <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
     <div class="restore-chat-panel" v-on-click-outside="onClickOutside">
         <div class="restore-chat-list">
             <Spinner v-if="busy" />
-            <div
-                class="restore-chat-item"
-                v-for="item in items"
-                v-bind:key="item.id"
-                :class="{ 'restore-chat-item-open': isOpen(item.id) }"
-            >
+            <div class="restore-chat-item" v-for="item in items" v-bind:key="item.id"
+                :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                 <div class="restore-chat-row">
                     <div class="restore-chat-column" @click="onSelect(item.id)">
                         <div class="restore-chat-date">
@@ -121,10 +116,7 @@ const onClickOutside = (e: Event) => {
                             {{ getLastMessage(item.id) }}
                         </div>
                     </div>
-                    <div
-                        class="restore-chat-button-delete"
-                        @click="onDeleteChat(item.id)"
-                    >
+                    <div class="restore-chat-button-delete" @click="onDeleteChat(item.id)">
                         <font-awesome-icon icon="fa-solid fa-trash" />
                     </div>
                 </div>
