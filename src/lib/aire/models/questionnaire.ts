@@ -67,7 +67,8 @@ export interface AireQuestionnaire {
     content: Array<AireQuestionnaireContent>;
 }
 
-export interface AireQuestionnaireItem {
+export interface AireQuestionnaireAnswer {
+    questionnaire_id: string;
     question_id: string;
     type: AireQuestionOptionType;
     question: string;
@@ -81,7 +82,7 @@ export interface AireQuestionnaireResults {
     questionnaire_id: string;
     timestamp?: Date;
     preliminary?: object;
-    answers: AireQuestionnaireItem[];
+    answers: AireQuestionnaireAnswer[];
     summary: string;
     prompts?: string[];
 }

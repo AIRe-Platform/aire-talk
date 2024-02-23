@@ -1,5 +1,5 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { AireQuestionnaireItem } from "@/lib/aire/models/questionnaire";
+import { AireQuestionnaireAnswer } from "@/lib/aire/models/questionnaire";
 
 export interface ChatMessage {
     id: number;
@@ -10,7 +10,7 @@ export interface ChatMessage {
     message?: string;
     image?: string;
     video?: string;
-    question?: AireQuestionnaireItem;
+    question?: AireQuestionnaireAnswer;
     rating: number;
     hidden?: boolean;
 }

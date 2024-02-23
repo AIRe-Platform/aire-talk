@@ -10,7 +10,7 @@ import {
     AireChatAbstract
 } from "./models/chat";
 import { AireServices } from ".";
-import { AireQuestionnaireItem, AireQuestionnaireResults } from "./models/questionnaire";
+import { AireQuestionnaireAnswer, AireQuestionnaireResults } from "./models/questionnaire";
 
 export class AireAI {
     private config: AireModule;
@@ -252,7 +252,7 @@ export class AireAI {
             })
     }
 
-    public async processQuestionnaire(questionnaire_id: string, answers: AireQuestionnaireItem[]): Promise<AireQuestionnaireResults | undefined> {
+    public async processQuestionnaire(questionnaire_id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {
         const token = AireServices.ID?.getAccessToken()
 
         if (!token) return undefined

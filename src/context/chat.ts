@@ -423,12 +423,13 @@ export async function answerQuestion(message_id: number, answer: any) {
  * in the memory. Processed prompts are added to the chat context
  */
 export async function sendQuestionnaireAnswers(): Promise<boolean> {
-    if (!Chat.current.questionnaire?.completed)
+    if(!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
         return false;
 
     if (AireServices.AI && AireServices.Memory) {
         const answers = Chat.messages
-            .filter(x => x.question && x.question && x.question)
+            .filter(x => x.question 
+                && Chat.current.questionnaire!.active_id === x.question.questionnaire_id)
             .map(x => x.question!)
 
         const results = await AireServices.AI.processQuestionnaire(
@@ -590,10 +591,12 @@ function pushMessage(message: ChatMessage, create: boolean = true, final: boolea
  * @returns Returns false if the questionnaire has been completed or there's none.
  */
 function pushNextQuestion(): boolean {
-    const next = Chat.current.questionnaire?.question_queue.shift()
+    if (!Chat.current.questionnaire)
+        return false
+
+    const next = Chat.current.questionnaire.question_queue.shift()
     if (!next) {
-        if (Chat.current.questionnaire)
-            Chat.current.questionnaire.completed = true;
+        Chat.current.questionnaire.completed = true;
         return false;
     }
 
@@ -604,6 +607,7 @@ function pushNextQuestion(): boolean {
         rating: 0,
         timestamp: Date.now(),
         question: {
+            questionnaire_id: Chat.current.questionnaire.active_id,
             question_id: next.id,
             type: next.type,
             question: next.question,

@@ -1,4 +1,4 @@
-import { AireQuestion, AireQuestionnaireItem } from "./questionnaire";
+import { AireQuestion, AireQuestionnaireAnswer } from "./questionnaire";
 
 export interface AireChatbot {
     name: string;
@@ -10,7 +10,7 @@ export interface AireChatMessage {
     timestamp?: number;
     content?: string;
     rating?: number;
-    question?: AireQuestionnaireItem;
+    question?: AireQuestionnaireAnswer;
     hidden?: boolean;
 }
 
