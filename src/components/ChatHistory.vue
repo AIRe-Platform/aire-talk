@@ -85,11 +85,11 @@ const onDeleteChat = async (id: string) => {
 
 const getLastMessage = (id: string) => {
     const log = getCache(id);
-    if (log) return (
-        log.messages[log.messages.length - 1].message
-        || log.messages[log.messages.length - 1].question?.question
-        || "");
-    return "";
+    return (
+        log?.messages[log.messages.length - 1].message ||
+        log?.messages[log.messages.length - 1].question?.question || 
+        ""
+    );
 };
 
 const onClickOutside = (e: Event) => {
