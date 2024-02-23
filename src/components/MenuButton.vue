@@ -38,7 +38,18 @@ const props = defineProps<{
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
 
+    transition: 
+        border-color .25s, 
+        background-color .25s, 
+        box-shadow .25s;
+
     cursor: pointer;
+}
+
+.menu-button-active {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .button-graphics {
