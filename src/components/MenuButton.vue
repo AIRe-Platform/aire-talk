@@ -27,8 +27,8 @@ const props = defineProps<{
     justify-content: center;
 
     padding: 0.5rem;
-    left: 1.5rem;
-    top: 1.5rem;
+    left: 1rem;
+    top: 1rem;
     width: 3.5rem;
     height: 3.2rem;
     z-index: 10;
