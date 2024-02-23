@@ -154,6 +154,7 @@ export function revertToMessage(id: number) {
     if (index > -1) {
         Chat.messages = Chat.messages.slice(0, index + 1)
         Chat.modified = true
+        Chat.current.questionnaire = undefined;
         startAutoSaveTimer()
     }
     else {
