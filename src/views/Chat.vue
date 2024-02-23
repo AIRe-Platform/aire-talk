@@ -32,27 +32,29 @@ onMounted(() => {
     <div class="chat-view">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
-                <!-- If chat bubble -->
-                <template v-if="msg.question === undefined">
-                    <div class="chat-view-row">
-                        <div class="chat-view-content-left">
-                            <div class="chat-view-user" v-if="msg.role === 'user'">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                <template v-if="!msg.hidden">
+                    <!-- If chat bubble -->
+                    <template v-if="msg.question === undefined">
+                        <div class="chat-view-row">
+                            <div class="chat-view-content-left">
+                                <div class="chat-view-user" v-if="msg.role === 'user'">
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                </div>
+                            </div>
+                            <div class="chat-view-content-right">
+                                <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                </div>
                             </div>
                         </div>
-                        <div class="chat-view-content-right">
-                            <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                            </div>
+                        <div class="chat-view-system" v-if="msg.role === 'system'">
+                            <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                         </div>
-                    </div>
-                    <div class="chat-view-system" v-if="msg.role === 'system'">
-                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                    </div>
-                </template>
-                <!-- If questionnaire item -->
-                <template v-if="msg.question">
-                    <QuestionItem :message="msg" />
+                    </template>
+                    <!-- If questionnaire item -->
+                    <template v-if="msg.question">
+                        <QuestionItem :message="msg" />
+                    </template>
                 </template>
             </template>
         </div>

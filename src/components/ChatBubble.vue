@@ -46,8 +46,8 @@ if (props.message.isError)
             <span class="chat-message-text">
                 {{
                     isSystem
-                    ? (message.message === l.system_topic && Chat.topic
-                        ? ($t(message.message!) + $t(Chat.topic.localization_key))
+                    ? (message.message === l.system_topic && Chat.current.topic
+                        ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
                         : $t(message.message!))
                     : message.message
                 }}

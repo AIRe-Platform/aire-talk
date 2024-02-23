@@ -11,6 +11,7 @@ export interface AireChatMessage {
     content?: string;
     rating?: number;
     question?: AireQuestionnaireItem;
+    hidden?: boolean;
 }
 
 export interface AireChatInputContext
@@ -45,18 +46,13 @@ export enum AireChatbotEventType {
     End = "end"
 }
 
-export interface AireChatState {
-    question_queue?: Array<AireQuestion>;
-    questionnaire_id?: string;
-}
-
 export type AireRole = "assistant" | "user" | "system";
 
 export type AireChatHistory = Array<AireChatMessage>
 
 export interface AireChatLog {
     messages: Array<AireChatMessage>;
-    state?: AireChatState;
+    state?: object;
 }
 
 export interface AireChatMetadata {

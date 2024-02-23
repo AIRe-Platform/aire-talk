@@ -27,8 +27,8 @@ const querySurveys = async () => {
 }
 
 const removeWord = (word: string) => {
-    if (Chat.keywords) {
-        Chat.keywords.splice(Chat.keywords.indexOf(word), 1);
+    if (Chat.current.keywords) {
+        Chat.current.keywords.splice(Chat.current.keywords.indexOf(word), 1);
     }
 }
 
@@ -39,11 +39,11 @@ const sendSurvey = async () => {
 }
 
 const clearSummary = () => {
-    Chat.summary = undefined;
+    Chat.current.summary = undefined;
 }
 
 const clearKeywords = () => {
-    Chat.keywords = undefined;
+    Chat.current.keywords = undefined;
 }
 </script>
 
@@ -54,11 +54,11 @@ const clearKeywords = () => {
         </div>
         <Spinner v-if="busy" />
         <template v-if="!busy">
-            <div class="summary-text" v-if="Chat.summary">
-                {{ Chat.summary }}
+            <div class="summary-text" v-if="Chat.current.summary">
+                {{ Chat.current.summary }}
             </div>
-            <div class="summary-keywords" v-if="(Chat.keywords || []).length > 0">
-                <div class="summary-keyword-item" v-for="word, id  in Chat.keywords" :key="id">
+            <div class="summary-keywords" v-if="(Chat.current.keywords || []).length > 0">
+                <div class="summary-keyword-item" v-for="word, id  in Chat.current.keywords" :key="id">
                     <span class="summary-keyword-text">{{ word }}</span>
                     <div class="summary-keyword-delete" @click="removeWord(word)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
@@ -71,11 +71,11 @@ const clearKeywords = () => {
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
                 <button class="summary-button" @click="querySurveys"
-                    v-if="(Chat.keywords || []).length > 0 && !Chat.questionnaire">
+                    v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
-                <button class="summary-button" @click="sendSurvey" v-if="Chat.questionnaire?.completed">
+                <button class="summary-button" @click="sendSurvey" v-if="Chat.current.questionnaire?.completed">
                     <span class="summary-button-text">{{ $t(l.summary_send_survey_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>

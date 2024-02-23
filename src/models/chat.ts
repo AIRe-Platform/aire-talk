@@ -7,12 +7,12 @@ export interface ChatMessage {
     role: AireRole;
     isError?: boolean;
     timestamp: number;
-    title?: string;
     message?: string;
     image?: string;
     video?: string;
     question?: AireQuestionnaireItem;
     rating: number;
+    hidden?: boolean;
 }
 
 export type ChatHistory = Array<ChatMessage>
