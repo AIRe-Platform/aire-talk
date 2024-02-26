@@ -1,4 +1,4 @@
-import { AireTalkReceiver } from "./models/talk";
+import { AireTalkKeywords, AireTalkReceiver } from "./models/talk";
 import { AireModule, AireModuleType } from "./models/service";
 import { AireErrorHandler, AireErrorKey } from "./models/error";
 import {
@@ -70,7 +70,7 @@ export class AireAI {
                         if (line.startsWith("event: ")) {
                             const eventType = line.substring(line.indexOf(":") + 1).trim();
                             if (eventType === AireChatbotEventType.End) {
-                                callback({ final: true });
+                                callback({ type: eventType });
                                 return;
                             }
                             else if ((<any>Object).values(AireChatbotEventType).includes(eventType)) {
@@ -82,16 +82,23 @@ export class AireAI {
                         }
                         else if (line.startsWith("data: ")) {
                             const value = line.substring(line.indexOf(":") + 1).trim();
-                            if (dataEvent === AireChatbotEventType.Data) {
+                            if (dataEvent === AireChatbotEventType.Message) {
                                 try {
                                     const output = JSON.parse(value) as AireChatbotOutput;
-                                    callback({ message: output.content, role: output.type, final: false });
+                                    callback({ type: dataEvent, message: output });
                                 }
                                 catch (reason) {
-                                    console.error(reason);
-
-                                    // Probably incomplete data
                                     buf += "event: data\n";
+                                    buf += line;
+                                }
+                            }
+                            else if (dataEvent == AireChatbotEventType.Keywords) {
+                                try {
+                                    const keywords = JSON.parse(value) as AireTalkKeywords;
+                                    callback({ type: dataEvent, keywords: keywords })
+                                }
+                                catch (reason) {
+                                    buf += "event: keywords\n";
                                     buf += line;
                                 }
                             }

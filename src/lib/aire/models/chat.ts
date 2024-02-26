@@ -30,8 +30,8 @@ export interface AireChatbotInput {
 export interface AireChatbotOutput {
     content: string;
     type: AireRole;
-    example: boolean;
-    additional_kwargs: any;
+    example?: boolean;
+    additional_kwargs?: any;
 }
 
 export interface AireChatbotErrorEvent {
@@ -40,9 +40,10 @@ export interface AireChatbotErrorEvent {
 }
 
 export enum AireChatbotEventType {
-    Data = "data",
+    Message = "message",
     Error = "error",
     Metadata = "metadata",
+    Keywords = "keywords",
     End = "end"
 }
 

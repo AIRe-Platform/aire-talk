@@ -3,7 +3,7 @@ import { ChatCache, ChatContext, ChatMessage, ChatState } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import { AireServices } from "@/lib/aire";
 import { AireError } from "@/lib/aire/models/error";
-import { AireTalkMessage } from "@/lib/aire/models/talk";
+import { AireTalkEvent } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog } from "@/lib/aire/models/chat";
@@ -390,12 +390,12 @@ export async function answerQuestion(message_id: number, answer: any) {
  * in the memory. Processed prompts are added to the chat context
  */
 export async function sendQuestionnaireAnswers(): Promise<boolean> {
-    if(!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
+    if (!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
         return false;
 
     if (AireServices.AI && AireServices.Memory) {
         const answers = Chat.messages
-            .filter(x => x.question 
+            .filter(x => x.question
                 && Chat.current.questionnaire!.active_id === x.question.questionnaire_id)
             .map(x => x.question!)
 
@@ -475,28 +475,36 @@ function clearCache(id: string) {
  * Chatbot answer receiver callback
  * @param msg Message or a part of it
  */
-function receiver(msg: AireTalkMessage) {
-    let last = Chat.messages[Chat.messages.length - 1];
-    let firstMessage = false // start of the answer stream?
+function receiver(e: AireTalkEvent) {
+    if (e.type === "keywords") {
+        Chat.current.keywords = e.keywords
+        return;
+    }
 
-    if (last.role !== "assistant") {
-        last = {
-            id: generateRandomID(),
-            sender: BOT_NAME,
-            role: "assistant",
-            message: "",
-            timestamp: Date.now(),
-            rating: 0
+    if (e.type === "message" || e.type === "end") {
+        const final = (e.type === "end");
+        let last = Chat.messages[Chat.messages.length - 1];
+        let firstMessage = false // start of the answer stream?
+
+        if (last.role !== "assistant") {
+            last = {
+                id: generateRandomID(),
+                sender: BOT_NAME,
+                role: "assistant",
+                message: "",
+                timestamp: Date.now(),
+                rating: 0
+            }
+            firstMessage = true
         }
-        firstMessage = true
-    }
 
-    if (msg && msg.message) {
-        last.message += msg.message;
-    }
-    Chat.awaitingResponse = !msg.final;
+        if (e.message) {
+            last.message += e.message.content;
+        }
+        Chat.awaitingResponse = !final;
 
-    pushMessage(last, firstMessage, msg.final)
+        pushMessage(last, firstMessage, final)
+    }
 }
 
 /**

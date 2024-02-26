@@ -1,9 +1,11 @@
-import { AireRole } from "./chat";
+import { AireChatbotEventType, AireChatbotOutput, AireRole } from "./chat";
 
-export interface AireTalkMessage {
-    role?: AireRole;
-    message?: string;
-    final: boolean;
+export type AireTalkKeywords = string[];
+
+export interface AireTalkEvent {
+    type: AireChatbotEventType;
+    message?: AireChatbotOutput;
+    keywords?: AireTalkKeywords;
 }
 
-export type AireTalkReceiver = (message: AireTalkMessage) => void;
+export type AireTalkReceiver = (event: AireTalkEvent) => void;
