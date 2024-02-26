@@ -62,7 +62,7 @@ const activateField = (id: string) => {
                 <div class="form-input">
                     <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                         :readonly="busy" />
-                    <button class="profile-edit-button" @click="activateField('first-name')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('first-name')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -72,7 +72,7 @@ const activateField = (id: string) => {
                 <div class="form-input">
                     <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                         :readonly="busy" />
-                    <button class="profile-edit-button" @click="activateField('last-name')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('last-name')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -87,7 +87,7 @@ const activateField = (id: string) => {
                             {{ $t(g.name) }}
                         </option>
                     </select>
-                    <button class="profile-edit-button" @click="activateField('gender')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('gender')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -96,7 +96,7 @@ const activateField = (id: string) => {
                 <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
                 <div class="form-input">
                     <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="busy" />
-                    <button class="profile-edit-button" @click="activateField('age')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('age')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -107,7 +107,7 @@ const activateField = (id: string) => {
                 <label class="form-label" for="language">{{ $t(l.profile_label_language) }}</label>
                 <div class="form-input">
                     <input id="language" type="text" v-model="profile.language" :readonly="busy" />
-                    <button class="profile-edit-button" @click="activateField('language')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('language')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -117,7 +117,7 @@ const activateField = (id: string) => {
                 <div class="form-input">
                     <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                         :readonly="busy" />
-                    <button class="profile-edit-button" @click="activateField('country')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('country')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
@@ -128,7 +128,7 @@ const activateField = (id: string) => {
                 <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
                 <div class="form-input-max">
                     <textarea id="bio" rows="4" cols="30" v-model="profile.bio" :readonly="busy"></textarea>
-                    <button class="profile-edit-button" @click="activateField('bio')" :disabled="busy">
+                    <button class="profile-edit-button" @click.prevent="activateField('bio')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>
                 </div>
