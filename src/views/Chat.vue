@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { Chat } from "@/context/chat";
-import ChatBubble from "@/components/ChatBubble.vue";
-import ChatInput from "@/components/ChatInput.vue";
-import ChatSummary from "@/components/ChatSummary.vue";
 import { ChatMessage } from "@/models/chat";
+import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import OptionsButton from "@/components/OptionsButton.vue";
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
-import { scrollChatToBottom } from "@/helpers/scrollToMessage";
+import ChatBubble from "@/components/chat/ChatBubble.vue";
+import ChatInput from "@/components/chat/ChatInput.vue";
+import ChatSummary from "@/components/chat/ChatSummary.vue";
 defineComponent({ name: "ChatView" });
 
 const showSideBar = ref(false);

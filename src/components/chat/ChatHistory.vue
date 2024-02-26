@@ -9,11 +9,11 @@ import {
     openChat,
     getCache,
 } from "@/context/chat";
-import ConfirmDialog from "./ConfirmDialog.vue";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
-import Spinner from "./Spinner.vue";
+import Spinner from "@/components/Spinner.vue";
 
 const emit = defineEmits<{
     closePanel: [e: any];

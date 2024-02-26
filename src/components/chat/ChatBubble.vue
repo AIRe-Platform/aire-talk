@@ -3,9 +3,9 @@ import { ChatMessage } from '@/models/chat';
 import { defineProps, ref } from 'vue';
 import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
-import BubbleModal from './BubbleModal.vue';
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
-import ConfirmDialog from './ConfirmDialog.vue';
+import ChatBubbleModal from './ChatBubbleModal.vue';
 
 const props = defineProps<{ message: ChatMessage, can_revert: boolean }>()
 const isSystem = props.message.role === "system";
@@ -36,7 +36,7 @@ if (props.message.isError)
 
 <template>
     <div :id="props.message.id.toString()" :class=classList @click="toggleModal">
-        <BubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
+        <ChatBubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">

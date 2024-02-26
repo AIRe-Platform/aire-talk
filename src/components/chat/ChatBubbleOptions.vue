@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { l } from '@/locales';
-import ConfirmDialog from './ConfirmDialog.vue';
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { revertToMessage, setMessageRating } from '@/context/chat';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';

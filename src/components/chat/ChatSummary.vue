@@ -7,8 +7,8 @@ import {
     sendQuestionnaireAnswers
 } from '@/context/chat';
 import { ref } from 'vue';
-import Spinner from './Spinner.vue';
-import Panel from './Panel.vue';
+import Spinner from '@/components/Spinner.vue';
+import Panel from '@/components/Panel.vue';
 
 const busy = ref(false);
 
