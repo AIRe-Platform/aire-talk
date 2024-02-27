@@ -7,7 +7,7 @@ import { AireTalkEvent } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog } from "@/lib/aire/models/chat";
-import i18n, { l } from "@/locales";
+import i18n, { getLocale, l } from "@/locales";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -324,7 +324,7 @@ export async function queryAndStartQuestionnaire(): Promise<boolean> {
         return false;
 
     if (AireServices.Memory) {
-        const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords)
+        const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getLocale())
         if (questionnaire) {
             // TODO: Check for saved answers
 
@@ -600,7 +600,7 @@ function pushNextQuestion(): boolean {
  * @returns Input data for chatbot
  */
 function getChatbotInputData(): AireChatbotInput {
-    const loc = i18n.global.locale as any;
+    const locale = getLocale()
     const messages = Chat.messages
         .filter(x => x.role === "assistant" || x.role === "user")
         .map(x => {
@@ -619,7 +619,7 @@ function getChatbotInputData(): AireChatbotInput {
             age: Chat.landingInfo?.age,
             occupation: Chat.landingInfo?.occupation,
             topic: Chat.current.topic?.name,
-            language: loc.value
+            language: locale
         }
     };
 

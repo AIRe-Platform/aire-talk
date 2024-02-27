@@ -120,13 +120,14 @@ export class AireMemory {
             })
     }
 
-    public async queryQuestionnaire(keywords: string[]): Promise<AireQuestionnaire | undefined> {
+    public async queryQuestionnaire(keywords: string[], lang: string): Promise<AireQuestionnaire | undefined> {
         const token = AireServices.ID?.getAccessToken()
 
         if (!token) return undefined
 
         const params = new URLSearchParams({
-            query: keywords.join(",")
+            query: keywords.join(","),
+            lang: lang
         });
         const url = new URL(this.config.endpoint + "/v1/questionnaire?" + params);
         const headers: { [key: string]: string } = {

@@ -48,3 +48,8 @@ export function setLocale(lang: Lang) {
 
     localStorage.setItem("locale", lang);
 }
+
+export function getLocale() {
+    const loc = i18n.global.locale as any;
+    return loc.value as string;
+}
