@@ -5,6 +5,7 @@ import { Login, saveProfile } from "@/context/login";
 import { AireUser } from "@/lib/aire/models/user";
 import { l } from '@/locales';
 import Spinner from "@/components/Spinner.vue";
+import ISO6391 from 'iso-639-1';
 
 const busy = ref(false);
 const profile = reactive<{
@@ -26,6 +27,13 @@ const genderList = [
     { id: "female", name: l.gender_female },
     { id: "other", name: l.gender_other },
 ];
+
+const languages = ISO6391.getAllCodes().map(x => {
+    return {
+        name: `${ISO6391.getNativeName(x)} (${ISO6391.getName(x)})`,
+        lang: x
+    }
+})
 
 const onSaveChanges = (e: Event) => {
     const form = e.target as HTMLFormElement;
@@ -106,7 +114,11 @@ const activateField = (id: string) => {
             <span class="form-item">
                 <label class="form-label" for="language">{{ $t(l.profile_label_language) }}</label>
                 <div class="form-input">
-                    <input id="language" type="text" v-model="profile.language" :readonly="busy" />
+                    <select id="language" v-model="profile.language" :disabled="busy">
+                        <option v-for="loc in languages" :key="loc.lang" :value="loc.lang">
+                            {{ $t(loc.name) }}
+                        </option>
+                    </select>
                     <button class="profile-edit-button" @click.prevent="activateField('language')" :disabled="busy">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </button>

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { supportedLocales, setLocale, Lang, l } from "@/locales";
+import { supportedLocales, setLocale, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIPanels, UIState } from "@/context/ui";
 import Panel from "./Panel.vue";
+import ISO6391, { LanguageCode } from 'iso-639-1';
 
 const setLang = (e: Event) => {
     const el = e.target as HTMLSelectElement;
-    setLocale(el.value as Lang);
+    setLocale(el.value as LanguageCode);
     el.blur();
 };
 const onClickOutside = (e: Event) => {
@@ -23,18 +24,9 @@ const onClickOutside = (e: Event) => {
         <span>
             {{ $t(l.profile_label_language) }}
         </span>
-        <select
-            name="language"
-            id="langs"
-            @change="setLang"
-            :value="$i18n.locale"
-        >
-            <option
-                v-for="lang in supportedLocales"
-                :value="lang.lang"
-                :key="lang.lang"
-            >
-                {{ lang.name }}
+        <select name="language" id="langs" @change="setLang" :value="$i18n.locale">
+            <option v-for="lang in supportedLocales" :value="lang" :key="lang">
+                {{ ISO6391.getNativeName(lang) }} ({{ ISO6391.getName(lang) }})
             </option>
         </select>
         <button @click="onClickOutside">{{ $t(l.button_close) }}</button>
@@ -49,6 +41,7 @@ const onClickOutside = (e: Event) => {
     display: flex;
     justify-content: center;
 }
+
 .settings-panel {
     display: flex;
     flex-direction: column;
