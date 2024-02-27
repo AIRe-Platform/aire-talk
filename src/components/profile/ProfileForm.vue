@@ -116,7 +116,7 @@ const activateField = (id: string) => {
                 <div class="form-input">
                     <select id="language" v-model="profile.language" :disabled="busy">
                         <option v-for="loc in languages" :key="loc.lang" :value="loc.lang">
-                            {{ $t(loc.name) }}
+                            {{ loc.name }}
                         </option>
                     </select>
                     <button class="profile-edit-button" @click.prevent="activateField('language')" :disabled="busy">
