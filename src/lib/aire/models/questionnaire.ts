@@ -43,13 +43,6 @@ export interface AireQuestion {
     required: boolean;
 }
 
-export interface AireQuestionnairePreliminary {
-    properties: {
-        [property_name: string]: { type: string };
-    }
-    required: Array<string>;
-}
-
 export interface AireQuestionnaireContent {
     id: string;
     name: string;
@@ -63,7 +56,6 @@ export interface AireQuestionnaire {
     lang: string;
     modified: Date;
     keywords: Array<string>;
-    preliminary?: AireQuestionnairePreliminary;
     content: Array<AireQuestionnaireContent>;
 }
 
@@ -81,7 +73,6 @@ export interface AireQuestionnaireResults {
     id?: string;
     questionnaire_id: string;
     timestamp?: Date;
-    preliminary?: object;
     answers: AireQuestionnaireAnswer[];
     summary: string;
     prompts?: string[];
