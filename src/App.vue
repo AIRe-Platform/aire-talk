@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { AppState } from './main';
-import FooterBar from './components/FooterBar.vue';
-import Spinner from './components/Spinner.vue';
-import NavMenu from './components/NavMenu.vue';
-import ChatHistory from './components/ChatHistory.vue';
-import { UIPanels, UIState } from './context/ui';
-import SettingsPanel from './components/SettingsPanel.vue';
+import { AppState } from "./main";
+import FooterBar from "./components/FooterBar.vue";
+import NavMenu from "./components/NavMenu.vue";
+import ChatHistory from "./components/ChatHistory.vue";
+import { UIPanels, UIState } from "./context/ui";
+import SettingsPanel from "./components/SettingsPanel.vue";
+import AppLoadingIndicator from "./components/AppLoadingIndicator.vue";
 </script>
 
 <template>
@@ -19,9 +19,12 @@ import SettingsPanel from './components/SettingsPanel.vue';
             </div>
         </div>
     </div>
-
-    <div class="panel main-content" v-if="AppState === 'init'"><Spinner /></div>
-    <div class="panel main-content" v-if="AppState === 'error'">{{ $t("error_generic") }}</div>
+    <div class="panel main-content" v-if="AppState === 'init'">
+        <AppLoadingIndicator />
+    </div>
+    <div class="panel main-content" v-if="AppState === 'error'">
+        {{ $t("error_generic") }}
+    </div>
 
     <FooterBar />
 </template>
@@ -73,7 +76,7 @@ import SettingsPanel from './components/SettingsPanel.vue';
         bottom: 1rem;
         left: 0;
         right: 0;
-        
+
         align-items: center;
         justify-content: center;
     }
