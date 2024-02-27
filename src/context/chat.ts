@@ -7,7 +7,8 @@ import { AireTalkEvent } from "@/lib/aire/models/talk";
 import { reactive } from "vue";
 import { Login } from "./login";
 import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog } from "@/lib/aire/models/chat";
-import i18n, { getLocale, l } from "@/locales";
+import { l } from "@/locales";
+import { getUserLanguageCode } from "@/helpers/userLocale";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -600,7 +601,7 @@ function pushNextQuestion(): boolean {
  * @returns Input data for chatbot
  */
 function getChatbotInputData(): AireChatbotInput {
-    const locale = getLocale()
+    const locale = getUserLanguageCode()
     const messages = Chat.messages
         .filter(x => x.role === "assistant" || x.role === "user")
         .map(x => {

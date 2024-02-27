@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { supportedLocales, setLocale, l } from "@/locales";
+import { supportedLocales, setUILanguage, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIPanels, UIState } from "@/context/ui";
 import Panel from "./Panel.vue";
@@ -7,7 +7,7 @@ import ISO6391, { LanguageCode } from 'iso-639-1';
 
 const setLang = (e: Event) => {
     const el = e.target as HTMLSelectElement;
-    setLocale(el.value as LanguageCode);
+    setUILanguage(el.value as LanguageCode);
     el.blur();
 };
 const onClickOutside = (e: Event) => {
