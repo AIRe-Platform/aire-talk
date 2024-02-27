@@ -325,7 +325,7 @@ export async function queryAndStartQuestionnaire(): Promise<boolean> {
         return false;
 
     if (AireServices.Memory) {
-        const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getLocale())
+        const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getUserLanguageCode())
         if (questionnaire) {
             // TODO: Check for saved answers
 
