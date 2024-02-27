@@ -10,6 +10,9 @@ function submit(event: Event) {
     if (prompt.length > 0) sendChatMessage(el.value);
     el.value = "";
 }
+
+const aireBotThinking = require("@/assets/images/aire-bot-thinking.gif");
+const aireBot = require("@/assets/images/aire-bot.png");
 </script>
 
 <template>
@@ -17,7 +20,7 @@ function submit(event: Event) {
         <div class="chat-input-bot">
             <img
                 class="chatbot-icon"
-                src="@/assets/images/aire-bot.png"
+                :src="Chat.awaitingResponse ? aireBotThinking : aireBot"
                 alt="Logo"
             />
         </div>
