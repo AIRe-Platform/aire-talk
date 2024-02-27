@@ -77,7 +77,8 @@ onMounted(() => {
     flex-shrink: 0;
     flex-grow: 0;
     max-width: 16rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-top: 4rem;
     z-index: 2;
 
