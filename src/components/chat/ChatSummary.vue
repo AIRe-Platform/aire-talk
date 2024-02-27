@@ -3,8 +3,7 @@ import { l } from '@/locales';
 import {
     Chat,
     queryAndStartQuestionnaire,
-    refreshAbstract,
-    sendQuestionnaireAnswers
+    refreshAbstract
 } from '@/context/chat';
 import { ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
@@ -30,12 +29,6 @@ const removeWord = (word: string) => {
     if (Chat.current.keywords) {
         Chat.current.keywords.splice(Chat.current.keywords.indexOf(word), 1);
     }
-}
-
-const sendSurvey = async () => {
-    busy.value = true;
-    await sendQuestionnaireAnswers();
-    busy.value = false;
 }
 
 const clearSummary = () => {
@@ -73,10 +66,6 @@ const clearKeywords = () => {
                 <button class="summary-button" @click="querySurveys"
                     v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
-                </button>
-                <button class="summary-button" @click="sendSurvey" v-if="Chat.current.questionnaire?.completed">
-                    <span class="summary-button-text">{{ $t(l.summary_send_survey_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
                 </button>
             </div>

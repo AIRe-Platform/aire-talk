@@ -2,15 +2,17 @@
 import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionNumber } from '@/lib/aire/models/questionnaire';
+import { l } from '@/locales';
 
 const props = defineProps<{
     message_id: number;
     options?: AireQuestionOptionNumber;
-    answer?: any
+    answer?: any;
+    readonly?: boolean;
 }>();
 
-const answered = (answer: any) => (answer !== undefined);
 const answer = ref(props.answer as number || props.options?.default)
+const edited = (ans: any) => (!ans || ans !== answer.value);
 
 const onSubmitAnswer = () => {
     if (answer.value)
@@ -22,11 +24,11 @@ const onSubmitAnswer = () => {
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
             <input type="number" v-model="answer" :min="props.options?.min" :max="props.options?.max"
-                :disabled="answered(props.answer)">
+                :disabled="props.readonly">
         </div>
-        <div class="questionnaire-answer-actions" v-if="!answered(props.answer)">
+        <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">
             <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
-                {{ $t("button_accept") }}
+                {{ $t(l.button_accept) }}
             </button>
         </div>
     </div>

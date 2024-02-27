@@ -7,13 +7,13 @@ const props = defineProps<{
     message_id: number;
     options: AireQuestionOptionRange;
     answer?: any
+    readonly?: boolean
 }>();
 
-const answered = (answer: any) => (answer !== undefined);
 const range = [...Array(1 + props.options.max - props.options.min).keys()].map(x => x + props.options.min)
 
-const onSubmitAnswer = async (value: number) => {
-    await answerQuestion(props.message_id, value)
+const onSubmitAnswer = (value: number) => {
+    answerQuestion(props.message_id, value)
 }
 </script>
 
@@ -22,7 +22,7 @@ const onSubmitAnswer = async (value: number) => {
         <div class="questionnaire-answer-options">
             <template v-for="ans, id in range" :key="id">
                 <button @click="onSubmitAnswer(ans)" class="questionnaire-range-button"
-                    :class="{ 'questionnaire-range-button-selected': props.answer == ans }" :disabled="answered(props.answer)">
+                    :class="{ 'questionnaire-range-button-selected': props.answer == ans }" :disabled="props.readonly">
                     {{ ans }}
                 </button>
             </template>

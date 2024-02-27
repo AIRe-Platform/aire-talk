@@ -137,6 +137,9 @@ const en: Locale = {
         "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
 
+    no_questionnaires_found: "Could not find suitable questionnaires.",
+    confirm_questionnaire_completion: "When you are happy with your answers, choose continue.",
+
     button_accept: "Accept",
     button_cancel: "Cancel",
     button_back: "Back",

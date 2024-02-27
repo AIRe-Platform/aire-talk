@@ -2,15 +2,17 @@
 import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionCheckbox } from '@/lib/aire/models/questionnaire';
+import { l } from '@/locales';
 
 const props = defineProps<{ 
     message_id: number;
     options: AireQuestionOptionCheckbox;
-    answer?: any
+    answer?: any;
+    readonly?: boolean;
  }>();
 
 const answers = ref<string[]>(props.answer || []);
-const answered = (answer: any) => (answer !== undefined);
+const isUnanswered = (ans: any) => (ans === undefined);
 
 const onClickOption = (answer: string) => {
     if (props.options.multiselect) {
@@ -38,15 +40,15 @@ const onSubmitAnswer = () => {
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options" v-if="props.options.values">
             <template v-for="ans, id in props.options.values" :key="id">
-                <button class="questionnaire-answer-button" @click="onClickOption(ans)" :disabled="answered(props.answer)"
+                <button class="questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
                     :class="{ 'questionnaire-answer-button-selected': answers.includes(ans) }">
                     {{ ans }}
                 </button>
             </template>
         </div>
-        <div class="questionnaire-answer-actions" v-if="props.options.multiselect && !answered(props.answer)">
+        <div class="questionnaire-answer-actions" v-if="props.options.multiselect && isUnanswered(props.answer)">
             <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
-                {{ $t("button_accept") }}
+                {{ $t(l.button_continue) }}
             </button>
         </div>
     </div>

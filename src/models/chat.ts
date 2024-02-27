@@ -1,5 +1,5 @@
 import { AireRole } from "@/lib/aire/models/chat";
-import { AireQuestion, AireQuestionnaireAnswer } from "@/lib/aire/models/questionnaire";
+import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from "@/lib/aire/models/questionnaire";
 import { Topic } from "./topic";
 
 export interface ChatMessage {
@@ -14,11 +14,13 @@ export interface ChatMessage {
     question?: AireQuestionnaireAnswer;
     rating: number;
     hidden?: boolean;
+    questionCallback?: (answer: any) => void;
 }
 
 export interface QuestionnaireState {
     active_id: string;
     question_queue: Array<AireQuestion>;
+    results?: AireQuestionnaireResults;
     completed: boolean;
 }
 

@@ -128,10 +128,8 @@ const es: Locale = {
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
 
-    error_verification_failure:
-        "LOCALIZE TO ES: Could not verify the code. It may be expired.",
-    error_verification_resend_failed:
-        "LOCALIZE TO ES: Could not resend the code. Try again later",
+    error_verification_failure: "No se pudo verificar el código. Puede que esté caducado.",
+    error_verification_resend_failed: "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
 
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
@@ -140,6 +138,9 @@ const es: Locale = {
     popup_confirm_revert_message:
         "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
     popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
+
+    no_questionnaires_found: "No se pudieron encontrar los cuestionarios adecuados.",
+    confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",

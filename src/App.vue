@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { AppState } from "./main";
-import FooterBar from "./components/FooterBar.vue";
-import NavMenu from "./components/NavMenu.vue";
-import ChatHistory from "./components/chat/ChatHistory.vue";
-import { UIPanels, UIState } from "./context/ui";
-import SettingsPanel from "./components/SettingsPanel.vue";
-import AppLoadingIndicator from "./components/AppLoadingIndicator.vue";
+import { AppState } from '@/main';
+import FooterBar from '@/components/FooterBar.vue';
+import NavMenu from '@/components/NavMenu.vue';
+import ChatHistory from '@/components/chat/ChatHistory.vue';
+import { UIPanels, UIState } from '@/context/ui';
+import SettingsPanel from '@/components/SettingsPanel.vue';
+import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 </script>
 
 <template>
