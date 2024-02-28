@@ -90,19 +90,21 @@ const getLastMessage = (id: string) => {
     const log = getCache(id);
     return (
         log?.messages[log.messages.length - 1].message ||
-        log?.messages[log.messages.length - 1].question?.question || 
+        log?.messages[log.messages.length - 1].question?.question ||
         ""
     );
 };
 
 const onClickOutside = (e: Event) => {
-    e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.ChatHistory);
+    if (!delete_id) {
+        e.stopImmediatePropagation();
+        UIState.panels.delete(UIPanels.ChatHistory);
+    }
 };
 </script>
 
 <template>
-    <ConfirmDialog v-if="showConfirmModal" :onAccept="onConfirmDelete" :onDecline="onCancelDelete">
+    <ConfirmDialog v-if="showConfirmModal" @accept="onConfirmDelete" @decline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
     <div class="restore-chat-panel" v-on-click-outside="onClickOutside">
