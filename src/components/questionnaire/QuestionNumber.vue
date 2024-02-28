@@ -5,7 +5,7 @@ import { AireQuestionOptionNumber } from '@/lib/aire/models/questionnaire';
 import { l } from '@/locales';
 
 const props = defineProps<{
-    message_id: number;
+    message_id: string;
     options?: AireQuestionOptionNumber;
     answer?: any;
     readonly?: boolean;

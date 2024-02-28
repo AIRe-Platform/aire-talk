@@ -35,7 +35,7 @@ if (props.message.isError)
 </script>
 
 <template>
-    <div :id="props.message.id.toString()" :class=classList @click="toggleModal">
+    <div :id="props.message.id" :class=classList @click="toggleModal">
         <ChatBubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />

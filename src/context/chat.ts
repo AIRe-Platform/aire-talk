@@ -120,7 +120,7 @@ export async function refreshAbstract() {
  * Reverts chat to an earlier state
  * @param id Message ID to revert to
  */
-export function revertToMessage(id: number) {
+export function revertToMessage(id: string) {
     const index = Chat.messages.findIndex(x => x.id === id);
     if (index > -1) {
         Chat.messages = Chat.messages.slice(0, index + 1)
@@ -280,7 +280,7 @@ export async function createNewChat(topic?: Topic) {
  * @param message to change
  * @param rating given by the user
  */
-export function setMessageRating(id: number, rating: number) {
+export function setMessageRating(id: string, rating: number) {
 
     const message = Chat.messages.find(x => x.id === id);
     if (message) {
@@ -360,7 +360,7 @@ export async function queryAndStartQuestionnaire(): Promise<boolean> {
  * @param message_id 
  * @param answer 
  */
-export function answerQuestion(message_id: number, answer: any) {
+export function answerQuestion(message_id: string, answer: any) {
     const i = Chat.messages.findIndex(x => x.id === message_id);
     if (i > -1) {
         const unanswered = (Chat.messages[i].question?.answer === undefined);
@@ -563,7 +563,7 @@ function pushQuestion(question: AireQuestion, questionnaire_id?: string, callbac
         rating: 0,
         timestamp: Date.now(),
         question: {
-            questionnaire_id: questionnaire_id || generateRandomID().toString(),
+            questionnaire_id: questionnaire_id || generateRandomID(),
             question_id: question.id,
             type: question.type,
             question: question.question,
@@ -722,8 +722,8 @@ function cancelAutoSaveTimer() {
  * Fucntion to create an ID to the chat messages.
  * @returns a random number
  */
-function generateRandomID() {
-    return Math.floor(Math.random() * Date.now());
+function generateRandomID(): string {
+    return Math.floor(Math.random() * Date.now()).toString()
 }
 
 /**

@@ -3,7 +3,7 @@ import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from 
 import { Topic } from "./topic";
 
 export interface ChatMessage {
-    id: number;
+    id: string;
     sender: string;
     role: AireRole;
     isError?: boolean;

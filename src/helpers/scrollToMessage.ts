@@ -11,8 +11,7 @@ export function scrollToMessage(message: ChatMessage, pos?: ScrollLogicalPositio
             scroll_timer_id = undefined
         }
 
-        const id = message.id.toString();
-        const bubble = document.getElementById(id);
+        const bubble = document.getElementById(message.id);
     
         if (bubble) {
             bubble.scrollIntoView({

@@ -27,7 +27,7 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
 </script>
 
 <template>
-    <div :id="props.message.id.toString()" class="questionnaire-item" v-if="props.message.question">
+    <div :id="props.message.id" class="questionnaire-item" v-if="props.message.question">
         <div class="questionnaire-question">
             {{ props.message.question.question }}
         </div>

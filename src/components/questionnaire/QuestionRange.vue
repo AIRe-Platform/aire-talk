@@ -4,7 +4,7 @@ import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionRange } from '@/lib/aire/models/questionnaire';
 
 const props = defineProps<{
-    message_id: number;
+    message_id: string;
     options: AireQuestionOptionRange;
     answer?: any
     readonly?: boolean
