@@ -323,36 +323,53 @@ export function getCache(id: string): ChatCache | undefined {
  * Query questionnaires with current keywords and start a questionnaire
  * @returns Boolean to indicate whether the questionnaire was found and started
  */
-export async function queryAndStartQuestionnaire(): Promise<boolean> {
+export async function queryAndStartQuestionnaire() {
     if (!Chat.current.keywords || Chat.current.keywords.length < 1)
-        return false;
+        return
 
     if (!AireServices.Memory) {
         console.error("Memory service is not available")
-        return false;
+        return
     }
 
     const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getUserLanguageCode())
     if (!questionnaire) {
-        pushSystemMessage(l.no_questionnaires_found)
-        return false
+        return
     }
 
     const questions = getRelevantQuestions(questionnaire, Chat.current.keywords)
     const unanswered = getUnansweredQuestions(questions, getAnswerObjects(questionnaire.id))
 
     if (unanswered.length === 0) {
-        pushSystemMessage(l.no_questionnaires_found)
-        return false;
+        return
     }
 
-    // Add questions to queue and push first question to chat
     Chat.current.questionnaire = {
         active_id: questionnaire.id,
         question_queue: questions,
         completed: false
     };
-    return pushNextQuestion();
+
+    // Ask user if they want to start a questionnaire
+    pushQuestion({
+        id: generateRandomID(),
+        prompt: "",
+        question: i18n.global.t(l.confirm_questionnaire_start, [questionnaire.name]),
+        type: AireQuestionOptionType.Checkbox,
+        required: true,
+        options: {
+            multiselect: false,
+            values: [
+                i18n.global.t(l.button_accept),
+                i18n.global.t(l.button_cancel)
+            ]
+        } as AireQuestionOptionCheckbox
+    }, "system", (ans: string[]) => {
+        if (ans.includes(i18n.global.t(l.button_accept)))
+            pushNextQuestion();
+        else
+            Chat.current.questionnaire = undefined
+    })
 }
 
 /**
@@ -465,7 +482,7 @@ function clearCache(id: string) {
  */
 function receiver(e: AireTalkEvent) {
     if (e.type === "keywords") {
-        Chat.current.keywords = e.keywords
+        onReceiveKeywords(e.keywords || [])
         return;
     }
 
@@ -511,6 +528,23 @@ function error_handler(error: AireError) {
     })
 
     Chat.awaitingResponse = false;
+}
+
+/**
+ * Handles received keywords
+ * @param keywords List of keywords
+ */
+function onReceiveKeywords(keywords: string[]) {
+    const current = Chat.current.keywords || []
+    const diff = keywords.filter(x => !current.includes(x))
+
+    // If the keywords contain 2 or more new words,
+    // automatically query suitable questionnaires
+    if (diff.length > 1) {
+        queryAndStartQuestionnaire();
+    }
+
+    Chat.current.keywords = keywords
 }
 
 /**

@@ -140,6 +140,7 @@ const es: Locale = {
     popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
 
     no_questionnaires_found: "No se pudieron encontrar los cuestionarios adecuados.",
+    confirm_questionnaire_start: "¿Le gustaría completar un cuestionario \"{0}\"?",
     confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
 
     button_accept: "Aceptar",

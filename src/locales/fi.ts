@@ -138,6 +138,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
 
     no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
+    confirm_questionnaire_start: "Haluaisitko täyttää kyselyn \"{0}\"?",
     confirm_questionnaire_completion: "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
 
     button_accept: "Hyväksy",

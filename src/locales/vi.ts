@@ -134,6 +134,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
 
     no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
+    confirm_questionnaire_start: "Bạn có muốn điền vào bảng câu hỏi \"{0}\" không?",
     confirm_questionnaire_completion: "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
 
     button_accept: "Chấp nhận",

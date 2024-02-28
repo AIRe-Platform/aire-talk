@@ -138,6 +138,7 @@ const en: Locale = {
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
 
     no_questionnaires_found: "Could not find suitable questionnaires.",
+    confirm_questionnaire_start: "Would you like to fill a questionnaire \"{0}\"?",
     confirm_questionnaire_completion: "When you are happy with your answers, choose continue.",
 
     button_accept: "Accept",
