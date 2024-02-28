@@ -17,18 +17,18 @@ setTimeout(() => {
 <template>
     <div id="main" v-if="AppState === 'loaded'">
         <NavMenu />
-        <div id="content-wrapper">
+        <div class="main-content">
             <RouterView />
-            <div id="floating-panels" v-if="UIState.panels.size > 0">
+            <div class="main-panels" v-if="UIState.panels.size > 0">
                 <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
                 <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
         </div>
     </div>
-    <div class="main-content" v-if="AppState === 'init'">
+    <div class="main-splash" v-if="AppState === 'init'">
         <AppLoadingIndicator />
     </div>
-    <div class="main-content" v-if="AppState === 'error'">
+    <div class="main-error" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
     <FooterBar />
@@ -45,14 +45,14 @@ setTimeout(() => {
     background-color: var(--background-color);
 }
 
-#content-wrapper {
+.main-content {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     overflow: auto;
 }
 
-#floating-panels {
+.main-panels {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -64,19 +64,23 @@ setTimeout(() => {
     bottom: 0;
 }
 
-.main-content {
+.main-splash, .main-error {
     display: flex;
-    padding: 1rem;
-    margin: auto;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: auto;
+    align-items: stretch;
+    justify-content: center;
+    text-align: center;
 }
 
 @media screen and (max-width: 600px) {
-    #content-wrapper {
+    .main-content {
         margin: 0.2rem;
         margin-top: 4rem;
     }
 
-    #floating-panels {
+    .main-panels {
         top: 4rem;
         bottom: 1rem;
         left: 0;
