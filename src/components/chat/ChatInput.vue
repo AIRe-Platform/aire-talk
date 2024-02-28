@@ -10,39 +10,25 @@ function submit(event: Event) {
     if (prompt.length > 0) sendChatMessage(el.value);
     el.value = "";
 }
-
-const aireBotThinking = require("@/assets/images/aire-bot-thinking.gif");
-const aireBot = require("@/assets/images/aire-bot.png");
 </script>
 
 <template>
-    <div class="chat-input-wrapper">
-        <div class="chat-input-bot">
-            <img
-                class="chatbot-icon"
-                :src="Chat.awaitingResponse ? aireBotThinking : aireBot"
-                alt="Logo"
-            />
+    <div class="chat-input">
+        <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse }">
+            <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
         </div>
-        <div class="chat-input-title">{{ $t(l.chat_input_title) }}</div>
         <form class="chat-input-bar" @submit.prevent="submit">
-            <input
-                id="message-input"
-                class="chat-input-field"
-                type="text"
-                autofocus
-                autocomplete="off"
-                :readonly="Chat.awaitingResponse"
-            />
+            <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
+                :readonly="Chat.awaitingResponse" />
         </form>
     </div>
 </template>
 
 <style scoped>
-.chat-input-wrapper {
+.chat-input {
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 0 5px var(--shadow-color);
-    margin: 1rem 5px 0 5px;
+    margin: 0 5px 0 5px;
     padding: 1rem;
     background-color: var(--background-color);
 }
@@ -61,27 +47,28 @@ const aireBot = require("@/assets/images/aire-bot.png");
     flex-grow: 1;
 }
 
-.chat-input-bot {
+.chat-bot {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 0;
-    overflow: visible;
-}
-
-.chatbot-icon {
-    display: block;
+    align-items: flex-end;
+    justify-content: flex-start;
     height: 6rem;
-    padding-bottom: 3rem;
+    margin-top: -4.8rem;
+    overflow: hidden;
+
+    background-image: url("@/assets/images/aire-bot.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 
-@media screen and (max-width: 600px) {
-    .chatbot-icon {
-        display: block;
-        height: 6rem;
-        padding-bottom: 3rem;
-        margin-right: 1rem;
-    }
+.chat-bot-busy {
+    background-image: url("@/assets/images/aire-bot-thinking.gif");
+}
+
+.chat-bot-text {
+    background-color: var(--background-color);
+    box-shadow: 0 0 5px 5px var(--background-color);
+    border-radius: 0.5rem;
 }
 </style>
