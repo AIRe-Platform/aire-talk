@@ -21,6 +21,8 @@ import {
     faMoon,
     faSun,
     faPen,
+    faMagnifyingGlass,
+    faList
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -37,7 +39,9 @@ library.add(
     faArrowsRotate,
     faMoon,
     faSun,
-    faPen
+    faPen,
+    faMagnifyingGlass,
+    faList
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");

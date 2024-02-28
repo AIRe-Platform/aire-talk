@@ -61,12 +61,12 @@ const clearKeywords = () => {
             <div class="summary-buttons" v-if="!busy">
                 <button class="summary-button" @click="generateSummary">
                     <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
+                    <font-awesome-icon icon="fa-solid fa-list" />
                 </button>
                 <button class="summary-button" @click="querySurveys"
                     v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-arrows-rotate" />
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </div>
         </template>
