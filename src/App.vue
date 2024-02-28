@@ -6,6 +6,12 @@ import ChatHistory from '@/components/chat/ChatHistory.vue';
 import { UIPanels, UIState } from '@/context/ui';
 import SettingsPanel from '@/components/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
+
+setTimeout(() => {
+    if(AppState.value === "init")
+        location.reload()
+}, 5000)
+
 </script>
 
 <template>
@@ -19,13 +25,12 @@ import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
             </div>
         </div>
     </div>
-    <div class="panel main-content" v-if="AppState === 'init'">
+    <div class="main-content" v-if="AppState === 'init'">
         <AppLoadingIndicator />
     </div>
-    <div class="panel main-content" v-if="AppState === 'error'">
+    <div class="main-content" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
-
     <FooterBar />
 </template>
 
