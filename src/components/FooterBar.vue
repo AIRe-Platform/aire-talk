@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import json from "../../version.json";
+import version from "@/../version.json";
 </script>
 
 <template>
     <div id="footer-container">
         <div class="footer">
-            <b>{{ $t("footer") }} - v.{{ json.hash }}</b>
-            <span v-if="json.gitTag">Tag {{ json.gitTag }}</span>
+            <b>{{ $t("footer") }} - {{ version.hash }}{{ version.tag && ` - ${version.tag}` }}</b>
         </div>
     </div>
 </template>
@@ -23,11 +22,13 @@ import json from "../../version.json";
     height: 1rem;
     font-size: xx-small;
 }
+
 .footer {
     display: flex;
     width: 25%;
     justify-content: space-evenly;
 }
+
 @media screen and (max-width: 600px) {
     .footer {
         width: 100%;
