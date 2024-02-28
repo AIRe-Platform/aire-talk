@@ -15,7 +15,7 @@ const props = defineProps<{
 
 <style scoped>
 .options-button {
-    display: flex;
+    display: none;
     position: absolute;
 
     padding: 0.5rem;

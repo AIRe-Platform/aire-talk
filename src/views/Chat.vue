@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { Chat } from "@/context/chat";
-import { ChatMessage } from "@/models/chat";
+import { ChatContext, ChatMessage } from "@/models/chat";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import OptionsButton from "@/components/OptionsButton.vue";
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
+import OptionsButton from "@/components/OptionsButton.vue";
 defineComponent({ name: "ChatView" });
 
 const showSideBar = ref(false);
@@ -17,9 +17,17 @@ const canRevert = (msg: ChatMessage) => {
     return msg.id !== lastMessageId;
 };
 
-const toggleSummary = () => {
+const toggleSidebar = () => {
     showSideBar.value = !showSideBar.value;
 };
+
+const chatSummaryPanelEnabled = (chat: ChatContext) => {
+    return chat.messages.length > 1;
+}
+
+const hasPanels = (chat: ChatContext) => {
+    return chatSummaryPanelEnabled(chat);
+}
 
 onMounted(() => {
     showSideBar.value = !(window.innerWidth < 600);
@@ -28,7 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <OptionsButton @click="toggleSummary" :open="showSideBar" />
+    <OptionsButton @click="toggleSidebar" :open="showSideBar" />
     <div class="chat-view">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
@@ -58,10 +66,10 @@ onMounted(() => {
                 </template>
             </template>
         </div>
-        <ChatInput />
+        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" />
     </div>
-    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
-        <ChatSummary />
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat) }">
+        <ChatSummary v-if="chatSummaryPanelEnabled(Chat)" />
     </div>
 </template>
 
@@ -79,7 +87,6 @@ onMounted(() => {
     max-width: 16rem;
     overflow-y: auto;
     overflow-x: hidden;
-    margin-top: 4rem;
     z-index: 2;
 
     width: 0;

@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import { defineProps, defineEmits } from "vue";
 import { Chat, sendChatMessage } from "@/context/chat";
 import { l } from "@/locales";
+
+const props = defineProps<{
+    optionsOpen: boolean
+}>()
+
+defineEmits<{
+    toggleOptions: []
+}>()
 
 function submit(event: Event) {
     const form = event.target as HTMLFormElement;
@@ -16,6 +25,12 @@ function submit(event: Event) {
     <div class="chat-input">
         <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse }">
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
+            <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
+                @click="() => $emit('toggleOptions')">
+                <div class="chat-options-icon">
+                    <font-awesome-icon icon="fa-solid fa-sliders" />
+                </div>
+            </div>
         </div>
         <form class="chat-input-bar" @submit.prevent="submit">
             <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
@@ -51,9 +66,9 @@ function submit(event: Event) {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    justify-content: flex-start;
+    justify-content: space-between;
     height: 6rem;
-    margin-top: -4.8rem;
+    margin-top: -4.6rem;
     overflow: hidden;
 
     background-image: url("@/assets/images/aire-bot.png");
@@ -70,5 +85,30 @@ function submit(event: Event) {
     background-color: var(--background-color);
     box-shadow: 0 0 5px 5px var(--background-color);
     border-radius: 0.5rem;
+}
+
+.chat-options-button {
+    cursor: pointer;
+    transition: color .25s;
+    padding: 0.2rem;
+
+    &:hover {
+        color: var(--accent-primary-color);
+    }
+}
+
+.chat-options-button-active {
+    color: var(--accent-primary-color);
+}
+
+.chat-options-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .chat-options-button {
+        display: none;
+    }
 }
 </style>
