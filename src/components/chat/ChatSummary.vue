@@ -41,7 +41,7 @@ const clearKeywords = () => {
 </script>
 
 <template>
-    <Panel class="summary-panel">
+    <Panel class="summary-panel" v-if="Chat.messages.length > 1">
         <div class="summary-title">
             {{ $t(l.summary_chag_log_title) }}
         </div>
