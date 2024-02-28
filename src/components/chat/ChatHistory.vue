@@ -107,21 +107,21 @@ const onClickOutside = (e: Event) => {
     <ConfirmDialog v-if="showConfirmModal" @accept="onConfirmDelete" @decline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
-    <div class="restore-chat-panel" v-on-click-outside="onClickOutside">
-        <div class="restore-chat-list">
+    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+        <div class="chat-history-list">
             <Spinner v-if="busy" />
-            <div class="restore-chat-item" v-for="item in items" v-bind:key="item.id"
+            <div class="chat-history-item" v-for="item in items" v-bind:key="item.id"
                 :class="{ 'restore-chat-item-open': isOpen(item.id) }">
-                <div class="restore-chat-row">
-                    <div class="restore-chat-column" @click="onSelect(item.id)">
-                        <div class="restore-chat-date">
+                <div class="chat-history-item-row">
+                    <div class="chat-history-item-details" @click="onSelect(item.id)">
+                        <div class="chat-history-item-date">
                             {{ item.time.toLocaleString($i18n.locale) }}
                         </div>
-                        <div class="restore-chat-text">
+                        <div class="chat-history-item-preview">
                             {{ getLastMessage(item.id) }}
                         </div>
                     </div>
-                    <div class="restore-chat-button-delete" @click="onDeleteChat(item.id)">
+                    <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
                         <font-awesome-icon icon="fa-solid fa-trash" />
                     </div>
                 </div>
@@ -131,33 +131,30 @@ const onClickOutside = (e: Event) => {
 </template>
 
 <style scoped>
-.restore-chat-panel {
+.chat-history-panel {
     display: flex;
     flex-direction: column;
     z-index: 2;
     width: 24rem;
-    max-height: 100%;
-
+    height: 100%;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
-
     overflow: hidden;
     margin: 0;
 }
 
-.restore-chat-list {
+.chat-history-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
     align-items: stretch;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
 }
 
-.restore-chat-item {
+.chat-history-item {
     display: flex;
     flex-direction: row;
     border-radius: 10px;
@@ -176,24 +173,24 @@ const onClickOutside = (e: Event) => {
     background-color: var(--panel-background-color);
 }
 
-.restore-chat-column {
+.chat-history-item-details {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
-.restore-chat-row {
+.chat-history-item-row {
     display: flex;
     width: 100%;
     padding: 1rem;
     align-items: center;
 }
 
-.restore-chat-button-delete {
+.chat-history-item-delete {
     cursor: pointer;
 }
 
-.restore-chat-button-delete svg {
+.chat-history-item-delete svg {
     width: auto;
     height: 2rem;
     color: var(--text-color);
@@ -204,14 +201,14 @@ const onClickOutside = (e: Event) => {
     }
 }
 
-.restore-chat-text {
+.chat-history-item-preview {
     max-height: 2rem;
     margin-right: 1rem;
     overflow: hidden;
     font-size: small;
 }
 
-.restore-chat-date {
+.chat-history-item-date {
     margin-bottom: 0.5rem;
     font-size: large;
 }
@@ -223,7 +220,7 @@ const onClickOutside = (e: Event) => {
 }
 
 @media screen and (max-width: 600px) {
-    .restore-chat-panel {
+    .chat-history-panel {
         width: unset;
         z-index: 10;
         padding: 0.5rem;
