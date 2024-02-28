@@ -14,8 +14,6 @@ const en: Locale = {
     frontpage_greeting: "Welcome to the AIRe platform!",
     frontpage_paragraph: `AIRe is an AI powered healthcare service platform that helps you better understand your symptoms and their possible underlying conditions. AIRe also guides you in any necessary follow-up procedures, and offers you helpful suggestions tailored just for you.`,
 
-    chat_link_button_label: "Chat",
-
     login_form_title: "Login",
     login_form_submit: "Login",
     login_label_email: "Email",
@@ -107,10 +105,6 @@ const en: Locale = {
     landing_label_occupation:
         "Your current and past occupations (Use commas to separate the occupations)",
 
-    chat_topic: "Topic",
-    chat_topic_onboarding: "Topic onboarding",
-    chat_input_title: "Ask a question",
-
     onboarding_greetings: "Hello there!",
     onboarding_question: "Would you like to discuss about these topics?",
     topic_backpain: "Back pain",
@@ -119,8 +113,7 @@ const en: Locale = {
     topic_increased_weight: "Increased weight",
     topic_trouble_talking: "Trouble talking",
 
-    summary_chag_log_title: "Chat summary",
-    summary_classification_title: "CBR / ICF classification",
+    summary_chag_log_title: "Summary",
     summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
     summary_send_survey_button: "Send survey answers",
@@ -132,6 +125,7 @@ const en: Locale = {
     chat_history_title: "Chat History",
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
+    chat_input_title: "Ask a question",
 
     popup_confirm_revert_message:
         "Are you sure you want to revert the chat to this message?",

@@ -14,8 +14,6 @@ const fi: Locale = {
     frontpage_greeting: "Tervetuloa AIRe-alustalle!",
     frontpage_paragraph: `AIRe on tekoälyavusteinen terveyspalvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä vinkkejä, jotka ovat juuri sinulle suunniteltuja!`,
 
-    chat_link_button_label: "Keskustelu",
-
     login_form_title: "Kirjaudu sisään",
     login_form_submit: "Kirjaudu",
     login_label_email: "Sähköpostiosoite",
@@ -106,10 +104,6 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     landing_label_occupation:
         "Nykyinen ja aiemmat ammattisi (Voit erottaa ammatit pilkulla)",
 
-    chat_topic: "Topic",
-    chat_topic_onboarding: "Topic onboarding",
-    chat_input_title: "Mitä haluat kysyä?",
-
     onboarding_greetings: "Hei!",
     onboarding_question: "Haluaisitko keskustella esimerkiksi näistä aiheista?",
     topic_backpain: "Selkäkipu",
@@ -118,9 +112,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     topic_increased_weight: "Painonnousu",
     topic_trouble_talking: "Puhevaikeudet",
 
-    summary_chag_log_title: "Chat log yhteenveto",
-    summary_classification_title: "CBR / ICF luokittelu",
-    summary_generate_summary: "Tee yhteenveto",
+    summary_chag_log_title: "Yhteenveto",
+    summary_generate_summary: "Luo yhteenveto",
     summary_query_surveys_button: "Hae kyselyitä",
     summary_send_survey_button: "Lähetä kyselyn vastaukset",
 
@@ -131,7 +124,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
 
     chat_history_title: "Keskusteluhistoria",
     chat_history_image: "Kuvatiedosto:",
-    chat_history_video: "videotiedosto:",
+    chat_history_video: "Videotiedosto:",
+    chat_input_title: "Mitä haluat kysyä?",
 
     popup_confirm_revert_message:
         "Haluatko varmasti palauttaa keskustelun tähän viestiin?",

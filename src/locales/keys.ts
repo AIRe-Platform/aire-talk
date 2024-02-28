@@ -11,8 +11,6 @@ export enum LocalizationKey {
     frontpage_greeting = "frontpage_greeting",
     frontpage_paragraph = "frontpage_paragraph",
 
-    chat_link_button_label = "chat_link_button_label",
-
     login_form_title = "login_form_title",
     login_form_submit = "login_form_submit",
     login_label_email = "login_label_email",
@@ -90,10 +88,6 @@ export enum LocalizationKey {
     landing_label_age = "landing_label_age",
     landing_label_occupation = "landing_label_occupation",
 
-    chat_topic = "chat_topic",
-    chat_topic_onboarding = "chat_topic_onboarding",
-    chat_input_title = "chat_input_title",
-
     onboarding_greetings = "onboarding_greetings",
     onboarding_question = "onboarding_question",
     topic_backpain = "topic_backpain",
@@ -103,7 +97,6 @@ export enum LocalizationKey {
     topic_trouble_talking = "topic_trouble_talking",
 
     summary_chag_log_title = "summary_chag_log_title",
-    summary_classification_title = "summary_classification_title",
     summary_generate_summary = "summary_generate_summary",
     summary_query_surveys_button = "summary_query_surveys_button",
     summary_send_survey_button = "summary_send_survey_button",
@@ -114,6 +107,7 @@ export enum LocalizationKey {
     chat_history_title = "chat_history_title",
     chat_history_image = "chat_history_image",
     chat_history_video = "chat_history_video",
+    chat_input_title = "chat_input_title",
 
     popup_confirm_revert_message = "popup_confirm_revert_message",
     popup_confirm_remove_chat = "popup_confirm_remove_chat",

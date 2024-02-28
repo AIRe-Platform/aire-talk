@@ -14,8 +14,6 @@ const vi: Locale = {
     frontpage_greeting: "Chào mừng đến với AIRe platform!",
     frontpage_paragraph: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, các tình trạng tiềm ẩn có thể xảy ra. AIRe hướng dẫn bạn các quy trình tiếp theo nếu cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
 
-    chat_link_button_label: "Trò chuyện",
-
     login_form_title: "Đăng nhập",
     login_form_submit: "Đăng nhập",
     login_label_email: "E-mail",
@@ -105,10 +103,6 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     landing_label_occupation:
         "Nghề nghiệp hiện tại và quá khứ của bạn. (Dùng dấu phẩy để phân cách các nghề nghiệp)",
 
-    chat_topic: "Đề tài",
-    chat_topic_onboarding: "Giới thiệu chủ đề",
-    chat_input_title: "Đặt một câu hỏi",
-
     onboarding_greetings: "Xin chào",
     onboarding_question: "Bạn có muốn thảo luận về những chủ đề này?",
     topic_backpain: "Đau lưng",
@@ -117,8 +111,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     topic_increased_weight: "Tăng cân",
     topic_trouble_talking: "Khó nói chuyện",
 
-    summary_chag_log_title: "Tóm tắt nhật ký trò chuyện",
-    summary_classification_title: "Phân loại CBR/ICF",
+    summary_chag_log_title: "Bản tóm tắt",
     summary_generate_summary: "Tóm tắt",
     summary_query_surveys_button: "Khảo sát truy vấn",
     summary_send_survey_button: "Gửi câu trả lời khảo sát",
@@ -129,6 +122,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     chat_history_title: "Lịch sử trò chuyện",
     chat_history_image: "Tập tin hình ảnh:",
     chat_history_video: "Tập tin video:",
+    chat_input_title: "Đặt một câu hỏi",
 
     popup_confirm_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
     popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",

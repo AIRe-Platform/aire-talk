@@ -14,8 +14,6 @@ const es: Locale = {
     frontpage_greeting: "¡Bienvenido a la plataforma AIRe!",
     frontpage_paragraph: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos y las posibles afecciones subyacentes. AIRe le guía en los procedimientos de seguimiento si es necesario y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
 
-    chat_link_button_label: "Chat",
-
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",
     login_label_email: "Email",
@@ -110,10 +108,6 @@ const es: Locale = {
     landing_label_occupation:
         "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
 
-    chat_topic: "Tema",
-    chat_topic_onboarding: "Tema desde onboarding",
-    chat_input_title: "Pregunta aquí",
-
     onboarding_greetings: "¡Hola!",
     onboarding_question: "¿Le gustaría discutir sobre estos temas?",
     topic_backpain: "Dolor de espalda",
@@ -122,8 +116,7 @@ const es: Locale = {
     topic_increased_weight: "Aumento de peso",
     topic_trouble_talking: "Problemas para hablar",
 
-    summary_chag_log_title: "Resumen chat",
-    summary_classification_title: "CBR / ICF clasificación",
+    summary_chag_log_title: "Resumen",
     summary_generate_summary: "Resumir",
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
@@ -134,6 +127,7 @@ const es: Locale = {
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
+    chat_input_title: "Pregunta aquí",
 
     popup_confirm_revert_message:
         "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
