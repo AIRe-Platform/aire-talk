@@ -8,7 +8,13 @@ This is the source code for AIRe Talk web app.
 npm install
 ```
 
-You can switch between local APIs and staging APIs deployed in Azure by modifying `main.ts`.
+To change the API endpoint, make a file `.env.local` like so:
+
+```sh
+VUE_APP_AIRE_SERVICES_ENDPOINT="https://gl-dev-aire-services.azurewebsites.net/api/"
+```
+
+The above example make the app use staging APIs. If the environment value is not set, the app defaults to `http://localhost:7071/api`.
 
 ### Compiles and hot-reloads for development
 
@@ -53,3 +59,9 @@ VS Code: Use Vue Language Features plugin (`vue.volar`) as your formatting tool 
 - DO comment your code when your algorithm is particularly complex. 
   - Make sure the comments are accurate and keep them updated after code changes.
 - No empty CSS classes.
+- Use Vue's Composition API.
+
+### Environment Values
+
+- `VUE_APP_COMMIT_HASH` Adds commit hash into the page footer
+- `VUE_APP_COMMIT_TAG` Adds tag into the page footer
