@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import version from "@/../version.json";
+const version = {
+    hash: process.env.VUE_APP_COMMIT_HASH,
+    tag: process.env.VUE_APP_COMMIT_TAG
+}
 </script>
 
 <template>
     <div id="footer-container">
         <div class="footer">
-            <b>{{ $t("footer") }} - {{ version.hash }}{{ version.tag && ` - ${version.tag}` }}</b>
+            <b>{{ $t("footer") }}{{ version.hash && ` - ${version.hash}` }}{{ version.tag && ` - ${version.tag}` }}</b>
         </div>
     </div>
 </template>
