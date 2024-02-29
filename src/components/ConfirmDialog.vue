@@ -18,10 +18,10 @@ defineEmits<{
             </div>
             <div class="popup-buttons">
                 <button class="popup-button-accept" @click.stop="() => $emit('accept')">
-                    <a class="nav-link" href="#"> {{ $t(l.button_accept) }} </a>
+                    {{ $t(l.button_accept) }}
                 </button>
                 <button class="popup-button-cancel" @click.stop="() => $emit('decline')">
-                    <a class="nav-link" href="#"> {{ $t(l.button_cancel) }} </a>
+                    {{ $t(l.button_cancel) }}
                 </button>
             </div>
         </div>

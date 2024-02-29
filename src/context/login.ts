@@ -8,7 +8,7 @@ import { router } from "@/router";
 export const Login = reactive<{
     logged_in: boolean,
     verified: boolean,
-    user?: AireUser
+    user?: AireUser,
     credentials?: { email: string, pw: string }
 }>({ logged_in: false, verified: false });
 

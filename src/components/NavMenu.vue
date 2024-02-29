@@ -1,172 +1,138 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { vOnClickOutside } from '@vueuse/components'
-import { l } from '@/locales';
-import { Login, logout } from '@/context/login';
-import { Chat, createNewChat } from '@/context/chat';
-import { router } from '@/router';
-import ChatHistory from '@/components/ChatHistory.vue';
-import MenuButton from './MenuButton.vue';
+import { l } from "@/locales";
+import { Login, logout } from "@/context/login";
+import { Chat, createNewChat } from "@/context/chat";
+import { router } from "@/router";
+import { UIPanels, UIState } from "@/context/ui";
+import MenuButton from "./MenuButton.vue";
+import ThemeSwitch from "./ThemeSwitch.vue";
+import Panel from "./Panel.vue";
 
-const isChatHistoryOpen = ref(false);
-const isCatologueContentOpen = ref(false);
-const menuOpen = ref(false);
-
-const toggleMenu = () => {
-    menuOpen.value = !(menuOpen.value);
-    if (menuOpen.value === false) {
-        isChatHistoryOpen.value = false;
-        isCatologueContentOpen.value = false;
-    }
+const onOpen = (e: Event) => {
+    e.stopImmediatePropagation();
+    UIState.showMenu = !UIState.showMenu;
 };
 
-const onBlur = () => {
-    menuOpen.value = false;
-    isChatHistoryOpen.value = false;
-    isCatologueContentOpen.value = false;
-};
-
-const toggleChatHistoryMenu = async () => {
-    isChatHistoryOpen.value = !(isChatHistoryOpen.value);
-    isCatologueContentOpen.value = false;
-
-    if (!isChatHistoryOpen.value)
-        onBlur()
+const toggleChatHistoryMenu = () => {
+    UIState.panels.add(UIPanels.ChatHistory);
 };
 
 const newChat = async () => {
-    await createNewChat()
-    onBlur();
-    router.push("/chat")
+    await createNewChat();
+    navigateTo("/chat");
 };
 
 const navigateTo = (path: string) => {
-    onBlur()
-    router.push(path)
-}
+    router.push(path);
+    if (window.innerWidth < 600)
+        UIState.showMenu = false;
+};
+
+const toggleSettingsPanel = () => {
+    UIState.panels.add(UIPanels.Settings);
+};
 </script>
 
 <template>
-    <div class="menu-container" v-on-click-outside="onBlur">
-        <div class="nav-menu" :class="{ 'nav-menu-open': menuOpen }">
-            <MenuButton :open="menuOpen" @click.stop="toggleMenu" />
-            <div class="nav-menu-bar" v-show="menuOpen">
-                <div class="nav-link" @click="navigateTo('/')">
-                    <div class="nav-logo">
-                        <img src="@/assets/images/aire-logo-512.png" alt="Logo">
-                    </div>
-                </div>
-                <div class="nav-menu-list">
-                    <div class="nav-item">
-                        <div class="nav-link" @click="navigateTo('/')">
-                            {{ $t(l.nav_home) }}
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <div class="nav-link" @click="navigateTo('/login')" v-if="!Login.logged_in">
-                            {{ $t(l.nav_login) }}
-                        </div>
-                        <div class="nav-link" @click="navigateTo('/profile')" v-if="Login.logged_in">
-                            {{ $t(l.nav_profile) }}
-                        </div>
-                    </div>
-                    <div class="nav-item" v-if="!Login.logged_in">
-                        <div class="nav-link" @click="navigateTo('/signup')">
-                            {{ $t(l.nav_signup) }}
-                        </div>
-                    </div>
-                    <div class="nav-spacer"></div>
-                    <div class="nav-item">
-                        <div class="nav-link" @click="navigateTo('/chat')" v-if="Login.logged_in">
-                            {{ $t(l.nav_chat) }}
-                        </div>
-                    </div>
-                    <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in">
-                        <a class="nav-link" href="#">
-                            {{ $t(l.nav_chat_history) }}
-                        </a>
-                    </div>
-                    <div class="nav-item" @click="newChat" v-if="Chat.id">
-                        <a class="nav-link" href="#">
-                            {{ $t(l.nav_chat_new) }}
-                        </a>
-                    </div>
-                    <div class="nav-spacer"></div>
-                    <!--
-                    <div class="nav-item" @click="toggleCatalogueContentMenu">
-                        <a class="nav-link" href="#">{{ $t(l.burger_menu_content_catalogue) }}</a>
-                    </div>
-                    -->
-                    <div class="nav-spacer"></div>
-                    <div class="nav-item" @click="toggleMenu" v-if="Login.logged_in">
-                        <a href="#" class="nav-link" @click="logout">
-                            {{ $t(l.nav_logout) }}
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <div class="nav-link" @click="navigateTo('/settings')">
-                            {{ $t(l.nav_preferences) }}
-                        </div>
-                    </div>
+    <MenuButton :open="UIState.showMenu" @click="onOpen" />
+    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
+        <Panel class="nav-menu-bar">
+            <div class="nav-link" @click="navigateTo('/')">
+                <div class="nav-logo dotted-border-botton">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
-        </div>
-        <ChatHistory v-if="isChatHistoryOpen" :onClosePanel="toggleChatHistoryMenu" />
-    </div>
-    <div class="menu-blur" v-if="menuOpen">
+            <div class="nav-menu-list">
+                <hr class="nav-separator" />
+                <div class="nav-item" @click="navigateTo('/')" :class="{
+                    'nav-item-active': $route.matched.some(
+                        (p) => p.name === 'Home'
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_home) }}</div>
+                </div>
+                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.logged_in" :class="{
+                    'nav-item-active': $route.matched.some(
+                        (p) => p.name === 'Chat'
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_chat) }}</div>
+                </div>
+                <div class="nav-item" @click="newChat" v-if="Chat.id">
+                    <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
+                </div>
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in" :class="{
+                    'nav-item-active': UIState.panels.has(
+                        UIPanels.ChatHistory
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
+                </div>
+                <div class="nav-spacer"></div>
+                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.logged_in" :class="{
+                    'nav-item-active': $route.matched.some(
+                        (p) => p.name === 'Login'
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_login) }}</div>
+                </div>
+                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.logged_in" :class="{
+                    'nav-item-active': $route.matched.some(
+                        (p) => p.name === 'Signup'
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_signup) }}</div>
+                </div>
+                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.logged_in" :class="{
+                    'nav-item-active': $route.matched.some(
+                        (p) => p.name === 'Profile'
+                    ),
+                }">
+                    <div class="nav-link">{{ $t(l.nav_profile) }}</div>
+                </div>
+                <hr class="nav-separator" />
+                <ThemeSwitch />
+                <hr class="nav-separator" />
+                <div class="nav-item" @click="toggleSettingsPanel" :class="{
+                    'nav-item-active': UIState.panels.has(
+                        UIPanels.Settings
+                    )
+                }">
+                    <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
+                </div>
+                <div class="nav-item" @click="logout" v-if="Login.logged_in">
+                    <div class="nav-link">{{ $t(l.nav_logout) }}</div>
+                </div>
+            </div>
+        </Panel>
     </div>
 </template>
 
-<style scoped lang="scss">
-.menu-container {
-    position: absolute;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-    height: calc(100vh - 2rem);
-    padding: 1rem;
-    gap: 1rem;
-}
-
-.menu-blur {
-    position: fixed;
-    height: 100%;
-    width: 100vw;
-    z-index: 1;
-
-    background: var(--overlay-color);
-    opacity: 0.4;
-}
-
+<style scoped>
 .nav-menu {
     display: flex;
     flex-direction: column;
-    flex-grow: 0;
     flex-shrink: 0;
 
     overflow: hidden;
-    z-index: 2;
+    z-index: 8;
 
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
+    width: 0px;
+    height: 100%;
+    margin: 0rem;
 
-    padding: 1rem;
-    width: 2.5rem;
-    height: 2rem;
+    transition: box-shadow 0.25s, width 0.25s, height 0.25s;
+}
 
-    transition:
-        width 0.25s,
-        height 0.25s;
+.nav-separator {
+    border: 0;
+    border-bottom: 2px dotted var(--border-color);
+    margin: 1rem;
 }
 
 .nav-menu-open {
-    width: 12rem;
-    height: 80%;
+    width: 16rem;
+    height: 100%;
 
     .nav-menu-list {
         opacity: 1;
@@ -177,7 +143,8 @@ const navigateTo = (path: string) => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    height: 100%;
+    padding: 4rem 0rem 1rem 0rem;
+    margin: 1rem;
     overflow: auto;
 }
 
@@ -192,7 +159,7 @@ const navigateTo = (path: string) => {
     img {
         display: block;
         object-fit: contain;
-        width: 80%;
+        width: 8rem;
     }
 }
 
@@ -201,6 +168,8 @@ const navigateTo = (path: string) => {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    align-items: stretch;
+    width: 100%;
     height: 100%;
     opacity: 0;
     transition: opacity 0.25s 0.25s;
@@ -211,6 +180,18 @@ const navigateTo = (path: string) => {
     display: flex;
     justify-content: center;
     cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item-active {
+    background-color: var(--border-color);
 }
 
 .nav-spacer {
@@ -225,24 +206,17 @@ const navigateTo = (path: string) => {
         height: unset;
     }
 
-    .nav-menu-bar {
-        align-items: center;
-    }
-
-    .nav-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     .nav-menu {
-        padding: 0.5rem;
-        margin: 0.5rem;
+        margin: 0;
     }
 
     .nav-menu-open {
-        width: calc(100vw - 2rem);
-        height: calc(100vh - 6rem);
+        width: 100%;
+    }
+
+    .nav-menu-bar {
+        margin: 0.25rem !important;
+        align-items: center;
     }
 
     .nav-logo {

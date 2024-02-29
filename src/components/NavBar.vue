@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Theme, setTheme } from '@/context/theme';
-import { supportedLocales, setLocale, Lang } from '@/locales';
+import { supportedLocales, setUILanguage, Lang } from '@/locales';
 import { Login, logout } from '@/context/login';
 
 const toggleTheme = () => {
@@ -12,7 +12,7 @@ const toggleTheme = () => {
 
 const setLang = (e: Event) => {
     const el = e.target as HTMLSelectElement;
-    setLocale(el.value as Lang);
+    setUILanguage(el.value as Lang);
     el.blur();
 }
 </script>

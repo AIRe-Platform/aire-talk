@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { scrollToMessage } from '@/helpers/scrollToMessage'
-import { defineProps, onMounted, ref } from 'vue';
+import { defineProps, ref } from 'vue';
 import { Chat, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
-import BubbleModal from './BubbleModal.vue';
-import SurveyQuestion from './SurveyQuestion.vue'
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
-import ConfirmDialog from './ConfirmDialog.vue';
+import ChatBubbleModal from './ChatBubbleModal.vue';
 
 const props = defineProps<{ message: ChatMessage, can_revert: boolean }>()
 const isSystem = props.message.role === "system";
@@ -34,25 +32,22 @@ switch (props.message.role) {
 }
 if (props.message.isError)
     classList.push("chat-bubble-error");
-
-onMounted(() => scrollToMessage(props.message, "end"));
-
 </script>
 
 <template>
-    <div :id="props.message.id.toString()" :class=classList @click="toggleModal">
-        <BubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
+    <div :id="props.message.id" :class=classList @click="toggleModal">
+        <ChatBubbleModal :active="modalOpen" :parent="props.message" :onClose="toggleModal" />
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
                 (isSystem || isBot) ? $t(message.sender) : message.sender
             }}</span>
-            <span class="chat-message-text" v-if="!(message.question)">
+            <span class="chat-message-text">
                 {{
                     isSystem
-                    ? (message.message === l.system_topic && Chat.topic
-                        ? ($t(message.message!) + $t(Chat.topic.localization_key))
+                    ? (message.message === l.system_topic && Chat.current.topic
+                        ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
                         : $t(message.message!))
                     : message.message
                 }}
@@ -65,7 +60,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
                     <source v-bind:src="message.video" type="video/mp4">
                 </video>
             </div>
-            <SurveyQuestion v-if="message.question" :question="message.question" />
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
             {{ $t(l.popup_confirm_revert_message) }}
@@ -77,10 +71,9 @@ onMounted(() => scrollToMessage(props.message, "end"));
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
-    margin-right: 3rem;
-    margin-left: 3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
     line-height: 1.4rem;
-    max-width: 40%;
     background-color: var(--chat-bubble-background-color);
     box-shadow: 0 0 5px gray;
     line-height: 1.4rem;
@@ -101,6 +94,7 @@ onMounted(() => scrollToMessage(props.message, "end"));
     align-self: center;
     border-color: var(--border-color);
     max-width: 80%;
+    margin-left: 3rem;
 }
 
 .chat-bubble-error {
@@ -155,21 +149,10 @@ onMounted(() => scrollToMessage(props.message, "end"));
     padding: 1rem;
 }
 
-.chat-message-answers {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-}
-
-.chat-message-answer-button {
-    cursor: pointer;
-}
-
-/* mobile*/
 @media screen and (max-width: 600px) {
     .chat-bubble {
         max-width: unset;
-        margin: 1rem;
+        margin: 0.5rem 1rem 0.5rem 0.3rem
     }
 
     .chat-message-question {
@@ -177,23 +160,6 @@ onMounted(() => scrollToMessage(props.message, "end"));
     }
 
     .chat-bubble-content {
-        font-size: x-small;
-    }
-
-    .chat-message-answers {
-        display: flex;
-        flex-direction: column;
-        padding-left: 1rem;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .chat-message-answer {
-        margin-top: 0.3rem;
-    }
-
-    .chat-message-answer-button {
-        width: 14.5rem;
         font-size: x-small;
     }
 

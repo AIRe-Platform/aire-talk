@@ -1,0 +1,230 @@
+<script setup lang="ts">
+import { l } from "@/locales";
+import { defineEmits, onMounted, ref } from "vue";
+import {
+    Chat,
+    deleteChat,
+    getAllChats,
+    loadChat,
+    openChat,
+    getCache,
+} from "@/context/chat";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { router } from "@/router";
+import { vOnClickOutside } from "@vueuse/components";
+import { UIState, UIPanels } from "@/context/ui";
+import Spinner from "@/components/Spinner.vue";
+
+const emit = defineEmits<{
+    closePanel: [e: any];
+}>();
+
+let delete_id: string | undefined;
+const showConfirmModal = ref(false);
+const busy = ref(false);
+
+interface ChatLogItem {
+    id: string;
+    time: Date;
+}
+const items = ref<Array<ChatLogItem>>();
+
+const refresh = async () => {
+    busy.value = true;
+    const logs = await getAllChats();
+    logs.forEach((x) => {
+        loadChat(x.id);
+    });
+
+    items.value = logs.map((x) => {
+        let item: ChatLogItem = {
+            id: x.id,
+            time: new Date(x.time),
+        };
+        return item;
+    });
+    busy.value = false;
+};
+onMounted(refresh);
+
+const isOpen = (id: string) => {
+    return id === Chat.id;
+};
+
+const onSelect = async (id: string) => {
+    if (isOpen(id)) return;
+
+    const open = await openChat(id);
+
+    if (open) router.push("/chat");
+
+    emit("closePanel", undefined);
+    UIState.panels.delete(UIPanels.ChatHistory);
+
+    if (window.innerWidth < 600)
+        UIState.showMenu = false;
+};
+
+const onConfirmDelete = () => {
+    showConfirmModal.value = false;
+    deleteChat(delete_id!)
+        .then(async () => {
+            await refresh();
+        })
+        .finally(() => {
+            delete_id = undefined;
+        });
+};
+
+const onCancelDelete = () => {
+    showConfirmModal.value = false;
+    delete_id = undefined;
+};
+
+const onDeleteChat = async (id: string) => {
+    delete_id = id;
+    showConfirmModal.value = true;
+};
+
+const getLastMessage = (id: string) => {
+    const log = getCache(id);
+    return (
+        log?.messages[log.messages.length - 1].message ||
+        log?.messages[log.messages.length - 1].question?.question ||
+        ""
+    );
+};
+
+const onClickOutside = (e: Event) => {
+    if (!delete_id) {
+        e.stopImmediatePropagation();
+        UIState.panels.delete(UIPanels.ChatHistory);
+    }
+};
+</script>
+
+<template>
+    <ConfirmDialog v-if="showConfirmModal" @accept="onConfirmDelete" @decline="onCancelDelete">
+        {{ $t(l.popup_confirm_remove_chat) }}
+    </ConfirmDialog>
+    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+        <div class="chat-history-list">
+            <Spinner v-if="busy" />
+            <div class="chat-history-item" v-for="item in items" v-bind:key="item.id"
+                :class="{ 'restore-chat-item-open': isOpen(item.id) }">
+                <div class="chat-history-item-row">
+                    <div class="chat-history-item-details" @click="onSelect(item.id)">
+                        <div class="chat-history-item-date">
+                            {{ item.time.toLocaleString($i18n.locale) }}
+                        </div>
+                        <div class="chat-history-item-preview">
+                            {{ getLastMessage(item.id) }}
+                        </div>
+                    </div>
+                    <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
+                        <font-awesome-icon icon="fa-solid fa-trash" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+.chat-history-panel {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    width: 24rem;
+    height: 100%;
+    background-color: var(--panel-background-color);
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 5px var(--shadow-color);
+    overflow: hidden;
+    margin: 0;
+}
+
+.chat-history-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.chat-history-item {
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--shadow-color);
+    margin-bottom: 1rem;
+    background-color: var(--background-color);
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 4rem;
+    width: 100%;
+}
+
+.restore-chat-item-open {
+    border: 1px solid var(--accent-primary-color);
+    cursor: default;
+    background-color: var(--panel-background-color);
+}
+
+.chat-history-item-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.chat-history-item-row {
+    display: flex;
+    width: 100%;
+    padding: 1rem;
+    align-items: center;
+}
+
+.chat-history-item-delete {
+    cursor: pointer;
+}
+
+.chat-history-item-delete svg {
+    width: auto;
+    height: 2rem;
+    color: var(--text-color);
+    transition: color 0.25s;
+
+    &:hover {
+        color: var(--accent-primary-color);
+    }
+}
+
+.chat-history-item-preview {
+    max-height: 2rem;
+    margin-right: 1rem;
+    overflow: hidden;
+    font-size: small;
+}
+
+.chat-history-item-date {
+    margin-bottom: 0.5rem;
+    font-size: large;
+}
+
+.restore-chat-button-close {
+    cursor: pointer;
+    position: absolute;
+    right: -3rem;
+}
+
+@media screen and (max-width: 600px) {
+    .chat-history-panel {
+        width: unset;
+        z-index: 10;
+        padding: 0.5rem;
+        max-height: 80%;
+    }
+}
+</style>

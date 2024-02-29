@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SurveyQuestion from './SurveyQuestion.vue'
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
 
@@ -37,7 +36,6 @@ const close = (e: Event) => {
                                         <source v-bind:src="props.parent.video" type="video/mp4">
                                     </video>
                                 </div>
-                                <SurveyQuestion v-if="props.parent.question" :question="props.parent.question" />
                             </div>
                         </div>
                         <div class="modal-button" @click="close">
@@ -57,7 +55,6 @@ $secundary-color: var(--background-color);
 .modal-component {
     display: flex;
     justify-content: space-between;
-    z-index: 2;
 }
 
 .modal-body-image {
@@ -114,7 +111,7 @@ $secundary-color: var(--background-color);
     top: 0;
     left: 0;
     background-color: rgba(255, 255, 255, 0.5);
-    z-index: 1;
+    z-index: 9000;
 
     .modal-inner {
         position: relative;

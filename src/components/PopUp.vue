@@ -1,8 +1,12 @@
+<script setup lang="ts">
+import Panel from './Panel.vue';
+</script>
+
 <template>
     <div class="popup-overlay">
-        <div class="popup-panel" @click.stop="">
+        <Panel class="popup-panel" @click.stop="">
             <slot></slot>
-        </div>
+        </Panel>
     </div>
 </template>
 
@@ -26,9 +30,5 @@
 
 .popup-panel {
     display: flex;
-    border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
-    background-color: var(--panel-background-color);
 }
 </style>

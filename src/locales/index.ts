@@ -1,20 +1,16 @@
-import { createI18n } from 'vue-i18n'
-import en from './en'
-import fi from './fi'
-import es from './es'
-import vi from './vi'
-
+import { createI18n } from 'vue-i18n';
+import en from './en';
+import fi from './fi';
+import es from './es';
+import vi from './vi';
 import { LocalizationKey } from './keys';
+import { LanguageCode } from 'iso-639-1';
 
 export const l = LocalizationKey;
 export type Locale = { [id in LocalizationKey]: string };
-export type Lang = "en" | "fi" | "es" | "vi";
 
-export const supportedLocales = [
-    { lang: "en", name: "English" },
-    { lang: "fi", name: "suomi (Finnish)" },
-    { lang: "es", name: "Español (Spanish)" },
-    { lang: "vi", name: "Tiếng Việt (Vietnamese)" }
+export const supportedLocales: LanguageCode[] = [
+    "en", "fi", "es", "vi"
 ]
 
 const i18n = createI18n(initLocale());
@@ -22,7 +18,7 @@ export default i18n;
 
 function initLocale() {
     const storedLocale = localStorage.getItem("locale");
-    const defaultLocale: Lang = "en";
+    const defaultLocale: LanguageCode = "en";
 
     const loc = storedLocale ?? defaultLocale;
     document.documentElement.lang = loc;
@@ -39,7 +35,10 @@ function initLocale() {
     }
 }
 
-export function setLocale(lang: Lang) {
+export function setUILanguage(lang: LanguageCode) {
+    if (!supportedLocales.includes(lang))
+        return;
+
     document.documentElement.lang = lang;
 
     // Is a ref in non-legacy mode
@@ -47,4 +46,9 @@ export function setLocale(lang: Lang) {
     loc.value = lang;
 
     localStorage.setItem("locale", lang);
+}
+
+export function getUILanguage() {
+    const loc = i18n.global.locale as any;
+    return loc.value as string;
 }

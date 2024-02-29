@@ -1,4 +1,4 @@
-import { AireTalkReceiver } from "./models/talk";
+import { AireTalkKeywords, AireTalkReceiver } from "./models/talk";
 import { AireModule, AireModuleType } from "./models/service";
 import { AireErrorHandler, AireErrorKey } from "./models/error";
 import {
@@ -6,9 +6,11 @@ import {
     AireChatbotEventType,
     AireChatbotOutput,
     AireChatbotErrorEvent,
-    AireChatbotInput
+    AireChatbotInput,
+    AireChatAbstract
 } from "./models/chat";
 import { AireServices } from ".";
+import { AireQuestionnaireAnswer, AireQuestionnaireResults } from "./models/questionnaire";
 
 export class AireAI {
     private config: AireModule;
@@ -68,7 +70,7 @@ export class AireAI {
                         if (line.startsWith("event: ")) {
                             const eventType = line.substring(line.indexOf(":") + 1).trim();
                             if (eventType === AireChatbotEventType.End) {
-                                callback({ final: true });
+                                callback({ type: eventType });
                                 return;
                             }
                             else if ((<any>Object).values(AireChatbotEventType).includes(eventType)) {
@@ -80,16 +82,23 @@ export class AireAI {
                         }
                         else if (line.startsWith("data: ")) {
                             const value = line.substring(line.indexOf(":") + 1).trim();
-                            if (dataEvent === AireChatbotEventType.Data) {
+                            if (dataEvent === AireChatbotEventType.Message) {
                                 try {
                                     const output = JSON.parse(value) as AireChatbotOutput;
-                                    callback({ message: output.content, role: output.type, final: false });
+                                    callback({ type: dataEvent, message: output });
                                 }
                                 catch (reason) {
-                                    console.error(reason);
-
-                                    // Probably incomplete data
                                     buf += "event: data\n";
+                                    buf += line;
+                                }
+                            }
+                            else if (dataEvent == AireChatbotEventType.Keywords) {
+                                try {
+                                    const keywords = JSON.parse(value) as AireTalkKeywords;
+                                    callback({ type: dataEvent, keywords: keywords })
+                                }
+                                catch (reason) {
+                                    buf += "event: keywords\n";
                                     buf += line;
                                 }
                             }
@@ -131,7 +140,155 @@ export class AireAI {
             });
     }
 
-    private getBots(): Promise<AireChatbot[]> {
-        return new Promise((res) => res([]));
+    public async generateSummary(chat: AireChatbotInput) {
+        const url = new URL(this.config.endpoint + "/chat/summary");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        };
+
+        if (AireServices.ID) {
+            const token = AireServices.ID.getAccessToken();
+            if (token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
+
+        return await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(chat)
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as string;
+                else
+                    throw Error("Failed to get the summary chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+    }
+
+    public async generateKeywords(chat: AireChatbotInput, regen?: boolean) {
+        const url = new URL(this.config.endpoint + "/chat/keywords/?regen=" + (regen ? "1" : "0"));
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        };
+
+        if (AireServices.ID) {
+            const token = AireServices.ID.getAccessToken();
+            if (token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
+
+        return await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(chat)
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as string;
+                else
+                    throw Error("Failed to get the abstract chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+    }
+
+    public async generateAbstract(chat: AireChatbotInput): Promise<AireChatAbstract | undefined> {
+        const url = new URL(this.config.endpoint + "/chat/abstract");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        };
+
+        if (AireServices.ID) {
+            const token = AireServices.ID.getAccessToken();
+            if (token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
+
+        return await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(chat)
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as AireChatAbstract;
+                else
+                    throw Error("Failed to get the abstract chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+    }
+
+    public async getBots(): Promise<AireChatbot[] | undefined> {
+        const url = new URL(this.config.endpoint + "/bot");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        };
+
+        if (AireServices.ID) {
+            const token = AireServices.ID.getAccessToken();
+            if (token)
+                headers["Authorization"] = `Bearer ${token}`
+        }
+
+        return await fetch(url, {
+            method: "GET",
+            headers: headers
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as AireChatbot[];
+                else
+                    throw Error("Failed to get the abstract chat log");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+    }
+
+    public async processQuestionnaire(questionnaire_id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {
+        const token = AireServices.ID?.getAccessToken()
+
+        if (!token) return undefined
+
+        const url = new URL(this.config.endpoint + "/questionnaire-results");
+        const headers: { [key: string]: string } = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        };
+
+        return await fetch(url, {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+                questionnaire_id: questionnaire_id,
+                answers: answers
+            })
+        })
+            .then(async (response) => {
+                if (response.status === 200)
+                    return await response.json() as AireQuestionnaireResults;
+                else
+                    throw Error("Failed to process questionnaire results");
+            })
+            .catch(reason => {
+                console.error(reason);
+                return undefined
+            })
+        return undefined
     }
 }
