@@ -516,7 +516,7 @@ function receiver(e: AireTalkEvent) {
  * Chatbot error callback
  * @param error Error info
  */
-function error_handler(error: AireError) {
+function errorHandler(error: AireError) {
     pushMessage({
         id: generateRandomID(),
         sender: SYSTEM_NAME,
@@ -725,7 +725,7 @@ function getResponse() {
     if (AireServices.AI) {
         Chat.awaitingResponse = true;
         const input = getChatbotInputData()
-        AireServices.AI.stream(input, receiver, error_handler);
+        AireServices.AI.stream(input, receiver, errorHandler);
     } else {
         console.warn("AI service is unavailable");
     }
