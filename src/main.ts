@@ -50,10 +50,7 @@ export async function initApp() {
     if (AppState.value !== "init") return;
 
     const result = await initAire({
-        api_url:
-            process.env.NODE_ENV === "production"
-                ? "https://gl-dev-aire.azure-api.net/services/"
-                : "http://localhost:7071/api",
+        api_url: process.env.VUE_APP_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api/",
     })
         .then(async (result) => {
             if (result) {
