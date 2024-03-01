@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { initApp } from './main'
 import { Login } from './context/login'
-
 import HomeView from './views/Home.vue'
 import LoginView from './views/Login.vue'
 import SignupView from './views/Signup.vue'
@@ -14,7 +13,7 @@ import { nextTick } from 'vue'
 import i18n, { l } from './locales'
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/', component: HomeView,

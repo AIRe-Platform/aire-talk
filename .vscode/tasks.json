@@ -2,16 +2,16 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "npm: serve",
+			"label": "npm: dev",
 			"type": "npm",
-			"script": "serve",
+			"script": "dev",
 			"isBackground": true,
 			"problemMatcher": [{
 				"base": "$tsc-watch",
 				"background": {
 					"activeOnStart": true,
-					"beginsPattern": "Starting development server",
-					"endsPattern": "Compiled successfully"
+					"beginsPattern": "VITE",
+					"endsPattern": "Local:"
 				}
 			}],
 			"group": {

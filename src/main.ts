@@ -50,7 +50,7 @@ export async function initApp() {
     if (AppState.value !== "init") return;
 
     const result = await initAire({
-        api_url: process.env.VUE_APP_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api",
+        api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api",
     })
         .then(async (result) => {
             if (result) {
