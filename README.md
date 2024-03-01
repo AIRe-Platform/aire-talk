@@ -11,7 +11,7 @@ npm install
 To change the API endpoint, make a file `.env.local` like so:
 
 ```sh
-VUE_APP_AIRE_SERVICES_ENDPOINT="https://gl-dev-aire-services.azurewebsites.net/api/"
+VITE_AIRE_SERVICES_ENDPOINT="https://gl-dev-aire-services.azurewebsites.net/api/"
 ```
 
 The above example make the app use staging APIs. If the environment value is not set, the app defaults to `http://localhost:7071/api`.
@@ -63,5 +63,5 @@ VS Code: Use Vue Language Features plugin (`vue.volar`) as your formatting tool 
 
 ### Environment Values
 
-- `VUE_APP_COMMIT_HASH` Adds commit hash into the page footer
-- `VUE_APP_COMMIT_TAG` Adds tag into the page footer
+- `VITE_COMMIT_HASH` Adds commit hash into the page footer
+- `VITE_COMMIT_TAG` Adds tag into the page footer
