@@ -3,7 +3,6 @@ import { AireUser } from "@/lib/aire/models/user";
 import { reactive } from "vue";
 import { createNewChat } from "./chat";
 import { AireScope } from "@/lib/aire/models/scopes";
-import { router } from "@/router";
 
 export const Login = reactive<{
     logged_in: boolean,
@@ -25,7 +24,6 @@ export async function login(email: string, password: string): Promise<boolean> {
         }
         else {
             Login.credentials = { email: email, pw: password }
-            router.push("/verify")
         }
 
         await createNewChat()
@@ -112,7 +110,7 @@ export async function logout() {
     await createNewChat()
 }
 
-export async function restoreSession() {
+export async function restoreSession(): Promise<boolean> {
     const token = localStorage.getItem("aire_session_token");
     if (AireServices.ID && token) {
         console.debug("Restoring session...")
@@ -125,12 +123,11 @@ export async function restoreSession() {
             if (Login.verified) {
                 Login.user = await AireServices.ID.getUser()
                 saveSession()
-            }
-            else {
-                router.push("/verify")
+                return true;
             }
         }
     }
+    return false;
 }
 
 function saveSession() {

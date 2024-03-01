@@ -50,26 +50,20 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    // Ensure app is initialized
     await initApp();
+
+    if (Login.logged_in && !Login.verified && to.path !== "/verify") {
+        return "/verify";
+    }
 
     if (to.path === "/login" || to.path === "/signup" || to.path === "/landing") {
         if (Login.logged_in)
             return "/"
     }
-    else if (to.path === "/profile" || to.path === "/chat") {
+
+    if (to.path === "/profile" || to.path === "/chat" || to.path === "/verify") {
         if (!Login.logged_in)
             return "/login"
-        else if (!Login.verified)
-            return "/verify"
-    }
-    else if (to.path === "/verify") {
-        if (Login.verified || !Login.logged_in)
-            return "/"
-    }
-
-    if (Login.logged_in && !Login.verified && to.path !== "/verify") {
-        return "/verify"
     }
 });
 
