@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN }}
           lfs: false
       - name: Get short commit hash
         id: commit_hash
