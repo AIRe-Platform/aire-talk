@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { changePassword } from "@/context/login";
-import { AireServices } from '@/lib/aire';
+import { AireServices } from 'aire';
 import { l } from '@/locales';
 import Spinner from '../Spinner.vue';
 

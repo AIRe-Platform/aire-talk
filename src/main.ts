@@ -2,7 +2,7 @@ import { createApp, ref } from "vue";
 import { router } from "./router";
 import App from "./App.vue";
 import i18n from "./locales";
-import { initAire } from "./lib/aire";
+import { initAire } from "aire";
 import { restoreSession } from "./context/login";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -50,7 +50,7 @@ export async function initApp() {
     if (AppState.value !== "init") return;
 
     const result = await initAire({
-        api_url: process.env.VUE_APP_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api",
+        api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api",
     })
         .then(async (result) => {
             if (result) {

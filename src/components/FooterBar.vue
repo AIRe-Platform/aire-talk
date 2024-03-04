@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const version = {
-    hash: process.env.VUE_APP_COMMIT_HASH,
-    tag: process.env.VUE_APP_COMMIT_TAG
+    hash: import.meta.env.VITE_COMMIT_HASH,
+    tag: import.meta.env.VITE_COMMIT_TAG
 }
 </script>
 

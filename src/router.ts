@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { initApp } from './main'
 import { Login } from './context/login'
-
 import HomeView from './views/Home.vue'
 import LoginView from './views/Login.vue'
 import SignupView from './views/Signup.vue'
@@ -14,7 +13,7 @@ import { nextTick } from 'vue'
 import i18n, { l } from './locales'
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/', component: HomeView,
@@ -51,26 +50,20 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    // Ensure app is initialized
     await initApp();
+
+    if (Login.logged_in && !Login.verified && to.path !== "/verify") {
+        return "/verify";
+    }
 
     if (to.path === "/login" || to.path === "/signup" || to.path === "/landing") {
         if (Login.logged_in)
             return "/"
     }
-    else if (to.path === "/profile" || to.path === "/chat") {
+
+    if (to.path === "/profile" || to.path === "/chat" || to.path === "/verify") {
         if (!Login.logged_in)
             return "/login"
-        else if (!Login.verified)
-            return "/verify"
-    }
-    else if (to.path === "/verify") {
-        if (Login.verified || !Login.logged_in)
-            return "/"
-    }
-
-    if (Login.logged_in && !Login.verified && to.path !== "/verify") {
-        return "/verify"
     }
 });
 

@@ -6,7 +6,7 @@ import {
     AireQuestionOptionOpen,
     AireQuestionOptionRange,
     AireQuestionOptionType
-} from "@/lib/aire/models/questionnaire";
+} from "aire";
 import QuestionCheckbox from "@/components/questionnaire/QuestionCheckbox.vue";
 import QuestionRange from "@/components/questionnaire/QuestionRange.vue";
 import QuestionOpen from "@/components/questionnaire/QuestionOpen.vue";

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { l } from "@/locales";
-import { AireServices } from "@/lib/aire";
+import { AireServices, AireScope } from "aire";
 import { defineComponent} from "vue";
-import { AireScope } from "@/lib/aire/models/scopes";
 import ProfileForm from "@/components/profile/ProfileForm.vue";
 import ProfileConnections from "@/components/profile/ProfileConnections.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";

@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { AireServices } from "@/lib/aire";
+import { AireServices, AireUser } from "aire";
 import { Login, saveProfile } from "@/context/login";
-import { AireUser } from "@/lib/aire/models/user";
 import { l } from '@/locales';
 import Spinner from "@/components/Spinner.vue";
 import ISO6391 from 'iso-639-1';
