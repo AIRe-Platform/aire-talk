@@ -37,8 +37,8 @@ jobs:
           output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          VUE_APP_COMMIT_HASH: ${{ steps.commit_hash.outputs.sha_short }}
-          VUE_APP_AIRE_SERVICES_ENDPOINT: ${{ vars.AIRE_SERVICES_ENDPOINT }}
+          VITE_COMMIT_HASH: ${{ steps.commit_hash.outputs.sha_short }}
+          VITE_AIRE_SERVICES_ENDPOINT: ${{ vars.AIRE_SERVICES_ENDPOINT }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
