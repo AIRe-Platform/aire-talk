@@ -32,7 +32,7 @@ npm run build
 
 ## Code Style and Formatting Guidelines
 
-VS Code: Use Vue Language Features plugin (`vue.volar`) as your formatting tool to automatically format your Vue component sources.
+VS Code: Use Vue Language Features plugin as your formatting tool to automatically format your Vue component sources.
 
 ### Indentation
 
