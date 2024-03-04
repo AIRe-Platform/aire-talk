@@ -13,7 +13,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      'aire': fileURLToPath(new URL('./submodules/aire-typescript-sdk/src', import.meta.url))
     }
   }
 })

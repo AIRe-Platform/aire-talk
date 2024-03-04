@@ -1,8 +1,6 @@
-import { AireServices } from "@/lib/aire";
-import { AireUser } from "@/lib/aire/models/user";
+import { AireServices, AireUser, AireScope } from "aire";
 import { reactive } from "vue";
 import { createNewChat } from "./chat";
-import { AireScope } from "@/lib/aire/models/scopes";
 
 export const Login = reactive<{
     logged_in: boolean,

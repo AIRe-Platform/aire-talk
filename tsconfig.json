@@ -18,9 +18,8 @@
       "vite/client"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      "aire": ["submodules/aire-typescript-sdk/src"]
     },
     "lib": [
       "esnext",
@@ -38,5 +37,8 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "references": [
+    { "path": "submodules/aire-typescript-sdk" }
   ]
 }

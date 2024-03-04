@@ -1,16 +1,16 @@
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatCache, ChatContext, ChatMessage, ChatState } from "@/models/chat";
+import { ChatCache, ChatContext, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
-import { AireServices } from "@/lib/aire";
-import { AireError } from "@/lib/aire/models/error";
-import { AireTalkEvent } from "@/lib/aire/models/talk";
+import {
+    AireServices, AireError, AireTalkEvent,
+    AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog,
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType
+} from "aire";
 import { reactive } from "vue";
 import { Login } from "./login";
-import { AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog } from "@/lib/aire/models/chat";
 import i18n, { l } from "@/locales";
 import { getUserLanguageCode } from "@/helpers/userLocale";
 import { getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
-import { AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType } from "@/lib/aire/models/questionnaire";
 import { LocalizationKey } from "@/locales/keys";
 
 const BOT_NAME = "aire_bot"

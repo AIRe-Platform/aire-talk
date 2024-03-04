@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Login, logout } from "@/context/login";
-import { AireServices } from '@/lib/aire';
+import { AireServices } from 'aire';
 import { router } from '@/router';
 import { l } from '@/locales';
 import Spinner from "@/components/Spinner.vue";
