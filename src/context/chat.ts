@@ -503,6 +503,11 @@ function receiver(e: AireTalkEvent) {
         return;
     }
 
+    if (e.type === "token-count") {
+        console.debug("Token count: " + e.tokenCount)
+        return;
+    }
+
     if (e.type === "message" || e.type === "end") {
         const final = (e.type === "end");
         let last = Chat.messages[Chat.messages.length - 1];
