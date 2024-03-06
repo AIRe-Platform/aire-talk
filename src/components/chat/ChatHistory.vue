@@ -14,6 +14,7 @@ import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
+import { TokenCount } from "@/models/chat"
 
 const emit = defineEmits<{
     closePanel: [e: any];
@@ -35,7 +36,7 @@ const refresh = async () => {
     logs.forEach((x) => {
         loadChat(x.id);
     });
-
+    console.log("logs",logs);
     items.value = logs.map((x) => {
         let item: ChatLogItem = {
             id: x.id,
@@ -95,6 +96,15 @@ const getLastMessage = (id: string) => {
     );
 };
 
+const getTokenCount = (id: string) => {
+    const log = getCache(id);
+    const tokenCount = log?.stats?.token_count as TokenCount;
+    if(tokenCount)
+        return tokenCount.count;
+    else return 0;
+    
+};
+
 const onClickOutside = (e: Event) => {
     if (!delete_id) {
         e.stopImmediatePropagation();
@@ -116,6 +126,9 @@ const onClickOutside = (e: Event) => {
                     <div class="chat-history-item-details" @click="onSelect(item.id)">
                         <div class="chat-history-item-date">
                             {{ item.time.toLocaleString($i18n.locale) }}
+                        </div>
+                        <div class="chat-history-token">
+                            Tokens: {{ getTokenCount(item.id) }}
                         </div>
                         <div class="chat-history-item-preview">
                             {{ getLastMessage(item.id) }}

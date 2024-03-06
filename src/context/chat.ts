@@ -4,7 +4,7 @@ import { Topic } from "@/models/topic";
 import {
     AireServices, AireError, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireTokenCount
 } from "aire";
 import { reactive } from "vue";
 import { Login } from "./login";
@@ -12,6 +12,7 @@ import i18n, { l } from "@/locales";
 import { getUserLanguageCode } from "@/helpers/userLocale";
 import { getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
 import { LocalizationKey } from "@/locales/keys";
+import ChatHistory from "@/components/chat/ChatHistory.vue";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -172,16 +173,24 @@ export async function saveChat() {
                 };
                 return m;
             });
+    
+        let token_count = await getTokensFromChats();
 
-        const chatLog: AireChatLog = {
+        let chatLog: AireChatLog = {
             messages: messages,
-            state: Chat.current
+            state: Chat.current,
+            stats: {
+                token_count: token_count
+            }
         }
 
+        console.log({token_count})
+        console.log({chatLog})
+        console.log(Chat.stats)
         await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
                 if (result) {
-                    setCache({ messages: Chat.messages, state: Chat.current }, result.id)
+                    setCache({ messages: Chat.messages, state: Chat.current, stats: Chat.stats }, result.id)
                     Chat.id = result.id
                     Chat.modified = false
                 }
@@ -203,14 +212,17 @@ export async function openChat(id: string): Promise<boolean> {
     await resetChatState(false, false)
 
     const loaded = await loadChat(id)
+    console.log(loaded)
     if (!loaded)
         return false
 
     const cached = getCache(id)!;
+    console.log(cached)
 
     Chat.id = id
     Chat.messages = cached.messages;
     Chat.current = cached.state || {};
+    Chat.stats = cached.stats || {};
 
     scrollChatToBottom()
     return true
@@ -229,6 +241,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
 
     if (AireServices.Memory) {
         const chatlog = await AireServices.Memory.getChat(id);
+        console.log(chatlog)
         if (!chatlog)
             return false
 
@@ -246,7 +259,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
             return m;
         });
 
-        setCache({ messages: messages, state: chatlog.state }, id)
+        setCache({ messages: messages, state: chatlog.state, stats: chatlog.stats }, id)
         return true
     }
     else {
@@ -301,11 +314,22 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
             return chats.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
             });
+   
         }
     } else {
         console.error("Memory service is not available")
     }
     return []
+}
+
+/**
+ * 
+ */
+export async function getTokensFromChats() : Promise<AireTokenCount | undefined> {
+
+    if (AireServices.AI) {
+        return AireServices.AI.token_count(getChatbotInputData())
+    }
 }
 
 /**

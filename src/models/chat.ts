@@ -1,5 +1,5 @@
-import { AireRole } from "@/lib/aire/models/chat";
-import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from "@/lib/aire/models/questionnaire";
+import { AireRole } from "aire";
+import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from "aire";
 import { Topic } from "./topic";
 
 export interface ChatMessage {
@@ -32,8 +32,9 @@ export interface ChatState {
 }
 
 export interface ChatCache {
-    messages: ChatMessage[]
-    state?: ChatState
+    messages: ChatMessage[];
+    state?: ChatState;
+    stats?: ChatStats;
 }
 
 export interface ChatContext {
@@ -43,11 +44,19 @@ export interface ChatContext {
     awaitingResponse: boolean;
     modified: boolean;
     current: ChatState;
-
+    stats?: ChatStats;
     landingInfo?: {
         age: number;
         occupation: string;
     };
+}
+
+export interface ChatStats {
+    token_count?: TokenCount;
+}
+
+export interface TokenCount {
+    count: number;
 }
 
 export type ChatHistory = Array<ChatMessage>
