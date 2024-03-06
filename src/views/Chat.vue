@@ -38,7 +38,6 @@ onMounted(() => {
 <template>
     <OptionsButton @click="toggleSidebar" :open="showSideBar" />
     <div class="chat-view">
-        <div class="token"> {{ Chat.stats?.token_count?.count }}</div >
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
                 <template v-if="!msg.hidden">

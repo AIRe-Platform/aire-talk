@@ -184,9 +184,6 @@ export async function saveChat() {
             }
         }
 
-        console.log({token_count})
-        console.log({chatLog})
-        console.log(Chat.stats)
         await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
                 if (result) {
@@ -212,12 +209,10 @@ export async function openChat(id: string): Promise<boolean> {
     await resetChatState(false, false)
 
     const loaded = await loadChat(id)
-    console.log(loaded)
     if (!loaded)
         return false
 
     const cached = getCache(id)!;
-    console.log(cached)
 
     Chat.id = id
     Chat.messages = cached.messages;
@@ -241,7 +236,6 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
 
     if (AireServices.Memory) {
         const chatlog = await AireServices.Memory.getChat(id);
-        console.log(chatlog)
         if (!chatlog)
             return false
 
@@ -314,7 +308,6 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
             return chats.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
             });
-   
         }
     } else {
         console.error("Memory service is not available")
