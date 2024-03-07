@@ -3,7 +3,7 @@ import Spinner from '@/components/Spinner.vue';
 import { resendVerification, verifyAccount } from '@/context/login';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
 let code = "";
 const busy = ref(false)
@@ -41,10 +41,6 @@ const onResend = () => {
         }))
         .finally(() => { busy.value = false })
 }
-
-defineComponent({
-    name: "VerificationCodeView"
-})
 </script>
 
 <template>

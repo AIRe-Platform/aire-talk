@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { Chat } from "@/context/chat";
 import { ChatContext, ChatMessage } from "@/models/chat";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
@@ -8,7 +8,6 @@ import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
-defineComponent({ name: "ChatView" });
 
 const showSideBar = ref(false);
 

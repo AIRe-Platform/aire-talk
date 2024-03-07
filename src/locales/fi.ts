@@ -16,7 +16,7 @@ const fi: Locale = {
 
     login_form_title: "Kirjaudu sisään",
     login_form_submit: "Kirjaudu",
-    login_label_email: "Sähköpostiosoite",
+    login_label_username: "Sähköpostiosoite tai käyttäjänimi",
     login_label_password: "Salasana",
     login_failure_message: "Kirjautuminen epäonnistui",
 

@@ -13,7 +13,7 @@ export enum LocalizationKey {
 
     login_form_title = "login_form_title",
     login_form_submit = "login_form_submit",
-    login_label_email = "login_label_email",
+    login_label_username = "login_label_username",
     login_label_password = "login_label_password",
     login_failure_message = "login_failure_message",
 

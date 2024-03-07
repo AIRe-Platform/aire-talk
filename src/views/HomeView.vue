@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { defineComponent } from 'vue';
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { Login } from '@/context/login';
-defineComponent({ name: "HomeView" });
 
 const navigateTo = (path: string) => {
     router.push(path)

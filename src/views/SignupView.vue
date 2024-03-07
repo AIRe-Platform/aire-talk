@@ -1,33 +1,31 @@
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { signup } from '@/context/login';
 
-
 const busy = ref(false);
-const error = ref<string | null>(null);
+const error = ref<string>();
+const fields = reactive<{
+    email?: string,
+    password?: string,
+    passwordConfirm?: string
+}>({});
 
 const onSignup = (e: Event) => {
-    e.preventDefault();
+    const form = e.target as HTMLFormElement
 
-    if (busy.value) return;
-    const email = document.getElementById("signup-email") as HTMLInputElement;
-    const pw1 = document.getElementById("signup-password") as HTMLInputElement;
-    const pw2 = document.getElementById("signup-password-confirm") as HTMLInputElement;
-
-    if (email.form?.checkValidity() !== true) {
+    if (!form.checkValidity())
         return;
-    }
 
-    if (pw1.value !== pw2.value) {
+    if (fields.password !== fields.passwordConfirm) {
         error.value = l.error_signup_password_mismatch;
         return;
     }
 
     busy.value = true;
-    signup(email.value, pw1.value)
+    signup(fields.email!, fields.password!)
         .then((status) => {
             if (status === 204) {
                 router.push("/")
@@ -43,27 +41,28 @@ const onSignup = (e: Event) => {
             busy.value = false;
         })
 }
-
-defineComponent({ name: "SignupView" })
 </script>
 
 <template>
     <div class="signup-view">
-        <form class="form-content" @submit.prevent v-if="busy === false">
+        <form class="form-content" @submit.prevent="onSignup">
             <h2>{{ $t(l.signup_form_title) }}</h2>
             <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
-            <input type="email" id="signup-email" required="true" autocomplete="email" />
+            <input type="email" id="signup-email" required="true" autocomplete="email" v-model="fields.email"
+                :readonly="busy" />
             <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
-            <input type="password" id="signup-password" required="true" autocomplete="off" />
+            <input type="password" id="signup-password" required="true" autocomplete="off" v-model="fields.password"
+                :readonly="busy" />
             <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
-            <input type="password" id="signup-password-confirm" required="true" autocomplete="off" />
+            <input type="password" id="signup-password-confirm" required="true" autocomplete="off"
+                v-model="fields.passwordConfirm" :readonly="busy" />
             <br />
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <input type="submit" :value="$t(l.signup_form_submit)" @click="onSignup" />
+            <input type="submit" :value="$t(l.signup_form_submit)" v-if="!busy" />
+            <div class="signup-busy" v-if="busy">
+                <Spinner />
+            </div>
         </form>
-        <div class="busy-panel" v-if="busy">
-            <Spinner />
-        </div>
     </div>
 </template>
 
@@ -81,7 +80,7 @@ defineComponent({ name: "SignupView" })
 .form-content {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 50%;
     box-shadow: 0 0 5px var(--shadow-color);
     background-color: var(--panel-background-color);
     border-radius: 1rem;
@@ -89,16 +88,11 @@ defineComponent({ name: "SignupView" })
     flex-grow: 1;
 }
 
-.busy-panel {
+.signup-busy {
     display: flex;
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
-    width: 50%;
-    box-shadow: 0 0 5px var(--shadow-color);
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    padding: 2rem 3rem;
-    flex-grow: 1;
+    align-items: center;
 }
 
 #signup-failed-message {
