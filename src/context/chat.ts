@@ -4,7 +4,7 @@ import { Topic } from "@/models/topic";
 import {
     AireServices, AireError, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireTokenCount
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats
 } from "aire";
 import { reactive } from "vue";
 import { Login } from "./login";
@@ -12,7 +12,6 @@ import i18n, { l } from "@/locales";
 import { getUserLanguageCode } from "@/helpers/userLocale";
 import { getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
 import { LocalizationKey } from "@/locales/keys";
-import ChatHistory from "@/components/chat/ChatHistory.vue";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -139,8 +138,6 @@ export function revertToMessage(id: string) {
  * @param id Chat ID
  */
 export async function deleteChat(id: string) {
-    console.debug("Deleting chat log", id);
-
     if (id == Chat.id)
         await resetChatState(true, false)
 
@@ -158,8 +155,6 @@ export async function saveChat() {
     if (!Login.logged_in || !Chat.modified)
         return
 
-    console.debug("Saving chat", Chat.id);
-
     if (AireServices.Memory) {
         const messages = Chat.messages
             .map(x => {
@@ -173,21 +168,21 @@ export async function saveChat() {
                 };
                 return m;
             });
-    
-        let token_count = await getTokensFromChats();
 
-        let chatLog: AireChatLog = {
+        const chatLog: AireChatLog = {
             messages: messages,
             state: Chat.current,
-            stats: {
-                token_count: token_count
-            }
+            stats: Chat.stats
         }
 
         await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
                 if (result) {
-                    setCache({ messages: Chat.messages, state: Chat.current, stats: Chat.stats }, result.id)
+                    setCache({
+                        messages: Chat.messages,
+                        state: Chat.current,
+                        stats: Chat.stats
+                    }, result.id)
                     Chat.id = result.id
                     Chat.modified = false
                 }
@@ -253,7 +248,11 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
             return m;
         });
 
-        setCache({ messages: messages, state: chatlog.state, stats: chatlog.stats }, id)
+        setCache({ 
+            messages: messages, 
+            state: chatlog.state, 
+            stats: chatlog.stats || {}
+         }, id)
         return true
     }
     else {
@@ -316,12 +315,12 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
 }
 
 /**
- * 
+ * Send the current chat to AI to get statistics
+ * @returns Token count
  */
-export async function getTokensFromChats() : Promise<AireTokenCount | undefined> {
-
+export async function getStats(): Promise<AireChatStats | undefined> {
     if (AireServices.AI) {
-        return AireServices.AI.token_count(getChatbotInputData())
+        return await AireServices.AI.getChatStats(getChatbotInputData())
     }
 }
 
@@ -504,7 +503,7 @@ function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "token-count") {
-        console.debug("Token count: " + e.tokenCount)
+        Chat.stats.token_count = e.tokenCount
         return;
     }
 
@@ -715,7 +714,8 @@ function initChatState(): ChatContext {
         awaitingResponse: false,
         modified: false,
         cache: new Map,
-        current: {}
+        current: {},
+        stats: {}
     }
 }
 

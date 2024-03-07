@@ -14,7 +14,6 @@ import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
-import { TokenCount } from "@/models/chat"
 
 const emit = defineEmits<{
     closePanel: [e: any];
@@ -97,9 +96,9 @@ const getLastMessage = (id: string) => {
 
 const getTokenCount = (id: string) => {
     const log = getCache(id);
-    const tokenCount = log?.stats?.token_count as TokenCount;
+    const tokenCount = log?.stats?.token_count;
     if(tokenCount)
-        return tokenCount.count;
+        return tokenCount;
     else return undefined;
     
 };

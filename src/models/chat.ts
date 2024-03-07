@@ -34,7 +34,7 @@ export interface ChatState {
 export interface ChatCache {
     messages: ChatMessage[];
     state?: ChatState;
-    stats?: ChatStats;
+    stats: ChatStats;
 }
 
 export interface ChatContext {
@@ -44,7 +44,7 @@ export interface ChatContext {
     awaitingResponse: boolean;
     modified: boolean;
     current: ChatState;
-    stats?: ChatStats;
+    stats: ChatStats;
     landingInfo?: {
         age: number;
         occupation: string;
@@ -52,11 +52,7 @@ export interface ChatContext {
 }
 
 export interface ChatStats {
-    token_count?: TokenCount;
-}
-
-export interface TokenCount {
-    count: number;
+    token_count?: number;
 }
 
 export type ChatHistory = Array<ChatMessage>
