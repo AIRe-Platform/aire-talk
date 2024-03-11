@@ -2,8 +2,7 @@
 import { Chat } from '@/context/chat';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { defineComponent, ref } from 'vue';
-defineComponent({ name: "LandingView" })
+import { ref } from 'vue';
 
 const occupation = ref("");
 const age = ref<number>();

@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { AireServices, AireScope } from "aire";
-import { defineComponent} from "vue";
 import ProfileForm from "@/components/profile/ProfileForm.vue";
 import ProfileConnections from "@/components/profile/ProfileConnections.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
-
-defineComponent({ name: "ProfileView" });
 </script>
 
 <template>
@@ -21,17 +18,15 @@ defineComponent({ name: "ProfileView" });
                     <h3>{{ $t(l.profile_title) }}</h3>
                 </div>
             </div>
-            <template v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
-                <div class="profile-section">
-                    <ProfileForm />
-                </div>
-                <div class="profile-section">
-                    <ProfileConnections />
-                </div>
-                <div class="profile-section">
-                    <ProfilePasswordForm />
-                </div>
-            </template>
+            <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
+                <ProfileForm />
+            </div>
+            <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
+                <ProfileConnections />
+            </div>
+            <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
+                <ProfilePasswordForm />
+            </div>
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
                 <ProfileDeletionForm />
             </div>

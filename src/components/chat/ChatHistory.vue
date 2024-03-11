@@ -35,7 +35,6 @@ const refresh = async () => {
     logs.forEach((x) => {
         loadChat(x.id);
     });
-
     items.value = logs.map((x) => {
         let item: ChatLogItem = {
             id: x.id,
@@ -95,6 +94,15 @@ const getLastMessage = (id: string) => {
     );
 };
 
+const getTokenCount = (id: string) => {
+    const log = getCache(id);
+    const tokenCount = log?.stats?.token_count;
+    if(tokenCount)
+        return tokenCount;
+    else return undefined;
+    
+};
+
 const onClickOutside = (e: Event) => {
     if (!delete_id) {
         e.stopImmediatePropagation();
@@ -119,6 +127,9 @@ const onClickOutside = (e: Event) => {
                         </div>
                         <div class="chat-history-item-preview">
                             {{ getLastMessage(item.id) }}
+                        </div>
+                        <div class="chat-history-token" v-if="getTokenCount(item.id)">
+                            Tokens: {{ getTokenCount(item.id) }}
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
@@ -211,6 +222,10 @@ const onClickOutside = (e: Event) => {
 .chat-history-item-date {
     margin-bottom: 0.5rem;
     font-size: large;
+}
+
+.chat-history-token {
+    font-size: small;
 }
 
 .restore-chat-button-close {

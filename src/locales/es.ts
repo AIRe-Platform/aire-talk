@@ -16,7 +16,7 @@ const es: Locale = {
 
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",
-    login_label_email: "Email",
+    login_label_username: "Email o nombre de usuario",
     login_label_password: "Contraseña",
     login_failure_message: "Error al iniciar sesión",
 

@@ -16,7 +16,7 @@ const vi: Locale = {
 
     login_form_title: "Đăng nhập",
     login_form_submit: "Đăng nhập",
-    login_label_email: "E-mail",
+    login_label_username: "E-mail hoặc tên người dùng",
     login_label_password: "Mật khẩu",
     login_failure_message: "Đăng nhập thất bại",
 

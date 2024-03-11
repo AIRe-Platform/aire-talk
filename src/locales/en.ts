@@ -16,7 +16,7 @@ const en: Locale = {
 
     login_form_title: "Login",
     login_form_submit: "Login",
-    login_label_email: "Email",
+    login_label_username: "Email or username",
     login_label_password: "Password",
     login_failure_message: "Failed to login",
 

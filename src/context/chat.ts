@@ -4,7 +4,7 @@ import { Topic } from "@/models/topic";
 import {
     AireServices, AireError, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats
 } from "aire";
 import { reactive } from "vue";
 import { Login } from "./login";
@@ -138,8 +138,6 @@ export function revertToMessage(id: string) {
  * @param id Chat ID
  */
 export async function deleteChat(id: string) {
-    console.debug("Deleting chat log", id);
-
     if (id == Chat.id)
         await resetChatState(true, false)
 
@@ -157,8 +155,6 @@ export async function saveChat() {
     if (!Login.logged_in || !Chat.modified)
         return
 
-    console.debug("Saving chat", Chat.id);
-
     if (AireServices.Memory) {
         const messages = Chat.messages
             .map(x => {
@@ -175,13 +171,18 @@ export async function saveChat() {
 
         const chatLog: AireChatLog = {
             messages: messages,
-            state: Chat.current
+            state: Chat.current,
+            stats: Chat.stats
         }
 
         await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
                 if (result) {
-                    setCache({ messages: Chat.messages, state: Chat.current }, result.id)
+                    setCache({
+                        messages: Chat.messages,
+                        state: Chat.current,
+                        stats: Chat.stats
+                    }, result.id)
                     Chat.id = result.id
                     Chat.modified = false
                 }
@@ -211,6 +212,7 @@ export async function openChat(id: string): Promise<boolean> {
     Chat.id = id
     Chat.messages = cached.messages;
     Chat.current = cached.state || {};
+    Chat.stats = cached.stats || {};
 
     scrollChatToBottom()
     return true
@@ -246,7 +248,11 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
             return m;
         });
 
-        setCache({ messages: messages, state: chatlog.state }, id)
+        setCache({ 
+            messages: messages, 
+            state: chatlog.state, 
+            stats: chatlog.stats || {}
+         }, id)
         return true
     }
     else {
@@ -306,6 +312,16 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
         console.error("Memory service is not available")
     }
     return []
+}
+
+/**
+ * Send the current chat to AI to get statistics
+ * @returns Token count
+ */
+export async function getStats(): Promise<AireChatStats | undefined> {
+    if (AireServices.AI) {
+        return await AireServices.AI.getChatStats(getChatbotInputData())
+    }
 }
 
 /**
@@ -483,6 +499,11 @@ function clearCache(id: string) {
 function receiver(e: AireTalkEvent) {
     if (e.type === "keywords") {
         onReceiveKeywords(e.keywords || [])
+        return;
+    }
+
+    if (e.type === "token-count") {
+        Chat.stats.token_count = e.tokenCount
         return;
     }
 
@@ -693,7 +714,8 @@ function initChatState(): ChatContext {
         awaitingResponse: false,
         modified: false,
         cache: new Map,
-        current: {}
+        current: {},
+        stats: {}
     }
 }
 

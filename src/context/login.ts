@@ -9,9 +9,9 @@ export const Login = reactive<{
     credentials?: { email: string, pw: string }
 }>({ logged_in: false, verified: false });
 
-export async function login(email: string, password: string): Promise<boolean> {
+export async function login(username: string, password: string): Promise<boolean> {
     if (AireServices.ID) {
-        const result = await AireServices.ID.login(email, password);
+        const result = await AireServices.ID.login(username, password);
 
         Login.logged_in = result;
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
@@ -21,7 +21,7 @@ export async function login(email: string, password: string): Promise<boolean> {
             saveSession()
         }
         else {
-            Login.credentials = { email: email, pw: password }
+            Login.credentials = { email: username, pw: password }
         }
 
         await createNewChat()

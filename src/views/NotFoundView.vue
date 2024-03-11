@@ -1,7 +1,4 @@
-<script>
-export default {
-    name: "NotFoundView"
-}
+<script setup lang="ts">
 </script>
 
 <template>

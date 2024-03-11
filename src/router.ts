@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { initApp } from './main'
 import { Login } from './context/login'
-import HomeView from './views/Home.vue'
-import LoginView from './views/Login.vue'
-import SignupView from './views/Signup.vue'
-import ProfileView from './views/Profile.vue'
-import ChatView from './views/Chat.vue'
-import LandingView from './views/Landing.vue'
-import NotFoundView from './views/NotFound.vue'
-import VerificationCodeView from './views/VerificationCode.vue'
+import HomeView from './views/HomeView.vue'
+import LoginView from './views/LoginView.vue'
+import SignupView from './views/SignupView.vue'
+import ProfileView from './views/ProfileView.vue'
+import ChatView from './views/ChatView.vue'
+import LandingView from './views/LandingView.vue'
+import NotFoundView from './views/NotFoundView.vue'
+import VerificationView from './views/VerificationView.vue'
 import { nextTick } from 'vue'
 import i18n, { l } from './locales'
 
@@ -40,7 +40,7 @@ export const router = createRouter({
             name: "Landing"
         },
         {
-            path: '/verify', component: VerificationCodeView,
+            path: '/verify', component: VerificationView,
             name: "VerificationCode", meta: { title: l.verification_heading }
         },
         {

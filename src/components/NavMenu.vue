@@ -31,6 +31,11 @@ const navigateTo = (path: string) => {
 const toggleSettingsPanel = () => {
     UIState.panels.add(UIPanels.Settings);
 };
+
+const onLogout = async () => {
+    await logout();
+    router.push("/");
+}
 </script>
 
 <template>
@@ -100,7 +105,7 @@ const toggleSettingsPanel = () => {
                 }">
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
-                <div class="nav-item" @click="logout" v-if="Login.logged_in">
+                <div class="nav-item" @click="onLogout" v-if="Login.logged_in">
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>
