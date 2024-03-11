@@ -80,6 +80,12 @@ const fi: Locale = {
     verification_code_resend: "Lähetä minulle uusi vahvistuskoodi",
     verification_code_resend_done: "Uusi koodi on matkalla!",
 
+    settings_title: "Asetukset",
+    settings_language: "Käyttöliittymän kieli",
+    settings_ui_size: "Käyttöliittymän koko",
+    settings_ui_size_normal: "Normaali",
+    settings_ui_size_large: "Suuri",
+
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding:
         "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",

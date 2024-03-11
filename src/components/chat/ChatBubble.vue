@@ -104,7 +104,7 @@ if (props.message.isError)
 .chat-bubble-content {
     display: flex;
     flex-direction: column;
-    font-size: small;
+    font-size: 0.8rem;
 }
 
 .chat-user-label {
@@ -157,10 +157,6 @@ if (props.message.isError)
 
     .chat-message-question {
         padding: 0;
-    }
-
-    .chat-bubble-content {
-        font-size: x-small;
     }
 
     .chat-message-video-video {

@@ -74,6 +74,12 @@ export enum LocalizationKey {
     verification_code_resend = "verification_code_resend",
     verification_code_resend_done = "verification_code_resend_done",
 
+    settings_title = "settings_title",
+    settings_language = "settings_language",
+    settings_ui_size = "settings_ui_size",
+    settings_ui_size_normal = "settings_ui_size_normal",
+    settings_ui_size_large = "settings_ui_size_large",
+
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
     error_signup_password_mismatch = "error_signup_password_mismatch",
