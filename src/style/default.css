@@ -106,34 +106,10 @@ button {
     height: 100%;
 }
 
-.add-opacity {
-    opacity: 20%;
+.font-normal {
+    font-size: medium;
 }
 
-.no-opacity {
-    opacity: 100%;
-}
-
-.hide-mobile-devices {
-    display: block !important;
-}
-
-.hide-big-screen-devices {
-    display: none !important;
-}
-
-.is-selected {
-    border-color: #00B49D;
-    border-width: 1px;
-    color: #00B49D !important;
-}
-
-@media screen and (max-width: 600px) {
-    .hide-mobile-devices {
-        display: none !important;
-    }
-
-    .hide-big-screen-devices {
-        display: block !important;
-    }
+.font-large {
+    font-size: larger;
 }

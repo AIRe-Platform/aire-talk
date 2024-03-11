@@ -34,7 +34,7 @@ defineEmits<{
 }
 
 .popup-question {
-    font-size: small;
+    font-size: 1rem;
     font-family: var(--font-family);
 }
 

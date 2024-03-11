@@ -82,6 +82,12 @@ const en: Locale = {
     verification_code_resend: "Send me a new code",
     verification_code_resend_done: "A new code is on its way!",
 
+    settings_title: "Settings",
+    settings_language: "User interface language",
+    settings_ui_size: "User interface size",
+    settings_ui_size_normal: "Normal",
+    settings_ui_size_large: "Large",
+
     error_generic: "An unknown error occurred!",
     error_ai_not_responding:
         "Something went wrong when talking to the Bot. If it answers, don't trust it!",

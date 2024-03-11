@@ -81,6 +81,12 @@ const vi: Locale = {
     verification_code_resend: "Gửi cho tôi mã mới",
     verification_code_resend_done: "Một mã mới đang trên đường đến!",
 
+    settings_title: "Cài đặt",
+    settings_language: "Ngôn ngữ giao diện người dùng",
+    settings_ui_size: "Kích thước giao diện người dùng",
+    settings_ui_size_normal: "Bình thường",
+    settings_ui_size_large: "Lớn",
+
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding:
         "Đã xảy ra lỗi khi nói chuyện với Bot. Nếu nó trả lời, đừng tin nó!",

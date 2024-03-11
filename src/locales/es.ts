@@ -76,12 +76,18 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
-    verification_heading: "LOCALIZE TO ES: Verify Your Account",
+    verification_heading: "Verifica tu cuenta",
     verification_description:
-        "LOCALIZE TO ES: Enter the verification code you received in your email",
-    verification_button_verify: "LOCALIZE TO ES: Verify",
-    verification_code_resend: "LOCALIZE TO ES: Send me a new code",
-    verification_code_resend_done: "LOCALIZE TO ES: A new code is on its way!",
+        "Ingresa el código de verificación que recibiste en tu correo electrónico",
+    verification_button_verify: "Verificar",
+    verification_code_resend: "Envíame un nuevo código",
+    verification_code_resend_done: "¡Un nuevo código está en camino!",
+
+    settings_title: "Configuración",
+    settings_language: "Idioma de la interfaz de usuario",
+    settings_ui_size: "Tamaño de la interfaz de usuario",
+    settings_ui_size_normal: "Normal",
+    settings_ui_size_large: "Grande",
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding:

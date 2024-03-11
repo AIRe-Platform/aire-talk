@@ -4,13 +4,19 @@ import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { login } from '@/context/login';
 import { router } from '@/router';
+import { useRoute } from 'vue-router';
 
 const busy = ref(false);
 const error = ref(false);
+const route = useRoute();
 const credentials = reactive<{
     username?: string,
     password?: string
-}>({});
+}>({
+    username: route.query.username as string || "",
+    password: route.query.password as string || ""
+});
+
 
 const onLogin = (e: Event) => {
     const form = e.target as HTMLFormElement;

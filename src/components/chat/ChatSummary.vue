@@ -93,7 +93,7 @@ const clearKeywords = () => {
 
 .summary-text {
     display: flex;
-    font-size: small;
+    font-size: 0.8rem;
     flex-wrap: wrap;
     line-height: 1.5rem;
     text-align: justify;
@@ -102,7 +102,7 @@ const clearKeywords = () => {
 .summary-keyword-item {
     display: flex;
     flex-direction: row;
-    font-size: small;
+    font-size: 0.8rem;
     justify-content: center;
     align-items: stretch;
     height: 2rem;
@@ -167,12 +167,7 @@ const clearKeywords = () => {
         width: unset;
     }
 
-    .summary-title {
-        font-size: medium;
-    }
-
     .summary-keyword {
-        font-size: xx-small;
         margin: 0.2rem;
         padding: 0rem;
         height: 1rem;

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Theme, setTheme } from '@/context/theme';
+import { Theme } from '@/context/theme';
 import Switch from './Switch.vue';
 
 const onSwitchTheme = (dark: boolean) => {
-    setTheme(dark ? "theme-dark" : 'theme-default')
+    Theme.style = dark ? "theme-dark" : 'theme-default'
 }
 
 </script>

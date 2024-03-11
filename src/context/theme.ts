@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 
 export type Style = "theme-default" | "theme-dark";
 
@@ -6,28 +6,30 @@ export interface ThemeConfig {
     style: Style;
 }
 
-function initTheme() {
-    const saved = localStorage.getItem("theme-style");
-    if (saved != null) {
-        setTheme(saved as Style);
-        return;
+export const Theme = reactive<ThemeConfig>(initTheme());
+
+function initTheme(): ThemeConfig {
+    const defaultTheme: Style = window.matchMedia("(prefers-color-scheme: dark)") ? "theme-dark" : "theme-default";
+    const theme: ThemeConfig = {
+        style: (localStorage.getItem("theme-style") || defaultTheme) as Style
     }
-
-    const darkModeRequested = window.matchMedia("(prefers-color-scheme: dark)");
-    if (darkModeRequested)
-        setTheme("theme-dark");
-    else
-        setTheme("theme-default");
+    applyStyle(theme.style);
+    return theme;
 }
 
-export function setTheme(style: Style) {
-    Theme.style = style;
-    localStorage.setItem("theme-style", style);
-    document.documentElement.className = style;
+
+function applyStyle(newStyle: Style, oldStyle?: Style) {
+    if (oldStyle) {
+        document.documentElement.classList.remove(oldStyle);
+        localStorage.setItem("theme-style", newStyle);
+    }
+    document.documentElement.classList.add(newStyle)
 }
 
-export const Theme: ThemeConfig = reactive({
-    style: "theme-default"
-});
-
-initTheme();
+watch(
+    () => Theme.style,
+    (newValue, oldValue) => {
+        applyStyle(newValue, oldValue)
+    },
+    { deep: true }
+);
