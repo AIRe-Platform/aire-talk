@@ -115,6 +115,7 @@ onMounted(() => {
     padding-top: 8rem;
     padding-bottom: 4rem;
     gap: 1.5rem;
+    z-index: 1;
 }
 
 .chat-view-system {

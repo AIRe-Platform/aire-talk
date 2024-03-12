@@ -75,3 +75,8 @@ app.config.errorHandler = (err, instance, info) => {
 };
 
 app.use(i18n).use(router).mount("#app");
+
+// Mobile Safari hack to keep the full page view in place after the keyboard has been closed.
+document.addEventListener("focusout", (e: Event) => {
+    document.defaultView?.scroll({ top: 0, left: 0, behavior: "smooth"})
+})

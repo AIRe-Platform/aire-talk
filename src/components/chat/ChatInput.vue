@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
 import { Chat, sendChatMessage } from "@/context/chat";
+import { vOnClickOutside } from '@vueuse/components';
 import { l } from "@/locales";
 
 const props = defineProps<{
@@ -19,6 +20,12 @@ function submit(event: Event) {
     if (prompt.length > 0) sendChatMessage(el.value);
     el.value = "";
 }
+
+function blurInput(e: Event) {
+    const el = e.target as HTMLInputElement;
+    document.defaultView?.scrollTo({top: 0, left: 0, behavior: "smooth"})
+    el.blur();
+}
 </script>
 
 <template>
@@ -34,7 +41,7 @@ function submit(event: Event) {
         </div>
         <form class="chat-input-bar" @submit.prevent="submit">
             <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                :readonly="Chat.awaitingResponse" />
+                :readonly="Chat.awaitingResponse" v-on-click-outside="blurInput"/>
         </form>
     </div>
 </template>
@@ -46,6 +53,7 @@ function submit(event: Event) {
     margin: 0 5px 0 5px;
     padding: 1rem;
     background-color: var(--background-color);
+    z-index: 2;
 }
 
 .chat-input-bar {

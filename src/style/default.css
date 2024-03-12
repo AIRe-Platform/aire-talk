@@ -28,11 +28,16 @@
     --overlay-color: rgba(0, 0, 0, .7);
 }
 
+html {
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
     margin: 0;
     height: 100vh;
+    height: 100dvh;
 }
 
 a {
@@ -44,6 +49,11 @@ a {
     &:hover {
         color: var(--accent-primary-color);
     }
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    margin-bottom: 0.5rem;
 }
 
 input[type=text],
@@ -59,6 +69,7 @@ select {
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
     transition: all 0.1s;
+    font-size: 1rem;
 
     &:hover,
     &:focus {
@@ -95,10 +106,6 @@ button {
     }
 }
 
-html {
-    overflow: hidden;
-}
-
 #app {
     color: var(--text-color);
     background-color: var(--background-color);
@@ -107,8 +114,7 @@ html {
     padding: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
+    height: 100%;
 }
 
 .font-normal {
