@@ -46,6 +46,7 @@ function submit(event: Event) {
     margin: 0 5px 0 5px;
     padding: 1rem;
     background-color: var(--background-color);
+    z-index: 2;
 }
 
 .chat-input-bar {
