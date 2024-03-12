@@ -15,7 +15,7 @@ setTimeout(() => {
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
         <NavMenu />
         <div class="main-content">
             <RouterView />
