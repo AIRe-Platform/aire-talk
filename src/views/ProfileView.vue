@@ -70,19 +70,25 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 100%;
-    border-bottom-style: dotted;
+    align-self: stretch;
+    border-bottom: 3px dotted var(--border-color);
     background-color: var(--panel-background-color);
     overflow: hidden;
 
-    * {
-        margin: 1rem 3rem 2rem 3rem;
+    &>* {
+        margin: 2rem 3rem;
     }
 }
 
 @media screen and (max-width: 600px) {
     .profile-view {
         padding: 2rem 0rem;
+    }
+
+    .profile-section {
+        &>* {
+            margin: 2rem 1rem;
+        }
     }
 }
 </style>
