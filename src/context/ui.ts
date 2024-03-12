@@ -21,7 +21,7 @@ export interface UIStateOptions {
 }
 
 export const UIState = reactive<UIStateOptions>({
-    showMenu: true,
+    showMenu: false,
     panels: new Set<UIPanels>
 })
 
