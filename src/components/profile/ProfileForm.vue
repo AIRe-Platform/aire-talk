@@ -163,6 +163,7 @@ const activateField = (id: string) => {
     display: flex;
     flex-direction: column;
     flex-basis: calc(100% / 2 - 2rem);
+    min-width: 200px;
 }
 
 .form-item-wide {
