@@ -155,7 +155,7 @@ const activateField = (id: string) => {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: 2rem;
 }
 
@@ -163,7 +163,6 @@ const activateField = (id: string) => {
     display: flex;
     flex-direction: column;
     flex-basis: calc(100% / 2 - 2rem);
-    min-width: 250px;
 }
 
 .form-item-wide {
