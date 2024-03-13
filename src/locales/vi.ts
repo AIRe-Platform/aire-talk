@@ -12,7 +12,7 @@ const vi: Locale = {
     system_topic: "Bạn đã chọn chủ đề: ",
 
     frontpage_greeting: "Chào mừng đến với AIRe platform!",
-    frontpage_paragraph: `AIRe là dịch vụ trò chuyện chăm sóc sức khỏe được hỗ trợ bởi AI sẽ giúp bạn hiểu rõ hơn về các triệu chứng đang diễn ra của mình, các tình trạng tiềm ẩn có thể xảy ra. AIRe hướng dẫn bạn các quy trình tiếp theo nếu cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
+    frontpage_paragraph: `AIRe là một nền tảng dịch vụ được hỗ trợ bởi AI giúp bạn hiểu rõ hơn về các triệu chứng của mình và các tình trạng cơ bản có thể xảy ra của chúng. AIRe cũng hướng dẫn bạn mọi quy trình tiếp theo cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
 
     login_form_title: "Đăng nhập",
     login_form_submit: "Đăng nhập",
