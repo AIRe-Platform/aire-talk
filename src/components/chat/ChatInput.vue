@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import { Chat, sendChatMessage } from "@/context/chat";
 import { l } from "@/locales";
 
@@ -11,13 +11,13 @@ defineEmits<{
     toggleOptions: []
 }>()
 
-function submit(event: Event) {
-    const form = event.target as HTMLFormElement;
-    const el = form.firstChild as HTMLInputElement;
-    const prompt = el.value.trim();
+const textInput = ref("");
 
-    if (prompt.length > 0) sendChatMessage(el.value);
-    el.value = "";
+function submit() {
+    const prompt = textInput.value.trim();
+    if (prompt.length > 0) 
+        sendChatMessage(prompt);
+    textInput.value = "";
 }
 </script>
 
@@ -32,15 +32,25 @@ function submit(event: Event) {
                 </div>
             </div>
         </div>
-        <form class="chat-input-bar" @submit.prevent="submit">
-            <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                :readonly="Chat.awaitingResponse" />
-        </form>
+        <div class="chat-text-input">
+            <form class="chat-input-bar" @submit.prevent="submit">
+                <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
+                    :readonly="Chat.awaitingResponse" v-model="textInput"/>
+            </form>
+            <div class="chat-send-button" @click="submit">
+                <div class="chat-send-icon">
+                    <font-awesome-icon icon="fa-solid fa-paper-plane" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
 .chat-input {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 0 5px var(--shadow-color);
     margin: 0 5px 0 5px;
@@ -49,13 +59,19 @@ function submit(event: Event) {
     z-index: 2;
 }
 
+.chat-text-input {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
 .chat-input-bar {
     display: flex;
     flex-shrink: 0;
+    flex-grow: 1;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    padding: 0.5rem;
     height: 2rem;
 }
 
@@ -88,11 +104,16 @@ function submit(event: Event) {
     border-radius: 0.5rem;
 }
 
-.chat-options-button {
+.chat-options-button,
+.chat-send-button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: color .25s;
     padding: 0.2rem;
-
+    
     &:hover {
         color: var(--accent-primary-color);
     }
@@ -102,7 +123,8 @@ function submit(event: Event) {
     color: var(--accent-primary-color);
 }
 
-.chat-options-icon svg {
+.chat-options-icon svg,
+.chat-send-icon svg {
     width: 1.5rem;
     height: 1.5rem;
 }
