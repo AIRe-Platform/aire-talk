@@ -12,7 +12,7 @@ const fi: Locale = {
     system_topic: "Olet valinnut aiheeksi: ",
 
     frontpage_greeting: "Tervetuloa AIRe-alustalle!",
-    frontpage_paragraph: `AIRe on tekoälyavusteinen terveyspalvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä vinkkejä, jotka ovat juuri sinulle suunniteltuja!`,
+    frontpage_paragraph: `AIRe on tekoälyavusteinen palvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä ehdotuksia, jotka ovat juuri sinulle suunniteltuja!`,
 
     login_form_title: "Kirjaudu sisään",
     login_form_submit: "Kirjaudu",
