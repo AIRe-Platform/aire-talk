@@ -131,7 +131,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_history_title: "Keskusteluhistoria",
     chat_history_image: "Kuvatiedosto:",
     chat_history_video: "Videotiedosto:",
-    chat_input_title: "Mitä haluat kysyä?",
+    chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
 
     popup_confirm_revert_message:
         "Haluatko varmasti palauttaa keskustelun tähän viestiin?",

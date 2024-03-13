@@ -128,7 +128,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     chat_history_title: "Lịch sử trò chuyện",
     chat_history_image: "Tập tin hình ảnh:",
     chat_history_video: "Tập tin video:",
-    chat_input_title: "Đặt một câu hỏi",
+    chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
 
     popup_confirm_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
     popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
