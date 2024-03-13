@@ -145,6 +145,7 @@ const onClickOutside = (e: Event) => {
 .chat-history-panel {
     display: flex;
     flex-direction: column;
+    align-items: center;
     z-index: 2;
     width: 24rem;
     height: 100%;
@@ -163,19 +164,21 @@ const onClickOutside = (e: Event) => {
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
+    gap: 1rem;
 }
 
 .chat-history-item {
     display: flex;
     flex-direction: row;
-    border-radius: 10px;
-    box-shadow: 0 0 5px var(--shadow-color);
-    margin-bottom: 1rem;
-    background-color: var(--background-color);
+    flex-shrink: 0;
+
     cursor: pointer;
-    overflow: hidden;
     min-height: 4rem;
     width: 100%;
+
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--shadow-color);
+    background-color: var(--background-color);
 }
 
 .restore-chat-item-open {
@@ -192,6 +195,7 @@ const onClickOutside = (e: Event) => {
 
 .chat-history-item-row {
     display: flex;
+    flex-direction: row;
     width: 100%;
     padding: 1rem;
     align-items: center;
@@ -236,7 +240,7 @@ const onClickOutside = (e: Event) => {
 
 @media screen and (max-width: 600px) {
     .chat-history-panel {
-        width: unset;
+        width: 100%;
         z-index: 10;
         padding: 0.5rem;
         max-height: 80%;
