@@ -91,7 +91,8 @@ const es: Locale = {
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding:
-        "Algo fue mal mientras hablabas con el bot. Si el bot responde, ¡no te fies!",
+        `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
+        Si el problema persiste, inténtalo de nuevo más tarde.`,
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
     

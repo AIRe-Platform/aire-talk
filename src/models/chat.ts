@@ -42,6 +42,7 @@ export interface ChatContext {
     messages: ChatHistory;
     cache: Map<string, ChatCache>;
     awaitingResponse: boolean;
+    hasFinished: boolean;
     modified: boolean;
     current: ChatState;
     stats: ChatStats;
