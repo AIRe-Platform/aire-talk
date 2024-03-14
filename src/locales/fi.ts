@@ -88,7 +88,8 @@ const fi: Locale = {
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding:
-        "Botti vastasi jotain odottamatonta. Älä luota vastauksiin.",
+        `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
+        Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.`,
     error_signup_password_mismatch: "Salasanat eivät täsmää",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
 

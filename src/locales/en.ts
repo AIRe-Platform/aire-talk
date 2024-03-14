@@ -90,7 +90,8 @@ const en: Locale = {
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding:
-        "Something went wrong when talking to the Bot. If it answers, don't trust it!",
+        `The bot failed to respond. This might occur due to content filtering.
+        If the problem persists, please try again later.`,
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
  
