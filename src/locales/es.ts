@@ -12,7 +12,7 @@ const es: Locale = {
     system_topic: "Has seleccionado un tema: ",
 
     frontpage_greeting: "¡Bienvenido a la plataforma AIRe!",
-    frontpage_paragraph: `AIRe es un servicio de chat de atención médica impulsado por IA que lo ayudará a comprender mejor sus síntomas activos y las posibles afecciones subyacentes. AIRe le guía en los procedimientos de seguimiento si es necesario y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
+    frontpage_paragraph: `AIRe es una plataforma de servicios impulsada por IA que le ayuda a comprender mejor sus síntomas y sus posibles condiciones subyacentes. AIRe también le guía en los procedimientos de seguimiento necesarios y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
 
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",
@@ -133,7 +133,7 @@ const es: Locale = {
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
-    chat_input_title: "Pregunta aquí",
+    chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:
         "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
