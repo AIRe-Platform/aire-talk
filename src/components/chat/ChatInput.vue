@@ -23,14 +23,14 @@ function submit(event: Event) {
 
 function blurInput(e: Event) {
     const el = e.target as HTMLInputElement;
-    document.defaultView?.scrollTo({top: 0, left: 0, behavior: "smooth"})
+    document.defaultView?.scrollTo({ top: 0, left: 0, behavior: "smooth" })
     el.blur();
 }
 </script>
 
 <template>
     <div class="chat-input">
-        <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse }">
+        <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse, 'chat-bot-finish': Chat.hasFinished }">
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
@@ -41,7 +41,7 @@ function blurInput(e: Event) {
         </div>
         <form class="chat-input-bar" @submit.prevent="submit">
             <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                :readonly="Chat.awaitingResponse" v-on-click-outside="blurInput"/>
+                :readonly="Chat.awaitingResponse" v-on-click-outside="blurInput" />
         </form>
     </div>
 </template>
@@ -87,6 +87,10 @@ function blurInput(e: Event) {
 
 .chat-bot-busy {
     background-image: url("@/assets/images/aire-bot-thinking.gif");
+}
+
+.chat-bot-finish {
+    background-image: url("@/assets/images/aire-bot-thinking-finish.png");
 }
 
 .chat-bot-text {

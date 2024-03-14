@@ -17,6 +17,8 @@ const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
 
 let save_timer_id: number | undefined = undefined;
+let finish_animation_timer_id: number | undefined = undefined;
+const FINISH_ANIMATION_TIMER_TIMEOUT = 2000;
 const SAVE_TIMER_TIMEOUT = 10000;
 
 export const Chat: ChatContext = reactive(initChatState());
@@ -62,6 +64,7 @@ export async function refreshSummary() {
         console.warn("AI service is unavailable");
     }
     Chat.awaitingResponse = false;
+    startFinishAnimation();
 }
 
 /**
@@ -90,6 +93,7 @@ export async function refreshKeywords(addRandomness: boolean) {
         console.warn("AI service is unavailable");
     }
     Chat.awaitingResponse = false;
+    startFinishAnimation();
 }
 
 /**
@@ -114,6 +118,7 @@ export async function refreshAbstract() {
         console.warn("AI service is unavailable");
     }
     Chat.awaitingResponse = false;
+    startFinishAnimation();
 }
 
 /**
@@ -549,6 +554,7 @@ function errorHandler(error: AireError) {
     })
 
     Chat.awaitingResponse = false;
+    startFinishAnimation();
 }
 
 /**
@@ -712,6 +718,7 @@ function initChatState(): ChatContext {
     return {
         messages: [],
         awaitingResponse: false,
+        hasFinished: false,
         modified: false,
         cache: new Map,
         current: {},
@@ -739,6 +746,7 @@ async function resetChatState(skip_save: boolean = false, clear_cache = true) {
     Chat.modified = false;
     Chat.landingInfo = undefined;
     Chat.current = {};
+    Chat.hasFinished = false;
 
     pushSystemMessage(l.system_greeting)
 }
@@ -791,4 +799,26 @@ function getUserName() {
         return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
     }
     return ""
+}
+
+/**
+ * 
+ */
+function startFinishAnimation() {
+    Chat.hasFinished = true;
+    cancelStartFinishAnimation()
+    console.log("hereee",Chat.hasFinished);
+    finish_animation_timer_id = setTimeout(async () => {
+        finish_animation_timer_id = undefined
+        Chat.hasFinished = false;
+    }, FINISH_ANIMATION_TIMER_TIMEOUT);
+}
+
+/**
+ * Cancels 
+ */
+function cancelStartFinishAnimation() {
+    if (finish_animation_timer_id)
+        clearTimeout(finish_animation_timer_id);
+    finish_animation_timer_id = undefined
 }
