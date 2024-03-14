@@ -534,6 +534,9 @@ function receiver(e: AireTalkEvent) {
         }
         Chat.awaitingResponse = !final;
 
+        if(final)
+            startFinishAnimation();
+
         pushMessage(last, firstMessage, final)
     }
 }
@@ -807,7 +810,7 @@ function getUserName() {
 function startFinishAnimation() {
     Chat.hasFinished = true;
     cancelStartFinishAnimation()
-    console.log("hereee",Chat.hasFinished);
+
     finish_animation_timer_id = setTimeout(async () => {
         finish_animation_timer_id = undefined
         Chat.hasFinished = false;
