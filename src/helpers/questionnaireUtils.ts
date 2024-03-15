@@ -1,4 +1,4 @@
-import { AireQuestion, AireQuestionnaire, AireQuestionnaireAnswer, AireQuestionnaireResults } from "@/lib/aire/models/questionnaire";
+import { AireQuestion, AireQuestionnaire, AireQuestionnaireAnswer } from "aire";
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {
     const questions = questionnaire.content.flatMap(x => {

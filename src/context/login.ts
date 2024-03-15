@@ -1,4 +1,4 @@
-import { AireServices, AireUser, AireScope } from "aire";
+import { AireServices, AireUser, AireScope, AireStatus } from "aire";
 import { reactive } from "vue";
 import { createNewChat } from "./chat";
 
@@ -11,74 +11,69 @@ export const Login = reactive<{
 
 export async function login(username: string, password: string): Promise<boolean> {
     if (AireServices.ID) {
-        const result = await AireServices.ID.login(username, password);
+        const status = await AireServices.ID.login(username, password);
+        if (status == AireStatus.Success) {
+            Login.logged_in = true;
+            Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
-        Login.logged_in = result;
-        Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
+            if (Login.verified) {
+                const userDataResponse = await AireServices.ID.getUser();
+                Login.user = userDataResponse.data
+                saveSession()
+            }
+            else {
+                Login.credentials = { email: username, pw: password }
+            }
 
-        if (Login.verified) {
-            Login.user = await AireServices.ID.getUser()
-            saveSession()
+            await createNewChat()
+            return true;
         }
-        else {
-            Login.credentials = { email: username, pw: password }
-        }
-
-        await createNewChat()
-        return result;
     }
     return false;
 }
 
-export async function signup(email: string, password: string): Promise<number> {
+export async function signup(email: string, password: string): Promise<AireStatus> {
     if (AireServices.ID) {
-        return await AireServices.ID.signup(email, password)
-            .then(async (status) => {
-                if (status === 204) {
-                    const result = await login(email, password);
-                    if (!result)
-                        return 403;
-                }
-                return status;
-            })
+        const status = await AireServices.ID.signup(email, password);
+        if (status === AireStatus.Success) {
+            const loggedIn = await login(email, password);
+            return loggedIn ? AireStatus.Success : AireStatus.UnknownError;
+        }
+        return status;
     }
-    return 0;
+    return AireStatus.UnknownError;
 }
 
 export async function saveProfile(user: AireUser): Promise<AireUser | undefined> {
     if (AireServices.ID) {
-        return await AireServices.ID.saveProfileData(user)
-            .then((result) => {
-                if (result) {
-                    Login.user = result
-                }
-                return result
-            })
+        const result = await AireServices.ID.saveProfileData(user)
+        if(result.status == AireStatus.Success) {
+            Login.user = result.data
+        }
+        return result.data
     }
     return undefined
 }
 
 export async function changePassword(current_password: string, new_password: string): Promise<boolean> {
     if (AireServices.ID && Login.user) {
-        return await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
-            .then(async (result) => {
-                if (result) {
-                    const email = Login.user?.email
-                    await logout();
-                    if(email)
-                        return await login(email, new_password);
-                }
-                return result;
-            })
+        const status = await AireServices.ID.changePassword(Login.user.uuid, current_password, new_password)
+        if(status == AireStatus.Success) {
+            // Need to log in again
+            const email = Login.user?.email
+            await logout();
+            if (email)
+                return await login(email, new_password);
+        }
     }
     return false;
 }
 
 export async function verifyAccount(code: string): Promise<boolean> {
     if (AireServices.ID && Login.logged_in && !Login.verified && Login.credentials) {
-        let result = await AireServices.ID.verifyUserCode(code);
-        if (result) {
-            result = await login(Login.credentials.email, Login.credentials.pw)
+        const status = await AireServices.ID.verifyUserCode(code);
+        if (status == AireStatus.Success) {
+            const result = await login(Login.credentials.email, Login.credentials.pw)
             Login.credentials = undefined;
             return result;
         }
@@ -88,7 +83,8 @@ export async function verifyAccount(code: string): Promise<boolean> {
 
 export async function resendVerification(): Promise<boolean> {
     if (AireServices.ID && Login.logged_in && !Login.verified) {
-        return await AireServices.ID.resendVerification();
+        const status = await AireServices.ID.resendVerification();
+        return status == AireStatus.Success
     }
     return false;
 }
@@ -114,12 +110,14 @@ export async function restoreSession(): Promise<boolean> {
         console.debug("Restoring session...")
         await createNewChat()
 
-        Login.logged_in = await AireServices.ID.verifyToken(token);
+        const status = await AireServices.ID.verifyToken(token);
+
+        Login.logged_in = status == AireStatus.Success
         Login.verified = !AireServices.ID.hasScope(AireScope.UnverifiedAccount);
 
         if (Login.logged_in) {
             if (Login.verified) {
-                Login.user = await AireServices.ID.getUser()
+                Login.user = (await AireServices.ID.getUser()).data
                 saveSession()
                 return true;
             }

@@ -3,8 +3,8 @@ import { ChatCache, ChatContext, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
     AireServices, AireError, AireTalkEvent,
-    AireChatMessage, AireChatbotInput, AireRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats
+    AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus
 } from "aire";
 import { reactive } from "vue";
 import { Login } from "./login";
@@ -53,8 +53,8 @@ export async function refreshSummary() {
         const input = getChatbotInputData();
         await AireServices.AI.generateSummary(input)
             .then((result) => {
-                if (result) {
-                    Chat.current.summary = result;
+                if (result.status == AireStatus.Success) {
+                    Chat.current.summary = result.data;
                     startAutoSaveTimer();
                 } else {
                     console.warn("There is no generated summary.")
@@ -78,15 +78,9 @@ export async function refreshKeywords(addRandomness: boolean) {
         const input = getChatbotInputData();
         await AireServices.AI.generateKeywords(input, addRandomness)
             .then((result) => {
-                if (result) {
-                    const keywords: Array<string> = [];
-                    for (let i = 0; i < result.length; i++) {
-                        keywords.push(result[i]);
-                    }
-                    Chat.current.keywords = keywords;
+                if (result.status == AireStatus.Success) {
+                    Chat.current.keywords = result.data;
                     startAutoSaveTimer();
-                } else {
-                    console.warn("There is no generated abstract.")
                 }
             })
     } else {
@@ -106,9 +100,9 @@ export async function refreshAbstract() {
         const input = getChatbotInputData();
         await AireServices.AI.generateAbstract(input)
             .then((result) => {
-                if (result) {
-                    Chat.current.keywords = result.keywords;
-                    Chat.current.summary = result.summary;
+                if (result.status == AireStatus.Success) {
+                    Chat.current.keywords = result.data?.keywords;
+                    Chat.current.summary = result.data?.summary;
                     return result;
                 } else {
                     console.warn("There is no generated abstract.")
@@ -182,13 +176,13 @@ export async function saveChat() {
 
         await AireServices.Memory.saveChat(chatLog, Chat.id)
             .then(result => {
-                if (result) {
+                if (result.status == AireStatus.Success && result.data) {
                     setCache({
                         messages: Chat.messages,
                         state: Chat.current,
                         stats: Chat.stats
-                    }, result.id)
-                    Chat.id = result.id
+                    }, result.data.id)
+                    Chat.id = result.data.id
                     Chat.modified = false
                 }
             })
@@ -235,15 +229,17 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
     }
 
     if (AireServices.Memory) {
-        const chatlog = await AireServices.Memory.getChat(id);
-        if (!chatlog)
+        const result = await AireServices.Memory.getChat(id);
+        if (result.status != AireStatus.Success)
             return false
+
+        const chatlog = result.data!;
 
         const messages = chatlog.messages.map(x => {
             const m: ChatMessage = {
                 id: generateRandomID(),
                 sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? BOT_NAME : SYSTEM_NAME),
-                role: x.role as AireRole,
+                role: x.role as AireChatRole,
                 message: x.content,
                 timestamp: x.timestamp || 0,
                 rating: x.rating || 0,
@@ -307,9 +303,9 @@ export function setMessageRating(id: string, rating: number) {
  */
 export async function getAllChats(): Promise<AireChatMetadata[]> {
     if (AireServices.Memory) {
-        const chats = await AireServices.Memory.getChatlogs()
-        if (chats) {
-            return chats.sort((b, a) => {
+        const result = await AireServices.Memory.getChatlogs()
+        if (result.data) {
+            return result.data.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
             });
         }
@@ -325,7 +321,7 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
  */
 export async function getStats(): Promise<AireChatStats | undefined> {
     if (AireServices.AI) {
-        return await AireServices.AI.getChatStats(getChatbotInputData())
+        return (await AireServices.AI.getChatStats(getChatbotInputData())).data
     }
 }
 
@@ -353,7 +349,8 @@ export async function queryAndStartQuestionnaire() {
         return
     }
 
-    const questionnaire = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getUserLanguageCode())
+    const query = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getUserLanguageCode())
+    const questionnaire = query.data
     if (!questionnaire) {
         return
     }
@@ -431,9 +428,10 @@ export async function sendQuestionnaireAnswers(): Promise<boolean> {
     if (AireServices.AI && AireServices.Memory) {
         const answers = getAnswerObjects(Chat.current.questionnaire.active_id)
 
-        const results = await AireServices.AI.processQuestionnaire(
+        const result = await AireServices.AI.processQuestionnaire(
             Chat.current.questionnaire.active_id, answers)
-
+            
+        const results = result.data
         if (!results)
             return false;
 

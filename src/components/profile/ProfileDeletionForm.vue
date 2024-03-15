@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Login, logout } from "@/context/login";
-import { AireServices } from 'aire';
+import { AireServices, AireStatus } from 'aire';
 import { router } from '@/router';
 import { l } from '@/locales';
 import Spinner from "@/components/Spinner.vue";
@@ -23,8 +23,8 @@ const onDeleteAccount = (e: Event) => {
             confirmPassword.value,
             keepAnonymizedData.value
         )
-            .then(async (result) => {
-                if (result) {
+            .then(async (status) => {
+                if (status == AireStatus.Success) {
                     await logout();
                     error.value = undefined;
                     router.push("/");

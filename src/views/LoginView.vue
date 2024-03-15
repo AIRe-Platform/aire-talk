@@ -28,7 +28,7 @@ const onLogin = (e: Event) => {
         .then((result) => {
             error.value = !result;
             if (result)
-                router.push("/")
+                router.replace("/")
         })
         .finally(() => busy.value = false);
 };

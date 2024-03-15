@@ -1,11 +1,11 @@
-import { AireRole } from "aire";
+import { AireChatRole } from "aire";
 import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from "aire";
 import { Topic } from "./topic";
 
 export interface ChatMessage {
     id: string;
     sender: string;
-    role: AireRole;
+    role: AireChatRole;
     isError?: boolean;
     timestamp: number;
     message?: string;

@@ -4,6 +4,7 @@ import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { signup } from '@/context/login';
+import { AireStatus } from 'aire';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -27,10 +28,10 @@ const onSignup = (e: Event) => {
     busy.value = true;
     signup(fields.email!, fields.password!)
         .then((status) => {
-            if (status === 204) {
-                router.push("/")
+            if (status == AireStatus.Success) {
+                router.replace("/")
             }
-            else if (status === 400) {
+            else if (status == AireStatus.BadRequest) {
                 error.value = l.error_signup_bad_request;
             }
             else {

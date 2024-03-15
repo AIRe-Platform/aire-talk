@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { answerQuestion } from '@/context/chat';
-import { AireQuestionOptionRange } from '@/lib/aire/models/questionnaire';
+import { AireQuestionOptionRange } from 'aire';
 
 const props = defineProps<{
     message_id: string;
