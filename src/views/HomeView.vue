@@ -16,21 +16,21 @@ const navigateTo = (path: string) => {
             <p>{{ $t(l.frontpage_paragraph) }}</p>
         </div>
         <div class="quick-nav">
-            <button class="get-started" @click="navigateTo('/chat')" v-if="Login.logged_in">
+            <button class="get-started" @click="navigateTo('/chat')" v-if="Login.user">
                 {{ $t(l.nav_chat) }}
             </button>
-            <button class="get-started" @click="navigateTo('/profile')" v-if="Login.logged_in">
+            <button class="get-started" @click="navigateTo('/profile')" v-if="Login.user">
                 {{ $t(l.nav_profile) }}
             </button>
-            <button class="get-started" @click="navigateTo('/login')" v-if="!Login.logged_in">
+            <button class="get-started" @click="navigateTo('/login')" v-if="!Login.user">
                 {{ $t(l.nav_login) }}
             </button>
-            <button class="get-started" @click="navigateTo('/signup')" v-if="!Login.logged_in">
+            <button class="get-started" @click="navigateTo('/signup')" v-if="!Login.user">
                 {{ $t(l.nav_signup) }}
             </button>
         </div>
     </div>
-    <OnboardingTopics v-if="Login.logged_in" />
+    <OnboardingTopics v-if="Login.user" />
 </template>
 
 <style scoped>

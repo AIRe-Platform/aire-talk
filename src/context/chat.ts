@@ -151,7 +151,7 @@ export async function deleteChat(id: string) {
  * @param chatHistory
  */
 export async function saveChat() {
-    if (!Login.logged_in || !Chat.modified)
+    if (!Login.user || !Chat.modified)
         return
 
     if (AireServices.Memory) {

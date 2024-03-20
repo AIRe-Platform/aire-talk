@@ -15,7 +15,7 @@ const onTogglePanel = (e: Event) => {
 };
 
 const buttonSelected = async (topic: Topic) => {
-    if (Login.logged_in) {
+    if (Login.user) {
         await createNewChat(topic)
         router.push("/chat");
     }
