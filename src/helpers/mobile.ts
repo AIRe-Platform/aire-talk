@@ -5,7 +5,7 @@ export function useMobileLayout(): boolean
         return false;
 
     const portrait = (view.innerWidth / view.innerHeight <= 1/1);
-    const narrow = (view.innerWidth < 920);
+    const narrow = (view.innerWidth <= 920);
 
     return portrait || narrow;
 }
