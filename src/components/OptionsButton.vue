@@ -56,7 +56,7 @@ const props = defineProps<{
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
     .options-button {
         display: flex;
         border: none;
