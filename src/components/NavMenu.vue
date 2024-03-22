@@ -7,6 +7,7 @@ import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import ThemeSwitch from "./ThemeSwitch.vue";
 import Panel from "./Panel.vue";
+import useMobileLayout from "@/helpers/mobile";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
@@ -24,7 +25,7 @@ const newChat = async () => {
 
 const navigateTo = (path: string) => {
     router.push(path);
-    if (window.innerWidth < 600)
+    if (useMobileLayout())
         UIState.showMenu = false;
 };
 
