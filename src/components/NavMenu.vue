@@ -203,7 +203,7 @@ const onLogout = async () => {
     flex-grow: 1;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .menu-container {
         overflow: hidden;
         margin: 0;

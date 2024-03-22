@@ -238,7 +238,7 @@ const onClickOutside = (e: Event) => {
     right: -3rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
         width: 100%;
         z-index: 10;

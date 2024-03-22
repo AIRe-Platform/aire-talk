@@ -149,7 +149,7 @@ onMounted(() => {
     justify-content: flex-start;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-view-content {
         width: 100%;
         padding-top: 1rem;

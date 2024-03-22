@@ -149,7 +149,7 @@ if (props.message.isError)
     padding: 1rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-bubble {
         max-width: unset;
         margin: 0.5rem 1rem 0.5rem 0.3rem

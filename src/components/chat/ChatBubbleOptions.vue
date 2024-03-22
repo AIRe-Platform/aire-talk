@@ -139,7 +139,7 @@ const onCancelRevert = () => {
 }
 
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-bubble-options-menu {
         top: -1rem;
         right: 1rem;

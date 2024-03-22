@@ -74,7 +74,7 @@ const onClickOutside = (e: Event) => {
     gap: 0.5rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 786px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
         width: 100%;
     }
