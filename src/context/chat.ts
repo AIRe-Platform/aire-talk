@@ -2,7 +2,7 @@ import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { ChatCache, ChatContext, ChatMessage } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
-    AireServices, AireError, AireTalkEvent,
+    AireServices, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
     AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus
 } from "aire";
@@ -356,14 +356,14 @@ export async function queryAndStartQuestionnaire() {
     }
 
     const questions = getRelevantQuestions(questionnaire, Chat.current.keywords)
-    const unanswered = getUnansweredQuestions(questions, getAnswerObjects(questionnaire.id))
+    const unanswered = getUnansweredQuestions(questions, getAnswerObjects(questionnaire.id!))
 
     if (unanswered.length === 0) {
         return
     }
 
     Chat.current.questionnaire = {
-        active_id: questionnaire.id,
+        active_id: questionnaire.id!,
         question_queue: questions,
         completed: false
     };
@@ -543,13 +543,13 @@ function receiver(e: AireTalkEvent) {
  * Chatbot error callback
  * @param error Error info
  */
-function errorHandler(error: AireError) {
+function errorHandler(status: AireStatus) {
     pushMessage({
         id: generateRandomID(),
         sender: SYSTEM_NAME,
         role: "system",
         isError: true,
-        message: error.key || error.error?.message || "",
+        message: l.error_ai_not_responding,
         timestamp: Date.now(),
         rating: 0
     })
