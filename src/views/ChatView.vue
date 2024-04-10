@@ -8,6 +8,7 @@ import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
+import useMobileLayout from "@/helpers/mobile";
 
 const showSideBar = ref(false);
 
@@ -29,7 +30,7 @@ const hasPanels = (chat: ChatContext) => {
 }
 
 onMounted(() => {
-    showSideBar.value = !(window.innerWidth < 600);
+    showSideBar.value = !useMobileLayout();
     scrollChatToBottom()
 });
 </script>
@@ -149,7 +150,7 @@ onMounted(() => {
     justify-content: flex-start;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-view-content {
         width: 100%;
         padding-top: 1rem;

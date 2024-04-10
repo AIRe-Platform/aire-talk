@@ -16,7 +16,7 @@ const onVerify = () => {
     verifyAccount(code)
         .then((status) => {
             if (status)
-                router.push("/")
+                router.replace("/")
             else
                 error.value = l.error_verification_failure
         })

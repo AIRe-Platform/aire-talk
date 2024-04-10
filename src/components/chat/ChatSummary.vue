@@ -162,7 +162,7 @@ const clearKeywords = () => {
     margin-right: 0.5rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .summary-panel {
         width: unset;
     }

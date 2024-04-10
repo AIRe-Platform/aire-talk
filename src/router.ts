@@ -52,17 +52,17 @@ export const router = createRouter({
 router.beforeEach(async (to, from) => {
     await initApp();
 
-    if (Login.logged_in && !Login.verified && to.path !== "/verify") {
+    if (Login.user && !Login.user.verified && to.path !== "/verify") {
         return "/verify";
     }
 
     if (to.path === "/login" || to.path === "/signup" || to.path === "/landing") {
-        if (Login.logged_in)
+        if (Login.user)
             return "/"
     }
 
     if (to.path === "/profile" || to.path === "/chat" || to.path === "/verify") {
-        if (!Login.logged_in)
+        if (!Login.user)
             return "/login"
     }
 });

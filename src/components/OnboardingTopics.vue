@@ -15,7 +15,7 @@ const onTogglePanel = (e: Event) => {
 };
 
 const buttonSelected = async (topic: Topic) => {
-    if (Login.logged_in) {
+    if (Login.user) {
         await createNewChat(topic)
         router.push("/chat");
     }
@@ -124,7 +124,7 @@ const buttonSelected = async (topic: Topic) => {
     margin: 0.2rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .onboarding-button {
         width: 3.5rem;
         height: 3.2rem;

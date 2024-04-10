@@ -7,6 +7,7 @@ import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import ThemeSwitch from "./ThemeSwitch.vue";
 import Panel from "./Panel.vue";
+import useMobileLayout from "@/helpers/mobile";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
@@ -24,7 +25,7 @@ const newChat = async () => {
 
 const navigateTo = (path: string) => {
     router.push(path);
-    if (window.innerWidth < 600)
+    if (useMobileLayout())
         UIState.showMenu = false;
 };
 
@@ -56,7 +57,7 @@ const onLogout = async () => {
                 }">
                     <div class="nav-link">{{ $t(l.nav_home) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.logged_in" :class="{
+                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
                     'nav-item-active': $route.matched.some(
                         (p) => p.name === 'Chat'
                     ),
@@ -66,7 +67,7 @@ const onLogout = async () => {
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
                     <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
                 </div>
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.logged_in" :class="{
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
                     'nav-item-active': UIState.panels.has(
                         UIPanels.ChatHistory
                     ),
@@ -74,21 +75,21 @@ const onLogout = async () => {
                     <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
                 </div>
                 <div class="nav-spacer"></div>
-                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.logged_in" :class="{
+                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
                     'nav-item-active': $route.matched.some(
                         (p) => p.name === 'Login'
                     ),
                 }">
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.logged_in" :class="{
+                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
                     'nav-item-active': $route.matched.some(
                         (p) => p.name === 'Signup'
                     ),
                 }">
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
-                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.logged_in" :class="{
+                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
                     'nav-item-active': $route.matched.some(
                         (p) => p.name === 'Profile'
                     ),
@@ -105,7 +106,7 @@ const onLogout = async () => {
                 }">
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
-                <div class="nav-item" @click="onLogout" v-if="Login.logged_in">
+                <div class="nav-item" @click="onLogout" v-if="Login.user">
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>
@@ -203,7 +204,7 @@ const onLogout = async () => {
     flex-grow: 1;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .menu-container {
         overflow: hidden;
         margin: 0;

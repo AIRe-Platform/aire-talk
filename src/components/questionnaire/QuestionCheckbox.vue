@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
 import { answerQuestion } from '@/context/chat';
-import { AireQuestionOptionCheckbox } from '@/lib/aire/models/questionnaire';
+import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 
 const props = defineProps<{ 

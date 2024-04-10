@@ -14,6 +14,7 @@ import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
+import useMobileLayout from "@/helpers/mobile";
 
 const emit = defineEmits<{
     closePanel: [e: any];
@@ -60,7 +61,7 @@ const onSelect = async (id: string) => {
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
 
-    if (window.innerWidth < 600)
+    if (useMobileLayout())
         UIState.showMenu = false;
 };
 
@@ -238,7 +239,7 @@ const onClickOutside = (e: Event) => {
     right: -3rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
         width: 100%;
         z-index: 10;

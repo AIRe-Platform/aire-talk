@@ -74,7 +74,7 @@ setTimeout(() => {
     text-align: center;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
         margin: 0.2rem;
         margin-top: 4rem;

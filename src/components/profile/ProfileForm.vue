@@ -214,7 +214,7 @@ const activateField = (id: string) => {
     background-color: var(--error-color);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-form {
         flex-direction: column;
         flex-wrap: nowrap;

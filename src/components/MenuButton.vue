@@ -127,7 +127,7 @@ const props = defineProps<{
     top: 50%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .menu-button {
         padding: 0.5rem;
         left: 0.5rem;

@@ -71,5 +71,5 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
 }
 
 /* mobile*/
-@media screen and (max-width: 600px) {}
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {}
 </style>

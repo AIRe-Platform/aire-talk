@@ -3,7 +3,7 @@
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
-    --disabled-color: rgba(0, 180, 156, 0.5);
+    --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: lightgray;
     --font-family: sans-serif;
@@ -18,7 +18,7 @@
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
-    --disabled-color: rgba(0, 180, 156, 0.5);
+    --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: darkgray;
     --font-family: sans-serif;
@@ -77,6 +77,11 @@ select {
         box-shadow: 0 0 5px var(--accent-primary-color);
         outline: none;
     }
+}
+
+input:disabled,
+input:read-only {
+    background-color: var(--disabled-color);
 }
 
 input[type=submit],

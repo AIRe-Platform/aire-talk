@@ -80,7 +80,7 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
     }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-view {
         padding: 2rem 0rem;
     }
