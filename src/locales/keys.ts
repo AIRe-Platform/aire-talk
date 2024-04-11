@@ -113,6 +113,8 @@ export enum LocalizationKey {
     chat_history_title = "chat_history_title",
     chat_history_image = "chat_history_image",
     chat_history_video = "chat_history_video",
+    chat_history_loading = "chat_history_loading",
+    chat_history_tokens = "chat_history_tokens",
     chat_input_title = "chat_input_title",
 
     popup_confirm_revert_message = "popup_confirm_revert_message",

@@ -134,6 +134,8 @@ const es: Locale = {
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
+    chat_history_loading: "Cargando...",
+    chat_history_tokens: "{0} fichas",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:

@@ -132,6 +132,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_history_title: "Keskusteluhistoria",
     chat_history_image: "Kuvatiedosto:",
     chat_history_video: "Videotiedosto:",
+    chat_history_loading: "Ladataan...",
+    chat_history_tokens: "{0} tokenia",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
 
     popup_confirm_revert_message:

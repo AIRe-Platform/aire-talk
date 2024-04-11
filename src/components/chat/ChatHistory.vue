@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, onMounted, ref } from "vue";
+import { defineEmits, onMounted, reactive } from "vue";
 import {
     Chat,
     deleteChat,
@@ -16,34 +16,43 @@ import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
 import useMobileLayout from "@/helpers/mobile";
 
-const emit = defineEmits<{
-    closePanel: [e: any];
-}>();
-
-let delete_id: string | undefined;
-const showConfirmModal = ref(false);
-const busy = ref(false);
-
 interface ChatLogItem {
     id: string;
     time: Date;
 }
-const items = ref<Array<ChatLogItem>>();
 
-const refresh = async () => {
-    busy.value = true;
-    const logs = await getAllChats();
-    logs.forEach((x) => {
-        loadChat(x.id);
-    });
-    items.value = logs.map((x) => {
-        let item: ChatLogItem = {
-            id: x.id,
-            time: new Date(x.time),
-        };
-        return item;
-    });
-    busy.value = false;
+const state = reactive<{
+    busy: boolean,
+    deleteId?: string,
+    confirmDelete: boolean,
+    items?: ChatLogItem[]
+}>({
+    busy: false,
+    confirmDelete: false
+});
+
+const emit = defineEmits<{
+    closePanel: [e: any];
+}>();
+
+const refresh = () => {
+    state.busy = true;
+    getAllChats()
+        .then(logs => {
+            state.items = logs.map((x) => {
+                loadChat(x.id);
+
+                let item: ChatLogItem = {
+                    id: x.id,
+                    time: new Date(x.time),
+                };
+
+                return item;
+            });
+        })
+        .finally(() => {
+            state.busy = false
+        })
 };
 onMounted(refresh);
 
@@ -52,11 +61,12 @@ const isOpen = (id: string) => {
 };
 
 const onSelect = async (id: string) => {
-    if (isOpen(id)) return;
+    if (isOpen(id))
+        return;
 
     const open = await openChat(id);
-
-    if (open) router.push("/chat");
+    if (open)
+        router.push("/chat");
 
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
@@ -66,31 +76,32 @@ const onSelect = async (id: string) => {
 };
 
 const onConfirmDelete = () => {
-    showConfirmModal.value = false;
-    deleteChat(delete_id!)
-        .then(async () => {
-            await refresh();
-        })
-        .finally(() => {
-            delete_id = undefined;
-        });
+    state.confirmDelete = false;
+    if (state.deleteId) {
+        deleteChat(state.deleteId)
+            .then(() => { refresh(); })
+            .finally(() => { state.deleteId = undefined; });
+    }
 };
 
 const onCancelDelete = () => {
-    showConfirmModal.value = false;
-    delete_id = undefined;
+    state.confirmDelete = false;
+    state.deleteId = undefined;
 };
 
 const onDeleteChat = async (id: string) => {
-    delete_id = id;
-    showConfirmModal.value = true;
+    state.deleteId = id;
+    state.confirmDelete = true;
 };
 
 const getLastMessage = (id: string) => {
     const log = getCache(id);
+    if (!log)
+        return undefined;
+
     return (
-        log?.messages[log.messages.length - 1].message ||
-        log?.messages[log.messages.length - 1].question?.question ||
+        log.messages[log.messages.length - 1].message ||
+        log.messages[log.messages.length - 1].question?.question ||
         ""
     );
 };
@@ -98,14 +109,14 @@ const getLastMessage = (id: string) => {
 const getTokenCount = (id: string) => {
     const log = getCache(id);
     const tokenCount = log?.stats?.token_count;
-    if(tokenCount)
+    if (tokenCount)
         return tokenCount;
     else return undefined;
-    
+
 };
 
 const onClickOutside = (e: Event) => {
-    if (!delete_id) {
+    if (!state.deleteId) {
         e.stopImmediatePropagation();
         UIState.panels.delete(UIPanels.ChatHistory);
     }
@@ -113,13 +124,15 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <ConfirmDialog v-if="showConfirmModal" @accept="onConfirmDelete" @decline="onCancelDelete">
+    <ConfirmDialog v-if="state.confirmDelete" @accept="onConfirmDelete" @decline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
     <div class="chat-history-panel" v-on-click-outside="onClickOutside">
         <div class="chat-history-list">
-            <Spinner v-if="busy" />
-            <div class="chat-history-item" v-for="item in items" v-bind:key="item.id"
+            <div class="chat-history-busy" v-if="state.busy">
+                <Spinner />
+            </div>
+            <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
                 :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                 <div class="chat-history-item-row">
                     <div class="chat-history-item-details" @click="onSelect(item.id)">
@@ -127,10 +140,10 @@ const onClickOutside = (e: Event) => {
                             {{ item.time.toLocaleString($i18n.locale) }}
                         </div>
                         <div class="chat-history-item-preview">
-                            {{ getLastMessage(item.id) }}
+                            {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
                         </div>
                         <div class="chat-history-token" v-if="getTokenCount(item.id)">
-                            Tokens: {{ getTokenCount(item.id) }}
+                            {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
@@ -146,7 +159,7 @@ const onClickOutside = (e: Event) => {
 .chat-history-panel {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     z-index: 2;
     width: 24rem;
     height: 100%;
@@ -158,10 +171,17 @@ const onClickOutside = (e: Event) => {
     margin: 0;
 }
 
+.chat-history-busy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
 .chat-history-list {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    flex-grow: 1;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1rem;
@@ -192,6 +212,7 @@ const onClickOutside = (e: Event) => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    gap: 0.5rem;
 }
 
 .chat-history-item-row {
@@ -199,22 +220,24 @@ const onClickOutside = (e: Event) => {
     flex-direction: row;
     width: 100%;
     padding: 1rem;
+    gap: 1rem;
     align-items: center;
 }
 
 .chat-history-item-delete {
     cursor: pointer;
-}
-
-.chat-history-item-delete svg {
-    width: auto;
-    height: 2rem;
+    padding: 0.5rem;
     color: var(--text-color);
     transition: color 0.25s;
 
     &:hover {
         color: var(--accent-primary-color);
     }
+}
+
+.chat-history-item-delete svg {
+    width: auto;
+    height: 2rem;
 }
 
 .chat-history-item-preview {
@@ -225,12 +248,11 @@ const onClickOutside = (e: Event) => {
 }
 
 .chat-history-item-date {
-    margin-bottom: 0.5rem;
     font-size: large;
 }
 
 .chat-history-token {
-    font-size: small;
+    font-size: xx-small;
 }
 
 .restore-chat-button-close {

@@ -132,6 +132,8 @@ const en: Locale = {
     chat_history_title: "Chat History",
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
+    chat_history_loading: "Loading...",
+    chat_history_tokens: "{0} tokens",
     chat_input_title: "What would you like to ask or tell?",
 
     popup_confirm_revert_message:
