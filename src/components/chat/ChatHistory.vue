@@ -79,7 +79,13 @@ const onConfirmDelete = () => {
     state.confirmDelete = false;
     if (state.deleteId) {
         deleteChat(state.deleteId)
-            .then(() => { refresh(); })
+            .then(() => {
+                if (state.items) {
+                    const i = state.items.findIndex(x => x.id === state.deleteId);
+                    if (i > -1)
+                        state.items.splice(i, 1);
+                }
+            })
             .finally(() => { state.deleteId = undefined; });
     }
 };
