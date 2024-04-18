@@ -5,7 +5,12 @@ import PopUp from './PopUp.vue';
 
 defineEmits<{
     accept: [],
-    decline: []
+    decline: [],
+
+}>()
+
+const props = defineProps<{
+    hideDecline?: boolean,
 }>()
 
 </script>
@@ -20,7 +25,7 @@ defineEmits<{
                 <button class="popup-button-accept" @click.stop="() => $emit('accept')">
                     {{ $t(l.button_accept) }}
                 </button>
-                <button class="popup-button-cancel" @click.stop="() => $emit('decline')">
+                <button v-if="!hideDecline" class="popup-button-cancel" @click.stop="() => $emit('decline')">
                     {{ $t(l.button_cancel) }}
                 </button>
             </div>

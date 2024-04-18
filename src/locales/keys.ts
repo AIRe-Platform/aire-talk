@@ -119,6 +119,8 @@ export enum LocalizationKey {
 
     popup_confirm_revert_message = "popup_confirm_revert_message",
     popup_confirm_remove_chat = "popup_confirm_remove_chat",
+    popup_confirm_logout = "popup_confirm_logout",
+    popup_logout_message = "popup_logout_message",
 
     no_questionnaires_found = "no_questionnaires_found",
     confirm_questionnaire_start = "confirm_questionnaire_start",

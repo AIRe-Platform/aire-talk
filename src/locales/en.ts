@@ -89,8 +89,7 @@ const en: Locale = {
     settings_ui_size_large: "Large",
 
     error_generic: "An unknown error occurred!",
-    error_ai_not_responding:
-        `The bot failed to respond. This might occur due to content filtering.
+    error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.
         If the problem persists, please try again later.`,
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
@@ -139,10 +138,14 @@ const en: Locale = {
     popup_confirm_revert_message:
         "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
+    popup_confirm_logout: "Are you sure you want to logout?",
+    popup_logout_message: "You are now logout.",
 
     no_questionnaires_found: "Could not find suitable questionnaires.",
-    confirm_questionnaire_start: "Would you like to fill a questionnaire \"{0}\"?",
-    confirm_questionnaire_completion: "When you are happy with your answers, choose continue.",
+    confirm_questionnaire_start:
+        'Would you like to fill a questionnaire "{0}"?',
+    confirm_questionnaire_completion:
+        "When you are happy with your answers, choose continue.",
 
     button_accept: "Accept",
     button_cancel: "Cancel",

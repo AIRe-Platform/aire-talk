@@ -8,11 +8,21 @@ import MenuButton from "./MenuButton.vue";
 import ThemeSwitch from "./ThemeSwitch.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { reactive } from "vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
 };
+
+const state = reactive<{
+    showConfirmLogout: boolean,
+    showYouAreOutMessage: boolean,
+}>({
+    showConfirmLogout: false,
+    showYouAreOutMessage: false,
+});
 
 const toggleChatHistoryMenu = () => {
     UIState.panels.add(UIPanels.ChatHistory);
@@ -33,13 +43,32 @@ const toggleSettingsPanel = () => {
     UIState.panels.add(UIPanels.Settings);
 };
 
-const onLogout = async () => {
+const onConfirmLogout = async () => {
+
+    state.showConfirmLogout = false;
+
+    setTimeout(() => {
+        state.showYouAreOutMessage = true;
+    }, 300);
+}
+
+const showLogout = async () => {
+    state.showYouAreOutMessage = false;
     await logout();
     router.push("/");
 }
+
 </script>
 
 <template>
+    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+        {{ $t(l.popup_confirm_logout) }}
+    </ConfirmDialog>
+
+    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
+        {{ $t(l.popup_logout_message) }}
+    </ConfirmDialog>
+
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
         <Panel class="nav-menu-bar">
@@ -51,62 +80,62 @@ const onLogout = async () => {
             <div class="nav-menu-list">
                 <hr class="nav-separator" />
                 <div class="nav-item" @click="navigateTo('/')" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Home'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Home'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_home) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Chat'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Chat'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_chat) }}</div>
                 </div>
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
                     <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
                 </div>
                 <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
-                    'nav-item-active': UIState.panels.has(
-                        UIPanels.ChatHistory
-                    ),
-                }">
+        'nav-item-active': UIState.panels.has(
+            UIPanels.ChatHistory
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
                 </div>
                 <div class="nav-spacer"></div>
                 <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Login'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Login'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Signup'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Signup'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Profile'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Profile'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_profile) }}</div>
                 </div>
                 <hr class="nav-separator" />
                 <ThemeSwitch />
                 <hr class="nav-separator" />
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
-                    'nav-item-active': UIState.panels.has(
-                        UIPanels.Settings
-                    )
-                }">
+        'nav-item-active': UIState.panels.has(
+            UIPanels.Settings
+        )
+    }">
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
-                <div class="nav-item" @click="onLogout" v-if="Login.user">
+                <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>

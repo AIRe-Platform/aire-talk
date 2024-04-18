@@ -90,8 +90,7 @@ const es: Locale = {
     settings_ui_size_large: "Grande",
 
     error_generic: "¡Sucedió un error desconocido!",
-    error_ai_not_responding:
-        `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
+    error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
         Si el problema persiste, inténtalo de nuevo más tarde.`,
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
@@ -128,8 +127,10 @@ const es: Locale = {
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
 
-    error_verification_failure: "No se pudo verificar el código. Puede que esté caducado.",
-    error_verification_resend_failed: "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
+    error_verification_failure:
+        "No se pudo verificar el código. Puede que esté caducado.",
+    error_verification_resend_failed:
+        "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
 
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
@@ -139,12 +140,17 @@ const es: Locale = {
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:
-        "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
-    popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
+        "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
+    popup_confirm_logout: "¿Estas seguro de que quieres salir?",
+    popup_logout_message: "Ya has cerrado sesión.",
 
-    no_questionnaires_found: "No se pudieron encontrar los cuestionarios adecuados.",
-    confirm_questionnaire_start: "¿Le gustaría completar un cuestionario \"{0}\"?",
-    confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    no_questionnaires_found:
+        "No se pudieron encontrar los cuestionarios adecuados.",
+    confirm_questionnaire_start:
+        '¿Le gustaría completar un cuestionario "{0}"?',
+    confirm_questionnaire_completion:
+        "Cuando esté satisfecho con sus respuestas, elija continuar.",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
