@@ -9,6 +9,7 @@ import {
 import { ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 import Panel from '@/components/Panel.vue';
+import { getMissingPersonalInformationQuestions } from "@/helpers/questionnaireUtils";
 
 const busy = ref(false);
 
@@ -73,7 +74,7 @@ const clearKeywords = () => {
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button class="summary-button" @click="askPersonalInformation">
+                <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button" @click="askPersonalInformation">
                     <span class="summary-button-text">Ask personal information</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>

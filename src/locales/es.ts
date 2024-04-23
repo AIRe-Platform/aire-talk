@@ -76,6 +76,15 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
+    profile_question_confirm: "Do you want to answer some questions about your personal information?",
+    profile_question_completion: "Click done if you information is correct. You can edit your information later on your profile page.",
+    profile_question_first_name: "What is your first name?",
+    profile_question_last_name: "What is your last name?",
+    profile_question_gender: "What is your gender?",
+    profile_question_age: "How old are you?",
+    profile_question_language: "What is your primary language?",
+    profile_question_country: "Which country you live in?",
+
     verification_heading: "Verifica tu cuenta",
     verification_description:
         "Ingresa el código de verificación que recibiste en tu correo electrónico",

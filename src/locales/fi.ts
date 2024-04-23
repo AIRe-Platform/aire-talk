@@ -74,6 +74,15 @@ const fi: Locale = {
     gender_female: "nainen",
     gender_other: "muu",
 
+    profile_question_confirm: "Haluatko vastata muutamaan kysymykseen koskien henkilökohtaisia tietojasi?",
+    profile_question_completion: "Klikkaa jatka jos tietosi ovat oikein. Voit myöhemmin muokata tietojasi profiilissasi",
+    profile_question_first_name: "Mikä on etunimesi?",
+    profile_question_last_name: "Mikä on sukunimesi?",
+    profile_question_gender: "Mikä on sukupuolesi?",
+    profile_question_age: "Kuinka vanha olet?",
+    profile_question_language: "Mikä on ensisijainen kielesi?",
+    profile_question_country: "Mikä on asuinmaasi?",
+
     verification_heading: "Vahvista tilisi",
     verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
     verification_button_verify: "Tarkista",

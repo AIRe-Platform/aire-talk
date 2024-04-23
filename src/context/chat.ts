@@ -5,13 +5,13 @@ import {
     AireServices, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
     AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
-    AireQuestionOptionOpen, AireUser
+    AireUser,
 } from "aire";
 import { reactive } from "vue";
 import { Login, saveProfile } from "./login";
 import i18n, { l } from "@/locales";
 import { getUserLanguageCode } from "@/helpers/userLocale";
-import { getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
+import { getMissingPersonalInformationQuestions, getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
 import { LocalizationKey } from "@/locales/keys";
 
 const BOT_NAME = "aire_bot"
@@ -338,109 +338,53 @@ export function getCache(id: string): ChatCache | undefined {
 }
 
 export function startPersonalInformationQuestionnaire() {
-    const questions = Array<AireQuestion>();
-    if(!Login.user?.first_name) {
-        questions.push({
-            id: generateRandomID(),
-            prompt: "",
-            question: "What is your first name?",
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        });
-    }
-    if(!Login.user?.last_name) {
-        questions.push({
-            id: generateRandomID(),
-            prompt: "",
-            question: "What is your last name?",
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
-    if(!Login.user?.age) {
-        questions.push({
-            id: generateRandomID(),
-            prompt: "",
-            question: "What is your age?",
-            type: AireQuestionOptionType.Number,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
-    if(!Login.user?.country) {
-        questions.push({
-            id: generateRandomID(),
-            prompt: "",
-            question: "Which country you live in?",
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
-    if(!Login.user?.language) {
-        questions.push({
-            id: generateRandomID(),
-            prompt: "",
-            question: "What is your primary language?",
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
+    const questions = getMissingPersonalInformationQuestions();
 
-    Chat.current.questionnaire = {
-        active_id: "personal_information",
-        question_queue: questions,
-        completed: false
-    };
+    if(questions.length > 0) {
+        Chat.current.questionnaire = {
+            active_id: "personal_information",
+            question_queue: questions,
+            completed: false
+        };
 
-    pushQuestion({
-        id: generateRandomID(),
-        prompt: "",
-        question: "Do you want to ask some questions about your personal information?",
-        type: AireQuestionOptionType.Checkbox,
-        required: true,
-        options: {
-            multiselect: false,
-            values: [
-                i18n.global.t(l.button_accept),
-                i18n.global.t(l.button_cancel)
-            ]
-        } as AireQuestionOptionCheckbox
-    }, "system", (ans: string[]) => {
-        if (ans.includes(i18n.global.t(l.button_accept)))
-            pushNextPersonalQuestion();
-        else
-            Chat.current.questionnaire = undefined
-    })
-    
+        pushQuestion({
+            id: generateRandomID(),
+            prompt: "",
+            question: i18n.global.t(l.profile_question_confirm),
+            type: AireQuestionOptionType.Checkbox,
+            required: true,
+            options: {
+                multiselect: false,
+                values: [
+                    i18n.global.t(l.button_accept),
+                    i18n.global.t(l.button_cancel)
+                ]
+            } as AireQuestionOptionCheckbox
+        }, "system", (ans: string[]) => {
+            if (ans.includes(i18n.global.t(l.button_accept)))
+                pushNextPersonalQuestion();
+            else
+                Chat.current.questionnaire = undefined
+        })
+    }
 }
 
 function sendPersonalInformation() {
     if (AireServices.ID && Login.user) {
+        // get data from answers
 
-        // const data: AireUser = { ...Login.user };
-        // saveProfile(data)
-        //     .then((result) => {
-        //         if (result) {
-        //             error.value = undefined;
-        //         } else {
-        //             error.value = l.error_profile_edit;
-        //         }
-        //     })
-        //     .finally(() => (busy.value = false));
+        if (!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
+            return false;
+
+        const answers = getAnswerObjects(Chat.current.questionnaire?.active_id)
+        let newValues: Record<string, string> = {};
+
+        answers.forEach(element => {
+            newValues[element.question_id] = element.answer;
+        });
+    
+        const data: AireUser = { ...Login.user, ...newValues };
+        saveProfile(data)
     }
 }
 
@@ -453,7 +397,7 @@ function pushNextPersonalQuestion() {
 
         pushQuestion({
             id: Chat.current.questionnaire.active_id + "_completion",
-            question: "Click done if you information is correct. You can edit your information later on your profile page.",
+            question: i18n.global.t(l.profile_question_completion),
             type: AireQuestionOptionType.Checkbox,
             required: true,
             prompt: "",

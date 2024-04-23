@@ -68,6 +68,15 @@ export enum LocalizationKey {
     gender_female = "gender_female",
     gender_other = "gender_other",
 
+    profile_question_confirm = "profile_question_confirm",
+    profile_question_completion = "profile_question_completion",
+    profile_question_first_name = "profile_question_first_name",
+    profile_question_last_name = "profile_question_last_name",
+    profile_question_gender = "profile_question_gender",
+    profile_question_age = "profile_question_age",
+    profile_question_language = "profile_question_language",
+    profile_question_country = "profile_question_country",
+
     verification_heading = "verification_heading",
     verification_description = "verification_description",
     verification_button_verify = "verification_button_verify",
