@@ -88,8 +88,7 @@ const vi: Locale = {
     settings_ui_size_large: "Lớn",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
-    error_ai_not_responding:
-        `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
+    error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
         Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
     error_signup_bad_request: `Đăng ký không thành công. 
@@ -133,12 +132,18 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     chat_history_tokens: "{0} token",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
 
-    popup_confirm_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
-    popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+    popup_confirm_revert_message:
+        "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
+    popup_confirm_remove_chat:
+        "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+    popup_confirm_logout: "Bạn có chắc chắn bạn muốn thoát?",
+    popup_logout_message: "Bây giờ bạn đã đăng xuất.",
 
     no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
-    confirm_questionnaire_start: "Bạn có muốn điền vào bảng câu hỏi \"{0}\" không?",
-    confirm_questionnaire_completion: "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
+    confirm_questionnaire_start:
+        'Bạn có muốn điền vào bảng câu hỏi "{0}" không?',
+    confirm_questionnaire_completion:
+        "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",

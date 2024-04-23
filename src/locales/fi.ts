@@ -96,8 +96,7 @@ const fi: Locale = {
     settings_ui_size_large: "Suuri",
 
     error_generic: "Tapahtui tuntematon virhe!",
-    error_ai_not_responding:
-        `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
+    error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
         Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.`,
     error_signup_password_mismatch: "Salasanat eivät täsmää",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
@@ -148,10 +147,13 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_revert_message:
         "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
+    popup_confirm_logout: "Haluatko varmasti kirjautua ulos?",
+    popup_logout_message: "Olet nyt kirjautunut ulos.",
 
     no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
-    confirm_questionnaire_start: "Haluaisitko täyttää kyselyn \"{0}\"?",
-    confirm_questionnaire_completion: "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+    confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
+    confirm_questionnaire_completion:
+        "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
