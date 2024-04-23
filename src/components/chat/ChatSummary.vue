@@ -75,7 +75,7 @@ const clearKeywords = () => {
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
                 <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button" @click="askPersonalInformation">
-                    <span class="summary-button-text">Ask personal information</span>
+                    <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </div>

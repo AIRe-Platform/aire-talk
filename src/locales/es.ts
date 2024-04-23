@@ -76,6 +76,7 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
+    profile_question_button: "Complete profile information",
     profile_question_confirm: "Do you want to answer some questions about your personal information?",
     profile_question_completion: "Click done if you information is correct. You can edit your information later on your profile page.",
     profile_question_first_name: "What is your first name?",

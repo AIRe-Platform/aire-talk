@@ -74,6 +74,7 @@ const fi: Locale = {
     gender_female: "nainen",
     gender_other: "muu",
 
+    profile_question_button: "Täydennä profiilitiedot",
     profile_question_confirm: "Haluatko vastata muutamaan kysymykseen koskien henkilökohtaisia tietojasi?",
     profile_question_completion: "Klikkaa jatka jos tietosi ovat oikein. Voit myöhemmin muokata tietojasi profiilissasi",
     profile_question_first_name: "Mikä on etunimesi?",

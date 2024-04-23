@@ -68,6 +68,7 @@ export enum LocalizationKey {
     gender_female = "gender_female",
     gender_other = "gender_other",
 
+    profile_question_button = "profile_question_button",
     profile_question_confirm = "profile_question_confirm",
     profile_question_completion = "profile_question_completion",
     profile_question_first_name = "profile_question_first_name",

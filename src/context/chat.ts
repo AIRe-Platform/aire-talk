@@ -385,6 +385,27 @@ function sendPersonalInformation() {
     
         const data: AireUser = { ...Login.user, ...newValues };
         saveProfile(data)
+        .then((result) => {
+            if (result) {
+                let message: string | undefined;
+                message = `[The user filled missing profile information. Thank user and tell how it helps you to give better responses.]`
+
+                if (message) {
+                    const userMessage: ChatMessage = {
+                        id: generateRandomID(),
+                        sender: getUserName(),
+                        role: "user",
+                        message: message,
+                        rating: 0,
+                        timestamp: Date.now(),
+                        hidden: true
+                    }
+
+                    pushMessage(userMessage)
+                    getResponse()
+                }
+            } 
+        })
     }
 }
 
