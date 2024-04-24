@@ -250,7 +250,7 @@ const onClickOutside = (e: Event) => {
     max-height: 2rem;
     margin-right: 1rem;
     overflow: hidden;
-    font-size: 0.8rem;
+    font-size: small;
 }
 
 .chat-history-item-date {
