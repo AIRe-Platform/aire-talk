@@ -9,6 +9,7 @@ import ChatView from './views/ChatView.vue'
 import LandingView from './views/LandingView.vue'
 import NotFoundView from './views/NotFoundView.vue'
 import VerificationView from './views/VerificationView.vue'
+import RecoveryView from './views/RecoveryView.vue'
 import { nextTick } from 'vue'
 import i18n, { l } from './locales'
 
@@ -21,19 +22,34 @@ export const router = createRouter({
         },
         {
             path: '/login', component: LoginView,
-            name: "Login", meta: { title: l.nav_login }
+            name: "Login",
+            meta: {
+                title: l.nav_login,
+                no_login: true
+            }
         },
         {
             path: '/signup', component: SignupView,
-            name: "Signup", meta: { title: l.nav_signup }
+            name: "Signup", meta: {
+                title: l.nav_signup,
+                no_login: true
+            }
         },
         {
             path: '/profile', component: ProfileView,
-            name: "Profile", meta: { title: l.nav_profile }
+            name: "Profile",
+            meta: {
+                title: l.nav_profile,
+                require_login: true
+            }
         },
         {
             path: '/chat', component: ChatView,
-            name: "Chat", meta: { title: l.nav_chat }
+            name: "Chat",
+            meta: {
+                title: l.nav_chat,
+                require_login: true
+            }
         },
         {
             path: '/landing', component: LandingView,
@@ -41,7 +57,19 @@ export const router = createRouter({
         },
         {
             path: '/verify', component: VerificationView,
-            name: "VerificationCode", meta: { title: l.verification_heading }
+            name: "VerificationCode",
+            meta: {
+                title: l.verification_heading,
+                require_login: true
+            }
+        },
+        {
+            path: '/recovery', component: RecoveryView,
+            name: "Recovery",
+            meta: {
+                title: l.recovery_heading,
+                no_login: true
+            }
         },
         {
             path: '/:pathMatch(.*)*', component: NotFoundView
@@ -56,14 +84,12 @@ router.beforeEach(async (to, from) => {
         return "/verify";
     }
 
-    if (to.path === "/login" || to.path === "/signup" || to.path === "/landing") {
-        if (Login.user)
-            return "/"
+    if (to.meta.no_login && Login.user) {
+        return "/"
     }
 
-    if (to.path === "/profile" || to.path === "/chat" || to.path === "/verify") {
-        if (!Login.user)
-            return "/login"
+    if (to.meta.require_login && !Login.user) {
+        return "/login"
     }
 });
 

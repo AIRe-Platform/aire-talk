@@ -50,6 +50,7 @@ const onLogin = (e: Event) => {
             <div class="login-busy" v-if="busy">
                 <Spinner />
             </div>
+            <RouterLink to="/recovery" class="login-recovery-link">{{ $t(l.login_forgot_password) }}</RouterLink>
         </form>
     </div>
 </template>
@@ -81,6 +82,12 @@ const onLogin = (e: Event) => {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.login-recovery-link {
+    font-size: small;
+    align-self: center;
+    padding: 0.5rem;
 }
 
 #login-failed-message {

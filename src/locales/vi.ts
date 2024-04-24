@@ -19,6 +19,7 @@ const vi: Locale = {
     login_label_username: "E-mail hoặc tên người dùng",
     login_label_password: "Mật khẩu",
     login_failure_message: "Đăng nhập thất bại",
+    login_forgot_password: "Tôi quên mật khẩu của tôi",
 
     signup_label_email: "E-mail",
     signup_label_password: "Contraseña",
@@ -80,6 +81,16 @@ const vi: Locale = {
     verification_button_verify: "Xác minh",
     verification_code_resend: "Gửi cho tôi mã mới",
     verification_code_resend_done: "Một mã mới đang trên đường đến!",
+
+    recovery_heading: "Khôi phục tài khoản",
+    recovery_label_email: "Địa chỉ email",
+    recovery_label_code: "Mã khôi phục",
+    recovery_label_password: "Mật khẩu mới",
+    recovery_enter_code: "Nhập mã khôi phục chúng tôi vừa gửi cho bạn.",
+    recovery_not_available: "Hiện không thể khôi phục tài khoản.",
+    recovery_failure: "Không thể khôi phục tài khoản này.",
+    recovery_password_changed: "Mật khẩu đã được thay đổi thành công.",
+    recovery_back_to_login: "Quay lại đăng nhập",
 
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",
