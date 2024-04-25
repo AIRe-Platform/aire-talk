@@ -1,19 +1,19 @@
 @font-face {
-    font-family: 'Sansation';
+    font-family: "Sansation";
     font-weight: 400;
     font-style: normal;
-    src: url('/fonts/sansation/Sansation_Light.woff2') format('woff2'),
-         url('/fonts/sansation/Sansation_Light.woff') format('woff'),
-         url('/fonts/sansation/Sansation_Light.ttf') format('truetype');
+    src: url("/fonts/sansation/Sansation_Light.woff2") format("woff2"),
+        url("/fonts/sansation/Sansation_Light.woff") format("woff"),
+        url("/fonts/sansation/Sansation_Light.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: 'Sansation';
+    font-family: "Sansation";
     font-weight: 700;
     font-style: bold;
-    src: url('/fonts/sansation/Sansation_Bold.woff2') format('woff2'),
-         url('/fonts/sansation/Sansation_Bold.woff') format('woff'),
-         url('/fonts/sansation/Sansation_Bold.ttf') format('truetype');
+    src: url("/fonts/sansation/Sansation_Bold.woff2") format("woff2"),
+        url("/fonts/sansation/Sansation_Bold.woff") format("woff"),
+        url("/fonts/sansation/Sansation_Bold.ttf") format("truetype");
 }
 
 :root.theme-default {
@@ -24,11 +24,12 @@
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: lightgray;
-    --font-family: 'Sansation', sans-serif;
+    --font-family: "Sansation", sans-serif;
     --panel-background-color: rgb(248, 248, 248);
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
-    --overlay-color: rgba(255, 255, 255, .7);
+    --overlay-color: rgba(255, 255, 255, 0.7);
+    --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
 }
 
 :root.theme-dark {
@@ -39,11 +40,13 @@
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: darkgray;
-    --font-family: 'Sansation', sans-serif;
+    --font-family: "Sansation", sans-serif;
     --panel-background-color: rgb(53, 53, 53);
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
-    --overlay-color: rgba(0, 0, 0, .7);
+    --overlay-color: rgba(0, 0, 0, 0.7);
+    /*--back-ground-texture: url("@/assets/AIRe-background-texture-darkmode.png"); Why I can't change its name...*/
+    --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
 }
 
 html {
@@ -69,16 +72,20 @@ a {
     }
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     margin: 0;
     margin-bottom: 0.5rem;
 }
 
-input[type=text],
-input[type=password],
-input[type=email],
-input[type=number],
-input[type=checkbox],
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="checkbox"],
 textarea,
 select {
     color: var(--text-color);
@@ -102,7 +109,7 @@ input:read-only {
     background-color: var(--disabled-color);
 }
 
-input[type=submit],
+input[type="submit"],
 button {
     color: var(--text-color);
     background-color: var(--background-color);

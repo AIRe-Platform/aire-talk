@@ -8,7 +8,7 @@ import SettingsPanel from '@/components/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 
 setTimeout(() => {
-    if(AppState.value === "init")
+    if (AppState.value === "init")
         location.reload()
 }, 5000)
 
@@ -42,7 +42,7 @@ setTimeout(() => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-    background-color: var(--background-color);
+
 }
 
 .main-content {
@@ -50,6 +50,8 @@ setTimeout(() => {
     flex-direction: row;
     flex-grow: 1;
     overflow: auto;
+    background-color: var(--background-color);
+    background-image: var(--back-ground-texture);
 }
 
 .main-panels {
@@ -64,7 +66,8 @@ setTimeout(() => {
     bottom: 0;
 }
 
-.main-splash, .main-error {
+.main-splash,
+.main-error {
     display: flex;
     flex-direction: column;
     flex-grow: 1;

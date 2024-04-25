@@ -102,7 +102,6 @@ onMounted(() => {
     overflow: hidden;
     flex-direction: column;
     flex-grow: 1;
-    background-color: var(--background-color);
     border-radius: 0.5rem;
 }
 
