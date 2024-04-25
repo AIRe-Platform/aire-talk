@@ -29,6 +29,7 @@ const en: Locale = {
     login_label_username: "Email or username",
     login_label_password: "Password",
     login_failure_message: "Failed to login",
+    login_forgot_password: "I forgot my password",
 
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
@@ -103,6 +104,16 @@ const en: Locale = {
     verification_button_verify: "Verify",
     verification_code_resend: "Send me a new code",
     verification_code_resend_done: "A new code is on its way!",
+
+    recovery_heading: "Account Recovery",
+    recovery_label_email: "Email address",
+    recovery_label_code: "Recovery code",
+    recovery_label_password: "New password",
+    recovery_enter_code: "Enter the recovery code we just sent you.",
+    recovery_not_available: "Account recovery is not available currently.",
+    recovery_failure: "This account cannot be recovered.",
+    recovery_password_changed: "The password was changed successfully.",
+    recovery_back_to_login: "Back to login",
 
     settings_title: "Settings",
     settings_language: "User interface language",

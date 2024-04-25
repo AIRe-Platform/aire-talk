@@ -23,6 +23,7 @@ export enum LocalizationKey {
     login_label_username = "login_label_username",
     login_label_password = "login_label_password",
     login_failure_message = "login_failure_message",
+    login_forgot_password = "login_forgot_password",
 
     signup_form_title = "signup_form_title",
     signup_form_submit = "signup_form_submit",
@@ -90,6 +91,16 @@ export enum LocalizationKey {
     verification_button_verify = "verification_button_verify",
     verification_code_resend = "verification_code_resend",
     verification_code_resend_done = "verification_code_resend_done",
+
+    recovery_heading = "recovery_heading",
+    recovery_label_email = "recovery_label_email",
+    recovery_label_code = "recovery_label_code",
+    recovery_label_password = "recovery_label_password",
+    recovery_enter_code = "recovery_enter_code",
+    recovery_password_changed = "recovery_password_changed",
+    recovery_failure = "recovery_failure",
+    recovery_not_available = "recovery_not_available",
+    recovery_back_to_login = "recovery_back_to_login",
 
     settings_title = "settings_title",
     settings_language = "settings_language",

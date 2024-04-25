@@ -27,6 +27,7 @@ const fi: Locale = {
     login_label_username: "Sähköpostiosoite tai käyttäjänimi",
     login_label_password: "Salasana",
     login_failure_message: "Kirjautuminen epäonnistui",
+    login_forgot_password: "Unohdin salasanani",
 
     signup_form_title: "Luo tili",
     signup_form_submit: "Rekisteröidy",
@@ -99,6 +100,16 @@ const fi: Locale = {
     verification_button_verify: "Tarkista",
     verification_code_resend: "Lähetä minulle uusi vahvistuskoodi",
     verification_code_resend_done: "Uusi koodi on matkalla!",
+
+    recovery_heading: "Tilin palautus",
+    recovery_label_email: "Sähköpostiosoite",
+    recovery_label_code: "Palautuskoodi",
+    recovery_label_password: "Uusi salasana",
+    recovery_enter_code: "Syötä sinulle lähettämämme palautuskoodi",
+    recovery_not_available: "Tilinpalautus ei ole käytettävissä",
+    recovery_failure: "Tätä tiliä ei voitu palauttaa.",
+    recovery_password_changed: "Salasana vaihdettu",
+    recovery_back_to_login: "Takaisin kirjautumiseen",
 
     settings_title: "Asetukset",
     settings_language: "Käyttöliittymän kieli",
