@@ -88,7 +88,6 @@ onMounted(() => {
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 2;
-
     width: 0;
     transition: width 0.25s;
 }
@@ -128,7 +127,7 @@ onMounted(() => {
 .chat-view-content-left {
     display: flex;
     justify-content: flex-end;
-    border-right: 2px dotted var(--border-color);
+    border-right: 2px dotted var(--dividers);
     width: 50%;
 }
 

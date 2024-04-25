@@ -11,7 +11,7 @@ const onSwitchTheme = (dark: boolean) => {
 <template>
     <div class="theme-switch">
         <font-awesome-icon icon="fa-solid fa-sun" />
-        <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme"/>
+        <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme" />
         <font-awesome-icon icon="fa-solid fa-moon" />
     </div>
 </template>
@@ -23,5 +23,6 @@ const onSwitchTheme = (dark: boolean) => {
     justify-content: center;
     align-items: center;
     margin: 0.2rem 1rem;
+    color: var(--button-color);
 }
 </style>

@@ -55,7 +55,7 @@ function submit() {
     box-shadow: 0 0 5px var(--shadow-color);
     margin: 0 5px 0 5px;
     padding: 1rem;
-    background-color: var(--background-color);
+    background-color: var(--panel-background-color);
     z-index: 2;
 }
 
@@ -103,8 +103,7 @@ function submit() {
 }
 
 .chat-bot-text {
-    background-color: var(--background-color);
-    box-shadow: 0 0 5px 5px var(--background-color);
+
     border-radius: 0.5rem;
 }
 

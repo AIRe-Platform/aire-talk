@@ -20,29 +20,23 @@ const props = defineProps<{
 <style scoped>
 .menu-button {
     position: absolute;
-
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
-    padding: 0.5rem;
     left: 1rem;
     top: 1rem;
     width: 3.5rem;
     height: 3.2rem;
     z-index: 10;
     background: linear-gradient(#2374AB, #176087);
-
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
-
     transition:
         border-color .25s,
         background-color .25s,
         box-shadow .25s;
-
     cursor: pointer;
 }
 
@@ -72,7 +66,7 @@ const props = defineProps<{
     top: 50%;
     right: 6px;
     left: 6px;
-    height: 3px;
+    height: 4px;
     width: auto;
     margin-top: -1px;
     transition:

@@ -153,7 +153,8 @@ const onClickOutside = (e: Event) => {
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <font-awesome-icon icon="fa-solid fa-trash" />
+                        <div class="trash-icon">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -169,12 +170,19 @@ const onClickOutside = (e: Event) => {
     z-index: 2;
     width: 24rem;
     height: 100%;
-    background-color: var(--panel-background-color);
+    background-color: var(--panel-menu-background-color);
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
     overflow: hidden;
     margin: 0;
+}
+
+.trash-icon {
+    background-image: url("@/assets/icons/aire-icon-trash.svg");
+    width: 2rem;
+    height: 2.7rem;
+    background-size: cover;
 }
 
 .chat-history-busy {
@@ -233,7 +241,7 @@ const onClickOutside = (e: Event) => {
 .chat-history-item-delete {
     cursor: pointer;
     padding: 0.5rem;
-    color: var(--text-color);
+    color: var(--delete-color);
     transition: color 0.25s;
 
     &:hover {
@@ -246,15 +254,19 @@ const onClickOutside = (e: Event) => {
     height: 2rem;
 }
 
+.chat-history-item-date {
+    font-size: 12px;
+    color: var(--chat-history-item-date);
+    /* font-family: sans-serif; */
+    font-weight: 700;
+}
+
 .chat-history-item-preview {
     max-height: 2rem;
     margin-right: 1rem;
     overflow: hidden;
     font-size: 0.8rem;
-}
-
-.chat-history-item-date {
-    font-size: large;
+    color: black;
 }
 
 .chat-history-token {

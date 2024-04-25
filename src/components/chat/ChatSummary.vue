@@ -74,7 +74,8 @@ const clearKeywords = () => {
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button" @click="askPersonalInformation">
+                <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button"
+                    @click="askPersonalInformation">
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
@@ -89,7 +90,7 @@ const clearKeywords = () => {
     flex-direction: column;
     flex-shrink: 0;
     align-items: center;
-
+    background-color: var(--panel-background-color);
     width: 12rem;
     padding: 1rem;
     margin: 1rem;
@@ -118,7 +119,7 @@ const clearKeywords = () => {
     height: 2rem;
     border-radius: 1rem;
     border: 2px solid var(--border-color);
-    background-color: var(--background-color);
+    background-color: var(--panel-background-color);
 }
 
 .summary-keyword-text {
@@ -149,8 +150,8 @@ const clearKeywords = () => {
     flex-wrap: wrap;
     gap: 0.5rem;
     padding: 1rem 0 1rem 0;
-    border-top: 2px dotted var(--border-color);
-    border-bottom: 2px dotted var(--border-color);
+    border-top: 2px dotted var(--dividers);
+    border-bottom: 2px dotted var(--dividers);
     width: 100%;
 }
 

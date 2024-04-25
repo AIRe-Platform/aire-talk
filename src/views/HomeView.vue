@@ -86,7 +86,7 @@ const navigateTo = (path: string) => {
     width: 100%;
     height: 100%;
     background-image: var(--back-ground-texture);
-    /*url("@/assets/images/AIRe_BGtexture_lightmode.png");*/
+    color: var(--title-text)
 }
 
 .home-container {
@@ -96,13 +96,12 @@ const navigateTo = (path: string) => {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    color: black;
 }
 
 .home-header {
     width: 100%;
     height: 40%;
-    background-image: url("@/assets/images/AIRe_Frontpage_papertexture_cropped.png");
+    background-image: url("@/assets/images/aire_fp_papertexture_cropped.png");
     background-repeat: no-repeat;
     background-size: contain;
     display: flex;
@@ -128,9 +127,9 @@ const navigateTo = (path: string) => {
     width: 216.32px;
     height: 55px;
     border-radius: 20px;
-    opacity: 0px;
-    background: linear-gradient(#2374AB, #176087);
-    color: white;
+    background: var(--button-gradient-color);
+    font-size: 1rem;
+    color: var(--button-text);
 }
 
 .home-footer {

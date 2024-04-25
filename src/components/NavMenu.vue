@@ -153,20 +153,17 @@ const showLogout = async () => {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-
     overflow: hidden;
     z-index: 8;
-
     width: 0px;
     height: 100%;
     margin: 0rem;
-
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
 }
 
 .nav-separator {
     border: 0;
-    border-bottom: 2px dotted var(--border-color);
+    border-bottom: 2px dotted var(--dividers);
     margin: 1rem;
 }
 
@@ -191,7 +188,6 @@ const showLogout = async () => {
 .nav-logo {
     width: 100%;
     margin-top: 2rem;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -231,7 +227,7 @@ const showLogout = async () => {
 }
 
 .nav-item-active {
-    background-color: var(--border-color);
+    background-color: var(--menu-active);
 }
 
 .nav-spacer {

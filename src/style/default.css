@@ -17,7 +17,31 @@
 }
 
 :root.theme-default {
+    --button-color: #176087;
+    --box-stroke: #bcd0ce;
+    --title-text: #5a5a5a;
+    --basic-text: #000000;
+    --panel-background-color: #e3fffa;
+    --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
+    --button-text: #ffffff;
+    --ia-chat-box-background: #ffffff;
+    --user-chat-box-background: #f1f4f9;
+    --dividers: #bcd0ce;
+    --highlight: #00b49d;
+    --button-inactive: #697f8a;
+    --question-background: #0d5c63;
+    --delete-color: #b6465f;
+    --menu-highlight: #d9f0ff;
+    --scrollbar-background: #c1d6d3;
+    --questionnaire-icon-background: #00b49d;
+    --chat-tag-background: #ffffff;
+    --menu-active: #d9f0ff;
+    --button-gradient-color: linear-gradient(#2374ab, #176087);
+    --chat-history-item-date: #176087;
+    --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
+
+    /*the next ones should be deleted*/
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
@@ -25,15 +49,37 @@
     --shadow-color: gray;
     --border-color: lightgray;
     --font-family: "Sansation", sans-serif;
-    --panel-background-color: rgb(248, 248, 248);
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
-    --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
 }
 
 :root.theme-dark {
-    --background-color: #4a4a4a;
+    --button-color: #176087;
+    --box-stroke: #176087;
+    --title-text: #5a5a5a;
+    --basic-text: #ffffff;
+    --panel-background-color: #e3fffa;
+    --panel-menu-background-color: #47425e;
+    --background-color: #ffffff;
+    --button-text: #ffffff;
+    --ia-chat-box-background: #0d5c63;
+    --user-chat-box-background: #144044;
+    --dividers: #00b49d;
+    --highlight: #00b49d;
+    --button-inactive: #697f8a;
+    --question-background: #0d5c63;
+    --delete-color: #b6465f;
+    --menu-highlight: #d9f0ff;
+    --scrollbar-background: #6c687e;
+    --questionnaire-icon-background: #00b49d;
+    --chat-tag-background: #f1f4f9;
+    --menu-active: #2374ab80;
+    --button-gradient-color: linear-gradient(#2374ab, #176087);
+    --chat-history-item-date: #47425e;
+    --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
+
+    /*the next ones should be deleted*/
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
@@ -45,8 +91,6 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
-    /*--back-ground-texture: url("@/assets/AIRe-background-texture-darkmode.png"); Why I can't change its name...*/
-    --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
 }
 
 html {
@@ -111,7 +155,7 @@ input:read-only {
 
 input[type="submit"],
 button {
-    color: var(--text-color);
+    color: var(--basic-text);
     background-color: var(--background-color);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
@@ -139,7 +183,7 @@ button {
 }
 
 #app {
-    color: var(--text-color);
+    color: var(--basic-text);
     background-color: var(--background-color);
     font-family: var(--font-family);
     margin: 0;
