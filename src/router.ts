@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { createRouter, createWebHistory } from "vue-router";
 import { initApp } from "./main";
 import { Login } from "./context/login";
@@ -13,22 +12,6 @@ import NotFoundView from "./views/NotFoundView.vue";
 import VerificationView from "./views/VerificationView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
-=======
-import { createRouter, createWebHistory } from 'vue-router'
-import { initApp } from './main'
-import { Login } from './context/login'
-import HomeView from './views/HomeView.vue'
-import LoginView from './views/LoginView.vue'
-import SignupView from './views/SignupView.vue'
-import ProfileView from './views/ProfileView.vue'
-import ChatView from './views/ChatView.vue'
-import LandingView from './views/LandingView.vue'
-import NotFoundView from './views/NotFoundView.vue'
-import VerificationView from './views/VerificationView.vue'
-import RecoveryView from './views/RecoveryView.vue'
-import { nextTick } from 'vue'
-import i18n, { l } from './locales'
->>>>>>> ae174aeeb144dc8965a14097eebb019d995caa5d
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +23,6 @@ export const router = createRouter({
             meta: { title: "dfd" },
         },
         {
-<<<<<<< HEAD
             path: "/home",
             component: HomeView,
             name: "Home",
@@ -63,37 +45,6 @@ export const router = createRouter({
             component: ProfileView,
             name: "Profile",
             meta: { title: l.nav_profile },
-=======
-            path: '/login', component: LoginView,
-            name: "Login",
-            meta: {
-                title: l.nav_login,
-                no_login: true
-            }
-        },
-        {
-            path: '/signup', component: SignupView,
-            name: "Signup", meta: {
-                title: l.nav_signup,
-                no_login: true
-            }
-        },
-        {
-            path: '/profile', component: ProfileView,
-            name: "Profile",
-            meta: {
-                title: l.nav_profile,
-                require_login: true
-            }
-        },
-        {
-            path: '/chat', component: ChatView,
-            name: "Chat",
-            meta: {
-                title: l.nav_chat,
-                require_login: true
-            }
->>>>>>> ae174aeeb144dc8965a14097eebb019d995caa5d
         },
         {
             path: "/chat",
@@ -102,26 +53,9 @@ export const router = createRouter({
             meta: { title: l.nav_chat },
         },
         {
-<<<<<<< HEAD
             path: "/landing",
             component: LandingView,
             name: "Landing",
-=======
-            path: '/verify', component: VerificationView,
-            name: "VerificationCode",
-            meta: {
-                title: l.verification_heading,
-                require_login: true
-            }
-        },
-        {
-            path: '/recovery', component: RecoveryView,
-            name: "Recovery",
-            meta: {
-                title: l.recovery_heading,
-                no_login: true
-            }
->>>>>>> ae174aeeb144dc8965a14097eebb019d995caa5d
         },
         {
             path: "/verify",
@@ -143,7 +77,6 @@ router.beforeEach(async (to, from) => {
         return "/verify";
     }
 
-<<<<<<< HEAD
     if (
         to.path === "/login" ||
         to.path === "/signup" ||
@@ -158,14 +91,6 @@ router.beforeEach(async (to, from) => {
         to.path === "/verify"
     ) {
         if (!Login.user) return "/login";
-=======
-    if (to.meta.no_login && Login.user) {
-        return "/"
-    }
-
-    if (to.meta.require_login && !Login.user) {
-        return "/login"
->>>>>>> ae174aeeb144dc8965a14097eebb019d995caa5d
     }
 });
 
