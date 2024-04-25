@@ -2,57 +2,156 @@
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { Login } from '@/context/login';
+import { onMounted, reactive } from 'vue';
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { Login, logout } from "@/context/login";
+import { getAllChats, openChat } from "@/context/chat";
 
+const state = reactive<{
+    showConfirmLogout: boolean,
+    showYouAreOutMessage: boolean,
+}>({
+    showConfirmLogout: false,
+    showYouAreOutMessage: false,
+});
+
+const onConfirmLogout = async () => {
+
+    state.showConfirmLogout = false;
+
+    setTimeout(() => {
+        state.showYouAreOutMessage = true;
+    }, 300);
+}
+
+const showLogout = async () => {
+    state.showYouAreOutMessage = false;
+    await logout();
+    router.push("/");
+}
+
+const openLastChat = async () => {
+    const chats = await getAllChats();
+    const open = await openChat(chats[0].id);
+    if (open)
+        router.push("/chat");
+}
 const navigateTo = (path: string) => {
     router.push(path)
 }
+
 </script>
 
 <template>
     <div id="home-view">
-        <div class="greeting">
-            <h1>{{ $t(l.frontpage_greeting) }}</h1>
-            <p>{{ $t(l.frontpage_paragraph) }}</p>
-        </div>
-        <div class="quick-nav">
-            <button class="get-started" @click="navigateTo('/chat')" v-if="Login.user">
-                {{ $t(l.nav_chat) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/profile')" v-if="Login.user">
-                {{ $t(l.nav_profile) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/login')" v-if="!Login.user">
-                {{ $t(l.nav_login) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/signup')" v-if="!Login.user">
-                {{ $t(l.nav_signup) }}
-            </button>
+        <div class="home-container">
+            <div class="home-header">
+                <div class="aire-logo">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                </div>
+                <p>{{ $t(l.start_first_paragraph) }}</p>
+            </div>
+
+            <div class="quick-nav">
+                <button class="get-started" @click="navigateTo('/chat')" v-if="Login.user">
+                    {{ $t(l.home_start_new_chat) }}
+                </button>
+                <button class="get-started" @click="openLastChat()" v-if="Login.user">
+                    {{ $t(l.home_continue_chat) }}
+                </button>
+                <button class="get-started" @click="" v-if="Login.user">
+                    <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
+                        <div class="nav-link">{{ $t(l.nav_logout) }}</div>
+                    </div>
+                </button>
+            </div>
+            <div class="home-footer">
+                <p>{{ $t(l.start_footer) }}</p>
+                <div class="chat-bot">
+                </div>
+            </div>
         </div>
     </div>
     <OnboardingTopics v-if="Login.user" />
+    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+        {{ $t(l.popup_confirm_logout) }}
+    </ConfirmDialog>
+    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
+        {{ $t(l.popup_logout_message) }}
+    </ConfirmDialog>
 </template>
 
 <style scoped>
 #home-view {
-    padding: 1rem;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    background-image: var(--back-ground-texture);
+    /*url("@/assets/images/AIRe_BGtexture_lightmode.png");*/
 }
 
-.greeting {
-    max-width: 40rem;
+.home-container {
+    margin: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: black;
+}
+
+.home-header {
+    width: 100%;
+    height: 40%;
+    background-image: url("@/assets/images/AIRe_Frontpage_papertexture_cropped.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 5rem;
+    font-weight: bold;
+}
+
+.aire-logo {
+    width: 20rem;
 }
 
 .quick-nav {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     margin: 2rem 0;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .get-started {
-    padding: 1rem;
-    font-size: large;
+    width: 216.32px;
+    height: 55px;
+    border-radius: 20px;
+    opacity: 0px;
+    background: linear-gradient(#2374AB, #176087);
+    color: white;
+}
+
+.home-footer {
+    margin-top: 10rem;
+    background-color: white;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.chat-bot {
+    position: absolute;
+    padding: 4rem;
+    width: 5rem;
+    height: 5rem;
+    scale: 0.6;
+    right: 0;
+    background-image: url(/src/assets/images/aire-bot.png);
 }
 </style>

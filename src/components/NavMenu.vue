@@ -72,14 +72,19 @@ const showLogout = async () => {
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
         <Panel class="nav-menu-bar">
-            <div class="nav-link" @click="navigateTo('/')">
+            <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
+                <div class="nav-logo dotted-border-botton">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                </div>
+            </div>
+            <div class="nav-link" v-if="!Login.user" @click="navigateTo('/')">
                 <div class="nav-logo dotted-border-botton">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
             <div class="nav-menu-list">
                 <hr class="nav-separator" />
-                <div class="nav-item" @click="navigateTo('/')" :class="{
+                <div class="nav-item" @click="navigateTo('/home')" v-if="Login.user" :class="{
         'nav-item-active': $route.matched.some(
             (p) => p.name === 'Home'
         ),
