@@ -41,7 +41,7 @@ const navigateTo = (path: string) => {
 #start-view {
     width: 100%;
     height: 100%;
-    background-image: url("@/assets/images/AIRe_BG-texture-3.png");
+    background-image: url("@/assets/images/aire-bg-texture-3.png");
 
 }
 
@@ -95,8 +95,9 @@ const navigateTo = (path: string) => {
     height: 55px;
     border-radius: 20px;
     opacity: 0px;
-    background: linear-gradient(#2374AB, #176087);
-    color: white;
+    background: var(--button-gradient-color);
+    font-size: 1rem;
+    color: var(--button-text);
 }
 
 .start-footer {
