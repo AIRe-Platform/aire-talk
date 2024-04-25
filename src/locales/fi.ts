@@ -10,7 +10,15 @@ const fi: Locale = {
     system_greeting:
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
-
+    start_greeting: "Tervetuloa AIRe Talk -palveluun",
+    start_first_paragraph:
+        "Tekoälysovellus parhaisiin lääketieteellisiin vinkkeihin.",
+    start_second_paragraph:
+        "Jatka kirjautumalla sisään tai luomalla itsellesi uusi profiili.",
+    start_footer:
+        "* AIRe ei ole lääketieteellinen diagnostinen työkalu, sen tarkoituksena on ohjata sinut asianmukaisten terveydenhuollon ammattilaisten puoleen tilanteesi parantamiseksi.",
+    home_start_new_chat: "Aloita uusi keskustelu",
+    home_continue_chat: "Jatka edellistä keskustelua",
     frontpage_greeting: "Tervetuloa AIRe-alustalle!",
     frontpage_paragraph: `AIRe on tekoälyavusteinen palvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä ehdotuksia, jotka ovat juuri sinulle suunniteltuja!`,
 
@@ -75,8 +83,10 @@ const fi: Locale = {
     gender_other: "muu",
 
     profile_question_button: "Täydennä profiilitiedot",
-    profile_question_confirm: "Haluatko vastata muutamaan kysymykseen koskien henkilökohtaisia tietojasi?",
-    profile_question_completion: "Klikkaa jatka jos tietosi ovat oikein. Voit myöhemmin muokata tietojasi profiilissasi",
+    profile_question_confirm:
+        "Haluatko vastata muutamaan kysymykseen koskien henkilökohtaisia tietojasi?",
+    profile_question_completion:
+        "Klikkaa jatka jos tietosi ovat oikein. Voit myöhemmin muokata tietojasi profiilissasi",
     profile_question_first_name: "Mikä on etunimesi?",
     profile_question_last_name: "Mikä on sukunimesi?",
     profile_question_gender: "Mikä on sukupuolesi?",

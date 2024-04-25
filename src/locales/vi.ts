@@ -11,6 +11,15 @@ const vi: Locale = {
         "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
     system_topic: "Bạn đã chọn chủ đề: ",
 
+    start_greeting: "Chào mừng đến với nền tảng AIRe",
+    start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
+    start_second_paragraph:
+        "Tiến hành bằng cách đăng nhập hoặc tạo một hồ sơ mới cho chính bạn.",
+    start_footer:
+        "* AIRe không phải là một công cụ chẩn đoán y tế và chỉ nhằm mục đích đưa bạn đến gặp các chuyên gia chăm sóc sức khỏe phù hợp để cải thiện tình hình của bạn.",
+
+    home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
+    home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
     frontpage_greeting: "Chào mừng đến với AIRe platform!",
     frontpage_paragraph: `AIRe là một nền tảng dịch vụ được hỗ trợ bởi AI giúp bạn hiểu rõ hơn về các triệu chứng của mình và các tình trạng cơ bản có thể xảy ra của chúng. AIRe cũng hướng dẫn bạn mọi quy trình tiếp theo cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
 

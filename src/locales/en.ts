@@ -11,6 +11,16 @@ const en: Locale = {
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
 
+    start_greeting: "Welcome to the AIRe platform",
+    start_first_paragraph:
+        "Your number one AI application for medical tips sources.",
+    start_second_paragraph:
+        "Proceed by logging in or creating a new profile for yourself.",
+    start_footer:
+        "* AIRe is not a medical diagnostic tool, and only aims to lead you towards the proper healthcare professionals in order to better your situation.",
+
+    home_start_new_chat: "Start new chat instance",
+    home_continue_chat: "Continue previous chat",
     frontpage_greeting: "Welcome to the AIRe platform!",
     frontpage_paragraph: `AIRe is an AI powered service platform that helps you better understand your symptoms and their possible underlying conditions. AIRe also guides you in any necessary follow-up procedures, and offers you helpful suggestions tailored just for you.`,
 
@@ -76,8 +86,10 @@ const en: Locale = {
     gender_other: "other",
 
     profile_question_button: "Complete profile information",
-    profile_question_confirm: "Do you want to answer some questions about your personal information?",
-    profile_question_completion: "Click continue if you information is correct. You can edit your information later on your profile page.",
+    profile_question_confirm:
+        "Do you want to answer some questions about your personal information?",
+    profile_question_completion:
+        "Click continue if you information is correct. You can edit your information later on your profile page.",
     profile_question_first_name: "What is your first name?",
     profile_question_last_name: "What is your last name?",
     profile_question_gender: "What is your gender?",

@@ -7,6 +7,16 @@ const es: Locale = {
 
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
+
+    start_greeting: "Bienvenid@ a la plataforma AIRe",
+    start_first_paragraph:
+        "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
+    start_second_paragraph:
+        "Continúa iniciando sesión o creando un nuevo perfil para tí.",
+    start_footer:
+        "* AIRe no es una herramienta de diagnóstico médico y solo tiene como objetivo guiarte hacia los profesionales sanitarios adecuados para mejorar su situación.",
+    home_start_new_chat: "Iniciar un nuevo chat",
+    home_continue_chat: "Continúa el chat anterior",
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_topic: "Has seleccionado un tema: ",
@@ -77,8 +87,10 @@ const es: Locale = {
     gender_other: "otro",
 
     profile_question_button: "Complete profile information",
-    profile_question_confirm: "Do you want to answer some questions about your personal information?",
-    profile_question_completion: "Click done if you information is correct. You can edit your information later on your profile page.",
+    profile_question_confirm:
+        "Do you want to answer some questions about your personal information?",
+    profile_question_completion:
+        "Click done if you information is correct. You can edit your information later on your profile page.",
     profile_question_first_name: "What is your first name?",
     profile_question_last_name: "What is your last name?",
     profile_question_gender: "What is your gender?",
