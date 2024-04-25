@@ -32,7 +32,7 @@ const requestCode = async () => {
     if (AireServices.ID) {
         return await AireServices.ID.recoveryRequestCode(form.email, getUILanguage())
             .then(status => {
-                if(status == AireStatus.Success)
+                if (status == AireStatus.Success)
                     state.code_sent = true;
                 else
                     state.error = l.recovery_failure;
@@ -46,7 +46,7 @@ const changePassword = async () => {
     if (AireServices.ID) {
         return await AireServices.ID.recoveryChangePassword(form.email, form.code, form.password, getUILanguage())
             .then(status => {
-                if(status == AireStatus.Success)
+                if (status == AireStatus.Success)
                     state.completed = true;
                 else
                     state.error = l.recovery_failure;
@@ -125,6 +125,7 @@ const checkCode = (e: Event) => {
     gap: 0.5rem;
     padding: 2rem 3rem;
     width: 50%;
+    background-color: var(--panel-background-color);
 }
 
 .recovery-form {

@@ -10,6 +10,7 @@ import ChatView from "./views/ChatView.vue";
 import LandingView from "./views/LandingView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
 import VerificationView from "./views/VerificationView.vue";
+import RecoveryView from "./views/RecoveryView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 
@@ -20,7 +21,7 @@ export const router = createRouter({
             path: "/",
             component: StartView,
             name: "Start",
-            meta: { title: "dfd" },
+            meta: { title: l.nav_start },
         },
         {
             path: "/home",
@@ -62,6 +63,15 @@ export const router = createRouter({
             component: VerificationView,
             name: "VerificationCode",
             meta: { title: l.verification_heading },
+        },
+        {
+            path: "/recovery",
+            component: RecoveryView,
+            name: "Recovery",
+            meta: {
+                title: l.recovery_heading,
+                no_login: true,
+            },
         },
         {
             path: "/:pathMatch(.*)*",
