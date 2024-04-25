@@ -36,6 +36,7 @@ const vi: Locale = {
     signup_form_submit: "Đăng ký",
     signup_label_confirm_password: "Xác nhận mật khẩu",
 
+    nav_start: "Xin chào!",
     nav_home: "Trang chủ",
     nav_chat: "Trò chuyện",
     nav_chat_history: "Lịch sử trò chuyện",

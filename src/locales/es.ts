@@ -37,6 +37,7 @@ const es: Locale = {
     signup_label_password: "Contraseña",
     signup_label_confirm_password: "Confirma contraseña",
 
+    nav_start: "¡Hola!",
     nav_home: "Home",
     nav_chat: "Chat",
     nav_chat_history: "Historial chat",
@@ -110,8 +111,10 @@ const es: Locale = {
     recovery_label_email: "Dirección de correo electrónico",
     recovery_label_code: "Código de recuperación",
     recovery_label_password: "Nueva contraseña",
-    recovery_enter_code: "Ingresa el código de recuperación que te acabamos de enviar.",
-    recovery_not_available: "La recuperación de cuenta no está disponible actualmente.",
+    recovery_enter_code:
+        "Ingresa el código de recuperación que te acabamos de enviar.",
+    recovery_not_available:
+        "La recuperación de cuenta no está disponible actualmente.",
     recovery_failure: "Esta cuenta no se puede recuperar.",
     recovery_password_changed: "La contraseña se cambió exitosamente.",
     recovery_back_to_login: "Atrás para iniciar sesión",

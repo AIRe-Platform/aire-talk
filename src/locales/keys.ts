@@ -31,6 +31,7 @@ export enum LocalizationKey {
     signup_label_password = "signup_label_password",
     signup_label_confirm_password = "signup_label_confirm_password",
 
+    nav_start = "nav_start",
     nav_home = "nav_home",
     nav_chat = "nav_chat",
     nav_chat_history = "nav_chat_history",

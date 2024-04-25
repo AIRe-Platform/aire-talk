@@ -37,6 +37,7 @@ const en: Locale = {
     signup_label_password: "Password",
     signup_label_confirm_password: "Confirm password",
 
+    nav_start: "Hello!",
     nav_home: "Home",
     nav_chat: "Chat",
     nav_chat_history: "Chat history",

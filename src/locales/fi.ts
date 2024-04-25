@@ -35,6 +35,7 @@ const fi: Locale = {
     signup_label_password: "Salasana",
     signup_label_confirm_password: "Vahvista salasana",
 
+    nav_start: "Moi!",
     nav_home: "Koti",
     nav_chat: "Chat",
     nav_chat_history: "Historia",
