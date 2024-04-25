@@ -32,15 +32,15 @@ const props = defineProps<{
     width: 3.5rem;
     height: 3.2rem;
     z-index: 10;
+    background: linear-gradient(#2374AB, #176087);
 
-    background-color: var(--panel-background-color);
     border-radius: 1rem;
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
 
-    transition: 
-        border-color .25s, 
-        background-color .25s, 
+    transition:
+        border-color .25s,
+        background-color .25s,
         box-shadow .25s;
 
     cursor: pointer;
@@ -67,7 +67,7 @@ const props = defineProps<{
 }
 
 .button-bar {
-    background-color: var(--text-color);
+    background-color: white;
     position: absolute;
     top: 50%;
     right: 6px;
