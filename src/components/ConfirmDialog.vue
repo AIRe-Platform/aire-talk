@@ -39,7 +39,7 @@ const props = defineProps<{
 }
 
 .popup-question {
-    font-size: 1rem;
+    font-size: var(--font-medium);
     font-family: var(--font-family);
 }
 

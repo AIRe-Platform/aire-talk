@@ -128,7 +128,7 @@ $secundary-color: var(--background-color);
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 20px;
+            font-size: var(--font-large);
             cursor: pointer;
 
             &:hover {
@@ -139,7 +139,7 @@ $secundary-color: var(--background-color);
         button {
             padding: 20px 30px;
             border: none;
-            font-size: 16px;
+            font-size: var(--font-medium);
             background-color: crimson;
             color: #fff;
             cursor: pointer;

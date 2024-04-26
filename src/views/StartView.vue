@@ -96,7 +96,7 @@ const navigateTo = (path: string) => {
     border-radius: 20px;
     opacity: 0px;
     background: var(--button-gradient-color);
-    font-size: 1rem;
+    font-size: var(--font-medium);
     color: var(--button-text);
 }
 

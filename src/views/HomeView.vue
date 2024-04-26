@@ -128,7 +128,7 @@ const navigateTo = (path: string) => {
     height: 55px;
     border-radius: 20px;
     background: var(--button-gradient-color);
-    font-size: 1rem;
+    font-size: var(--font-medium);
     color: var(--button-text);
 }
 
@@ -152,5 +152,6 @@ const navigateTo = (path: string) => {
     scale: 0.6;
     right: 0;
     background-image: url(/src/assets/images/aire-bot.png);
+    background-repeat: no-repeat;
 }
 </style>

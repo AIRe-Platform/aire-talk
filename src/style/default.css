@@ -16,6 +16,12 @@
         url("/fonts/sansation/Sansation_Bold.ttf") format("truetype");
 }
 
+:root {
+    --font-small: 0.8rem;
+    --font-medium: 1rem;
+    --font-large: larger;
+  }
+
 :root.theme-default {
     --button-color: #176087;
     --box-stroke: #bcd0ce;
@@ -125,6 +131,17 @@ h5 {
     margin-bottom: 0.5rem;
 }
 
+h1 {
+    font-size: var(--font-large);
+}
+
+h2,
+h3,
+h4,
+h5 {
+    font-size: var(--font-medium);
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -138,7 +155,7 @@ select {
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
     transition: all 0.1s;
-    font-size: 1rem;
+    font-size: var(--font-medium);
 
     &:hover,
     &:focus {
@@ -194,9 +211,9 @@ button {
 }
 
 .font-normal {
-    font-size: medium;
+    font-size: var(--font-medium);
 }
 
 .font-large {
-    font-size: larger;
+    font-size: var(--font-large);
 }
