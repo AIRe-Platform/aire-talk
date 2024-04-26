@@ -19,8 +19,8 @@
 :root {
     --font-small: 0.8rem;
     --font-medium: 1rem;
-    --font-large: larger;
-  }
+    --font-large: 1.2rem;
+}
 
 :root.theme-default {
     --button-color: #176087;
