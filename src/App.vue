@@ -35,6 +35,7 @@ setTimeout(() => {
 </template>
 
 <style src="@/style/default.css" />
+<style src="@/style/icons.css" />
 <style scoped>
 #main {
     display: flex;
