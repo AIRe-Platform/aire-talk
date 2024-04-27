@@ -139,7 +139,7 @@ const checkCode = (e: Event) => {
     align-items: center;
     justify-content: center;
     margin: 1rem;
-    font-size: small;
+    font-size: var(--font-small);
 }
 
 .spinner {
@@ -147,7 +147,7 @@ const checkCode = (e: Event) => {
 }
 
 .recovery-back-link {
-    font-size: small;
+    font-size: var(--font-small);
     align-self: center;
     padding: 0.5rem;
 }
@@ -161,7 +161,7 @@ const checkCode = (e: Event) => {
 input[type=email],
 input[type=text],
 input[type=password] {
-    font-size: 1.2rem;
+    font-size: var(--font-large);
 }
 
 input[type=submit] {

@@ -1,0 +1,131 @@
+.icon {
+    background-repeat: no-repeat;
+}
+
+.icon.frontpage-button {
+    background-image: url("@/assets/icons/aire-frontpage-button.svg");
+}
+
+.icon.back-button {
+    background-image: url("@/assets/icons/aire-icon-back-button.svg");
+}
+
+.icon.burger-menu {
+    background-image: url("@/assets/icons/aire-icon-burger-menu.svg");
+}
+
+.icon.close-window {
+    background-image: url("@/assets/icons/aire-icon-close-window.svg");
+}
+
+.icon.content-exercise {
+    background-image: url("@/assets/icons/aire-icon-content-exercise.svg");
+}
+
+.icon.content-image {
+    background-image: url("@/assets/icons/aire-icon-content-image.svg");
+}
+
+.icon.content-video {
+    background-image: url("@/assets/icons/aire-icon-content-video.svg");
+}
+
+.icon.delete {
+    background-image: url("@/assets/icons/aire-icon-delete.svg");
+}
+
+.icon.desktop-chat-option {
+    background-image: url("@/assets/icons/aire-icon-desktop-chat-option.svg");
+}
+
+.icon.download {
+    background-image: url("@/assets/icons/aire-icon-download.svg");
+}
+
+.icon.edit {
+    background-image: url("@/assets/icons/aire-icon-edit.svg");
+}
+
+.icon.info {
+    background-image: url("@/assets/icons/aire-icon-info.svg");
+}
+
+.icon.mobile-chat-history-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-chat-history-dark.svg");
+}
+
+.icon.mobile-chat-history-light {
+    background-image: url("@/assets/icons/aire-icon-mobile-chat-history-light.svg");
+}
+
+.icon.mobile-chat-summary-switch {
+    background-image: url("@/assets/icons/aire-icon-mobile-chat-summary-switch.svg");
+}
+
+.icon.mobile-content-catalogue-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-content-catalogue-dark.svg");
+}
+
+.icon.mobile-content-catalogue-light {
+    background-image: url("@/assets/icons/aire-icon-mobile-content-catalogue-light.svg");
+}
+
+.icon.mobile-main-menu-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-main-menu-dark.svg");
+}
+
+.icon.button {
+    background-image: url("@/assets/icons/aire-icon-mobile-main-menu-light.svg");
+}
+
+.icon.mobile-new-chat-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
+}
+
+.icon.mobile-new-chat-light {
+    background-image: url("@/assets/icons/aire-icon-mobile-new-chat-light.svg");
+}
+
+.icon.mobile-settings-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-settings-dark.svg");
+}
+
+.icon.mobile-settings-light {
+    background-image: url("@/assets/icons/aire-icon-mobile-settings-light.svg");
+}
+
+.icon.mobile-tilt-image {
+    background-image: url("@/assets/icons/aire-icon-mobile-tilt-image.svg");
+}
+
+.icon.mobile-user-profile-dark {
+    background-image: url("@/assets/icons/aire-icon-mobile-user-profile-dark.svg");
+}
+
+.icon.mobile-user-profile-light {
+    background-image: url("@/assets/icons/aire-icon-mobile-user-profile-light.svg");
+}
+
+.icon.play-video-dark {
+    background-image: url("@/assets/icons/aire-icon-play-video-dark.svg");
+}
+
+.icon.play-video-light {
+    background-image: url("@/assets/icons/aire-icon-play-video-light.svg");
+}
+
+.icon.questionnaire-answer {
+    background-image: url("@/assets/icons/aire-icon-questionnaire-answer.svg");
+}
+
+.icon.questionnaire-question {
+    background-image: url("@/assets/icons/aire-icon-questionnaire-question.svg");
+}
+
+.icon.speech-to-text-white {
+    background-image: url("@/assets/icons/aire-icon-speech-to-text-white.svg");
+}
+
+.icon.speech-to-text {
+    background-image: url("@/assets/icons/aire-icon-speech-to-text.svg");
+}

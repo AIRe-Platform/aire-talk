@@ -106,11 +106,12 @@ if (props.message.isError)
 .chat-bubble-content {
     display: flex;
     flex-direction: column;
-    font-size: 0.8rem;
+    font-size: var(--font-medium);
 }
 
 .chat-user-label {
-    font-size: small;
+    font-size: var(--font-medium);
+    font-weight: bold;
 }
 
 .chat-bubble-bot .chat-user-label {

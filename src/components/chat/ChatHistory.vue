@@ -254,7 +254,7 @@ const onClickOutside = (e: Event) => {
 }
 
 .chat-history-item-date {
-    font-size: 12px;
+    font-size: var(--font-small);
     color: var(--chat-history-item-date);
     /* font-family: sans-serif; */
     font-weight: 700;
@@ -264,12 +264,12 @@ const onClickOutside = (e: Event) => {
     max-height: 2rem;
     margin-right: 1rem;
     overflow: hidden;
-    font-size: 0.8rem;
+    font-size: var(--font-small);
     color: black;
 }
 
 .chat-history-token {
-    font-size: xx-small;
+    font-size: var(--font-small);
 }
 
 .restore-chat-button-close {

@@ -85,7 +85,7 @@ const onLogin = (e: Event) => {
 }
 
 .login-recovery-link {
-    font-size: small;
+    font-size: var(--font-small);
     align-self: center;
     padding: 0.5rem;
 }
