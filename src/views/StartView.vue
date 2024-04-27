@@ -16,8 +16,7 @@ const navigateTo = (path: string) => {
                 <h1>{{ $t(l.start_greeting) }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
                 <svg class="line">
-                    <line x1="00" y1="00" x2="350" y2="00"
-                        style="stroke: #A0BCB8; stroke-width: 4px; stroke-dasharray: 2,15;" />
+                    <line x1="00" y1="00" x2="350" y2="00" />
                 </svg>
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
@@ -80,6 +79,9 @@ const navigateTo = (path: string) => {
 .line {
     height: 1rem;
     padding: 1rem;
+    stroke: var(--dividers);
+    stroke-width: 4px;
+    stroke-dasharray: 2, 15;
 }
 
 .quick-nav {

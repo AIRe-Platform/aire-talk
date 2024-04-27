@@ -2,10 +2,10 @@
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { Login, logout } from "@/context/login";
-import { getAllChats, openChat } from "@/context/chat";
+import { getAllChats, openChat, createNewChat } from "@/context/chat";
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -23,6 +23,11 @@ const onConfirmLogout = async () => {
         state.showYouAreOutMessage = true;
     }, 300);
 }
+const newChat = async () => {
+    await createNewChat();
+    navigateTo("/chat");
+};
+
 
 const showLogout = async () => {
     state.showYouAreOutMessage = false;
@@ -53,15 +58,15 @@ const navigateTo = (path: string) => {
             </div>
 
             <div class="quick-nav">
-                <button class="get-started" @click="navigateTo('/chat')" v-if="Login.user">
+                <button class="get-started" @click="newChat()" v-if="Login.user">
                     {{ $t(l.home_start_new_chat) }}
                 </button>
                 <button class="get-started" @click="openLastChat()" v-if="Login.user">
                     {{ $t(l.home_continue_chat) }}
                 </button>
                 <button class="get-started" @click="" v-if="Login.user">
-                    <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
-                        <div class="nav-link">{{ $t(l.nav_logout) }}</div>
+                    <div class="" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
+                        {{ $t(l.nav_logout) }}
                     </div>
                 </button>
             </div>

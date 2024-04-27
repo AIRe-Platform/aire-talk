@@ -39,6 +39,7 @@
     --menu-active: #d9f0ff;
     --button-gradient-color: linear-gradient(#2374ab, #176087);
     --chat-history-item-date: #176087;
+    --chat-bubble-options-button-hover: #d9f0ff;
     --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
 
     /*the next ones should be deleted*/
@@ -77,6 +78,7 @@
     --menu-active: #2374ab80;
     --button-gradient-color: linear-gradient(#2374ab, #176087);
     --chat-history-item-date: #47425e;
+    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.2);
     --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
 
     /*the next ones should be deleted*/
@@ -155,11 +157,10 @@ input:read-only {
 
 input[type="submit"],
 button {
-    color: var(--basic-text);
-    background-color: var(--background-color);
+    color: var(--button-text);
+    background-color: var(--button-color);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
     transition: all 0.1s;
     cursor: pointer;
     font-family: var(--font-family);

@@ -217,9 +217,8 @@ const onClickOutside = (e: Event) => {
 }
 
 .restore-chat-item-open {
-    border: 1px solid var(--accent-primary-color);
     cursor: default;
-    background-color: var(--panel-background-color);
+    background-color: var(--menu-active);
 }
 
 .chat-history-item-details {

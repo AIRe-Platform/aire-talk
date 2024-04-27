@@ -73,17 +73,19 @@ const showLogout = async () => {
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo dotted-border-botton">
+                <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
             <div class="nav-link" v-if="!Login.user" @click="navigateTo('/')">
-                <div class="nav-logo dotted-border-botton">
+                <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
             <div class="nav-menu-list">
-                <hr class="nav-separator" />
+                <svg class="nav-separator">
+                    <line x1="00" y1="00" x2="350" y2="00" />
+                </svg>
                 <div class="nav-item" @click="navigateTo('/home')" v-if="Login.user" :class="{
         'nav-item-active': $route.matched.some(
             (p) => p.name === 'Home'
@@ -130,9 +132,13 @@ const showLogout = async () => {
     }">
                     <div class="nav-link">{{ $t(l.nav_profile) }}</div>
                 </div>
-                <hr class="nav-separator" />
+                <svg class="nav-separator">
+                    <line x1="00" y1="00" x2="350" y2="00" />
+                </svg>
                 <ThemeSwitch />
-                <hr class="nav-separator" />
+                <svg class="nav-separator">
+                    <line x1="00" y1="00" x2="350" y2="00" />
+                </svg>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
         'nav-item-active': UIState.panels.has(
             UIPanels.Settings
@@ -163,8 +169,12 @@ const showLogout = async () => {
 
 .nav-separator {
     border: 0;
-    border-bottom: 2px dotted var(--dividers);
+    height: 1rem;
+    padding: 1rem;
     margin: 1rem;
+    stroke: var(--dividers);
+    stroke-width: 4px;
+    stroke-dasharray: 2, 15;
 }
 
 .nav-menu-open {
@@ -181,7 +191,7 @@ const showLogout = async () => {
     flex-direction: column;
     flex-grow: 1;
     padding: 4rem 0rem 1rem 0rem;
-    margin: 1rem;
+    margin: unset;
     overflow: auto;
 }
 
