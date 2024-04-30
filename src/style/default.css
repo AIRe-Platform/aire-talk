@@ -28,6 +28,7 @@
     --title-text: #5a5a5a;
     --basic-text: #000000;
     --panel-background-color: #e3fffa;
+    --panel-border-color: rgba(200, 218, 215, 1);
     --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
     --button-text: #ffffff;
@@ -47,7 +48,8 @@
     --chat-history-item-date: #176087;
     --chat-bubble-options-button-hover: #d9f0ff;
     --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
-
+    --chat-options-menu-background: #ffffff;
+    --text-color-in-select: black;
     /*the next ones should be deleted*/
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
@@ -68,6 +70,7 @@
     --basic-text: #ffffff;
     --panel-background-color: #e3fffa;
     --panel-menu-background-color: #47425e;
+    --panel-border-color: rgba(55, 50, 80, 1);
     --background-color: #ffffff;
     --button-text: #ffffff;
     --ia-chat-box-background: #0d5c63;
@@ -84,9 +87,10 @@
     --menu-active: #2374ab80;
     --button-gradient-color: linear-gradient(#2374ab, #176087);
     --chat-history-item-date: #47425e;
-    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.2);
+    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.8);
     --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
-
+    --chat-options-menu-background: #f1f4f9;
+    --text-color-in-select: black;
     /*the next ones should be deleted*/
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
@@ -151,7 +155,7 @@ input[type="number"],
 input[type="checkbox"],
 textarea,
 select {
-    color: var(--text-color);
+    color: var(--text-color-in-select);
     padding: 0.2rem 0.6rem;
     border-radius: 0.5rem;
     border: 1px solid var(--border-color);
@@ -182,6 +186,7 @@ button {
     cursor: pointer;
     font-family: var(--font-family);
     font-weight: bold;
+    border: none;
 
     &:hover {
         background-color: var(--accent-primary-color);

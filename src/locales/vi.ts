@@ -49,7 +49,7 @@ const vi: Locale = {
     nav_theme: "Thay đổi chủ đề",
     nav_preferences: "Cài đặt",
 
-    profile_title: "Tài khoản của bạn",
+    profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",
     profile_label_gender: "Giới tính",

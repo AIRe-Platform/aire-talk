@@ -13,8 +13,7 @@ defineComponent({ name: "PanelComponent" })
 .panel {
     background-color: var(--panel-menu-background-color);
     border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 10px var(--shadow-color);
+    border: 1px solid var(--panel-border-color);
     margin: 1rem;
 }
 </style>

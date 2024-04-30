@@ -132,9 +132,10 @@ const navigateTo = (path: string) => {
     width: 216.32px;
     height: 55px;
     border-radius: 20px;
-    background: var(--button-gradient-color);
+
     font-size: var(--font-medium);
-    color: var(--button-text);
+    box-shadow: 0px 1px var(--shadow-color);
+    border: unset;
 }
 
 .home-footer {

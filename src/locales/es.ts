@@ -50,7 +50,7 @@ const es: Locale = {
     nav_theme: "Cambiar tema",
     nav_preferences: "Configuración",
 
-    profile_title: "Tu cuenta",
+    profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
     profile_label_gender: "Género",
