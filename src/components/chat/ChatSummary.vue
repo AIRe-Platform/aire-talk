@@ -67,7 +67,8 @@ const clearKeywords = () => {
             <div class="summary-buttons" v-if="!busy">
                 <button class="summary-button" @click="generateSummary">
                     <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-list" />
+                    <div class="update-icon">
+                    </div>
                 </button>
                 <button class="summary-button" @click="querySurveys"
                     v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
@@ -95,6 +96,13 @@ const clearKeywords = () => {
     padding: 1rem;
     margin: 1rem;
     gap: 1rem;
+}
+
+.update-icon {
+    background-image: url("@/assets/icons/aire-icon-update.png");
+    width: 0.7rem;
+    height: 0.7rem;
+    background-size: cover;
 }
 
 .summary-title {
@@ -165,8 +173,11 @@ const clearKeywords = () => {
 
 .summary-button {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     cursor: pointer;
+    align-items: center;
+    width: 160px;
+    height: 33px;
 }
 
 .summary-button-text {

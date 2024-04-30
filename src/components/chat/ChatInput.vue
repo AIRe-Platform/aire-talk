@@ -27,9 +27,10 @@ function submit() {
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
-                <div class="chat-options-icon">
-                    <font-awesome-icon icon="fa-solid fa-sliders" />
+
+                <div class="sliders-icon">
                 </div>
+
             </div>
         </div>
         <div class="chat-text-input">
@@ -65,6 +66,13 @@ function submit() {
     gap: 0.5rem;
 }
 
+.sliders-icon {
+    background-image: url("@/assets/icons/aire-icon-summary-switch.svg");
+    width: 2rem;
+    height: 2rem;
+    background-size: cover;
+}
+
 .chat-input-bar {
     display: flex;
     flex-shrink: 0;
@@ -77,6 +85,7 @@ function submit() {
 
 .chat-input-field {
     flex-grow: 1;
+    color: black;
 }
 
 .chat-bot {

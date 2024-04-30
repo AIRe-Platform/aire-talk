@@ -98,7 +98,7 @@ const onCancelRevert = () => {
     position: absolute;
     top: -1.1rem;
     right: -1.6rem;
-    width: 1rem;
+    width: 1.3rem;
     height: 1rem;
     display: flex;
     align-items: center;
@@ -160,13 +160,14 @@ const onCancelRevert = () => {
 
 .chat-bubble-options-icon {
     background-image: url(/src/assets/icons/aire-icon-chat-option.svg);
-    width: 1rem;
-    height: 1rem;
+    width: 1.3rem;
+    height: 1.3rem;
     background-size: cover;
 }
 
 .chat-message-answer-options-menu-button {
     cursor: pointer;
+    background-color: var(--chat-options-menu-background) !important;
 }
 
 .is-selected {
