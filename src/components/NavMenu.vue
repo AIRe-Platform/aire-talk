@@ -5,7 +5,6 @@ import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
 import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
-import ThemeSwitch from "./ThemeSwitch.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
@@ -132,13 +131,6 @@ const showLogout = async () => {
     }">
                     <div class="nav-link">{{ $t(l.nav_profile) }}</div>
                 </div>
-                <svg class="nav-separator">
-                    <line x1="00" y1="00" x2="350" y2="00" />
-                </svg>
-                <ThemeSwitch />
-                <svg class="nav-separator">
-                    <line x1="00" y1="00" x2="350" y2="00" />
-                </svg>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
         'nav-item-active': UIState.panels.has(
             UIPanels.Settings
@@ -146,6 +138,9 @@ const showLogout = async () => {
     }">
                     <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
                 </div>
+                <svg class="nav-separator">
+                    <line x1="00" y1="00" x2="350" y2="00" />
+                </svg>
                 <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
@@ -180,6 +175,7 @@ const showLogout = async () => {
 .nav-menu-open {
     width: 16rem;
     height: 100%;
+    background-image: var(--back-ground-texture);
 
     .nav-menu-list {
         opacity: 1;
