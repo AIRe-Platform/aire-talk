@@ -64,10 +64,9 @@ const navigateTo = (path: string) => {
                 <button class="get-started" @click="openLastChat()" v-if="Login.user">
                     {{ $t(l.home_continue_chat) }}
                 </button>
-                <button class="get-started" @click="" v-if="Login.user">
-                    <div class="" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
-                        {{ $t(l.nav_logout) }}
-                    </div>
+                <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout"
+                    v-if="Login.user">
+                    {{ $t(l.nav_logout) }}
                 </button>
             </div>
             <div class="home-footer">
