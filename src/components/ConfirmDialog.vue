@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue';
+import { defineEmits, defineProps } from 'vue';
 import { l } from '@/locales';
 import PopUp from './PopUp.vue';
 
 defineEmits<{
     accept: [],
     decline: [],
-
 }>()
 
 const props = defineProps<{
@@ -25,7 +24,7 @@ const props = defineProps<{
                 <button class="popup-button-accept" @click.stop="() => $emit('accept')">
                     {{ $t(l.button_accept) }}
                 </button>
-                <button v-if="!hideDecline" class="popup-button-cancel" @click.stop="() => $emit('decline')">
+                <button v-if="!props.hideDecline" class="popup-button-cancel" @click.stop="() => $emit('decline')">
                     {{ $t(l.button_cancel) }}
                 </button>
             </div>
