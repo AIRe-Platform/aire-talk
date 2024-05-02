@@ -15,7 +15,6 @@ const version = {
 
 <style scoped>
 #footer-container {
-    color: var(--footer-color);
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
@@ -24,11 +23,11 @@ const version = {
     z-index: 10;
     height: 1rem;
     font-size: xx-small;
+    color: var(--title-text);
 }
 
 .footer {
     display: flex;
-    width: 25%;
     justify-content: space-evenly;
 }
 
