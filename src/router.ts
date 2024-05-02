@@ -33,25 +33,37 @@ export const router = createRouter({
             path: "/login",
             component: LoginView,
             name: "Login",
-            meta: { title: l.nav_login },
+            meta: {
+                title: l.nav_login,
+                no_login: true
+            },
         },
         {
             path: "/signup",
             component: SignupView,
             name: "Signup",
-            meta: { title: l.nav_signup },
+            meta: {
+                title: l.nav_signup,
+                no_login: true
+            },
         },
         {
             path: "/profile",
             component: ProfileView,
             name: "Profile",
-            meta: { title: l.nav_profile },
+            meta: {
+                title: l.nav_profile,
+                require_login: true
+            },
         },
         {
             path: "/chat",
             component: ChatView,
             name: "Chat",
-            meta: { title: l.nav_chat },
+            meta: {
+                title: l.nav_chat,
+                require_login: true
+            },
         },
         {
             path: "/landing",
@@ -62,7 +74,10 @@ export const router = createRouter({
             path: "/verify",
             component: VerificationView,
             name: "VerificationCode",
-            meta: { title: l.verification_heading },
+            meta: {
+                title: l.verification_heading,
+                require_login: true
+            },
         },
         {
             path: "/recovery",
@@ -83,24 +98,17 @@ export const router = createRouter({
 router.beforeEach(async (to, from) => {
     await initApp();
 
-    if (Login.user && !Login.user.verified && to.path !== "/verify") {
-        return "/verify";
+    if (Login.user) {
+        if (!Login.user.verified && to.path !== "/verify")
+            return "/verify"
+        else if (Login.user.verified && to.path === "/verify")
+            return "/home"
+        else if (to.meta.no_login)
+            return "/home"
     }
-
-    if (
-        to.path === "/login" ||
-        to.path === "/signup" ||
-        to.path === "/landing"
-    ) {
-        if (Login.user) return "/home";
-    }
-
-    if (
-        to.path === "/profile" ||
-        to.path === "/chat" ||
-        to.path === "/verify"
-    ) {
-        if (!Login.user) return "/login";
+    else {
+        if (to.meta.require_login)
+            return "/login"
     }
 });
 
