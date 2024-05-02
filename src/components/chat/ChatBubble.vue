@@ -41,16 +41,16 @@ if (props.message.isError)
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
-                (isSystem || isBot) ? $t(message.sender) : message.sender
-            }}</span>
+        (isSystem || isBot) ? $t(message.sender) : message.sender
+    }}</span>
             <span class="chat-message-text">
                 {{
-                    isSystem
-                    ? (message.message === l.system_topic && Chat.current.topic
-                        ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
-                        : $t(message.message!))
-                    : message.message
-                }}
+            isSystem
+                ? (message.message === l.system_topic && Chat.current.topic
+                    ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
+                    : $t(message.message!))
+                : message.message
+        }}
             </span>
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">
@@ -61,7 +61,8 @@ if (props.message.isError)
                 </video>
             </div>
         </div>
-        <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }" v-if="revertConfirmPopupOpen">
+        <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }"
+            v-if="revertConfirmPopupOpen">
             {{ $t(l.popup_confirm_revert_message) }}
         </ConfirmDialog>
     </div>
@@ -74,27 +75,28 @@ if (props.message.isError)
     margin-right: 1rem;
     margin-left: 1rem;
     line-height: 1.4rem;
-    background-color: var(--chat-bubble-background-color);
-    box-shadow: 0 0 5px gray;
+    /* background-color: var(--chat-bubble-background-color); */
     line-height: 1.4rem;
     border-radius: 1rem;
-    border: 1px solid transparent;
+    border: 2px solid var(--box-stroke);
 }
 
 .chat-bubble-user {
     align-self: flex-start;
+    background-color: var(--user-chat-box-background);
 }
 
 .chat-bubble-bot {
     align-self: flex-end;
     height: fit-content;
+    background-color: var(--ia-chat-box-background);
 }
 
 .chat-bubble-system {
     align-self: center;
-    border-color: var(--border-color);
     max-width: 80%;
     margin-left: 3rem;
+    background-color: var(--ia-chat-box-background);
 }
 
 .chat-bubble-error {
@@ -104,11 +106,12 @@ if (props.message.isError)
 .chat-bubble-content {
     display: flex;
     flex-direction: column;
-    font-size: 0.8rem;
+    font-size: var(--font-medium);
 }
 
 .chat-user-label {
-    font-size: small;
+    font-size: var(--font-medium);
+    font-weight: bold;
 }
 
 .chat-bubble-bot .chat-user-label {
@@ -162,6 +165,10 @@ if (props.message.isError)
     .chat-message-video-video {
         max-width: 17rem;
         max-height: 12rem;
+    }
+
+    .chat-bubble-content {
+        font-size: var(--font-small);
     }
 }
 </style>

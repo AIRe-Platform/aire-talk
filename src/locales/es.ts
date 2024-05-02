@@ -7,6 +7,16 @@ const es: Locale = {
 
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
+
+    start_greeting: "Bienvenid@ a la plataforma AIRe",
+    start_first_paragraph:
+        "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
+    start_second_paragraph:
+        "Continúa iniciando sesión o creando un nuevo perfil para tí.",
+    start_footer:
+        "* AIRe no es una herramienta de diagnóstico médico y solo tiene como objetivo guiarte hacia los profesionales sanitarios adecuados para mejorar su situación.",
+    home_start_new_chat: "Iniciar un nuevo chat",
+    home_continue_chat: "Continúa el chat anterior",
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_topic: "Has seleccionado un tema: ",
@@ -19,6 +29,7 @@ const es: Locale = {
     login_label_username: "Email o nombre de usuario",
     login_label_password: "Contraseña",
     login_failure_message: "Error al iniciar sesión",
+    login_forgot_password: "Olvidé mi contraseña",
 
     signup_form_title: "Crear una cuenta",
     signup_form_submit: "Registrar",
@@ -26,6 +37,7 @@ const es: Locale = {
     signup_label_password: "Contraseña",
     signup_label_confirm_password: "Confirma contraseña",
 
+    nav_start: "¡Hola!",
     nav_home: "Home",
     nav_chat: "Chat",
     nav_chat_history: "Historial chat",
@@ -38,7 +50,7 @@ const es: Locale = {
     nav_theme: "Cambiar tema",
     nav_preferences: "Configuración",
 
-    profile_title: "Tu cuenta",
+    profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
     profile_label_gender: "Género",
@@ -76,12 +88,36 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
+    profile_question_button: "Complete profile information",
+    profile_question_confirm:
+        "Do you want to answer some questions about your personal information?",
+    profile_question_completion:
+        "Click done if you information is correct. You can edit your information later on your profile page.",
+    profile_question_first_name: "What is your first name?",
+    profile_question_last_name: "What is your last name?",
+    profile_question_gender: "What is your gender?",
+    profile_question_age: "How old are you?",
+    profile_question_language: "What is your primary language?",
+    profile_question_country: "Which country you live in?",
+
     verification_heading: "Verifica tu cuenta",
     verification_description:
         "Ingresa el código de verificación que recibiste en tu correo electrónico",
     verification_button_verify: "Verificar",
     verification_code_resend: "Envíame un nuevo código",
     verification_code_resend_done: "¡Un nuevo código está en camino!",
+
+    recovery_heading: "Recuperación de cuenta",
+    recovery_label_email: "Dirección de correo electrónico",
+    recovery_label_code: "Código de recuperación",
+    recovery_label_password: "Nueva contraseña",
+    recovery_enter_code:
+        "Ingresa el código de recuperación que te acabamos de enviar.",
+    recovery_not_available:
+        "La recuperación de cuenta no está disponible actualmente.",
+    recovery_failure: "Esta cuenta no se puede recuperar.",
+    recovery_password_changed: "La contraseña se cambió exitosamente.",
+    recovery_back_to_login: "Atrás para iniciar sesión",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
@@ -90,8 +126,7 @@ const es: Locale = {
     settings_ui_size_large: "Grande",
 
     error_generic: "¡Sucedió un error desconocido!",
-    error_ai_not_responding:
-        `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
+    error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
         Si el problema persiste, inténtalo de nuevo más tarde.`,
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
@@ -128,21 +163,30 @@ const es: Locale = {
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
 
-    error_verification_failure: "No se pudo verificar el código. Puede que esté caducado.",
-    error_verification_resend_failed: "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
+    error_verification_failure:
+        "No se pudo verificar el código. Puede que esté caducado.",
+    error_verification_resend_failed:
+        "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
 
     chat_history_title: "Historial chat",
     chat_history_image: "Imagen:",
     chat_history_video: "Vídeo:",
+    chat_history_loading: "Cargando...",
+    chat_history_tokens: "{0} fichas",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:
-        "¿estas seguro de que quieres revertir el chat hasta este mensaje?",
-    popup_confirm_remove_chat: "¿estas seguro de que quieres borrar este chat?",
+        "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
+    popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
+    popup_confirm_logout: "¿Estas seguro de que quieres salir?",
+    popup_logout_message: "Ya has cerrado sesión.",
 
-    no_questionnaires_found: "No se pudieron encontrar los cuestionarios adecuados.",
-    confirm_questionnaire_start: "¿Le gustaría completar un cuestionario \"{0}\"?",
-    confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    no_questionnaires_found:
+        "No se pudieron encontrar los cuestionarios adecuados.",
+    confirm_questionnaire_start:
+        '¿Le gustaría completar un cuestionario "{0}"?',
+    confirm_questionnaire_completion:
+        "Cuando esté satisfecho con sus respuestas, elija continuar.",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",

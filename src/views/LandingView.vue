@@ -74,11 +74,11 @@ const saveForm = (e: Event) => {
 }
 
 label {
-    font-size: small;
+    font-size: var(--font-small);
 }
 
 input {
-    font-size: large;
+    font-size: var(--font-large);
     margin-bottom: 0.5rem;
 }
 </style>

@@ -10,7 +10,15 @@ const fi: Locale = {
     system_greeting:
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
-
+    start_greeting: "Tervetuloa AIRe Talk -palveluun",
+    start_first_paragraph:
+        "Tekoälysovellus parhaisiin lääketieteellisiin vinkkeihin.",
+    start_second_paragraph:
+        "Jatka kirjautumalla sisään tai luomalla itsellesi uusi profiili.",
+    start_footer:
+        "* AIRe ei ole lääketieteellinen diagnostinen työkalu, sen tarkoituksena on ohjata sinut asianmukaisten terveydenhuollon ammattilaisten puoleen tilanteesi parantamiseksi.",
+    home_start_new_chat: "Aloita uusi keskustelu",
+    home_continue_chat: "Jatka edellistä keskustelua",
     frontpage_greeting: "Tervetuloa AIRe-alustalle!",
     frontpage_paragraph: `AIRe on tekoälyavusteinen palvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä ehdotuksia, jotka ovat juuri sinulle suunniteltuja!`,
 
@@ -19,6 +27,7 @@ const fi: Locale = {
     login_label_username: "Sähköpostiosoite tai käyttäjänimi",
     login_label_password: "Salasana",
     login_failure_message: "Kirjautuminen epäonnistui",
+    login_forgot_password: "Unohdin salasanani",
 
     signup_form_title: "Luo tili",
     signup_form_submit: "Rekisteröidy",
@@ -26,6 +35,7 @@ const fi: Locale = {
     signup_label_password: "Salasana",
     signup_label_confirm_password: "Vahvista salasana",
 
+    nav_start: "Moi!",
     nav_home: "Koti",
     nav_chat: "Chat",
     nav_chat_history: "Historia",
@@ -38,7 +48,7 @@ const fi: Locale = {
     nav_theme: "Vaihda teema",
     nav_preferences: "Asetukset",
 
-    profile_title: "Käyttäjäprofiilisi",
+    profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",
     profile_label_last_name: "Sukunimi",
     profile_label_gender: "Sukupuoli",
@@ -74,11 +84,33 @@ const fi: Locale = {
     gender_female: "nainen",
     gender_other: "muu",
 
+    profile_question_button: "Täydennä profiilitiedot",
+    profile_question_confirm:
+        "Haluatko vastata muutamaan kysymykseen koskien henkilökohtaisia tietojasi?",
+    profile_question_completion:
+        "Klikkaa jatka jos tietosi ovat oikein. Voit myöhemmin muokata tietojasi profiilissasi",
+    profile_question_first_name: "Mikä on etunimesi?",
+    profile_question_last_name: "Mikä on sukunimesi?",
+    profile_question_gender: "Mikä on sukupuolesi?",
+    profile_question_age: "Kuinka vanha olet?",
+    profile_question_language: "Mikä on ensisijainen kielesi?",
+    profile_question_country: "Mikä on asuinmaasi?",
+
     verification_heading: "Vahvista tilisi",
     verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
     verification_button_verify: "Tarkista",
     verification_code_resend: "Lähetä minulle uusi vahvistuskoodi",
     verification_code_resend_done: "Uusi koodi on matkalla!",
+
+    recovery_heading: "Tilin palautus",
+    recovery_label_email: "Sähköpostiosoite",
+    recovery_label_code: "Palautuskoodi",
+    recovery_label_password: "Uusi salasana",
+    recovery_enter_code: "Syötä sinulle lähettämämme palautuskoodi",
+    recovery_not_available: "Tilinpalautus ei ole käytettävissä",
+    recovery_failure: "Tätä tiliä ei voitu palauttaa.",
+    recovery_password_changed: "Salasana vaihdettu",
+    recovery_back_to_login: "Takaisin kirjautumiseen",
 
     settings_title: "Asetukset",
     settings_language: "Käyttöliittymän kieli",
@@ -87,8 +119,7 @@ const fi: Locale = {
     settings_ui_size_large: "Suuri",
 
     error_generic: "Tapahtui tuntematon virhe!",
-    error_ai_not_responding:
-        `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
+    error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
         Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.`,
     error_signup_password_mismatch: "Salasanat eivät täsmää",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
@@ -132,15 +163,20 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     chat_history_title: "Keskusteluhistoria",
     chat_history_image: "Kuvatiedosto:",
     chat_history_video: "Videotiedosto:",
+    chat_history_loading: "Ladataan...",
+    chat_history_tokens: "{0} tokenia",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
 
     popup_confirm_revert_message:
         "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
+    popup_confirm_logout: "Haluatko varmasti kirjautua ulos?",
+    popup_logout_message: "Olet nyt kirjautunut ulos.",
 
     no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
-    confirm_questionnaire_start: "Haluaisitko täyttää kyselyn \"{0}\"?",
-    confirm_questionnaire_completion: "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+    confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
+    confirm_questionnaire_completion:
+        "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",

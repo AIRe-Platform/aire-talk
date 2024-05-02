@@ -9,19 +9,33 @@ const onSwitchTheme = (dark: boolean) => {
 </script>
 
 <template>
-    <div class="theme-switch">
-        <font-awesome-icon icon="fa-solid fa-sun" />
-        <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme"/>
-        <font-awesome-icon icon="fa-solid fa-moon" />
+    <div class="theme-container">
+        <p class="theme-switch-label"> Color mode</p>
+        <div class="theme-switch">
+            <font-awesome-icon icon="fa-solid fa-sun" />
+            <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme" />
+            <font-awesome-icon icon="fa-solid fa-moon" />
+        </div>
     </div>
 </template>
 
 <style scoped>
+.theme-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.theme-switch-label {
+    margin: 0;
+}
+
 .theme-switch {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 0.2rem 1rem;
+    color: var(--button-color);
+    width: 100%;
 }
 </style>

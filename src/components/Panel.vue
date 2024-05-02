@@ -11,10 +11,9 @@ defineComponent({ name: "PanelComponent" })
 
 <style scoped>
 .panel {
-    background-color: var(--panel-background-color);
+    background-color: var(--panel-menu-background-color);
     border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
+    border: 1px solid var(--panel-border-color);
     margin: 1rem;
 }
 </style>

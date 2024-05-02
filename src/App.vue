@@ -8,7 +8,7 @@ import SettingsPanel from '@/components/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 
 setTimeout(() => {
-    if(AppState.value === "init")
+    if (AppState.value === "init")
         location.reload()
 }, 5000)
 
@@ -35,6 +35,7 @@ setTimeout(() => {
 </template>
 
 <style src="@/style/default.css" />
+<style src="@/style/icons.css" />
 <style scoped>
 #main {
     display: flex;
@@ -42,7 +43,7 @@ setTimeout(() => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-    background-color: var(--background-color);
+    position: relative;
 }
 
 .main-content {
@@ -50,6 +51,9 @@ setTimeout(() => {
     flex-direction: row;
     flex-grow: 1;
     overflow: auto;
+    background-color: var(--background-color);
+    background-image: var(--back-ground-texture);
+    background-size: cover;
 }
 
 .main-panels {
@@ -64,7 +68,8 @@ setTimeout(() => {
     bottom: 0;
 }
 
-.main-splash, .main-error {
+.main-splash,
+.main-error {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -76,9 +81,9 @@ setTimeout(() => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
-        margin: 0.2rem;
-        margin-top: 4rem;
+        font-size: small;
     }
+
 
     .main-panels {
         top: 4rem;

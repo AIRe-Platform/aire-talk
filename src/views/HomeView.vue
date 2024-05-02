@@ -2,57 +2,230 @@
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { Login } from '@/context/login';
+import { onMounted, reactive } from 'vue';
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { Login, logout } from "@/context/login";
+import { getAllChats, openChat, createNewChat } from "@/context/chat";
+
+const state = reactive<{
+    showConfirmLogout: boolean,
+    showYouAreOutMessage: boolean,
+    showLastChatButton: boolean,
+}>({
+    showConfirmLogout: false,
+    showYouAreOutMessage: false,
+    showLastChatButton: false
+});
+
+const onConfirmLogout = async () => {
+    state.showConfirmLogout = false;
+
+    setTimeout(() => {
+        state.showYouAreOutMessage = true;
+    }, 300);
+}
+
+const newChat = async () => {
+    await createNewChat();
+    navigateTo("/chat");
+};
+
+const showLogout = async () => {
+    state.showYouAreOutMessage = false;
+    await logout();
+    router.push("/");
+}
+
+const getLastChatId = async () => {
+    const chats = await getAllChats();
+    return chats[0]?.id;
+}
+
+const openLastChat = async () => {
+    const last = await getLastChatId();
+    if (await openChat(last))
+        router.push("/chat");
+}
 
 const navigateTo = (path: string) => {
     router.push(path)
 }
+
+onMounted(async () => {
+    const last = await getLastChatId();
+    state.showLastChatButton = (last !== undefined);
+})
 </script>
 
 <template>
     <div id="home-view">
-        <div class="greeting">
-            <h1>{{ $t(l.frontpage_greeting) }}</h1>
-            <p>{{ $t(l.frontpage_paragraph) }}</p>
-        </div>
-        <div class="quick-nav">
-            <button class="get-started" @click="navigateTo('/chat')" v-if="Login.user">
-                {{ $t(l.nav_chat) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/profile')" v-if="Login.user">
-                {{ $t(l.nav_profile) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/login')" v-if="!Login.user">
-                {{ $t(l.nav_login) }}
-            </button>
-            <button class="get-started" @click="navigateTo('/signup')" v-if="!Login.user">
-                {{ $t(l.nav_signup) }}
-            </button>
+        <div class="home-container">
+            <div class="home-header">
+                <div class="aire-logo">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                </div>
+                <p>{{ $t(l.start_first_paragraph) }}</p>
+            </div>
+            <div class="quick-nav">
+                <button class="get-started" @click="newChat()">
+                    {{ $t(l.home_start_new_chat) }}
+                </button>
+                <button class="get-started" @click="openLastChat()" v-if="state.showLastChatButton">
+                    {{ $t(l.home_continue_chat) }}
+                </button>
+                <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout">
+                    {{ $t(l.nav_logout) }}
+                </button>
+            </div>
+            <div class="home-footer">
+                <p class="disclaimer">{{ $t(l.start_footer) }}</p>
+                <div class="chat-bot">
+                </div>
+            </div>
         </div>
     </div>
     <OnboardingTopics v-if="Login.user" />
+    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+        {{ $t(l.popup_confirm_logout) }}
+    </ConfirmDialog>
+    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
+        {{ $t(l.popup_logout_message) }}
+    </ConfirmDialog>
 </template>
 
 <style scoped>
 #home-view {
-    padding: 1rem;
-    margin: auto;
+    width: 100%;
+    height: 100%;
+    background-image: var(--back-ground-texture);
+    color: var(--title-text);
+    background-size: cover;
 }
 
-.greeting {
-    max-width: 40rem;
+.home-container {
+    margin: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home-header {
+    width: 100%;
+    background-image: url("@/assets/images/aire_fp_papertexture_cropped.png");
+    background-repeat: repeat-x;
+    background-size: 1200px 420px;
+    height: 280px;
+    background-position: bottom;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding-top: 5rem;
+    font-weight: bold;
+}
+
+.aire-logo {
+    width: 20rem;
 }
 
 .quick-nav {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     margin: 2rem 0;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .get-started {
-    padding: 1rem;
-    font-size: large;
+    width: 216.32px;
+    height: 55px;
+    border-radius: 20px;
+
+    font-size: var(--font-medium);
+    box-shadow: 0px 1px var(--shadow-color);
+    border: unset;
+}
+
+.home-footer {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.disclaimer {
+    margin-left: 1rem;
+    margin-right: 3rem;
+}
+
+.chat-bot {
+    position: relative;
+    overflow: visible;
+    width: 8rem;
+    height: 8rem;
+    margin: -6rem 0;
+    right: 2rem;
+    flex-shrink: 0;
+    background-image: url(/src/assets/images/aire-bot.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .chat-bot {
+        padding: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        right: 1rem;
+    }
+
+    .disclaimer {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .home-header {
+        background-size: cover;
+        padding-top: 5rem;
+        padding-bottom: 7rem;
+    }
+
+    .aire-logo {
+        width: 12rem;
+    }
+
+    .get-started {
+        width: 216.32px;
+        height: 55px;
+        border-radius: 20px;
+
+        font-size: var(--font-medium);
+        box-shadow: 0px 1px var(--shadow-color);
+        border: unset;
+    }
+
+    .quick-nav {
+        margin: 0rem 0;
+    }
+
+    .home-footer {
+        margin-top: 3rem;
+        font-size: xx-small;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .chat-bot {
+        display: none;
+    }
 }
 </style>

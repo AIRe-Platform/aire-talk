@@ -11,6 +11,15 @@ const vi: Locale = {
         "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
     system_topic: "Bạn đã chọn chủ đề: ",
 
+    start_greeting: "Chào mừng đến với nền tảng AIRe",
+    start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
+    start_second_paragraph:
+        "Tiến hành bằng cách đăng nhập hoặc tạo một hồ sơ mới cho chính bạn.",
+    start_footer:
+        "* AIRe không phải là một công cụ chẩn đoán y tế và chỉ nhằm mục đích đưa bạn đến gặp các chuyên gia chăm sóc sức khỏe phù hợp để cải thiện tình hình của bạn.",
+
+    home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
+    home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
     frontpage_greeting: "Chào mừng đến với AIRe platform!",
     frontpage_paragraph: `AIRe là một nền tảng dịch vụ được hỗ trợ bởi AI giúp bạn hiểu rõ hơn về các triệu chứng của mình và các tình trạng cơ bản có thể xảy ra của chúng. AIRe cũng hướng dẫn bạn mọi quy trình tiếp theo cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
 
@@ -19,6 +28,7 @@ const vi: Locale = {
     login_label_username: "E-mail hoặc tên người dùng",
     login_label_password: "Mật khẩu",
     login_failure_message: "Đăng nhập thất bại",
+    login_forgot_password: "Tôi quên mật khẩu của tôi",
 
     signup_label_email: "E-mail",
     signup_label_password: "Contraseña",
@@ -26,6 +36,7 @@ const vi: Locale = {
     signup_form_submit: "Đăng ký",
     signup_label_confirm_password: "Xác nhận mật khẩu",
 
+    nav_start: "Xin chào!",
     nav_home: "Trang chủ",
     nav_chat: "Trò chuyện",
     nav_chat_history: "Lịch sử trò chuyện",
@@ -38,7 +49,7 @@ const vi: Locale = {
     nav_theme: "Thay đổi chủ đề",
     nav_preferences: "Cài đặt",
 
-    profile_title: "Tài khoản của bạn",
+    profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",
     profile_label_gender: "Giới tính",
@@ -81,6 +92,16 @@ const vi: Locale = {
     verification_code_resend: "Gửi cho tôi mã mới",
     verification_code_resend_done: "Một mã mới đang trên đường đến!",
 
+    recovery_heading: "Khôi phục tài khoản",
+    recovery_label_email: "Địa chỉ email",
+    recovery_label_code: "Mã khôi phục",
+    recovery_label_password: "Mật khẩu mới",
+    recovery_enter_code: "Nhập mã khôi phục chúng tôi vừa gửi cho bạn.",
+    recovery_not_available: "Hiện không thể khôi phục tài khoản.",
+    recovery_failure: "Không thể khôi phục tài khoản này.",
+    recovery_password_changed: "Mật khẩu đã được thay đổi thành công.",
+    recovery_back_to_login: "Quay lại đăng nhập",
+
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",
     settings_ui_size: "Kích thước giao diện người dùng",
@@ -88,8 +109,7 @@ const vi: Locale = {
     settings_ui_size_large: "Lớn",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
-    error_ai_not_responding:
-        `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
+    error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
         Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
     error_signup_bad_request: `Đăng ký không thành công. 
@@ -129,14 +149,22 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     chat_history_title: "Lịch sử trò chuyện",
     chat_history_image: "Tập tin hình ảnh:",
     chat_history_video: "Tập tin video:",
+    chat_history_loading: "Đang tải...",
+    chat_history_tokens: "{0} token",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
 
-    popup_confirm_revert_message: "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
-    popup_confirm_remove_chat: "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+    popup_confirm_revert_message:
+        "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
+    popup_confirm_remove_chat:
+        "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
+    popup_confirm_logout: "Bạn có chắc chắn bạn muốn thoát?",
+    popup_logout_message: "Bây giờ bạn đã đăng xuất.",
 
     no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
-    confirm_questionnaire_start: "Bạn có muốn điền vào bảng câu hỏi \"{0}\" không?",
-    confirm_questionnaire_completion: "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
+    confirm_questionnaire_start:
+        'Bạn có muốn điền vào bảng câu hỏi "{0}" không?',
+    confirm_questionnaire_completion:
+        "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",

@@ -3,18 +3,31 @@ import { l } from "@/locales";
 import { Login, logout } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import { UIPanels, UIState } from "@/context/ui";
+import { UIPanels, UIState, UISettings } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
-import ThemeSwitch from "./ThemeSwitch.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import { reactive } from "vue";
+import SectionSeparator from "./SectionSeparator.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
+    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
 };
 
+const state = reactive<{
+    showConfirmLogout: boolean,
+    showYouAreOutMessage: boolean,
+}>({
+    showConfirmLogout: false,
+    showYouAreOutMessage: false,
+});
+
 const toggleChatHistoryMenu = () => {
+    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
+    console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
     UIState.panels.add(UIPanels.ChatHistory);
 };
 
@@ -33,80 +46,106 @@ const toggleSettingsPanel = () => {
     UIState.panels.add(UIPanels.Settings);
 };
 
-const onLogout = async () => {
+const onConfirmLogout = async () => {
+
+    state.showConfirmLogout = false;
+
+    setTimeout(() => {
+        state.showYouAreOutMessage = true;
+    }, 300);
+}
+
+const showLogout = async () => {
+    state.showYouAreOutMessage = false;
     await logout();
     router.push("/");
 }
+
 </script>
 
 <template>
+    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+        {{ $t(l.popup_confirm_logout) }}
+    </ConfirmDialog>
+
+    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
+        {{ $t(l.popup_logout_message) }}
+    </ConfirmDialog>
+
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
-    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu }">
+    <div class="nav-menu"
+        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
         <Panel class="nav-menu-bar">
-            <div class="nav-link" @click="navigateTo('/')">
-                <div class="nav-logo dotted-border-botton">
+            <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
+                <div class="nav-logo" v-if="!UIState.isSomethingInMenuSelected">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                </div>
+            </div>
+            <div class="nav-link" v-if="!Login.user" @click="navigateTo('/')">
+                <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
             <div class="nav-menu-list">
-                <hr class="nav-separator" />
-                <div class="nav-item" @click="navigateTo('/')" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Home'
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_home) }}</div>
+                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
+        'nav-item-active': UIState.panels.has(
+            UIPanels.ChatHistory
+        ),
+    }">
+                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_history) }}</div>
+                    <div class="chat-history-icon" v-if="UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Chat'
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_chat) }}</div>
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Chat'
+        ),
+    }">
+                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat) }}</div>
+                    <div class="chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
                 <div class="nav-item" @click="newChat" v-if="Chat.id">
-                    <div class="nav-link">{{ $t(l.nav_chat_new) }}</div>
-                </div>
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
-                    'nav-item-active': UIState.panels.has(
-                        UIPanels.ChatHistory
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_chat_history) }}</div>
+                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_new) }}</div>
+                    <div class="new-chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
                 <div class="nav-spacer"></div>
                 <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Login'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Login'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Signup'
-                    ),
-                }">
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Signup'
+        ),
+    }">
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
-                    'nav-item-active': $route.matched.some(
-                        (p) => p.name === 'Profile'
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_profile) }}</div>
+        'nav-item-active': $route.matched.some(
+            (p) => p.name === 'Profile'
+        ),
+    }">
+                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_profile) }}</div>
+                    <div class="profile-icon" v-if="UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
-                <hr class="nav-separator" />
-                <ThemeSwitch />
-                <hr class="nav-separator" />
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
-                    'nav-item-active': UIState.panels.has(
-                        UIPanels.Settings
-                    )
-                }">
-                    <div class="nav-link">{{ $t(l.nav_preferences) }}</div>
+        'nav-item-active': UIState.panels.has(
+            UIPanels.Settings
+        )
+    }">
+                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_preferences) }}</div>
+                    <div class="preferences-icon" v-if="UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
-                <div class="nav-item" @click="onLogout" v-if="Login.user">
+                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
+                <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
                     <div class="nav-link">{{ $t(l.nav_logout) }}</div>
                 </div>
             </div>
@@ -119,26 +158,29 @@ const onLogout = async () => {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-
     overflow: hidden;
     z-index: 8;
-
     width: 0px;
     height: 100%;
     margin: 0rem;
-
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
+    position: absolute;
 }
 
 .nav-separator {
     border: 0;
-    border-bottom: 2px dotted var(--border-color);
+    height: 1rem;
+    padding: 1rem;
     margin: 1rem;
+    stroke: var(--dividers);
+    stroke-width: 4px;
+    stroke-dasharray: 2, 15;
 }
 
 .nav-menu-open {
     width: 16rem;
     height: 100%;
+    background-image: var(--back-ground-texture);
 
     .nav-menu-list {
         opacity: 1;
@@ -150,14 +192,13 @@ const onLogout = async () => {
     flex-direction: column;
     flex-grow: 1;
     padding: 4rem 0rem 1rem 0rem;
-    margin: 1rem;
+    margin: unset;
     overflow: auto;
 }
 
 .nav-logo {
     width: 100%;
     margin-top: 2rem;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,7 +238,7 @@ const onLogout = async () => {
 }
 
 .nav-item-active {
-    background-color: var(--border-color);
+    background-color: var(--menu-active);
 }
 
 .nav-spacer {
@@ -212,21 +253,71 @@ const onLogout = async () => {
         height: unset;
     }
 
+    .nav-item {
+        padding: 2rem;
+    }
+
     .nav-menu {
         margin: 0;
     }
 
     .nav-menu-open {
-        width: 100%;
+        width: 65%;
+        position: absolute;
+
     }
 
     .nav-menu-bar {
-        margin: 0.25rem !important;
+
         align-items: center;
     }
 
     .nav-logo {
         width: 50%;
+    }
+
+    .short-nav-menu {
+        width: 4.5rem;
+    }
+
+    .chat-history-icon {
+        background-image: url(/src/assets/icons/aire-icon-chat-history.svg);
+        width: 2rem;
+        height: 2rem;
+        background-size: cover;
+        position: absolute;
+    }
+
+    .chat-icon {
+        background-image: url(/src/assets/icons/aire-icon-mobile-new-chat-dark.svg);
+        width: 2rem;
+        height: 2rem;
+        background-size: cover;
+        position: absolute;
+    }
+
+    .new-chat-icon {
+        background-image: url(/src/assets/icons/aire-icon-mobile-new-chat-dark.svg);
+        width: 2rem;
+        height: 2rem;
+        background-size: cover;
+        position: absolute;
+    }
+
+    .profile-icon {
+        background-image: url(/src/assets/icons/aire-icon-profile.svg);
+        width: 2rem;
+        height: 2rem;
+        background-size: cover;
+        position: absolute;
+    }
+
+    .preferences-icon {
+        background-image: url(/src/assets/icons/aire-icon-settings.svg);
+        width: 2rem;
+        height: 2rem;
+        background-size: cover;
+        position: absolute;
     }
 }
 </style>

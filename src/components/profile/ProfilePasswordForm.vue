@@ -91,21 +91,21 @@ const onChangePassword = (e: Event) => {
     input {
         flex-basis: 20%;
         flex-grow: 1;
-        font-size: large;
+        font-size: var(--font-large);
     }
 }
 
 .description {
-    font-size: small;
+    font-size: var(--font-small);
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 1rem;
-    background-color: var(--background-color);
+    background-color: var(--panel-menu-background-color);
 }
 
 .error-message {
     color: var(--background-color);
-    font-size: small;
+    font-size: var(--font-small);
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 1rem;

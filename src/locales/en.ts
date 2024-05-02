@@ -11,6 +11,16 @@ const en: Locale = {
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
 
+    start_greeting: "Welcome to the AIRe platform",
+    start_first_paragraph:
+        "Your number one AI application for medical tips sources.",
+    start_second_paragraph:
+        "Proceed by logging in or creating a new profile for yourself.",
+    start_footer:
+        "* AIRe is not a medical diagnostic tool, and only aims to lead you towards the proper healthcare professionals in order to better your situation.",
+
+    home_start_new_chat: "Start new chat instance",
+    home_continue_chat: "Continue previous chat",
     frontpage_greeting: "Welcome to the AIRe platform!",
     frontpage_paragraph: `AIRe is an AI powered service platform that helps you better understand your symptoms and their possible underlying conditions. AIRe also guides you in any necessary follow-up procedures, and offers you helpful suggestions tailored just for you.`,
 
@@ -19,6 +29,7 @@ const en: Locale = {
     login_label_username: "Email or username",
     login_label_password: "Password",
     login_failure_message: "Failed to login",
+    login_forgot_password: "I forgot my password",
 
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
@@ -26,6 +37,7 @@ const en: Locale = {
     signup_label_password: "Password",
     signup_label_confirm_password: "Confirm password",
 
+    nav_start: "Hello!",
     nav_home: "Home",
     nav_chat: "Chat",
     nav_chat_history: "Chat history",
@@ -38,7 +50,7 @@ const en: Locale = {
     nav_theme: "Change theme",
     nav_preferences: "Settings",
 
-    profile_title: "Your Account",
+    profile_title: "User account",
     profile_label_first_name: "First Name",
     profile_label_last_name: "Last Name",
     profile_label_gender: "Gender",
@@ -75,12 +87,34 @@ const en: Locale = {
     gender_female: "female",
     gender_other: "other",
 
+    profile_question_button: "Complete profile information",
+    profile_question_confirm:
+        "Do you want to answer some questions about your personal information?",
+    profile_question_completion:
+        "Click continue if you information is correct. You can edit your information later on your profile page.",
+    profile_question_first_name: "What is your first name?",
+    profile_question_last_name: "What is your last name?",
+    profile_question_gender: "What is your gender?",
+    profile_question_age: "How old are you?",
+    profile_question_language: "What is your primary language?",
+    profile_question_country: "Which country you live in?",
+
     verification_heading: "Verify Your Account",
     verification_description:
         "Enter the verification code you received in your email",
     verification_button_verify: "Verify",
     verification_code_resend: "Send me a new code",
     verification_code_resend_done: "A new code is on its way!",
+
+    recovery_heading: "Account Recovery",
+    recovery_label_email: "Email address",
+    recovery_label_code: "Recovery code",
+    recovery_label_password: "New password",
+    recovery_enter_code: "Enter the recovery code we just sent you.",
+    recovery_not_available: "Account recovery is not available currently.",
+    recovery_failure: "This account cannot be recovered.",
+    recovery_password_changed: "The password was changed successfully.",
+    recovery_back_to_login: "Back to login",
 
     settings_title: "Settings",
     settings_language: "User interface language",
@@ -89,8 +123,7 @@ const en: Locale = {
     settings_ui_size_large: "Large",
 
     error_generic: "An unknown error occurred!",
-    error_ai_not_responding:
-        `The bot failed to respond. This might occur due to content filtering.
+    error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.
         If the problem persists, please try again later.`,
     error_signup_password_mismatch: "The passwords do not match!",
     error_signup_bad_request: `Registration failed. 
@@ -132,15 +165,21 @@ const en: Locale = {
     chat_history_title: "Chat History",
     chat_history_image: "Image file:",
     chat_history_video: "Video file:",
+    chat_history_loading: "Loading...",
+    chat_history_tokens: "{0} tokens",
     chat_input_title: "What would you like to ask or tell?",
 
     popup_confirm_revert_message:
         "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
+    popup_confirm_logout: "Are you sure you want to logout?",
+    popup_logout_message: "You are now logout.",
 
     no_questionnaires_found: "Could not find suitable questionnaires.",
-    confirm_questionnaire_start: "Would you like to fill a questionnaire \"{0}\"?",
-    confirm_questionnaire_completion: "When you are happy with your answers, choose continue.",
+    confirm_questionnaire_start:
+        'Would you like to fill a questionnaire "{0}"?',
+    confirm_questionnaire_completion:
+        "When you are happy with your answers, choose continue.",
 
     button_accept: "Accept",
     button_cancel: "Cancel",

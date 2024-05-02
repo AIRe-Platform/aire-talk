@@ -26,11 +26,9 @@ defineEmits<{
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
-
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     background-color: var(--border-color);
-
     margin: 0.5rem;
     height: 1rem;
     flex-grow: 1;
@@ -45,7 +43,7 @@ defineEmits<{
 .switch-handle {
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
-    background-color: var(--panel-background-color);
+    background-color: var(--button-color);
     position: relative;
     width: 45%;
     height: 100%;

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="35.346161mm"
+   height="46.972839mm"
+   viewBox="0 0 35.346161 46.972839"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="AIRe_icon_delete.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-283.92227"
+     inkscape:cy="181.77437"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-87.327,-125.01358)">
+    <path
+       style="opacity:1;vector-effect:none;fill:#b6465f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.49528539;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill"
+       d="m 99.921548,125.01358 c -0.795858,0 -1.436605,0.64074 -1.436605,1.4366 0,0.0113 0.0011,0.0223 0.0021,0.0336 h -9.860899 c -0.719799,1e-5 -1.299144,0.57934 -1.299144,1.29915 v 5.08548 c 0,0.71981 0.579345,1.29914 1.299144,1.29914 h 32.747876 c 0.71979,0 1.29914,-0.57933 1.29914,-1.29914 v -5.08548 c 0,-0.71981 -0.57935,-1.29915 -1.29914,-1.29915 h -9.8609 c 2.6e-4,-0.0113 0.002,-0.0223 0.002,-0.0336 0,-0.79586 -0.64074,-1.4366 -1.43661,-1.4366 z m -9.019087,11.49284 c -0.981559,0 -1.771468,0.79043 -1.771468,1.77198 v 31.93604 c 0,0.98155 0.789909,1.77198 1.771468,1.77198 h 28.195179 c 0.98156,0 1.77147,-0.79043 1.77147,-1.77198 V 138.2784 c 0,-0.98155 -0.78991,-1.77198 -1.77147,-1.77198 z m 6.281269,3.20704 h 0.13126 c 0.981559,0 1.771467,0.79042 1.771467,1.77198 v 25.52196 c 0,0.98155 -0.789908,1.77198 -1.771467,1.77198 h -0.13126 c -0.981549,0 -1.771983,-0.79043 -1.771983,-1.77198 v -25.52196 c 0,-0.98156 0.790434,-1.77198 1.771983,-1.77198 z m 7.75043,0 h 0.13178 c 0.98155,0 1.77146,0.79042 1.77146,1.77198 v 25.52196 c 0,0.98155 -0.78991,1.77198 -1.77146,1.77198 h -0.13178 c -0.98156,0 -1.77147,-0.79043 -1.77147,-1.77198 v -25.52196 c 0,-0.98156 0.78991,-1.77198 1.77147,-1.77198 z m 7.68429,0 h 0.13125 c 0.98156,0 1.77199,0.79042 1.77199,1.77198 v 25.52196 c 0,0.98155 -0.79043,1.77198 -1.77199,1.77198 h -0.13125 c -0.98156,0 -1.77199,-0.79043 -1.77199,-1.77198 v -25.52196 c 0,-0.98156 0.79043,-1.77198 1.77199,-1.77198 z"
+       id="rect826"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

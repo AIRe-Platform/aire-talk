@@ -68,9 +68,8 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                     :readonly="busy" />
-                <button class="profile-edit-button" @click.prevent="activateField('first-name')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('first-name')" :disabled="busy">
+                </div>
             </div>
         </span>
         <span class="form-item">
@@ -78,9 +77,8 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                     :readonly="busy" />
-                <button class="profile-edit-button" @click.prevent="activateField('last-name')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('last-name')" :disabled="busy">
+                </div>
             </div>
         </span>
         <span class="form-item">
@@ -91,18 +89,16 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <button class="profile-edit-button" @click.prevent="activateField('gender')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('gender')" :disabled="busy">
+                </div>
             </div>
         </span>
         <span class="form-item">
             <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
             <div class="form-input">
                 <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="busy" />
-                <button class="profile-edit-button" @click.prevent="activateField('age')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('age')" :disabled="busy">
+                </div>
             </div>
         </span>
         <span class="form-item">
@@ -113,9 +109,9 @@ const activateField = (id: string) => {
                         {{ loc.name }}
                     </option>
                 </select>
-                <button class="profile-edit-button" @click.prevent="activateField('language')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('language')" :disabled="busy">
+                </div>
+
             </div>
         </span>
         <span class="form-item">
@@ -123,18 +119,16 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="busy" />
-                <button class="profile-edit-button" @click.prevent="activateField('country')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+                <div class="edit-icon" @click.prevent="activateField('country')" :disabled="busy">
+                </div>
             </div>
         </span>
-        <span class="form-item form-item-wide">
+        <span class="form-item-wide">
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
-            <div class="form-input">
-                <textarea id="bio" rows="4" cols="30" v-model="profile.bio" :readonly="busy"></textarea>
-                <button class="profile-edit-button" @click.prevent="activateField('bio')" :disabled="busy">
-                    <font-awesome-icon icon="fa-solid fa-pen" />
-                </button>
+            <div class="form-input-textarea">
+                <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="busy"></textarea>
+                <div class="edit-icon margin-left" @click.prevent="activateField('bio')" :disabled="busy">
+                </div>
             </div>
         </span>
         <div class="form-item error-message" v-if="error">
@@ -156,32 +150,66 @@ const activateField = (id: string) => {
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
+    overflow: hidden;
     gap: 2rem;
 }
 
 .form-item {
     display: flex;
-    flex-direction: column;
-    flex-basis: calc(100% / 2 - 2rem);
-    min-width: 200px;
+    flex-direction: row;
+    flex-basis: calc(50% - 2rem);
+    align-items: center;
+    gap: 0.5rem;
+
+    &>.form-label {
+        flex-basis: 20%;
+    }
+
+    &>.form-input {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-grow: 1;
+
+        &>:first-child {
+            width: 50%;
+            flex-grow: 1;
+        }
+    }
+}
+
+.margin-left {
+    margin-left: 0.5rem;
 }
 
 .form-item-wide {
-    flex-basis: 100%;
-}
-
-.form-input {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+    flex-basis: 100%;
     gap: 0.5rem;
 
-    input,
-    select,
-    textarea {
-        flex-grow: 1;
-        width: 50%
+    &>.form-label {
+        flex-basis: 10%;
     }
+
+    .form-input-textarea {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+
+        &>:first-child {
+            width: 50%;
+            flex-grow: 1;
+        }
+    }
+}
+
+.edit-icon {
+    background-image: url("@/assets/icons/aire-icon-edit.svg");
+    width: 1.2rem;
+    height: 1.2rem;
+    background-size: cover;
 }
 
 .form-buttons {
@@ -207,7 +235,7 @@ const activateField = (id: string) => {
 
 .error-message {
     color: var(--background-color);
-    font-size: small;
+    font-size: var(--font-small);
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 1rem;

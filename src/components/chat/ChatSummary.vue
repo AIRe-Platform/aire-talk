@@ -3,11 +3,13 @@ import { l } from '@/locales';
 import {
     Chat,
     queryAndStartQuestionnaire,
-    refreshAbstract
+    refreshAbstract,
+    startPersonalInformationQuestionnaire
 } from '@/context/chat';
 import { ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 import Panel from '@/components/Panel.vue';
+import { getMissingPersonalInformationQuestions } from "@/helpers/questionnaireUtils";
 
 const busy = ref(false);
 
@@ -23,6 +25,10 @@ const querySurveys = async () => {
     busy.value = true;
     await queryAndStartQuestionnaire();
     busy.value = false;
+}
+
+const askPersonalInformation = () => {
+    startPersonalInformationQuestionnaire();
 }
 
 const removeWord = (word: string) => {
@@ -61,11 +67,17 @@ const clearKeywords = () => {
             <div class="summary-buttons" v-if="!busy">
                 <button class="summary-button" @click="generateSummary">
                     <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
-                    <font-awesome-icon icon="fa-solid fa-list" />
+                    <div class="update-icon">
+                    </div>
                 </button>
                 <button class="summary-button" @click="querySurveys"
                     v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+                <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button"
+                    @click="askPersonalInformation">
+                    <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </div>
@@ -79,11 +91,18 @@ const clearKeywords = () => {
     flex-direction: column;
     flex-shrink: 0;
     align-items: center;
-
+    background-color: var(--panel-background-color);
     width: 12rem;
     padding: 1rem;
     margin: 1rem;
     gap: 1rem;
+}
+
+.update-icon {
+    background-image: url("@/assets/icons/aire-icon-update.png");
+    width: 0.7rem;
+    height: 0.7rem;
+    background-size: cover;
 }
 
 .summary-title {
@@ -93,7 +112,7 @@ const clearKeywords = () => {
 
 .summary-text {
     display: flex;
-    font-size: 0.8rem;
+    font-size: var(--font-small);
     flex-wrap: wrap;
     line-height: 1.5rem;
     text-align: justify;
@@ -102,13 +121,13 @@ const clearKeywords = () => {
 .summary-keyword-item {
     display: flex;
     flex-direction: row;
-    font-size: 0.8rem;
+    font-size: var(--font-small);
     justify-content: center;
     align-items: stretch;
     height: 2rem;
     border-radius: 1rem;
     border: 2px solid var(--border-color);
-    background-color: var(--background-color);
+    background-color: var(--panel-background-color);
 }
 
 .summary-keyword-text {
@@ -139,8 +158,8 @@ const clearKeywords = () => {
     flex-wrap: wrap;
     gap: 0.5rem;
     padding: 1rem 0 1rem 0;
-    border-top: 2px dotted var(--border-color);
-    border-bottom: 2px dotted var(--border-color);
+    border-top: 2px dotted var(--dividers);
+    border-bottom: 2px dotted var(--dividers);
     width: 100%;
 }
 
@@ -154,8 +173,11 @@ const clearKeywords = () => {
 
 .summary-button {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     cursor: pointer;
+    align-items: center;
+    width: 160px;
+    height: 33px;
 }
 
 .summary-button-text {

@@ -4,13 +4,14 @@ import { Topic } from "@/models/topic";
 import {
     AireServices, AireTalkEvent,
     AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus
+    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
+    AireUser,
 } from "aire";
 import { reactive } from "vue";
-import { Login } from "./login";
+import { Login, saveProfile } from "./login";
 import i18n, { l } from "@/locales";
 import { getUserLanguageCode } from "@/helpers/userLocale";
-import { getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
+import { getMissingPersonalInformationQuestions, getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
 import { LocalizationKey } from "@/locales/keys";
 
 const BOT_NAME = "aire_bot"
@@ -334,6 +335,107 @@ export function getCache(id: string): ChatCache | undefined {
     if (id && Chat.cache.has(id))
         return Chat.cache.get(id)
     return undefined
+}
+
+export function startPersonalInformationQuestionnaire() {
+    const questions = getMissingPersonalInformationQuestions();
+
+    if(questions.length > 0) {
+        Chat.current.questionnaire = {
+            active_id: "personal_information",
+            question_queue: questions,
+            completed: false
+        };
+
+        pushQuestion({
+            id: generateRandomID(),
+            prompt: "",
+            question: i18n.global.t(l.profile_question_confirm),
+            type: AireQuestionOptionType.Checkbox,
+            required: true,
+            options: {
+                multiselect: false,
+                values: [
+                    i18n.global.t(l.button_accept),
+                    i18n.global.t(l.button_cancel)
+                ]
+            } as AireQuestionOptionCheckbox
+        }, "system", (ans: string[]) => {
+            if (ans.includes(i18n.global.t(l.button_accept)))
+                pushNextPersonalQuestion();
+            else
+                Chat.current.questionnaire = undefined
+        })
+    }
+}
+
+function sendPersonalInformation() {
+    if (AireServices.ID && Login.user) {
+        // get data from answers
+
+        if (!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
+            return false;
+
+        const answers = getAnswerObjects(Chat.current.questionnaire?.active_id)
+        let newValues: Record<string, string> = {};
+
+        answers.forEach(element => {
+            newValues[element.question_id] = element.answer;
+        });
+    
+        const data: AireUser = { ...Login.user, ...newValues };
+        saveProfile(data)
+        .then((result) => {
+            if (result) {
+                let message: string | undefined;
+                message = `[The user filled missing profile information. Thank user and tell how it helps you to give better responses.]`
+
+                if (message) {
+                    const userMessage: ChatMessage = {
+                        id: generateRandomID(),
+                        sender: getUserName(),
+                        role: "user",
+                        message: message,
+                        rating: 0,
+                        timestamp: Date.now(),
+                        hidden: true
+                    }
+
+                    pushMessage(userMessage)
+                    getResponse()
+                }
+            } 
+        })
+    }
+}
+
+function pushNextPersonalQuestion() {
+    if (!Chat.current.questionnaire)
+        return false
+
+    const next = Chat.current.questionnaire.question_queue.shift()
+    if (!next) {
+
+        pushQuestion({
+            id: Chat.current.questionnaire.active_id + "_completion",
+            question: i18n.global.t(l.profile_question_completion),
+            type: AireQuestionOptionType.Checkbox,
+            required: true,
+            prompt: "",
+            options: {
+                multiselect: false,
+                values: [i18n.global.t(l.button_continue)]
+            } as AireQuestionOptionCheckbox,
+        }, "system", () => {
+            sendPersonalInformation()
+        })
+
+        Chat.current.questionnaire.completed = true;
+        return false;
+    }
+
+    pushQuestion(next, Chat.current.questionnaire.active_id, pushNextPersonalQuestion)
+    return true;
 }
 
 /**

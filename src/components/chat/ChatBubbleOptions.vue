@@ -31,12 +31,11 @@ const onThumbsDown = () => {
     setMessageRating(props.parent.id, -1);
 }
 
-const onCopyClipboard = async () => { 
-    if(props.parent.message)
-    {
+const onCopyClipboard = async () => {
+    if (props.parent.message) {
         await clipboard.copy(props.parent.message)
         copiedToClipboard.value = !copiedToClipboard.value;
-    }   
+    }
 }
 
 const onConfirmRevert = () => {
@@ -56,34 +55,32 @@ const onCancelRevert = () => {
 </script>
 
 <template>
-    <ConfirmDialog v-if="confirmRevertOpen" v-on:accept="onConfirmRevert"  v-on:decline="onCancelRevert">
+    <ConfirmDialog v-if="confirmRevertOpen" v-on:accept="onConfirmRevert" v-on:decline="onCancelRevert">
         {{ $t(l.popup_confirm_revert_message) }}
     </ConfirmDialog>
     <div class="chat-bubble-options">
         <div class="chat-bubble-options-button" @click.stop="onToggleMenu">
-            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="chat-bubble-options-icon" />
+            <div class="chat-bubble-options-icon">
+            </div>
         </div>
         <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
-            <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button"
+            <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
                 :class="{ 'is-selected': props.parent.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
             </button>
-            <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button"
+            <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
                 :class="{ 'is-selected': props.parent.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
             </button>
-            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button"
-                :class="{ 'is-selected': copiedToClipboard }"
-                v-if="copiedToClipboard"
-            >
+            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
+                :class="{ 'is-selected': copiedToClipboard }" v-if="copiedToClipboard">
                 <font-awesome-icon icon="fa-solid fa-check" />
             </button>
-            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button"
-                v-if="!copiedToClipboard"
-            >
+            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
+                v-if="!copiedToClipboard">
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
-            <button @click.stop="onRevert" class="chat-message-answer-options-menu-button" v-if="props.can_revert">
+            <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin" v-if="props.can_revert">
                 <font-awesome-icon icon="fa-solid fa-arrows-spin" />
             </button>
         </div>
@@ -95,29 +92,60 @@ const onCancelRevert = () => {
     position: relative;
 }
 
+.ellipsis-vertical {}
+
 .chat-bubble-options-button {
     position: absolute;
     top: -1.1rem;
     right: -1.6rem;
-    width: 1.2rem;
-    height: 1.2rem;
-
+    width: 1.3rem;
+    height: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
     color: var(--chat-bubble-background-color);
-    background-color: var(--shadow-color);
-    border: 1px solid transparent;
-    box-shadow: 0 0 3px gray;
     border-radius: 0.6rem;
-
     transition: background-color 0.25s;
 
     &:hover {
         background-color: var(--accent-primary-color);
+    }
+}
+
+
+.thumbs-up,
+.copy,
+.spin {
+    color: var(--button-color);
+
+    &:hover {
+        background-color: var(--chat-bubble-options-button-hover);
+        border-color: transparent;
+        color: var(--button-color);
+        border-color: var(--stroke);
+    }
+}
+
+.check {
+    color: var(--questionnaire-icon-background);
+
+    &:hover {
+        background-color: var(--user-chat-box-background);
+        border-color: transparent;
+        color: var(--questionnaire-icon-background);
+        border-color: var(--stroke);
+    }
+}
+
+.thumbs-down {
+    color: var(--delete-color);
+
+    &:hover {
+        background-color: var(--user-chat-box-background);
+        border-color: transparent;
+        color: var(--delete-color);
+        border-color: var(--stroke);
     }
 }
 
@@ -131,11 +159,19 @@ const onCancelRevert = () => {
 }
 
 .chat-bubble-options-icon {
-    height: 0.8rem;
+    background-image: url(/src/assets/icons/aire-icon-chat-option.svg);
+    width: 1.3rem;
+    height: 1.3rem;
+    background-size: cover;
 }
 
 .chat-message-answer-options-menu-button {
     cursor: pointer;
+    background-color: var(--chat-options-menu-background) !important;
+}
+
+.is-selected {
+    background-color: var(--chat-bubble-options-button-hover) !important;
 }
 
 /* mobile*/

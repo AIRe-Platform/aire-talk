@@ -1,31 +1,108 @@
+@font-face {
+    font-family: "Sansation";
+    font-weight: 400;
+    font-style: normal;
+    src: url("/fonts/sansation/Sansation_Light.woff2") format("woff2"),
+        url("/fonts/sansation/Sansation_Light.woff") format("woff"),
+        url("/fonts/sansation/Sansation_Light.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Sansation";
+    font-weight: 700;
+    font-style: bold;
+    src: url("/fonts/sansation/Sansation_Bold.woff2") format("woff2"),
+        url("/fonts/sansation/Sansation_Bold.woff") format("woff"),
+        url("/fonts/sansation/Sansation_Bold.ttf") format("truetype");
+}
+
+:root {
+    --font-small: 0.7rem;
+    --font-medium: 1rem;
+    --font-large: 1.2rem;
+}
+
 :root.theme-default {
+    --button-color: #176087;
+    --box-stroke: #bcd0ce;
+    --title-text: #5a5a5a;
+    --basic-text: #000000;
+    --panel-background-color: #e3fffa;
+    --panel-border-color: rgba(200, 218, 215, 1);
+    --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
+    --button-text: #ffffff;
+    --ia-chat-box-background: #ffffff;
+    --user-chat-box-background: #f1f4f9;
+    --dividers: #bcd0ce;
+    --highlight: #00b49d;
+    --button-inactive: #697f8a;
+    --question-background: #0d5c63;
+    --delete-color: #b6465f;
+    --menu-highlight: #d9f0ff;
+    --scrollbar-background: #c1d6d3;
+    --questionnaire-icon-background: #00b49d;
+    --chat-tag-background: #ffffff;
+    --menu-active: #d9f0ff;
+    --button-gradient-color: linear-gradient(#2374ab, #176087);
+    --chat-history-item-date: #176087;
+    --chat-bubble-options-button-hover: #d9f0ff;
+    --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
+    --chat-options-menu-background: #ffffff;
+    --text-color-in-select: black;
+    /*the next ones should be deleted*/
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: lightgray;
-    --font-family: sans-serif;
-    --panel-background-color: rgb(248, 248, 248);
+    --font-family: "Sansation", sans-serif;
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
-    --overlay-color: rgba(255, 255, 255, .7);
+    --overlay-color: rgba(255, 255, 255, 0.7);
 }
 
 :root.theme-dark {
-    --background-color: #4a4a4a;
+    --button-color: #176087;
+    --box-stroke: #176087;
+    --title-text: #5a5a5a;
+    --basic-text: #ffffff;
+    --panel-background-color: #e3fffa;
+    --panel-menu-background-color: #47425e;
+    --panel-border-color: rgba(55, 50, 80, 1);
+    --background-color: #ffffff;
+    --button-text: #ffffff;
+    --ia-chat-box-background: #0d5c63;
+    --user-chat-box-background: #144044;
+    --dividers: #00b49d;
+    --highlight: #00b49d;
+    --button-inactive: #697f8a;
+    --question-background: #0d5c63;
+    --delete-color: #b6465f;
+    --menu-highlight: #d9f0ff;
+    --scrollbar-background: #6c687e;
+    --questionnaire-icon-background: #00b49d;
+    --chat-tag-background: #f1f4f9;
+    --menu-active: #2374ab80;
+    --button-gradient-color: linear-gradient(#2374ab, #176087);
+    --chat-history-item-date: #47425e;
+    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.8);
+    --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
+    --chat-options-menu-background: #f1f4f9;
+    --text-color-in-select: black;
+    /*the next ones should be deleted*/
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: darkgray;
-    --font-family: sans-serif;
+    --font-family: "Sansation", sans-serif;
     --panel-background-color: rgb(53, 53, 53);
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
-    --overlay-color: rgba(0, 0, 0, .7);
+    --overlay-color: rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -51,25 +128,41 @@ a {
     }
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     margin: 0;
     margin-bottom: 0.5rem;
 }
 
-input[type=text],
-input[type=password],
-input[type=email],
-input[type=number],
-input[type=checkbox],
+h1 {
+    font-size: var(--font-large);
+}
+
+h2,
+h3,
+h4,
+h5 {
+    font-size: var(--font-medium);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="checkbox"],
 textarea,
 select {
-    color: var(--text-color);
+    color: var(--text-color-in-select);
     padding: 0.2rem 0.6rem;
     border-radius: 0.5rem;
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
     transition: all 0.1s;
-    font-size: 1rem;
+    font-family: var(--font-family);
+    font-size: var(--font-medium);
 
     &:hover,
     &:focus {
@@ -84,15 +177,17 @@ input:read-only {
     background-color: var(--disabled-color);
 }
 
-input[type=submit],
+input[type="submit"],
 button {
-    color: var(--text-color);
-    background-color: var(--background-color);
+    color: var(--button-text);
+    background-color: var(--button-color);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--border-color);
     transition: all 0.1s;
     cursor: pointer;
+    font-family: var(--font-family);
+    font-weight: bold;
+    border: none;
 
     &:hover {
         background-color: var(--accent-primary-color);
@@ -112,7 +207,7 @@ button {
 }
 
 #app {
-    color: var(--text-color);
+    color: var(--basic-text);
     background-color: var(--background-color);
     font-family: var(--font-family);
     margin: 0;
@@ -123,9 +218,9 @@ button {
 }
 
 .font-normal {
-    font-size: medium;
+    font-size: var(--font-medium);
 }
 
 .font-large {
-    font-size: larger;
+    font-size: var(--font-large);
 }

@@ -9,8 +9,10 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
+import { UIState } from '@/context/ui';
 
 const showSideBar = ref(false);
+let casa = ref();
 
 const canRevert = (msg: ChatMessage) => {
     const lastMessageId = Chat.messages[Chat.messages.length - 1].id;
@@ -36,8 +38,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <OptionsButton @click="toggleSidebar" :open="showSideBar" />
-    <div class="chat-view">
+    <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(Chat)" />
+    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
                 <template v-if="!msg.hidden">
@@ -79,6 +81,10 @@ onMounted(() => {
     padding: 0rem 3rem;
 }
 
+.nav-menu-open {
+    filter: blur(2px);
+}
+
 .chat-side-panels {
     display: flex;
     flex-direction: column;
@@ -88,7 +94,6 @@ onMounted(() => {
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 2;
-
     width: 0;
     transition: width 0.25s;
 }
@@ -102,7 +107,6 @@ onMounted(() => {
     overflow: hidden;
     flex-direction: column;
     flex-grow: 1;
-    background-color: var(--background-color);
     border-radius: 0.5rem;
 }
 
@@ -129,7 +133,7 @@ onMounted(() => {
 .chat-view-content-left {
     display: flex;
     justify-content: flex-end;
-    border-right: 2px dotted var(--border-color);
+    border-right: 2px dotted var(--dividers);
     width: 50%;
 }
 
@@ -169,13 +173,12 @@ onMounted(() => {
     }
 
     .chat-view-row {
-        display: block;
+        display: flex;
         padding: unset;
     }
 
     .chat-view-content-left {
         justify-content: flex-start;
-        width: unset;
         border-right: none;
     }
 
@@ -183,6 +186,7 @@ onMounted(() => {
         width: unset;
         justify-content: flex-end;
         border-right: none;
+
     }
 }
 </style>
