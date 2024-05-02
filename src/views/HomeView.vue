@@ -115,10 +115,12 @@ onMounted(async () => {
     background-image: url("@/assets/images/aire_fp_papertexture_cropped.png");
     background-repeat: repeat-x;
     background-size: 1200px 420px;
+    height: 280px;
     background-position: bottom;
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex-shrink: 0;
     padding-top: 5rem;
     font-weight: bold;
 }
@@ -154,20 +156,21 @@ onMounted(async () => {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    position: relative;
-    justify-self: flex-end;
 }
 
 .disclaimer {
     margin-left: 1rem;
-    margin-right: 11rem;
+    margin-right: 3rem;
 }
 
 .chat-bot {
-    position: absolute;
+    position: relative;
+    overflow: visible;
     width: 8rem;
     height: 8rem;
+    margin: -6rem 0;
     right: 2rem;
+    flex-shrink: 0;
     background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
     background-size: contain;
@@ -184,7 +187,7 @@ onMounted(async () => {
 
     .disclaimer {
         margin-left: 1rem;
-        margin-right: 8rem;
+        margin-right: 1rem;
     }
 }
 </style>
