@@ -21,7 +21,10 @@ export const router = createRouter({
             path: "/",
             component: StartView,
             name: "Start",
-            meta: { title: l.nav_start },
+            meta: { 
+                title: l.nav_start,
+                no_login: true
+            },
         },
         {
             path: "/home",
