@@ -66,7 +66,6 @@ onMounted(async () => {
                 </div>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
             </div>
-
             <div class="quick-nav">
                 <button class="get-started" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
@@ -79,7 +78,7 @@ onMounted(async () => {
                 </button>
             </div>
             <div class="home-footer">
-                <p>{{ $t(l.start_footer) }}</p>
+                <p class="disclaimer">{{ $t(l.start_footer) }}</p>
                 <div class="chat-bot">
                 </div>
             </div>
@@ -108,15 +107,15 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .home-header {
     width: 100%;
-    height: 40%;
     background-image: url("@/assets/images/aire_fp_papertexture_cropped.png");
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-repeat: repeat-x;
+    background-size: 1200px 420px;
+    background-position: bottom;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -147,25 +146,45 @@ onMounted(async () => {
 }
 
 .home-footer {
-    margin-top: 10rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
     background-color: white;
     width: 100%;
-    height: 4rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     position: relative;
+    justify-self: flex-end;
+}
+
+.disclaimer {
+    margin-left: 1rem;
+    margin-right: 11rem;
 }
 
 .chat-bot {
     position: absolute;
-    padding: 4rem;
-    width: 5rem;
-    height: 5rem;
-    scale: 0.6;
-    right: 0;
+    width: 8rem;
+    height: 8rem;
+    right: 2rem;
     background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .chat-bot {
+        padding: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        right: 1rem;
+    }
+
+    .disclaimer {
+        margin-left: 1rem;
+        margin-right: 8rem;
+    }
 }
 </style>
