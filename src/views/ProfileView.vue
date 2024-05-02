@@ -105,7 +105,6 @@ const navigateTo = (path: string) => {
 .profile-section {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     align-self: stretch;
     background-color: var(--panel-background-color);
     overflow: hidden;

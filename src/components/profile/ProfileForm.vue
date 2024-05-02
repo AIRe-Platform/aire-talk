@@ -127,10 +127,8 @@ const activateField = (id: string) => {
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
                 <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="busy"></textarea>
-
                 <div class="edit-icon margin-left" @click.prevent="activateField('bio')" :disabled="busy">
                 </div>
-
             </div>
         </span>
         <div class="form-item error-message" v-if="error">
@@ -152,6 +150,7 @@ const activateField = (id: string) => {
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
+    overflow: hidden;
     gap: 2rem;
 }
 
@@ -160,20 +159,50 @@ const activateField = (id: string) => {
     flex-direction: row;
     flex-basis: calc(50% - 2rem);
     align-items: center;
+    gap: 0.5rem;
+
+    &>.form-label {
+        flex-basis: 20%;
+    }
+
+    &>.form-input {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-grow: 1;
+
+        &>:first-child {
+            width: 50%;
+            flex-grow: 1;
+        }
+    }
 }
 
 .margin-left {
     margin-left: 0.5rem;
 }
 
-.form-label {
-    width: 25%;
-}
-
 .form-item-wide {
-    width: 100%;
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
+    flex-basis: 100%;
+    gap: 0.5rem;
+
+    &>.form-label {
+        flex-basis: 10%;
+    }
+
+    .form-input-textarea {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+
+        &>:first-child {
+            width: 50%;
+            flex-grow: 1;
+        }
+    }
 }
 
 .edit-icon {
@@ -181,28 +210,6 @@ const activateField = (id: string) => {
     width: 1.2rem;
     height: 1.2rem;
     background-size: cover;
-}
-
-.form-input {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    gap: 0.5rem;
-    width: 45%;
-    align-items: center;
-
-    input,
-    select,
-    textarea {
-        flex-grow: 1;
-        width: 50%;
-        height: 2rem;
-    }
-}
-
-.form-input-textarea {
-    width: 100%;
-    display: flex;
 }
 
 .form-buttons {

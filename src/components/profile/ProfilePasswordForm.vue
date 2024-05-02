@@ -100,7 +100,7 @@ const onChangePassword = (e: Event) => {
     padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 1rem;
-    background-color: var(--background-color);
+    background-color: var(--panel-menu-background-color);
 }
 
 .error-message {
