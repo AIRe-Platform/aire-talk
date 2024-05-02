@@ -161,6 +161,7 @@ select {
     border: 1px solid var(--border-color);
     background-color: var(--background-color);
     transition: all 0.1s;
+    font-family: var(--font-family);
     font-size: var(--font-medium);
 
     &:hover,
