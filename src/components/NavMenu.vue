@@ -157,6 +157,7 @@ const showLogout = async () => {
     height: 100%;
     margin: 0rem;
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
+    position: absolute;
 }
 
 .section-separator {
