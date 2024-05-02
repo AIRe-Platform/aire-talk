@@ -5,6 +5,7 @@ import { UIFontSize, UIPanels, UISettings, UIState } from "@/context/ui";
 import Panel from "./Panel.vue";
 import ISO6391, { LanguageCode } from 'iso-639-1';
 import ThemeSwitch from "./ThemeSwitch.vue";
+import SectionSeparator from "./SectionSeparator.vue";
 
 
 const setLang = (e: Event) => {
@@ -30,9 +31,7 @@ const onClickOutside = (e: Event) => {
         <div class="settings-header">
             {{ $t(l.settings_title) }}
         </div>
-        <svg class="nav-separator">
-            <line x1="00" y1="00" x2="250" y2="00" />
-        </svg>
+        <SectionSeparator />
         <div class="settings-item">
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
             <select id="settings-language" @change="setLang" :value="$i18n.locale">
@@ -41,13 +40,9 @@ const onClickOutside = (e: Event) => {
                 </option>
             </select>
         </div>
-        <svg class="nav-separator">
-            <line x1="00" y1="00" x2="250" y2="00" />
-        </svg>
+        <SectionSeparator />
         <ThemeSwitch />
-        <svg class="nav-separator">
-            <line x1="00" y1="00" x2="250" y2="00" />
-        </svg>
+        <SectionSeparator />
         <div class="settings-item">
             <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
             <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
@@ -70,7 +65,7 @@ const onClickOutside = (e: Event) => {
     z-index: 8;
     padding: 1rem 2rem;
     width: 12rem;
-    height: 25rem;
+    gap: 1rem;
     font-weight: bold;
 }
 
@@ -88,15 +83,6 @@ const onClickOutside = (e: Event) => {
 
 .button-close {
     margin-top: 1rem;
-}
-
-.nav-separator {
-    border: 0;
-    height: 1rem;
-    padding: 1rem;
-    stroke: var(--dividers);
-    stroke-width: 4px;
-    stroke-dasharray: 2, 15;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

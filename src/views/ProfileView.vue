@@ -73,18 +73,6 @@ const navigateTo = (path: string) => {
     top: 1rem;
 }
 
-.profile-separator {
-    border: 0;
-    height: 1rem;
-    padding: 1rem;
-    margin: 1rem;
-    stroke: var(--dividers);
-    stroke-width: 4px;
-    stroke-dasharray: 2, 15;
-    width: 85%;
-
-}
-
 .profile-header {
     display: flex;
     flex-direction: column;
@@ -94,6 +82,11 @@ const navigateTo = (path: string) => {
     border-color: var(--accent-primary-color);
     width: 85%;
     padding-top: 2rem;
+}
+
+.section-separator {
+    width: 85%;
+    align-self: center;
 }
 
 .profile-logo {

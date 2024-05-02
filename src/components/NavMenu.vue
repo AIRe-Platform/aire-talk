@@ -159,14 +159,11 @@ const showLogout = async () => {
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
 }
 
-.nav-separator {
-    border: 0;
-    height: 1rem;
-    padding: 1rem;
-    margin: 1rem;
-    stroke: var(--dividers);
-    stroke-width: 4px;
-    stroke-dasharray: 2, 15;
+.section-separator {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    align-self: center;
+    width: 80%;
 }
 
 .nav-menu-open {

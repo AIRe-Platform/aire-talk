@@ -10,8 +10,7 @@ const onSwitchTheme = (dark: boolean) => {
 
 <template>
     <div class="theme-container">
-        <p> Color mode</p>
-
+        <p class="theme-switch-label"> Color mode</p>
         <div class="theme-switch">
             <font-awesome-icon icon="fa-solid fa-sun" />
             <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme" />
@@ -25,6 +24,10 @@ const onSwitchTheme = (dark: boolean) => {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.theme-switch-label {
+    margin: 0;
 }
 
 .theme-switch {
