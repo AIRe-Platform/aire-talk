@@ -108,4 +108,32 @@ const navigateTo = (path: string) => {
     margin-top: 10rem;
     text-align: center;
 }
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+
+    #start-view {
+        background-size: cover;
+    }
+
+    .start-container {
+        font-size: var(--font-small);
+        width: 100%;
+        height: 100%;
+        background-color: unset;
+        border-left: unset;
+        border-right: unset;
+    }
+
+    .chat-bot {
+        padding: 4rem;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .start-footer {
+        padding: 0rem 2rem;
+        margin-top: 7rem;
+        font-size: xx-small;
+    }
+}
 </style>

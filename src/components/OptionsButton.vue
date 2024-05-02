@@ -6,31 +6,30 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="options-button" :class="{ 'options-button-active': props.open }">
-        <div class="options-icon">
-            <font-awesome-icon icon="fa-solid fa-sliders" />
+    <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
+
+        <div class="xmark-icon">
         </div>
+
     </div>
 </template>
 
 <style scoped>
 .options-button {
-    display: none;
     position: absolute;
     align-items: center;
     justify-content: center;
 
     padding: 0.5rem;
-    right: 0.5rem;
-    top: 0.5rem;
-    width: 2.2rem;
-    height: 2rem;
-    z-index: 1;
+    right: 2.5rem;
+    top: 1.5rem;
+    width: 0rem;
+    height: 1rem;
+    z-index: 3;
 
     background-color: var(--panel-background-color);
     border-radius: 1rem;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 5px var(--shadow-color);
+
     transition: color .2s;
     cursor: pointer;
 
@@ -43,17 +42,13 @@ const props = defineProps<{
     color: var(--accent-primary-color);
 }
 
-.options-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.xmark-icon {
+    background-image: url(/src/assets/icons/aire-icon-xmark.svg);
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: cover;
+    position: absolute;
 
-    width: 40px;
-    height: 30px;
-
-    * {
-        height: 80%;
-    }
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

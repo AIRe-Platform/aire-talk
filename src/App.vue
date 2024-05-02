@@ -43,7 +43,7 @@ setTimeout(() => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-
+    position: relative;
 }
 
 .main-content {
@@ -53,6 +53,7 @@ setTimeout(() => {
     overflow: auto;
     background-color: var(--background-color);
     background-image: var(--back-ground-texture);
+    background-size: cover;
 }
 
 .main-panels {
@@ -80,9 +81,9 @@ setTimeout(() => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
-        margin: 0.2rem;
-        margin-top: 4rem;
+        font-size: small;
     }
+
 
     .main-panels {
         top: 4rem;

@@ -9,8 +9,10 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
+import { UIState } from '@/context/ui';
 
 const showSideBar = ref(false);
+let casa = ref();
 
 const canRevert = (msg: ChatMessage) => {
     const lastMessageId = Chat.messages[Chat.messages.length - 1].id;
@@ -36,8 +38,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <OptionsButton @click="toggleSidebar" :open="showSideBar" />
-    <div class="chat-view">
+    <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(Chat)" />
+    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
                 <template v-if="!msg.hidden">
@@ -77,6 +79,10 @@ onMounted(() => {
 .chat-view-row {
     display: flex;
     padding: 0rem 3rem;
+}
+
+.nav-menu-open {
+    filter: blur(2px);
 }
 
 .chat-side-panels {
@@ -167,13 +173,12 @@ onMounted(() => {
     }
 
     .chat-view-row {
-        display: block;
+        display: flex;
         padding: unset;
     }
 
     .chat-view-content-left {
         justify-content: flex-start;
-        width: unset;
         border-right: none;
     }
 
@@ -181,6 +186,7 @@ onMounted(() => {
         width: unset;
         justify-content: flex-end;
         border-right: none;
+
     }
 }
 </style>

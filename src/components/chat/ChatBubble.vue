@@ -166,5 +166,9 @@ if (props.message.isError)
         max-width: 17rem;
         max-height: 12rem;
     }
+
+    .chat-bubble-content {
+        font-size: var(--font-small);
+    }
 }
 </style>

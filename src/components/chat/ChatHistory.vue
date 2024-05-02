@@ -176,6 +176,7 @@ const onClickOutside = (e: Event) => {
     box-shadow: 0 0 5px var(--shadow-color);
     overflow: hidden;
     margin: 0;
+    margin-left: 15.5rem;
 }
 
 .trash-icon {
@@ -284,6 +285,7 @@ const onClickOutside = (e: Event) => {
         z-index: 10;
         padding: 0.5rem;
         max-height: 80%;
+        margin-left: unset;
     }
 }
 </style>

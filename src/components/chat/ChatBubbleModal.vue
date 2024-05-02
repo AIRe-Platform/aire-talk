@@ -13,7 +13,7 @@ const close = (e: Event) => {
     props.onClose()
 }
 </script>
-  
+
 <template>
     <transition name="modal-animation">
         <div v-show="active" class="modal">
@@ -22,11 +22,13 @@ const close = (e: Event) => {
                     <div class="modal-component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1>{{ props.parent.role !== 'user' ? $t(props.parent.sender) : props.parent.sender }}</h1>
+                                <h1>{{ props.parent.role !== 'user' ? $t(props.parent.sender) : props.parent.sender }}
+                                </h1>
                             </div>
                             <div class="modal-body">
                                 <p v-if="props.parent.message">
-                                    {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message }}
+                                    {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message
+                                    }}
                                 </p>
                                 <div class="modal-body-image" v-if="props.parent.image">
                                     <img v-bind:src="props.parent.image" class="chat-message-image-contain">
@@ -38,16 +40,16 @@ const close = (e: Event) => {
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-button" @click="close">
-                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                        <div class="xmark-icon" @click="close">
                         </div>
+
                     </div>
                 </div>
             </transition>
         </div>
     </transition>
 </template>
-  
+
 <style lang="scss" scoped>
 $primary-color: var(--panel-background-color);
 $secundary-color: var(--background-color);
@@ -55,6 +57,16 @@ $secundary-color: var(--background-color);
 .modal-component {
     display: flex;
     justify-content: space-between;
+}
+
+.xmark-icon {
+    background-image: url(/src/assets/icons/aire-icon-xmark.svg);
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: cover;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
 }
 
 .modal-body-image {

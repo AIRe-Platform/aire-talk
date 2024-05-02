@@ -51,6 +51,10 @@ const clearKeywords = () => {
         <div class="summary-title">
             {{ $t(l.summary_chag_log_title) }}
         </div>
+        
+       <!--  <div class="xmark-icon" @click="navigateTo('/chat')">
+            </div> -->
+
         <Spinner v-if="busy" />
         <template v-if="!busy">
             <div class="summary-text" v-if="Chat.current.summary">

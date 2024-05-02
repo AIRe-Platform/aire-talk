@@ -8,7 +8,8 @@ import ThemeSwitch from "./ThemeSwitch.vue";
 import SectionSeparator from "./SectionSeparator.vue";
 
 
-const setLang = (e: Event) => {
+const setLang = async (e: Event) => {
+
     const el = e.target as HTMLSelectElement;
     setUILanguage(el.value as LanguageCode);
     el.blur();
@@ -34,7 +35,7 @@ const onClickOutside = (e: Event) => {
         <SectionSeparator />
         <div class="settings-item">
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
-            <select id="settings-language" @change="setLang" :value="$i18n.locale">
+            <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">
                     {{ ISO6391.getNativeName(lang) }} ({{ ISO6391.getName(lang) }})
                 </option>
@@ -67,12 +68,17 @@ const onClickOutside = (e: Event) => {
     width: 12rem;
     gap: 1rem;
     font-weight: bold;
+    margin-left: 15rem;
 }
 
 .settings-header {
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
 
 .settings-item {
@@ -88,6 +94,7 @@ const onClickOutside = (e: Event) => {
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
         width: 100%;
+        margin-left: 15rem;
     }
 }
 </style>

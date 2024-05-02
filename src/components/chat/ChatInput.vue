@@ -24,13 +24,15 @@ function submit() {
 <template>
     <div class="chat-input">
         <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse, 'chat-bot-finish': Chat.hasFinished }">
+
+        </div>
+        <div class="chat-input-header">
+
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
-
                 <div class="sliders-icon">
                 </div>
-
             </div>
         </div>
         <div class="chat-text-input">
@@ -53,17 +55,25 @@ function submit() {
     flex-direction: column;
     gap: 1rem;
     border-radius: 1rem 1rem 0 0;
-    box-shadow: 0 0 5px var(--shadow-color);
+    box-shadow: 0 0 5px var(--box-stroke);
     margin: 0 5px 0 5px;
     padding: 1rem;
     background-color: var(--panel-background-color);
     z-index: 2;
+    position: relative;
 }
 
 .chat-text-input {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+}
+
+.chat-input-header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    align-items: center;
 }
 
 .sliders-icon {
@@ -89,15 +99,14 @@ function submit() {
 }
 
 .chat-bot {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
+    width: 6rem;
+    top: 2rem;
+    right: 45%;
     height: 6rem;
     margin-top: -4.6rem;
     overflow: hidden;
-
-    background-image: url("@/assets/images/aire-bot.png");
+    position: absolute;
+    background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -125,6 +134,7 @@ function submit() {
     cursor: pointer;
     transition: color .25s;
     padding: 0.2rem;
+    color: var(--button-color);
 
     &:hover {
         color: var(--accent-primary-color);
@@ -143,7 +153,31 @@ function submit() {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-options-button {
-        display: none;
+        position: absolute;
+        right: -1rem;
+        top: -0.5rem;
+    }
+
+    .chat-bot {
+        height: 6rem;
+        top: 1rem;
+        right: 45%;
+    }
+}
+
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
+    .chat-options-button {
+        padding-top: 0rem;
+        position: absolute;
+        right: -1rem;
+        top: -0.7rem;
+    }
+
+    .chat-bot {
+        height: 4rem;
+        top: 2rem;
+        right: 36%;
     }
 }
 </style>

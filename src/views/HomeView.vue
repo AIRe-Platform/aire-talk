@@ -98,7 +98,8 @@ onMounted(async () => {
     width: 100%;
     height: 100%;
     background-image: var(--back-ground-texture);
-    color: var(--title-text)
+    color: var(--title-text);
+    background-size: cover;
 }
 
 .home-container {
@@ -188,6 +189,43 @@ onMounted(async () => {
     .disclaimer {
         margin-left: 1rem;
         margin-right: 1rem;
+    }
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .home-header {
+        background-size: cover;
+        padding-top: 5rem;
+        padding-bottom: 7rem;
+    }
+
+    .aire-logo {
+        width: 12rem;
+    }
+
+    .get-started {
+        width: 216.32px;
+        height: 55px;
+        border-radius: 20px;
+
+        font-size: var(--font-medium);
+        box-shadow: 0px 1px var(--shadow-color);
+        border: unset;
+    }
+
+    .quick-nav {
+        margin: 0rem 0;
+    }
+
+    .home-footer {
+        margin-top: 3rem;
+        font-size: xx-small;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .chat-bot {
+        display: none;
     }
 }
 </style>
