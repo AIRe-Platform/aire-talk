@@ -30,7 +30,10 @@ export const router = createRouter({
             path: "/home",
             component: HomeView,
             name: "Home",
-            meta: { title: l.nav_home },
+            meta: { 
+                title: l.nav_home,
+                require_login: true
+            },
         },
         {
             path: "/login",

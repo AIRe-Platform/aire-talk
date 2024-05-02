@@ -58,14 +58,13 @@ const navigateTo = (path: string) => {
             </div>
 
             <div class="quick-nav">
-                <button class="get-started" @click="newChat()" v-if="Login.user">
+                <button class="get-started" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </button>
-                <button class="get-started" @click="openLastChat()" v-if="Login.user">
+                <button class="get-started" @click="openLastChat()">
                     {{ $t(l.home_continue_chat) }}
                 </button>
-                <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout"
-                    v-if="Login.user">
+                <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </button>
             </div>
