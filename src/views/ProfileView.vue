@@ -6,6 +6,7 @@ import ProfileConnections from "@/components/profile/ProfileConnections.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import { router } from "@/router";
+import SectionSeparator from "@/components/SectionSeparator.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -30,21 +31,15 @@ const navigateTo = (path: string) => {
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
                 <ProfileForm />
             </div>
-            <svg class="profile-separator">
-                <line x1="00" y1="00" x2="1000" y2="00" />
-            </svg>
+            <SectionSeparator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
                 <ProfileConnections />
             </div>
-            <svg class="profile-separator">
-                <line x1="00" y1="00" x2="1000" y2="00" />
-            </svg>
+            <SectionSeparator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
                 <ProfilePasswordForm />
             </div>
-            <svg class="profile-separator">
-                <line x1="00" y1="00" x2="1000" y2="00" />
-            </svg>
+            <SectionSeparator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
                 <ProfileDeletionForm />
             </div>
