@@ -2,7 +2,7 @@
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { Login, logout } from "@/context/login";
 import { getAllChats, openChat, createNewChat } from "@/context/chat";
@@ -10,24 +10,25 @@ import { getAllChats, openChat, createNewChat } from "@/context/chat";
 const state = reactive<{
     showConfirmLogout: boolean,
     showYouAreOutMessage: boolean,
+    showLastChatButton: boolean,
 }>({
     showConfirmLogout: false,
     showYouAreOutMessage: false,
+    showLastChatButton: false
 });
 
 const onConfirmLogout = async () => {
-
     state.showConfirmLogout = false;
 
     setTimeout(() => {
         state.showYouAreOutMessage = true;
     }, 300);
 }
+
 const newChat = async () => {
     await createNewChat();
     navigateTo("/chat");
 };
-
 
 const showLogout = async () => {
     state.showYouAreOutMessage = false;
@@ -35,16 +36,25 @@ const showLogout = async () => {
     router.push("/");
 }
 
-const openLastChat = async () => {
+const getLastChatId = async () => {
     const chats = await getAllChats();
-    const open = await openChat(chats[0].id);
-    if (open)
+    return chats[0]?.id;
+}
+
+const openLastChat = async () => {
+    const last = await getLastChatId();
+    if (await openChat(last))
         router.push("/chat");
 }
+
 const navigateTo = (path: string) => {
     router.push(path)
 }
 
+onMounted(async () => {
+    const last = await getLastChatId();
+    state.showLastChatButton = (last !== undefined);
+})
 </script>
 
 <template>
@@ -61,7 +71,7 @@ const navigateTo = (path: string) => {
                 <button class="get-started" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </button>
-                <button class="get-started" @click="openLastChat()">
+                <button class="get-started" @click="openLastChat()" v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </button>
                 <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout">
