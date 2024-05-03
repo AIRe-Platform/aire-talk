@@ -27,7 +27,7 @@ const state = reactive<{
 
 const toggleChatHistoryMenu = () => {
     /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
-    console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
+    //console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
     UIState.panels.add(UIPanels.ChatHistory);
 };
 
