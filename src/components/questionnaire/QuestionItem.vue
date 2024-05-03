@@ -29,14 +29,11 @@ const props = defineProps<{ message: ChatMessage }>()
 }
 
 .questionnaire-item {
-    width: 100%;
     display: block;
     align-self: center;
     justify-self: center;
 
-    margin: auto;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin: 0.5rem 1rem 0.5rem 1rem;
     padding: 0.5rem 1rem;
     max-width: 80%;
 
