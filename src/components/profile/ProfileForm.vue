@@ -206,7 +206,7 @@ const activateField = (id: string) => {
 }
 
 .edit-icon {
-    background-image: url("@/assets/icons/aire-icon-edit.svg");
+    background-image: url("@/assets/icons/edit-default.svg");
     width: 1.2rem;
     height: 1.2rem;
     background-size: cover;

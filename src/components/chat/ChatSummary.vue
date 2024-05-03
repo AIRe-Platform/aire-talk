@@ -99,7 +99,7 @@ const clearKeywords = () => {
 }
 
 .update-icon {
-    background-image: url("@/assets/icons/aire-icon-update.png");
+    background-image: url("@/assets/icons/update-default.png");
     width: 0.7rem;
     height: 0.7rem;
     background-size: cover;
