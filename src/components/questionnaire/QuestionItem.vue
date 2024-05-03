@@ -9,7 +9,7 @@ const props = defineProps<{ message: ChatMessage }>()
 <template>
     <div :id="props.message.id" class="questionnaire-item" v-if="props.message.question">
         <div class="questionnaire-question">
-            <h3 class="questionnaire-title">{{ $t(l.questionnaire) }}<i class="icon questionnaire-question"></i></h3>
+            <h3 class="questionnaire-title">{{ $t(l.questionnaire) }}<i class="icon questionnaire-question-default"></i></h3>
             {{ props.message.question.question }}
         </div>
     </div>
@@ -17,7 +17,7 @@ const props = defineProps<{ message: ChatMessage }>()
 
 <style scoped>
 
-.icon.questionnaire-question {
+.icon.questionnaire-question-default {
     margin-left: .5rem;
     height: 1.5rem;
     width: 1.5rem;

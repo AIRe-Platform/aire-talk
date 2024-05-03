@@ -110,8 +110,8 @@
     background-image: url("@/assets/icons/play-video-light.svg");
 }
 
-.theme-default .icon.questionnaire-answer {
-    background-image: url("@/assets/icons/questionnaire-answer.svg");
+.theme-default .icon.questionnaire-answer-default {
+    background-image: url("@/assets/icons/questionnaire-answer-default.svg");
 }
 
 .theme-default .icon.questionnaire-question-default {

@@ -30,7 +30,7 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
 <template>
     <div :id="props.message.id" class="questionnaire-item" v-if="props.message.question">
         <div class="question-answer-title">
-            <h3 class="question-answer">{{ $t(l.question_answer) }}<i class="icon questionnaire-answer"></i></h3>
+            <h3 class="question-answer">{{ $t(l.question_answer) }}<i class="icon questionnaire-answer-default"></i></h3>
         </div>
         <QuestionCheckbox v-if="props.message.question.type == AireQuestionOptionType.Checkbox"
             :message_id="props.message.id" :options="(props.message.question.options as AireQuestionOptionCheckbox)"
@@ -57,7 +57,7 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
     text-align: center;
 }
 
-.icon.questionnaire-answer {
+.icon.questionnaire-answer-default {
     margin-left: .5rem;
     height: 1.5rem;
     width: 1.5rem;
