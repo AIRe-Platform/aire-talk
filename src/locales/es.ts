@@ -188,6 +188,11 @@ const es: Locale = {
         '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion:
         "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    questionnaire: "Questionnaire",
+    questionnaire_start: "Start of questionnaire",
+    questionnaire_explanation: 
+        "The following questions are being recorded for analysis",
+    question_answer: "Your answer",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
