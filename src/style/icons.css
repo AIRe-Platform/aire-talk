@@ -2,130 +2,132 @@
     background-repeat: no-repeat;
 }
 
-.icon.frontpage-button {
+.theme-default .icon.frontpage-button {
     background-image: url("@/assets/icons/frontpage-button-default.svg");
 }
 
-.icon.back-button {
+.theme-default .icon.back-button {
     background-image: url("@/assets/icons/back-button-default.svg");
 }
 
-.icon.close-window {
+.theme-default .icon.close-window {
     background-image: url("@/assets/icons/close-window-default.svg");
 }
 
-.icon.content-exercise {
+.theme-default .icon.content-exercise {
     background-image: url("@/assets/icons/content-exercise-default.svg");
 }
 
-.icon.content-image {
+.theme-default .icon.content-image {
     background-image: url("@/assets/icons/content-image-default.svg");
 }
 
-.icon.content-video {
+.theme-default .icon.content-video {
     background-image: url("@/assets/icons/content-video-default.svg");
 }
 
-.icon.delete-bin {
+.theme-default .icon.delete-bin {
     background-image: url("@/assets/icons/delete-bin-default.svg");
+    width: 2rem;
+    height: 2.7rem;
 }
 
-.icon.chat-option-desktop {
+.theme-default .icon.chat-option-desktop {
     background-image: url("@/assets/icons/chat-option-default-desktop.svg");
 }
 
-.icon.download {
+.theme-default .icon.download {
     background-image: url("@/assets/icons/download-default.svg");
 }
 
-.icon.edit {
+.theme-default .icon.edit {
     background-image: url("@/assets/icons/edit-default.svg");
 }
 
-.icon.info {
+.theme-default .icon.info {
     background-image: url("@/assets/icons/info-default.svg");
 }
 
-.icon.chat-history-dark-mobile {
+.theme-dark .icon.chat-history-dark-mobile {
     background-image: url("@/assets/icons/chat-history-dark-mobile.svg");
 }
 
-.icon.chat-history-light-mobile {
+.theme-default .icon.chat-history-light-mobile {
     background-image: url("@/assets/icons/chat-history-light-mobile.svg");
 }
 
-.icon.catalogue-content-dark-mobile {
+.theme-dark .icon.catalogue-content-dark-mobile {
     background-image: url("@/assets/icons/catalogue-content-dark-mobile.svg");
 }
 
-.icon.catalogue-content-light-mobile {
+.theme-default .icon.catalogue-content-light-mobile {
     background-image: url("@/assets/icons/catalogue-content-light-mobile.svg");
 }
 
-.icon.main-menu-dark-mobile {
+.theme-dark .icon.main-menu-dark-mobile {
     background-image: url("@/assets/icons/main-menu-dark-mobile.svg");
 }
 
-.icon.main-menu-light-mobile {
+.theme-default .icon.main-menu-light-mobile {
     background-image: url("@/assets/icons/main-menu-light-mobile.svg");
 }
 
-.icon.new-chat-dark-mobile {
+.theme-dark .icon.new-chat-dark-mobile {
     background-image: url("@/assets/icons/new-chat-dark-mobile.svg");
 }
 
-.icon.new-chat-light-mobile {
+.theme-default .icon.new-chat-light-mobile {
     background-image: url("@/assets/icons/new-chat-light-mobile.svg");
 }
 
-.icon.settings-dark-mobile {
+.theme-dark .icon.settings-dark-mobile {
     background-image: url("@/assets/icons/settings-dark-mobile.svg");
 }
 
-.icon.settings-light-mobile {
+.theme-default .icon.settings-light-mobile {
     background-image: url("@/assets/icons/settings-light-mobile.svg");
 }
 
-.icon.tilt-mobile-default {
+.theme-default .icon.tilt-mobile-default {
     background-image: url("@/assets/icons/tilt-mobile-default.svg");
 }
 
-.icon.user-profile-dark-mobile {
+.theme-dark .icon.user-profile-dark-mobile {
     background-image: url("@/assets/icons/user-profile-dark-mobile.svg");
 }
 
-.icon.user-profile-light-mobile {
+.theme-default .icon.user-profile-light-mobile {
     background-image: url("@/assets/icons/user-profile-light-mobile.svg");
 }
 
-.icon.play-video-dark {
+.theme-dark .icon.play-video-dark {
     background-image: url("@/assets/icons/play-video-dark.svg");
 }
 
-.icon.play-video-light {
+.theme-default .icon.play-video-light {
     background-image: url("@/assets/icons/play-video-light.svg");
 }
 
-.icon.questionnaire-answer {
+.theme-default .icon.questionnaire-answer {
     background-image: url("@/assets/icons/questionnaire-answer.svg");
 }
 
-.icon.questionnaire-question-default {
+.theme-default .icon.questionnaire-question-default {
     background-image: url("@/assets/icons/questionnaire-question-default.svg");
 }
 
-.icon.speech-to-text-dark {
+.theme-dark .icon.speech-to-text-dark {
     background-image: url("@/assets/icons/speech-to-text-dark.svg");
 }
 
-.icon.speech-to-text-default {
+.theme-default .icon.speech-to-text-default {
     background-image: url("@/assets/icons/speech-to-text-default.svg");
 }
 
-.icon.summary-switch-default {
+.theme-default .icon.summary-switch-default {
     background-image: url("@/assets/icons/summary-switch-default.svg");
 }
 
-.icon.update-default {
+.theme-default .icon.update-default {
     background-image: url("@/assets/icons/update-default.svg");
 }
