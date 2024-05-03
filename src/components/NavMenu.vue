@@ -281,7 +281,7 @@ const showLogout = async () => {
     }
 
     .chat-history-icon {
-        background-image: url(/src/assets/icons/aire-icon-chat-history.svg);
+        background-image: url("@/assets/icons/aire-icon-chat-history.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -289,7 +289,7 @@ const showLogout = async () => {
     }
 
     .chat-icon {
-        background-image: url(/src/assets/icons/aire-icon-mobile-new-chat-dark.svg);
+        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -297,7 +297,7 @@ const showLogout = async () => {
     }
 
     .new-chat-icon {
-        background-image: url(/src/assets/icons/aire-icon-mobile-new-chat-dark.svg);
+        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -305,7 +305,7 @@ const showLogout = async () => {
     }
 
     .profile-icon {
-        background-image: url(/src/assets/icons/aire-icon-profile.svg);
+        background-image: url("@/assets/icons/aire-icon-profile.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -313,7 +313,7 @@ const showLogout = async () => {
     }
 
     .preferences-icon {
-        background-image: url(/src/assets/icons/aire-icon-settings.svg);
+        background-image: url("@/assets/icons/aire-icon-settings.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;

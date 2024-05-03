@@ -178,12 +178,20 @@ onMounted(async () => {
 }
 
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
+    .home-header {
+        height: 20rem;
+    }
+
     .chat-bot {
         padding: 2rem;
         width: 2.5rem;
         height: 2.5rem;
         right: 1rem;
+    }
+
+    .aire-logo {
+        width: 16rem;
     }
 
     .disclaimer {
@@ -192,21 +200,21 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;
-        padding-bottom: 7rem;
+        height: 12rem;
     }
 
     .aire-logo {
-        width: 12rem;
+        width: 10rem;
     }
 
     .get-started {
-        width: 216.32px;
-        height: 55px;
-        border-radius: 20px;
+        width: 13rem;
+        height: 3rem;
+        border-radius: 1rem;
 
         font-size: var(--font-medium);
         box-shadow: 0px 1px var(--shadow-color);
