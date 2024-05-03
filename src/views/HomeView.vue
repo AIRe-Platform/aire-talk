@@ -19,22 +19,14 @@ const state = reactive<{
 
 const onConfirmLogout = async () => {
     state.showConfirmLogout = false;
-
-    setTimeout(() => {
-        state.showYouAreOutMessage = true;
-    }, 300);
+    await logout();
+    router.push("/");
 }
 
 const newChat = async () => {
     await createNewChat();
     navigateTo("/chat");
 };
-
-const showLogout = async () => {
-    state.showYouAreOutMessage = false;
-    await logout();
-    router.push("/");
-}
 
 const getLastChatId = async () => {
     const chats = await getAllChats();
@@ -87,9 +79,6 @@ onMounted(async () => {
     <OnboardingTopics v-if="Login.user" />
     <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
         {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
-    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
-        {{ $t(l.popup_logout_message) }}
     </ConfirmDialog>
 </template>
 

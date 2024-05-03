@@ -49,6 +49,7 @@ const en: Locale = {
     nav_signup: "Sign up",
     nav_theme: "Change theme",
     nav_preferences: "Settings",
+    nav_main_menu: "Main menu",
 
     profile_title: "User account",
     profile_label_first_name: "First Name",

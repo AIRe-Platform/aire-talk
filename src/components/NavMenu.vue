@@ -7,6 +7,7 @@ import { UIPanels, UIState, UISettings } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
+import { vOnClickOutside } from "@vueuse/components";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { reactive } from "vue";
 import SectionSeparator from "./SectionSeparator.vue";
@@ -38,8 +39,8 @@ const newChat = async () => {
 
 const navigateTo = (path: string) => {
     router.push(path);
-    if (useMobileLayout())
-        UIState.showMenu = false;
+
+    UIState.showMenu = false;
 };
 
 const toggleSettingsPanel = () => {
@@ -49,18 +50,27 @@ const toggleSettingsPanel = () => {
 const onConfirmLogout = async () => {
 
     state.showConfirmLogout = false;
-
-    setTimeout(() => {
-        state.showYouAreOutMessage = true;
-    }, 300);
-}
-
-const showLogout = async () => {
-    state.showYouAreOutMessage = false;
     await logout();
     router.push("/");
 }
 
+
+
+const handleClickOut = (e: Event) => {
+};
+/*
+    if (UIState.showMenu) {
+        console.log("Show this")
+        onOpen(e);
+        /*         if (UIState.panels.has(UIPanels.Settings))
+                    UIState.panels.delete(UIPanels.Settings); */
+/*  if (UIState.panels.has(UIPanels.ChatHistory))
+     UIState.panels.delete(UIPanels.ChatHistory);
+ UIState.showMenu = false; 
+
+}
+};
+*/
 </script>
 
 <template>
@@ -68,14 +78,10 @@ const showLogout = async () => {
         {{ $t(l.popup_confirm_logout) }}
     </ConfirmDialog>
 
-    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
-        {{ $t(l.popup_logout_message) }}
-    </ConfirmDialog>
-
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
     <div class="nav-menu"
         :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
-        <Panel class="nav-menu-bar">
+        <Panel class="nav-menu-bar" v-on-click-outside="handleClickOut">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
                 <div class="nav-logo" v-if="!UIState.isSomethingInMenuSelected">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
@@ -145,8 +151,8 @@ const showLogout = async () => {
                     </div>
                 </div>
                 <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
-                <div class="nav-item" @click="state.showConfirmLogout = !state.showConfirmLogout" v-if="Login.user">
-                    <div class="nav-link">{{ $t(l.nav_logout) }}</div>
+                <div class="nav-item" @click="navigateTo('/home')" v-if="Login.user">
+                    <div class="nav-link">{{ $t(l.nav_main_menu) }}</div>
                 </div>
             </div>
         </Panel>
