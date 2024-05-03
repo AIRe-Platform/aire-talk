@@ -8,7 +8,7 @@ const props = defineProps<{
 <template>
     <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
 
-        <div class="xmark-icon">
+        <div class="icon close-window">
         </div>
 
     </div>
@@ -40,15 +40,6 @@ const props = defineProps<{
 
 .options-button-active {
     color: var(--accent-primary-color);
-}
-
-.xmark-icon {
-    background-image: url(/src/assets/icons/close-window-default.svg);
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
-    position: absolute;
-
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

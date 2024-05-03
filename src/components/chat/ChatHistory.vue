@@ -153,7 +153,7 @@ const onClickOutside = (e: Event) => {
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <div class="trash-icon">
+                        <div class="icon delete-bin">
                         </div>
                     </div>
                 </div>
@@ -177,13 +177,6 @@ const onClickOutside = (e: Event) => {
     overflow: hidden;
     margin: 0;
     margin-left: 15.5rem;
-}
-
-.trash-icon {
-    background-image: url("@/assets/icons/delete-bin-default.svg");
-    width: 2rem;
-    height: 2.7rem;
-    background-size: cover;
 }
 
 .chat-history-busy {
@@ -257,7 +250,6 @@ const onClickOutside = (e: Event) => {
 .chat-history-item-date {
     font-size: var(--font-small);
     color: var(--chat-history-item-date);
-    /* font-family: sans-serif; */
     font-weight: 700;
 }
 
@@ -286,6 +278,10 @@ const onClickOutside = (e: Event) => {
         padding: 0.5rem;
         max-height: 80%;
         margin-left: 4rem;
+    }
+
+    .chat-history-item {
+        justify-content: flex-start;
     }
 }
 </style>

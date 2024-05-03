@@ -40,7 +40,7 @@ const close = (e: Event) => {
                                 </div>
                             </div>
                         </div>
-                        <div class="xmark-icon" @click="close">
+                        <div class="icon close-window" @click="close">
                         </div>
 
                     </div>
@@ -57,16 +57,6 @@ $secundary-color: var(--background-color);
 .modal-component {
     display: flex;
     justify-content: space-between;
-}
-
-.xmark-icon {
-    background-image: url(/src/assets/icons/close-window-default.svg);
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
 }
 
 .modal-body-image {

@@ -18,7 +18,7 @@ const navigateTo = (path: string) => {
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <div class="xmark-icon" @click="navigateTo('/chat')">
+            <div class="icon close-window xmark-icon" @click="navigateTo('/chat')">
             </div>
             <div class="profile-header">
                 <div class="profile-logo">
@@ -64,10 +64,6 @@ const navigateTo = (path: string) => {
 }
 
 .xmark-icon {
-    background-image: url(/src/assets/icons/close-window-default.svg);
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
     position: absolute;
     right: 1rem;
     top: 1rem;
