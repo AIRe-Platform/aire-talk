@@ -61,7 +61,7 @@ const onSubmitAnswer = () => {
 }
 
 .questionnaire-confirm-button {
-    border-color: var(--accent-primary-color);
+    border: 1px solid var(--border-color);
 }
 
 .text-input:read-only {
