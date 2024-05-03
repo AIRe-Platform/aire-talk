@@ -85,23 +85,23 @@ const onSubmitAnswer = () => {
 
 .questionnaire-answer-button {
     border: 1px solid var(--border-color);
-    background-color: var(--panel-background-color);
-
+    background-color: var(--button-color);
+    color: var(--button-text);
     transition: all .25s;
 }
 
 .questionnaire-answer-button-selected {
-    background-color: var(--accent-primary-color);
+    background-color: var(--button-color);
     color: var(--background-color);
 }
 
 .questionnaire-answer-button:disabled {
-    background-color: transparent;
+    background-color: var(--button-inactive);
     color: var(--border-color);
 }
 
 .questionnaire-answer-button-selected:disabled {
-    color: var(--accent-primary-color);
+    color: var(--button-text);
     border: 1px solid var(--accent-primary-color);
 }
 </style>
