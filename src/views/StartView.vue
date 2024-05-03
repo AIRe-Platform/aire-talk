@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
+import SectionSeparator from "@/components/SectionSeparator.vue";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -15,9 +16,7 @@ const navigateTo = (path: string) => {
                 </div>
                 <h1>{{ $t(l.start_greeting) }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
-                <svg class="line">
-                    <line x1="00" y1="00" x2="350" y2="00" />
-                </svg>
+                <SectionSeparator />
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
@@ -66,9 +65,9 @@ const navigateTo = (path: string) => {
 }
 
 .chat-bot {
-    padding: 6rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    padding: 4.5rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
     overflow: hidden;
     background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
@@ -93,8 +92,8 @@ const navigateTo = (path: string) => {
 }
 
 .get-started {
-    width: 216.32px;
-    height: 55px;
+    width: 15rem;
+    height: 3rem;
     border-radius: 20px;
     opacity: 0px;
     background: var(--button-gradient-color);
@@ -105,8 +104,9 @@ const navigateTo = (path: string) => {
 .start-footer {
     display: flex;
     padding: 0rem 3rem;
-    margin-top: 10rem;
+    margin-top: 8rem;
     text-align: center;
+    font-size: var(--font-small);
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
