@@ -71,8 +71,8 @@ const onSelect = async (id: string) => {
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
 
-    if (useMobileLayout())
-        UIState.showMenu = false;
+
+    UIState.showMenu = false;
 };
 
 const onConfirmDelete = () => {
@@ -180,7 +180,7 @@ const onClickOutside = (e: Event) => {
 }
 
 .trash-icon {
-    background-image: url("@/assets/icons/aire-icon-trash.svg");
+    background-image: url("@/assets/icons/delete-bin-default.svg");
     width: 2rem;
     height: 2.7rem;
     background-size: cover;
@@ -281,11 +281,11 @@ const onClickOutside = (e: Event) => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
-        width: 100%;
+        width: 80%;
         z-index: 10;
         padding: 0.5rem;
         max-height: 80%;
-        margin-left: unset;
+        margin-left: 4rem;
     }
 }
 </style>

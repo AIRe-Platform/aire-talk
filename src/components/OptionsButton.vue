@@ -43,7 +43,7 @@ const props = defineProps<{
 }
 
 .xmark-icon {
-    background-image: url(/src/assets/icons/aire-icon-xmark.svg);
+    background-image: url(/src/assets/icons/close-window-default.svg);
     width: 1.5rem;
     height: 1.5rem;
     background-size: cover;

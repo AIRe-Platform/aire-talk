@@ -3,11 +3,10 @@ import { l } from "@/locales";
 import { Login, logout } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import { UIPanels, UIState, UISettings } from "@/context/ui";
+import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
-import { vOnClickOutside } from "@vueuse/components";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { reactive } from "vue";
 import SectionSeparator from "./SectionSeparator.vue";
@@ -15,7 +14,7 @@ import SectionSeparator from "./SectionSeparator.vue";
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
+    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
 };
 
 const state = reactive<{
@@ -27,7 +26,7 @@ const state = reactive<{
 });
 
 const toggleChatHistoryMenu = () => {
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
+    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
     //console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
     UIState.panels.add(UIPanels.ChatHistory);
 };
@@ -57,20 +56,10 @@ const onConfirmLogout = async () => {
 
 
 const handleClickOut = (e: Event) => {
+    console.log("que es estpo", useMobileLayout());
 };
-/*
-    if (UIState.showMenu) {
-        console.log("Show this")
-        onOpen(e);
-        /*         if (UIState.panels.has(UIPanels.Settings))
-                    UIState.panels.delete(UIPanels.Settings); */
-/*  if (UIState.panels.has(UIPanels.ChatHistory))
-     UIState.panels.delete(UIPanels.ChatHistory);
- UIState.showMenu = false; 
 
-}
-};
-*/
+
 </script>
 
 <template>
@@ -81,7 +70,7 @@ const handleClickOut = (e: Event) => {
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
     <div class="nav-menu"
         :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
-        <Panel class="nav-menu-bar" v-on-click-outside="handleClickOut">
+        <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
                 <div class="nav-logo" v-if="!UIState.isSomethingInMenuSelected">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
@@ -95,7 +84,7 @@ const handleClickOut = (e: Event) => {
             <div class="nav-menu-list">
                 <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
                 <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
-        'nav-item-active': UIState.panels.has(
+        'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.ChatHistory
         ),
     }">
@@ -104,7 +93,7 @@ const handleClickOut = (e: Event) => {
                     </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Chat'
         ),
     }">
@@ -119,21 +108,21 @@ const handleClickOut = (e: Event) => {
                 </div>
                 <div class="nav-spacer"></div>
                 <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Login'
         ),
     }">
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Signup'
         ),
     }">
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Profile'
         ),
     }">
@@ -142,7 +131,7 @@ const handleClickOut = (e: Event) => {
                     </div>
                 </div>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
-        'nav-item-active': UIState.panels.has(
+        'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.Settings
         )
     }">
@@ -295,7 +284,7 @@ const handleClickOut = (e: Event) => {
     }
 
     .chat-icon {
-        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
+        background-image: url("@/assets/icons/new-chat-dark-mobile.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -303,7 +292,7 @@ const handleClickOut = (e: Event) => {
     }
 
     .new-chat-icon {
-        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
+        background-image: url("@/assets/icons/new-chat-dark-mobile.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;
@@ -319,7 +308,7 @@ const handleClickOut = (e: Event) => {
     }
 
     .preferences-icon {
-        background-image: url("@/assets/icons/aire-icon-settings.svg");
+        background-image: url("@/assets/icons/settings-dark-mobile.svg");
         width: 2rem;
         height: 2rem;
         background-size: cover;

@@ -29,7 +29,9 @@ const chatSummaryPanelEnabled = (chat: ChatContext) => {
 const hasPanels = (chat: ChatContext) => {
     return chatSummaryPanelEnabled(chat);
 }
-
+const closeNavMenu = () => {
+    UIState.showMenu = false;
+}
 onMounted(() => {
     showSideBar.value = !useMobileLayout();
     scrollChatToBottom()
@@ -38,7 +40,7 @@ onMounted(() => {
 
 <template>
     <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(Chat)" />
-    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }">
+    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }" @click="closeNavMenu">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="msg in Chat.messages" v-bind:key="msg.id">
                 <template v-if="!msg.hidden">
@@ -81,7 +83,7 @@ onMounted(() => {
 }
 
 .nav-menu-open {
-    /* filter: blur(2px); */
+    filter: blur(2px);
 }
 
 .chat-side-panels {
