@@ -10,6 +10,7 @@ import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
 import { UIState } from '@/context/ui';
+import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 
 const showSideBar = ref(false);
 
@@ -62,7 +63,20 @@ onMounted(() => {
                     </template>
                     <!-- If questionnaire item -->
                     <template v-if="msg.question">
-                        <QuestionItem :message="msg" />
+                        <div class="chat-view-row">
+                            <div class="chat-view-content-left">
+                            </div>
+                            <div class="chat-view-content-right">
+                                <QuestionItem :message="msg" />
+                            </div>
+                        </div>
+                        <div class="chat-view-row">
+                            <div class="chat-view-content-left">
+                                <QuestionAnswer :message="msg" />
+                            </div>
+                            <div class="chat-view-content-right">
+                            </div>
+                        </div>
                     </template>
                 </template>
             </template>

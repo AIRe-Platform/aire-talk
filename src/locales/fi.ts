@@ -178,6 +178,11 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
     confirm_questionnaire_completion:
         "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+    questionnaire: "Questionnaire",
+    questionnaire_start: "Start of questionnaire",
+    questionnaire_explanation: 
+        "The following questions are being recorded for analysis",
+    question_answer: "Your answer",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",

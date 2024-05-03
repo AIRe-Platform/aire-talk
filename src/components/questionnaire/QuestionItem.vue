@@ -1,58 +1,35 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import {
-    AireQuestionOptionCheckbox,
-    AireQuestionOptionNumber,
-    AireQuestionOptionOpen,
-    AireQuestionOptionRange,
-    AireQuestionOptionType
-} from "aire";
-import QuestionCheckbox from "@/components/questionnaire/QuestionCheckbox.vue";
-import QuestionRange from "@/components/questionnaire/QuestionRange.vue";
-import QuestionOpen from "@/components/questionnaire/QuestionOpen.vue";
-import QuestionNumber from "@/components/questionnaire/QuestionNumber.vue";
-import { ChatMessage, ChatState } from '@/models/chat';
-import { Chat } from '@/context/chat';
+import { ChatMessage } from '@/models/chat';
+import { l } from '@/locales';
 
 const props = defineProps<{ message: ChatMessage }>()
-const isReadonly = (state: ChatState, msg: ChatMessage) => {
-    if (!state.questionnaire)
-        return true;
-
-    if (msg.question?.questionnaire_id === "system")
-        return false;
-
-    return state.questionnaire.active_id !== msg.question?.questionnaire_id
-}
 </script>
 
 <template>
     <div :id="props.message.id" class="questionnaire-item" v-if="props.message.question">
         <div class="questionnaire-question">
+            <h3 class="questionnaire-title">{{ $t(l.questionnaire) }}<i class="icon questionnaire-question"></i></h3>
             {{ props.message.question.question }}
         </div>
-        <QuestionCheckbox v-if="props.message.question.type == AireQuestionOptionType.Checkbox"
-            :message_id="props.message.id" :options="(props.message.question.options as AireQuestionOptionCheckbox)"
-            :answer="props.message.question.answer" :readonly="isReadonly(Chat.current, props.message)" />
-        <QuestionRange v-if="props.message.question.type == AireQuestionOptionType.Range" :message_id="props.message.id"
-            :options="(props.message.question.options as AireQuestionOptionRange)" :answer="props.message.question.answer"
-            :readonly="isReadonly(Chat.current, props.message)" />
-        <QuestionOpen v-if="props.message.question.type == AireQuestionOptionType.Open" :message_id="props.message.id"
-            :options="(props.message.question.options as AireQuestionOptionOpen)" :answer="props.message.question.answer"
-            :readonly="isReadonly(Chat.current, props.message)" />
-        <QuestionNumber v-if="props.message.question.type == AireQuestionOptionType.Number" :message_id="props.message.id"
-            :options="(props.message.question.options as AireQuestionOptionNumber)" :answer="props.message.question.answer"
-            :readonly="isReadonly(Chat.current, props.message)" />
     </div>
 </template>
 
 <style scoped>
-.questionnaire-question {
-    font-weight: bold;
-    padding: 1rem;
+
+.icon.questionnaire-question {
+    margin-left: .5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: baseline;
 }
 
 .questionnaire-item {
+    width: 100%;
     display: block;
     align-self: center;
     justify-self: center;
@@ -63,7 +40,8 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
     padding: 0.5rem 1rem;
     max-width: 80%;
 
-    background-color: var(--ia-chat-box-background);
+    background-color: var(--question-background);
+    color: var(--button-text);
     box-shadow: 0 0 5px gray;
     line-height: 1.4rem;
     border-radius: 1rem;
