@@ -47,6 +47,7 @@ const fi: Locale = {
     nav_signup: "Luo tili",
     nav_theme: "Vaihda teema",
     nav_preferences: "Asetukset",
+    nav_main_menu: "Päävalikko",
 
     profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",

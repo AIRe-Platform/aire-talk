@@ -63,7 +63,7 @@ const isReadonly = (state: ChatState, msg: ChatMessage) => {
     padding: 0.5rem 1rem;
     max-width: 80%;
 
-    background-color: var(--chat-bubble-background-color);
+    background-color: var(--ia-chat-box-background);
     box-shadow: 0 0 5px gray;
     line-height: 1.4rem;
     border-radius: 1rem;

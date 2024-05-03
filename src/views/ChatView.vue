@@ -12,7 +12,6 @@ import useMobileLayout from "@/helpers/mobile";
 import { UIState } from '@/context/ui';
 
 const showSideBar = ref(false);
-let casa = ref();
 
 const canRevert = (msg: ChatMessage) => {
     const lastMessageId = Chat.messages[Chat.messages.length - 1].id;
@@ -82,7 +81,7 @@ onMounted(() => {
 }
 
 .nav-menu-open {
-    filter: blur(2px);
+    /* filter: blur(2px); */
 }
 
 .chat-side-panels {

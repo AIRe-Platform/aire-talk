@@ -49,6 +49,7 @@ const en: Locale = {
     nav_signup: "Sign up",
     nav_theme: "Change theme",
     nav_preferences: "Settings",
+    nav_main_menu: "Main menu",
 
     profile_title: "User account",
     profile_label_first_name: "First Name",
@@ -87,7 +88,7 @@ const en: Locale = {
     gender_female: "female",
     gender_other: "other",
 
-    profile_question_button: "Complete profile information",
+    profile_question_button: "Complete profile",
     profile_question_confirm:
         "Do you want to answer some questions about your personal information?",
     profile_question_completion:

@@ -43,6 +43,7 @@ export enum LocalizationKey {
     nav_signup = "nav_signup",
     nav_theme = "nav_theme",
     nav_preferences = "nav_preferences",
+    nav_main_menu = "nav_main_menu",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",

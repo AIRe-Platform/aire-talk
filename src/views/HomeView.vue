@@ -19,22 +19,14 @@ const state = reactive<{
 
 const onConfirmLogout = async () => {
     state.showConfirmLogout = false;
-
-    setTimeout(() => {
-        state.showYouAreOutMessage = true;
-    }, 300);
+    await logout();
+    router.push("/");
 }
 
 const newChat = async () => {
     await createNewChat();
     navigateTo("/chat");
 };
-
-const showLogout = async () => {
-    state.showYouAreOutMessage = false;
-    await logout();
-    router.push("/");
-}
 
 const getLastChatId = async () => {
     const chats = await getAllChats();
@@ -87,9 +79,6 @@ onMounted(async () => {
     <OnboardingTopics v-if="Login.user" />
     <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
         {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
-    <ConfirmDialog v-if="state.showYouAreOutMessage" @accept="showLogout" :hideDecline="true">
-        {{ $t(l.popup_logout_message) }}
     </ConfirmDialog>
 </template>
 
@@ -178,12 +167,20 @@ onMounted(async () => {
 }
 
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
+    .home-header {
+        height: 20rem;
+    }
+
     .chat-bot {
         padding: 2rem;
         width: 2.5rem;
         height: 2.5rem;
         right: 1rem;
+    }
+
+    .aire-logo {
+        width: 16rem;
     }
 
     .disclaimer {
@@ -192,21 +189,21 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;
-        padding-bottom: 7rem;
+        height: 12rem;
     }
 
     .aire-logo {
-        width: 12rem;
+        width: 10rem;
     }
 
     .get-started {
-        width: 216.32px;
-        height: 55px;
-        border-radius: 20px;
+        width: 13rem;
+        height: 3rem;
+        border-radius: 1rem;
 
         font-size: var(--font-medium);
         box-shadow: 0px 1px var(--shadow-color);
