@@ -14,7 +14,7 @@ import SectionSeparator from "./SectionSeparator.vue";
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
+    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
 };
 
 const state = reactive<{
@@ -26,8 +26,8 @@ const state = reactive<{
 });
 
 const toggleChatHistoryMenu = () => {
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
-    //console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
+    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
+    console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
     UIState.panels.add(UIPanels.ChatHistory);
 };
 
@@ -72,7 +72,8 @@ const handleClickOut = (e: Event) => {
         :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo" v-if="!UIState.isSomethingInMenuSelected">
+                <div class="nav-logo"
+                    v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
@@ -86,24 +87,32 @@ const handleClickOut = (e: Event) => {
                 <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.ChatHistory
-        ),
+        ), 'no-padding': UIState.isSomethingInMenuSelected
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_history) }}</div>
-                    <div class="chat-history-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_chat_history) }}</div>
+                    <div class="icon chat-history-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
                     </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Chat'
-        ),
+        ), 'no-padding': UIState.isSomethingInMenuSelected
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat) }}</div>
-                    <div class="chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_chat) }}</div>
+                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
                     </div>
                 </div>
-                <div class="nav-item" @click="newChat" v-if="Chat.id">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_new) }}</div>
-                    <div class="new-chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                <div class="nav-item" @click="newChat" :class="{
+        'no-padding': UIState.isSomethingInMenuSelected
+    }" v-if="Chat.id">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_chat_new) }}</div>
+                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
                     </div>
                 </div>
                 <div class="nav-spacer"></div>
@@ -124,24 +133,34 @@ const handleClickOut = (e: Event) => {
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Profile'
-        ),
+        ), 'no-padding': UIState.isSomethingInMenuSelected
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_profile) }}</div>
-                    <div class="profile-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_profile) }}</div>
+                    <div class="icon user-profile-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
                     </div>
                 </div>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
         'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.Settings
-        )
+        ), 'no-padding': UIState.isSomethingInMenuSelected
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_preferences) }}</div>
-                    <div class="preferences-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_preferences) }}</div>
+                    <div class="icon settings-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
                     </div>
                 </div>
                 <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
-                <div class="nav-item" @click="navigateTo('/home')" v-if="Login.user">
-                    <div class="nav-link">{{ $t(l.nav_main_menu) }}</div>
+                <div class="nav-item" @click="navigateTo('/home')" :class="{
+        'no-padding': UIState.isSomethingInMenuSelected
+    }" v-if="Login.user">
+                    <div class="nav-link"
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+        $t(l.nav_main_menu) }}</div>
+                    <div class="icon main-menu-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    </div>
                 </div>
             </div>
         </Panel>
@@ -313,6 +332,10 @@ const handleClickOut = (e: Event) => {
         height: 2rem;
         background-size: cover;
         position: absolute;
+    }
+
+    .no-padding {
+        padding: 0rem;
     }
 }
 </style>
