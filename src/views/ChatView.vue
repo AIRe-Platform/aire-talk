@@ -81,7 +81,7 @@ onMounted(() => {
 }
 
 .nav-menu-open {
-    filter: blur(2px);
+    /* filter: blur(2px); */
 }
 
 .chat-side-panels {
