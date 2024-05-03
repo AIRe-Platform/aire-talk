@@ -14,7 +14,7 @@ import SectionSeparator from "./SectionSeparator.vue";
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
+    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
 };
 
 const state = reactive<{
@@ -26,7 +26,7 @@ const state = reactive<{
 });
 
 const toggleChatHistoryMenu = () => {
-    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
+    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
     //console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
     UIState.panels.add(UIPanels.ChatHistory);
 };
