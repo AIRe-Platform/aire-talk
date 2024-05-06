@@ -70,9 +70,8 @@ const onSelect = async (id: string) => {
 
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
-
-
     UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
 };
 
 const onConfirmDelete = () => {

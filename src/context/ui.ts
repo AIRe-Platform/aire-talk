@@ -24,13 +24,13 @@ export interface UISettingsOptions {
 
 export interface UIStateOptions {
     showMenu: boolean;
-    isSomethingInMenuSelected: boolean;
+    isNavMenuCompressed: boolean;
     panels: Set<UIPanels>;
 }
 
 export const UIState = reactive<UIStateOptions>({
     showMenu: false,
-    isSomethingInMenuSelected: false,
+    isNavMenuCompressed: false,
     panels: new Set<UIPanels>(),
 });
 

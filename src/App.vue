@@ -86,8 +86,8 @@ setTimeout(() => {
 
 
     .main-panels {
-        top: 4rem;
-        bottom: 1rem;
+        top: -4rem;
+        bottom: 0rem;
         left: 0;
         right: 0;
 

@@ -9,11 +9,9 @@ import { getAllChats, openChat, createNewChat } from "@/context/chat";
 
 const state = reactive<{
     showConfirmLogout: boolean,
-    showYouAreOutMessage: boolean,
     showLastChatButton: boolean,
 }>({
     showConfirmLogout: false,
-    showYouAreOutMessage: false,
     showLastChatButton: false
 });
 

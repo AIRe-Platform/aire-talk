@@ -7,28 +7,33 @@ import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { reactive } from "vue";
 import SectionSeparator from "./SectionSeparator.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
+    if (!UIState.showMenu)
+        UIState.isNavMenuCompressed = false;
+    console.log("??", UIState.isNavMenuCompressed);
 };
 
 const state = reactive<{
     showConfirmLogout: boolean,
-    showYouAreOutMessage: boolean,
 }>({
     showConfirmLogout: false,
-    showYouAreOutMessage: false,
 });
 
 const toggleChatHistoryMenu = () => {
-    UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected;
-    console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
+    switchMenu();
     UIState.panels.add(UIPanels.ChatHistory);
+};
+
+const switchMenu = () => {
+    if (useMobileLayout()) {
+        if (!UIState.isNavMenuCompressed)
+            UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
+    }
 };
 
 const newChat = async () => {
@@ -40,40 +45,21 @@ const navigateTo = (path: string) => {
     router.push(path);
 
     UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
 };
 
 const toggleSettingsPanel = () => {
+    switchMenu();
     UIState.panels.add(UIPanels.Settings);
 };
-
-const onConfirmLogout = async () => {
-
-    state.showConfirmLogout = false;
-    await logout();
-    router.push("/");
-}
-
-
-
-const handleClickOut = (e: Event) => {
-    console.log("que es estpo", useMobileLayout());
-};
-
-
 </script>
 
 <template>
-    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
-        {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
-
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
-    <div class="nav-menu"
-        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
+    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo"
-                    v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">
+                <div class="nav-logo" v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
@@ -83,36 +69,36 @@ const handleClickOut = (e: Event) => {
                 </div>
             </div>
             <div class="nav-menu-list">
-                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
+                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
                 <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.ChatHistory
-        ), 'no-padding': UIState.isSomethingInMenuSelected
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_chat_history) }}</div>
-                    <div class="icon chat-history-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon chat-history-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Chat'
-        ), 'no-padding': UIState.isSomethingInMenuSelected
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_chat) }}</div>
-                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
                 <div class="nav-item" @click="newChat" :class="{
-        'no-padding': UIState.isSomethingInMenuSelected
+        'small-layout': UIState.isNavMenuCompressed
     }" v-if="Chat.id">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_chat_new) }}</div>
-                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
                 <div class="nav-spacer"></div>
@@ -133,33 +119,34 @@ const handleClickOut = (e: Event) => {
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
         'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Profile'
-        ), 'no-padding': UIState.isSomethingInMenuSelected
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_profile) }}</div>
-                    <div class="icon user-profile-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon user-profile-mobile margin-left"
+                        v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
         'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.Settings
-        ), 'no-padding': UIState.isSomethingInMenuSelected
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_preferences) }}</div>
-                    <div class="icon settings-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon settings-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
-                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
+                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
                 <div class="nav-item" @click="navigateTo('/home')" :class="{
-        'no-padding': UIState.isSomethingInMenuSelected
+        'small-layout': UIState.isNavMenuCompressed
     }" v-if="Login.user">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isSomethingInMenuSelected)">{{
+                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
         $t(l.nav_main_menu) }}</div>
-                    <div class="icon main-menu-mobile" v-if="useMobileLayout() && UIState.isSomethingInMenuSelected">
+                    <div class="icon main-menu-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
                     </div>
                 </div>
             </div>
@@ -273,16 +260,15 @@ const handleClickOut = (e: Event) => {
 
     .nav-menu {
         margin: 0;
+        font-size: var(--font-small);
     }
 
     .nav-menu-open {
         width: 65%;
         position: absolute;
-
     }
 
     .nav-menu-bar {
-
         align-items: center;
     }
 
@@ -294,48 +280,9 @@ const handleClickOut = (e: Event) => {
         width: 4.5rem;
     }
 
-    .chat-history-icon {
-        background-image: url("@/assets/icons/aire-icon-chat-history.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .chat-icon {
-        background-image: url("@/assets/icons/new-chat-dark-mobile.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .new-chat-icon {
-        background-image: url("@/assets/icons/new-chat-dark-mobile.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .profile-icon {
-        background-image: url("@/assets/icons/aire-icon-profile.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .preferences-icon {
-        background-image: url("@/assets/icons/settings-dark-mobile.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .no-padding {
+    .small-layout {
         padding: 0rem;
+        margin: 1rem;
     }
 }
 </style>

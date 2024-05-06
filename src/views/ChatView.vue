@@ -32,6 +32,8 @@ const hasPanels = (chat: ChatContext) => {
 }
 const closeNavMenu = () => {
     UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
+
 }
 onMounted(() => {
     showSideBar.value = !useMobileLayout();

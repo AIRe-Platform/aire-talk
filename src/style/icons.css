@@ -61,12 +61,14 @@
     background-image: url("@/assets/icons/chat-history-dark-mobile.svg");
     width: 2rem;
     height: 2rem;
+    transform: scale(1.4);
 }
 
 .theme-default .icon.chat-history-mobile {
     background-image: url("@/assets/icons/chat-history-light-mobile.svg");
     width: 2rem;
     height: 2rem;
+    transform: scale(1.4);
 }
 
 .theme-dark .icon.catalogue-content-mobile {
@@ -121,12 +123,14 @@
     background-image: url("@/assets/icons/user-profile-dark-mobile.svg");
     width: 2rem;
     height: 2rem;
+    margin-left: 0.38rem;
 }
 
 .theme-default .icon.user-profile-mobile {
     background-image: url("@/assets/icons/user-profile-light-mobile.svg");
     width: 2rem;
     height: 2rem;
+    margin-left: 0.38rem;
 }
 
 .theme-dark .icon.play-video {

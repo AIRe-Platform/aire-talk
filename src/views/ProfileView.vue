@@ -113,6 +113,7 @@ const navigateTo = (path: string) => {
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-view {
         padding: 2rem 0rem;
+        width: 95%;
     }
 
     .profile-section {
