@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
+import { UISettings } from "@/context/ui";
 
 const props = defineProps<{
     active: boolean,
@@ -16,14 +17,17 @@ const close = (e: Event) => {
 
 <template>
     <transition name="modal-animation">
-        <div v-show="active" class="modal">
+        <div v-show="active" class="modal" :class="{ 'small-screen': UISettings.screenSize == 'mobile-screen' }">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1>{{ props.parent.role !== 'user' ? $t(props.parent.sender) : props.parent.sender }}
+                                <h1 v-if="props.parent.role == 'user'">{{ $t(props.parent.sender) }}
                                 </h1>
+                                <div class="modal-logo" v-if="props.parent.role != 'user'">
+                                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                                </div>
                             </div>
                             <div class="modal-body">
                                 <p v-if="props.parent.message">
@@ -76,6 +80,24 @@ $secundary-color: var(--background-color);
     height: 20rem;
 }
 
+.modal-logo {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        display: block;
+        object-fit: contain;
+        width: 8rem;
+    }
+}
+
+.mobile-screen {
+    max-width: 28%;
+}
+
 .modal-animation-enter-active,
 .modal-animation-leave-active {
     transition: opacity 0.3s cubic-bezier(0.52, 0.02, 0.19, 1.02);
@@ -109,7 +131,7 @@ $secundary-color: var(--background-color);
     align-items: center;
     height: 100vh;
     width: 100vw;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 9000;
@@ -120,10 +142,11 @@ $secundary-color: var(--background-color);
         width: 80%;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         background-color: #fff;
-        background-color: var(--panel-background-color);
-        padding: 2rem;
-        border-radius: 5px;
-        border: solid 1px gray;
+
+        padding: 1rem;
+        border-radius: 1rem;
+        background-color: var(--panel-menu-background-color);
+        border: solid 1px var(--panel-border-color);
 
         i {
             position: absolute;
@@ -148,9 +171,18 @@ $secundary-color: var(--background-color);
     }
 }
 
+.small-screen {
+    height: 100vh;
+    width: 27vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
     .modal {
+
         .modal-inner {
             font-size: x-small;
             padding: 1rem;
@@ -165,5 +197,7 @@ $secundary-color: var(--background-color);
         max-width: 18.5rem;
         max-height: 15rem;
     }
+
+
 }
 </style>

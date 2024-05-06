@@ -109,6 +109,10 @@ export enum LocalizationKey {
     settings_ui_size = "settings_ui_size",
     settings_ui_size_normal = "settings_ui_size_normal",
     settings_ui_size_large = "settings_ui_size_large",
+    settings_ui_screen_size = "settings_ui_screen_size",
+    settings_ui_screen_size_mobile = "settings_ui_screen_size_mobile",
+    settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
+    settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",

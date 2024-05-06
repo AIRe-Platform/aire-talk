@@ -122,6 +122,10 @@ const en: Locale = {
     settings_ui_size: "User interface size",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Large",
+    settings_ui_screen_size: "Screen resolution preference",
+    settings_ui_screen_size_mobile: "Mobile",
+    settings_ui_screen_size_tablet: "Tablet",
+    settings_ui_screen_size_desktop: "Desktop",
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.
@@ -183,7 +187,7 @@ const en: Locale = {
         "When you are happy with your answers, choose continue.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
-    questionnaire_explanation: 
+    questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 

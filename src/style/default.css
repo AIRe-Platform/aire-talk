@@ -215,6 +215,7 @@ button {
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
 }
 
 .font-normal {
@@ -223,4 +224,16 @@ button {
 
 .font-large {
     font-size: var(--font-large);
+}
+
+.descktop-screen {
+    width: 100%;
+}
+
+.tablet-screen {
+    max-width: 50%;
+}
+
+.mobile-screen {
+    /*  max-width: 28%; */
 }

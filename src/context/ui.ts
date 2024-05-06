@@ -50,6 +50,7 @@ function initSettings(): UISettingsOptions {
 
 function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     if (oldSize) {
+        console.log("document.documentElement", document.documentElement);
         document.documentElement.classList.remove(oldSize);
         localStorage.setItem("ui-font-size", newSize);
     }
@@ -68,10 +69,13 @@ watch(
     (newValue, oldValue) => {
         applyFontSize(newValue, oldValue);
     },
+    { deep: true }
+);
 
-    /* () => UISettings.screenSize,
+watch(
+    () => UISettings.screenSize,
     (newValue, oldValue) => {
         applyScreeSize(newValue, oldValue);
-    }, */
+    },
     { deep: true }
 );

@@ -125,6 +125,10 @@ const es: Locale = {
     settings_ui_size: "Tamaño de la interfaz de usuario",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Grande",
+    settings_ui_screen_size: "Resolución de pantalla",
+    settings_ui_screen_size_mobile: "Móvil",
+    settings_ui_screen_size_tablet: "Tablet",
+    settings_ui_screen_size_desktop: "Pantalla",
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
@@ -190,7 +194,7 @@ const es: Locale = {
         "Cuando esté satisfecho con sus respuestas, elija continuar.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
-    questionnaire_explanation: 
+    questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { l } from "@/locales";
-import { Login, logout } from "@/context/login";
+import { Login } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import { UIPanels, UIState } from "@/context/ui";
+import { UIPanels, UIState, UISettings } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
@@ -15,7 +15,6 @@ const onOpen = (e: Event) => {
     UIState.showMenu = !UIState.showMenu;
     if (!UIState.showMenu)
         UIState.isNavMenuCompressed = false;
-    console.log("??", UIState.isNavMenuCompressed);
 };
 
 const state = reactive<{
@@ -56,7 +55,8 @@ const toggleSettingsPanel = () => {
 
 <template>
     <MenuButton :open="UIState.showMenu" @click="onOpen" />
-    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed }">
+    <div class="nav-menu"
+        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed, 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
                 <div class="nav-logo" v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">
@@ -244,6 +244,10 @@ const toggleSettingsPanel = () => {
 
 .nav-spacer {
     flex-grow: 1;
+}
+
+.mobile-screen {
+    height: 74%;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

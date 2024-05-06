@@ -3,7 +3,7 @@ import { AppState } from '@/main';
 import FooterBar from '@/components/FooterBar.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
-import { UIPanels, UIState } from '@/context/ui';
+import { UIPanels, UIState, UISettings } from '@/context/ui';
 import SettingsPanel from '@/components/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 
@@ -15,11 +15,13 @@ setTimeout(() => {
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="1"
+        :class="{ 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <NavMenu />
         <div class="main-content">
             <RouterView />
-            <div class="main-panels" v-if="UIState.panels.size > 0">
+            <div class="main-panels" :class="{ 'main-panels-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
+                v-if="UIState.panels.size > 0">
                 <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
                 <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
@@ -43,7 +45,6 @@ setTimeout(() => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-    position: relative;
 }
 
 .main-content {
@@ -78,6 +79,17 @@ setTimeout(() => {
     justify-content: center;
     text-align: center;
 }
+
+.mobile-screen {
+    height: 74% !important;
+    width: 28%;
+}
+
+.main-panels-mobile-screen {
+    bottom: unset;
+}
+
+
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {

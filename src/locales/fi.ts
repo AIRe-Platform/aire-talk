@@ -118,6 +118,10 @@ const fi: Locale = {
     settings_ui_size: "Käyttöliittymän koko",
     settings_ui_size_normal: "Normaali",
     settings_ui_size_large: "Suuri",
+    settings_ui_screen_size: "Näytön resoluution asetus",
+    settings_ui_screen_size_mobile: "Mobiili",
+    settings_ui_screen_size_tablet: "Tabletti",
+    settings_ui_screen_size_desktop: "Näyttö",
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
@@ -180,7 +184,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
         "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
-    questionnaire_explanation: 
+    questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 

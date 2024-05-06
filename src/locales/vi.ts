@@ -108,6 +108,10 @@ const vi: Locale = {
     settings_ui_size: "Kích thước giao diện người dùng",
     settings_ui_size_normal: "Bình thường",
     settings_ui_size_large: "Lớn",
+    settings_ui_screen_size: "Tùy chọn độ phân giải màn hình",
+    settings_ui_screen_size_mobile: "Di động",
+    settings_ui_screen_size_tablet: "Viên thuốc",
+    settings_ui_screen_size_desktop: "Máy tính để bàn",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
@@ -168,7 +172,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
         "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
-    questionnaire_explanation: 
+    questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 
