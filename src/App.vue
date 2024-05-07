@@ -71,6 +71,7 @@ setTimeout(() => {
     padding: 1rem;
     top: 0;
     bottom: 0;
+    z-index: 2;
 }
 
 .main-splash,
@@ -93,7 +94,7 @@ setTimeout(() => {
 .main-panels-fake-mobile-screen {
     /*  max-width: 30%; */
     height: 728px;
-    margin-left: -10.4rem;
+    margin-left: -11.3rem;
     font-size: xx-small;
 }
 

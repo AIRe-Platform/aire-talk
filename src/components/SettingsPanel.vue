@@ -110,7 +110,8 @@ const onClickOutside = (e: Event) => {
 }
 
 .settings-panels-mobile-screen {
-    margin-top: 13.7rem;
+    margin-top: 14rem;
+    margin-left: 16rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
