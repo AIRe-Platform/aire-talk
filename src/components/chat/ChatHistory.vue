@@ -12,9 +12,9 @@ import {
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIState, UIPanels } from "@/context/ui";
+import { UIState, UIPanels, UISettings } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
-import useMobileLayout from "@/helpers/mobile";
+
 
 interface ChatLogItem {
     id: string;
@@ -132,7 +132,8 @@ const onClickOutside = (e: Event) => {
     <ConfirmDialog v-if="state.confirmDelete" @accept="onConfirmDelete" @decline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
-    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+    <div class="chat-history-panel" v-on-click-outside="onClickOutside"
+        :class="{ 'chat-history-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <div class="chat-history-list">
             <div class="chat-history-busy" v-if="state.busy">
                 <Spinner />
@@ -268,6 +269,11 @@ const onClickOutside = (e: Event) => {
     cursor: pointer;
     position: absolute;
     right: -3rem;
+}
+
+.chat-history-panels-fake-mobile-screen {
+    width: 19rem;
+    height: 98%;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

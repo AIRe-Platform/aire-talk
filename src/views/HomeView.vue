@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import OnboardingTopics from '@/components/OnboardingTopics.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { Login, logout } from "@/context/login";
+import { logout } from "@/context/login";
 import { getAllChats, openChat, createNewChat } from "@/context/chat";
+import { UISettings } from '@/context/ui';
+import OnboardingTopics from '@/components/OnboardingTopics.vue';
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -48,10 +49,14 @@ onMounted(async () => {
 </script>
 
 <template>
+    <OnboardingTopics />
+
     <div id="home-view">
         <div class="home-container">
-            <div class="home-header">
-                <div class="aire-logo">
+            <div class="home-header"
+                :class="{ 'home-header-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                <div class="aire-logo"
+                    :class="{ 'home-logo-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
@@ -69,12 +74,12 @@ onMounted(async () => {
             </div>
             <div class="home-footer">
                 <p class="disclaimer">{{ $t(l.start_footer) }}</p>
-                <div class="chat-bot">
+                <div class="chat-bot"
+                    :class="{ 'home-chat-bot-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                 </div>
             </div>
         </div>
     </div>
-    <OnboardingTopics v-if="Login.user" />
     <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
         {{ $t(l.popup_confirm_logout) }}
     </ConfirmDialog>
@@ -164,6 +169,17 @@ onMounted(async () => {
     background-size: contain;
 }
 
+.home-logo-fake-mobile-screen {
+    width: 10rem;
+}
+
+.home-header-fake-mobile-screen {
+    height: 12rem;
+}
+
+.home-chat-bot-fake-mobile-screen {
+    display: none;
+}
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
     .home-header {

@@ -27,7 +27,7 @@ const props = defineProps<{
     height: 1rem;
     z-index: 3;
 
-    background-color: var(--panel-background-color);
+    /* background-color: var(--panel-background-color); */
     border-radius: 1rem;
 
     transition: color .2s;

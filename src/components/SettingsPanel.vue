@@ -64,7 +64,7 @@ const onClickOutside = (e: Event) => {
             <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
             <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.screenSize">
                 <option :value="UIScreenSize.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
-                <option :value="UIScreenSize.Tablet">{{ $t(l.settings_ui_screen_size_tablet) }}</option>
+                <!-- <option :value="UIScreenSize.Tablet">{{ $t(l.settings_ui_screen_size_tablet) }}</option> -->
                 <option :value="UIScreenSize.Descktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
             </select>
         </div>
@@ -109,7 +109,7 @@ const onClickOutside = (e: Event) => {
 }
 
 .settings-panels-mobile-screen {
-    margin-top: 14rem;
+    margin-top: 13.7rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

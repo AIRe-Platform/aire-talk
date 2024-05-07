@@ -129,7 +129,7 @@ $secundary-color: var(--background-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 97vh;
     width: 100vw;
     position: absolute;
     top: 0;
@@ -172,8 +172,8 @@ $secundary-color: var(--background-color);
 }
 
 .small-screen {
-    height: 100vh;
-    width: 27vw;
+    height: 100%;
+    width: 18vw;
     position: absolute;
     top: 0;
     left: 0;

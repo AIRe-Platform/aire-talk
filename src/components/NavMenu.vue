@@ -29,9 +29,10 @@ const toggleChatHistoryMenu = () => {
 };
 
 const switchMenu = () => {
-    if (useMobileLayout()) {
-        if (!UIState.isNavMenuCompressed)
+    if (useMobileLayout() || UISettings.screenSize == 'mobile-screen') {
+        if (!UIState.isNavMenuCompressed) {
             UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
+        }
     }
 };
 
@@ -54,12 +55,14 @@ const toggleSettingsPanel = () => {
 </script>
 
 <template>
-    <MenuButton :open="UIState.showMenu" @click="onOpen" />
+    <MenuButton :open="UIState.showMenu" @click="onOpen"
+        :class="{ 'menu-button-open-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"></MenuButton>
     <div class="nav-menu"
-        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed, 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed, 'fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.showMenu, 'short-nav-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo" v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">
+                <div class="nav-logo"
+                    v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
@@ -70,15 +73,14 @@ const toggleSettingsPanel = () => {
             </div>
             <div class="nav-menu-list">
                 <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
-        'nav-item-active': !useMobileLayout() && UIState.panels.has(
-            UIPanels.ChatHistory
-        ), 'small-layout': UIState.isNavMenuCompressed
-    }">
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user"
+                    :class="{ 'nav-item-active': !useMobileLayout() && UIState.panels.has(UIPanels.ChatHistory), 'small-layout': UIState.isNavMenuCompressed }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_chat_history) }}</div>
-                    <div class="icon chat-history-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                    <div class="icon chat-history-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
@@ -87,18 +89,22 @@ const toggleSettingsPanel = () => {
         ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_chat) }}</div>
-                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                    <div class="icon new-chat-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-item" @click="newChat" :class="{
         'small-layout': UIState.isNavMenuCompressed
     }" v-if="Chat.id">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_chat_new) }}</div>
-                    <div class="icon new-chat-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                    <div class="icon new-chat-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-spacer"></div>
@@ -122,10 +128,11 @@ const toggleSettingsPanel = () => {
         ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_profile) }}</div>
                     <div class="icon user-profile-mobile margin-left"
-                        v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
@@ -134,9 +141,11 @@ const toggleSettingsPanel = () => {
         ), 'small-layout': UIState.isNavMenuCompressed
     }">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_preferences) }}</div>
-                    <div class="icon settings-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                    <div class="icon settings-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
@@ -144,9 +153,11 @@ const toggleSettingsPanel = () => {
         'small-layout': UIState.isNavMenuCompressed
     }" v-if="Login.user">
                     <div class="nav-link"
-                        v-if="!useMobileLayout() || (useMobileLayout() && !UIState.isNavMenuCompressed)">{{
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
         $t(l.nav_main_menu) }}</div>
-                    <div class="icon main-menu-mobile" v-if="useMobileLayout() && UIState.isNavMenuCompressed">
+                    <div class="icon main-menu-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
             </div>
@@ -246,8 +257,17 @@ const toggleSettingsPanel = () => {
     flex-grow: 1;
 }
 
-.mobile-screen {
-    height: 74%;
+.fake-mobile-screen {
+    height: 78%;
+    width: 10rem;
+}
+
+.short-nav-fake-mobile-screen {
+    width: 5rem;
+}
+
+.menu-button-open-fake-mobile-screen {
+    left: 0.5rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

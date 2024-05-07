@@ -9,7 +9,7 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
-import { UIState } from '@/context/ui';
+import { UIState, UISettings } from '@/context/ui';
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 
 const showSideBar = ref(false);
@@ -87,7 +87,8 @@ onMounted(() => {
         </div>
         <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" />
     </div>
-    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat) }">
+    <div class="chat-side-panels"
+        :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat), 'summary-panels-open-fake-mobile-screen': showSideBar && hasPanels(Chat) && UISettings.screenSize == 'mobile-screen' }">
         <ChatSummary v-if="chatSummaryPanelEnabled(Chat)" />
     </div>
 </template>
@@ -169,6 +170,11 @@ onMounted(() => {
 .chat-view-assistant {
     display: flex;
     justify-content: flex-start;
+}
+
+.summary-panels-open-fake-mobile-screen {
+    width: 100%;
+    max-width: 26rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

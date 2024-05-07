@@ -5,6 +5,7 @@ import NavMenu from '@/components/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import { UIPanels, UIState, UISettings } from '@/context/ui';
 import SettingsPanel from '@/components/SettingsPanel.vue';
+import { Login } from "@/context/login";
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 
 setTimeout(() => {
@@ -20,12 +21,14 @@ setTimeout(() => {
         <NavMenu />
         <div class="main-content">
             <RouterView />
-            <div class="main-panels" :class="{ 'main-panels-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
+            <div class="main-panels"
+                :class="{ 'main-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
                 v-if="UIState.panels.size > 0">
                 <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
                 <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
         </div>
+        <FooterBar />
     </div>
     <div class="main-splash" v-if="AppState === 'init'">
         <AppLoadingIndicator />
@@ -33,7 +36,7 @@ setTimeout(() => {
     <div class="main-error" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
-    <FooterBar />
+
 </template>
 
 <style src="@/style/default.css" />
@@ -41,7 +44,7 @@ setTimeout(() => {
 <style scoped>
 #main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     overflow: hidden;
     height: 100%;
     max-height: 100%;
@@ -55,10 +58,11 @@ setTimeout(() => {
     background-color: var(--background-color);
     background-image: var(--back-ground-texture);
     background-size: cover;
+    position: relative;
 }
 
 .main-panels {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -81,14 +85,18 @@ setTimeout(() => {
 }
 
 .mobile-screen {
-    height: 74% !important;
-    width: 28%;
+    height: 750px !important;
+    width: 400px;
+    font-size: var(--font-small);
 }
 
-.main-panels-mobile-screen {
-    bottom: unset;
-    max-width: 27%;
+.main-panels-fake-mobile-screen {
+    /*  max-width: 30%; */
+    height: 728px;
+    margin-left: -10.4rem;
+    font-size: xx-small;
 }
+
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
