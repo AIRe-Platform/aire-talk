@@ -35,7 +35,8 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <Panel class="settings-panel" v-on-click-outside="onClickOutside">
+    <Panel class="settings-panel" v-on-click-outside="onClickOutside"
+        :class="{ 'settings-panels-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <div class="settings-header">
             {{ $t(l.settings_title) }}
         </div>
@@ -105,6 +106,10 @@ const onClickOutside = (e: Event) => {
 
 .button-close {
     margin-top: 1rem;
+}
+
+.settings-panels-mobile-screen {
+    margin-top: 14rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

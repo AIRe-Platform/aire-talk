@@ -87,9 +87,8 @@ setTimeout(() => {
 
 .main-panels-mobile-screen {
     bottom: unset;
+    max-width: 27%;
 }
-
-
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
