@@ -19,14 +19,15 @@ const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     UISettings.fontSize = el.value as UIFontSize;
     el.blur();
-    console.log(" UISettings.fontSize", UISettings.fontSize);
 }
 
 const setScreenSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     UISettings.screenSize = el.value as UIScreenSize;
     el.blur();
-    console.log("UISettings.screenSize", UISettings.screenSize);
+    if (UISettings.screenSize == 'mobile-screen') {
+        UIState.isNavMenuCompressed = true;
+    }
 }
 const onClickOutside = (e: Event) => {
     e.stopImmediatePropagation();
