@@ -192,12 +192,12 @@ const es: Locale = {
         '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion:
         "Cuando esté satisfecho con sus respuestas, elija continuar.",
-    questionnaire: "Questionnaire",
-    questionnaire_start: "Start of questionnaire",
-    questionnaire_end: "End of questionnaire",
+    questionnaire: "Cuestionario",
+    questionnaire_start: "Principio del cuestionario",
+    questionnaire_end: "Final del cuestionario",
     questionnaire_explanation:
-        "The following questions are being recorded for analysis",
-    question_answer: "Your answer",
+        "Las siguientes preguntas se están registrando para su análisis.",
+    question_answer: "Tu respuesta",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
@@ -206,7 +206,7 @@ const es: Locale = {
     button_close: "Cerrar",
 
     en: "Inglés",
-    fi: "Finlandés",
+    fi: "Finés",
     es: "Español",
     vi: "Vietnamita"
 };
