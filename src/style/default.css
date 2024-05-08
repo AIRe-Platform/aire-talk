@@ -20,18 +20,18 @@
     font-family: "Sofia Pro";
     font-weight: 400;
     font-style: normal;
-    src: url("/fonts/sansation/Sofia_Pro_Light.woff2") format("woff2"),
-        url("/fonts/sansation/Sofia_Pro_Light.woff") format("woff"),
-        url("/fonts/sansation/Sofia_Pro_Light.ttf") format("truetype");
+    src: url("/fonts/sofia-pro/Sofia_Pro_Light.woff2") format("woff2"),
+        url("/fonts/sofia-pro/Sofia_Pro_Light.woff") format("woff"),
+        url("/fonts/sofia-pro/Sofia_Pro_Light.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Sofia Pro";
     font-weight: 700;
     font-style: bold;
-    src: url("/fonts/sansation/Sofia_Pro_Bold.woff2") format("woff2"),
-        url("/fonts/sansation/Sofia_Pro_Bold.woff") format("woff"),
-        url("/fonts/sansation/Sofia_Pro_Bold.ttf") format("truetype");
+    src: url("/fonts/sofia-pro/Sofia_Pro_Bold.woff2") format("woff2"),
+        url("/fonts/sofia-pro/Sofia_Pro_Bold.woff") format("woff"),
+        url("/fonts/sofia-pro/Sofia_Pro_Bold.ttf") format("truetype");
 }
 
 :root {
