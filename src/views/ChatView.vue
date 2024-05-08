@@ -49,13 +49,16 @@ onMounted(() => {
                 <template v-if="!msg.hidden">
                     <!-- If chat bubble -->
                     <template v-if="msg.question === undefined">
-                        <div class="chat-view-row">
-                            <div class="chat-view-content-left">
+                        <div class="chat-view-row"
+                            :class="{ 'chat-view-row-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                            <div class="chat-view-content-left"
+                                :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                                 <div class="chat-view-user" v-if="msg.role === 'user'">
                                     <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                                 </div>
                             </div>
-                            <div class="chat-view-content-right">
+                            <div class="chat-view-content-right"
+                                :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                                 <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
                                     <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                                 </div>
@@ -67,10 +70,13 @@ onMounted(() => {
                     </template>
                     <!-- If questionnaire item -->
                     <template v-if="msg.question">
-                        <div class="chat-view-row">
-                            <div class="chat-view-content-left">
+                        <div class="chat-view-row"
+                            :class="{ 'chat-view-row-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                            <div class="chat-view-content-left"
+                                :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                             </div>
-                            <div class="chat-view-content-right">
+                            <div class="chat-view-content-right"
+                                :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                                 <QuestionItem :message="msg" />
                             </div>
                         </div>
@@ -175,6 +181,22 @@ onMounted(() => {
 .summary-panels-open-fake-mobile-screen {
     width: 100%;
     max-width: 26rem;
+}
+
+.chat-view-row-fake-mobile-screen {
+    display: flex;
+    padding: 1rem;
+}
+
+.chat-view-content-left-fake-mobile-screen {
+    justify-content: flex-start;
+    border-right: none;
+}
+
+.chat-view-content-right-fake-mobile-screen {
+    width: unset;
+    justify-content: flex-end;
+    border-right: none;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
