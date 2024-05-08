@@ -52,7 +52,7 @@ const onSave = () => {
                 <span>Override chatbot system prompt</span>
             </div>
             <textarea v-model="state.prefs.experimental_custom_prompt" :readonly="!state.overridePrompt"></textarea>
-            <p>Add <code>{user_summary}</code> in to your prompt if you wish to inject a summary of your user profile into the prompt.</p>
+            <p>Add <code>{user_summary}</code> into your prompt if you wish to inject a summary of your user profile.</p>
         </div>
         <template v-if="state.busy">
             <Spinner />
