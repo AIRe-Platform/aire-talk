@@ -161,6 +161,7 @@ export enum LocalizationKey {
     confirm_questionnaire_completion = "confirm_questionnaire_completion",
     questionnaire = "questionnaire",
     questionnaire_start = "questionnaire_start",
+    questionnaire_end = "questionnaire_end",
     questionnaire_explanation = "questionnaire_explanation",
     question_answer = "question_answer",
 

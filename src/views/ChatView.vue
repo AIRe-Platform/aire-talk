@@ -11,6 +11,7 @@ import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
 import { UIState, UISettings } from '@/context/ui';
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
+import { l } from '@/locales';
 
 const showSideBar = ref(false);
 
@@ -35,6 +36,66 @@ const closeNavMenu = () => {
     UIState.isNavMenuCompressed = false;
 
 }
+
+interface MessageGroup {
+    id: string;
+    messages: Array<ChatMessage>;
+    isQuestionnaire: boolean;
+    isCompleted?: boolean
+}
+
+// Group chat messages to groups 
+// based on similar consecutive message types (question or not)
+const groupedMessages = () => {
+    const result = [];
+    let groupIndex = 0;
+    let currentGroup = {
+        id: "msg-group-" + groupIndex,
+        messages: [],
+        isQuestionnaire: false,
+        isCompleted: false
+    } as MessageGroup;
+    let previousNonHiddenIndex = 0;
+
+    for (let i = 0; i < Chat.messages.length; i++) {
+        let message = Chat.messages[i];
+        if (!message.hidden) {
+            if (!isDifferentGroup(i, previousNonHiddenIndex)) {
+                currentGroup.messages.push(message);
+            }
+            else {
+                if (currentGroup.messages.length > 0) {
+                    currentGroup.isCompleted = true;
+                    result.push(currentGroup);
+                }
+                currentGroup = {
+                    id: "msg-group-" + groupIndex++,
+                    messages: [],
+                    isQuestionnaire: !!message.question
+                } as MessageGroup;
+                currentGroup.messages.push(message);
+            }
+            previousNonHiddenIndex = i;
+        }
+    }
+
+    if (currentGroup.messages.length > 0) {
+        result.push(currentGroup);
+    }
+
+    return result;
+}
+
+const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
+    const previousWasQuestion = !!Chat.messages[previousNonHiddenIndex].question;
+    const currentIsQuestion = !!Chat.messages[index].question;
+    if (!previousWasQuestion && currentIsQuestion)
+        return true;
+    if (previousWasQuestion && !currentIsQuestion)
+        return true;
+    return false;
+}
+
 onMounted(() => {
     showSideBar.value = !useMobileLayout();
     scrollChatToBottom()
@@ -45,43 +106,58 @@ onMounted(() => {
     <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(Chat)" />
     <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }" @click="closeNavMenu">
         <div class="chat-view-content" id="chat-viewport">
-            <template v-for="msg in Chat.messages" v-bind:key="msg.id">
-                <template v-if="!msg.hidden">
-                    <!-- If chat bubble -->
-                    <template v-if="msg.question === undefined">
-                        <div class="chat-view-row">
-                            <div class="chat-view-content-left">
-                                <div class="chat-view-user" v-if="msg.role === 'user'">
-                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+            <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
+                <!-- If chat bubble -->
+                <template v-if="!messageGroup.isQuestionnaire">
+                    <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
+                        <template v-if="true">
+                            <div class="chat-view-row">
+                                <div class="chat-view-content-left">
+                                    <div class="chat-view-user" v-if="msg.role === 'user'">
+                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                    </div>
+                                </div>
+                                <div class="chat-view-content-right">
+                                    <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
+                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="chat-view-content-right">
-                                <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                            <div class="chat-view-system" v-if="msg.role === 'system'">
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                            </div>
+                        </template>
+                    </template>
+                </template>
+                <!-- If questionnaire item -->
+                <template v-if="messageGroup.isQuestionnaire">
+                    <div class="chat-group-type-questionnaire">
+                        <div class="chat-questionnaire-start">
+                            <h3>{{ $t(l.questionnaire_start) }}</h3>
+                            <div>{{ $t(l.questionnaire_explanation) }}</div>
+                        </div>
+                        <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
+                            <template v-if="true">
+                                <div class="chat-view-row">
+                                    <div class="chat-view-content-left">
+                                    </div>
+                                    <div class="chat-view-content-right">
+                                        <QuestionItem :message="msg" />
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="chat-view-row">
+                                    <div class="chat-view-content-left">
+                                        <QuestionAnswer :message="msg" />
+                                    </div>
+                                    <div class="chat-view-content-right">
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <div v-if="messageGroup.isCompleted" class="chat-questionnaire-end">
+                            <h3>{{ $t(l.questionnaire_end) }}</h3>
                         </div>
-                        <div class="chat-view-system" v-if="msg.role === 'system'">
-                            <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                        </div>
-                    </template>
-                    <!-- If questionnaire item -->
-                    <template v-if="msg.question">
-                        <div class="chat-view-row">
-                            <div class="chat-view-content-left">
-                            </div>
-                            <div class="chat-view-content-right">
-                                <QuestionItem :message="msg" />
-                            </div>
-                        </div>
-                        <div class="chat-view-row">
-                            <div class="chat-view-content-left">
-                                <QuestionAnswer :message="msg" />
-                            </div>
-                            <div class="chat-view-content-right">
-                            </div>
-                        </div>
-                    </template>
+                    </div>
                 </template>
             </template>
         </div>
@@ -175,6 +251,30 @@ onMounted(() => {
 .summary-panels-open-fake-mobile-screen {
     width: 100%;
     max-width: 26rem;
+}
+
+.chat-group-type-questionnaire {
+    background-color: var(--panel-background-color);
+    border-radius: 1rem;
+    border: 1px solid var(--panel-border-color);
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.chat-questionnaire-start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 1rem;
+}
+
+.chat-questionnaire-end {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 1rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

@@ -172,6 +172,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
         "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
+    questionnaire_end: "End of questionnaire",
     questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
