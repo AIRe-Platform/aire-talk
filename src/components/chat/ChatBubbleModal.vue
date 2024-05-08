@@ -25,7 +25,7 @@ const close = (e: Event) => {
                         </div>
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 v-if="props.parent.role == 'user'">{{ $t(props.parent.sender) }}
+                                <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}
                                 </h1>
                                 <div class="modal-logo" v-if="props.parent.role != 'user'">
                                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
