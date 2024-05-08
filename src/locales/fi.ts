@@ -194,6 +194,11 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",
+
+    en: "Englanti",
+    fi: "Suomi",
+    es: "Espanja",
+    vi: "Vietnam"
 };
 
 export default fi;

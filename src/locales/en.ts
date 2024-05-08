@@ -197,6 +197,11 @@ const en: Locale = {
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
+
+    en: "English",
+    fi: "Finnish",
+    es: "Spanish",
+    vi: "Vietnamese"
 };
 
 export default en;

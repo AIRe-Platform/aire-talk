@@ -204,6 +204,11 @@ const es: Locale = {
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
+
+    en: "Inglés",
+    fi: "Finlandés",
+    es: "Español",
+    vi: "Vietnamita"
 };
 
 export default es;

@@ -170,4 +170,9 @@ export enum LocalizationKey {
     button_back = "button_back",
     button_continue = "button_continue",
     button_close = "button_close",
+
+    en = "en",
+    fi = "fi",
+    es = "es",
+    vi = "vi"
 }

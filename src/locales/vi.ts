@@ -182,6 +182,11 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",
+
+    en: "Tiếng Anh",
+    fi: "Tiếng Phần Lan",
+    es: "Người Tây Ban Nha",
+    vi: "Tiếng Việt"
 };
 
 export default vi;
