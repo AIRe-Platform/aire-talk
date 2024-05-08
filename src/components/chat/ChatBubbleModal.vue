@@ -21,6 +21,8 @@ const close = (e: Event) => {
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
+                        <div class="icon close-window modal-close" @click="close">
+                        </div>
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 v-if="props.parent.role == 'user'">{{ $t(props.parent.sender) }}
@@ -44,9 +46,6 @@ const close = (e: Event) => {
                                 </div>
                             </div>
                         </div>
-                        <div class="icon close-window" @click="close">
-                        </div>
-
                     </div>
                 </div>
             </transition>
@@ -61,6 +60,7 @@ $secundary-color: var(--background-color);
 .modal-component {
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
 }
 
 .modal-body-image {
@@ -92,6 +92,10 @@ $secundary-color: var(--background-color);
         object-fit: contain;
         width: 8rem;
     }
+}
+
+.modal-content {
+    width: 100%;
 }
 
 .mobile-screen {
@@ -178,6 +182,7 @@ $secundary-color: var(--background-color);
     top: 0;
     left: 0;
 }
+
 
 /* mobile*/
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
