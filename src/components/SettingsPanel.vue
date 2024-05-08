@@ -46,7 +46,7 @@ const onClickOutside = (e: Event) => {
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
             <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">
-                    {{ ISO6391.getNativeName(lang) }} ({{ ISO6391.getName(lang) }})
+                    {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
                 </option>
             </select>
         </div>

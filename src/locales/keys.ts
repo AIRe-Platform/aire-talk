@@ -161,6 +161,7 @@ export enum LocalizationKey {
     confirm_questionnaire_completion = "confirm_questionnaire_completion",
     questionnaire = "questionnaire",
     questionnaire_start = "questionnaire_start",
+    questionnaire_end = "questionnaire_end",
     questionnaire_explanation = "questionnaire_explanation",
     question_answer = "question_answer",
 
@@ -169,4 +170,9 @@ export enum LocalizationKey {
     button_back = "button_back",
     button_continue = "button_continue",
     button_close = "button_close",
+
+    en = "en",
+    fi = "fi",
+    es = "es",
+    vi = "vi"
 }

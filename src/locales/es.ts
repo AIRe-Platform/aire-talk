@@ -194,6 +194,7 @@ const es: Locale = {
         "Cuando esté satisfecho con sus respuestas, elija continuar.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
+    questionnaire_end: "End of questionnaire",
     questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
@@ -203,6 +204,11 @@ const es: Locale = {
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
+
+    en: "Inglés",
+    fi: "Finlandés",
+    es: "Español",
+    vi: "Vietnamita"
 };
 
 export default es;

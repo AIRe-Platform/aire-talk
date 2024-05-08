@@ -187,6 +187,7 @@ const en: Locale = {
         "When you are happy with your answers, choose continue.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
+    questionnaire_end: "End of questionnaire",
     questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
@@ -196,6 +197,11 @@ const en: Locale = {
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
+
+    en: "English",
+    fi: "Finnish",
+    es: "Spanish",
+    vi: "Vietnamese"
 };
 
 export default en;

@@ -172,6 +172,7 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
         "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
+    questionnaire_end: "End of questionnaire",
     questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
@@ -181,6 +182,11 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",
+
+    en: "Tiếng Anh",
+    fi: "Tiếng Phần Lan",
+    es: "Người Tây Ban Nha",
+    vi: "Tiếng Việt"
 };
 
 export default vi;
