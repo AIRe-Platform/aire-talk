@@ -7,12 +7,14 @@ import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import { router } from "@/router";
 import SectionSeparator from "@/components/SectionSeparator.vue";
+import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
-
 }
 
+const show_experiments = (AireServices.ID?.getScopes() || [])
+    .findIndex(x => x.startsWith("experimental-")) > -1;
 </script>
 
 <template>
@@ -32,6 +34,12 @@ const navigateTo = (path: string) => {
                 <ProfileForm />
             </div>
             <SectionSeparator />
+            <template v-if="show_experiments">
+                <div class="profile-section">
+                    <ProfileExperiments />
+                </div>
+                <SectionSeparator />
+            </template>
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
                 <ProfileConnections />
             </div>
