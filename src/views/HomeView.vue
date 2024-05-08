@@ -62,15 +62,21 @@ onMounted(async () => {
                 <p>{{ $t(l.start_first_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <button class="get-started" @click="newChat()">
+                <div class="icon frontpage-button"
+                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+                    @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
-                </button>
-                <button class="get-started" @click="openLastChat()" v-if="state.showLastChatButton">
+                </div>
+                <div class="icon frontpage-button"
+                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+                    @click="openLastChat()" v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
-                </button>
-                <button class="get-started" @click="state.showConfirmLogout = !state.showConfirmLogout">
+                </div>
+                <div class="icon frontpage-button"
+                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+                    @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
-                </button>
+                </div>
             </div>
             <div class="home-footer">
                 <p class="disclaimer">{{ $t(l.start_footer) }}</p>
@@ -181,6 +187,11 @@ onMounted(async () => {
     display: none;
 }
 
+.frontpage-button-fake-small-screen {
+    width: 15rem !important;
+    height: 4rem !important;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
     .home-header {
         height: 20rem;
@@ -237,6 +248,11 @@ onMounted(async () => {
 
     .chat-bot {
         display: none;
+    }
+
+    .frontpage-button {
+        width: 15rem !important;
+        height: 4rem !important;
     }
 }
 </style>

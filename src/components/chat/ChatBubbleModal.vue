@@ -17,7 +17,7 @@ const close = (e: Event) => {
 
 <template>
     <transition name="modal-animation">
-        <div v-show="active" class="modal" :class="{ 'small-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div v-show="active" class="modal" :class="{ 'fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
@@ -175,7 +175,7 @@ $secundary-color: var(--background-color);
     }
 }
 
-.small-screen {
+.fake-small-screen {
     height: 100%;
     width: 18vw;
     position: absolute;
