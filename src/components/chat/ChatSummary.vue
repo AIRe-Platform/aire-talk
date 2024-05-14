@@ -4,6 +4,7 @@ import {
     Chat,
     queryAndStartQuestionnaire,
     refreshAbstract,
+    refreshContentCatalogue,
     startPersonalInformationQuestionnaire
 } from '@/context/chat';
 import { ref } from 'vue';
@@ -20,6 +21,7 @@ const generateSummary = async () => {
     clearSummary();
     clearKeywords();
     await refreshAbstract();
+    await refreshContentCatalogue();
     busy.value = false;
 }
 
