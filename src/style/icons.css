@@ -33,11 +33,11 @@
     background-image: url("@/assets/icons/content-exercise-default.svg");
 }
 
-.theme-default .icon.content-image {
+.icon.content-image {
     background-image: url("@/assets/icons/content-image-default.svg");
 }
 
-.theme-default .icon.content-video {
+.icon.content-video {
     background-image: url("@/assets/icons/content-video-default.svg");
 }
 

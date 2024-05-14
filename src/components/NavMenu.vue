@@ -107,6 +107,19 @@ const toggleSettingsPanel = () => {
                         v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
+                <div class="nav-item" @click="navigateTo('/content-catalogue')" v-if="Login.user" :class="{
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
+            (p) => p.name === 'Content-catalogue'
+        ), 'small-layout': UIState.isNavMenuCompressed
+    }">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_catalogue) }}</div>
+                    <div class="icon user-profile-mobile margin-left"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
+                    </div>
+                </div>
                 <div class="nav-spacer"></div>
                 <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
         'nav-item-active': !useMobileLayout() && $route.matched.some(
