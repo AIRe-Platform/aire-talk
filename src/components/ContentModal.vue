@@ -36,6 +36,14 @@ const close = (e: Event) => {
                                         <source v-bind:src="props.content.url" type="video/mp4">
                                     </video>
                                 </div>
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.URL">
+                                    <a v-bind:href=props.content.url target="_blank">{{ props.content.url }}</a>
+                                </div>
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Document">
+                                    <div class="icon catalogue-content-mobile" :src="props.content.url" alt="">
+                                    </div>
+                                    <div>{{ props.content.name }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,7 +66,8 @@ $secundary-color: var(--background-color);
 .modal-body-image {
     display: flex;
     justify-content: center;
-    width: -webkit-fill-available;
+    width: 100%;
+    height: 100%;
 }
 
 .modal-button {
@@ -70,11 +79,22 @@ $secundary-color: var(--background-color);
 
 .modal-body-container {
     display: flex;
+    flex-direction: column;
 }
 
 .modal-body-video {
     width: 40rem;
     height: 20rem;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+}
+
+.catalogue-content-mobile {
+    width: 15rem;
+    height: 15rem;
 }
 
 .modal-logo {
@@ -175,6 +195,7 @@ $secundary-color: var(--background-color);
     top: 0;
     left: 0;
 }
+
 
 
 /* mobile*/
