@@ -77,7 +77,7 @@ const state = reactive<{
                             {{ item.url }}
                         </div>
                     </div>
-                    <div class="footer-panel">
+                    <div class="footer-panel truncate">
                         {{ item.name }}
                     </div>
                 </Panel>
@@ -102,8 +102,6 @@ const state = reactive<{
     margin: auto;
     padding: 0rem;
     width: 100%;
-    max-width: 99%;
-    min-height: 98%;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border-color: var(--panel-border-color);
@@ -143,7 +141,6 @@ const state = reactive<{
     width: 100%;
     gap: 1rem;
     align-items: center;
-    height: 80%;
 }
 
 .content-catalogue-section {
@@ -164,7 +161,6 @@ const state = reactive<{
     flex-direction: row;
     width: 75%;
     padding: 1rem;
-    height: 39.5rem;
     overflow: auto;
 }
 
@@ -172,11 +168,9 @@ const state = reactive<{
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 14rem;
-    min-width: 14rem;
+    width: 14rem;
+    height: 14rem;
     padding: 1rem;
-    max-height: 14rem;
-    min-height: 14rem;
 
 }
 
@@ -247,6 +241,15 @@ const state = reactive<{
     display: flex;
     overflow: hidden;
     min-height: 6rem;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

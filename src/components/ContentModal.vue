@@ -20,12 +20,12 @@ const close = (e: Event) => {
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
-                        <div class="icon close-window modal-close" @click="close">
-                        </div>
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1>{{ (props.content.name) }}
                                 </h1>
+                                <div class="icon close-window modal-close" @click="close">
+                                </div>
                             </div>
                             <div class="modal-body">
                                 <div class="modal-body-container" v-if="props.content.type == ContentType.Image">
@@ -83,8 +83,14 @@ $secundary-color: var(--background-color);
 }
 
 .modal-body-video {
-    width: 40rem;
-    height: 20rem;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .modal-body {
@@ -109,10 +115,6 @@ $secundary-color: var(--background-color);
         object-fit: contain;
         width: 8rem;
     }
-}
-
-.modal-content {
-    width: 95%;
 }
 
 .modal-animation-enter-active,
@@ -146,8 +148,8 @@ $secundary-color: var(--background-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 97vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -213,8 +215,8 @@ $secundary-color: var(--background-color);
     }
 
     .modal-body-video {
-        max-width: 18.5rem;
-        max-height: 15rem;
+        max-width: 100%;
+        max-height: 100%;
     }
 
 
