@@ -126,18 +126,6 @@ export async function refreshContentCatalogue() {
         await AireServices.Memory.searchContent(Chat.current.keywords)
             .then((result) => {
                 if (result.status == AireStatus.Success) {
-                    if (!Chat.current.content || 
-                        Chat.current.content?.length && result.data?.length && 
-                        Chat.current.content?.length < result.data?.length) {
-                        pushMessage({
-                            id: generateRandomID(),
-                            role: "system",
-                            message: "New content was added to content catalogue",
-                            sender: SYSTEM_NAME,
-                            rating: 0,
-                            timestamp: Date.now()
-                        })
-                    }
                     Chat.current.content = result.data;
                     return result;
                 }
@@ -712,6 +700,7 @@ function onReceiveKeywords(keywords: string[]) {
     }
 
     Chat.current.keywords = keywords
+    refreshContentCatalogue();
 }
 
 /**
