@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from "vue";
 import { Chat, sendChatMessage } from "@/context/chat";
+import { router } from "@/router";
 import { l } from "@/locales";
 
 const props = defineProps<{
@@ -29,6 +30,11 @@ function submit() {
         <div class="chat-input-header">
 
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
+            <div class="chat-content" v-if="Chat.current.content"
+                @click="() => router.push('/content-catalogue')">
+                <div class="icon chatbox-content-default">
+                </div>
+            </div>
             <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
@@ -41,8 +47,8 @@ function submit() {
                     :readonly="Chat.awaitingResponse" v-model="textInput" />
             </form>
             <div class="chat-send-button" @click="submit">
-                <div class="chat-send-icon">
-                    <font-awesome-icon icon="fa-solid fa-paper-plane" />
+                <div class="chat-send-icon icon send-message-default">
+                    
                 </div>
             </div>
         </div>
@@ -114,8 +120,16 @@ function submit() {
 }
 
 .chat-bot-text {
-
     border-radius: 0.5rem;
+}
+
+.chat-content {
+    margin-left: auto;
+}
+
+.chat-content .icon {
+    width: 2rem;
+    height: 2rem;
 }
 
 .chat-options-button,
@@ -138,19 +152,22 @@ function submit() {
     color: var(--accent-primary-color);
 }
 
-.chat-options-icon svg,
-.chat-send-icon svg {
+.chat-options-icon svg{
     width: 1.5rem;
     height: 1.5rem;
 }
 
+.chat-send-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .chat-options-button {
-        position: absolute;
+    .chat-options-button, .chat-content {
+        position: relative;
         right: -1rem;
         top: -0.5rem;
     }
-
     .chat-bot {
         height: 6rem;
         top: 1rem;
@@ -160,13 +177,11 @@ function submit() {
 
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
-    .chat-options-button {
-        padding-top: 0rem;
-        position: absolute;
+    .chat-options-button, .chat-content {
+        position: relative;
         right: -1rem;
         top: -0.7rem;
     }
-
     .chat-bot {
         height: 4rem;
         top: 2rem;

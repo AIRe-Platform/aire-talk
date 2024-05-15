@@ -178,3 +178,11 @@
 .theme-default .icon.update-default {
     background-image: url("@/assets/icons/update-default.svg");
 }
+
+.icon.send-message-default {
+    background-image: url("@/assets/icons/send-message-default.svg");
+}
+
+.icon.chatbox-content-default {
+    background-image: url("@/assets/icons/chatbox-content-default.svg");
+}
