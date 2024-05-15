@@ -18,6 +18,8 @@ import {
     faSun,
     faMagnifyingGlass,
     faPaperPlane,
+    faFile,
+    faLink
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -31,7 +33,9 @@ library.add(
     faMoon,
     faSun,
     faMagnifyingGlass,
-    faPaperPlane
+    faPaperPlane,
+    faFile,
+    faLink
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");

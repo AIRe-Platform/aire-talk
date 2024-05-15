@@ -26,14 +26,12 @@ const close = (e: Event) => {
                             <div class="modal-header">
                                 <h1>{{ (props.content.name) }}
                                 </h1>
-
                             </div>
                             <div class="modal-body">
-
-                                <div class="modal-body-image" v-if="props.content.type == ContentType.Image">
-                                    <img v-bind:src="props.content.url" class="chat-message-image-contain">
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Image">
+                                    <img v-bind:src="props.content.url" class="modal-body-image">
                                 </div>
-                                <div class="modal-body-video-container" v-if="props.content.type == ContentType.Video">
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Video">
                                     <video class="modal-body-video" controls>
                                         <source v-bind:src="props.content.url" type="video/mp4">
                                     </video>
@@ -60,6 +58,7 @@ $secundary-color: var(--background-color);
 .modal-body-image {
     display: flex;
     justify-content: center;
+    width: -webkit-fill-available;
 }
 
 .modal-button {
@@ -67,6 +66,10 @@ $secundary-color: var(--background-color);
     width: 2rem;
     display: flex;
     justify-content: center;
+}
+
+.modal-body-container {
+    display: flex;
 }
 
 .modal-body-video {
@@ -89,11 +92,7 @@ $secundary-color: var(--background-color);
 }
 
 .modal-content {
-    width: 100%;
-}
-
-.mobile-screen {
-    max-width: 28%;
+    width: 95%;
 }
 
 .modal-animation-enter-active,

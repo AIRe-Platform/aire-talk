@@ -78,17 +78,19 @@ onMounted(refresh);
                         <div class="icon content-image" v-if="item.type == ContentType.Image">
                         </div>
                         <font-awesome-icon icon="fa-solid fa-file" v-if="item.type == ContentType.Document" />
-                        <div v-if="item.type == ContentType.URL">
-                            url
-                        </div>
+                        <font-awesome-icon icon="fa-solid fa-link" v-if="item.type == ContentType.URL" />
+
                     </div>
                     <div class="body-panel">
                         <video controls muted class="video" v-if="item.type == ContentType.Video">
                             <source v-if="item.id" :src="item.url" :key="item.url" type="video/mp4">
                         </video>
                         <img :src="item.url" alt="" class="image" v-if="item.type == ContentType.Image">
-                        <img :src="item.url" alt="" class="image" v-if="item.type == ContentType.Document">
-                        <div class="content" v-if="item.type == ContentType.URL">
+
+                        <div class="icon catalogue-content-mobile" :src="item.url" alt=""
+                            v-if="item.type == ContentType.Document">
+                        </div>
+                        <div class="content-url" v-if="item.type == ContentType.URL">
                             {{ item.url }}
                         </div>
                     </div>
@@ -96,6 +98,14 @@ onMounted(refresh);
                         {{ item.name }}
                     </div>
                 </Panel>
+            </div>
+            <div class="buttons-line">
+                <button class="button delete-button"> delete content</button>
+                <div class="right-cortner">
+                    <div class="icon download"></div>
+                    <button class="button"> display</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -109,7 +119,8 @@ onMounted(refresh);
     margin: auto;
     padding: 0rem;
     width: 100%;
-    max-width: 986px;
+    max-width: 99%;
+    min-height: 95%;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border-color: var(--panel-border-color);
@@ -147,9 +158,9 @@ onMounted(refresh);
     display: flex;
     flex-direction: column;
     width: 100%;
-    overflow: hidden;
     gap: 1rem;
     align-items: center;
+    height: 80%;
 }
 
 .content-catalogue-section {
@@ -166,39 +177,89 @@ onMounted(refresh);
 
 .content-catalogue-content {
     display: flex;
-
+    flex-wrap: wrap;
     flex-direction: row;
-    width: 100%;
+    width: 75%;
     padding: 1rem;
-
+    height: 35rem;
+    overflow: auto;
 }
 
 .content-catalogue-item {
     display: flex;
     flex-direction: column;
-
+    align-items: center;
+    max-width: 14rem;
     padding: 1rem;
+    max-height: 12rem;
+
 }
 
 .header-panel {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     padding: 1rem;
+    font-size: var(--font-small);
+    align-items: center;
+    width: 100%;
 }
 
-.body-panel {}
+.body-panel {
+
+    max-width: 10.6rem;
+}
 
 
 .footer-panel {
     display: flex;
     flex-direction: row;
+    padding: 1rem;
 }
 
 .video,
 .image {
     max-width: 10rem;
+    border-radius: 1rem;
+    max-height: 6rem;
+}
+
+.buttons-line {
+    display: flex;
+
+    justify-content: space-between;
+    width: 95%;
+    padding: 1rem;
+}
+
+.right-cortner {
+    display: flex;
+    height: 2.5rem;
+}
+
+.button {
+    width: 8rem;
+    font-weight: 100;
+}
+
+.delete-button {
+    background-color: var(--delete-color);
+}
+
+.download {
+    height: 2.8rem;
+    width: 3rem;
+}
+
+.catalogue-content-mobile {
+    width: 6.5rem !important;
+    height: 6.5rem !important;
+}
+
+.content-url {
+    display: flex;
+    overflow: hidden;
+    min-height: 6rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

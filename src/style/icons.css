@@ -53,7 +53,7 @@
     height: 1.3rem;
 }
 
-.theme-default .icon.download {
+.icon.download {
     background-image: url("@/assets/icons/download-default.svg");
 }
 
@@ -83,6 +83,8 @@
 
 .theme-dark .icon.catalogue-content-mobile {
     background-image: url("@/assets/icons/catalogue-content-dark-mobile.svg");
+    width: 2rem;
+    height: 2rem;
 }
 
 .theme-default .icon.catalogue-content-mobile {

@@ -116,7 +116,7 @@ const toggleSettingsPanel = () => {
                         v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
                         {{
         $t(l.nav_catalogue) }}</div>
-                    <div class="icon user-profile-mobile margin-left"
+                    <div class="icon catalogue-content-mobile margin-left"
                         v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
