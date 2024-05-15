@@ -173,8 +173,10 @@ const state = reactive<{
     flex-direction: column;
     align-items: center;
     max-width: 14rem;
+    min-width: 14rem;
     padding: 1rem;
-    max-height: 12rem;
+    max-height: 14rem;
+    min-height: 14rem;
 
 }
 
@@ -189,7 +191,7 @@ const state = reactive<{
 }
 
 .body-panel {
-
+    max-height: 12rem;
     max-width: 10.6rem;
 }
 
@@ -198,6 +200,8 @@ const state = reactive<{
     display: flex;
     flex-direction: row;
     padding: 1rem;
+    align-items: center;
+    text-align: center;
 }
 
 .video,
