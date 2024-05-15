@@ -65,8 +65,8 @@ const state = reactive<{
 
                     </div>
                     <div class="body-panel">
-                        <video controls muted class="video" v-if="item.type == ContentType.Video">
-                            <source v-if="item.id" :src="item.url" :key="item.url" type="video/mp4">
+                        <video muted class="video" v-if="item.type == ContentType.Video">
+                            <source v-if="item.id" :src="item.url + '#t=5'" :key="item.url" type="video/mp4">
                         </video>
                         <img :src="item.url" alt="" class="image" v-if="item.type == ContentType.Image">
 
