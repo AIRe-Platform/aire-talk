@@ -2,10 +2,7 @@
 import { l } from "@/locales";
 import { router } from "@/router";
 import Spinner from "@/components/Spinner.vue";
-import { reactive, onMounted, ref } from "vue";
-import {
-    getAllContent
-} from "@/context/content";
+import { reactive, ref } from "vue";
 import { Content, ContentType } from "aire";
 import Panel from "@/components/Panel.vue";
 import ContentModal from "@/components/ContentModal.vue";
@@ -26,22 +23,11 @@ const state = reactive<{
     deleteId?: string,
     confirmDelete: boolean,
     selectedItem?: Content,
-    items?: Content[],
 }>({
     busy: false,
     confirmDelete: false
 });
-const refresh = () => {
-    state.busy = true;
-    getAllContent()
-        .then(content => {
-            state.items = content
-        })
-        .finally(() => {
-            state.busy = false
-        })
-};
-onMounted(refresh);
+
 </script>
 
 <template>
@@ -63,11 +49,11 @@ onMounted(refresh);
                 </div>
             </div>
             <div class="content-catalogue-content">
-                <Panel class="content-catalogue-item" v-for="item in state.items" v-bind:key="item.id"
+                <Panel class="content-catalogue-item" v-for="item in  Chat.current.content" v-bind:key="item.id"
                     @click="toggleContentModal(item)">
 
                     <div class="header-panel">
-                        <div>
+                        <div v-if="item.modified">
                             {{ new Date(item.modified).toLocaleString($i18n.locale) }}
                         </div>
                         <div class="icon content-video" v-if="item.type == ContentType.Video">
@@ -117,7 +103,7 @@ onMounted(refresh);
     padding: 0rem;
     width: 100%;
     max-width: 99%;
-    min-height: 95%;
+    min-height: 98%;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border-color: var(--panel-border-color);
@@ -178,7 +164,7 @@ onMounted(refresh);
     flex-direction: row;
     width: 75%;
     padding: 1rem;
-    height: 35rem;
+    height: 39.5rem;
     overflow: auto;
 }
 
