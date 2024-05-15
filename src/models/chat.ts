@@ -1,5 +1,5 @@
 import { AireChatRole } from "aire";
-import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults } from "aire";
+import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnaireResults, Content } from "aire";
 import { Topic } from "./topic";
 
 export interface ChatMessage {
@@ -29,6 +29,7 @@ export interface ChatState {
     summary?: string;
     keywords?: Array<string>;
     questionnaire?: QuestionnaireState;
+    content?: Array<Content>;
 }
 
 export interface ChatCache {

@@ -2,13 +2,12 @@
 import { l } from "@/locales";
 import { router } from "@/router";
 import Spinner from "@/components/Spinner.vue";
-import { reactive, onMounted, ref } from "vue";
-import {
-    getAllContent
-} from "@/context/content";
+import { reactive, ref } from "vue";
+
 import { Content, ContentType } from "aire";
 import Panel from "@/components/Panel.vue";
 import ContentModal from "@/components/ContentModal.vue";
+import { Chat } from "@/context/chat";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -24,26 +23,11 @@ const state = reactive<{
     busy: boolean,
     deleteId?: string,
     confirmDelete: boolean,
-    items?: Content[],
     selectedItem?: Content,
 }>({
     busy: false,
     confirmDelete: false
 });
-
-const refresh = () => {
-    state.busy = true;
-    getAllContent()
-        .then(content => {
-            state.items = content
-        })
-
-        .finally(() => {
-            state.busy = false
-        })
-};
-
-onMounted(refresh);
 
 </script>
 
@@ -66,7 +50,7 @@ onMounted(refresh);
                 </div>
             </div>
             <div class="content-catalogue-content">
-                <Panel class="content-catalogue-item" v-for="item in state.items" v-bind:key="item.id"
+                <Panel class="content-catalogue-item" v-for="item in Chat.current.content" v-bind:key="item.id"
                     @click="toggleContentModal(item)">
 
                     <div class="header-panel">
