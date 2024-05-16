@@ -3,7 +3,7 @@ import { l } from "@/locales";
 import { router } from "@/router";
 import Spinner from "@/components/Spinner.vue";
 import { reactive, ref } from "vue";
-import { Content, ContentType } from "aire";
+import { Content, type ContentType } from "aire";
 import Panel from "@/components/Panel.vue";
 import ContentModal from "@/components/ContentModal.vue";
 import { Chat } from "@/context/chat";
