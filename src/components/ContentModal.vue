@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { Content, type ContentType } from "aire";
+import { Content, ContentType } from "aire";
 
 const props = defineProps<{
     active: boolean,
