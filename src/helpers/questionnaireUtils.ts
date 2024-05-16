@@ -4,13 +4,13 @@ import { AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionNumber, Air
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {
     const questions = questionnaire.content.flatMap(x => {
-        let match_content = x.keywords === undefined;
+        let match_content = x.keywords === undefined || x.keywords.length < 1;
         if (x.keywords)
             x.keywords.forEach(k => match_content = keywords.includes(k) || match_content)
 
         if (match_content) {
             return x.questions.filter(q => {
-                let match_question = q.keywords === undefined;
+                let match_question = q.keywords === undefined || q.keywords.length < 1;
                 if (q.keywords)
                     q.keywords.forEach(k => match_question = keywords.includes(k) || match_content)
                 return match_question

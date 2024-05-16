@@ -48,9 +48,8 @@ export function sendChatMessage(message: string) {
  * Refreshes the current chat's summary
  */
 export async function refreshSummary() {
-    Chat.awaitingResponse = true;
-
     if (AireServices.AI) {
+        Chat.awaitingResponse = true;
         const input = getChatbotInputData();
         await AireServices.AI.generateSummary(input)
             .then((result) => {
@@ -61,11 +60,16 @@ export async function refreshSummary() {
                     console.warn("There is no generated summary.")
                 }
             })
+            .catch((err) => {
+                console.error("Failed to refresh summary: ", err);
+            })
+            .finally(() => {
+                Chat.awaitingResponse = false;
+                startFinishAnimation();
+            })
     } else {
         console.warn("AI service is unavailable");
     }
-    Chat.awaitingResponse = false;
-    startFinishAnimation();
 }
 
 /**
@@ -73,9 +77,9 @@ export async function refreshSummary() {
  * @param addRandomness 
  */
 export async function refreshKeywords(addRandomness: boolean) {
-    Chat.awaitingResponse = true;
-
     if (AireServices.AI) {
+        Chat.awaitingResponse = true;
+
         const input = getChatbotInputData();
         await AireServices.AI.generateKeywords(input, addRandomness)
             .then((result) => {
@@ -84,20 +88,25 @@ export async function refreshKeywords(addRandomness: boolean) {
                     startAutoSaveTimer();
                 }
             })
+            .catch((err) => {
+                console.error("Failed to refresh keywords", err)
+            })
+            .finally(() => {
+                Chat.awaitingResponse = false;
+                startFinishAnimation();
+            })
     } else {
         console.warn("AI service is unavailable");
     }
-    Chat.awaitingResponse = false;
-    startFinishAnimation();
 }
 
 /**
  * Refreshes the current chat's summary and keywords
  */
 export async function refreshAbstract() {
-    Chat.awaitingResponse = true;
-
     if (AireServices.AI) {
+        Chat.awaitingResponse = true;
+
         const input = getChatbotInputData();
         await AireServices.AI.generateAbstract(input)
             .then((result) => {
@@ -109,20 +118,25 @@ export async function refreshAbstract() {
                     console.warn("There is no generated abstract.")
                 }
             })
+            .catch((err) => {
+                console.error("Failed to generate abstract", err)
+            })
+            .finally(() => {
+                Chat.awaitingResponse = false;
+                startFinishAnimation();
+            })
     } else {
         console.warn("AI service is unavailable");
     }
-    Chat.awaitingResponse = false;
-    startFinishAnimation();
 }
 
 /**
  * Refreshes the current chat's content catalogue
  */
 export async function refreshContentCatalogue() {
-    Chat.awaitingResponse = true;
-
     if (AireServices.Memory && Chat.current.keywords) {
+        Chat.awaitingResponse = true;
+
         await AireServices.Memory.searchContent(Chat.current.keywords)
             .then((result) => {
                 if (result.status == AireStatus.Success) {
@@ -130,11 +144,16 @@ export async function refreshContentCatalogue() {
                     return result;
                 }
             })
+            .catch((err) => {
+                console.error("Failed to refresh content catalogue", err);
+            })
+            .finally(() => {
+                Chat.awaitingResponse = false;
+                startFinishAnimation();
+            })
     } else {
         console.warn("Memory service is unavailable");
     }
-    Chat.awaitingResponse = false;
-    startFinishAnimation();
 }
 
 /**
@@ -271,11 +290,11 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
             return m;
         });
 
-        setCache({ 
-            messages: messages, 
-            state: chatlog.state, 
+        setCache({
+            messages: messages,
+            state: chatlog.state,
             stats: chatlog.stats || {}
-         }, id)
+        }, id)
         return true
     }
     else {
@@ -361,7 +380,7 @@ export function getCache(id: string): ChatCache | undefined {
 export function startPersonalInformationQuestionnaire() {
     const questions = getMissingPersonalInformationQuestions();
 
-    if(questions.length > 0) {
+    if (questions.length > 0) {
         Chat.current.questionnaire = {
             active_id: "personal_information",
             question_queue: questions,
@@ -398,20 +417,17 @@ function sendPersonalInformation() {
             return false;
 
         const answers = getAnswerObjects(Chat.current.questionnaire?.active_id)
-        let newValues: Record<string, string> = {};
+        const newValues: Record<string, string> = {};
 
         answers.forEach(element => {
             newValues[element.question_id] = element.answer;
         });
-    
+
         const data: AireUser = { ...Login.user, ...newValues };
         saveProfile(data)
-        .then((result) => {
-            if (result) {
-                let message: string | undefined;
-                message = `[The user filled missing profile information. Thank user and tell how it helps you to give better responses.]`
-
-                if (message) {
+            .then((result) => {
+                if (result) {
+                    const message = `[The user filled missing profile information. Thank user and tell how it helps you to give better responses.]`
                     const userMessage: ChatMessage = {
                         id: generateRandomID(),
                         sender: getUserName(),
@@ -425,8 +441,7 @@ function sendPersonalInformation() {
                     pushMessage(userMessage)
                     getResponse()
                 }
-            } 
-        })
+            })
     }
 }
 
@@ -557,7 +572,7 @@ export async function sendQuestionnaireAnswers(): Promise<boolean> {
 
         const result = await AireServices.AI.processQuestionnaire(
             Chat.current.questionnaire.active_id, answers)
-            
+
         const results = result.data
         if (!results)
             return false;
@@ -659,7 +674,7 @@ function receiver(e: AireTalkEvent) {
         }
         Chat.awaitingResponse = !final;
 
-        if(final)
+        if (final)
             startFinishAnimation();
 
         pushMessage(last, firstMessage, final)
@@ -799,8 +814,8 @@ function pushNextQuestion(): boolean {
 }
 
 function checkAnswerForRedFlag(msg: AireChatMessage): boolean {
-    if(msg.question?.type == AireQuestionOptionType.Checkbox) {
-        if(msg.question.answer == (msg.question.options as AireQuestionOptionCheckbox).red_flag) {
+    if (msg.question?.type == AireQuestionOptionType.Checkbox) {
+        if (msg.question.answer == (msg.question.options as AireQuestionOptionCheckbox).red_flag) {
             return true;
         }
     }
