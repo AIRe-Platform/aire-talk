@@ -7,18 +7,20 @@ import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import { router } from "@/router";
 import SectionSeparator from "@/components/SectionSeparator.vue";
+import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
-
 }
 
+const show_experiments = (AireServices.ID?.getScopes() || [])
+    .findIndex(x => x.startsWith("experimental-")) > -1;
 </script>
 
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <div class="xmark-icon" @click="navigateTo('/chat')">
+            <div class="icon close-window xmark-icon" @click="navigateTo('/chat')">
             </div>
             <div class="profile-header">
                 <div class="profile-logo">
@@ -32,6 +34,12 @@ const navigateTo = (path: string) => {
                 <ProfileForm />
             </div>
             <SectionSeparator />
+            <template v-if="show_experiments">
+                <div class="profile-section">
+                    <ProfileExperiments />
+                </div>
+                <SectionSeparator />
+            </template>
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
                 <ProfileConnections />
             </div>
@@ -64,10 +72,6 @@ const navigateTo = (path: string) => {
 }
 
 .xmark-icon {
-    background-image: url(/src/assets/icons/aire-icon-xmark.svg);
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
     position: absolute;
     right: 1rem;
     top: 1rem;
@@ -117,6 +121,7 @@ const navigateTo = (path: string) => {
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-view {
         padding: 2rem 0rem;
+        width: 95%;
     }
 
     .profile-section {

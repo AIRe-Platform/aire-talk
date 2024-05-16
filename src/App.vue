@@ -3,8 +3,9 @@ import { AppState } from '@/main';
 import FooterBar from '@/components/FooterBar.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
-import { UIPanels, UIState } from '@/context/ui';
+import { UIPanels, UIState, UISettings } from '@/context/ui';
 import SettingsPanel from '@/components/SettingsPanel.vue';
+import { Login } from "@/context/login";
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
 
 setTimeout(() => {
@@ -15,15 +16,19 @@ setTimeout(() => {
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="1"
+        :class="{ 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <NavMenu />
         <div class="main-content">
             <RouterView />
-            <div class="main-panels" v-if="UIState.panels.size > 0">
+            <div class="main-panels"
+                :class="{ 'main-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
+                v-if="UIState.panels.size > 0">
                 <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
                 <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
         </div>
+        <FooterBar />
     </div>
     <div class="main-splash" v-if="AppState === 'init'">
         <AppLoadingIndicator />
@@ -31,7 +36,7 @@ setTimeout(() => {
     <div class="main-error" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
-    <FooterBar />
+
 </template>
 
 <style src="@/style/default.css" />
@@ -39,11 +44,10 @@ setTimeout(() => {
 <style scoped>
 #main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-    position: relative;
 }
 
 .main-content {
@@ -54,10 +58,11 @@ setTimeout(() => {
     background-color: var(--background-color);
     background-image: var(--back-ground-texture);
     background-size: cover;
+    position: relative;
 }
 
 .main-panels {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -66,6 +71,7 @@ setTimeout(() => {
     padding: 1rem;
     top: 0;
     bottom: 0;
+    z-index: 2;
 }
 
 .main-splash,
@@ -79,6 +85,20 @@ setTimeout(() => {
     text-align: center;
 }
 
+.mobile-screen {
+    height: 750px !important;
+    width: 400px;
+    font-size: var(--font-small);
+}
+
+.main-panels-fake-mobile-screen {
+    /*  max-width: 30%; */
+    height: 728px;
+    margin-left: -11.3rem;
+    font-size: xx-small;
+}
+
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
         font-size: small;
@@ -86,8 +106,8 @@ setTimeout(() => {
 
 
     .main-panels {
-        top: 4rem;
-        bottom: 1rem;
+        top: -4rem;
+        bottom: 0rem;
         left: 0;
         right: 0;
 

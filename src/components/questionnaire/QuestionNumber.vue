@@ -23,8 +23,8 @@ const onSubmitAnswer = () => {
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <input type="number" v-model="answer" :min="props.options?.min" :max="props.options?.max"
-                :disabled="props.readonly">
+            <input :id="props.message_id + '_input'" type="number" v-model="answer" :min="props.options?.min"
+                :max="props.options?.max" :disabled="props.readonly">
         </div>
         <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">
             <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">

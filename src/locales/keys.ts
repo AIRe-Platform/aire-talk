@@ -44,6 +44,7 @@ export enum LocalizationKey {
     nav_theme = "nav_theme",
     nav_preferences = "nav_preferences",
     nav_main_menu = "nav_main_menu",
+    nav_catalogue = "nav_catalogue",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -109,6 +110,10 @@ export enum LocalizationKey {
     settings_ui_size = "settings_ui_size",
     settings_ui_size_normal = "settings_ui_size_normal",
     settings_ui_size_large = "settings_ui_size_large",
+    settings_ui_screen_size = "settings_ui_screen_size",
+    settings_ui_screen_size_mobile = "settings_ui_screen_size_mobile",
+    settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
+    settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
@@ -155,10 +160,20 @@ export enum LocalizationKey {
     no_questionnaires_found = "no_questionnaires_found",
     confirm_questionnaire_start = "confirm_questionnaire_start",
     confirm_questionnaire_completion = "confirm_questionnaire_completion",
+    questionnaire = "questionnaire",
+    questionnaire_start = "questionnaire_start",
+    questionnaire_end = "questionnaire_end",
+    questionnaire_explanation = "questionnaire_explanation",
+    question_answer = "question_answer",
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",
     button_back = "button_back",
     button_continue = "button_continue",
     button_close = "button_close",
+
+    en = "en",
+    fi = "fi",
+    es = "es",
+    vi = "vi"
 }

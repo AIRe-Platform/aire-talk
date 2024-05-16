@@ -13,6 +13,7 @@ import VerificationView from "./views/VerificationView.vue";
 import RecoveryView from "./views/RecoveryView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
+import ContentCatalogueView from "./views/ContentCatalogueView.vue";
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,15 @@ export const router = createRouter({
             name: "Home",
             meta: { 
                 title: l.nav_home,
+                require_login: true
+            },
+        },
+        {
+            path: "/content-catalogue",
+            component: ContentCatalogueView,
+            name: "Content Catalogue",
+            meta: {
+                title: l.nav_catalogue,
                 require_login: true
             },
         },

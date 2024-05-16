@@ -22,11 +22,11 @@ const onSubmitAnswer = () => {
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <textarea class="text-input" rows="3" v-model="answer" :maxlength="props.options.max_len"
-                v-if="props.options.multiline" :readonly="props.readonly">
+            <textarea :id="props.message_id + '_input'" class="text-input" rows="3" v-model="answer"
+                :maxlength="props.options.max_len" v-if="props.options.multiline" :readonly="props.readonly">
             </textarea>
-            <input type="text" class="text-input" v-model="answer" :maxlength="props.options.max_len"
-                v-if="!props.options?.multiline" :readonly="props.readonly" />
+            <input :id="props.message_id + '_input'" type="text" class="text-input" v-model="answer"
+                :maxlength="props.options.max_len" v-if="!props.options?.multiline" :readonly="props.readonly" />
         </div>
         <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">
             <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
@@ -66,6 +66,7 @@ const onSubmitAnswer = () => {
 
 .text-input:read-only {
     cursor: not-allowed;
+
     &:hover {
         box-shadow: unset;
     }

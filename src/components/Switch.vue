@@ -2,12 +2,10 @@
 import { defineProps, defineEmits, defineComponent } from "vue";
 defineComponent({ name: "SwitchComponent" });
 
-const props = defineProps({
-    isOn: {
-        required: true,
-        type: Boolean,
-    },
-});
+const props = defineProps<{
+    isOn: boolean,
+    colorized?: boolean
+}>();
 
 defineEmits<{
     change: [value: boolean];
@@ -15,7 +13,8 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="switch" @click="$emit('change', !props.isOn)">
+    <div class="switch" :class="{ 'switch-colored': props.isOn && $props.colorized }"
+        @click="$emit('change', !props.isOn)">
         <div class="switch-handle" :class="{ 'switch-handle-on': props.isOn }"></div>
     </div>
 </template>
@@ -38,6 +37,10 @@ defineEmits<{
             background-color: var(--accent-primary-color);
         }
     }
+}
+
+.switch-colored {
+    background-color: var(--button-color);
 }
 
 .switch-handle {

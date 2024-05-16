@@ -1,35 +1,39 @@
 <script setup lang="ts">
 import { l } from "@/locales";
-import { Login, logout } from "@/context/login";
+import { Login } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
 import { UIPanels, UIState, UISettings } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
-import { vOnClickOutside } from "@vueuse/components";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { reactive } from "vue";
 import SectionSeparator from "./SectionSeparator.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.showMenu = !UIState.showMenu;
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
+    if (!UIState.showMenu)
+        UIState.isNavMenuCompressed = false;
 };
 
 const state = reactive<{
     showConfirmLogout: boolean,
-    showYouAreOutMessage: boolean,
 }>({
     showConfirmLogout: false,
-    showYouAreOutMessage: false,
 });
 
 const toggleChatHistoryMenu = () => {
-    /* UIState.isSomethingInMenuSelected = !UIState.isSomethingInMenuSelected; */
-    //console.log("UIState.isSomethingInMenuSelected", UIState.isSomethingInMenuSelected);
+    switchMenu();
     UIState.panels.add(UIPanels.ChatHistory);
+};
+
+const switchMenu = () => {
+    if (useMobileLayout() || UISettings.screenSize == 'mobile-screen') {
+        if (!UIState.isNavMenuCompressed) {
+            UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
+        }
+    }
 };
 
 const newChat = async () => {
@@ -41,49 +45,24 @@ const navigateTo = (path: string) => {
     router.push(path);
 
     UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
 };
 
 const toggleSettingsPanel = () => {
+    switchMenu();
     UIState.panels.add(UIPanels.Settings);
 };
-
-const onConfirmLogout = async () => {
-
-    state.showConfirmLogout = false;
-    await logout();
-    router.push("/");
-}
-
-
-
-const handleClickOut = (e: Event) => {
-};
-/*
-    if (UIState.showMenu) {
-        console.log("Show this")
-        onOpen(e);
-        /*         if (UIState.panels.has(UIPanels.Settings))
-                    UIState.panels.delete(UIPanels.Settings); */
-/*  if (UIState.panels.has(UIPanels.ChatHistory))
-     UIState.panels.delete(UIPanels.ChatHistory);
- UIState.showMenu = false; 
-
-}
-};
-*/
 </script>
 
 <template>
-    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
-        {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
-
-    <MenuButton :open="UIState.showMenu" @click="onOpen" />
+    <MenuButton :open="UIState.showMenu" @click="onOpen"
+        :class="{ 'menu-button-open-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"></MenuButton>
     <div class="nav-menu"
-        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isSomethingInMenuSelected }">
-        <Panel class="nav-menu-bar" v-on-click-outside="handleClickOut">
+        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed, 'fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.showMenu, 'short-nav-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed }">
+        <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo" v-if="!UIState.isSomethingInMenuSelected">
+                <div class="nav-logo"
+                    v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
@@ -93,66 +72,106 @@ const handleClickOut = (e: Event) => {
                 </div>
             </div>
             <div class="nav-menu-list">
-                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user" :class="{
-        'nav-item-active': UIState.panels.has(
-            UIPanels.ChatHistory
-        ),
-    }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_history) }}</div>
-                    <div class="chat-history-icon" v-if="UIState.isSomethingInMenuSelected">
+                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
+                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user"
+                    :class="{ 'nav-item-active': !useMobileLayout() && UIState.panels.has(UIPanels.ChatHistory), 'small-layout': UIState.isNavMenuCompressed }">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_chat_history) }}</div>
+                    <div class="icon chat-history-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Chat'
-        ),
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat) }}</div>
-                    <div class="chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_chat) }}</div>
+                    <div class="icon new-chat-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
-                <div class="nav-item" @click="newChat" v-if="Chat.id">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_chat_new) }}</div>
-                    <div class="new-chat-icon" v-if="UIState.isSomethingInMenuSelected">
+                <div class="nav-item" @click="newChat" :class="{
+        'small-layout': UIState.isNavMenuCompressed
+    }" v-if="Chat.id">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_chat_new) }}</div>
+                    <div class="icon new-chat-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
+                    </div>
+                </div>
+                <div class="nav-item" @click="navigateTo('/content-catalogue')" v-if="Login.user" :class="{
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
+            (p) => p.name === 'Content-catalogue'
+        ), 'small-layout': UIState.isNavMenuCompressed
+    }">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_catalogue) }}</div>
+                    <div class="icon catalogue-content-mobile margin-left"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-spacer"></div>
                 <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Login'
         ),
     }">
                     <div class="nav-link">{{ $t(l.nav_login) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Signup'
         ),
     }">
                     <div class="nav-link">{{ $t(l.nav_signup) }}</div>
                 </div>
                 <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
-        'nav-item-active': $route.matched.some(
+        'nav-item-active': !useMobileLayout() && $route.matched.some(
             (p) => p.name === 'Profile'
-        ),
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_profile) }}</div>
-                    <div class="profile-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_profile) }}</div>
+                    <div class="icon user-profile-mobile margin-left"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
                 <div class="nav-item" @click="toggleSettingsPanel" :class="{
-        'nav-item-active': UIState.panels.has(
+        'nav-item-active': !useMobileLayout() && UIState.panels.has(
             UIPanels.Settings
-        )
+        ), 'small-layout': UIState.isNavMenuCompressed
     }">
-                    <div class="nav-link" v-if="!UIState.isSomethingInMenuSelected">{{ $t(l.nav_preferences) }}</div>
-                    <div class="preferences-icon" v-if="UIState.isSomethingInMenuSelected">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_preferences) }}</div>
+                    <div class="icon settings-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
                     </div>
                 </div>
-                <SectionSeparator v-if="!UIState.isSomethingInMenuSelected" />
-                <div class="nav-item" @click="navigateTo('/home')" v-if="Login.user">
-                    <div class="nav-link">{{ $t(l.nav_main_menu) }}</div>
+                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
+                <div class="nav-item" @click="navigateTo('/home')" :class="{
+        'small-layout': UIState.isNavMenuCompressed
+    }" v-if="Login.user">
+                    <div class="nav-link"
+                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                        {{
+        $t(l.nav_main_menu) }}</div>
+                    <div class="icon main-menu-mobile"
+                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
+                    </div>
                 </div>
             </div>
         </Panel>
@@ -251,6 +270,19 @@ const handleClickOut = (e: Event) => {
     flex-grow: 1;
 }
 
+.fake-mobile-screen {
+    height: 78%;
+    width: 10rem;
+}
+
+.short-nav-fake-mobile-screen {
+    width: 5rem;
+}
+
+.menu-button-open-fake-mobile-screen {
+    left: 0.5rem;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .menu-container {
         overflow: hidden;
@@ -265,16 +297,15 @@ const handleClickOut = (e: Event) => {
 
     .nav-menu {
         margin: 0;
+        font-size: var(--font-small);
     }
 
     .nav-menu-open {
         width: 65%;
         position: absolute;
-
     }
 
     .nav-menu-bar {
-
         align-items: center;
     }
 
@@ -286,44 +317,9 @@ const handleClickOut = (e: Event) => {
         width: 4.5rem;
     }
 
-    .chat-history-icon {
-        background-image: url("@/assets/icons/aire-icon-chat-history.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .chat-icon {
-        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .new-chat-icon {
-        background-image: url("@/assets/icons/aire-icon-mobile-new-chat-dark.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .profile-icon {
-        background-image: url("@/assets/icons/aire-icon-profile.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
-    }
-
-    .preferences-icon {
-        background-image: url("@/assets/icons/aire-icon-settings.svg");
-        width: 2rem;
-        height: 2rem;
-        background-size: cover;
-        position: absolute;
+    .small-layout {
+        padding: 0rem;
+        margin: 1rem;
     }
 }
 </style>

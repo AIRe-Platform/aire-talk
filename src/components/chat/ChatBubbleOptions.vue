@@ -60,7 +60,7 @@ const onCancelRevert = () => {
     </ConfirmDialog>
     <div class="chat-bubble-options">
         <div class="chat-bubble-options-button" @click.stop="onToggleMenu">
-            <div class="chat-bubble-options-icon">
+            <div class="icon chat-option-desktop">
             </div>
         </div>
         <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
@@ -156,13 +156,6 @@ const onCancelRevert = () => {
     right: -4.5rem;
     top: 0;
     gap: 0.2rem;
-}
-
-.chat-bubble-options-icon {
-    background-image: url(/src/assets/icons/aire-icon-chat-option.svg);
-    width: 1.3rem;
-    height: 1.3rem;
-    background-size: cover;
 }
 
 .chat-message-answer-options-menu-button {

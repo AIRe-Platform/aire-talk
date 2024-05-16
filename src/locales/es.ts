@@ -50,6 +50,7 @@ const es: Locale = {
     nav_theme: "Cambiar tema",
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
+    nav_catalogue: "Content Catalogue",
 
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
@@ -125,6 +126,10 @@ const es: Locale = {
     settings_ui_size: "Tamaño de la interfaz de usuario",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Grande",
+    settings_ui_screen_size: "Resolución de pantalla",
+    settings_ui_screen_size_mobile: "Móvil",
+    settings_ui_screen_size_tablet: "Tablet",
+    settings_ui_screen_size_desktop: "Pantalla",
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
@@ -188,12 +193,23 @@ const es: Locale = {
         '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion:
         "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    questionnaire: "Cuestionario",
+    questionnaire_start: "Principio del cuestionario",
+    questionnaire_end: "Final del cuestionario",
+    questionnaire_explanation:
+        "Las siguientes preguntas se están registrando para su análisis.",
+    question_answer: "Tu respuesta",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
+
+    en: "Inglés",
+    fi: "Finés",
+    es: "Español",
+    vi: "Vietnamita"
 };
 
 export default es;

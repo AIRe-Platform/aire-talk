@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UISettings } from '@/context/ui';
 import { defineProps } from 'vue';
 const props = defineProps<{
     open: boolean
@@ -6,9 +7,11 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
+    <div class="options-button"
+        :class="{ 'options-button-active': props.open, 'options-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+        v-if="props.open">
 
-        <div class="xmark-icon">
+        <div class="icon close-window">
         </div>
 
     </div>
@@ -27,7 +30,7 @@ const props = defineProps<{
     height: 1rem;
     z-index: 3;
 
-    background-color: var(--panel-background-color);
+    /* background-color: var(--panel-background-color); */
     border-radius: 1rem;
 
     transition: color .2s;
@@ -38,17 +41,14 @@ const props = defineProps<{
     }
 }
 
-.options-button-active {
-    color: var(--accent-primary-color);
+.options-button-fake-small-screen {
+    top: 4rem;
+    right: 3rem;
+    transform: scale(0.7);
 }
 
-.xmark-icon {
-    background-image: url(/src/assets/icons/aire-icon-xmark.svg);
-    width: 1.5rem;
-    height: 1.5rem;
-    background-size: cover;
-    position: absolute;
-
+.options-button-active {
+    color: var(--accent-primary-color);
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
@@ -56,6 +56,8 @@ const props = defineProps<{
         display: flex;
         border: none;
         box-shadow: unset;
+        width: 1rem;
+        right: 1rem;
     }
 }
 </style>

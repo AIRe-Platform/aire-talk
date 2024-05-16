@@ -50,6 +50,7 @@ const en: Locale = {
     nav_theme: "Change theme",
     nav_preferences: "Settings",
     nav_main_menu: "Main menu",
+    nav_catalogue: "Content Catalogue",
 
     profile_title: "User account",
     profile_label_first_name: "First Name",
@@ -122,6 +123,10 @@ const en: Locale = {
     settings_ui_size: "User interface size",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Large",
+    settings_ui_screen_size: "Screen resolution preference",
+    settings_ui_screen_size_mobile: "Mobile",
+    settings_ui_screen_size_tablet: "Tablet",
+    settings_ui_screen_size_desktop: "Desktop",
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.
@@ -181,12 +186,23 @@ const en: Locale = {
         'Would you like to fill a questionnaire "{0}"?',
     confirm_questionnaire_completion:
         "When you are happy with your answers, choose continue.",
+    questionnaire: "Questionnaire",
+    questionnaire_start: "Start of questionnaire",
+    questionnaire_end: "End of questionnaire",
+    questionnaire_explanation:
+        "The following questions are being recorded for analysis",
+    question_answer: "Your answer",
 
     button_accept: "Accept",
     button_cancel: "Cancel",
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
+
+    en: "English",
+    fi: "Finnish",
+    es: "Spanish",
+    vi: "Vietnamese"
 };
 
 export default en;

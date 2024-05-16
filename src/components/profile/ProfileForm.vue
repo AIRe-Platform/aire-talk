@@ -68,7 +68,7 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                     :readonly="busy" />
-                <div class="edit-icon" @click.prevent="activateField('first-name')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -77,7 +77,7 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                     :readonly="busy" />
-                <div class="edit-icon" @click.prevent="activateField('last-name')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -89,7 +89,7 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <div class="edit-icon" @click.prevent="activateField('gender')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('gender')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -97,7 +97,7 @@ const activateField = (id: string) => {
             <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
             <div class="form-input">
                 <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="busy" />
-                <div class="edit-icon" @click.prevent="activateField('age')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('age')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -109,7 +109,7 @@ const activateField = (id: string) => {
                         {{ loc.name }}
                     </option>
                 </select>
-                <div class="edit-icon" @click.prevent="activateField('language')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('language')" :disabled="busy">
                 </div>
 
             </div>
@@ -119,7 +119,7 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="busy" />
-                <div class="edit-icon" @click.prevent="activateField('country')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('country')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -127,7 +127,7 @@ const activateField = (id: string) => {
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
                 <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="busy"></textarea>
-                <div class="edit-icon margin-left" @click.prevent="activateField('bio')" :disabled="busy">
+                <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="busy">
                 </div>
             </div>
         </span>
@@ -203,13 +203,6 @@ const activateField = (id: string) => {
             flex-grow: 1;
         }
     }
-}
-
-.edit-icon {
-    background-image: url("@/assets/icons/aire-icon-edit.svg");
-    width: 1.2rem;
-    height: 1.2rem;
-    background-size: cover;
 }
 
 .form-buttons {

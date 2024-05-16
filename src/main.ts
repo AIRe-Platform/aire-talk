@@ -7,43 +7,37 @@ import { logout, restoreSession } from "./context/login";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
-    faUserSecret,
     faThumbsDown,
     faThumbsUp,
     faCopy,
-    faTrash,
     faEllipsisVertical,
-    faXmark,
-    faSliders,
     faArrowsSpin,
     faCheck,
     faArrowsRotate,
     faMoon,
     faSun,
-    faPen,
     faMagnifyingGlass,
-    faList,
-    faPaperPlane
+    faPaperPlane,
+    faFile,
+    faLink,
+    faXmark
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
-    faUserSecret,
     faThumbsDown,
     faThumbsUp,
     faCopy,
-    faTrash,
     faEllipsisVertical,
-    faXmark,
-    faSliders,
     faArrowsSpin,
     faCheck,
     faArrowsRotate,
     faMoon,
     faSun,
-    faPen,
     faMagnifyingGlass,
-    faList,
-    faPaperPlane
+    faPaperPlane,
+    faFile,
+    faLink,
+    faXmark
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
@@ -52,7 +46,9 @@ export async function initApp() {
     if (AppState.value !== "init") return;
 
     const result = await aireInit({
-        api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT || "http://localhost:7071/api",
+        api_url:
+            import.meta.env.VITE_AIRE_SERVICES_ENDPOINT ||
+            "http://localhost:7071/api",
     })
         .then(async (result) => {
             if (result) {
@@ -80,8 +76,8 @@ app.use(i18n).use(router).mount("#app");
 
 // Mobile Safari hack to keep the full page view in place after the keyboard has been closed.
 document.addEventListener("focusout", (e: Event) => {
-    document.defaultView?.scroll({ top: 0, left: 0, behavior: "smooth"})
-})
+    document.defaultView?.scroll({ top: 0, left: 0, behavior: "smooth" });
+});
 
 aireSetResponseCallback(() => {
     logout();

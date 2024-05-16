@@ -85,13 +85,13 @@ const onSubmitAnswer = () => {
 
 .questionnaire-answer-button {
     border: 1px solid var(--border-color);
-    background-color: var(--button-color);
+    background-color: var(--panel-background-color);
     color: var(--button-text);
     transition: all .25s;
 }
 
 .questionnaire-answer-button-selected {
-    background-color: var(--button-color);
+    background-color: var(--accent-primary-color);
     color: var(--background-color);
 }
 

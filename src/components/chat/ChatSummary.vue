@@ -4,12 +4,15 @@ import {
     Chat,
     queryAndStartQuestionnaire,
     refreshAbstract,
+    refreshContentCatalogue,
     startPersonalInformationQuestionnaire
 } from '@/context/chat';
 import { ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 import Panel from '@/components/Panel.vue';
 import { getMissingPersonalInformationQuestions } from "@/helpers/questionnaireUtils";
+import { UISettings } from '@/context/ui';
+
 
 const busy = ref(false);
 
@@ -18,6 +21,7 @@ const generateSummary = async () => {
     clearSummary();
     clearKeywords();
     await refreshAbstract();
+    await refreshContentCatalogue();
     busy.value = false;
 }
 
@@ -47,7 +51,8 @@ const clearKeywords = () => {
 </script>
 
 <template>
-    <Panel class="summary-panel">
+    <Panel class="summary-panel"
+        :class="{ 'summary-panel-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <div class="summary-title">
             {{ $t(l.summary_chag_log_title) }}
         </div>
@@ -99,7 +104,7 @@ const clearKeywords = () => {
 }
 
 .update-icon {
-    background-image: url("@/assets/icons/aire-icon-update.png");
+    background-image: url("@/assets/icons/update-default.png");
     width: 0.7rem;
     height: 0.7rem;
     background-size: cover;
@@ -182,6 +187,12 @@ const clearKeywords = () => {
 
 .summary-button-text {
     margin-right: 0.5rem;
+}
+
+.summary-panel-fake-mobile-screen {
+    position: relative;
+    top: 3rem;
+    left: 4rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

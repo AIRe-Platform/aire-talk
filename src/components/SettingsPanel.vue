@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UISettings, UIState } from "@/context/ui";
+import { UIFontSize, UIPanels, UIScreenSize, UISettings, UIState } from "@/context/ui";
 import Panel from "./Panel.vue";
 import ISO6391, { LanguageCode } from 'iso-639-1';
 import ThemeSwitch from "./ThemeSwitch.vue";
@@ -21,6 +21,14 @@ const setTextSize = (e: Event) => {
     el.blur();
 }
 
+const setScreenSize = (e: Event) => {
+    const el = e.target as HTMLSelectElement;
+    UISettings.screenSize = el.value as UIScreenSize;
+    el.blur();
+    if (UISettings.screenSize == 'mobile-screen') {
+        UIState.isNavMenuCompressed = true;
+    }
+}
 const onClickOutside = (e: Event) => {
     e.stopImmediatePropagation();
     UIState.panels.delete(UIPanels.Settings);
@@ -28,7 +36,8 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <Panel class="settings-panel" v-on-click-outside="onClickOutside">
+    <Panel class="settings-panel" v-on-click-outside="onClickOutside"
+        :class="{ 'settings-panels-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <div class="settings-header">
             {{ $t(l.settings_title) }}
         </div>
@@ -37,7 +46,7 @@ const onClickOutside = (e: Event) => {
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
             <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">
-                    {{ ISO6391.getNativeName(lang) }} ({{ ISO6391.getName(lang) }})
+                    {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
                 </option>
             </select>
         </div>
@@ -49,6 +58,15 @@ const onClickOutside = (e: Event) => {
             <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
                 <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
                 <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
+            </select>
+        </div>
+        <SectionSeparator />
+        <div class="settings-item">
+            <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
+            <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.screenSize">
+                <option :value="UIScreenSize.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
+                <!-- <option :value="UIScreenSize.Tablet">{{ $t(l.settings_ui_screen_size_tablet) }}</option> -->
+                <option :value="UIScreenSize.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
             </select>
         </div>
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
@@ -91,10 +109,16 @@ const onClickOutside = (e: Event) => {
     margin-top: 1rem;
 }
 
+.settings-panels-mobile-screen {
+    margin-top: 14rem;
+    margin-left: 16rem;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
-        width: 75%;
-        margin-left: 0rem;
+        width: 65%;
+        margin-left: 4rem;
+        margin-bottom: -1rem;
     }
 }
 </style>

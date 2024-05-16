@@ -48,6 +48,7 @@ const fi: Locale = {
     nav_theme: "Vaihda teema",
     nav_preferences: "Asetukset",
     nav_main_menu: "Päävalikko",
+    nav_catalogue: "Content Catalogue",
 
     profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",
@@ -118,6 +119,10 @@ const fi: Locale = {
     settings_ui_size: "Käyttöliittymän koko",
     settings_ui_size_normal: "Normaali",
     settings_ui_size_large: "Suuri",
+    settings_ui_screen_size: "Näytön resoluution asetus",
+    settings_ui_screen_size_mobile: "Mobiili",
+    settings_ui_screen_size_tablet: "Tabletti",
+    settings_ui_screen_size_desktop: "Työpöytä",
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
@@ -178,12 +183,23 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
     confirm_questionnaire_completion:
         "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+    questionnaire: "Kysely",
+    questionnaire_start: "Kyselyn alku",
+    questionnaire_end: "Kyselyn loppu",
+    questionnaire_explanation:
+        "The following questions are being recorded for analysis",
+    question_answer: "Vastauksesi",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",
+
+    en: "Englanti",
+    fi: "Suomi",
+    es: "Espanja",
+    vi: "Vietnam"
 };
 
 export default fi;

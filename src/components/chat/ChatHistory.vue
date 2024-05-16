@@ -12,9 +12,9 @@ import {
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIState, UIPanels } from "@/context/ui";
+import { UIState, UIPanels, UISettings } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
-import useMobileLayout from "@/helpers/mobile";
+
 
 interface ChatLogItem {
     id: string;
@@ -70,9 +70,8 @@ const onSelect = async (id: string) => {
 
     emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
-
-    if (useMobileLayout())
-        UIState.showMenu = false;
+    UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
 };
 
 const onConfirmDelete = () => {
@@ -133,7 +132,8 @@ const onClickOutside = (e: Event) => {
     <ConfirmDialog v-if="state.confirmDelete" @accept="onConfirmDelete" @decline="onCancelDelete">
         {{ $t(l.popup_confirm_remove_chat) }}
     </ConfirmDialog>
-    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+    <div class="chat-history-panel" v-on-click-outside="onClickOutside"
+        :class="{ 'chat-history-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <div class="chat-history-list">
             <div class="chat-history-busy" v-if="state.busy">
                 <Spinner />
@@ -153,7 +153,7 @@ const onClickOutside = (e: Event) => {
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <div class="trash-icon">
+                        <div class="icon delete-bin">
                         </div>
                     </div>
                 </div>
@@ -177,13 +177,6 @@ const onClickOutside = (e: Event) => {
     overflow: hidden;
     margin: 0;
     margin-left: 15.5rem;
-}
-
-.trash-icon {
-    background-image: url("@/assets/icons/aire-icon-trash.svg");
-    width: 2rem;
-    height: 2.7rem;
-    background-size: cover;
 }
 
 .chat-history-busy {
@@ -257,7 +250,6 @@ const onClickOutside = (e: Event) => {
 .chat-history-item-date {
     font-size: var(--font-small);
     color: var(--chat-history-item-date);
-    /* font-family: sans-serif; */
     font-weight: 700;
 }
 
@@ -279,13 +271,22 @@ const onClickOutside = (e: Event) => {
     right: -3rem;
 }
 
+.chat-history-panels-fake-mobile-screen {
+    width: 19rem;
+    height: 98%;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
-        width: 100%;
+        width: 80%;
         z-index: 10;
         padding: 0.5rem;
         max-height: 80%;
-        margin-left: unset;
+        margin-left: 4rem;
+    }
+
+    .chat-history-item {
+        justify-content: flex-start;
     }
 }
 </style>

@@ -2,6 +2,7 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import SectionSeparator from "@/components/SectionSeparator.vue";
+import { UISettings } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -9,8 +10,9 @@ const navigateTo = (path: string) => {
 </script>
 
 <template>
-    <div id="start-view">
-        <div class="start-container">
+    <div id="start-view" :class="{ 'start-view-fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div class="start-container"
+            :class="{ 'start-container-fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
             <div class="greeting">
                 <div class="chat-bot">
                 </div>
@@ -20,12 +22,16 @@ const navigateTo = (path: string) => {
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <button class="get-started" @click="navigateTo('/login')">
+                <div class="icon frontpage-button"
+                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+                    @click="navigateTo('/login')">
                     {{ $t(l.nav_login) }}
-                </button>
-                <button class="get-started" @click="navigateTo('/signup')">
+                </div>
+                <div class="icon frontpage-button"
+                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
+                    @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
-                </button>
+                </div>
             </div>
             <div class="start-footer">
                 <p>{{ $t(l.start_footer) }}</p>
@@ -89,13 +95,13 @@ const navigateTo = (path: string) => {
     flex-wrap: wrap;
     margin: 1rem 0px -5rem 0rem;
     gap: 2rem;
+    align-items: center;
 }
 
 .get-started {
     width: 15rem;
     height: 3rem;
     border-radius: 20px;
-    opacity: 0px;
     background: var(--button-gradient-color);
     font-size: var(--font-medium);
     color: var(--button-text);
@@ -107,6 +113,24 @@ const navigateTo = (path: string) => {
     margin-top: 8rem;
     text-align: center;
     font-size: var(--font-small);
+}
+
+.frontpage-button-fake-small-screen {
+    width: 15rem !important;
+    height: 4rem !important;
+}
+
+.start-view-fake-small-screen {
+    background-size: cover;
+}
+
+.start-container-fake-small-screen {
+    font-size: var(--font-small);
+    width: 100%;
+    height: 100%;
+    background-color: unset;
+    border-left: unset;
+    border-right: unset;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
@@ -134,6 +158,11 @@ const navigateTo = (path: string) => {
         padding: 0rem 2rem;
         margin-top: 7rem;
         font-size: xx-small;
+    }
+
+    .frontpage-button {
+        width: 15rem !important;
+        height: 4rem !important;
     }
 }
 </style>

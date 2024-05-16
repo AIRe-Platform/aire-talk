@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
-import { UISettings } from "@/context/ui";
+import { Content, ContentType } from "aire";
 
 const props = defineProps<{
     active: boolean,
-    parent: ChatMessage,
+    content: Content,
     onClose: () => void
 }>()
 
@@ -17,32 +16,33 @@ const close = (e: Event) => {
 
 <template>
     <transition name="modal-animation">
-        <div v-show="active" class="modal" :class="{ 'fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div v-show="active" class="modal">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
-                        <div class="icon close-window modal-close" @click="close">
-                        </div>
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}
+                                <h1>{{ (props.content.name) }}
                                 </h1>
-                                <div class="modal-logo" v-if="props.parent.role != 'user'">
-                                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                                <div class="icon close-window modal-close" @click="close">
                                 </div>
                             </div>
                             <div class="modal-body">
-                                <p v-if="props.parent.message">
-                                    {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message
-                                    }}
-                                </p>
-                                <div class="modal-body-image" v-if="props.parent.image">
-                                    <img v-bind:src="props.parent.image" class="chat-message-image-contain">
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Image">
+                                    <img v-bind:src="props.content.url" class="modal-body-image">
                                 </div>
-                                <div class="modal-body-video-container" v-if="props.parent.video">
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Video">
                                     <video class="modal-body-video" controls>
-                                        <source v-bind:src="props.parent.video" type="video/mp4">
+                                        <source v-bind:src="props.content.url" type="video/mp4">
                                     </video>
+                                </div>
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.URL">
+                                    <a v-bind:href=props.content.url target="_blank">{{ props.content.url }}</a>
+                                </div>
+                                <div class="modal-body-container" v-if="props.content.type == ContentType.Document">
+                                    <div class="icon catalogue-content-mobile" :src="props.content.url" alt="">
+                                    </div>
+                                    <div>{{ props.content.name }}</div>
                                 </div>
                             </div>
                         </div>
@@ -66,6 +66,8 @@ $secundary-color: var(--background-color);
 .modal-body-image {
     display: flex;
     justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .modal-button {
@@ -75,9 +77,30 @@ $secundary-color: var(--background-color);
     justify-content: center;
 }
 
+.modal-body-container {
+    display: flex;
+    flex-direction: column;
+}
+
 .modal-body-video {
-    width: 40rem;
-    height: 20rem;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+}
+
+.catalogue-content-mobile {
+    width: 15rem;
+    height: 15rem;
 }
 
 .modal-logo {
@@ -92,14 +115,6 @@ $secundary-color: var(--background-color);
         object-fit: contain;
         width: 8rem;
     }
-}
-
-.modal-content {
-    width: 100%;
-}
-
-.mobile-screen {
-    max-width: 28%;
 }
 
 .modal-animation-enter-active,
@@ -133,8 +148,8 @@ $secundary-color: var(--background-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 97vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -184,6 +199,7 @@ $secundary-color: var(--background-color);
 }
 
 
+
 /* mobile*/
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
     .modal {
@@ -199,8 +215,8 @@ $secundary-color: var(--background-color);
     }
 
     .modal-body-video {
-        max-width: 18.5rem;
-        max-height: 15rem;
+        max-width: 100%;
+        max-height: 100%;
     }
 
 
