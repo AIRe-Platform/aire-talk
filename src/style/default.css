@@ -244,7 +244,7 @@ button {
     font-size: var(--font-large);
 }
 
-.descktop-screen {
+.desktop-screen {
     width: 100%;
 }
 
@@ -252,6 +252,6 @@ button {
     max-width: 50%;
 }
 
-.mobile-screen {
-    /*  max-width: 28%; */
-}
+/* .mobile-screen {
+    max-width: 28%;
+} */

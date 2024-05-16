@@ -14,7 +14,7 @@ export enum UIFontSize {
 export enum UIScreenSize {
     Mobile = "mobile-screen",
     Tablet = "tablet-screen",
-    Descktop = "descktop-screen",
+    Desktop = "desktop-screen",
 }
 
 export interface UISettingsOptions {
@@ -41,7 +41,7 @@ function initSettings(): UISettingsOptions {
         fontSize: (localStorage.getItem("ui-font-size") ||
             UIFontSize.Normal) as UIFontSize,
         screenSize: (localStorage.getItem("ui-screen-size") ||
-            UIScreenSize.Descktop) as UIScreenSize,
+            UIScreenSize.Desktop) as UIScreenSize,
     };
     applyFontSize(options.fontSize);
     applyScreeSize(options.screenSize);
@@ -50,7 +50,7 @@ function initSettings(): UISettingsOptions {
 
 function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     if (oldSize) {
-        console.log("document.documentElement", document.documentElement);
+        // console.log("document.documentElement", document.documentElement);
         document.documentElement.classList.remove(oldSize);
         localStorage.setItem("ui-font-size", newSize);
     }

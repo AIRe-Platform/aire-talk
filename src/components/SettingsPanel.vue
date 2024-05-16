@@ -66,7 +66,7 @@ const onClickOutside = (e: Event) => {
             <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.screenSize">
                 <option :value="UIScreenSize.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
                 <!-- <option :value="UIScreenSize.Tablet">{{ $t(l.settings_ui_screen_size_tablet) }}</option> -->
-                <option :value="UIScreenSize.Descktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
+                <option :value="UIScreenSize.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
             </select>
         </div>
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
