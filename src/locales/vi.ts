@@ -49,6 +49,7 @@ const vi: Locale = {
     nav_theme: "Thay đổi chủ đề",
     nav_preferences: "Cài đặt",
     nav_main_menu: "Thực đơn chính",
+    nav_catalogue: "Danh mục nội dung",
 
     profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
@@ -86,6 +87,17 @@ const vi: Locale = {
     gender_male: "nam giới",
     gender_female: "nữ giới",
     gender_other: "khác",
+
+    profile_question_button: "Hoàn thành hồ sơ",
+    profile_question_confirm: "Bạn có muốn trả lời một số câu hỏi về thông tin cá nhân của mình không?",
+    profile_question_completion: 
+        "Nhấp tiếp tục nếu thông tin của bạn chính xác. Bạn có thể chỉnh sửa thông tin của mình sau trên trang hồ sơ của mình.",
+    profile_question_first_name: "Tên của bạn là gì?",
+    profile_question_last_name: "Họ của bạn là gì?",
+    profile_question_gender: "Giới tính của bạn là gì?",
+    profile_question_age: "Bạn bao nhiêu tuổi?",
+    profile_question_language: "Ngôn ngữ chính của bạn là gì?",
+    profile_question_country: "Bạn sống ở quốc gia nào?",
 
     verification_heading: "Xác thực tài khoản của bạn",
     verification_description: "Nhập mã xác minh bạn nhận được trong email",
