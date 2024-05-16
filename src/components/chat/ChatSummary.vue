@@ -20,8 +20,7 @@ const generateSummary = async () => {
     busy.value = true;
     clearSummary();
     clearKeywords();
-    //await refreshAbstract();
-    Chat.current.keywords = ["back pain"];
+    await refreshAbstract();
     await refreshContentCatalogue();
     busy.value = false;
 }
