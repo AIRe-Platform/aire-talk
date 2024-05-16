@@ -19,7 +19,8 @@ import {
     faMagnifyingGlass,
     faPaperPlane,
     faFile,
-    faLink
+    faLink,
+    faXmark
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -35,7 +36,8 @@ library.add(
     faMagnifyingGlass,
     faPaperPlane,
     faFile,
-    faLink
+    faLink,
+    faXmark
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
