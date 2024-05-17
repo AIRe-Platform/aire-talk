@@ -13,13 +13,17 @@ setTimeout(() => {
         location.reload()
 }, 5000)
 
+const closeNavMenu = () => {
+    UIState.showMenu = false;
+    UIState.isNavMenuCompressed = false;
+}
 </script>
 
 <template>
     <div id="main" v-if="AppState === 'loaded'" tabindex="1"
         :class="{ 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
         <NavMenu />
-        <div class="main-content">
+        <div class="main-content" @click="closeNavMenu">
             <RouterView />
             <div class="main-panels"
                 :class="{ 'main-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
