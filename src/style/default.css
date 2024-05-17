@@ -68,7 +68,6 @@
     --back-ground-texture: url("@/assets/images/AIRe-background-texture-lightmode.png");
     --chat-options-menu-background: #ffffff;
     --text-color-in-select: black;
-    /*the next ones should be deleted*/
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
@@ -80,6 +79,8 @@
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
     --chat-bubble-bot-label: #0D004C;
+    --chat-history-text-color:#424242;
+    --chat-menu-active: #d9f0ff;
 }
 
 :root.theme-dark {
@@ -110,7 +111,6 @@
     --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
     --chat-options-menu-background: #f1f4f9;
     --text-color-in-select: black;
-    /*the next ones should be deleted*/
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
@@ -123,6 +123,8 @@
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
     --chat-bubble-bot-label:  #FDB913;
+    --chat-history-text-color:#47425E;
+    --chat-menu-active: #d9f0ff;
 }
 
 html {

@@ -212,7 +212,7 @@ const onClickOutside = (e: Event) => {
 
 .restore-chat-item-open {
     cursor: default;
-    background-color: var(--menu-active);
+    background-color: var(--chat-menu-active);
 }
 
 .chat-history-item-details {
@@ -258,11 +258,12 @@ const onClickOutside = (e: Event) => {
     margin-right: 1rem;
     overflow: hidden;
     font-size: var(--font-small);
-    color: black;
+    color: var(--chat-history-text-color);
 }
 
 .chat-history-token {
     font-size: var(--font-small);
+    color: var(--chat-history-text-color);
 }
 
 .restore-chat-button-close {
