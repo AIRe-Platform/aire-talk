@@ -89,6 +89,8 @@
 
 .theme-default .icon.catalogue-content-mobile {
     background-image: url("@/assets/icons/catalogue-content-light-mobile.svg");
+    width: 2rem;
+    height: 2rem;
 }
 
 .theme-dark .icon.main-menu-mobile {
