@@ -55,11 +55,13 @@ onMounted(async () => {
         <div class="home-container">
             <div class="home-header"
                 :class="{ 'home-header-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
-                <div class="aire-logo"
-                    :class="{ 'home-logo-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
-                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                <div class="home-header-title">
+                    <div class="aire-logo"
+                        :class="{ 'home-logo-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                        <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                    </div>
+                    <p>{{ $t(l.start_first_paragraph) }}</p>
                 </div>
-                <p>{{ $t(l.start_first_paragraph) }}</p>
             </div>
             <div class="quick-nav">
                 <div class="icon frontpage-button"
@@ -111,17 +113,23 @@ onMounted(async () => {
 
 .home-header {
     width: 100%;
-    background-image: url("@/assets/images/aire_fp_papertexture_cropped.png");
+    background-image: url("@/assets/images/aire-fp-papertexture.png");
     background-repeat: repeat-x;
-    background-size: 1200px 420px;
-    height: 280px;
+    height: 420px;
     background-position: bottom;
     display: flex;
     align-items: center;
     flex-direction: column;
     flex-shrink: 0;
-    padding-top: 5rem;
     font-weight: bold;
+}
+
+.home-header-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .aire-logo {
@@ -219,6 +227,10 @@ onMounted(async () => {
         background-size: cover;
         padding-top: 5rem;
         height: 12rem;
+    }
+
+    .home-header-title {
+        justify-content: flex-start;
     }
 
     .aire-logo {

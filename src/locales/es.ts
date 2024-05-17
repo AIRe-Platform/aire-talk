@@ -205,6 +205,8 @@ const es: Locale = {
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
+    button_delete_content: "Eliminar contenido",
+    button_display: "Mostrar",
 
     en: "Inglés",
     fi: "Finés",
