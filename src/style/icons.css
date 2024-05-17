@@ -155,11 +155,11 @@
     background-image: url("@/assets/icons/play-video-light.svg");
 }
 
-.theme-default .icon.questionnaire-answer-default {
+.icon.questionnaire-answer-default {
     background-image: url("@/assets/icons/questionnaire-answer-default.svg");
 }
 
-.theme-default .icon.questionnaire-question-default {
+.icon.questionnaire-question-default {
     background-image: url("@/assets/icons/questionnaire-question-default.svg");
 }
 
