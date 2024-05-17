@@ -195,6 +195,8 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",
+    button_delete_content: "Poista sisältö",
+    button_display: "Näytä",
 
     en: "Englanti",
     fi: "Suomi",

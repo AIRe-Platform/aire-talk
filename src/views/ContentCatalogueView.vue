@@ -83,10 +83,10 @@ const state = reactive<{
                 </Panel>
             </div>
             <div class="buttons-line">
-                <button class="button delete-button"> delete content</button>
+                <button class="button delete-button">{{ $t(l.button_delete_content) }}</button>
                 <div class="right-cortner">
                     <div class="icon download"></div>
-                    <button class="button"> display</button>
+                    <button class="button">{{ $t(l.button_display) }}</button>
                 </div>
 
             </div>
