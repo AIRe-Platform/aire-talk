@@ -89,6 +89,8 @@
 
 .theme-default .icon.catalogue-content-mobile {
     background-image: url("@/assets/icons/catalogue-content-light-mobile.svg");
+    width: 2rem;
+    height: 2rem;
 }
 
 .theme-dark .icon.main-menu-mobile {
@@ -153,11 +155,11 @@
     background-image: url("@/assets/icons/play-video-light.svg");
 }
 
-.theme-default .icon.questionnaire-answer-default {
+.icon.questionnaire-answer-default {
     background-image: url("@/assets/icons/questionnaire-answer-default.svg");
 }
 
-.theme-default .icon.questionnaire-question-default {
+.icon.questionnaire-question-default {
     background-image: url("@/assets/icons/questionnaire-question-default.svg");
 }
 

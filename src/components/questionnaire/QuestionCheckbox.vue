@@ -86,7 +86,7 @@ const onSubmitAnswer = () => {
 .questionnaire-answer-button {
     border: 1px solid var(--border-color);
     background-color: var(--panel-background-color);
-    color: var(--button-text);
+    color: var(--accent-primary-color);
     transition: all .25s;
 }
 

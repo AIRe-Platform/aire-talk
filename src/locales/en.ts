@@ -198,6 +198,8 @@ const en: Locale = {
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
+    button_delete_content: "Delete content",
+    button_display: "Display",
 
     en: "English",
     fi: "Finnish",

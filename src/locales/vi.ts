@@ -182,18 +182,20 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
         'Bạn có muốn điền vào bảng câu hỏi "{0}" không?',
     confirm_questionnaire_completion:
         "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
-    questionnaire: "Questionnaire",
-    questionnaire_start: "Start of questionnaire",
-    questionnaire_end: "End of questionnaire",
+    questionnaire: "Bảng câu hỏi",
+    questionnaire_start: "Bắt đầu bảng câu hỏi",
+    questionnaire_end: "Kết thúc bảng câu hỏi",
     questionnaire_explanation:
-        "The following questions are being recorded for analysis",
-    question_answer: "Your answer",
+        "Các câu hỏi sau đây đang được ghi lại để phân tích",
+    question_answer: "Câu trả lời của bạn",
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",
+    button_delete_content: "Xóa nội dung",
+    button_display: "Chưng ra",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
