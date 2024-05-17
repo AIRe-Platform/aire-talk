@@ -79,6 +79,7 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
+    --chat-bubble-bot-label: #0D004C;
 }
 
 :root.theme-dark {
@@ -121,6 +122,7 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
+    --chat-bubble-bot-label:  #FDB913;
 }
 
 html {

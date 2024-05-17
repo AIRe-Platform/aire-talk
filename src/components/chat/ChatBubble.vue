@@ -115,7 +115,7 @@ if (props.message.isError)
 }
 
 .chat-bubble-bot .chat-user-label {
-    color: var(--accent-secondary-color);
+    color: var(--chat-bubble-bot-label);
 }
 
 .chat-bubble-user .chat-user-label {
