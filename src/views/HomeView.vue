@@ -81,7 +81,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="home-footer">
-                <p class="disclaimer">{{ $t(l.start_footer) }}</p>
+                <p class="disclaimer">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
                 <div class="chat-bot"
                     :class="{ 'home-chat-bot-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                 </div>
