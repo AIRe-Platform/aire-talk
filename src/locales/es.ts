@@ -7,6 +7,9 @@ const es: Locale = {
 
     aire_bot: "AIRe bot",
     aire_system: "AIRe Sistema",
+    system_topic: "Has seleccionado un tema: ",
+    system_greeting:
+        "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
 
     start_greeting: "Bienvenid@ a la plataforma AIRe",
     start_first_paragraph:
@@ -14,15 +17,11 @@ const es: Locale = {
     start_second_paragraph:
         "Continúa iniciando sesión o creando un nuevo perfil para tí.",
     start_footer:
-        "* AIRe no es una herramienta de diagnóstico médico y solo tiene como objetivo guiarte hacia los profesionales sanitarios adecuados para mejorar su situación.",
+        "AIRe es una solución asistida por IA que le ayuda a identificar sus necesidades de rehabilitación y le guía hacia servicios y contenidos de rehabilitación personalizados.",
+    start_disclaimer: "AIRe no es una herramienta de diagnóstico médico.",
+
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
-    system_greeting:
-        "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
-    system_topic: "Has seleccionado un tema: ",
-
-    frontpage_greeting: "¡Bienvenido a la plataforma AIRe!",
-    frontpage_paragraph: `AIRe es una plataforma de servicios impulsada por IA que le ayuda a comprender mejor sus síntomas y sus posibles condiciones subyacentes. AIRe también le guía en los procedimientos de seguimiento necesarios y le ofrece sugerencias útiles adaptadas exclusivamente a usted.`,
 
     login_form_title: "Inicia sesión",
     login_form_submit: "Entrar",

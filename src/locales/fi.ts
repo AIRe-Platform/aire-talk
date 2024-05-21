@@ -11,16 +11,17 @@ const fi: Locale = {
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
     start_greeting: "Tervetuloa AIRe Talk -palveluun",
+
     start_first_paragraph:
-        "Tekoälysovellus parhaisiin lääketieteellisiin vinkkeihin.",
+        "Kumppani parempaan toimintakykyyn ja hyvinvointiin",
     start_second_paragraph:
         "Jatka kirjautumalla sisään tai luomalla itsellesi uusi profiili.",
     start_footer:
-        "* AIRe ei ole lääketieteellinen diagnostinen työkalu, sen tarkoituksena on ohjata sinut asianmukaisten terveydenhuollon ammattilaisten puoleen tilanteesi parantamiseksi.",
+        "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutuksen tarpeitasi ja opastaa sinut yksilöllisten kuntoutuksen palveluiden ja sisällön pariin.",
+    start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
+    
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
-    frontpage_greeting: "Tervetuloa AIRe-alustalle!",
-    frontpage_paragraph: `AIRe on tekoälyavusteinen palvelualusta, joka auttaa sinua ymmärtämään oireitasi ja niiden tekijöitä. AIRe opastaa sinua sinua tarvittavissa jatkotoimenpiteissä sekä antaa hyödyllisiä ehdotuksia, jotka ovat juuri sinulle suunniteltuja!`,
 
     login_form_title: "Kirjaudu sisään",
     login_form_submit: "Kirjaudu",

@@ -16,12 +16,11 @@ const vi: Locale = {
     start_second_paragraph:
         "Tiến hành bằng cách đăng nhập hoặc tạo một hồ sơ mới cho chính bạn.",
     start_footer:
-        "* AIRe không phải là một công cụ chẩn đoán y tế và chỉ nhằm mục đích đưa bạn đến gặp các chuyên gia chăm sóc sức khỏe phù hợp để cải thiện tình hình của bạn.",
+        "AIRe là một giải pháp được AI hỗ trợ giúp bạn xác định nhu cầu phục hồi chức năng của mình và hướng dẫn bạn các nội dung và dịch vụ phục hồi chức năng được cá nhân hóa.",
+    start_disclaimer: "AIRe không phải là một công cụ chẩn đoán y tế.",
 
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
-    frontpage_greeting: "Chào mừng đến với AIRe platform!",
-    frontpage_paragraph: `AIRe là một nền tảng dịch vụ được hỗ trợ bởi AI giúp bạn hiểu rõ hơn về các triệu chứng của mình và các tình trạng cơ bản có thể xảy ra của chúng. AIRe cũng hướng dẫn bạn mọi quy trình tiếp theo cần thiết và cung cấp cho bạn các đề xuất hữu ích được thiết kế riêng cho bạn.`,
 
     login_form_title: "Đăng nhập",
     login_form_submit: "Đăng nhập",

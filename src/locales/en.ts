@@ -13,16 +13,15 @@ const en: Locale = {
 
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph:
-        "Your number one AI application for medical tips sources.",
+        "Partner for better functioning and wellbeing",
     start_second_paragraph:
         "Proceed by logging in or creating a new profile for yourself.",
     start_footer:
-        "* AIRe is not a medical diagnostic tool, and only aims to lead you towards the proper healthcare professionals in order to better your situation.",
+        "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
+    start_disclaimer: "AIRe is not a medical diagnostic tool.",
 
     home_start_new_chat: "Start new chat instance",
     home_continue_chat: "Continue previous chat",
-    frontpage_greeting: "Welcome to the AIRe platform!",
-    frontpage_paragraph: `AIRe is an AI powered service platform that helps you better understand your symptoms and their possible underlying conditions. AIRe also guides you in any necessary follow-up procedures, and offers you helpful suggestions tailored just for you.`,
 
     login_form_title: "Login",
     login_form_submit: "Login",
