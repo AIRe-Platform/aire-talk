@@ -8,15 +8,14 @@ export enum LocalizationKey {
     system_greeting = "system_greeting",
     system_topic = "system_topic",
 
-    frontpage_greeting = "frontpage_greeting",
-    frontpage_paragraph = "frontpage_paragraph",
-
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
+    
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",
     start_footer = "start_footer",
+    start_disclaimer = "start_disclaimer",
 
     login_form_title = "login_form_title",
     login_form_submit = "login_form_submit",

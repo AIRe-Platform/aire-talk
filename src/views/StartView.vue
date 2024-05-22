@@ -34,7 +34,7 @@ const navigateTo = (path: string) => {
                 </div>
             </div>
             <div class="start-footer">
-                <p>{{ $t(l.start_footer) }}</p>
+                <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
             </div>
         </div>
 
