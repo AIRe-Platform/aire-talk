@@ -188,3 +188,9 @@
 .icon.chatbox-content-default {
     background-image: url("@/assets/icons/chatbox-content-default.svg");
 }
+
+.icon.document {
+    background-image: url("@/assets/icons/document.svg");
+    width: 3rem;
+    height: 3rem;
+}
