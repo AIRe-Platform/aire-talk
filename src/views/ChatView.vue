@@ -176,7 +176,7 @@ onMounted(() => {
 <style scoped>
 .chat-view-row {
     display: flex;
-    padding: 0rem 3rem;
+    padding: 0.2rem 3rem;
 }
 
 .nav-menu-open {
