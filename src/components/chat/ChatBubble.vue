@@ -32,6 +32,10 @@ switch (props.message.role) {
 }
 if (props.message.isError)
     classList.push("chat-bubble-error");
+
+const handleClick = (e: Event) => {
+    e.preventDefault();
+};
 </script>
 
 <template>
@@ -55,10 +59,20 @@ if (props.message.isError)
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">
             </div>
+            <div class="chat-message-url" v-if="message.url">
+                <font-awesome-icon icon="fa-solid fa-link" />
+                <p v-html="message.url" class="margin-left" @click="handleClick"></p>
+            </div>
             <div class="chat-message-video" v-if="message.video">
                 <video class="chat-message-video-video" controls>
                     <source v-bind:src="message.video" type="video/mp4">
                 </video>
+            </div>
+            <div class="chat-message-document" v-if="message.document">
+                <div class="chat-message-document-container">
+                    <div class="icon document"></div>
+                </div>
+                <p> {{ message.documentName }}</p>
             </div>
         </div>
         <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }"
@@ -131,9 +145,39 @@ if (props.message.isError)
     justify-content: center;
 }
 
+.chat-message-url {
+    display: flex;
+    align-items: center;
+}
+
+.margin-left {
+    margin-left: 1rem;
+}
+
 .chat-message-video {
     display: flex;
     justify-content: center;
+}
+
+.chat-message-document {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-message-document-container {
+    background-color: var(--user-chat-box-background);
+    width: 17rem;
+    height: 10rem;
+    border-radius: 1rem;
+    border-width: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    border: 2px solid var(--box-stroke);
 }
 
 .chat-message-video-video {

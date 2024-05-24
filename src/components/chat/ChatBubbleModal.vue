@@ -13,6 +13,10 @@ const close = (e: Event) => {
     e.stopPropagation()
     props.onClose()
 }
+
+const openDocument = (url: string) => {
+    window.open(url, '_blank');
+};
 </script>
 
 <template>
@@ -44,6 +48,14 @@ const close = (e: Event) => {
                                         <source v-bind:src="props.parent.video" type="video/mp4">
                                     </video>
                                 </div>
+                                <div class="modal-body-document-container" v-if="props.parent.document">
+                                    <div class="icon document" @click="openDocument(props.parent.document)"></div>
+                                </div>
+                                <p> {{ props.parent.documentName }}</p>
+                                <div class="modal-body-url-container" v-if="props.parent.url">
+                                    <font-awesome-icon icon="fa-solid fa-link" />
+                                    <p v-html="props.parent.url" class="margin-left"></p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -63,6 +75,12 @@ $secundary-color: var(--background-color);
     flex-direction: row-reverse;
 }
 
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .modal-body-image {
     display: flex;
     justify-content: center;
@@ -76,8 +94,24 @@ $secundary-color: var(--background-color);
 }
 
 .modal-body-video {
-    width: 40rem;
-    height: 20rem;
+    width: 100%;
+    /* height: 18rem; */
+    padding: 1rem;
+}
+
+.modal-body-document-container {
+    background-color: var(--user-chat-box-background);
+    width: 17rem;
+    height: 10rem;
+    border-radius: 1rem;
+    border-width: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    border: 2px solid var(--box-stroke);
 }
 
 .modal-logo {
@@ -94,8 +128,20 @@ $secundary-color: var(--background-color);
     }
 }
 
+.modal-body-url-container {
+    display: flex;
+    align-items: center;
+}
+
+.margin-left {
+    margin-left: 1rem;
+}
+
 .modal-content {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .mobile-screen {

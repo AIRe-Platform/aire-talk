@@ -81,6 +81,7 @@
     --chat-bubble-bot-label: #0D004C;
     --chat-history-text-color:#424242;
     --chat-menu-active: #d9f0ff;
+    --chat-document-back-ground: #f1f4f9;
 }
 
 :root.theme-dark {
@@ -125,6 +126,7 @@
     --chat-bubble-bot-label:  #FDB913;
     --chat-history-text-color:#47425E;
     --chat-menu-active: #d9f0ff;
+    --chat-document-back-ground: #a2b2cc;
 }
 
 html {
