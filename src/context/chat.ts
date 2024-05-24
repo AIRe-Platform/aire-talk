@@ -6,6 +6,7 @@ import {
     AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
     AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
     AireUser,
+    ContentType,
 } from "aire";
 import { reactive } from "vue";
 import { Login, saveProfile } from "./login";
@@ -141,6 +142,7 @@ export async function refreshContentCatalogue() {
             .then((result) => {
                 if (result.status == AireStatus.Success) {
                     Chat.current.content = result.data;
+                    triggerContent();
                     return result;
                 }
             })
@@ -838,6 +840,44 @@ function triggerRedFlag() {
     Chat.current.questionnaire = undefined;
     startAutoSaveTimer();
 }
+
+function triggerContent() {
+    console.log("content related?", Chat.current.content);
+    let botMessage: ChatMessage = {
+        id: generateRandomID(),
+        sender: BOT_NAME,
+        role: "assistant",
+        message: "I found some related information about this, if you want to check it out",
+        timestamp: Date.now(),
+        rating: 0,
+        hidden: false,
+    };
+
+    if(Chat.current.content){
+        if(Chat.current.content[0].type == ContentType.Video){
+            botMessage.video = Chat.current.content[0].url;
+        }
+        else if(Chat.current.content[0].type == ContentType.Image){
+            botMessage.image = Chat.current.content[0].url;
+        }
+        else if(Chat.current.content[0].type == ContentType.URL){
+            const chatUrl = Chat.current.content[0].url;
+            botMessage.url = `<a href="${chatUrl}" target="_blank">${chatUrl}</a>`;
+        }
+        //doc 
+        else{
+            const chatUrl = Chat.current.content[0].url;
+            botMessage.document = chatUrl;
+            botMessage.documentName = Chat.current.content[0].name;
+        }
+    }
+
+   console.log("botMessage", botMessage);
+    pushMessage(botMessage);
+    //Chat.current.questionnaire = undefined;
+    startAutoSaveTimer();
+}
+
 
 /**
  * Constructs chatbot input data structure

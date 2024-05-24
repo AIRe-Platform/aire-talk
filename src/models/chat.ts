@@ -11,6 +11,9 @@ export interface ChatMessage {
     message?: string;
     image?: string;
     video?: string;
+    document?: string;
+    documentName?: string;
+    url?: string;
     question?: AireQuestionnaireAnswer;
     rating: number;
     hidden?: boolean;
