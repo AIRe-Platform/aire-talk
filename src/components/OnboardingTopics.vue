@@ -6,7 +6,6 @@ import { l } from '@/locales';
 import { Login } from '@/context/login';
 import { Topic, initialTopics } from "@/models/topic";
 import { vOnClickOutside } from '@vueuse/components';
-import { UISettings } from "@/context/ui";
 
 const isOpen = ref(false);
 
@@ -29,8 +28,7 @@ const buttonSelected = async (topic: Topic) => {
 
 <template>
     <div class="onboarding-topics" v-if="isOpen">
-        <div class="onboarding-topics-panel" v-on-click-outside="onTogglePanel"
-            :class="{ 'onboarding-topics-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div class="onboarding-topics-panel" v-on-click-outside="onTogglePanel">
             <div class="onboarding-topics-header">{{ $t(l.onboarding_greetings) }}</div>
             <div class="onboarding-topics-question">{{ $t(l.onboarding_question) }}</div>
             <div class="onboarding-topics-choices">
@@ -53,7 +51,7 @@ const buttonSelected = async (topic: Topic) => {
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .onboarding-topics {
     right: 8rem;
     top: 4rem;
@@ -125,14 +123,7 @@ const buttonSelected = async (topic: Topic) => {
     margin: 0.2rem;
 }
 
-.onboarding-topics-fake-mobile-screen {
-    position: absolute;
-    top: 5rem;
-    left: -18rem;
-    width: 22rem;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .onboarding-button {
         width: 3.5rem;
         height: 3.2rem;

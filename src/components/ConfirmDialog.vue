@@ -32,7 +32,7 @@ const props = defineProps<{
     </PopUp>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .popup-content {
     padding: 2rem;
 }

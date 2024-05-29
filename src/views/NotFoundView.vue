@@ -9,7 +9,7 @@
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #not-found-view {
     display: flex;
     padding: 1rem;

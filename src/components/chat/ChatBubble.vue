@@ -41,16 +41,16 @@ if (props.message.isError)
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
-        (isSystem || isBot) ? $t(message.sender) : message.sender
-    }}</span>
+                (isSystem || isBot) ? $t(message.sender) : message.sender
+                }}</span>
             <span class="chat-message-text">
                 {{
-            isSystem
-                ? (message.message === l.system_topic && Chat.current.topic
-                    ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
-                    : $t(message.message!))
-                : message.message
-        }}
+                    isSystem
+                        ? (message.message === l.system_topic && Chat.current.topic
+                            ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
+                            : $t(message.message!))
+                        : message.message
+                }}
             </span>
             <div class="chat-message-image" v-if="message.image">
                 <img v-bind:src="message.image" class="chat-message-image-contain">
@@ -68,7 +68,7 @@ if (props.message.isError)
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
@@ -152,7 +152,7 @@ if (props.message.isError)
     padding: 1rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .chat-bubble {
         max-width: unset;
         margin: 0.5rem 1rem 0.5rem 0.3rem

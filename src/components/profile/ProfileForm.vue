@@ -143,7 +143,7 @@ const activateField = (id: string) => {
     </form>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .profile-form {
     display: flex;
     flex-direction: row;
@@ -235,7 +235,7 @@ const activateField = (id: string) => {
     background-color: var(--error-color);
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .profile-form {
         flex-direction: column;
         flex-wrap: nowrap;

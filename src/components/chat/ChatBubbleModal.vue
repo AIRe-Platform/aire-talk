@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
-import { UISettings } from "@/context/ui";
 
 const props = defineProps<{
     active: boolean,
@@ -17,7 +16,7 @@ const close = (e: Event) => {
 
 <template>
     <transition name="modal-animation">
-        <div v-show="active" class="modal" :class="{ 'fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div v-show="active" class="modal">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
@@ -175,17 +174,9 @@ $secundary-color: var(--background-color);
     }
 }
 
-.fake-small-screen {
-    height: 100%;
-    width: 18vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
+.ui-mode-mobile {
     .modal {
 
         .modal-inner {

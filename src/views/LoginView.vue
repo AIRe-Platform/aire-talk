@@ -55,7 +55,7 @@ const onLogin = (e: Event) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-view {
     display: flex;
     flex-direction: column;
@@ -109,7 +109,7 @@ input[type=password] {
     margin: 0.2rem 0;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .form-content {
         width: 70%;
         padding: 1rem 2rem;

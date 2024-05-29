@@ -79,7 +79,7 @@
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
     --chat-bubble-bot-label: #0D004C;
-    --chat-history-text-color:#424242;
+    --chat-history-text-color: #424242;
     --chat-menu-active: #d9f0ff;
 }
 
@@ -122,8 +122,8 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
-    --chat-bubble-bot-label:  #FDB913;
-    --chat-history-text-color:#47425E;
+    --chat-bubble-bot-label: #FDB913;
+    --chat-history-text-color: #47425E;
     --chat-menu-active: #d9f0ff;
 }
 
@@ -247,15 +247,3 @@ button {
 .font-large {
     font-size: var(--font-large);
 }
-
-.desktop-screen {
-    width: 100%;
-}
-
-.tablet-screen {
-    max-width: 50%;
-}
-
-/* .mobile-screen {
-    max-width: 28%;
-} */

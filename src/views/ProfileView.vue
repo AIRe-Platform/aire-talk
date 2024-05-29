@@ -55,7 +55,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .profile-view {
     display: flex;
     overflow: hidden;
@@ -118,7 +118,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .profile-view {
         padding: 2rem 0rem;
         width: 95%;

@@ -9,7 +9,7 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
-import { UIState, UISettings } from '@/context/ui';
+import { UIState } from '@/context/ui';
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 import { l } from '@/locales';
 
@@ -106,16 +106,13 @@ onMounted(() => {
                 <template v-if="!messageGroup.isQuestionnaire">
                     <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
                         <template v-if="true">
-                            <div class="chat-view-row"
-                                :class="{ 'chat-view-row-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
-                                <div class="chat-view-content-left"
-                                    :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                            <div class="chat-view-row">
+                                <div class="chat-view-content-left">
                                     <div class="chat-view-user" v-if="msg.role === 'user'">
                                         <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                                     </div>
                                 </div>
-                                <div class="chat-view-content-right"
-                                    :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                                <div class="chat-view-content-right">
                                     <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
                                         <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                                     </div>
@@ -136,24 +133,18 @@ onMounted(() => {
                         </div>
                         <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
                             <template v-if="true">
-                                <div class="chat-view-row"
-                                    :class="{ 'chat-view-row-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
-                                    <div class="chat-view-content-left"
-                                        :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                                <div class="chat-view-row">
+                                    <div class="chat-view-content-left">
                                     </div>
-                                    <div class="chat-view-content-right"
-                                        :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                                    <div class="chat-view-content-right">
                                         <QuestionItem :message="msg" />
                                     </div>
                                 </div>
-                                <div class="chat-view-row"
-                                    :class="{ 'chat-view-row-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
-                                    <div class="chat-view-content-left"
-                                        :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                                <div class="chat-view-row">
+                                    <div class="chat-view-content-left">
                                         <QuestionAnswer :message="msg" />
                                     </div>
-                                    <div class="chat-view-content-right"
-                                        :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                                    <div class="chat-view-content-right">
                                     </div>
                                 </div>
                             </template>
@@ -167,13 +158,12 @@ onMounted(() => {
         </div>
         <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" />
     </div>
-    <div class="chat-side-panels"
-        :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat), 'summary-panels-open-fake-mobile-screen': showSideBar && hasPanels(Chat) && UISettings.screenSize == 'mobile-screen' }">
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat) }">
         <ChatSummary v-if="chatSummaryPanelEnabled(Chat)" />
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-view-row {
     display: flex;
     padding: 0rem 3rem;
@@ -252,11 +242,6 @@ onMounted(() => {
     justify-content: flex-start;
 }
 
-.summary-panels-open-fake-mobile-screen {
-    width: 100%;
-    max-width: 26rem;
-}
-
 .chat-group-type-questionnaire {
     background-color: var(--panel-background-color);
     border-radius: 1rem;
@@ -281,23 +266,7 @@ onMounted(() => {
     padding-top: 1rem;
 }
 
-.chat-view-row-fake-mobile-screen {
-    display: flex;
-    padding: 1rem;
-}
-
-.chat-view-content-left-fake-mobile-screen {
-    justify-content: flex-start;
-    border-right: none;
-}
-
-.chat-view-content-right-fake-mobile-screen {
-    width: unset;
-    justify-content: flex-end;
-    border-right: none;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .chat-view-content {
         width: 100%;
         padding-top: 1rem;

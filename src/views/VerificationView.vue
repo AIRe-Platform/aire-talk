@@ -49,8 +49,8 @@ const onResend = () => {
             <h3>{{ $t(l.verification_heading) }}</h3>
             <div>{{ $t(l.verification_description) }}</div>
             <form id="verification-code-form" @submit.prevent>
-                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true" v-model="code"
-                    :readonly="busy" inputmode="numeric" @input="filterInput" />
+                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true"
+                    v-model="code" :readonly="busy" inputmode="numeric" @input="filterInput" />
                 <div id="verification-error" v-if="error && !busy">{{ $t(error) }}</div>
                 <input type="submit" :value="$t(l.verification_button_verify)" @click="onVerify" :disabled="!validCode"
                     v-if="!busy" />
@@ -66,7 +66,7 @@ const onResend = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #verification-code-view {
     display: flex;
     flex-direction: column;
