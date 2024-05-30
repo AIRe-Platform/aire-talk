@@ -36,7 +36,7 @@ interface MessageGroup {
     id: string;
     messages: Array<ChatMessage>;
     isQuestionnaire: boolean;
-    isCompleted?: boolean
+    isCompleted?: boolean;
 }
 
 // Group chat messages to groups 
@@ -48,7 +48,7 @@ const groupedMessages = () => {
         id: "msg-group-" + groupIndex,
         messages: [],
         isQuestionnaire: false,
-        isCompleted: false
+        isCompleted: false,
     } as MessageGroup;
     let previousNonHiddenIndex = 0;
 
@@ -66,7 +66,7 @@ const groupedMessages = () => {
                 currentGroup = {
                     id: "msg-group-" + groupIndex++,
                     messages: [],
-                    isQuestionnaire: !!message.question
+                    isQuestionnaire: !!message.question,
                 } as MessageGroup;
                 currentGroup.messages.push(message);
             }
@@ -111,18 +111,21 @@ onMounted(() => {
                                 <div class="chat-view-content-left"
                                     :class="{ 'chat-view-content-left-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                                     <div class="chat-view-user" v-if="msg.role === 'user'">
-                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                            :selected-content="msg.content" />
                                     </div>
                                 </div>
                                 <div class="chat-view-content-right"
                                     :class="{ 'chat-view-content-right-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
                                     <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                            :selected-content="msg.content" />
                                     </div>
                                 </div>
                             </div>
                             <div class="chat-view-system" v-if="msg.role === 'system'">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                    :selected-content="msg.content" />
                             </div>
                         </template>
                     </template>
