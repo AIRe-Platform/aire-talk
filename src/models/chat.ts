@@ -9,11 +9,7 @@ export interface ChatMessage {
     isError?: boolean;
     timestamp: number;
     message?: string;
-    image?: string;
-    video?: string;
-    document?: string;
-    documentName?: string;
-    url?: string;
+    content?: Content[];
     question?: AireQuestionnaireAnswer;
     rating: number;
     hidden?: boolean;
