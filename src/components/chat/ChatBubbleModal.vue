@@ -2,10 +2,12 @@
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
 import { UISettings } from "@/context/ui";
+import { Content, ContentType } from 'aire';
 
 const props = defineProps<{
     active: boolean,
     parent: ChatMessage,
+    selectedContent?: Content,
     onClose: () => void
 }>()
 
@@ -14,7 +16,7 @@ const close = (e: Event) => {
     props.onClose()
 }
 
-const openDocument = (url: string) => {
+const openContentInNewTab = (url: string) => {
     window.open(url, '_blank');
 };
 </script>
@@ -40,22 +42,29 @@ const openDocument = (url: string) => {
                                     {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message
                                     }}
                                 </p>
-                                <div class="modal-body-image" v-if="props.parent.image">
-                                    <img v-bind:src="props.parent.image" class="chat-message-image-contain">
+                                <div class="modal-body-image"
+                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Image">
+                                    <img v-bind:src="props.selectedContent.url" class="chat-message-image-contain">
                                 </div>
-                                <div class="modal-body-video-container" v-if="props.parent.video">
-                                    <video class="modal-body-video" controls>
-                                        <source v-bind:src="props.parent.video" type="video/mp4">
+                                <div class="modal-body-video-container"
+                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Video">
+                                    <video class="modal-body-video" autoplay controls>
+                                        <source v-bind:src="props.selectedContent.url" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="modal-body-document-container" v-if="props.parent.document">
-                                    <div class="icon document" @click="openDocument(props.parent.document)"></div>
+                                <div class="modal-body-document-container"
+                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Document">
+                                    <div class="icon document" v-if="props.selectedContent.url"
+                                        @click="openContentInNewTab(props.selectedContent.url)"></div>
                                 </div>
-                                <p> {{ props.parent.documentName }}</p>
-                                <div class="modal-body-url-container" v-if="props.parent.url">
-                                    <font-awesome-icon icon="fa-solid fa-link" />
-                                    <p v-html="props.parent.url" class="margin-left"></p>
+                                <div class="modal-body-document-container"
+                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.URL">
+                                    <font-awesome-icon icon="fa-solid fa-link" class="icon-link"
+                                        @click="openContentInNewTab(props.selectedContent.url)"
+                                        v-if="props.selectedContent.url" />
                                 </div>
+                                <p v-if="props.selectedContent"> {{ props.selectedContent.name }}</p>
+
                             </div>
                         </div>
                     </div>
@@ -100,7 +109,7 @@ $secundary-color: var(--background-color);
 }
 
 .modal-body-document-container {
-    background-color: var(--user-chat-box-background);
+    background-color: var(--chat-document-back-ground);
     width: 17rem;
     height: 10rem;
     border-radius: 1rem;
@@ -126,6 +135,10 @@ $secundary-color: var(--background-color);
         object-fit: contain;
         width: 8rem;
     }
+}
+
+.chat-message-image-contain {
+    max-width: 30rem;
 }
 
 .modal-body-url-container {
@@ -229,6 +242,11 @@ $secundary-color: var(--background-color);
     left: 0;
 }
 
+.icon-link {
+    width: 5rem;
+    height: 6rem;
+    color: var(--link-icon);
+}
 
 /* mobile*/
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
