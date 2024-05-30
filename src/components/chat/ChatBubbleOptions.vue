@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { revertToMessage, setMessageRating } from '@/context/chat';
+import { revertToMessage, setMessageRating, setContentRating } from '@/context/chat';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
 import { defineProps, ref } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
+import { Content } from 'aire';
 
 const props = defineProps<{
     parent: ChatMessage
     can_revert: boolean
+    is_content?: boolean
+    content?: Content
 }>()
 
 const clipboard = useClipboard()
@@ -17,18 +20,61 @@ const clipboard = useClipboard()
 const menuOpen = ref(false)
 const copiedToClipboard = ref(false)
 const confirmRevertOpen = ref(false)
-
+const thumbsUpSelected = ref(false);
+const thumbsDownSelected = ref(false);
 const onToggleMenu = (e: Event) => {
     e.stopImmediatePropagation();
     menuOpen.value = !menuOpen.value
 }
 
 const onThumbsUp = () => {
-    setMessageRating(props.parent.id, 1);
+    if (props.is_content && props.content) {
+        if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
+            console.log("onThumbsUp: UP: 0 DOWN: 0 ---> UP: 1 DOWN: 0 ");
+            setContentRating(props.content, 1);
+            thumbsUpSelected.value = !thumbsUpSelected.value;
+            thumbsDownSelected.value = false;
+        } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
+            console.log("onThumbsUp: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 0 ");
+            setContentRating(props.content, -1);
+            thumbsUpSelected.value = false;
+            thumbsDownSelected.value = false;
+        } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
+            console.log("onThumbsUp: UP: 0 DOWN: 1 ---> UP: 1 DOWN: 0 ");
+            setContentRating(props.content, 2);
+            thumbsUpSelected.value = true;
+            thumbsDownSelected.value = false;
+        } else {
+            console.log("onThumbsUp: UP: 1 DOWN: 1 ---> not an opcion ");
+        }
+    } else {
+        setMessageRating(props.parent.id, 1);
+    }
 }
 
 const onThumbsDown = () => {
-    setMessageRating(props.parent.id, -1);
+    if (props.is_content && props.content) {
+        if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
+            console.log("onThumbsDown: UP: 0 DOWN: 0 ---> UP: 0 DOWN: 1 ");
+            setContentRating(props.content, -1);
+            thumbsUpSelected.value = false;
+            thumbsDownSelected.value = !thumbsDownSelected.value;
+        } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
+            console.log("onThumbsDown: UP: 0 DOWN: 1 ---> UP: 0 DOWN: 0 ");
+            setContentRating(props.content, 1);
+            thumbsUpSelected.value = false;
+            thumbsDownSelected.value = false;
+        } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
+            console.log("onThumbsDown: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 1 ");
+            setContentRating(props.content, -2);
+            thumbsUpSelected.value = false;
+            thumbsDownSelected.value = true;
+        } else {
+            console.log("onThumbsDown: UP: 1 DOWN: 1 ---> not an opcion ");
+        }
+    } else {
+        setMessageRating(props.parent.id, -1);
+    }
 }
 
 const onCopyClipboard = async () => {
@@ -59,28 +105,29 @@ const onCancelRevert = () => {
         {{ $t(l.popup_confirm_revert_message) }}
     </ConfirmDialog>
     <div class="chat-bubble-options">
-        <div class="chat-bubble-options-button" @click.stop="onToggleMenu">
+        <div class="chat-bubble-options-button" @click.stop="onToggleMenu" :class="{ 'is-content': props.is_content }">
             <div class="icon chat-option-desktop">
             </div>
         </div>
         <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
-                :class="{ 'is-selected': props.parent.rating > 0 }">
+                :class="{ 'is-selected': props.parent.rating > 0 || thumbsUpSelected }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
             </button>
             <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
-                :class="{ 'is-selected': props.parent.rating < 0 }">
+                :class="{ 'is-selected': props.parent.rating < 0 || thumbsDownSelected }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
             </button>
             <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
-                :class="{ 'is-selected': copiedToClipboard }" v-if="copiedToClipboard">
+                :class="{ 'is-selected': copiedToClipboard }" v-if="copiedToClipboard && !props.is_content">
                 <font-awesome-icon icon="fa-solid fa-check" />
             </button>
             <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
-                v-if="!copiedToClipboard">
+                v-if="!copiedToClipboard && !props.is_content">
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </button>
-            <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin" v-if="props.can_revert">
+            <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin"
+                v-if="props.can_revert && !props.is_content">
                 <font-awesome-icon icon="fa-solid fa-arrows-spin" />
             </button>
         </div>
@@ -165,6 +212,11 @@ const onCancelRevert = () => {
 
 .is-selected {
     background-color: var(--chat-bubble-options-button-hover) !important;
+}
+
+.is-content {
+    top: -0.4rem;
+    right: -0.7rem;
 }
 
 /* mobile*/
