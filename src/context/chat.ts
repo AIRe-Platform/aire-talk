@@ -6,7 +6,7 @@ import {
     AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
     AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
     AireUser,
-    ContentType,
+    Content,
 } from "aire";
 import { reactive } from "vue";
 import { Login, saveProfile } from "./login";
@@ -38,7 +38,7 @@ export function sendChatMessage(message: string) {
         role: "user",
         message: message,
         rating: 0,
-        timestamp: Date.now()
+        timestamp: Date.now(),
     }
 
     pushMessage(userMessage)
@@ -141,7 +141,14 @@ export async function refreshContentCatalogue() {
         await AireServices.Memory.searchContent(Chat.current.keywords)
             .then((result) => {
                 if (result.status == AireStatus.Success) {
-                    Chat.current.content = result.data;
+
+                    //sorting by modified and geting only the four first
+                    Chat.current.content = result.data?.sort((b, a) => {
+                        if (a.viewers_rating && b.viewers_rating)
+                            return a.viewers_rating - b.viewers_rating;
+                        else
+                            return new Date(a.modified).getTime() - new Date(b.modified).getTime();
+                    }).slice(0, 4);
                     triggerContent();
                     return result;
                 }
@@ -287,7 +294,7 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 timestamp: x.timestamp || 0,
                 rating: x.rating || 0,
                 question: x.question,
-                hidden: x.hidden
+                hidden: x.hidden,
             };
             return m;
         });
@@ -319,7 +326,7 @@ export async function createNewChat(topic?: Topic) {
             message: l.system_topic,
             sender: SYSTEM_NAME,
             rating: 0,
-            timestamp: Date.now()
+            timestamp: Date.now(),
         })
     }
 
@@ -327,7 +334,7 @@ export async function createNewChat(topic?: Topic) {
 
 /**
  * Function to change the rating of the message
- * @param message to change
+ * @param id message to change
  * @param rating given by the user
  */
 export function setMessageRating(id: string, rating: number) {
@@ -337,6 +344,39 @@ export function setMessageRating(id: string, rating: number) {
         message.rating = rating < 0 ? -1 : (rating > 0 ? 1 : 0)
         Chat.modified = true
         startAutoSaveTimer()
+    }
+}
+
+/**
+ * Function to change the rating of the content
+ * @param content Content to change
+ * @param rating given by the user
+ */
+export async function setContentRating(content: Content, rating: number) {
+    if (AireServices.Memory && Chat.current.content) {
+        Chat.awaitingResponse = true;
+      
+        if(content?.id && content.viewers_rating != undefined){
+            AireServices.Memory.postContentRating( content?.id, rating)
+            .then((result) => {
+                if (result.status == AireStatus.Success) {
+                    console.debug(" content actualized??", result.data);
+                } else {
+                    console.log(" Error to success postContentRating", result.data);
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to postContentRating", err);
+            }) 
+            .finally(() => {
+                Chat.awaitingResponse = false;
+                startFinishAnimation();
+                Chat.modified = true;
+                startAutoSaveTimer();
+            })
+        }
+    } else {
+        console.warn("Memory service is unavailable");
     }
 }
 
@@ -437,7 +477,7 @@ function sendPersonalInformation() {
                         message: message,
                         rating: 0,
                         timestamp: Date.now(),
-                        hidden: true
+                        hidden: true,
                     }
 
                     pushMessage(userMessage)
@@ -602,7 +642,7 @@ export async function sendQuestionnaireAnswers(): Promise<boolean> {
                 message: message,
                 rating: 0,
                 timestamp: Date.now(),
-                hidden: true
+                hidden: true,
             }
 
             pushMessage(userMessage)
@@ -666,7 +706,7 @@ function receiver(e: AireTalkEvent) {
                 role: "assistant",
                 message: "",
                 timestamp: Date.now(),
-                rating: 0
+                rating: 0,
             }
             firstMessage = true
         }
@@ -695,7 +735,7 @@ function errorHandler(status: AireStatus) {
         isError: true,
         message: l.error_ai_not_responding,
         timestamp: Date.now(),
-        rating: 0
+        rating: 0,
     })
 
     Chat.awaitingResponse = false;
@@ -731,7 +771,7 @@ function pushSystemMessage(messageKey: LocalizationKey) {
         role: "system",
         message: messageKey,
         rating: 0,
-        timestamp: Date.now()
+        timestamp: Date.now(),
     });
     scrollChatToBottom();
 }
@@ -832,7 +872,7 @@ function triggerRedFlag() {
         message: "[Tell user that what they just answered is a red flag and alarming. Refuse to give further instructions because user needs urgent medical attention and tell the user to go to doctor as soon as possible]",
         rating: 0,
         timestamp: Date.now(),
-        hidden: true
+        hidden: true,
     }
 
     pushMessage(userMessage);
@@ -840,41 +880,31 @@ function triggerRedFlag() {
     Chat.current.questionnaire = undefined;
     startAutoSaveTimer();
 }
-
-function triggerContent() {
-    console.log("content related?", Chat.current.content);
+function createMessageWithContent(content: Content[]): ChatMessage {
     let botMessage: ChatMessage = {
         id: generateRandomID(),
         sender: BOT_NAME,
         role: "assistant",
         message: "I found some related information about this, if you want to check it out",
         timestamp: Date.now(),
+        content: content,
         rating: 0,
         hidden: false,
     };
+    return botMessage;
+};
 
-    if(Chat.current.content){
-        if(Chat.current.content[0].type == ContentType.Video){
-            botMessage.video = Chat.current.content[0].url;
-        }
-        else if(Chat.current.content[0].type == ContentType.Image){
-            botMessage.image = Chat.current.content[0].url;
-        }
-        else if(Chat.current.content[0].type == ContentType.URL){
-            const chatUrl = Chat.current.content[0].url;
-            botMessage.url = `<a href="${chatUrl}" target="_blank">${chatUrl}</a>`;
-        }
-        //doc 
-        else{
-            const chatUrl = Chat.current.content[0].url;
-            botMessage.document = chatUrl;
-            botMessage.documentName = Chat.current.content[0].name;
-        }
-    }
+function triggerContent() {
+    if(Chat.current.content?.length && Chat.current.content?.length>0){
+        let data: Content[] = [];
 
-   console.log("botMessage", botMessage);
-    pushMessage(botMessage);
-    //Chat.current.questionnaire = undefined;
+        Chat.current.content.forEach(obj => {
+            data.push(obj);  
+        });
+        let botMessage: ChatMessage = createMessageWithContent(data);        
+        pushMessage(botMessage);
+    }else
+        console.error("No Content to display with this keywords:", Chat.current.keywords, Chat.current.content);
     startAutoSaveTimer();
 }
 
