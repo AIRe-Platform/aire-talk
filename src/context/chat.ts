@@ -142,12 +142,17 @@ export async function refreshContentCatalogue() {
             .then((result) => {
                 if (result.status == AireStatus.Success) {
 
-                    //sorting by modified and geting only the four first
-                    Chat.current.content = result.data?.sort((b, a) => {
-                        if (a.viewers_rating && b.viewers_rating)
-                            return a.viewers_rating - b.viewers_rating;
-                        else
-                            return new Date(a.modified).getTime() - new Date(b.modified).getTime();
+                    //sorting by modified and geting only the four first content per keywords
+                    Chat.current.content = result.data?.sort((a, b) => {
+                        if (a.viewers_rating && b.viewers_rating) {
+                            // Sort by viewers' rating (descending order)
+                            const viewersRatingComparison = b.viewers_rating - a.viewers_rating;
+                            if (viewersRatingComparison !== 0) {
+                                return viewersRatingComparison;
+                            }
+                        }
+                        // If viewers' ratings are equal or not available, sort by modified date (ascending order)
+                        return new Date(b.modified).getTime() - new Date(a.modified).getTime();
                     }).slice(0, 4);
                     triggerContent();
                     return result;

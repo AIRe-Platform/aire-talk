@@ -30,22 +30,22 @@ const onToggleMenu = (e: Event) => {
 const onThumbsUp = () => {
     if (props.is_content && props.content) {
         if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
-            console.log("onThumbsUp: UP: 0 DOWN: 0 ---> UP: 1 DOWN: 0 ");
+            //console.log("onThumbsUp: UP: 0 DOWN: 0 ---> UP: 1 DOWN: 0 ");
             setContentRating(props.content, 1);
             thumbsUpSelected.value = !thumbsUpSelected.value;
             thumbsDownSelected.value = false;
         } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
-            console.log("onThumbsUp: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 0 ");
+            //console.log("onThumbsUp: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 0 ");
             setContentRating(props.content, -1);
             thumbsUpSelected.value = false;
             thumbsDownSelected.value = false;
         } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
-            console.log("onThumbsUp: UP: 0 DOWN: 1 ---> UP: 1 DOWN: 0 ");
+            //console.log("onThumbsUp: UP: 0 DOWN: 1 ---> UP: 1 DOWN: 0 ");
             setContentRating(props.content, 2);
             thumbsUpSelected.value = true;
             thumbsDownSelected.value = false;
         } else {
-            console.log("onThumbsUp: UP: 1 DOWN: 1 ---> not an opcion ");
+            console.error("onThumbsUp: UP: 1 DOWN: 1 ---> not an opcion. check this out ");
         }
     } else {
         setMessageRating(props.parent.id, 1);
@@ -55,22 +55,22 @@ const onThumbsUp = () => {
 const onThumbsDown = () => {
     if (props.is_content && props.content) {
         if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
-            console.log("onThumbsDown: UP: 0 DOWN: 0 ---> UP: 0 DOWN: 1 ");
+            //console.log("onThumbsDown: UP: 0 DOWN: 0 ---> UP: 0 DOWN: 1 ");
             setContentRating(props.content, -1);
             thumbsUpSelected.value = false;
             thumbsDownSelected.value = !thumbsDownSelected.value;
         } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
-            console.log("onThumbsDown: UP: 0 DOWN: 1 ---> UP: 0 DOWN: 0 ");
+            //console.log("onThumbsDown: UP: 0 DOWN: 1 ---> UP: 0 DOWN: 0 ");
             setContentRating(props.content, 1);
             thumbsUpSelected.value = false;
             thumbsDownSelected.value = false;
         } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
-            console.log("onThumbsDown: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 1 ");
+            //console.log("onThumbsDown: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 1 ");
             setContentRating(props.content, -2);
             thumbsUpSelected.value = false;
             thumbsDownSelected.value = true;
         } else {
-            console.log("onThumbsDown: UP: 1 DOWN: 1 ---> not an opcion ");
+            console.error("onThumbsDown: UP: 1 DOWN: 1 ---> not an opcion. check this out");
         }
     } else {
         setMessageRating(props.parent.id, -1);
