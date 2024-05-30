@@ -190,18 +190,8 @@ $secundary-color: var(--background-color);
     }
 }
 
-.fake-small-screen {
-    height: 100%;
-    width: 18vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-
-
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
+.ui-mode-mobile {
     .modal {
 
         .modal-inner {

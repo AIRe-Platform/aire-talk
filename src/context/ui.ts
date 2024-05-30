@@ -11,15 +11,14 @@ export enum UIFontSize {
     Large = "font-large",
 }
 
-export enum UIScreenSize {
-    Mobile = "mobile-screen",
-    Tablet = "tablet-screen",
-    Desktop = "desktop-screen",
+export enum UIMode {
+    Mobile = "ui-mode-mobile",
+    Desktop = "ui-mode-desktop",
 }
 
 export interface UISettingsOptions {
     fontSize: UIFontSize;
-    screenSize: UIScreenSize;
+    uiMode: UIMode;
 }
 
 export interface UIStateOptions {
@@ -40,11 +39,11 @@ function initSettings(): UISettingsOptions {
     const options: UISettingsOptions = {
         fontSize: (localStorage.getItem("ui-font-size") ||
             UIFontSize.Normal) as UIFontSize,
-        screenSize: (localStorage.getItem("ui-screen-size") ||
-            UIScreenSize.Desktop) as UIScreenSize,
+        uiMode: (localStorage.getItem("ui-mode") ||
+            UIMode.Desktop) as UIMode,
     };
     applyFontSize(options.fontSize);
-    applyScreeSize(options.screenSize);
+    applyUiMode(options.uiMode);
     return options;
 }
 
@@ -57,12 +56,12 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     document.documentElement.classList.add(newSize);
 }
 
-function applyScreeSize(newSize: UIScreenSize, oldSize?: UIScreenSize) {
-    if (oldSize) {
-        document.documentElement.classList.remove(oldSize);
-        localStorage.setItem("ui-screen-size", newSize);
+function applyUiMode(newMode: UIMode, oldMode?: UIMode) {
+    if (oldMode) {
+        document.documentElement.classList.remove(oldMode);
+        localStorage.setItem("ui-mode", newMode);
     }
-    document.documentElement.classList.add(newSize);
+    document.documentElement.classList.add(newMode);
 }
 watch(
     () => UISettings.fontSize,
@@ -73,9 +72,9 @@ watch(
 );
 
 watch(
-    () => UISettings.screenSize,
+    () => UISettings.uiMode,
     (newValue, oldValue) => {
-        applyScreeSize(newValue, oldValue);
+        applyUiMode(newValue, oldValue);
     },
     { deep: true }
 );

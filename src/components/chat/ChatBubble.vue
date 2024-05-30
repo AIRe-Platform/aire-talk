@@ -127,7 +127,7 @@ const closeModal = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-bubble {
     display: block;
     padding: 0.5rem 1rem;
@@ -291,22 +291,24 @@ const closeModal = () => {
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .chat-bubble {
-        max-width: unset;
-        margin: 0.5rem 1rem 0.5rem 0.3rem
-    }
+    .ui-mode-mobile {
+        .chat-bubble {
+            max-width: unset;
+            margin: 0.5rem 1rem 0.5rem 0.3rem
+        }
 
-    .chat-message-question {
-        padding: 0;
-    }
+        .chat-message-question {
+            padding: 0;
+        }
 
-    .chat-message-video-video {
-        max-width: 17rem;
-        max-height: 12rem;
-    }
+        .chat-message-video-video {
+            max-width: 17rem;
+            max-height: 12rem;
+        }
 
-    .chat-bubble-content {
-        font-size: var(--font-small);
+        .chat-bubble-content {
+            font-size: var(--font-small);
+        }
     }
 }
 </style>

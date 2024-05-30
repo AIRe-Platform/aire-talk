@@ -10,7 +10,7 @@ import Panel from './Panel.vue';
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .popup-overlay {
     position: fixed;
     left: 0;

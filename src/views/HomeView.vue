@@ -5,7 +5,6 @@ import { onMounted, reactive } from 'vue';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { logout } from "@/context/login";
 import { getAllChats, openChat, createNewChat } from "@/context/chat";
-import { UISettings } from '@/context/ui';
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
 
 const state = reactive<{
@@ -53,37 +52,28 @@ onMounted(async () => {
 
     <div id="home-view">
         <div class="home-container">
-            <div class="home-header"
-                :class="{ 'home-header-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+            <div class="home-header">
                 <div class="home-header-title">
-                    <div class="aire-logo"
-                        :class="{ 'home-logo-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                    <div class="aire-logo">
                         <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                     </div>
                     <p>{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="newChat()">
+                <div class="icon frontpage-button" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="openLastChat()" v-if="state.showLastChatButton">
+                <div class="icon frontpage-button" @click="openLastChat()" v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="state.showConfirmLogout = !state.showConfirmLogout">
+                <div class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </div>
             </div>
             <div class="home-footer">
                 <p class="disclaimer">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
-                <div class="chat-bot"
-                    :class="{ 'home-chat-bot-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                <div class="chat-bot">
                 </div>
             </div>
         </div>
@@ -93,7 +83,7 @@ onMounted(async () => {
     </ConfirmDialog>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #home-view {
     width: 100%;
     height: 100%;
@@ -183,24 +173,7 @@ onMounted(async () => {
     background-size: contain;
 }
 
-.home-logo-fake-mobile-screen {
-    width: 10rem;
-}
-
-.home-header-fake-mobile-screen {
-    height: 12rem;
-}
-
-.home-chat-bot-fake-mobile-screen {
-    display: none;
-}
-
-.frontpage-button-fake-small-screen {
-    width: 15rem !important;
-    height: 4rem !important;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
+.ui-mode-mobile {
     .home-header {
         height: 20rem;
     }
@@ -222,7 +195,7 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
+.ui-mode-mobile {
     .home-header {
         background-size: cover;
         padding-top: 5rem;

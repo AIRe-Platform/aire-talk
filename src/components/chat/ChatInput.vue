@@ -30,8 +30,7 @@ function submit() {
         <div class="chat-input-header">
 
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
-            <div class="chat-content" v-if="Chat.current.content"
-                @click="() => router.push('/content-catalogue')">
+            <div class="chat-content" v-if="Chat.current.content" @click="() => router.push('/content-catalogue')">
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
@@ -48,14 +47,14 @@ function submit() {
             </form>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default">
-                    
+
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-input {
     display: flex;
     flex-direction: column;
@@ -152,7 +151,7 @@ function submit() {
     color: var(--accent-primary-color);
 }
 
-.chat-options-icon svg{
+.chat-options-icon svg {
     width: 1.5rem;
     height: 1.5rem;
 }
@@ -162,12 +161,15 @@ function submit() {
     height: 2rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .chat-options-button, .chat-content {
+.ui-mode-mobile {
+
+    .chat-options-button,
+    .chat-content {
         position: relative;
         right: -1rem;
         top: -0.5rem;
     }
+
     .chat-bot {
         height: 6rem;
         top: 1rem;
@@ -176,12 +178,15 @@ function submit() {
 }
 
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
-    .chat-options-button, .chat-content {
+.ui-mode-mobile {
+
+    .chat-options-button,
+    .chat-content {
         position: relative;
         right: -1rem;
         top: -0.7rem;
     }
+
     .chat-bot {
         height: 4rem;
         top: 2rem;

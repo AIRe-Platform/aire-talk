@@ -31,7 +31,8 @@ const saveForm = (e: Event) => {
             <input id="age" type="number" required="true" min="0" autofocus autocomplete="off" @input="checkForm"
                 v-model.number="age" />
             <label for="occupation"> {{ $t(l.landing_label_occupation) }} </label>
-            <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm" v-model="occupation">
+            <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm"
+                v-model="occupation">
             <div class="landing-form-buttons">
                 <button>
                     <RouterLink class="nav-link" to="/">{{ $t(l.button_back) }}</RouterLink>
@@ -44,7 +45,7 @@ const saveForm = (e: Event) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #landing-view {
     margin: auto;
     width: 50%;

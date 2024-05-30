@@ -49,7 +49,7 @@ const state = reactive<{
                 </div>
             </div>
             <div class="content-catalogue-content">
-                <Panel class="content-catalogue-item" v-for="item in  Chat.current.content" v-bind:key="item.id"
+                <Panel class="content-catalogue-item" v-for="item in Chat.current.content" v-bind:key="item.id"
                     @click="toggleContentModal(item)">
 
                     <div class="header-panel">
@@ -94,7 +94,7 @@ const state = reactive<{
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .content-catalogue-view {
     display: flex;
     overflow: hidden;
@@ -252,7 +252,7 @@ const state = reactive<{
     -webkit-box-orient: vertical;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;

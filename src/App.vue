@@ -3,7 +3,7 @@ import { AppState } from '@/main';
 import FooterBar from '@/components/FooterBar.vue';
 import NavMenu from '@/components/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
-import { UIPanels, UIState, UISettings } from '@/context/ui';
+import { UIPanels, UIState } from '@/context/ui';
 import SettingsPanel from '@/components/SettingsPanel.vue';
 import { Login } from "@/context/login";
 import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
@@ -20,14 +20,11 @@ const closeNavMenu = () => {
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1"
-        :class="{ 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
         <NavMenu />
         <div class="main-content" @click="closeNavMenu">
             <RouterView />
-            <div class="main-panels"
-                :class="{ 'main-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
-                v-if="UIState.panels.size > 0">
+            <div class="main-panels" v-if="UIState.panels.size > 0">
                 <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
                 <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
             </div>
@@ -45,7 +42,7 @@ const closeNavMenu = () => {
 
 <style src="@/style/default.css" />
 <style src="@/style/icons.css" />
-<style scoped>
+<style lang="scss" scoped>
 #main {
     display: flex;
     flex-direction: column;
@@ -89,21 +86,8 @@ const closeNavMenu = () => {
     text-align: center;
 }
 
-.mobile-screen {
-    height: 750px !important;
-    width: 400px;
-    font-size: var(--font-small);
-}
 
-.main-panels-fake-mobile-screen {
-    /*  max-width: 30%; */
-    height: 728px;
-    margin-left: -11.3rem;
-    font-size: xx-small;
-}
-
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .main-content {
         font-size: small;
     }

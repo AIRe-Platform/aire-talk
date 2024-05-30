@@ -17,7 +17,7 @@ const props = defineProps<{
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .menu-button {
     position: absolute;
     display: flex;
@@ -121,7 +121,7 @@ const props = defineProps<{
     top: 50%;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .menu-button {
         padding: 0.5rem;
         left: 0.5rem;

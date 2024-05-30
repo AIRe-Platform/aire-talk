@@ -64,7 +64,7 @@ const onDeleteAccount = (e: Event) => {
     </form>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #delete-form {
     display: flex;
     flex-direction: column;

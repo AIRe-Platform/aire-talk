@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { l } from "@/locales";
+import i18n, { l } from "@/locales";
 import { Login } from "@/context/login";
 import { Chat, createNewChat } from "@/context/chat";
 import { router } from "@/router";
-import { UIPanels, UIState, UISettings } from "@/context/ui";
+import { UIPanels, UIState } from "@/context/ui";
 import MenuButton from "./MenuButton.vue";
 import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
 import SectionSeparator from "./SectionSeparator.vue";
+import NavItem from "./NavItem.vue";
 
 const onOpen = (e: Event) => {
     e.stopImmediatePropagation();
@@ -22,7 +23,7 @@ const toggleChatHistoryMenu = () => {
 };
 
 const switchMenu = () => {
-    if (useMobileLayout() || UISettings.screenSize == 'mobile-screen') {
+    if (useMobileLayout()) {
         if (!UIState.isNavMenuCompressed) {
             UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
         }
@@ -48,14 +49,11 @@ const toggleSettingsPanel = () => {
 </script>
 
 <template>
-    <MenuButton :open="UIState.showMenu" @click="onOpen"
-        :class="{ 'menu-button-open-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"></MenuButton>
-    <div class="nav-menu"
-        :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed, 'fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.showMenu, 'short-nav-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed }">
+    <MenuButton :open="UIState.showMenu" @click="onOpen"></MenuButton>
+    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="Login.user" @click="navigateTo('/home')">
-                <div class="nav-logo"
-                    v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
+                <div class="nav-logo" v-if="!useMobileLayout()">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
@@ -66,112 +64,47 @@ const toggleSettingsPanel = () => {
             </div>
             <div class="nav-menu-list">
                 <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
-                <div class="nav-item" @click="toggleChatHistoryMenu" v-if="Login.user"
-                    :class="{ 'nav-item-active': !useMobileLayout() && UIState.panels.has(UIPanels.ChatHistory), 'small-layout': UIState.isNavMenuCompressed }">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_chat_history) }}
-                    </div>
-                    <div class="icon chat-history-mobile"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
-                <div class="nav-item" @click="navigateTo('/chat')" v-if="Login.user" :class="{
-                    'nav-item-active': !useMobileLayout() && $route.matched.some(
+                <NavItem v-if="Login.user" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
+                    @click="toggleChatHistoryMenu"
+                    :active="!useMobileLayout() && UIState.panels.has(UIPanels.ChatHistory)" />
+                <NavItem v-if="Login.user" :label="i18n.global.t(l.nav_chat)" icon="new-chat-mobile"
+                    @click="navigateTo('/chat')" :active="!useMobileLayout() && $route.matched.some(
                         (p) => p.name === 'Chat'
-                    ), 'small-layout': UIState.isNavMenuCompressed
-                }">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_chat) }}
-                    </div>
-                    <div class="icon new-chat-mobile"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
-                <div class="nav-item" @click="newChat" :class="{
-                    'small-layout': UIState.isNavMenuCompressed
-                }" v-if="Chat.id">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_chat_new) }}
-                    </div>
-                    <div class="icon new-chat-mobile"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
-                <div class="nav-item" @click="navigateTo('/content-catalogue')" v-if="Login.user" :class="{
-                    'nav-item-active': !useMobileLayout() && $route.matched.some(
+                    )" />
+                <NavItem v-if="Chat.id" :label="i18n.global.t(l.nav_chat_new)" icon="new-chat-mobile" @click="newChat"
+                    :active="!useMobileLayout() && $route.matched.some(
+                        (p) => p.name === 'Chat'
+                    )" />
+                <NavItem v-if="Login.user" :label="i18n.global.t(l.nav_catalogue)"
+                    icon="catalogue-content-mobile margin-left" @click="navigateTo('/content-catalogue')" :active="!useMobileLayout() && $route.matched.some(
                         (p) => p.name === 'Content-catalogue'
-                    ), 'small-layout': UIState.isNavMenuCompressed
-                }">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_catalogue) }}
-                    </div>
-                    <div class="icon catalogue-content-mobile margin-left"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
+                    )" />
                 <div class="nav-spacer"></div>
-                <div class="nav-item" @click="navigateTo('/login')" v-if="!Login.user" :class="{
-                    'nav-item-active': !useMobileLayout() && $route.matched.some(
-                        (p) => p.name === 'Login'
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_login) }}</div>
-                </div>
-                <div class="nav-item" @click="navigateTo('/signup')" v-if="!Login.user" :class="{
-                    'nav-item-active': !useMobileLayout() && $route.matched.some(
-                        (p) => p.name === 'Signup'
-                    ),
-                }">
-                    <div class="nav-link">{{ $t(l.nav_signup) }}</div>
-                </div>
-                <div class="nav-item" @click="navigateTo('/profile')" v-if="Login.user" :class="{
-                    'nav-item-active': !useMobileLayout() && $route.matched.some(
+                <NavItem v-if="!Login.user" :label="i18n.global.t(l.nav_login)" @click="navigateTo('/login')" :active="!useMobileLayout() && $route.matched.some(
+                    (p) => p.name === 'Login'
+                )" />
+                <NavItem v-if="!Login.user" :label="i18n.global.t(l.nav_signup)" @click="navigateTo('/signup')" :active="!useMobileLayout() && $route.matched.some(
+                    (p) => p.name === 'Signup'
+                )" />
+                <NavItem v-if="Login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
+                    @click="navigateTo('/profile')" :active="!useMobileLayout() && $route.matched.some(
                         (p) => p.name === 'Profile'
-                    ), 'small-layout': UIState.isNavMenuCompressed
-                }">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_profile) }}
-                    </div>
-                    <div class="icon user-profile-mobile margin-left"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
-                <div class="nav-item" @click="toggleSettingsPanel" :class="{
-                    'nav-item-active': !useMobileLayout() && UIState.panels.has(
+                    )" />
+                <NavItem v-if="true" :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile"
+                    @click="toggleSettingsPanel" :active="!useMobileLayout() && UIState.panels.has(
                         UIPanels.Settings
-                    ), 'small-layout': UIState.isNavMenuCompressed
-                }">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_preferences) }}
-                    </div>
-                    <div class="icon settings-mobile"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
+                    )" />
                 <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
-                <div class="nav-item" @click="navigateTo('/home')" :class="{
-                    'small-layout': UIState.isNavMenuCompressed
-                }" v-if="Login.user">
-                    <div class="nav-link"
-                        v-if="(!useMobileLayout() && UISettings.screenSize != 'mobile-screen') || (useMobileLayout() && !UIState.isNavMenuCompressed) || (!useMobileLayout() && UISettings.screenSize == 'mobile-screen' && !UIState.isNavMenuCompressed)">
-                        {{ $t(l.nav_main_menu) }}
-                    </div>
-                    <div class="icon main-menu-mobile"
-                        v-if="(useMobileLayout() && UIState.isNavMenuCompressed) || (UISettings.screenSize == 'mobile-screen' && UIState.isNavMenuCompressed)">
-                    </div>
-                </div>
+                <NavItem v-if="Login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
+                    @click="navigateTo('/home')" :active="!useMobileLayout() && $route.matched.some(
+                        (p) => p.name === 'Login'
+                    )" />
             </div>
         </Panel>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .nav-menu {
     display: flex;
     flex-direction: column;
@@ -240,52 +173,22 @@ const toggleSettingsPanel = () => {
     transition: opacity 0.25s 0.25s;
 }
 
-.nav-item {
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-}
-
 .nav-link {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.nav-item-active {
-    background-color: var(--menu-active);
-}
-
 .nav-spacer {
     flex-grow: 1;
 }
 
-.fake-mobile-screen {
-    height: 78%;
-    width: 10rem;
-}
-
-.short-nav-fake-mobile-screen {
-    width: 5rem;
-}
-
-.menu-button-open-fake-mobile-screen {
-    left: 0.5rem;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .menu-container {
         overflow: hidden;
         margin: 0;
         padding: 0;
         height: unset;
-    }
-
-    .nav-item {
-        padding: 2rem;
     }
 
     .nav-menu {
@@ -310,7 +213,7 @@ const toggleSettingsPanel = () => {
         width: 4.5rem;
     }
 
-    .small-layout {
+    .short-nav-menu .nav-item {
         padding: 0rem;
         margin: 1rem;
     }

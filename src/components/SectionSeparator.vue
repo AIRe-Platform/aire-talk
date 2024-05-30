@@ -7,12 +7,12 @@
     </svg>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .section-separator {
     border: 0;
     height: 2px;
     margin: 0.5rem;
-    
+
     stroke: var(--dividers);
     stroke-width: 4px;
     stroke-dasharray: 2, 15;

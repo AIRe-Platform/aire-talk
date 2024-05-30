@@ -61,7 +61,7 @@ const onChangePassword = (e: Event) => {
     </form>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .password-form {
     display: flex;
     flex-direction: column;

@@ -19,7 +19,7 @@ const onSwitchTheme = (dark: boolean) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .theme-container {
     display: flex;
     flex-direction: column;

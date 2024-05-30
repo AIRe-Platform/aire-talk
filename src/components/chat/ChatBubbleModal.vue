@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
-import { UISettings } from "@/context/ui";
 import { Content, ContentType } from 'aire';
 
 const props = defineProps<{
@@ -23,7 +22,7 @@ const openContentInNewTab = (url: string) => {
 
 <template>
     <transition name="modal-animation">
-        <div v-show="active" class="modal" :class="{ 'fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
+        <div v-show="active" class="modal">
             <transition name="modal-animation-inner">
                 <div class="modal-inner">
                     <div class="modal-component">
@@ -234,14 +233,6 @@ $secundary-color: var(--background-color);
     }
 }
 
-.fake-small-screen {
-    height: 100%;
-    width: 18vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 .icon-link {
     width: 5rem;
     height: 6rem;
@@ -249,24 +240,19 @@ $secundary-color: var(--background-color);
 }
 
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 660px)) {
-    .modal {
-
-        .modal-inner {
-            font-size: x-small;
-            padding: 1rem;
-        }
+.ui-mode-mobile {
+    .modal-inner {
+        font-size: x-small;
+        padding: 1rem;
     }
+}
 
-    .modal-body-video-container {
-        margin-top: 1rem;
-    }
+.modal-body-video-container {
+    margin-top: 1rem;
+}
 
-    .modal-body-video {
-        max-width: 18.5rem;
-        max-height: 15rem;
-    }
-
-
+.modal-body-video {
+    max-width: 18.5rem;
+    max-height: 15rem;
 }
 </style>

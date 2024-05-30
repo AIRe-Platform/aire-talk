@@ -134,7 +134,7 @@ const onCancelRevert = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-bubble-options {
     position: relative;
 }
@@ -220,7 +220,7 @@ const onCancelRevert = () => {
 }
 
 /* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .chat-bubble-options-menu {
         top: -1rem;
         right: 1rem;

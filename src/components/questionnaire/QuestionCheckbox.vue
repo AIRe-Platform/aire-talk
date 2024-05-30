@@ -4,12 +4,12 @@ import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 
-const props = defineProps<{ 
+const props = defineProps<{
     message_id: string;
     options: AireQuestionOptionCheckbox;
     answer?: any;
     readonly?: boolean;
- }>();
+}>();
 
 const answers = ref<string[]>(props.answer || []);
 const isUnanswered = (ans: any) => (ans === undefined);
@@ -54,7 +54,7 @@ const onSubmitAnswer = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
     flex-direction: column;
