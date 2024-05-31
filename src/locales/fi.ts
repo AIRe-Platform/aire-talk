@@ -124,6 +124,7 @@ const fi: Locale = {
     settings_ui_screen_size_mobile: "Mobiili",
     settings_ui_screen_size_tablet: "Tabletti",
     settings_ui_screen_size_desktop: "Työpöytä",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.

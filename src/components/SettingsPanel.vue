@@ -63,6 +63,7 @@ const onClickOutside = (e: Event) => {
         <div class="settings-item">
             <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
             <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.uiMode">
+                <option :value="UIMode.Dynamic">{{ $t(l.settings_ui_screen_size_dynamic) }}</option>
                 <option :value="UIMode.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
                 <option :value="UIMode.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
             </select>

@@ -92,7 +92,7 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 }
 
 onMounted(() => {
-    showSideBar.value = !useMobileLayout();
+    showSideBar.value = !useMobileLayout.value;
     scrollChatToBottom()
 });
 </script>

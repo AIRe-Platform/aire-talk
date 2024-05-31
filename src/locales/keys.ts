@@ -113,6 +113,7 @@ export enum LocalizationKey {
     settings_ui_screen_size_mobile = "settings_ui_screen_size_mobile",
     settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
     settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
+    settings_ui_screen_size_dynamic = "settings_ui_screen_size_dynamic",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",

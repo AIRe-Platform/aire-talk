@@ -126,6 +126,7 @@ const en: Locale = {
     settings_ui_screen_size_mobile: "Mobile",
     settings_ui_screen_size_tablet: "Tablet",
     settings_ui_screen_size_desktop: "Desktop",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.

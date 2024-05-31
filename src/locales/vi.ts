@@ -123,6 +123,7 @@ const vi: Locale = {
     settings_ui_screen_size_mobile: "Di động",
     settings_ui_screen_size_tablet: "Viên thuốc",
     settings_ui_screen_size_desktop: "Máy tính để bàn",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
