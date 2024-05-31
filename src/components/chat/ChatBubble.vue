@@ -70,19 +70,20 @@ const closeModal = () => {
             v-if="props.message.role === 'assistant' && !message.content" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
-        (isSystem || isBot) ? $t(message.sender) : message.sender
-    }}</span>
+                (isSystem || isBot) ? $t(message.sender) : message.sender
+                }}</span>
             <span class="chat-message-text">
                 {{
-            isSystem
-                ? (message.message === l.system_topic && Chat.current.topic
-                    ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
-                    : $t(message.message!))
-                : message.message
-        }}
+                    isSystem
+                        ? (message.message === l.system_topic && Chat.current.topic
+                            ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
+                            : $t(message.message!))
+                        : message.message
+                }}
             </span>
             <Panel class="content-panel" v-if="message.content">
-                <div class="content-container" v-for="content in message.content" @click.stop="selectContent(content)">
+                <div class="content-container" v-for="content in message.content" :key="message.id + '_' + content.id"
+                    @click.stop="selectContent(content)">
                     <ChatBubbleOptions :parent="message" :can_revert="false" :is_content="true" :content="content" />
                     <div class="header-row">
                         <p v-if="content.modified">{{ new Date(content.modified).toLocaleString($i18n.locale) }}</p>

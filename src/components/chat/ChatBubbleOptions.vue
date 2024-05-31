@@ -20,8 +20,6 @@ const clipboard = useClipboard()
 const menuOpen = ref(false)
 const copiedToClipboard = ref(false)
 const confirmRevertOpen = ref(false)
-const thumbsUpSelected = ref(false);
-const thumbsDownSelected = ref(false);
 const onToggleMenu = (e: Event) => {
     e.stopImmediatePropagation();
     menuOpen.value = !menuOpen.value
@@ -29,52 +27,18 @@ const onToggleMenu = (e: Event) => {
 
 const onThumbsUp = () => {
     if (props.is_content && props.content) {
-        if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
-            //console.log("onThumbsUp: UP: 0 DOWN: 0 ---> UP: 1 DOWN: 0 ");
-            setContentRating(props.content, 1);
-            thumbsUpSelected.value = !thumbsUpSelected.value;
-            thumbsDownSelected.value = false;
-        } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
-            //console.log("onThumbsUp: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 0 ");
-            setContentRating(props.content, -1);
-            thumbsUpSelected.value = false;
-            thumbsDownSelected.value = false;
-        } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
-            //console.log("onThumbsUp: UP: 0 DOWN: 1 ---> UP: 1 DOWN: 0 ");
-            setContentRating(props.content, 2);
-            thumbsUpSelected.value = true;
-            thumbsDownSelected.value = false;
-        } else {
-            console.error("onThumbsUp: UP: 1 DOWN: 1 ---> not an opcion. check this out ");
-        }
-    } else {
-        setMessageRating(props.parent.id, 1);
+        setContentRating(props.content, 1);
     }
+
+    setMessageRating(props.parent.id, 1);
 }
 
 const onThumbsDown = () => {
     if (props.is_content && props.content) {
-        if (!thumbsUpSelected.value && !thumbsDownSelected.value) {
-            //console.log("onThumbsDown: UP: 0 DOWN: 0 ---> UP: 0 DOWN: 1 ");
-            setContentRating(props.content, -1);
-            thumbsUpSelected.value = false;
-            thumbsDownSelected.value = !thumbsDownSelected.value;
-        } else if (!thumbsUpSelected.value && thumbsDownSelected.value) {
-            //console.log("onThumbsDown: UP: 0 DOWN: 1 ---> UP: 0 DOWN: 0 ");
-            setContentRating(props.content, 1);
-            thumbsUpSelected.value = false;
-            thumbsDownSelected.value = false;
-        } else if (thumbsUpSelected.value && !thumbsDownSelected.value) {
-            //console.log("onThumbsDown: UP: 1 DOWN: 0 ---> UP: 0 DOWN: 1 ");
-            setContentRating(props.content, -2);
-            thumbsUpSelected.value = false;
-            thumbsDownSelected.value = true;
-        } else {
-            console.error("onThumbsDown: UP: 1 DOWN: 1 ---> not an opcion. check this out");
-        }
-    } else {
-        setMessageRating(props.parent.id, -1);
+        setContentRating(props.content, -1);
     }
+
+    setMessageRating(props.parent.id, -1);
 }
 
 const onCopyClipboard = async () => {
@@ -111,11 +75,11 @@ const onCancelRevert = () => {
         </div>
         <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
-                :class="{ 'is-selected': props.parent.rating > 0 || thumbsUpSelected }">
+                :class="{ 'is-selected': props.parent.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
             </button>
             <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
-                :class="{ 'is-selected': props.parent.rating < 0 || thumbsDownSelected }">
+                :class="{ 'is-selected': props.parent.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
             </button>
             <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
@@ -139,8 +103,6 @@ const onCancelRevert = () => {
     position: relative;
 }
 
-.ellipsis-vertical {}
-
 .chat-bubble-options-button {
     position: absolute;
     top: -1.1rem;
@@ -159,7 +121,6 @@ const onCancelRevert = () => {
         background-color: var(--accent-primary-color);
     }
 }
-
 
 .thumbs-up,
 .copy,

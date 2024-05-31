@@ -16,7 +16,10 @@ const close = (e: Event) => {
     props.onClose()
 }
 
-const openContentInNewTab = (url: string) => {
+const openContentInNewTab = (url?: string) => {
+    if (!url)
+        return;
+
     window.open(url, '_blank');
     if (props.selectedContent)
         addViewCounterToContent(props.selectedContent);
@@ -63,13 +66,13 @@ onMounted(checkToAddViewCounter);
                                 </div>
                                 <div class="modal-body-document-container"
                                     v-if="props.selectedContent && props.selectedContent.type == ContentType.Document">
-                                    <div class="icon document" v-if="props.selectedContent.url"
-                                        @click="openContentInNewTab(props.selectedContent.url)"></div>
+                                    <div class="icon document" v-if="props.selectedContent.url !== undefined"
+                                        @click="openContentInNewTab(props.selectedContent?.url)"></div>
                                 </div>
                                 <div class="modal-body-document-container"
                                     v-if="props.selectedContent && props.selectedContent.type == ContentType.URL">
                                     <font-awesome-icon icon="fa-solid fa-link" class="icon-link"
-                                        @click="openContentInNewTab(props.selectedContent.url)"
+                                        @click="openContentInNewTab(props.selectedContent?.url)"
                                         v-if="props.selectedContent.url" />
                                 </div>
                                 <p v-if="props.selectedContent"> {{ props.selectedContent.name }}</p>

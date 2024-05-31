@@ -7,6 +7,7 @@ import {
     AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
     AireUser,
     Content,
+    AireQuestionnaireAnswer,
 } from "aire";
 import { reactive } from "vue";
 import { Login, saveProfile } from "./login";
@@ -142,9 +143,9 @@ export async function refreshContentCatalogue() {
                 if (result.status == AireStatus.Success) {
                     //sorting by modified and geting only the four first content per keywords
                     Chat.current.content = result.data?.sort((a, b) => {
-                        if (a.viewers_rating && b.viewers_rating) {
+                        if (a.score && b.score) {
                             // Sort by viewers' rating (descending order)
-                            const viewersRatingComparison = b.viewers_rating - a.viewers_rating;
+                            const viewersRatingComparison = b.score - a.score;
                             if (viewersRatingComparison !== 0) {
                                 return viewersRatingComparison;
                             }
@@ -358,25 +359,25 @@ export function setMessageRating(id: string, rating: number) {
 export async function setContentRating(content: Content, rating: number) {
     if (AireServices.Memory && Chat.current.content) {
         Chat.awaitingResponse = true;
-      
-        if(content?.id && content.viewers_rating != undefined){
-            AireServices.Memory.postContentRating( content?.id, rating)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    console.debug(" content actualized??", result.data);
-                } else {
-                    console.log(" Error to success postContentRating", result.data);
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to postContentRating", err);
-            }) 
-            .finally(() => {
-                Chat.awaitingResponse = false;
-                startFinishAnimation();
-                Chat.modified = true;
-                startAutoSaveTimer();
-            })
+
+        if (content?.id && content.score != undefined) {
+            AireServices.Memory.postContentRating(content?.id, rating)
+                .then((result) => {
+                    if (result.status == AireStatus.Success) {
+                        console.debug(" content actualized??", result.data);
+                    } else {
+                        console.log(" Error to success postContentRating", result.data);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Failed to postContentRating", err);
+                })
+                .finally(() => {
+                    Chat.awaitingResponse = false;
+                    startFinishAnimation();
+                    Chat.modified = true;
+                    startAutoSaveTimer();
+                })
         }
     } else {
         console.warn("Memory service is unavailable");
@@ -387,23 +388,26 @@ export async function setContentRating(content: Content, rating: number) {
  * Function to add views count to a content
  * @param content Content to change
  */
+//! FIXME: Rename to something sane, like 'incrementContentViewCounter'
 export async function addViewCounterToContent(content: Content) {
     if (AireServices.Memory && Chat.current.content) {
-        Chat.awaitingResponse = true;
-      
-        if(content?.id){
-            AireServices.Memory.postViewCounterContent(content?.id)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    console.debug(" content actualized??", result.data);
-                } else {
-                    console.log(" Error to success postContentRating", result.data);
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to postContentRating", err);
-            }) 
-        }
+        console.error("Not implemented");
+        //! FIXME: Uncomment when implemented
+        // Chat.awaitingResponse = true;
+
+        // if(content?.id){
+        //     AireServices.Memory.postViewCounterContent(content?.id)
+        //     .then((result) => {
+        //         if (result.status == AireStatus.Success) {
+        //             console.debug(" content actualized??", result.data);
+        //         } else {
+        //             console.log(" Error to success postContentRating", result.data);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.error("Failed to postContentRating", err);
+        //     }) 
+        // }
     } else {
         console.warn("Memory service is unavailable");
     }
@@ -612,10 +616,10 @@ export function answerQuestion(message_id: string, answer: any) {
         if (Chat.messages[i].question) {
             Chat.messages[i].question!.answer = answer
             Chat.modified = true;
-        }
 
-        if (checkAnswerForRedFlag(Chat.messages[i])) {
-            triggerRedFlag();
+            if (checkAnswerForRedFlag(Chat.messages[i].question!)) {
+                triggerRedFlag();
+            }
         }
 
         startAutoSaveTimer();
@@ -745,7 +749,7 @@ function receiver(e: AireTalkEvent) {
         }
         Chat.awaitingResponse = !final;
 
-        if (final){
+        if (final) {
             startFinishAnimation();
         }
         pushMessage(last, firstMessage, final);
@@ -884,9 +888,9 @@ function pushNextQuestion(): boolean {
     return true;
 }
 
-function checkAnswerForRedFlag(msg: AireChatMessage): boolean {
-    if (msg.question?.type == AireQuestionOptionType.Checkbox) {
-        if (msg.question.answer == (msg.question.options as AireQuestionOptionCheckbox).red_flag) {
+function checkAnswerForRedFlag(qa: AireQuestionnaireAnswer): boolean {
+    if (qa.type == AireQuestionOptionType.Checkbox) {
+        if (qa.answer == (qa.options as AireQuestionOptionCheckbox).red_flag) {
             return true;
         }
     }
@@ -911,10 +915,11 @@ function triggerRedFlag() {
 }
 
 function createMessageWithContent(content: Content[]): ChatMessage {
-    let botMessage: ChatMessage = {
+    const botMessage: ChatMessage = {
         id: generateRandomID(),
         sender: BOT_NAME,
         role: "assistant",
+        //! FIXME: Use localization key and localize
         message: "I found some related information about this, if you want to check it out",
         timestamp: Date.now(),
         content: content,
@@ -922,18 +927,14 @@ function createMessageWithContent(content: Content[]): ChatMessage {
         hidden: false,
     };
     return botMessage;
-};
+}
 
 function triggerContent() {
-    if(Chat.current.content?.length && Chat.current.content?.length>0){
-        let data: Content[] = [];
-
-        Chat.current.content.forEach(obj => {
-            data.push(obj);  
-        });
-        let botMessage: ChatMessage = createMessageWithContent(data);        
+    if (Chat.current.content?.length && Chat.current.content?.length > 0) {
+        const content = Chat.current.content || [];
+        const botMessage: ChatMessage = createMessageWithContent(content);
         pushMessage(botMessage);
-    }else
+    } else
         console.error("No Content to display with this keywords:", Chat.current.keywords, Chat.current.content);
     startAutoSaveTimer();
 }
