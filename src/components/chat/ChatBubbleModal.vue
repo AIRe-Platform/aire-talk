@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps } from 'vue';
+import { defineProps, onMounted } from 'vue';
 import { Content, ContentType } from 'aire';
+import { addViewCounterToContent } from '@/context/chat';
 
 const props = defineProps<{
     active: boolean,
@@ -17,7 +18,16 @@ const close = (e: Event) => {
 
 const openContentInNewTab = (url: string) => {
     window.open(url, '_blank');
+    if (props.selectedContent)
+        addViewCounterToContent(props.selectedContent);
 };
+
+const checkToAddViewCounter = () => {
+    if (props.selectedContent && (props.selectedContent.type == ContentType.Video || props.selectedContent?.type == ContentType.Image))
+        addViewCounterToContent(props.selectedContent);
+};
+
+onMounted(checkToAddViewCounter);
 </script>
 
 <template>

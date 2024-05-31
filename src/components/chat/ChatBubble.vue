@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps, reactive, ref } from 'vue';
-import { Chat, revertToMessage } from '@/context/chat';
+import { Chat, addViewCounterToContent, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
@@ -46,13 +46,14 @@ if (props.message.isError)
 const selectContent = (content: Content) => {
     state.selectedContent = content;
     if (content.url && (content.type == ContentType.Document || content.type == ContentType.URL)) {
-        openContentInNewTab(content.url);
+        openContentInNewTab(content);
     } else
         toggleModal();
 };
 
-const openContentInNewTab = (url: string) => {
-    window.open(url, '_blank');
+const openContentInNewTab = (content: Content) => {
+    window.open(content.url, '_blank');
+    addViewCounterToContent(content);
 };
 
 const closeModal = () => {

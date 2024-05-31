@@ -384,6 +384,32 @@ export async function setContentRating(content: Content, rating: number) {
 }
 
 /**
+ * Function to add views count to a content
+ * @param content Content to change
+ */
+export async function addViewCounterToContent(content: Content) {
+    if (AireServices.Memory && Chat.current.content) {
+        Chat.awaitingResponse = true;
+      
+        if(content?.id){
+            AireServices.Memory.postViewCounterContent(content?.id)
+            .then((result) => {
+                if (result.status == AireStatus.Success) {
+                    console.debug(" content actualized??", result.data);
+                } else {
+                    console.log(" Error to success postContentRating", result.data);
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to postContentRating", err);
+            }) 
+        }
+    } else {
+        console.warn("Memory service is unavailable");
+    }
+}
+
+/**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
  * @returns array of chats format id: string, date: string
  */
