@@ -137,11 +137,9 @@ export async function refreshAbstract() {
 export async function refreshContentCatalogue() {
     if (AireServices.Memory && Chat.current.keywords) {
         Chat.awaitingResponse = true;
-
         await AireServices.Memory.searchContent(Chat.current.keywords)
             .then((result) => {
                 if (result.status == AireStatus.Success) {
-
                     //sorting by modified and geting only the four first content per keywords
                     Chat.current.content = result.data?.sort((a, b) => {
                         if (a.viewers_rating && b.viewers_rating) {
@@ -721,10 +719,10 @@ function receiver(e: AireTalkEvent) {
         }
         Chat.awaitingResponse = !final;
 
-        if (final)
+        if (final){
             startFinishAnimation();
-
-        pushMessage(last, firstMessage, final)
+        }
+        pushMessage(last, firstMessage, final);
     }
 }
 
@@ -761,7 +759,7 @@ function onReceiveKeywords(keywords: string[]) {
         queryAndStartQuestionnaire();
     }
 
-    Chat.current.keywords = keywords
+    Chat.current.keywords = keywords;
     refreshContentCatalogue();
 }
 
@@ -885,6 +883,7 @@ function triggerRedFlag() {
     Chat.current.questionnaire = undefined;
     startAutoSaveTimer();
 }
+
 function createMessageWithContent(content: Content[]): ChatMessage {
     let botMessage: ChatMessage = {
         id: generateRandomID(),
