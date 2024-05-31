@@ -11,6 +11,7 @@ import LandingView from "./views/LandingView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
 import VerificationView from "./views/VerificationView.vue";
 import RecoveryView from "./views/RecoveryView.vue";
+import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 import ContentCatalogueView from "./views/ContentCatalogueView.vue";
@@ -103,6 +104,14 @@ export const router = createRouter({
                 title: l.recovery_heading,
                 no_login: true,
             },
+        },
+        {
+            path: "/callback",
+            component: AuthorizationCallbackView,
+            name: "AuthorizationCallback",
+            meta: {
+                title: l.nav_login
+            }
         },
         {
             path: "/:pathMatch(.*)*",

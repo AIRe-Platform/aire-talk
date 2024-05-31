@@ -46,9 +46,8 @@ export async function initApp() {
     if (AppState.value !== "init") return;
 
     const result = await aireInit({
-        api_url:
-            import.meta.env.VITE_AIRE_SERVICES_ENDPOINT ||
-            "http://localhost:7071/api",
+        api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
+        client_id: import.meta.env.VITE_AIRE_CLIENT_ID
     })
         .then(async (result) => {
             if (result) {
