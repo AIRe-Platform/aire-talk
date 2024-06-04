@@ -196,6 +196,9 @@ Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng nh�
     button_close: "Đóng",
     button_delete_content: "Xóa nội dung",
     button_display: "Chưng ra",
+    
+    chat_message_suggestion_content_1: "Tôi đã tìm thấy một số thông tin liên quan về ",
+    chat_message_suggestion_content_2: " trong hệ thống của chúng tôi, nếu bạn muốn kiểm tra nó:",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

@@ -201,6 +201,9 @@ const en: Locale = {
     button_delete_content: "Delete content",
     button_display: "Display",
 
+    chat_message_suggestion_content_1: "I have found some related information about ",
+    chat_message_suggestion_content_2: " in our system, if you want to check it out:",
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

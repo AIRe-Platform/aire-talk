@@ -199,6 +199,9 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     button_close: "Sulje",
     button_delete_content: "Poista sisältö",
     button_display: "Näytä",
+    
+    chat_message_suggestion_content_1: "I have found some related information about ",
+    chat_message_suggestion_content_2: " in our system, if you want to check it out:",
 
     en: "Englanti",
     fi: "Suomi",

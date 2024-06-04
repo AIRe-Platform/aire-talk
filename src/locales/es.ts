@@ -207,6 +207,9 @@ const es: Locale = {
     button_close: "Cerrar",
     button_delete_content: "Eliminar contenido",
     button_display: "Mostrar",
+    
+    chat_message_suggestion_content_1: "He encontrado información relacionada sobre ",
+    chat_message_suggestion_content_2: "en nuestro sistema, por si quieres comprobarlo:",
 
     en: "Inglés",
     fi: "Finés",

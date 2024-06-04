@@ -174,6 +174,9 @@ export enum LocalizationKey {
     button_delete_content = "button_delete_content",
     button_display  = "button_display",
 
+    chat_message_suggestion_content_1 = "chat_message_suggestion_content_1",
+    chat_message_suggestion_content_2 = "chat_message_suggestion_content_2",
+    
     en = "en",
     fi = "fi",
     es = "es",

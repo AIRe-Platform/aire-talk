@@ -920,11 +920,9 @@ function triggerRedFlag() {
     startAutoSaveTimer();
 }
 
-function createMessageWithContent(content: Content[]){
-    
+function createMessageWithContent(content: Content[]): ChatMessage {
     const message =  i18n.global.t(l.chat_message_suggestion_content_1) + Chat.current.keywords +  i18n.global.t(l.chat_message_suggestion_content_2 );
-   
-    pushMessage({
+    const botMessage: ChatMessage = {
         id: generateRandomID(),
         sender: BOT_NAME,
         role: "assistant",
@@ -933,13 +931,15 @@ function createMessageWithContent(content: Content[]){
         content: content,
         rating: 0,
         hidden: false,
-    });
+    };
+    return botMessage;
 }
 
 function triggerContent() {
     if (Chat.current.content?.length && Chat.current.content?.length > 0) {
         const content = Chat.current.content || [];
-        createMessageWithContent(content);
+        const botMessage: ChatMessage = createMessageWithContent(content);
+        pushMessage(botMessage);
     } else
         console.error("No Content to display with this keywords:", Chat.current.keywords, Chat.current.content);
     startAutoSaveTimer();
