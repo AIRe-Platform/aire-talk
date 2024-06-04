@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, reactive, ref } from 'vue';
+import { defineProps, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { Chat, addViewCounterToContent, revertToMessage } from '@/context/chat';
 import { l } from '@/locales';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import ChatBubbleOptions from './ChatBubbleOptions.vue'
 import ChatBubbleModal from './ChatBubbleModal.vue';
-import { Content, ContentType } from 'aire';
+import { AireServices, Content, ContentType } from 'aire';
 import Panel from "@/components/Panel.vue";
 
 const props = defineProps<{ message: ChatMessage, can_revert: boolean, selectedContent?: Content[] }>()
@@ -60,6 +60,18 @@ const closeModal = () => {
     state.selectedContent = undefined;
     toggleModal();
 };
+
+const refreshContentURL = () => {
+    if (props.message.content) {
+        props.message.content?.forEach(async content => {
+            if (AireServices.Memory && content && content.id && (content.type == ContentType.Video || content.type == ContentType.Image || content.type == ContentType.Document)) {
+                content.url = (await AireServices.Memory.getContentWithId(content.id)).data?.url;
+            }
+        });
+    }
+};
+
+onMounted(refreshContentURL);
 </script>
 
 <template>
@@ -70,16 +82,16 @@ const closeModal = () => {
             v-if="props.message.role === 'assistant' && !message.content" />
         <div class="chat-bubble-content">
             <span class="chat-user-label">{{
-                (isSystem || isBot) ? $t(message.sender) : message.sender
-                }}</span>
+        (isSystem || isBot) ? $t(message.sender) : message.sender
+    }}</span>
             <span class="chat-message-text">
                 {{
-                    isSystem
-                        ? (message.message === l.system_topic && Chat.current.topic
-                            ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
-                            : $t(message.message!))
-                        : message.message
-                }}
+            isSystem
+                ? (message.message === l.system_topic && Chat.current.topic
+                    ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
+                    : $t(message.message!))
+                : message.message
+        }}
             </span>
             <Panel class="content-panel" v-if="message.content">
                 <div class="content-container" v-for="content in message.content" :key="message.id + '_' + content.id"

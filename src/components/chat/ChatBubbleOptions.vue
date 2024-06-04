@@ -29,16 +29,16 @@ const onThumbsUp = () => {
     if (props.is_content && props.content) {
         setContentRating(props.content, 1);
     }
-
-    setMessageRating(props.parent.id, 1);
+    else
+        setMessageRating(props.parent.id, 1);
 }
 
 const onThumbsDown = () => {
     if (props.is_content && props.content) {
         setContentRating(props.content, -1);
     }
-
-    setMessageRating(props.parent.id, -1);
+    else
+        setMessageRating(props.parent.id, -1);
 }
 
 const onCopyClipboard = async () => {
@@ -75,11 +75,11 @@ const onCancelRevert = () => {
         </div>
         <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
-                :class="{ 'is-selected': props.parent.rating > 0 }">
+                :class="{ 'is-selected': props.parent.rating > 0 || (props.content?.thumbs_up && props.content?.thumbs_up > 0) }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
             </button>
             <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
-                :class="{ 'is-selected': props.parent.rating < 0 }">
+                :class="{ 'is-selected': props.parent.rating < 0 || (props.content?.thumbs_down && props.content?.thumbs_down < 0) }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
             </button>
             <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"

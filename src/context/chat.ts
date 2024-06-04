@@ -151,7 +151,7 @@ export async function refreshContentCatalogue() {
                             }
                         }
                         // If viewers' ratings are equal or not available, sort by modified date (ascending order)
-                        return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+                            return new Date(b.modified).getTime() - new Date(a.modified).getTime();
                     }).slice(0, 4);
                     triggerContent();
                     return result;
@@ -213,7 +213,8 @@ export async function saveChat() {
             .map(x => {
                 const m: AireChatMessage = {
                     role: x.role,
-                    content: x.message,
+                    message: x.message,
+                    content: x.content,
                     timestamp: x.timestamp,
                     rating: x.rating,
                     question: x.question,
@@ -243,6 +244,8 @@ export async function saveChat() {
     } else {
         console.error("Memory service is unavailable");
     }
+    console.log("Chat saved");
+
 }
 
 /**
@@ -294,7 +297,8 @@ export async function loadChat(id: string, force: boolean = false): Promise<bool
                 id: generateRandomID(),
                 sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? BOT_NAME : SYSTEM_NAME),
                 role: x.role as AireChatRole,
-                message: x.content,
+                message: x.message,
+                content: x.content,
                 timestamp: x.timestamp || 0,
                 rating: x.rating || 0,
                 question: x.question,
@@ -751,6 +755,8 @@ function receiver(e: AireTalkEvent) {
 
         if (final) {
             startFinishAnimation();
+            onReceiveKeywords( (['eye test'])); //all type
+            //onReceiveKeywords( (['car accident'])); //only video
         }
         pushMessage(last, firstMessage, final);
     }
@@ -914,26 +920,26 @@ function triggerRedFlag() {
     startAutoSaveTimer();
 }
 
-function createMessageWithContent(content: Content[]): ChatMessage {
-    const botMessage: ChatMessage = {
+function createMessageWithContent(content: Content[]){
+    
+    const message =  i18n.global.t(l.chat_message_suggestion_content_1) + Chat.current.keywords +  i18n.global.t(l.chat_message_suggestion_content_2 );
+   
+    pushMessage({
         id: generateRandomID(),
         sender: BOT_NAME,
         role: "assistant",
-        //! FIXME: Use localization key and localize
-        message: "I found some related information about this, if you want to check it out",
+        message: message,
         timestamp: Date.now(),
         content: content,
         rating: 0,
         hidden: false,
-    };
-    return botMessage;
+    });
 }
 
 function triggerContent() {
     if (Chat.current.content?.length && Chat.current.content?.length > 0) {
         const content = Chat.current.content || [];
-        const botMessage: ChatMessage = createMessageWithContent(content);
-        pushMessage(botMessage);
+        createMessageWithContent(content);
     } else
         console.error("No Content to display with this keywords:", Chat.current.keywords, Chat.current.content);
     startAutoSaveTimer();
@@ -951,7 +957,8 @@ function getChatbotInputData(): AireChatbotInput {
         .map(x => {
             const m: AireChatMessage = {
                 role: x.role,
-                content: x.message,
+                message: x.message,
+                content: x.content,
                 hidden: x.hidden,
                 rating: x.rating,
             };
