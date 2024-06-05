@@ -190,7 +190,6 @@ select {
     font-family: var(--font-family);
     font-size: var(--font-medium);
 
-    &:hover,
     &:focus {
         border-color: var(--accent-primary-color);
         box-shadow: 0 0 5px var(--accent-primary-color);
