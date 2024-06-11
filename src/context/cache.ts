@@ -1,4 +1,4 @@
-import { ChatMessage, ChatMeta, ChatState, ChatStats } from "@/models/chat";
+import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
 import { AireContent } from "aire";
 import { reactive } from "vue";
 

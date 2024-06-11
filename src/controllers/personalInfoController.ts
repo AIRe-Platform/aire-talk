@@ -94,7 +94,8 @@ export function createPersonalInfoQuestionnaire(): Questionnaire | undefined {
         name: "Personal Information",
         queue: fields,
         answers: [],
-        controller_type: QuestionnaireControlFlow.PersonalInfo
+        controller_type: QuestionnaireControlFlow.PersonalInfo,
+        completed: false
     };
 
     return questionnaire;

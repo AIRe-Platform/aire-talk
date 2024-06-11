@@ -4,7 +4,6 @@ import { defineProps } from 'vue';
 const props = defineProps<{
     open: boolean
 }>()
-
 </script>
 
 <template>

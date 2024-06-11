@@ -21,7 +21,7 @@ const questionnaires = useQuestionnaire();
 const generateSummary = async () => {
     state.busy = true;
 
-    await summary.reset();
+    summary.reset();
     await summary.update();
 
     state.busy = false;

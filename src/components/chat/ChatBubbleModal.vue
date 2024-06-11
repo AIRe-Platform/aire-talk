@@ -40,12 +40,8 @@ const openContentInNewTab = (url?: string) => {
                                 </div>
                             </div>
                             <div class="modal-body">
-                                <p v-if="props.parent.message">
-                                    {{
-                                        props.parent.role === 'system'
-                                            ? $t(props.parent.message)
-                                            : props.parent.message
-                                    }}
+                                <p v-if="props.parent.content">
+                                    {{ props.parent.content }}
                                 </p>
                                 <div class="modal-body-image"
                                     v-if="props.selectedContent && props.selectedContent.type == AireContentType.Image">

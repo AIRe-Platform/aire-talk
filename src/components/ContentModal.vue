@@ -22,8 +22,7 @@ const close = (e: Event) => {
                     <div class="modal-component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1>{{ (props.content.name) }}
-                                </h1>
+                                <h1>{{ (props.content.name) }}</h1>
                                 <div class="icon close-window modal-close" @click="close">
                                 </div>
                             </div>
