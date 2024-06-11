@@ -13,7 +13,8 @@ import {
     createSystemMessage,
     createUserMessage,
     mapMessage,
-    createAssistantMessage
+    createAssistantMessage,
+    createContentMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -22,6 +23,8 @@ import useSummary from "./summary";
 import i18n, { l } from "@/locales";
 import { getChatbotInputData } from "@/helpers/chatUtils";
 import useLogin from "./login";
+import useContent from "./content";
+import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 
 export class ChatContext {
     id?: string;
@@ -121,7 +124,7 @@ export class ChatContext {
         const index = context.messages.findIndex(x => x.id === message_id);
         if (index > -1) {
             context.messages = context.messages.slice(0, index + 1)
-            if(reset_questionnaire)
+            if (reset_questionnaire)
                 useQuestionnaire().reset();
             this.autoSave();
         }
@@ -378,18 +381,26 @@ function errorHandler(status: AireStatus) {
 
 function onReceiveKeywords(keywords: string[]) {
     const summary = useSummary();
-    const diff = keywords.filter(x => !summary.keywords.has(x))
+    summary.set(summary.summary, keywords);
 
-    // If the keywords contain 2 or more new words,
-    // automatically query suitable questionnaires
-    if (diff.length > 1) {
-        const questionnaire = useQuestionnaire();
-        //! FIXME: Call questionnaire context
-        //queryAndStartQuestionnaire();
+    if (keywords.length > 0) {
+        queryQuestionnaire(keywords)
+            .then(q => {
+                if (q) {
+                    const questionnaire = createQuestionnaire(q);
+                    if (questionnaire) {
+                        useQuestionnaire().startQuestionnaire(questionnaire);
+                    }
+                }
+            })
+
+        const content = useContent();
+        content.search(keywords, 4)
+            .then((results) => {
+                if (results.length > 0) {
+                    const msg = createContentMessage(results);
+                    useChat().push(msg);
+                }
+            })
     }
-
-    //! FIXME: Call ContentContext to search for new content
-    // refreshContentCatalogue();
-
-    diff.forEach(x => summary.keywords.add(x));
 }
