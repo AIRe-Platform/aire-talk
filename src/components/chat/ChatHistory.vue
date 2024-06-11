@@ -1,25 +1,22 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { defineEmits, onMounted, reactive } from "vue";
-import {
-    Chat,
-    deleteChat,
-    getAllChats,
-    loadChat,
-    openChat,
-    getCache,
-} from "@/context/chat";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
 import Spinner from "@/components/Spinner.vue";
-
+import useChat from "@/context/chat";
+import { getAllChats } from "@/helpers/chatUtils";
+import { useChatCache } from "@/context/cache";
 
 interface ChatLogItem {
     id: string;
     time: Date;
 }
+
+const chat = useChat();
+const cache = useChatCache();
 
 const state = reactive<{
     busy: boolean,
@@ -40,7 +37,7 @@ const refresh = () => {
     getAllChats()
         .then(logs => {
             state.items = logs.map((x) => {
-                loadChat(x.id);
+                chat.load(x.id);
 
                 let item: ChatLogItem = {
                     id: x.id,
@@ -57,14 +54,14 @@ const refresh = () => {
 onMounted(refresh);
 
 const isOpen = (id: string) => {
-    return id === Chat.id;
+    return id === chat.id;
 };
 
 const onSelect = async (id: string) => {
     if (isOpen(id))
         return;
 
-    const open = await openChat(id);
+    const open = await chat.open(id);
     if (open)
         router.push("/chat");
 
@@ -77,7 +74,7 @@ const onSelect = async (id: string) => {
 const onConfirmDelete = () => {
     state.confirmDelete = false;
     if (state.deleteId) {
-        deleteChat(state.deleteId)
+        chat.delete(state.deleteId)
             .then(() => {
                 if (state.items) {
                     const i = state.items.findIndex(x => x.id === state.deleteId);
@@ -100,19 +97,19 @@ const onDeleteChat = async (id: string) => {
 };
 
 const getLastMessage = (id: string) => {
-    const log = getCache(id);
+    const log = cache.get(id);
     if (!log)
         return undefined;
 
     return (
-        log.messages[log.messages.length - 1].message ||
+        log.messages[log.messages.length - 1].content ||
         log.messages[log.messages.length - 1].question?.question ||
         ""
     );
 };
 
 const getTokenCount = (id: string) => {
-    const log = getCache(id);
+    const log = cache.get(id);
     const tokenCount = log?.stats?.token_count;
     if (tokenCount)
         return tokenCount;

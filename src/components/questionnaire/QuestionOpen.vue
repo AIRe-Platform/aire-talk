@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
-import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionOpen } from 'aire';
 import { l } from '@/locales';
+import { ChatMessage } from '@/models/chat';
+import useQuestionnaire from '@/context/questionnaire';
 
 const props = defineProps<{
-    message_id: string;
+    message: ChatMessage;
     options: AireQuestionOptionOpen;
     answer?: any;
     readonly?: boolean;
@@ -15,17 +16,20 @@ const answer = ref<string>(props.answer || "")
 const edited = (ans: any) => (!ans || ans !== answer.value);
 
 const onSubmitAnswer = () => {
-    answerQuestion(props.message_id, answer.value)
+    const questionnaire = useQuestionnaire();
+    if (props.message.question) {
+        questionnaire.submitAnswer(props.message.question.question_id, answer.value);
+    }
 }
 </script>
 
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <textarea :id="props.message_id + '_input'" class="text-input" rows="3" v-model="answer"
+            <textarea :id="props.message.id + '_input'" class="text-input" rows="3" v-model="answer"
                 :maxlength="props.options.max_len" v-if="props.options.multiline" :readonly="props.readonly">
             </textarea>
-            <input :id="props.message_id + '_input'" type="text" class="text-input" v-model="answer"
+            <input :id="props.message.id + '_input'" type="text" class="text-input" v-model="answer"
                 :maxlength="props.options.max_len" v-if="!props.options?.multiline" :readonly="props.readonly" />
         </div>
         <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">

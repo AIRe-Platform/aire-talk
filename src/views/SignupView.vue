@@ -3,8 +3,8 @@ import { reactive, ref } from 'vue';
 import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { signup } from '@/context/login';
 import { AireStatus } from 'aire';
+import useLogin from '@/context/login';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -26,7 +26,7 @@ const onSignup = (e: Event) => {
     }
 
     busy.value = true;
-    signup(fields.email!, fields.password!)
+    useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
                 router.replace("/")

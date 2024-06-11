@@ -1,99 +1,133 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { revertToMessage, setMessageRating, setContentRating } from '@/context/chat';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
-import { defineProps, ref } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
-import { Content } from 'aire';
+import { AireContent } from 'aire';
+import useChat from '@/context/chat';
+import useContent from '@/context/content';
 
 const props = defineProps<{
     parent: ChatMessage
     can_revert: boolean
-    is_content?: boolean
-    content?: Content
+    content?: AireContent
 }>()
 
 const clipboard = useClipboard()
+const chat = useChat();
+const contentContext = useContent();
 
-const menuOpen = ref(false)
-const copiedToClipboard = ref(false)
-const confirmRevertOpen = ref(false)
+const state = reactive<{
+    menuOpen: boolean,
+    copiedToClipboard: boolean,
+    confirmRevert: boolean,
+    rating: number
+}>({
+    menuOpen: false,
+    copiedToClipboard: false,
+    confirmRevert: false,
+    rating: 0
+});
+
 const onToggleMenu = (e: Event) => {
     e.stopImmediatePropagation();
-    menuOpen.value = !menuOpen.value
+    state.menuOpen = !state.menuOpen;
 }
 
 const onThumbsUp = () => {
-    if (props.is_content && props.content) {
-        setContentRating(props.content, 1);
-    }
+    if (state.rating > 0)
+        state.rating = 0;
     else
-        setMessageRating(props.parent.id, 1);
+        state.rating = 1;
+
+    applyRating();
 }
 
 const onThumbsDown = () => {
-    if (props.is_content && props.content) {
-        setContentRating(props.content, -1);
+    if (state.rating < 0)
+        state.rating = 0;
+    else
+        state.rating = -1;
+
+    applyRating();
+}
+
+const applyRating = () => {
+    if (props.content?.id) {
+        contentContext.vote(props.content.id, state.rating);
     }
     else
-        setMessageRating(props.parent.id, -1);
+        chat.rateMessage(props.parent.id, state.rating);
 }
 
 const onCopyClipboard = async () => {
-    if (props.parent.message) {
-        await clipboard.copy(props.parent.message)
-        copiedToClipboard.value = !copiedToClipboard.value;
+    if (props.parent.content) {
+        await clipboard.copy(props.parent.content)
+        state.copiedToClipboard = true;
     }
 }
 
 const onConfirmRevert = () => {
-    revertToMessage(props.parent.id)
-    confirmRevertOpen.value = false;
+    chat.revertTo(props.parent.id)
+    state.confirmRevert = false;
 }
 
 const onRevert = () => {
-    menuOpen.value = false;
-    confirmRevertOpen.value = true;
+    state.menuOpen = false;
+    state.confirmRevert = true;
 }
 
 const onCancelRevert = () => {
-    confirmRevertOpen.value = false;
+    state.confirmRevert = false;
 }
 
+onMounted(() => {
+    if (props.content?.id) {
+        contentContext.getVote(props.content.id).then(vote => {
+            state.rating = vote;
+        })
+    }
+    else {
+        state.rating = props.parent.rating || 0;
+    }
+})
 </script>
 
 <template>
-    <ConfirmDialog v-if="confirmRevertOpen" v-on:accept="onConfirmRevert" v-on:decline="onCancelRevert">
+    <ConfirmDialog v-if="state.confirmRevert" v-on:accept="onConfirmRevert" v-on:decline="onCancelRevert">
         {{ $t(l.popup_confirm_revert_message) }}
     </ConfirmDialog>
     <div class="chat-bubble-options">
-        <div class="chat-bubble-options-button" @click.stop="onToggleMenu" :class="{ 'is-content': props.is_content }">
+        <div class="chat-bubble-options-button" @click.stop="onToggleMenu"
+            :class="{ 'is-content': props.content !== undefined }">
             <div class="icon chat-option-desktop">
             </div>
         </div>
-        <div class="chat-bubble-options-menu" v-if="menuOpen" v-on-click-outside="onToggleMenu">
+        <div class="chat-bubble-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
-                :class="{ 'is-selected': props.parent.rating > 0 || (props.content?.thumbs_up && props.content?.thumbs_up > 0) }">
+                :class="{ 'is-selected': state.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
             </button>
             <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
-                :class="{ 'is-selected': props.parent.rating < 0 || (props.content?.thumbs_down && props.content?.thumbs_down < 0) }">
+                :class="{ 'is-selected': state.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
             </button>
-            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
-                :class="{ 'is-selected': copiedToClipboard }" v-if="copiedToClipboard && !props.is_content">
-                <font-awesome-icon icon="fa-solid fa-check" />
-            </button>
-            <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
-                v-if="!copiedToClipboard && !props.is_content">
-                <font-awesome-icon icon="fa-solid fa-copy" />
-            </button>
-            <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin"
-                v-if="props.can_revert && !props.is_content">
-                <font-awesome-icon icon="fa-solid fa-arrows-spin" />
-            </button>
+            <template v-if="!props.content">
+                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
+                    :class="{ 'is-selected': state.copiedToClipboard }" v-if="state.copiedToClipboard">
+                    <font-awesome-icon icon="fa-solid fa-check" />
+                </button>
+                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
+                    v-if="!state.copiedToClipboard">
+                    <font-awesome-icon icon="fa-solid fa-copy" />
+                </button>
+                <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin"
+                    v-if="props.can_revert">
+                    <font-awesome-icon icon="fa-solid fa-arrows-spin" />
+                </button>
+            </template>
         </div>
     </div>
 </template>

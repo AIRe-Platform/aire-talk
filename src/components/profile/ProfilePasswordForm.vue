@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { changePassword } from "@/context/login";
+import { reactive } from 'vue';
 import { AireServices } from 'aire';
 import { l } from '@/locales';
 import Spinner from '../Spinner.vue';
+import useLogin from '@/context/login';
 
-const error = ref<string>();
-const busy = ref(false);
-const currentPassword = ref<string>("");
-const newPassword = ref<string>("");
+const state = reactive<{
+    error?: string,
+    busy: boolean,
+    currentPassword: string,
+    newPassword: string
+}>({
+    busy: false,
+    currentPassword: "",
+    newPassword: ""
+});
 
 const onChangePassword = (e: Event) => {
     const form = e.target as HTMLFormElement;
@@ -16,19 +22,19 @@ const onChangePassword = (e: Event) => {
         return;
 
     if (AireServices.ID) {
-        busy.value = true;
-        changePassword(currentPassword.value, newPassword.value)
+        state.busy = true;
+        useLogin().changePassword(state.currentPassword, state.newPassword)
             .then((result) => {
                 if (result) {
-                    error.value = undefined;
+                    state.error = undefined;
                 } else {
-                    error.value = l.error_profile_change_password;
+                    state.error = l.error_profile_change_password;
                 }
             })
             .finally(() => {
-                busy.value = false;
-                currentPassword.value = "";
-                newPassword.value = "";
+                state.busy = false;
+                state.currentPassword = "";
+                state.newPassword = "";
             });
     }
 };
@@ -42,21 +48,21 @@ const onChangePassword = (e: Event) => {
             <span class="form-item">
                 <label class="form-label" for="current_password">{{ $t(l.profile_label_current_password) }}</label>
                 <input id="current_password" type="password" required="true" autocomplete="current-password"
-                    v-model="currentPassword" :readonly="busy" />
+                    v-model="state.currentPassword" :readonly="state.busy" />
             </span>
             <span class="form-item">
                 <label class="form-label" for="new_password">{{ $t(l.profile_label_new_password) }}</label>
                 <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password"
-                    v-model="newPassword" :readonly="busy" />
+                    v-model="state.newPassword" :readonly="state.busy" />
             </span>
         </div>
         <div class="description">{{ $t(l.profile_description_password) }}</div>
-        <div class="error-message" v-if="error">{{ $t(error) }}</div>
+        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
-            <template v-if="!busy">
+            <template v-if="!state.busy">
                 <input type="submit" :value="$t(l.profile_button_change_password)" />
             </template>
-            <Spinner v-if="busy" />
+            <Spinner v-if="state.busy" />
         </div>
     </form>
 </template>

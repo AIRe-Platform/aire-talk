@@ -1,6 +1,68 @@
-import { Login } from "@/context/login";
-import i18n, { l } from "@/locales";
-import { AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionNumber, AireQuestionOptionOpen, AireQuestionOptionType, AireQuestionnaire, AireQuestionnaireAnswer, AireUser } from "aire";
+import useSummary from "@/context/summary";
+import {
+    AireQuestion,
+    AireQuestionnaire,
+    AireQuestionnaireAnswer,
+    AireServices,
+} from "aire";
+import { getUserLanguageCode } from "./userLocale";
+import useChat from "@/context/chat";
+import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
+
+/**
+ * Build a questionnaire object from the AIRe questionnaire model
+ * @param model Questionnaire model
+ * @returns Object representing questionnaire state
+ */
+export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | undefined {
+    if(!model.id)
+        return undefined;
+
+    const summary = useSummary();
+    const questions = getRelevantQuestions(model, [...summary.keywords]);
+    const answers = getAnsweredQuestions(model.id);
+    const unanswered = getUnansweredQuestions(questions, answers);
+
+    if (unanswered.length === 0)
+        return;
+
+    return {
+        id: model.id,
+        name: model.name,
+        queue: unanswered,
+        answers: [],
+        controller_type: QuestionnaireControlFlow.Default,
+        completed: false
+    };
+}
+
+/**
+ * Query questionnaires with current keywords and 
+ * prompt user to start the questionnaire (if a questionnaire was found)
+ */
+export async function queryQuestionnaire(
+    keywords: string[] | undefined = undefined
+): Promise<AireQuestionnaire | undefined>  {
+    if(!keywords) {
+        const summary = useSummary();
+        keywords = [...summary.keywords];
+    }
+
+    if (keywords.length < 1)
+        return;
+
+    if (!AireServices.Memory) {
+        console.error("Memory service is not available");
+        return;
+    }
+    const lang = getUserLanguageCode();
+    const query = await AireServices.Memory.queryQuestionnaire(keywords, lang);
+
+    if (!query.data)
+        return;
+
+    return query.data;
+}
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {
     const questions = questionnaire.content.flatMap(x => {
@@ -21,91 +83,17 @@ export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords:
     return questions;
 }
 
+export function getAnsweredQuestions(questionnaire_id: string): AireQuestionnaireAnswer[] {
+    const chat = useChat();
+    const items = chat.messages
+            .filter(x => x.question && x.question?.questionnaire_id === questionnaire_id && x.question.answer)
+            .map(x => x.question!);
+    return items;
+}
+
 export function getUnansweredQuestions(questions: AireQuestion[], answers: AireQuestionnaireAnswer[]): AireQuestion[] {
     return questions.filter(q => {
         const ans = answers.find(a => a.question_id == q.id)
         return (ans === undefined)
     })
-}
-
-export function getMissingPersonalInformationQuestions(): AireQuestion[] {
-    const questions = Array<AireQuestion>();
-    if(!Login.user?.first_name) {
-        questions.push({
-            id: "first_name",
-            prompt: "",
-            question: i18n.global.t(l.profile_question_first_name),
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        });
-    }
-    if(!Login.user?.last_name) {
-        questions.push({
-            id: "last_name",
-            prompt: "",
-            question: i18n.global.t(l.profile_question_last_name),
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
-    if(!Login.user?.age) {
-        questions.push({
-            id: "age",
-            prompt: "",
-            question: i18n.global.t(l.profile_question_age),
-            type: AireQuestionOptionType.Number,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionNumber
-        })
-    }
-    if(!Login.user?.country) {
-        questions.push({
-            id: "country",
-            prompt: "",
-            question: i18n.global.t(l.profile_question_country),
-            type: AireQuestionOptionType.Open,
-            required: true,
-            options: {
-                multiline: false
-            } as AireQuestionOptionOpen
-        })
-    }
-    if(!Login.user?.gender) {
-        questions.push({
-            id: "gender",
-            prompt: "",
-            question: i18n.global.t(l.profile_question_gender),
-            type: AireQuestionOptionType.Checkbox,
-            required: true,
-            options: {
-                multiselect: false,
-                values: [
-                    i18n.global.t(l.gender_male),
-                    i18n.global.t(l.gender_female),
-                    i18n.global.t(l.gender_other)
-                ]
-            } as AireQuestionOptionCheckbox
-        })
-    }
-    // if(!Login.user?.language) {
-    //     questions.push({
-    //         id: "language",
-    //         prompt: "",
-    //         question: i18n.global.t(l.profile_question_language),
-    //         type: AireQuestionOptionType.Open,
-    //         required: true,
-    //         options: {
-    //             multiline: false
-    //         } as AireQuestionOptionOpen
-    //     })
-    // }
-    return questions;
 }

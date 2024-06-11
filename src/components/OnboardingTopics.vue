@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { router } from "@/router";
-import { createNewChat } from "@/context/chat";
 import { l } from '@/locales';
-import { Login } from '@/context/login';
 import { Topic, initialTopics } from "@/models/topic";
 import { vOnClickOutside } from '@vueuse/components';
+import useLogin from '@/context/login';
+import useChat from '@/context/chat';
 
 const isOpen = ref(false);
+const login = useLogin();
+const chat = useChat();
 
 const onTogglePanel = (e: Event) => {
     e.stopImmediatePropagation()
@@ -15,8 +17,8 @@ const onTogglePanel = (e: Event) => {
 };
 
 const buttonSelected = async (topic: Topic) => {
-    if (Login.user) {
-        await createNewChat(topic)
+    if (login.user) {
+        await chat.startNew(topic)
         router.push("/chat");
     }
     else {

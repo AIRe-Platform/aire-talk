@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { Content, ContentType } from "aire";
+import { AireContent, AireContentType } from "aire";
 
 const props = defineProps<{
     active: boolean,
-    content: Content,
+    content: AireContent,
     onClose: () => void
 }>()
 
@@ -28,18 +28,18 @@ const close = (e: Event) => {
                                 </div>
                             </div>
                             <div class="modal-body">
-                                <div class="modal-body-container" v-if="props.content.type == ContentType.Image">
+                                <div class="modal-body-container" v-if="props.content.type == AireContentType.Image">
                                     <img v-bind:src="props.content.url" class="modal-body-image">
                                 </div>
-                                <div class="modal-body-container" v-if="props.content.type == ContentType.Video">
+                                <div class="modal-body-container" v-if="props.content.type == AireContentType.Video">
                                     <video class="modal-body-video" controls>
                                         <source v-bind:src="props.content.url" type="video/mp4">
                                     </video>
                                 </div>
-                                <div class="modal-body-container" v-if="props.content.type == ContentType.URL">
+                                <div class="modal-body-container" v-if="props.content.type == AireContentType.URL">
                                     <a v-bind:href=props.content.url target="_blank">{{ props.content.url }}</a>
                                 </div>
-                                <div class="modal-body-container" v-if="props.content.type == ContentType.Document">
+                                <div class="modal-body-container" v-if="props.content.type == AireContentType.Document">
                                     <div class="icon catalogue-content-mobile" :src="props.content.url" alt="">
                                     </div>
                                     <div>{{ props.content.name }}</div>

@@ -3,7 +3,6 @@ import { router } from "./router";
 import App from "./App.vue";
 import i18n from "./locales";
 import { AireStatus, aireInit, aireSetResponseCallback } from "aire";
-import { logout, restoreSession } from "./context/login";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -22,6 +21,7 @@ import {
     faLink,
     faXmark
 } from "@fortawesome/free-solid-svg-icons";
+import useLogin from "./context/login";
 
 library.add(
     faThumbsDown,
@@ -52,7 +52,7 @@ export async function initApp() {
     })
         .then(async (result) => {
             if (result) {
-                await restoreSession();
+                await useLogin().restoreSession();
                 return true;
             }
             return false;
@@ -80,6 +80,6 @@ document.addEventListener("focusout", (e: Event) => {
 });
 
 aireSetResponseCallback(() => {
-    logout();
+    useLogin().logout();
     router.replace("/login");
 }, AireStatus.LoginRequired);

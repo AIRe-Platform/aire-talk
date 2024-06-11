@@ -3,9 +3,13 @@ import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { logout } from "@/context/login";
-import { getAllChats, openChat, createNewChat } from "@/context/chat";
 import OnboardingTopics from '@/components/OnboardingTopics.vue';
+import useLogin from '@/context/login';
+import useChat from '@/context/chat';
+import { getAllChats } from '@/helpers/chatUtils';
+
+const login = useLogin();
+const chat = useChat();
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -17,12 +21,12 @@ const state = reactive<{
 
 const onConfirmLogout = async () => {
     state.showConfirmLogout = false;
-    await logout();
+    await login.logout();
     router.push("/");
 }
 
 const newChat = async () => {
-    await createNewChat();
+    await chat.startNew();
     navigateTo("/chat");
 };
 
@@ -33,7 +37,7 @@ const getLastChatId = async () => {
 
 const openLastChat = async () => {
     const last = await getLastChatId();
-    if (await openChat(last))
+    if (await chat.open(last))
         router.push("/chat");
 }
 

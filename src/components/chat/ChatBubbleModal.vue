@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, onMounted } from 'vue';
-import { Content, ContentType } from 'aire';
-import { addViewCounterToContent } from '@/context/chat';
+import { defineProps } from 'vue';
+import { AireContent, AireContentType } from 'aire';
 
 const props = defineProps<{
     active: boolean,
     parent: ChatMessage,
-    selectedContent?: Content,
+    selectedContent?: AireContent,
     onClose: () => void
 }>()
 
@@ -21,16 +20,7 @@ const openContentInNewTab = (url?: string) => {
         return;
 
     window.open(url, '_blank');
-    if (props.selectedContent)
-        addViewCounterToContent(props.selectedContent);
 };
-
-const checkToAddViewCounter = () => {
-    if (props.selectedContent && (props.selectedContent.type == ContentType.Video || props.selectedContent?.type == ContentType.Image))
-        addViewCounterToContent(props.selectedContent);
-};
-
-onMounted(checkToAddViewCounter);
 </script>
 
 <template>
@@ -51,26 +41,29 @@ onMounted(checkToAddViewCounter);
                             </div>
                             <div class="modal-body">
                                 <p v-if="props.parent.message">
-                                    {{ props.parent.role === 'system' ? $t(props.parent.message) : props.parent.message
+                                    {{
+                                        props.parent.role === 'system'
+                                            ? $t(props.parent.message)
+                                            : props.parent.message
                                     }}
                                 </p>
                                 <div class="modal-body-image"
-                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Image">
+                                    v-if="props.selectedContent && props.selectedContent.type == AireContentType.Image">
                                     <img v-bind:src="props.selectedContent.url" class="chat-message-image-contain">
                                 </div>
                                 <div class="modal-body-video-container"
-                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Video">
+                                    v-if="props.selectedContent && props.selectedContent.type == AireContentType.Video">
                                     <video class="modal-body-video" autoplay controls>
                                         <source v-bind:src="props.selectedContent.url" type="video/mp4">
                                     </video>
                                 </div>
                                 <div class="modal-body-document-container"
-                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.Document">
+                                    v-if="props.selectedContent && props.selectedContent.type == AireContentType.Document">
                                     <div class="icon document" v-if="props.selectedContent.url !== undefined"
                                         @click="openContentInNewTab(props.selectedContent?.url)"></div>
                                 </div>
                                 <div class="modal-body-document-container"
-                                    v-if="props.selectedContent && props.selectedContent.type == ContentType.URL">
+                                    v-if="props.selectedContent && props.selectedContent.type == AireContentType.URL">
                                     <font-awesome-icon icon="fa-solid fa-link" class="icon-link"
                                         @click="openContentInNewTab(props.selectedContent?.url)"
                                         v-if="props.selectedContent.url" />

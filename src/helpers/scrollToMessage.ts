@@ -1,6 +1,5 @@
 import { ChatMessage } from "@/models/chat";
 
-
 let scroll_timer_id: number | undefined = undefined;
 const SCROLL_DELAY = 200;
 

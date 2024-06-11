@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from "vue";
-import { Chat, sendChatMessage } from "@/context/chat";
 import { router } from "@/router";
 import { l } from "@/locales";
+import useChat from "@/context/chat";
+import useChatbot from "@/context/chatbot";
+import { getChatContentIds } from "@/helpers/contentUtils";
 
 const props = defineProps<{
     optionsOpen: boolean
 }>()
+
+const chat = useChat();
+const bot = useChatbot();
 
 defineEmits<{
     toggleOptions: []
@@ -17,20 +22,23 @@ const textInput = ref("");
 function submit() {
     const prompt = textInput.value.trim();
     if (prompt.length > 0)
-        sendChatMessage(prompt);
+        chat.send(prompt);
     textInput.value = "";
 }
 </script>
 
 <template>
     <div class="chat-input">
-        <div class="chat-bot" :class="{ 'chat-bot-busy': Chat.awaitingResponse, 'chat-bot-finish': Chat.hasFinished }">
-
+        <div class="chat-bot" :class="{
+            'chat-bot-busy': bot.status === 'writing',
+            'chat-bot-finish': bot.status === 'answered'
+        }">
         </div>
         <div class="chat-input-header">
 
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
-            <div class="chat-content" v-if="Chat.current.content" @click="() => router.push('/content-catalogue')">
+            <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0"
+                @click="() => router.push('/content-catalogue')">
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
@@ -43,7 +51,7 @@ function submit() {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="Chat.awaitingResponse" v-model="textInput" />
+                    :readonly="bot.status === 'writing'" v-model="textInput" />
             </form>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default">

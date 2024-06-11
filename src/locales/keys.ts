@@ -7,6 +7,7 @@ export enum LocalizationKey {
     aire_system = "aire_system",
     system_greeting = "system_greeting",
     system_topic = "system_topic",
+    system_found_content = "system_found_content",
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
@@ -173,9 +174,6 @@ export enum LocalizationKey {
     button_close = "button_close",
     button_delete_content = "button_delete_content",
     button_display  = "button_display",
-
-    chat_message_suggestion_content_1 = "chat_message_suggestion_content_1",
-    chat_message_suggestion_content_2 = "chat_message_suggestion_content_2",
     
     en = "en",
     fi = "fi",

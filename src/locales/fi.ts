@@ -10,8 +10,9 @@ const fi: Locale = {
     system_greeting:
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
-    start_greeting: "Tervetuloa AIRe Talk -palveluun",
+    system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
 
+    start_greeting: "Tervetuloa AIRe Talk -palveluun",
     start_first_paragraph:
         "Kumppani parempaan toimintakykyyn ja hyvinvointiin",
     start_second_paragraph:
@@ -199,9 +200,6 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     button_close: "Sulje",
     button_delete_content: "Poista sisältö",
     button_display: "Näytä",
-    
-    chat_message_suggestion_content_1: "I have found some related information about ",
-    chat_message_suggestion_content_2: " in our system, if you want to check it out:",
 
     en: "Englanti",
     fi: "Suomi",

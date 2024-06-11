@@ -10,6 +10,7 @@ const es: Locale = {
     system_topic: "Has seleccionado un tema: ",
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
+    system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
 
     start_greeting: "Bienvenid@ a la plataforma AIRe",
     start_first_paragraph:
@@ -207,9 +208,6 @@ const es: Locale = {
     button_close: "Cerrar",
     button_delete_content: "Eliminar contenido",
     button_display: "Mostrar",
-    
-    chat_message_suggestion_content_1: "He encontrado información relacionada sobre ",
-    chat_message_suggestion_content_2: "en nuestro sistema, por si quieres comprobarlo:",
 
     en: "Inglés",
     fi: "Finés",

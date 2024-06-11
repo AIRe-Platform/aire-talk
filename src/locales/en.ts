@@ -10,6 +10,7 @@ const en: Locale = {
     system_greeting:
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
+    system_found_content: "I found some content that may interest you. Take a look!",
 
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph:
@@ -200,9 +201,6 @@ const en: Locale = {
     button_close: "Close",
     button_delete_content: "Delete content",
     button_display: "Display",
-
-    chat_message_suggestion_content_1: "I have found some related information about ",
-    chat_message_suggestion_content_2: " in our system, if you want to check it out:",
 
     en: "English",
     fi: "Finnish",
