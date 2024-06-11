@@ -8,17 +8,13 @@ export interface ChatMessage extends AireChatMessage {
     isError?: boolean;
     localize?: boolean;
 }
-
-export interface ChatMeta {
-    topic?: Topic;
-}
-
 export interface ChatStats {
     token_count?: number;
 }
 
-export interface ChatState extends ChatMeta {
+export interface ChatState {
     questionnaire?: Questionnaire;
     summary?: string;
     keywords?: Array<string>;
+    topic?: Topic;
 }

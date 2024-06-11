@@ -1,5 +1,5 @@
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatMessage, ChatMeta, ChatState, ChatStats } from "@/models/chat";
+import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
     AireServices,
