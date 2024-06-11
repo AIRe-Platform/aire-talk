@@ -21,7 +21,7 @@ const en: Locale = {
         "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
     start_disclaimer: "AIRe is not a medical diagnostic tool.",
 
-    home_start_new_chat: "Start new chat instance",
+    home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
     login_form_title: "Login",
