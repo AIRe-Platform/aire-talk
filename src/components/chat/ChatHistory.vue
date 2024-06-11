@@ -163,7 +163,6 @@ const onClickOutside = (e: Event) => {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    z-index: 2;
     width: 24rem;
     height: 100%;
     background-color: var(--panel-menu-background-color);

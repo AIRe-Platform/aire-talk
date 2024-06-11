@@ -15,18 +15,20 @@ setTimeout(() => {
 const closeNavMenu = () => {
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
+    UIState.panels.clear();
 }
 </script>
 
 <template>
     <div id="main" v-if="AppState === 'loaded'" tabindex="1">
         <NavMenu />
-        <div class="main-content" @click="closeNavMenu">
+        <div class="main-panels" v-if="UIState.panels.size > 0">
+            <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
+            <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
+        </div>
+        <div class="main-content" >
+            <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
-            <div class="main-panels" v-if="UIState.panels.size > 0">
-                <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
-                <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
-            </div>
         </div>
         <FooterBar />
     </div>
@@ -50,6 +52,14 @@ const closeNavMenu = () => {
     max-height: 100%;
 }
 
+.main-mask {
+    position: absolute;
+    top: 0; left: 0;
+    bottom: 0; right: 0;
+    z-index: 3;
+    backdrop-filter: blur(2px);
+}
+
 .main-content {
     display: flex;
     flex-direction: row;
@@ -71,7 +81,7 @@ const closeNavMenu = () => {
     padding: 1rem;
     top: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 5;
 }
 
 .main-splash,

@@ -7,7 +7,6 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import OptionsButton from "@/components/OptionsButton.vue";
 import useMobileLayout from "@/helpers/mobile";
-import { UIState } from '@/context/ui';
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 import { l } from '@/locales';
 import { ChatMessage } from "@/models/chat";
@@ -100,7 +99,7 @@ onMounted(() => {
 
 <template>
     <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
-    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }">
+    <div class="chat-view">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
                 <!-- If chat bubble -->
@@ -164,10 +163,6 @@ onMounted(() => {
 .chat-view-row {
     display: flex;
     padding: 0.2rem 3rem;
-}
-
-.nav-menu-open {
-    filter: blur(2px);
 }
 
 .chat-side-panels {
