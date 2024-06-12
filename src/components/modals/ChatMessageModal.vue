@@ -19,25 +19,38 @@ const openUrl = (url: string) => {
 <template>
     <Modal :active="active" @close="props.onClose" :showCloseButton="true">
         <div class="message-header">
+            <h1 v-if="props.parent.role != 'user'">{{ $t(props.parent.sender) }}</h1>
             <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}</h1>
         </div>
         <div class="message-body">
             <p v-if="props.parent.content">{{ props.parent.content }}</p>
             <div class="message-media" v-if="props.content">
-                <img v-bind:src="props.content.url" v-if="props.content.type == AireContentType.Image">
-                <video controls v-if="props.content.type == AireContentType.Video">
-                    <source v-bind:src="props.content.url" type="video/mp4">
-                </video>
-                <button class="media-url" @click="openUrl(props.content.url)" v-if="props.content.type == AireContentType.URL">
+                <template v-if="props.content.type == AireContentType.Image">
+                    <img v-bind:src="props.content.url" />
+                    <p>{{ props.content.name }}</p>
+                </template>
+                <template v-if="props.content.type == AireContentType.Video">
+                    <video controls>
+                        <source v-bind:src="props.content.url" type="video/mp4">
+                    </video>
+                    <p>{{ props.content.name }}</p>
+                </template>
+                <button class="media-url" @click="openUrl(props.content.url)"
+                    v-if="props.content.type == AireContentType.URL">
                     <font-awesome-icon icon="fa-solid fa-link" />
-                    <span>{{ props.content.url }}</span>
+                    <span>
+                        <h2>{{ props.content.name }}</h2>
+                        <small>
+                            <code>{{ props.content.url }}</code>
+                        </small>
+                    </span>
                 </button>
-                <button class="media-document" @click="openUrl(props.content.url)" v-if="props.content.type == AireContentType.Document">
+                <button class="media-document" @click="openUrl(props.content.url)"
+                    v-if="props.content.type == AireContentType.Document">
                     <font-awesome-icon icon="fa-solid fa-file-invoice" />
                     <span>{{ props.content.name }}</span>
                 </button>
             </div>
-            <p v-if="props.content"> {{ props.content.name }}</p>
         </div>
     </Modal>
 </template>
@@ -54,6 +67,7 @@ const openUrl = (url: string) => {
 }
 
 .message-media {
+
     img,
     video,
     .content-document {
@@ -68,6 +82,11 @@ const openUrl = (url: string) => {
         justify-content: center;
         max-width: 32rem;
         gap: 1rem;
+
+        svg {
+            width: 32px;
+            height: auto;
+        }
 
         span {
             text-overflow: ellipsis;
