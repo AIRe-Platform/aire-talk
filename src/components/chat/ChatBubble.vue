@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, onMounted, reactive, ref } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import useChat from '@/context/chat';
 import { l } from '@/locales';
 import { AireContent, AireContentType } from 'aire';
@@ -18,14 +18,15 @@ const isSystem = props.message.role === "system";
 const isBot = props.message.role === "assistant";
 
 const state = reactive<{
-    content: AireContent[]
-    openContent?: AireContent
+    content: AireContent[],
+    openContent?: AireContent,
+    modalOpen: boolean,
+    revertConfirm: boolean,
 }>({
-    content: []
+    content: [],
+    modalOpen: false,
+    revertConfirm: false,
 })
-
-const revertConfirmPopupOpen = ref(false);
-const modalOpen = ref(false);
 
 let classList: any[] = ["chat-bubble"]
 switch (props.message.role) {
@@ -39,7 +40,7 @@ if (props.message.isError)
     classList.push("chat-bubble-error");
 
 const toggleModal = () => {
-    modalOpen.value = !modalOpen.value;
+    state.modalOpen = !state.modalOpen;
 };
 
 const onRevert = () => {
@@ -68,7 +69,6 @@ const showContent = async (content: AireContent) => {
 };
 
 const closeModal = () => {
-    state.openContent = undefined;
     toggleModal();
 };
 
@@ -87,8 +87,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <ChatMessageModal :active="modalOpen" :parent="props.message" :selectedContent="state.openContent"
-        :onClose="closeModal" v-if="state.openContent" />
     <div :id="props.message.id" :class=classList @click="toggleModal">
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
@@ -138,7 +136,9 @@ onMounted(() => {
                 </div>
             </Panel>
         </div>
-        <DialogModal :active="revertConfirmPopupOpen" :buttons="[
+        <ChatMessageModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
+            :selectedContent="state.openContent" :onClose="closeModal" />
+        <DialogModal :active="state.revertConfirm" :buttons="[
             { loc_key: l.button_accept },
             { loc_key: l.button_cancel },
         ]" @select="(i: number) => {
@@ -148,10 +148,10 @@ onMounted(() => {
                     break;
                 default:
                 case 1:
-                    revertConfirmPopupOpen = false;
+                    state.revertConfirm = false;
                     break;
             }
-        }" :accept="onRevert" :decline="() => { }" v-if="revertConfirmPopupOpen">
+        }" :accept="onRevert" :decline="() => { }">
             {{ $t(l.popup_confirm_revert_message) }}
         </DialogModal>
     </div>

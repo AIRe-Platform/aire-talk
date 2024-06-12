@@ -20,10 +20,10 @@ defineComponent({ name: "ModalComponent" })
 
 <template>
     <Transition name="modal-animation">
-        <div v-show="props.active" class="modal" @click="close">
+        <div v-show="props.active" class="modal" @click.stop="close">
             <Transition name="modal-animation-panel">
                 <Panel class="modal-panel" @click.stop>
-                    <div class="icon close-window modal-close" @click="close" v-if="props.showCloseButton"></div>
+                    <div class="icon close-window modal-close" @click.stop="close" v-if="props.showCloseButton"></div>
                     <div class="modal-content">
                         <slot></slot>
                     </div>
