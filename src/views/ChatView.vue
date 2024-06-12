@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Chat } from "@/context/chat";
-import { ChatContext, ChatMessage } from "@/models/chat";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
+import { l } from '@/locales';
+import { ChatMessage } from "@/models/chat";
+import useMobileLayout from "@/helpers/mobile";
+import useChat, { ChatContext } from "@/context/chat";
+
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
-import OptionsButton from "@/components/OptionsButton.vue";
-import useMobileLayout from "@/helpers/mobile";
-import { UIState } from '@/context/ui';
+import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
-import { l } from '@/locales';
 
 const showSideBar = ref(false);
+const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
-    const lastMessageId = Chat.messages[Chat.messages.length - 1].id;
+    const lastMessageId = chat.messages[chat.messages.length - 1].id;
     return msg.id !== lastMessageId;
 };
 
@@ -52,8 +53,8 @@ const groupedMessages = () => {
     } as MessageGroup;
     let previousNonHiddenIndex = 0;
 
-    for (let i = 0; i < Chat.messages.length; i++) {
-        let message = Chat.messages[i];
+    for (let i = 0; i < chat.messages.length; i++) {
+        let message = chat.messages[i];
         if (!message.hidden) {
             if (!isDifferentGroup(i, previousNonHiddenIndex)) {
                 currentGroup.messages.push(message);
@@ -82,8 +83,8 @@ const groupedMessages = () => {
 }
 
 const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
-    const previousWasQuestion = !!Chat.messages[previousNonHiddenIndex].question;
-    const currentIsQuestion = !!Chat.messages[index].question;
+    const previousWasQuestion = !!chat.messages[previousNonHiddenIndex].question;
+    const currentIsQuestion = !!chat.messages[index].question;
     if (!previousWasQuestion && currentIsQuestion)
         return true;
     if (previousWasQuestion && !currentIsQuestion)
@@ -92,39 +93,34 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 }
 
 onMounted(() => {
-    showSideBar.value = !useMobileLayout();
+    showSideBar.value = !useMobileLayout.value;
     scrollChatToBottom()
 });
 </script>
 
 <template>
-    <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(Chat)" />
-    <div class="chat-view" :class="{ 'nav-menu-open': UIState.showMenu }">
+    <ChatOptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
+    <div class="chat-view">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
                 <!-- If chat bubble -->
                 <template v-if="!messageGroup.isQuestionnaire">
                     <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
-                        <template v-if="true">
-                            <div class="chat-view-row">
-                                <div class="chat-view-content-left">
-                                    <div class="chat-view-user" v-if="msg.role === 'user'">
-                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                            :selected-content="msg.content" />
-                                    </div>
-                                </div>
-                                <div class="chat-view-content-right">
-                                    <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                                        <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                            :selected-content="msg.content" />
-                                    </div>
+                        <div class="chat-view-row">
+                            <div class="chat-view-content-left">
+                                <div class="chat-view-user" v-if="msg.role === 'user'">
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                                 </div>
                             </div>
-                            <div class="chat-view-system" v-if="msg.role === 'system'">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                    :selected-content="msg.content" />
+                            <div class="chat-view-content-right">
+                                <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                                </div>
                             </div>
-                        </template>
+                        </div>
+                        <div class="chat-view-system" v-if="msg.role === 'system'">
+                            <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                        </div>
                     </template>
                 </template>
                 <!-- If questionnaire item -->
@@ -135,22 +131,20 @@ onMounted(() => {
                             <div>{{ $t(l.questionnaire_explanation) }}</div>
                         </div>
                         <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
-                            <template v-if="true">
-                                <div class="chat-view-row">
-                                    <div class="chat-view-content-left">
-                                    </div>
-                                    <div class="chat-view-content-right">
-                                        <QuestionItem :message="msg" />
-                                    </div>
+                            <div class="chat-view-row">
+                                <div class="chat-view-content-left">
                                 </div>
-                                <div class="chat-view-row">
-                                    <div class="chat-view-content-left">
-                                        <QuestionAnswer :message="msg" />
-                                    </div>
-                                    <div class="chat-view-content-right">
-                                    </div>
+                                <div class="chat-view-content-right">
+                                    <QuestionItem :message="msg" />
                                 </div>
-                            </template>
+                            </div>
+                            <div class="chat-view-row">
+                                <div class="chat-view-content-left">
+                                    <QuestionAnswer :message="msg" />
+                                </div>
+                                <div class="chat-view-content-right">
+                                </div>
+                            </div>
                         </template>
                         <div v-if="messageGroup.isCompleted" class="chat-questionnaire-end">
                             <h3>{{ $t(l.questionnaire_end) }}</h3>
@@ -161,8 +155,8 @@ onMounted(() => {
         </div>
         <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" />
     </div>
-    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(Chat) }">
-        <ChatSummary v-if="chatSummaryPanelEnabled(Chat)" />
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(chat) }">
+        <ChatSummary v-if="chatSummaryPanelEnabled(chat)" />
     </div>
 </template>
 
@@ -170,10 +164,6 @@ onMounted(() => {
 .chat-view-row {
     display: flex;
     padding: 0.2rem 3rem;
-}
-
-.nav-menu-open {
-    filter: blur(2px);
 }
 
 .chat-side-panels {
@@ -184,7 +174,6 @@ onMounted(() => {
     max-width: 16rem;
     overflow-y: auto;
     overflow-x: hidden;
-    z-index: 2;
     width: 0;
     transition: width 0.25s;
 }
@@ -211,7 +200,6 @@ onMounted(() => {
     padding-top: 8rem;
     padding-bottom: 4rem;
     gap: 1.5rem;
-    z-index: 1;
 }
 
 .chat-view-system {

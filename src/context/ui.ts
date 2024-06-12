@@ -12,6 +12,7 @@ export enum UIFontSize {
 }
 
 export enum UIMode {
+    Dynamic = "ui-mode-dynamic",
     Mobile = "ui-mode-mobile",
     Desktop = "ui-mode-desktop",
 }
@@ -56,12 +57,16 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     document.documentElement.classList.add(newSize);
 }
 
+export function applyUiClass(mode: UIMode) {
+    document.documentElement.classList.remove(UIMode.Desktop);
+    document.documentElement.classList.remove(UIMode.Mobile);
+    if(mode !== UIMode.Dynamic)
+        document.documentElement.classList.add(mode);
+}
+
 function applyUiMode(newMode: UIMode, oldMode?: UIMode) {
-    if (oldMode) {
-        document.documentElement.classList.remove(oldMode);
-        localStorage.setItem("ui-mode", newMode);
-    }
-    document.documentElement.classList.add(newMode);
+    localStorage.setItem("ui-mode", newMode);
+    applyUiClass(newMode)
 }
 watch(
     () => UISettings.fontSize,

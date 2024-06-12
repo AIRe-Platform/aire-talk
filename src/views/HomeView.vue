@@ -2,10 +2,15 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { logout } from "@/context/login";
-import { getAllChats, openChat, createNewChat } from "@/context/chat";
-import OnboardingTopics from '@/components/OnboardingTopics.vue';
+import { getAllChats } from '@/helpers/chatUtils';
+import useLogin from '@/context/login';
+import useChat from '@/context/chat';
+
+import DialogModal from "@/components/modals/DialogModal.vue";
+import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
+
+const login = useLogin();
+const chat = useChat();
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -17,12 +22,12 @@ const state = reactive<{
 
 const onConfirmLogout = async () => {
     state.showConfirmLogout = false;
-    await logout();
+    await login.logout();
     router.push("/");
 }
 
 const newChat = async () => {
-    await createNewChat();
+    await chat.startNew();
     navigateTo("/chat");
 };
 
@@ -33,7 +38,7 @@ const getLastChatId = async () => {
 
 const openLastChat = async () => {
     const last = await getLastChatId();
-    if (await openChat(last))
+    if (await chat.open(last))
         router.push("/chat");
 }
 
@@ -78,9 +83,15 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+    <DialogModal :active="state.showConfirmLogout" :buttons="[
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        if (i == 0) { onConfirmLogout() }
+        else if (i == 1) { state.showConfirmLogout = false; }
+    }">
         {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
+    </DialogModal>
 </template>
 
 <style lang="scss" scoped>

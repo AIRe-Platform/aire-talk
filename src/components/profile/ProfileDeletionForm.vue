@@ -1,38 +1,45 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { Login, logout } from "@/context/login";
+import { reactive } from 'vue';
 import { AireServices, AireStatus } from 'aire';
 import { router } from '@/router';
 import { l } from '@/locales';
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/common/Spinner.vue";
+import useLogin from '@/context/login';
 
-const error = ref<string>();
-const busy = ref(false);
-const confirmPassword = ref("");
-const keepAnonymizedData = ref(false);
+const login = useLogin();
+const state = reactive<{
+    error?: string,
+    busy: boolean,
+    confirmPassword: string,
+    keepAnonymizedData: boolean
+}>({
+    busy: false,
+    confirmPassword: "",
+    keepAnonymizedData: false
+})
 
 const onDeleteAccount = (e: Event) => {
     const form = e.target as HTMLFormElement;
     if (!form.checkValidity())
         return;
 
-    if (AireServices.ID && Login.user?.uuid) {
-        busy.value = true;
+    if (AireServices.ID && login.user?.uuid) {
+        state.busy = true;
         AireServices.ID.deleteProfile(
-            Login.user?.uuid,
-            confirmPassword.value,
-            keepAnonymizedData.value
+            login.user?.uuid,
+            state.confirmPassword,
+            state.keepAnonymizedData
         )
             .then(async (status) => {
                 if (status == AireStatus.Success) {
-                    await logout();
-                    error.value = undefined;
+                    await login.logout();
+                    state.error = undefined;
                     router.push("/");
                 } else {
-                    error.value = l.error_profile_delete_account;
+                    state.error = l.error_profile_delete_account;
                 }
             })
-            .finally(() => (busy.value = false));
+            .finally(() => (state.busy = false));
     }
 };
 </script>
@@ -45,21 +52,21 @@ const onDeleteAccount = (e: Event) => {
             <span class="form-item">
                 <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
                 <input class="profile-input" id="confirm_password" type="password" required="true" autocomplete="off"
-                    v-model="confirmPassword" :readonly="busy" />
+                    v-model="state.confirmPassword" :readonly="state.busy" />
             </span>
             <span class="form-toggle" @click.stop="">
-                <input id="keep_anonymized_data" type="checkbox" v-model="keepAnonymizedData" :disabled="busy" />
+                <input id="keep_anonymized_data" type="checkbox" v-model="state.keepAnonymizedData" :disabled="state.busy" />
                 <label for="keep_anonymized_data" class="checkbox-label" @click.stop="">
                     {{ $t(l.profile_label_keep_anonymized_data) }}
                 </label>
             </span>
         </div>
-        <div class="error-message" v-if="error">{{ $t(error) }}</div>
+        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
-            <template v-if="!busy">
+            <template v-if="!state.busy">
                 <input type="submit" :value="$t(l.profile_button_delete)" />
             </template>
-            <Spinner v-if="busy" />
+            <Spinner v-if="state.busy" />
         </div>
     </form>
 </template>

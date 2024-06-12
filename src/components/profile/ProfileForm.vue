@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { AireServices, AireUser } from "aire";
-import { Login, saveProfile } from "@/context/login";
 import { l } from '@/locales';
-import Spinner from "@/components/Spinner.vue";
 import ISO6391 from 'iso-639-1';
+import useLogin from '@/context/login';
+import Spinner from "@/components/common/Spinner.vue";
 
-const busy = ref(false);
+const login = useLogin();
+
+const state = reactive<{
+    busy: boolean,
+    error?: string
+}>({
+    busy: false
+});
+
 const profile = reactive<{
     uuid?: string;
     first_name?: string;
@@ -18,8 +26,7 @@ const profile = reactive<{
     bio?: string;
     last_login?: string;
     eula_accepted?: string;
-}>(Login.user || {});
-const error = ref<string>()
+}>(login.user || {});
 
 const genderList = [
     { id: "male", name: l.gender_male },
@@ -39,19 +46,19 @@ const onSaveChanges = (e: Event) => {
     if (!form.checkValidity())
         return;
 
-    if (AireServices.ID && Login.user) {
-        busy.value = true;
-        const data: AireUser = { ...Login.user, ...profile };
-        saveProfile(data)
+    if (AireServices.ID && login.user) {
+        state.busy = true;
+        const data: AireUser = { ...login.user, ...profile };
+        login.saveProfile(data)
             .then((result) => {
                 if (result) {
                     Object.assign(profile, result);
-                    error.value = undefined;
+                    state.error = undefined;
                 } else {
-                    error.value = l.error_profile_edit;
+                    state.error = l.error_profile_edit;
                 }
             })
-            .finally(() => (busy.value = false));
+            .finally(() => (state.busy = false));
     }
 };
 
@@ -67,8 +74,8 @@ const activateField = (id: string) => {
             <label class="form-label" for="first-name">{{ $t(l.profile_label_first_name) }}</label>
             <div class="form-input">
                 <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
-                    :readonly="busy" />
-                <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="busy">
+                    :readonly="state.busy" />
+                <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
                 </div>
             </div>
         </span>
@@ -76,40 +83,40 @@ const activateField = (id: string) => {
             <label class="form-label" for="last-name">{{ $t(l.profile_label_last_name) }}</label>
             <div class="form-input">
                 <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
-                    :readonly="busy" />
-                <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="busy">
+                    :readonly="state.busy" />
+                <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
                 </div>
             </div>
         </span>
         <span class="form-item">
             <label class="form-label" for="gender">{{ $t(l.profile_label_gender) }}</label>
             <div class="form-input">
-                <select id="gender" v-model="profile.gender" :disabled="busy">
+                <select id="gender" v-model="profile.gender" :disabled="state.busy">
                     <option v-for="g in genderList" :key="g.id" :value="g.id">
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <div class="icon edit" @click.prevent="activateField('gender')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
                 </div>
             </div>
         </span>
         <span class="form-item">
             <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
             <div class="form-input">
-                <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="busy" />
-                <div class="icon edit" @click.prevent="activateField('age')" :disabled="busy">
+                <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="state.busy" />
+                <div class="icon edit" @click.prevent="activateField('age')" :disabled="state.busy">
                 </div>
             </div>
         </span>
         <span class="form-item">
             <label class="form-label" for="language">{{ $t(l.profile_label_language) }}</label>
             <div class="form-input">
-                <select id="language" v-model="profile.language" :disabled="busy">
+                <select id="language" v-model="profile.language" :disabled="state.busy">
                     <option v-for="loc in languages" :key="loc.lang" :value="loc.lang">
                         {{ loc.name }}
                     </option>
                 </select>
-                <div class="icon edit" @click.prevent="activateField('language')" :disabled="busy">
+                <div class="icon edit" @click.prevent="activateField('language')" :disabled="state.busy">
                 </div>
 
             </div>
@@ -118,27 +125,27 @@ const activateField = (id: string) => {
             <label class="form-label" for="country">{{ $t(l.profile_label_country) }}</label>
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
-                    :readonly="busy" />
-                <div class="icon edit" @click.prevent="activateField('country')" :disabled="busy">
+                    :readonly="state.busy" />
+                <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
                 </div>
             </div>
         </span>
         <span class="form-item-wide">
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
-                <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="busy"></textarea>
-                <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="busy">
+                <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="state.busy"></textarea>
+                <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
                 </div>
             </div>
         </span>
-        <div class="form-item error-message" v-if="error">
-            {{ $t(error) }}
+        <div class="form-item error-message" v-if="state.error">
+            {{ $t(state.error) }}
         </div>
         <div class="form-buttons">
-            <template v-if="!busy">
+            <template v-if="!state.busy">
                 <input type="submit" :value="$t(l.profile_button_save)" />
             </template>
-            <Spinner v-if="busy" />
+            <Spinner v-if="state.busy" />
         </div>
     </form>
 </template>

@@ -10,6 +10,7 @@ const es: Locale = {
     system_topic: "Has seleccionado un tema: ",
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
+    system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
 
     start_greeting: "Bienvenid@ a la plataforma AIRe",
     start_first_paragraph:
@@ -129,6 +130,7 @@ const es: Locale = {
     settings_ui_screen_size_mobile: "Móvil",
     settings_ui_screen_size_tablet: "Tablet",
     settings_ui_screen_size_desktop: "Pantalla",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.

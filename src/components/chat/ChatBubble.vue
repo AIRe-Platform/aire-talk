@@ -1,36 +1,32 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, reactive, ref } from 'vue';
-import { Chat, revertToMessage } from '@/context/chat';
+import { defineProps, onMounted, reactive } from 'vue';
+import useChat from '@/context/chat';
 import { l } from '@/locales';
-import ConfirmDialog from '@/components/ConfirmDialog.vue';
-import ChatBubbleOptions from './ChatBubbleOptions.vue'
-import ChatBubbleModal from './ChatBubbleModal.vue';
-import { Content, ContentType } from 'aire';
-import Panel from "@/components/Panel.vue";
+import { AireContent, AireContentType } from 'aire';
 
-const props = defineProps<{ message: ChatMessage, can_revert: boolean, selectedContent?: Content[] }>()
+import useContent from '@/context/content';
+import DialogModal from '@/components/modals/DialogModal.vue';
+import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
+import ChatMessageModal from '@/components/modals/ChatMessageModal.vue';
+import Panel from "@/components/common/Panel.vue";
+
+const contentContext = useContent();
+const chat = useChat();
+const props = defineProps<{ message: ChatMessage, can_revert: boolean }>();
 const isSystem = props.message.role === "system";
 const isBot = props.message.role === "assistant";
 
 const state = reactive<{
-    busy: boolean,
-    selectedContent?: Content,
+    content: AireContent[],
+    openContent?: AireContent,
+    modalOpen: boolean,
+    revertConfirm: boolean,
 }>({
-    busy: false,
-    selectedContent: undefined,
-
-});
-const revertConfirmPopupOpen = ref(false);
-const modalOpen = ref(false);
-
-const toggleModal = () => {
-    modalOpen.value = !modalOpen.value;
-};
-
-const onRevert = () => {
-    revertToMessage(props.message.id)
-};
+    content: [],
+    modalOpen: false,
+    revertConfirm: false,
+})
 
 let classList: any[] = ["chat-bubble"]
 switch (props.message.role) {
@@ -43,87 +39,121 @@ switch (props.message.role) {
 if (props.message.isError)
     classList.push("chat-bubble-error");
 
-const selectContent = (content: Content) => {
-    state.selectedContent = content;
-    if (content.url && (content.type == ContentType.Document || content.type == ContentType.URL)) {
-        openContentInNewTab(content.url);
-    } else
-        toggleModal();
+const toggleModal = () => {
+    state.modalOpen = !state.modalOpen;
 };
 
-const openContentInNewTab = (url: string) => {
-    window.open(url, '_blank');
+const onRevert = () => {
+    chat.revertTo(props.message.id)
+};
+
+const showContent = async (content: AireContent) => {
+    state.openContent = content;
+    switch (content.type) {
+        case AireContentType.Image:
+        case AireContentType.Video:
+            toggleModal();
+            break;
+        default:
+            {
+                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            }
+    }
+
+    if (content.id)
+        contentContext.addViewCount(content.id);
+
 };
 
 const closeModal = () => {
-    state.selectedContent = undefined;
     toggleModal();
 };
+
+const listContent = async () => {
+    state.content = [];
+    props.message.media?.forEach(async (x) => {
+        const item = await contentContext.get(x);
+        if (item)
+            state.content.push(item);
+    })
+}
+
+onMounted(() => {
+    listContent()
+})
 </script>
 
 <template>
     <div :id="props.message.id" :class=classList @click="toggleModal">
-        <ChatBubbleModal :active="modalOpen" :parent="props.message" :selectedContent="state.selectedContent"
-            :onClose="closeModal" v-if="state.selectedContent != undefined" />
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
-            v-if="props.message.role === 'assistant' && !message.content" />
+            v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
-            <span class="chat-user-label">{{
-        (isSystem || isBot) ? $t(message.sender) : message.sender
-    }}</span>
-            <span class="chat-message-text">
-                {{
-            isSystem
-                ? (message.message === l.system_topic && Chat.current.topic
-                    ? ($t(message.message!) + $t(Chat.current.topic.localization_key))
-                    : $t(message.message!))
-                : message.message
-        }}
+            <span class="chat-user-label">
+                {{ (isSystem || isBot) ? $t(message.sender) : message.sender }}
             </span>
-            <Panel class="content-panel" v-if="message.content">
-                <div class="content-container" v-for="content in message.content" @click.stop="selectContent(content)">
-                    <ChatBubbleOptions :parent="message" :can_revert="false" :is_content="true" :content="content" />
+            <span class="chat-message-text">
+                {{ message.content }}
+            </span>
+            <Panel class="content-panel" v-if="message.media">
+                <div class="content-container" v-for="content in state.content" :key="message.id + '_' + content.id"
+                    @click.stop="showContent(content)">
+                    <ChatBubbleOptions :parent="message" :can_revert="false" :content="content" />
                     <div class="header-row">
-                        <p v-if="content.modified">{{ new Date(content.modified).toLocaleString($i18n.locale) }}</p>
-                        <div class="icon content-image" v-if="content && content.type == ContentType.Image">
+                        <p v-if="state">{{ new Date(content.modified).toLocaleString($i18n.locale) }}</p>
+                        <div class="icon content-image" v-if="content && content.type == AireContentType.Image">
                         </div>
-                        <div class="icon content-video" v-if="content && content.type == ContentType.Video">
+                        <div class="icon content-video" v-if="content && content.type == AireContentType.Video">
                         </div>
-                        <div class="icon content-url" v-if="content && content.type == ContentType.URL">
+                        <div class="icon content-url" v-if="content && content.type == AireContentType.URL">
                         </div>
-                        <div class="icon content-document" v-if="content && content.type == ContentType.Document">
+                        <div class="icon content-document" v-if="content && content.type == AireContentType.Document">
                         </div>
                     </div>
-                    <div class="chat-message-content" v-if="content?.type == ContentType.Image">
+                    <div class="chat-message-content" v-if="content?.type == AireContentType.Image">
                         <img v-bind:src="content.url" class="chat-message-image-contain">
                     </div>
-                    <div class="chat-message-content" v-if="content?.type == ContentType.URL">
+                    <div class="chat-message-content" v-if="content?.type == AireContentType.URL">
                         <div class="chat-message-document-container" v-if="content.url">
-                            <!-- @click="openDocument(content.url)"> -->
                             <font-awesome-icon icon="fa-solid fa-link" class="icon-link" />
                         </div>
                     </div>
-                    <div class="chat-message-content" v-if="content?.type == ContentType.Video">
+                    <div class="chat-message-content" v-if="content?.type == AireContentType.Video">
                         <video class="chat-message-video-video">
                             <source v-bind:src="content.url" type="video/mp4">
                         </video>
                     </div>
-                    <div class="chat-message-content" v-if="content?.type == ContentType.Document">
+                    <div class="chat-message-content" v-if="content?.type == AireContentType.Document">
                         <div class="chat-message-document-container" v-if="content.url">
-                            <!-- @click="openDocument(content.url)"> -->
                             <div class="icon document"></div>
                         </div>
                     </div>
                     <div class="footer-row">
-                        <p> {{ content.name }}</p>
+                        <p>{{ content.name }}</p>
                     </div>
                 </div>
             </Panel>
         </div>
-        <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }"
-            v-if="revertConfirmPopupOpen">
+        <ChatMessageModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
+            :content="state.openContent" :onClose="closeModal" />
+        <DialogModal :active="state.revertConfirm" :buttons="[
+            { loc_key: l.button_accept },
+            { loc_key: l.button_cancel },
+        ]" @select="(i: number) => {
+            switch (i) {
+                case 0:
+                    onRevert();
+                    break;
+                default:
+                case 1:
+                    state.revertConfirm = false;
+                    break;
+            }
+        }" :accept="onRevert" :decline="() => { }">
             {{ $t(l.popup_confirm_revert_message) }}
-        </ConfirmDialog>
+        </DialogModal>
     </div>
 </template>
 

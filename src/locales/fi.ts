@@ -10,8 +10,9 @@ const fi: Locale = {
     system_greeting:
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
-    start_greeting: "Tervetuloa AIRe Talk -palveluun",
+    system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
 
+    start_greeting: "Tervetuloa AIRe Talk -palveluun",
     start_first_paragraph:
         "Kumppani parempaan toimintakykyyn ja hyvinvointiin",
     start_second_paragraph:
@@ -124,6 +125,7 @@ const fi: Locale = {
     settings_ui_screen_size_mobile: "Mobiili",
     settings_ui_screen_size_tablet: "Tabletti",
     settings_ui_screen_size_desktop: "Työpöytä",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.

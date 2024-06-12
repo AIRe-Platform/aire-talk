@@ -7,6 +7,7 @@ export enum LocalizationKey {
     aire_system = "aire_system",
     system_greeting = "system_greeting",
     system_topic = "system_topic",
+    system_found_content = "system_found_content",
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
@@ -113,6 +114,7 @@ export enum LocalizationKey {
     settings_ui_screen_size_mobile = "settings_ui_screen_size_mobile",
     settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
     settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
+    settings_ui_screen_size_dynamic = "settings_ui_screen_size_dynamic",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
@@ -172,7 +174,7 @@ export enum LocalizationKey {
     button_close = "button_close",
     button_delete_content = "button_delete_content",
     button_display  = "button_display",
-
+    
     en = "en",
     fi = "fi",
     es = "es",

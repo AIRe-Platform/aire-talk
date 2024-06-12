@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { AppState } from '@/main';
-import FooterBar from '@/components/FooterBar.vue';
-import NavMenu from '@/components/NavMenu.vue';
-import ChatHistory from '@/components/chat/ChatHistory.vue';
 import { UIPanels, UIState } from '@/context/ui';
-import SettingsPanel from '@/components/SettingsPanel.vue';
-import { Login } from "@/context/login";
-import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
+
+import FooterBar from '@/components/layout/FooterBar.vue';
+import NavMenu from '@/components/layout/NavMenu.vue';
+import ChatHistory from '@/components/chat/ChatHistory.vue';
+import SettingsPanel from '@/components/settings/SettingsPanel.vue';
+import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 
 setTimeout(() => {
     if (AppState.value === "init")
@@ -16,18 +16,20 @@ setTimeout(() => {
 const closeNavMenu = () => {
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
+    UIState.panels.clear();
 }
 </script>
 
 <template>
     <div id="main" v-if="AppState === 'loaded'" tabindex="1">
         <NavMenu />
-        <div class="main-content" @click="closeNavMenu">
+        <div class="main-panels" v-if="UIState.panels.size > 0">
+            <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
+            <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
+        </div>
+        <div class="main-content" >
+            <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
-            <div class="main-panels" v-if="UIState.panels.size > 0">
-                <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
-                <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
-            </div>
         </div>
         <FooterBar />
     </div>
@@ -51,6 +53,14 @@ const closeNavMenu = () => {
     max-height: 100%;
 }
 
+.main-mask {
+    position: fixed;
+    top: 0; left: 0;
+    bottom: 0; right: 0;
+    z-index: 3;
+    backdrop-filter: blur(2px);
+}
+
 .main-content {
     display: flex;
     flex-direction: row;
@@ -72,7 +82,7 @@ const closeNavMenu = () => {
     padding: 1rem;
     top: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 5;
 }
 
 .main-splash,

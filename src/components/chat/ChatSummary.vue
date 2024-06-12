@@ -1,52 +1,59 @@
 <script setup lang="ts">
 import { l } from '@/locales';
-import {
-    Chat,
-    queryAndStartQuestionnaire,
-    refreshAbstract,
-    refreshContentCatalogue,
-    startPersonalInformationQuestionnaire
-} from '@/context/chat';
-import { ref } from 'vue';
-import Spinner from '@/components/Spinner.vue';
-import Panel from '@/components/Panel.vue';
-import { getMissingPersonalInformationQuestions } from "@/helpers/questionnaireUtils";
+import { onMounted, reactive } from 'vue';
+import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
+import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
 
+import useSummary from '@/context/summary';
+import useQuestionnaire from '@/context/questionnaire';
 
-const busy = ref(false);
+import Spinner from '@/components/common/Spinner.vue';
+import Panel from '@/components/common/Panel.vue';
+
+const state = reactive<{
+    busy: boolean,
+    missing_personal_info: boolean
+}>({
+    busy: false,
+    missing_personal_info: false
+});
+const summary = useSummary();
+const questionnaires = useQuestionnaire();
 
 const generateSummary = async () => {
-    busy.value = true;
-    clearSummary();
-    clearKeywords();
-    await refreshAbstract();
-    await refreshContentCatalogue();
-    busy.value = false;
+    state.busy = true;
+
+    summary.reset();
+    await summary.update();
+
+    state.busy = false;
 }
 
 const querySurveys = async () => {
-    busy.value = true;
-    await queryAndStartQuestionnaire();
-    busy.value = false;
+    state.busy = true;
+
+    const queried = await queryQuestionnaire([...summary.keywords]);
+    if (queried) {
+        const questionnaire = createQuestionnaire(queried);
+        if (questionnaire)
+            questionnaires.startQuestionnaire(questionnaire);
+    }
+    state.busy = false;
 }
 
 const askPersonalInformation = () => {
-    startPersonalInformationQuestionnaire();
+    const personalInfoQuestionnaire = createPersonalInfoQuestionnaire();
+    if (personalInfoQuestionnaire)
+        questionnaires.startQuestionnaire(personalInfoQuestionnaire);
 }
 
 const removeWord = (word: string) => {
-    if (Chat.current.keywords) {
-        Chat.current.keywords.splice(Chat.current.keywords.indexOf(word), 1);
-    }
+    summary.keywords.delete(word);
 }
 
-const clearSummary = () => {
-    Chat.current.summary = undefined;
-}
-
-const clearKeywords = () => {
-    Chat.current.keywords = undefined;
-}
+onMounted(() => {
+    state.missing_personal_info = createPersonalInformationQuestions().length > 0;
+})
 </script>
 
 <template>
@@ -54,32 +61,31 @@ const clearKeywords = () => {
         <div class="summary-title">
             {{ $t(l.summary_chag_log_title) }}
         </div>
-        <Spinner v-if="busy" />
-        <template v-if="!busy">
-            <div class="summary-text" v-if="Chat.current.summary">
-                {{ Chat.current.summary }}
+        <Spinner v-if="state.busy" />
+        <template v-if="!state.busy">
+            <div class="summary-text" v-if="summary.summary">
+                {{ summary.summary }}
             </div>
-            <div class="summary-keywords" v-if="(Chat.current.keywords || []).length > 0">
-                <div class="summary-keyword-item" v-for="word, id in Chat.current.keywords" :key="id">
+            <div class="summary-keywords" v-if="summary.keywords.size > 0">
+                <div class="summary-keyword-item" v-for="word, id in summary.keywords" :key="id">
                     <span class="summary-keyword-text">{{ word }}</span>
                     <div class="summary-keyword-delete" @click="removeWord(word)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>
             </div>
-            <div class="summary-buttons" v-if="!busy">
+            <div class="summary-buttons" v-if="!state.busy">
                 <button class="summary-button" @click="generateSummary">
                     <span class="summary-button-text">{{ $t(l.summary_generate_summary) }}</span>
                     <div class="update-icon">
                     </div>
                 </button>
                 <button class="summary-button" @click="querySurveys"
-                    v-if="(Chat.current.keywords || []).length > 0 && !Chat.current.questionnaire">
+                    v-if="summary.keywords.size > 0 && !questionnaires.active">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button v-if="getMissingPersonalInformationQuestions().length > 0" class="summary-button"
-                    @click="askPersonalInformation">
+                <button v-if="state.missing_personal_info" class="summary-button" @click="askPersonalInformation">
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>

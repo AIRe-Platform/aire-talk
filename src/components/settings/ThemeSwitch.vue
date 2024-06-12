@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Theme } from '@/context/theme';
-import Switch from './Switch.vue';
+import useTheme from "@/context/theme";
+import Switch from "@/components/common/Switch.vue";
+
+const theme = useTheme();
 
 const onSwitchTheme = (dark: boolean) => {
-    Theme.style = dark ? "theme-dark" : 'theme-default'
+    theme.apply(dark ? "theme-dark" : 'theme-default');
 }
-
 </script>
 
 <template>
@@ -13,7 +14,7 @@ const onSwitchTheme = (dark: boolean) => {
         <p class="theme-switch-label"> Color mode</p>
         <div class="theme-switch">
             <font-awesome-icon icon="fa-solid fa-sun" />
-            <Switch :is-on="Theme.style === 'theme-dark'" @change="onSwitchTheme" />
+            <Switch :is-on="theme.style === 'theme-dark'" @change="onSwitchTheme" />
             <font-awesome-icon icon="fa-solid fa-moon" />
         </div>
     </div>

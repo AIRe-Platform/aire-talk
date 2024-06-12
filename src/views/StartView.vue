@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
-import SectionSeparator from "@/components/SectionSeparator.vue";
+import Separator from "@/components/common/Separator.vue";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -16,7 +16,7 @@ const navigateTo = (path: string) => {
                 </div>
                 <h1>{{ $t(l.start_greeting) }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
-                <SectionSeparator />
+                <Separator />
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">

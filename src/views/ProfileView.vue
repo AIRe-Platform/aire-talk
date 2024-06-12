@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { router } from "@/router";
 import { l } from "@/locales";
 import { AireServices, AireScope } from "aire";
 import ProfileForm from "@/components/profile/ProfileForm.vue";
 import ProfileConnections from "@/components/profile/ProfileConnections.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
-import { router } from "@/router";
-import SectionSeparator from "@/components/SectionSeparator.vue";
+import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 
 const navigateTo = (path: string) => {
@@ -33,21 +33,21 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
                 <ProfileForm />
             </div>
-            <SectionSeparator />
+            <Separator />
             <template v-if="show_experiments">
                 <div class="profile-section">
                     <ProfileExperiments />
                 </div>
-                <SectionSeparator />
+                <Separator />
             </template>
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
                 <ProfileConnections />
             </div>
-            <SectionSeparator />
+            <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
                 <ProfilePasswordForm />
             </div>
-            <SectionSeparator />
+            <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
                 <ProfileDeletionForm />
             </div>

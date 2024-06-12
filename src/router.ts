@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { initApp } from "./main";
-import { Login } from "./context/login";
 import StartView from "./views/StartView.vue";
 import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
@@ -15,6 +14,7 @@ import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 import ContentCatalogueView from "./views/ContentCatalogueView.vue";
+import useLogin from "./context/login";
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,7 +23,7 @@ export const router = createRouter({
             path: "/",
             component: StartView,
             name: "Start",
-            meta: { 
+            meta: {
                 title: l.nav_start,
                 no_login: true
             },
@@ -32,7 +32,7 @@ export const router = createRouter({
             path: "/home",
             component: HomeView,
             name: "Home",
-            meta: { 
+            meta: {
                 title: l.nav_home,
                 require_login: true
             },
@@ -122,11 +122,12 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from) => {
     await initApp();
+    const login = useLogin();
 
-    if (Login.user) {
-        if (!Login.user.verified && to.path !== "/verify")
+    if (login.user) {
+        if (!login.user.verified && to.path !== "/verify")
             return "/verify"
-        else if (Login.user.verified && to.path === "/verify")
+        else if (login.user.verified && to.path === "/verify")
             return "/home"
         else if (to.meta.no_login)
             return "/home"
