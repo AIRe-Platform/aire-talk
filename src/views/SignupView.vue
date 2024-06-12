@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
 const busy = ref(false);
 const error = ref<string>();

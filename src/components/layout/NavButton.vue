@@ -7,8 +7,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="menu-button" :class="{ 'menu-button-active': props.open }">
-        <div type="button" class="button-graphics" title="Menu">
+    <div class="nav-button" :class="{ 'nav-button-active': props.open }">
+        <div type="button" class="nav-button-graphics" title="Menu">
             <span class="button-bar button-bar--1"></span>
             <span class="button-bar button-bar--2"></span>
             <span class="button-bar button-bar--3"></span>
@@ -17,7 +17,7 @@ const props = defineProps<{
 </template>
 
 <style lang="scss" scoped>
-.menu-button {
+.nav-button {
     position: absolute;
     display: flex;
     flex-direction: row;
@@ -39,13 +39,13 @@ const props = defineProps<{
     cursor: pointer;
 }
 
-.menu-button-active {
+.nav-button-active {
     background-color: transparent;
     border-color: transparent;
     box-shadow: none;
 }
 
-.button-graphics {
+.nav-button-graphics {
     position: relative;
     width: 40px;
     height: 30px;
@@ -74,7 +74,7 @@ const props = defineProps<{
         background-color .6s cubic-bezier(.165, .84, .44, 1);
 }
 
-.menu-button:hover .button-bar {
+.nav-button:hover .button-bar {
     background-color: var(--accent-primary-color);
 }
 
@@ -89,7 +89,7 @@ const props = defineProps<{
     transform: scaleX(1);
 }
 
-.button-graphics:hover .button-bar--2 {
+.nav-button-graphics:hover .button-bar--2 {
     transform: scaleX(1);
 }
 
@@ -102,26 +102,26 @@ const props = defineProps<{
     top: 60%;
 }
 
-.menu-button-active .button-graphics {
+.nav-button-active .button-graphics {
     transform: rotate(-180deg);
 }
 
-.menu-button-active .button-bar--1 {
+.nav-button-active .button-bar--1 {
     transform: rotate(45deg);
     top: 50%;
 }
 
-.menu-button-active .button-bar--2 {
+.nav-button-active .button-bar--2 {
     opacity: 0;
 }
 
-.menu-button-active .button-bar--3 {
+.nav-button-active .button-bar--3 {
     transform: rotate(-45deg);
     top: 50%;
 }
 
 .ui-mode-mobile {
-    .menu-button {
+    .nav-button {
         padding: 0.5rem;
         left: 0.5rem;
         top: 0.5rem;

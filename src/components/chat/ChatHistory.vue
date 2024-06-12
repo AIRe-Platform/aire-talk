@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { defineEmits, onMounted, reactive } from "vue";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
-import Spinner from "@/components/Spinner.vue";
 import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
+
+import Spinner from "@/components/common/Spinner.vue";
+import DialogModal from "@/components/modals/DialogModal.vue";
+
 
 interface ChatLogItem {
     id: string;
@@ -126,9 +128,22 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <ConfirmDialog v-if="state.confirmDelete" @accept="onConfirmDelete" @decline="onCancelDelete">
+    <DialogModal :active="state.confirmDelete" :buttons="[
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        switch (i) {
+            case 0:
+                onConfirmDelete();
+                break;
+            default:
+            case 1:
+                onCancelDelete();
+                break;
+        }
+    }">
         {{ $t(l.popup_confirm_remove_chat) }}
-    </ConfirmDialog>
+    </DialogModal>
     <div class="chat-history-panel" v-on-click-outside="onClickOutside">
         <div class="chat-history-list">
             <div class="chat-history-busy" v-if="state.busy">

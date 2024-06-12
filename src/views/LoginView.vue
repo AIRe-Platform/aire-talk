@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { useRoute } from 'vue-router';
 import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
 const route = useRoute();
 

@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { defineComponent } from "vue";
+defineComponent({ name: "SeparatorComponent " });
 </script>
 
 <template>
-    <svg class="section-separator">
+    <svg class="separator">
         <line x1="8" y1="00" x2="100%" y2="00" />
     </svg>
 </template>
 
-<style lang="scss" scoped>
-.section-separator {
+<style scoped>
+.separator {
     border: 0;
     height: 2px;
     margin: 0.5rem;

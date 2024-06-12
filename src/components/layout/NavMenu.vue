@@ -2,13 +2,14 @@
 import i18n, { l } from "@/locales";
 import { router } from "@/router";
 import { UIPanels, UIState } from "@/context/ui";
-import MenuButton from "./MenuButton.vue";
-import Panel from "./Panel.vue";
 import useMobileLayout from "@/helpers/mobile";
-import SectionSeparator from "./SectionSeparator.vue";
-import NavItem from "./NavItem.vue";
 import useLogin from "@/context/login";
 import useChat from "@/context/chat";
+
+import Separator from "@/components/common/Separator.vue";
+import Panel from "@/components/common/Panel.vue";
+import NavItem from "@/components/layout/NavItem.vue";
+import NavButton from "@/components/layout/NavButton.vue";
 
 const login = useLogin();
 const chat = useChat();
@@ -52,7 +53,7 @@ const toggleSettingsPanel = () => {
 </script>
 
 <template>
-    <MenuButton :open="UIState.showMenu" @click="onOpen"></MenuButton>
+    <NavButton :open="UIState.showMenu" @click="onOpen"></NavButton>
     <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed }">
         <Panel class="nav-menu-bar">
             <div class="nav-link" v-if="login.user" @click="navigateTo('/home')">
@@ -66,7 +67,7 @@ const toggleSettingsPanel = () => {
                 </div>
             </div>
             <div class="nav-menu-list">
-                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
+                <Separator v-if="!UIState.isNavMenuCompressed" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
                     @click="toggleChatHistoryMenu"
                     :active="!useMobileLayout && UIState.panels.has(UIPanels.ChatHistory)" />
@@ -94,7 +95,7 @@ const toggleSettingsPanel = () => {
                     :active="!useMobileLayout && UIState.panels.has(
                         UIPanels.Settings
                     )" />
-                <SectionSeparator v-if="!UIState.isNavMenuCompressed" />
+                <Separator v-if="!UIState.isNavMenuCompressed" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
                     @click="navigateTo('/home')" :active="!useMobileLayout && $route.matched.some(
                         (p) => p.name === 'Login'

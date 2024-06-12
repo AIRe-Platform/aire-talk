@@ -2,9 +2,9 @@
 import { reactive } from 'vue';
 import { AireServices, AireUser } from "aire";
 import { l } from '@/locales';
-import Spinner from "@/components/Spinner.vue";
 import ISO6391 from 'iso-639-1';
 import useLogin from '@/context/login';
+import Spinner from "@/components/common/Spinner.vue";
 
 const login = useLogin();
 

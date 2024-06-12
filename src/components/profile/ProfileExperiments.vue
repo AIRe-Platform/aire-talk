@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AireServices, AireUserPreferences } from 'aire';
 import { reactive } from 'vue';
-import Switch from '../Switch.vue';
-import Spinner from '../Spinner.vue';
 import useLogin from '@/context/login';
+import Switch from '@/components/common/Switch.vue';
+import Spinner from '@/components/common/Spinner.vue';
 
 const login = useLogin();
 

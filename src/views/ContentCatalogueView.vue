@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
-import Spinner from "@/components/Spinner.vue";
 import { onMounted, reactive, ref } from "vue";
 import { AireContent, AireContentType } from "aire";
-import Panel from "@/components/Panel.vue";
-import ContentModal from "@/components/ContentModal.vue";
 import { getChatContentIds } from "@/helpers/contentUtils";
+
 import useChat from "@/context/chat";
 import useContent from "@/context/content";
+
+import Spinner from "@/components/common/Spinner.vue";
+import Panel from "@/components/common/Panel.vue";
+import ContentModal from "@/components/modals/ContentModal.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);

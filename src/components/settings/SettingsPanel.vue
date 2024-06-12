@@ -2,10 +2,11 @@
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
-import Panel from "./Panel.vue";
 import ISO6391, { LanguageCode } from 'iso-639-1';
-import ThemeSwitch from "./ThemeSwitch.vue";
-import SectionSeparator from "./SectionSeparator.vue";
+
+import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
+import Separator from "@/components/common/Separator.vue";
+import Panel from "@/components/common/Panel.vue";
 
 
 const setLang = async (e: Event) => {
@@ -40,7 +41,7 @@ const onClickOutside = (e: Event) => {
         <div class="settings-header">
             {{ $t(l.settings_title) }}
         </div>
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
             <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
@@ -49,9 +50,9 @@ const onClickOutside = (e: Event) => {
                 </option>
             </select>
         </div>
-        <SectionSeparator />
+        <Separator />
         <ThemeSwitch />
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
             <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
@@ -59,7 +60,7 @@ const onClickOutside = (e: Event) => {
                 <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
             </select>
         </div>
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
             <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.uiMode">

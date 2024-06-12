@@ -3,7 +3,7 @@ import { reactive } from 'vue';
 import { AireServices, AireStatus } from 'aire';
 import { router } from '@/router';
 import { l } from '@/locales';
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/common/Spinner.vue";
 import useLogin from '@/context/login';
 
 const login = useLogin();

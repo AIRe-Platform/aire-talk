@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { onMounted, reactive } from 'vue';
-import Spinner from '@/components/Spinner.vue';
-import Panel from '@/components/Panel.vue';
-import useSummary from '@/context/summary';
-import useQuestionnaire from '@/context/questionnaire';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
+
+import useSummary from '@/context/summary';
+import useQuestionnaire from '@/context/questionnaire';
+
+import Spinner from '@/components/common/Spinner.vue';
+import Panel from '@/components/common/Panel.vue';
 
 const state = reactive<{
     busy: boolean,

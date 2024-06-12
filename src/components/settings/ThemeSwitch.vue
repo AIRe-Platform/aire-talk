@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import useTheme from '@/context/theme';
-import Switch from './Switch.vue';
+import useTheme from "@/context/theme";
+import Switch from "@/components/common/Switch.vue";
 
 const theme = useTheme();
 
 const onSwitchTheme = (dark: boolean) => {
     theme.apply(dark ? "theme-dark" : 'theme-default');
 }
-
 </script>
 
 <template>

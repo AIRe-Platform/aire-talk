@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Panel from '@/components/Panel.vue';
-import Spinner from '@/components/Spinner.vue';
+import { reactive } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { AireServices, AireStatus } from 'aire';
-import { reactive } from 'vue';
+import Panel from '@/components/common/Panel.vue';
+import Spinner from '@/components/common/Spinner.vue';
 
 const state = reactive<{
     busy: boolean,

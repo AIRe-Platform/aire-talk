@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Spinner from '@/components/Spinner.vue';
-import useLogin from '@/context/login';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { reactive } from 'vue';
+import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
 const login = useLogin();
 

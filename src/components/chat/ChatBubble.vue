@@ -3,12 +3,13 @@ import { ChatMessage } from '@/models/chat';
 import { defineProps, onMounted, reactive, ref } from 'vue';
 import useChat from '@/context/chat';
 import { l } from '@/locales';
-import ConfirmDialog from '@/components/ConfirmDialog.vue';
-import ChatBubbleOptions from './ChatBubbleOptions.vue'
-import ChatBubbleModal from './ChatBubbleModal.vue';
 import { AireContent, AireContentType } from 'aire';
-import Panel from "@/components/Panel.vue";
+
 import useContent from '@/context/content';
+import DialogModal from '@/components/modals/DialogModal.vue';
+import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
+import ChatMessageModal from '@/components/modals/ChatMessageModal.vue';
+import Panel from "@/components/common/Panel.vue";
 
 const contentContext = useContent();
 const chat = useChat();
@@ -86,9 +87,9 @@ onMounted(() => {
 </script>
 
 <template>
+    <ChatMessageModal :active="modalOpen" :parent="props.message" :selectedContent="state.openContent"
+        :onClose="closeModal" v-if="state.openContent" />
     <div :id="props.message.id" :class=classList @click="toggleModal">
-        <ChatBubbleModal :active="modalOpen" :parent="props.message" :selectedContent="state.openContent"
-            :onClose="closeModal" v-if="state.openContent" />
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
@@ -137,10 +138,22 @@ onMounted(() => {
                 </div>
             </Panel>
         </div>
-        <ConfirmDialog :accept="onRevert" :decline="() => { revertConfirmPopupOpen = false }"
-            v-if="revertConfirmPopupOpen">
+        <DialogModal :active="revertConfirmPopupOpen" :buttons="[
+            { loc_key: l.button_accept },
+            { loc_key: l.button_cancel },
+        ]" @select="(i: number) => {
+            switch (i) {
+                case 0:
+                    onRevert();
+                    break;
+                default:
+                case 1:
+                    revertConfirmPopupOpen = false;
+                    break;
+            }
+        }" :accept="onRevert" :decline="() => { }" v-if="revertConfirmPopupOpen">
             {{ $t(l.popup_confirm_revert_message) }}
-        </ConfirmDialog>
+        </DialogModal>
     </div>
 </template>
 

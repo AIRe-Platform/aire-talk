@@ -2,8 +2,8 @@
 import { reactive } from 'vue';
 import { AireServices } from 'aire';
 import { l } from '@/locales';
-import Spinner from '../Spinner.vue';
 import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
 const state = reactive<{
     error?: string,

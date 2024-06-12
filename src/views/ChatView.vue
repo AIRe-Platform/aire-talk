@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
+import { l } from '@/locales';
+import { ChatMessage } from "@/models/chat";
+import useMobileLayout from "@/helpers/mobile";
+import useChat, { ChatContext } from "@/context/chat";
+
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
-import OptionsButton from "@/components/OptionsButton.vue";
-import useMobileLayout from "@/helpers/mobile";
+import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
-import { l } from '@/locales';
-import { ChatMessage } from "@/models/chat";
-import useChat, { ChatContext } from "@/context/chat";
 
 const showSideBar = ref(false);
 const chat = useChat();
@@ -98,7 +99,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <OptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
+    <ChatOptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
     <div class="chat-view">
         <div class="chat-view-content" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
@@ -173,7 +174,6 @@ onMounted(() => {
     max-width: 16rem;
     overflow-y: auto;
     overflow-x: hidden;
-    z-index: 2;
     width: 0;
     transition: width 0.25s;
 }
@@ -200,7 +200,6 @@ onMounted(() => {
     padding-top: 8rem;
     padding-bottom: 4rem;
     gap: 1.5rem;
-    z-index: 1;
 }
 
 .chat-view-system {

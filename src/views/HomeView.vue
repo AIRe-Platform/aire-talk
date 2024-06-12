@@ -2,11 +2,12 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import OnboardingTopics from '@/components/OnboardingTopics.vue';
+import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
-import { getAllChats } from '@/helpers/chatUtils';
+
+import DialogModal from "@/components/modals/DialogModal.vue";
+import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
 
 const login = useLogin();
 const chat = useChat();
@@ -82,9 +83,15 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+    <DialogModal :active="state.showConfirmLogout" :buttons="[
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        if (i == 0) { onConfirmLogout() }
+        else if (i == 1) { state.showConfirmLogout = false; }
+    }">
         {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
+    </DialogModal>
 </template>
 
 <style lang="scss" scoped>

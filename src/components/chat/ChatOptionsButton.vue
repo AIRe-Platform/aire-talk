@@ -7,9 +7,7 @@ const props = defineProps<{
 
 <template>
     <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
-        <div class="icon close-window">
-        </div>
-
+        <div class="icon close-window"></div>
     </div>
 </template>
 
@@ -24,7 +22,6 @@ const props = defineProps<{
     top: 1.5rem;
     width: 0rem;
     height: 1rem;
-    z-index: 3;
 
     /* background-color: var(--panel-background-color); */
     border-radius: 1rem;

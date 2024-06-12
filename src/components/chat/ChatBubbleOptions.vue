@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { l } from '@/locales';
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
 import { defineProps, onMounted, reactive } from 'vue';
@@ -8,6 +7,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { AireContent } from 'aire';
 import useChat from '@/context/chat';
 import useContent from '@/context/content';
+import DialogModal from "@/components/modals/DialogModal.vue";
 
 const props = defineProps<{
     parent: ChatMessage
@@ -96,10 +96,24 @@ onMounted(() => {
 </script>
 
 <template>
-    <ConfirmDialog v-if="state.confirmRevert" v-on:accept="onConfirmRevert" v-on:decline="onCancelRevert">
+    <DialogModal :active="state.confirmRevert" :buttons="[
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        switch (i) {
+            case 0:
+                onConfirmRevert();
+                break;
+
+            default:
+            case 1:
+                onCancelRevert();
+                break;
+        }
+    }">
         {{ $t(l.popup_confirm_revert_message) }}
-    </ConfirmDialog>
-    <div class="chat-bubble-options">
+    </DialogModal>
+    <div class=" chat-bubble-options">
         <div class="chat-bubble-options-button" @click.stop="onToggleMenu"
             :class="{ 'is-content': props.content !== undefined }">
             <div class="icon chat-option-desktop">
@@ -129,7 +143,7 @@ onMounted(() => {
                 </button>
             </template>
         </div>
-    </div>
+        </div>
 </template>
 
 <style lang="scss" scoped>

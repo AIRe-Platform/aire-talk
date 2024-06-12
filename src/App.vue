@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { AppState } from '@/main';
-import FooterBar from '@/components/FooterBar.vue';
-import NavMenu from '@/components/NavMenu.vue';
-import ChatHistory from '@/components/chat/ChatHistory.vue';
 import { UIPanels, UIState } from '@/context/ui';
-import SettingsPanel from '@/components/SettingsPanel.vue';
-import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
+
+import FooterBar from '@/components/layout/FooterBar.vue';
+import NavMenu from '@/components/layout/NavMenu.vue';
+import ChatHistory from '@/components/chat/ChatHistory.vue';
+import SettingsPanel from '@/components/settings/SettingsPanel.vue';
+import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 
 setTimeout(() => {
     if (AppState.value === "init")
