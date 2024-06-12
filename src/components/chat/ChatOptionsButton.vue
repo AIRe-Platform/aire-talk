@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { UISettings } from '@/context/ui';
 import { defineProps } from 'vue';
 const props = defineProps<{
     open: boolean
@@ -7,17 +6,12 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="options-button"
-        :class="{ 'options-button-active': props.open, 'options-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-        v-if="props.open">
-
-        <div class="icon close-window">
-        </div>
-
+    <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
+        <div class="icon close-window"></div>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .options-button {
     position: absolute;
     align-items: center;
@@ -28,7 +22,6 @@ const props = defineProps<{
     top: 1.5rem;
     width: 0rem;
     height: 1rem;
-    z-index: 3;
 
     /* background-color: var(--panel-background-color); */
     border-radius: 1rem;
@@ -41,17 +34,11 @@ const props = defineProps<{
     }
 }
 
-.options-button-fake-small-screen {
-    top: 4rem;
-    right: 3rem;
-    transform: scale(0.7);
-}
-
 .options-button-active {
     color: var(--accent-primary-color);
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .options-button {
         display: flex;
         border: none;

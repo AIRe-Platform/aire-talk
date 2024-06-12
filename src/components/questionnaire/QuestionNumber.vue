@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
-import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionNumber } from 'aire';
 import { l } from '@/locales';
+import { ChatMessage } from '@/models/chat';
+import useQuestionnaire from '@/context/questionnaire';
 
 const props = defineProps<{
-    message_id: string;
+    message: ChatMessage;
     options?: AireQuestionOptionNumber;
     answer?: any;
     readonly?: boolean;
@@ -15,15 +16,17 @@ const answer = ref(props.answer as number || props.options?.default)
 const edited = (ans: any) => (!ans || ans !== answer.value);
 
 const onSubmitAnswer = () => {
-    if (answer.value)
-        answerQuestion(props.message_id, answer.value)
+    const questionnaire = useQuestionnaire();
+    if (props.message.question) {
+        questionnaire.submitAnswer(props.message.question.question_id, answer.value);
+    }
 }
 </script>
 
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <input :id="props.message_id + '_input'" type="number" v-model="answer" :min="props.options?.min"
+            <input :id="props.message.id + '_input'" type="number" v-model="answer" :min="props.options?.min"
                 :max="props.options?.max" :disabled="props.readonly">
         </div>
         <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">
@@ -34,7 +37,7 @@ const onSubmitAnswer = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
     flex-direction: column;

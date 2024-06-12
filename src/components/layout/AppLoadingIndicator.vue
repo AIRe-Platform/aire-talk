@@ -7,7 +7,7 @@
     </div>
 </template>
 
-<style>
+<style lang="scss">
 .app-loading-indicator {
     display: flex;
     justify-content: center;

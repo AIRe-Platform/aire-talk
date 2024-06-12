@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { AppState } from '@/main';
-import FooterBar from '@/components/FooterBar.vue';
-import NavMenu from '@/components/NavMenu.vue';
+import { UIPanels, UIState } from '@/context/ui';
+
+import FooterBar from '@/components/layout/FooterBar.vue';
+import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
-import { UIPanels, UIState, UISettings } from '@/context/ui';
-import SettingsPanel from '@/components/SettingsPanel.vue';
-import { Login } from "@/context/login";
-import AppLoadingIndicator from '@/components/AppLoadingIndicator.vue';
+import SettingsPanel from '@/components/settings/SettingsPanel.vue';
+import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 
 setTimeout(() => {
     if (AppState.value === "init")
@@ -16,21 +16,20 @@ setTimeout(() => {
 const closeNavMenu = () => {
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
+    UIState.panels.clear();
 }
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1"
-        :class="{ 'mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
         <NavMenu />
-        <div class="main-content" @click="closeNavMenu">
+        <div class="main-panels" v-if="UIState.panels.size > 0">
+            <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
+            <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
+        </div>
+        <div class="main-content" >
+            <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
-            <div class="main-panels"
-                :class="{ 'main-panels-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }"
-                v-if="UIState.panels.size > 0">
-                <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
-                <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
-            </div>
         </div>
         <FooterBar />
     </div>
@@ -45,13 +44,21 @@ const closeNavMenu = () => {
 
 <style src="@/style/default.css" />
 <style src="@/style/icons.css" />
-<style scoped>
+<style lang="scss" scoped>
 #main {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     height: 100%;
     max-height: 100%;
+}
+
+.main-mask {
+    position: fixed;
+    top: 0; left: 0;
+    bottom: 0; right: 0;
+    z-index: 3;
+    backdrop-filter: blur(2px);
 }
 
 .main-content {
@@ -75,7 +82,7 @@ const closeNavMenu = () => {
     padding: 1rem;
     top: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 5;
 }
 
 .main-splash,
@@ -89,21 +96,8 @@ const closeNavMenu = () => {
     text-align: center;
 }
 
-.mobile-screen {
-    height: 750px !important;
-    width: 400px;
-    font-size: var(--font-small);
-}
 
-.main-panels-fake-mobile-screen {
-    /*  max-width: 30%; */
-    height: 728px;
-    margin-left: -11.3rem;
-    font-size: xx-small;
-}
-
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .main-content {
         font-size: small;
     }

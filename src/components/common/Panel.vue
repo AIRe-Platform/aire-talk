@@ -9,7 +9,7 @@ defineComponent({ name: "PanelComponent" })
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .panel {
     background-color: var(--panel-menu-background-color);
     border-radius: 1rem;

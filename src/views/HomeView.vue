@@ -2,11 +2,15 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import { logout } from "@/context/login";
-import { getAllChats, openChat, createNewChat } from "@/context/chat";
-import { UISettings } from '@/context/ui';
-import OnboardingTopics from '@/components/OnboardingTopics.vue';
+import { getAllChats } from '@/helpers/chatUtils';
+import useLogin from '@/context/login';
+import useChat from '@/context/chat';
+
+import DialogModal from "@/components/modals/DialogModal.vue";
+import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
+
+const login = useLogin();
+const chat = useChat();
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -18,12 +22,12 @@ const state = reactive<{
 
 const onConfirmLogout = async () => {
     state.showConfirmLogout = false;
-    await logout();
+    await login.logout();
     router.push("/");
 }
 
 const newChat = async () => {
-    await createNewChat();
+    await chat.startNew();
     navigateTo("/chat");
 };
 
@@ -34,7 +38,7 @@ const getLastChatId = async () => {
 
 const openLastChat = async () => {
     const last = await getLastChatId();
-    if (await openChat(last))
+    if (await chat.open(last))
         router.push("/chat");
 }
 
@@ -53,47 +57,44 @@ onMounted(async () => {
 
     <div id="home-view">
         <div class="home-container">
-            <div class="home-header"
-                :class="{ 'home-header-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+            <div class="home-header">
                 <div class="home-header-title">
-                    <div class="aire-logo"
-                        :class="{ 'home-logo-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                    <div class="aire-logo">
                         <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                     </div>
                     <p>{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="newChat()">
+                <div class="icon frontpage-button" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="openLastChat()" v-if="state.showLastChatButton">
+                <div class="icon frontpage-button" @click="openLastChat()" v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="state.showConfirmLogout = !state.showConfirmLogout">
+                <div class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </div>
             </div>
             <div class="home-footer">
                 <p class="disclaimer">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
-                <div class="chat-bot"
-                    :class="{ 'home-chat-bot-fake-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+                <div class="chat-bot">
                 </div>
             </div>
         </div>
     </div>
-    <ConfirmDialog v-if="state.showConfirmLogout" @accept="onConfirmLogout" @decline="state.showConfirmLogout = false">
+    <DialogModal :active="state.showConfirmLogout" :buttons="[
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        if (i == 0) { onConfirmLogout() }
+        else if (i == 1) { state.showConfirmLogout = false; }
+    }">
         {{ $t(l.popup_confirm_logout) }}
-    </ConfirmDialog>
+    </DialogModal>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #home-view {
     width: 100%;
     height: 100%;
@@ -183,24 +184,7 @@ onMounted(async () => {
     background-size: contain;
 }
 
-.home-logo-fake-mobile-screen {
-    width: 10rem;
-}
-
-.home-header-fake-mobile-screen {
-    height: 12rem;
-}
-
-.home-chat-bot-fake-mobile-screen {
-    display: none;
-}
-
-.frontpage-button-fake-small-screen {
-    width: 15rem !important;
-    height: 4rem !important;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 899px)) {
+.ui-mode-mobile {
     .home-header {
         height: 20rem;
     }
@@ -222,7 +206,7 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 640px)) {
+.ui-mode-mobile {
     .home-header {
         background-size: cover;
         padding-top: 5rem;

@@ -1,20 +1,26 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
-import Spinner from "@/components/Spinner.vue";
-import { reactive, ref } from "vue";
-import { Content, ContentType } from "aire";
-import Panel from "@/components/Panel.vue";
-import ContentModal from "@/components/ContentModal.vue";
-import { Chat } from "@/context/chat";
+import { onMounted, reactive, ref } from "vue";
+import { AireContent, AireContentType } from "aire";
+import { getChatContentIds } from "@/helpers/contentUtils";
+
+import useChat from "@/context/chat";
+import useContent from "@/context/content";
+
+import Spinner from "@/components/common/Spinner.vue";
+import Panel from "@/components/common/Panel.vue";
+import ContentModal from "@/components/modals/ContentModal.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
 }
 
 const contentModalOpen = ref(false);
+const chat = useChat();
+const content = useContent();
 
-const toggleContentModal = (item?: Content) => {
+const toggleContentModal = (item?: AireContent) => {
     state.selectedItem = item;
     contentModalOpen.value = !contentModalOpen.value;
 };
@@ -22,11 +28,27 @@ const state = reactive<{
     busy: boolean,
     deleteId?: string,
     confirmDelete: boolean,
-    selectedItem?: Content,
+    selectedItem?: AireContent,
+    contentList: AireContent[]
 }>({
     busy: false,
-    confirmDelete: false
+    confirmDelete: false,
+    contentList: []
 });
+
+const listContent = async () => {
+    const ids = getChatContentIds(chat.messages);
+    ids.forEach(async (x) => {
+        const item = await content.get(x);
+        if(item) {
+            state.contentList.push(item);
+        }
+    })
+}
+
+onMounted(() => {
+    listContent();
+})
 
 </script>
 
@@ -49,31 +71,30 @@ const state = reactive<{
                 </div>
             </div>
             <div class="content-catalogue-content">
-                <Panel class="content-catalogue-item" v-for="item in  Chat.current.content" v-bind:key="item.id"
+                <Panel class="content-catalogue-item" v-for="item in state.contentList" v-bind:key="item.id"
                     @click="toggleContentModal(item)">
 
                     <div class="header-panel">
                         <div v-if="item.modified">
                             {{ new Date(item.modified).toLocaleString($i18n.locale) }}
                         </div>
-                        <div class="icon content-video" v-if="item.type == ContentType.Video">
+                        <div class="icon content-video" v-if="item.type == AireContentType.Video">
                         </div>
-                        <div class="icon content-image" v-if="item.type == ContentType.Image">
+                        <div class="icon content-image" v-if="item.type == AireContentType.Image">
                         </div>
-                        <font-awesome-icon icon="fa-solid fa-file" v-if="item.type == ContentType.Document" />
-                        <font-awesome-icon icon="fa-solid fa-link" v-if="item.type == ContentType.URL" />
-
+                        <font-awesome-icon icon="fa-solid fa-file" v-if="item.type == AireContentType.Document" />
+                        <font-awesome-icon icon="fa-solid fa-link" v-if="item.type == AireContentType.URL" />
                     </div>
                     <div class="body-panel">
-                        <video muted class="video" v-if="item.type == ContentType.Video">
+                        <video muted class="video" v-if="item.type == AireContentType.Video">
                             <source v-if="item.id" :src="item.url + '#t=5'" :key="item.url" type="video/mp4">
                         </video>
-                        <img :src="item.url" alt="" class="image" v-if="item.type == ContentType.Image">
+                        <img :src="item.url" alt="" class="image" v-if="item.type == AireContentType.Image">
 
                         <div class="icon catalogue-content-mobile" :src="item.url" alt=""
-                            v-if="item.type == ContentType.Document">
+                            v-if="item.type == AireContentType.Document">
                         </div>
-                        <div class="content-url" v-if="item.type == ContentType.URL">
+                        <div class="content-url" v-if="item.type == AireContentType.URL">
                             {{ item.url }}
                         </div>
                     </div>
@@ -94,7 +115,7 @@ const state = reactive<{
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .content-catalogue-view {
     display: flex;
     overflow: hidden;
@@ -252,7 +273,7 @@ const state = reactive<{
     -webkit-box-orient: vertical;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;

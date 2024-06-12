@@ -41,6 +41,14 @@
     background-image: url("@/assets/icons/content-video-default.svg");
 }
 
+.icon.content-url {
+    background-image: url("@/assets/icons/content-url-default.svg");
+}
+
+.icon.content-document {
+    background-image: url("@/assets/icons/content-document-default.svg");
+}
+
 .icon.delete-bin {
     background-image: url("@/assets/icons/delete-bin-default.svg");
     width: 2rem;
@@ -187,4 +195,16 @@
 
 .icon.chatbox-content-default {
     background-image: url("@/assets/icons/chatbox-content-default.svg");
+}
+
+.theme-default .icon.document {
+    background-image: url("@/assets/icons/document.svg");
+    width: 5rem;
+    height: 6rem;
+}
+
+.theme-dark .icon.document {
+    background-image: url("@/assets/icons/document_dark.svg");
+    width: 5rem;
+    height: 6rem;
 }

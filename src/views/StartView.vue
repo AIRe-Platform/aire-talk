@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
-import SectionSeparator from "@/components/SectionSeparator.vue";
-import { UISettings } from "@/context/ui";
+import Separator from "@/components/common/Separator.vue";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -10,26 +9,21 @@ const navigateTo = (path: string) => {
 </script>
 
 <template>
-    <div id="start-view" :class="{ 'start-view-fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
-        <div class="start-container"
-            :class="{ 'start-container-fake-small-screen': UISettings.screenSize == 'mobile-screen' }">
+    <div id="start-view">
+        <div class="start-container">
             <div class="greeting">
                 <div class="chat-bot">
                 </div>
                 <h1>{{ $t(l.start_greeting) }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
-                <SectionSeparator />
+                <Separator />
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="navigateTo('/login')">
+                <div class="icon frontpage-button" @click="navigateTo('/login')">
                     {{ $t(l.nav_login) }}
                 </div>
-                <div class="icon frontpage-button"
-                    :class="{ 'frontpage-button-fake-small-screen': UISettings.screenSize == 'mobile-screen' }"
-                    @click="navigateTo('/signup')">
+                <div class="icon frontpage-button" @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
                 </div>
             </div>
@@ -41,7 +35,7 @@ const navigateTo = (path: string) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #start-view {
     width: 100%;
     height: 100%;
@@ -115,25 +109,7 @@ const navigateTo = (path: string) => {
     font-size: var(--font-small);
 }
 
-.frontpage-button-fake-small-screen {
-    width: 15rem !important;
-    height: 4rem !important;
-}
-
-.start-view-fake-small-screen {
-    background-size: cover;
-}
-
-.start-container-fake-small-screen {
-    font-size: var(--font-small);
-    width: 100%;
-    height: 100%;
-    background-color: unset;
-    border-left: unset;
-    border-right: unset;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
 
     #start-view {
         background-size: cover;

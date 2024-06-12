@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Panel from '@/components/Panel.vue';
-import Spinner from '@/components/Spinner.vue';
+import { reactive } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { AireServices, AireStatus } from 'aire';
-import { reactive } from 'vue';
+import Panel from '@/components/common/Panel.vue';
+import Spinner from '@/components/common/Spinner.vue';
 
 const state = reactive<{
     busy: boolean,
@@ -108,7 +108,7 @@ const checkCode = (e: Event) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .recovery-view {
     display: flex;
     flex-direction: column;
@@ -170,7 +170,7 @@ input[type=submit] {
     width: 60%;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .form-content {
         width: 70%;
         padding: 1rem 2rem;

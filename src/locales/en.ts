@@ -10,6 +10,7 @@ const en: Locale = {
     system_greeting:
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
+    system_found_content: "I found some content that may interest you. Take a look!",
 
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph:
@@ -20,7 +21,7 @@ const en: Locale = {
         "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
     start_disclaimer: "AIRe is not a medical diagnostic tool.",
 
-    home_start_new_chat: "Start new chat instance",
+    home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
     login_form_title: "Login",
@@ -126,6 +127,7 @@ const en: Locale = {
     settings_ui_screen_size_mobile: "Mobile",
     settings_ui_screen_size_tablet: "Tablet",
     settings_ui_screen_size_desktop: "Desktop",
+    settings_ui_screen_size_dynamic: "Dynamic",
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.

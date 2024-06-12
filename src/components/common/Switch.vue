@@ -19,7 +19,7 @@ defineEmits<{
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .switch {
     display: flex;
     flex-direction: column;

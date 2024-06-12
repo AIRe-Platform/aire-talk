@@ -13,7 +13,7 @@ const version = {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #footer-container {
     display: flex;
     flex-direction: row;
@@ -31,7 +31,7 @@ const version = {
     justify-content: space-evenly;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .footer {
         width: 100%;
         justify-content: center;

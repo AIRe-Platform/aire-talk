@@ -9,14 +9,14 @@ const props = defineProps<{ message: ChatMessage }>()
 <template>
     <div :id="props.message.id" class="questionnaire-item" v-if="props.message.question">
         <div class="questionnaire-question">
-            <h3 class="questionnaire-title">{{ $t(l.questionnaire) }}<i class="icon questionnaire-question-default"></i></h3>
+            <h3 class="questionnaire-title">{{ $t(l.questionnaire) }}<i class="icon questionnaire-question-default"></i>
+            </h3>
             {{ props.message.question.question }}
         </div>
     </div>
 </template>
 
-<style scoped>
-
+<style lang="scss" scoped>
 .icon.questionnaire-question-default {
     margin-left: .5rem;
     height: 1.5rem;
@@ -44,7 +44,4 @@ const props = defineProps<{ message: ChatMessage }>()
     border-radius: 1rem;
     border: 1px solid transparent;
 }
-
-/* mobile*/
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {}
 </style>

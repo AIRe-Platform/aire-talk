@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UIScreenSize, UISettings, UIState } from "@/context/ui";
-import Panel from "./Panel.vue";
+import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
 import ISO6391, { LanguageCode } from 'iso-639-1';
-import ThemeSwitch from "./ThemeSwitch.vue";
-import SectionSeparator from "./SectionSeparator.vue";
+
+import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
+import Separator from "@/components/common/Separator.vue";
+import Panel from "@/components/common/Panel.vue";
 
 
 const setLang = async (e: Event) => {
@@ -23,9 +24,9 @@ const setTextSize = (e: Event) => {
 
 const setScreenSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
-    UISettings.screenSize = el.value as UIScreenSize;
+    UISettings.uiMode = el.value as UIMode;
     el.blur();
-    if (UISettings.screenSize == 'mobile-screen') {
+    if (UISettings.uiMode == UIMode.Mobile) {
         UIState.isNavMenuCompressed = true;
     }
 }
@@ -36,12 +37,11 @@ const onClickOutside = (e: Event) => {
 </script>
 
 <template>
-    <Panel class="settings-panel" v-on-click-outside="onClickOutside"
-        :class="{ 'settings-panels-mobile-screen': UISettings.screenSize == 'mobile-screen' }">
+    <Panel class="settings-panel" v-on-click-outside="onClickOutside">
         <div class="settings-header">
             {{ $t(l.settings_title) }}
         </div>
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-language">{{ $t(l.settings_language) }}</label>
             <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
@@ -50,9 +50,9 @@ const onClickOutside = (e: Event) => {
                 </option>
             </select>
         </div>
-        <SectionSeparator />
+        <Separator />
         <ThemeSwitch />
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
             <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
@@ -60,20 +60,20 @@ const onClickOutside = (e: Event) => {
                 <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
             </select>
         </div>
-        <SectionSeparator />
+        <Separator />
         <div class="settings-item">
             <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
-            <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.screenSize">
-                <option :value="UIScreenSize.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
-                <!-- <option :value="UIScreenSize.Tablet">{{ $t(l.settings_ui_screen_size_tablet) }}</option> -->
-                <option :value="UIScreenSize.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
+            <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.uiMode">
+                <option :value="UIMode.Dynamic">{{ $t(l.settings_ui_screen_size_dynamic) }}</option>
+                <option :value="UIMode.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
+                <option :value="UIMode.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
             </select>
         </div>
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .settings-panel {
     display: flex;
     flex-direction: column;
@@ -114,7 +114,7 @@ const onClickOutside = (e: Event) => {
     margin-left: 16rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .settings-panel {
         width: 65%;
         margin-left: 4rem;

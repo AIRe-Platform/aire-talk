@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import Spinner from '@/components/Spinner.vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { signup } from '@/context/login';
 import { AireStatus } from 'aire';
+import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -26,7 +26,7 @@ const onSignup = (e: Event) => {
     }
 
     busy.value = true;
-    signup(fields.email!, fields.password!)
+    useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
                 router.replace("/")
@@ -67,7 +67,7 @@ const onSignup = (e: Event) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .signup-view {
     display: flex;
     flex-direction: column;
@@ -115,7 +115,7 @@ input[type=password] {
     margin: 0.2rem 0;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.ui-mode-mobile {
     .form-content {
         width: 70%;
         padding: 1rem 2rem;

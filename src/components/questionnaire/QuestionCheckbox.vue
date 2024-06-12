@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
-import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
+import { ChatMessage } from '@/models/chat';
+import useQuestionnaire from '@/context/questionnaire';
 
-const props = defineProps<{ 
-    message_id: string;
+const props = defineProps<{
+    message: ChatMessage;
     options: AireQuestionOptionCheckbox;
     answer?: any;
     readonly?: boolean;
- }>();
+}>();
 
 const answers = ref<string[]>(props.answer || []);
 const isUnanswered = (ans: any) => (ans === undefined);
@@ -28,10 +29,13 @@ const onClickOption = (answer: string) => {
 }
 
 const onSubmitAnswer = () => {
-    if (props.options.multiselect)
-        answerQuestion(props.message_id, answers.value)
-    else
-        answerQuestion(props.message_id, answers.value.values().next().value)
+    const questionnaire = useQuestionnaire();
+    if (props.message.question) {
+        if (props.options.multiselect)
+            questionnaire.submitAnswer(props.message.question.question_id, answers.value);
+        else
+            questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
+    }
 }
 
 </script>
@@ -54,7 +58,7 @@ const onSubmitAnswer = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
     flex-direction: column;

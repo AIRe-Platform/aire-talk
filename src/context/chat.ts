@@ -1,929 +1,333 @@
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatCache, ChatContext, ChatMessage } from "@/models/chat";
+import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
-    AireServices, AireTalkEvent,
-    AireChatMessage, AireChatbotInput, AireChatRole, AireChatMetadata, AireChatLog,
-    AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireChatStats, AireStatus,
-    AireUser,
+    AireServices,
+    AireTalkEvent,
+    AireChatLog,
+    AireStatus,
 } from "aire";
 import { reactive } from "vue";
-import { Login, saveProfile } from "./login";
+import {
+    createErrorMessage,
+    createSystemMessage,
+    createUserMessage,
+    mapMessage,
+    createAssistantMessage,
+    createContentMessage
+} from "@/helpers/chatMessages";
+import useChatbot from "./chatbot";
+import { useChatCache } from "./cache";
+import useQuestionnaire from "./questionnaire";
+import useSummary from "./summary";
 import i18n, { l } from "@/locales";
-import { getUserLanguageCode } from "@/helpers/userLocale";
-import { getMissingPersonalInformationQuestions, getRelevantQuestions, getUnansweredQuestions } from "@/helpers/questionnaireUtils";
-import { LocalizationKey } from "@/locales/keys";
+import { getChatbotInputData } from "@/helpers/chatUtils";
+import useLogin from "./login";
+import useContent from "./content";
+import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 
-const BOT_NAME = "aire_bot"
-const SYSTEM_NAME = "aire_system"
+export class ChatContext {
+    id?: string;
+    autosave_timer?: number;
+    modified: boolean;
 
-let save_timer_id: number | undefined = undefined;
-let finish_animation_timer_id: number | undefined = undefined;
-const FINISH_ANIMATION_TIMER_TIMEOUT = 2000;
-const SAVE_TIMER_TIMEOUT = 10000;
-
-export const Chat: ChatContext = reactive(initChatState());
-
-/**
- * Sends a message to the chatbot
- * @param message Message content
- */
-export function sendChatMessage(message: string) {
-    Chat.awaitingResponse = true;
-
-    const userMessage: ChatMessage = {
-        id: generateRandomID(),
-        sender: getUserName(),
-        role: "user",
-        message: message,
-        rating: 0,
-        timestamp: Date.now()
-    }
-
-    pushMessage(userMessage)
-    getResponse()
-}
-
-/**
- * Refreshes the current chat's summary
- */
-export async function refreshSummary() {
-    if (AireServices.AI) {
-        Chat.awaitingResponse = true;
-        const input = getChatbotInputData();
-        await AireServices.AI.generateSummary(input)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    Chat.current.summary = result.data;
-                    startAutoSaveTimer();
-                } else {
-                    console.warn("There is no generated summary.")
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to refresh summary: ", err);
-            })
-            .finally(() => {
-                Chat.awaitingResponse = false;
-                startFinishAnimation();
-            })
-    } else {
-        console.warn("AI service is unavailable");
-    }
-}
-
-/**
- * Refreshes the current chat's keyword
- * @param addRandomness 
- */
-export async function refreshKeywords(addRandomness: boolean) {
-    if (AireServices.AI) {
-        Chat.awaitingResponse = true;
-
-        const input = getChatbotInputData();
-        await AireServices.AI.generateKeywords(input, addRandomness)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    Chat.current.keywords = result.data;
-                    startAutoSaveTimer();
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to refresh keywords", err)
-            })
-            .finally(() => {
-                Chat.awaitingResponse = false;
-                startFinishAnimation();
-            })
-    } else {
-        console.warn("AI service is unavailable");
-    }
-}
-
-/**
- * Refreshes the current chat's summary and keywords
- */
-export async function refreshAbstract() {
-    if (AireServices.AI) {
-        Chat.awaitingResponse = true;
-
-        const input = getChatbotInputData();
-        await AireServices.AI.generateAbstract(input)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    Chat.current.keywords = result.data?.keywords;
-                    Chat.current.summary = result.data?.summary;
-                    return result;
-                } else {
-                    console.warn("There is no generated abstract.")
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to generate abstract", err)
-            })
-            .finally(() => {
-                Chat.awaitingResponse = false;
-                startFinishAnimation();
-            })
-    } else {
-        console.warn("AI service is unavailable");
-    }
-}
-
-/**
- * Refreshes the current chat's content catalogue
- */
-export async function refreshContentCatalogue() {
-    if (AireServices.Memory && Chat.current.keywords) {
-        Chat.awaitingResponse = true;
-
-        await AireServices.Memory.searchContent(Chat.current.keywords)
-            .then((result) => {
-                if (result.status == AireStatus.Success) {
-                    Chat.current.content = result.data;
-                    return result;
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to refresh content catalogue", err);
-            })
-            .finally(() => {
-                Chat.awaitingResponse = false;
-                startFinishAnimation();
-            })
-    } else {
-        console.warn("Memory service is unavailable");
-    }
-}
-
-/**
- * Reverts chat to an earlier state
- * @param id Message ID to revert to
- */
-export function revertToMessage(id: string) {
-    const index = Chat.messages.findIndex(x => x.id === id);
-    if (index > -1) {
-        Chat.messages = Chat.messages.slice(0, index + 1)
-        Chat.modified = true
-        Chat.current.questionnaire = undefined;
-        startAutoSaveTimer()
-    }
-    else {
-        console.debug("Message not found, cannot revert", id)
-    }
-}
-
-/**
- * Deletes a chat
- * @param id Chat ID
- */
-export async function deleteChat(id: string) {
-    if (id == Chat.id)
-        await resetChatState(true, false)
-
-    if (AireServices.Memory)
-        await AireServices.Memory.deleteChat(id)
-
-    clearCache(id)
-}
-
-/**
- * Save the chat in the database.
- * @param chatHistory
- */
-export async function saveChat() {
-    if (!Login.user || !Chat.modified)
-        return
-
-    if (AireServices.Memory) {
-        const messages = Chat.messages
-            .map(x => {
-                const m: AireChatMessage = {
-                    role: x.role,
-                    content: x.message,
-                    timestamp: x.timestamp,
-                    rating: x.rating,
-                    question: x.question,
-                    hidden: x.hidden
-                };
-                return m;
-            });
-
-        const chatLog: AireChatLog = {
-            messages: messages,
-            state: Chat.current,
-            stats: Chat.stats
-        }
-
-        await AireServices.Memory.saveChat(chatLog, Chat.id)
-            .then(result => {
-                if (result.status == AireStatus.Success && result.data) {
-                    setCache({
-                        messages: Chat.messages,
-                        state: Chat.current,
-                        stats: Chat.stats
-                    }, result.data.id)
-                    Chat.id = result.data.id
-                    Chat.modified = false
-                }
-            })
-    } else {
-        console.error("Memory service is unavailable");
-    }
-}
-
-/**
- * Open a chat
- * @param id Chat identifier
- * @returns True if the chat was opened successfully
- */
-export async function openChat(id: string): Promise<boolean> {
-    if (Chat.id === id)
-        return true
-
-    await resetChatState(false, false)
-
-    const loaded = await loadChat(id)
-    if (!loaded)
-        return false
-
-    const cached = getCache(id)!;
-
-    Chat.id = id
-    Chat.messages = cached.messages;
-    Chat.current = cached.state || {};
-    Chat.stats = cached.stats || {};
-
-    scrollChatToBottom()
-    return true
-}
-
-/**
- * Checks if the chat log has been cached and retrieves it if not
- * @param id Chat log identifier
- * @param force Force refreshing
- * @returns True if the chat log is present
- */
-export async function loadChat(id: string, force: boolean = false): Promise<boolean> {
-    if (id in Chat.cache && !force) {
-        return true
-    }
-
-    if (AireServices.Memory) {
-        const result = await AireServices.Memory.getChat(id);
-        if (result.status != AireStatus.Success)
-            return false
-
-        const chatlog = result.data!;
-
-        const messages = chatlog.messages.map(x => {
-            const m: ChatMessage = {
-                id: generateRandomID(),
-                sender: x.role === "user" ? getUserName() : (x.role === "assistant" ? BOT_NAME : SYSTEM_NAME),
-                role: x.role as AireChatRole,
-                message: x.content,
-                timestamp: x.timestamp || 0,
-                rating: x.rating || 0,
-                question: x.question,
-                hidden: x.hidden
-            };
-            return m;
-        });
-
-        setCache({
-            messages: messages,
-            state: chatlog.state,
-            stats: chatlog.stats || {}
-        }, id)
-        return true
-    }
-    else {
-        console.error("Memory service is not available")
-        return false
-    }
-}
-
-/**
- * Create a new chat
- */
-export async function createNewChat(topic?: Topic) {
-    await resetChatState(false, false);
-    if (topic) {
-        Chat.current.topic = topic;
-
-        pushMessage({
-            id: generateRandomID(),
-            role: "system",
-            message: l.system_topic,
-            sender: SYSTEM_NAME,
-            rating: 0,
-            timestamp: Date.now()
-        })
-    }
-
-}
-
-/**
- * Function to change the rating of the message
- * @param message to change
- * @param rating given by the user
- */
-export function setMessageRating(id: string, rating: number) {
-
-    const message = Chat.messages.find(x => x.id === id);
-    if (message) {
-        message.rating = rating < 0 ? -1 : (rating > 0 ? 1 : 0)
-        Chat.modified = true
-        startAutoSaveTimer()
-    }
-}
-
-/**
- * Function that gets all the chats the user has save in the database order from newest to oldest.
- * @returns array of chats format id: string, date: string
- */
-export async function getAllChats(): Promise<AireChatMetadata[]> {
-    if (AireServices.Memory) {
-        const result = await AireServices.Memory.getChatlogs()
-        if (result.data) {
-            return result.data.sort((b, a) => {
-                return Date.parse(a.time) - Date.parse(b.time)
-            });
-        }
-    } else {
-        console.error("Memory service is not available")
-    }
-    return []
-}
-
-/**
- * Send the current chat to AI to get statistics
- * @returns Token count
- */
-export async function getStats(): Promise<AireChatStats | undefined> {
-    if (AireServices.AI) {
-        return (await AireServices.AI.getChatStats(getChatbotInputData())).data
-    }
-}
-
-/**
- * Get messages from the chatlog cache
- * @param id Chatlog identifier
- * @returns Messages if loaded, undefined if not present
- */
-export function getCache(id: string): ChatCache | undefined {
-    if (id && Chat.cache.has(id))
-        return Chat.cache.get(id)
-    return undefined
-}
-
-export function startPersonalInformationQuestionnaire() {
-    const questions = getMissingPersonalInformationQuestions();
-
-    if (questions.length > 0) {
-        Chat.current.questionnaire = {
-            active_id: "personal_information",
-            question_queue: questions,
-            completed: false
-        };
-
-        pushQuestion({
-            id: generateRandomID(),
-            prompt: "",
-            question: i18n.global.t(l.profile_question_confirm),
-            type: AireQuestionOptionType.Checkbox,
-            required: true,
-            options: {
-                multiselect: false,
-                values: [
-                    i18n.global.t(l.button_accept),
-                    i18n.global.t(l.button_cancel)
-                ]
-            } as AireQuestionOptionCheckbox
-        }, "system", (ans: string[]) => {
-            if (ans.includes(i18n.global.t(l.button_accept)))
-                pushNextPersonalQuestion();
-            else
-                Chat.current.questionnaire = undefined
-        })
-    }
-}
-
-function sendPersonalInformation() {
-    if (AireServices.ID && Login.user) {
-        // get data from answers
-
-        if (!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
-            return false;
-
-        const answers = getAnswerObjects(Chat.current.questionnaire?.active_id)
-        const newValues: Record<string, string> = {};
-
-        answers.forEach(element => {
-            newValues[element.question_id] = element.answer;
-        });
-
-        const data: AireUser = { ...Login.user, ...newValues };
-        saveProfile(data)
-            .then((result) => {
-                if (result) {
-                    const message = `[The user filled missing profile information. Thank user and tell how it helps you to give better responses.]`
-                    const userMessage: ChatMessage = {
-                        id: generateRandomID(),
-                        sender: getUserName(),
-                        role: "user",
-                        message: message,
-                        rating: 0,
-                        timestamp: Date.now(),
-                        hidden: true
-                    }
-
-                    pushMessage(userMessage)
-                    getResponse()
-                }
-            })
-    }
-}
-
-function pushNextPersonalQuestion() {
-    if (!Chat.current.questionnaire)
-        return false
-
-    const next = Chat.current.questionnaire.question_queue.shift()
-    if (!next) {
-
-        pushQuestion({
-            id: Chat.current.questionnaire.active_id + "_completion",
-            question: i18n.global.t(l.profile_question_completion),
-            type: AireQuestionOptionType.Checkbox,
-            required: true,
-            prompt: "",
-            options: {
-                multiselect: false,
-                values: [i18n.global.t(l.button_continue)]
-            } as AireQuestionOptionCheckbox,
-        }, "system", () => {
-            sendPersonalInformation()
-        })
-
-        Chat.current.questionnaire.completed = true;
-        return false;
-    }
-
-    pushQuestion(next, Chat.current.questionnaire.active_id, pushNextPersonalQuestion)
-    return true;
-}
-
-/**
- * Query questionnaires with current keywords and start a questionnaire
- * @returns Boolean to indicate whether the questionnaire was found and started
- */
-export async function queryAndStartQuestionnaire() {
-    if (!Chat.current.keywords || Chat.current.keywords.length < 1)
-        return
-
-    if (!AireServices.Memory) {
-        console.error("Memory service is not available")
-        return
-    }
-
-    const query = await AireServices.Memory.queryQuestionnaire(Chat.current.keywords, getUserLanguageCode())
-    const questionnaire = query.data
-    if (!questionnaire) {
-        return
-    }
-
-    const questions = getRelevantQuestions(questionnaire, Chat.current.keywords)
-    const unanswered = getUnansweredQuestions(questions, getAnswerObjects(questionnaire.id!))
-
-    if (unanswered.length === 0) {
-        return
-    }
-
-    Chat.current.questionnaire = {
-        active_id: questionnaire.id!,
-        question_queue: questions,
-        completed: false
+    public messages: Array<ChatMessage>;
+    public stats: ChatStats;
+    public meta: {
+        age?: number;
+        occupation?: string;
+        topic?: Topic;
     };
 
-    // Ask user if they want to start a questionnaire
-    pushQuestion({
-        id: generateRandomID(),
-        prompt: "",
-        question: i18n.global.t(l.confirm_questionnaire_start, [questionnaire.name]),
-        type: AireQuestionOptionType.Checkbox,
-        required: true,
-        options: {
-            multiselect: false,
-            values: [
-                i18n.global.t(l.button_accept),
-                i18n.global.t(l.button_cancel)
-            ]
-        } as AireQuestionOptionCheckbox
-    }, "system", (ans: string[]) => {
-        if (ans.includes(i18n.global.t(l.button_accept)))
-            pushNextQuestion();
-        else
-            Chat.current.questionnaire = undefined
-    })
-}
-
-/**
- * Set questionnaire answer
- * @param message_id 
- * @param answer 
- */
-export function answerQuestion(message_id: string, answer: any) {
-    const i = Chat.messages.findIndex(x => x.id === message_id);
-    if (i > -1) {
-        const unanswered = (Chat.messages[i].question?.answer === undefined);
-
-        if (Chat.messages[i].question) {
-            Chat.messages[i].question!.answer = answer
-            Chat.modified = true;
-        }
-
-        if (checkAnswerForRedFlag(Chat.messages[i])) {
-            triggerRedFlag();
-        }
-
-        startAutoSaveTimer();
-
-        if (Chat.messages[i].questionCallback)
-            Chat.messages[i].questionCallback!(answer);
-        else if (unanswered)
-            pushNextQuestion();
+    constructor() {
+        this.messages = [];
+        this.stats = {};
+        this.meta = {};
+        this.modified = false;
     }
-    else {
-        console.warn("Did not find the question message or the message is not a question");
-    }
-}
 
-/**
- * Sends questionnaire answers to the AI for processing and saves results
- * in the memory. Processed prompts are added to the chat context
- */
-export async function sendQuestionnaireAnswers(): Promise<boolean> {
-    if (!Chat.current.questionnaire || !Chat.current.questionnaire.completed)
-        return false;
+    /** Resets the chat state */
+    public async reset(skip_save: boolean = false, clear_cache = false) {
+        this.resetAutoSave()
 
-    if (AireServices.AI && AireServices.Memory) {
-        const answers = getAnswerObjects(Chat.current.questionnaire.active_id)
-
-        const result = await AireServices.AI.processQuestionnaire(
-            Chat.current.questionnaire.active_id, answers)
-
-        const results = result.data
-        if (!results)
-            return false;
-
-        const saved = await AireServices.Memory.saveQuestionnaireResults(results);
-        if (!saved) {
-            console.error("Failed to save questionnaire results");
-            return false;
+        if (!skip_save) {
+            await this.save()
         }
 
-        let message: string | undefined;
-        if (results.prompts) {
-            const facts = results.prompts?.join("\n")
-            message = `[The user responded to a questionnaire. Here are the facts:\n${facts}]`
+        if (clear_cache) {
+            const cache = useChatCache();
+            cache.clear();
+        }
+
+        this.id = undefined;
+        this.messages = [];
+        this.meta = {};
+        this.modified = false;
+        this.stats = {};
+
+        useQuestionnaire().reset();
+        useSummary().reset();
+
+        const system_message = createSystemMessage(l.system_greeting);
+        this.push(system_message);
+    }
+
+    /** 
+     * Reset current chat with a new one
+     */
+    public async startNew(topic?: Topic) {
+        await this.reset(false, false);
+        if (topic) {
+            this.meta.topic = topic;
+            const topic_msg = i18n.global.t(l.system_topic);
+            const topic_name = i18n.global.t(topic.localization_key);
+            const msg = createSystemMessage(`${topic_msg}${topic_name}`, false);
+            this.push(msg);
+        }
+    }
+
+    /**
+     * Add new user message and wait response from the chatbot
+     * @param message Message content
+     */
+    public send(message: string) {
+        const msg = createUserMessage(message);
+        this.push(msg);
+        streamResponse();
+    }
+
+    /**
+     * Push a new message
+     * @param message Message
+     * @param create Set to false if you want to modify the last message
+     * @param final Set to false to delay triggering auto save
+     */
+    public push(message: ChatMessage, create: boolean = true, final: boolean = true) {
+        if (create) {
+            this.messages.push(message);
+        } else {
+            this.messages[this.messages.length - 1] = message;
+        }
+
+        if (final && message.role !== "system") {
+            this.autoSave();
+        }
+
+        scrollChatToBottom();
+    }
+
+    /**
+     * Reverts chat to an earlier state
+     * @param id Message ID to revert to
+     */
+    public revertTo(message_id: string, reset_questionnaire: boolean = true) {
+        const index = context.messages.findIndex(x => x.id === message_id);
+        if (index > -1) {
+            context.messages = context.messages.slice(0, index + 1)
+            if (reset_questionnaire)
+                useQuestionnaire().reset();
+            this.autoSave();
         }
         else {
-            message = `[The user responded to a questionnaire. Here is a summary:\n${results.summary}]`
+            console.debug("Message not found, cannot revert to " + message_id)
+        }
+    }
+
+    /**
+     * Rate assistant's message
+     * @param id Message ID
+     * @param vote Vote value (Upvote when > 0, Downvote when < 0, Revert vote when == 0)
+     */
+    public rateMessage(id: string, vote: number) {
+        const message = context.messages.find(x => x.id === id);
+        if (message && message.role === "assistant") {
+            message.rating = vote < 0 ? -1 : (vote > 0 ? 1 : 0);
+            this.autoSave();
+        }
+    }
+
+    /**
+     * Trigger delayed auto save
+     */
+    public autoSave() {
+        const SAVE_TIMER_DELAY = 10000;
+        this.resetAutoSave()
+
+        this.modified = true;
+
+        this.autosave_timer = setTimeout(async () => {
+            this.autosave_timer = undefined
+            await this.save()
+        }, SAVE_TIMER_DELAY)
+    }
+
+    /**
+     * Cancel scheduled auto save
+     */
+    public resetAutoSave() {
+        if (this.autosave_timer)
+            clearTimeout(this.autosave_timer);
+        this.autosave_timer = undefined
+    }
+
+    /**
+     * Forces the chat bot to respond
+     */
+    public forceResponse() {
+        streamResponse();
+    }
+
+    /**
+     * Regenerate the last assistant message
+     */
+    public regen() {
+        if (this.messages[this.messages.length - 1].role === "assistant") {
+            this.messages.splice(this.messages.length - 1, 1);
+            streamResponse();
+        }
+    }
+
+    /**
+     * Save the modifications of the current chat
+     */
+    public async save() {
+        if (!useLogin().user || !this.modified)
+            return;
+
+        const questionnaire = useQuestionnaire();
+        const summary = useSummary();
+
+        if (AireServices.Memory) {
+            const state: ChatState = {
+                ...this.meta,
+                summary: summary.summary,
+                keywords: [...summary.keywords],
+                questionnaire: questionnaire.active
+            };
+
+            const chatLog: AireChatLog = {
+                messages: this.messages,
+                state: state,
+                stats: this.stats
+            };
+
+            const cache = useChatCache();
+
+            await AireServices.Memory.saveChat(chatLog, context.id)
+                .then(result => {
+                    if (result.status == AireStatus.Success && result.data) {
+                        cache.set(result.data.id, {
+                            messages: this.messages,
+                            state: state,
+                            stats: this.stats
+                        });
+
+                        context.id = result.data.id;
+                        console.log("Chat saved");
+                    }
+                })
+        } else {
+            console.error("Memory service is unavailable");
+        }
+    }
+
+    public async open(chat_id: string): Promise<boolean> {
+        if (this.id === chat_id)
+            return true;
+
+        await this.reset(false, false);
+
+        const loaded = await this.load(chat_id);
+        if (!loaded)
+            return false;
+
+        const cached = useChatCache().get(chat_id);
+
+        if (!cached) {
+            return false;
         }
 
-        if (message) {
-            const userMessage: ChatMessage = {
-                id: generateRandomID(),
-                sender: getUserName(),
-                role: "user",
-                message: message,
-                rating: 0,
-                timestamp: Date.now(),
-                hidden: true
-            }
+        this.id = chat_id
+        this.messages = cached.messages;
+        this.stats = cached.stats || {};
+        this.meta.topic = cached.state.topic;
 
-            pushMessage(userMessage)
-            getResponse()
+        const state = cached.state;
+        if (state) {
+            useSummary().set(state.summary, state.keywords);
+
+            if (state.questionnaire)
+                useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        Chat.current.questionnaire = undefined;
-        startAutoSaveTimer();
+        scrollChatToBottom();
         return true;
-
-    } else {
-        console.error("AI service is not available")
     }
 
-    return false;
-}
+    public async delete(chat_id: string) {
+        if (chat_id == context.id)
+            await this.reset(true, false)
 
-/**
- * Set messages into the chatlog cache
- * @param chat Chat history
- * @param id Optional ID, if not given, caches the current chat
- */
-function setCache(chat: ChatCache, id?: string) {
-    const key = id || Chat.id
-    if (key)
-        Chat.cache.set(key, chat)
-}
-
-/**
- * Remove a cached chat log
- * @param id Chatlog identifier
- */
-function clearCache(id: string) {
-    Chat.cache.delete(id)
-}
-
-/**
- * Chatbot answer receiver callback
- * @param msg Message or a part of it
- */
-function receiver(e: AireTalkEvent) {
-    if (e.type === "keywords") {
-        onReceiveKeywords(e.keywords || [])
-        return;
-    }
-
-    if (e.type === "token-count") {
-        Chat.stats.token_count = e.tokenCount
-        return;
-    }
-
-    if (e.type === "message" || e.type === "end") {
-        const final = (e.type === "end");
-        let last = Chat.messages[Chat.messages.length - 1];
-        let firstMessage = false // start of the answer stream?
-
-        if (last.role !== "assistant") {
-            last = {
-                id: generateRandomID(),
-                sender: BOT_NAME,
-                role: "assistant",
-                message: "",
-                timestamp: Date.now(),
-                rating: 0
-            }
-            firstMessage = true
+        if (AireServices.Memory) {
+            await AireServices.Memory.deleteChat(chat_id)
+                .then((status) => {
+                    if (status === AireStatus.Success) {
+                        console.log("Chat deleted", chat_id);
+                    }
+                    else {
+                        console.error("Failed to delete chat", chat_id, status);
+                    }
+                })
         }
 
-        if (e.message) {
-            last.message += e.message.content;
-        }
-        Chat.awaitingResponse = !final;
-
-        if (final)
-            startFinishAnimation();
-
-        pushMessage(last, firstMessage, final)
-    }
-}
-
-/**
- * Chatbot error callback
- * @param error Error info
- */
-function errorHandler(status: AireStatus) {
-    pushMessage({
-        id: generateRandomID(),
-        sender: SYSTEM_NAME,
-        role: "system",
-        isError: true,
-        message: l.error_ai_not_responding,
-        timestamp: Date.now(),
-        rating: 0
-    })
-
-    Chat.awaitingResponse = false;
-    startFinishAnimation();
-}
-
-/**
- * Handles received keywords
- * @param keywords List of keywords
- */
-function onReceiveKeywords(keywords: string[]) {
-    const current = Chat.current.keywords || []
-    const diff = keywords.filter(x => !current.includes(x))
-
-    // If the keywords contain 2 or more new words,
-    // automatically query suitable questionnaires
-    if (diff.length > 1) {
-        queryAndStartQuestionnaire();
+        const cache = useChatCache();
+        cache.delete(chat_id);
     }
 
-    Chat.current.keywords = keywords
-    refreshContentCatalogue();
-}
+    public async load(chat_id: string, force: boolean = false): Promise<boolean> {
+        const cache = useChatCache();
 
-/**
- * Build default system greeting message
- * @returns System greeting
- */
-function pushSystemMessage(messageKey: LocalizationKey) {
-    Chat.messages.push({
-        id: generateRandomID(),
-        sender: SYSTEM_NAME,
-        role: "system",
-        message: messageKey,
-        rating: 0,
-        timestamp: Date.now()
-    });
-    scrollChatToBottom();
-}
-
-/**
- * Push a new message
- * @param message Message
- * @param create Set to false if you want to modify the last message
- * @param final Set to false to delay triggering auto save
- */
-function pushMessage(message: ChatMessage, create: boolean = true, final: boolean = true) {
-    if (create) {
-        Chat.messages.push(message);
-    } else {
-        Chat.messages[Chat.messages.length - 1] = message
-    }
-
-    if (final && message.role !== "system") {
-        Chat.modified = true
-        startAutoSaveTimer()
-    }
-
-    scrollChatToBottom();
-}
-
-/**
- * Pushes a question object into the chat view
- * @param question Question object
- * @param questionnaire_id Optional questionnaire ID, generates random ID if not set
- */
-function pushQuestion(question: AireQuestion, questionnaire_id?: string, callback?: (answer: any) => void) {
-    const item: ChatMessage = {
-        id: generateRandomID(),
-        sender: SYSTEM_NAME,
-        role: "assistant",
-        rating: 0,
-        timestamp: Date.now(),
-        question: {
-            questionnaire_id: questionnaire_id || generateRandomID(),
-            question_id: question.id,
-            type: question.type,
-            question: question.question,
-            prompt: question.prompt,
-            options: question.options
-        },
-        questionCallback: callback
-    };
-
-    pushMessage(item);
-}
-
-/**
- * Push next question from questionnaire question queue
- * @returns Returns false if the questionnaire has been completed or there's none.
- */
-function pushNextQuestion(): boolean {
-    if (!Chat.current.questionnaire)
-        return false
-
-    const next = Chat.current.questionnaire.question_queue.shift()
-    if (!next) {
-        pushQuestion({
-            id: Chat.current.questionnaire.active_id + "_completion",
-            question: i18n.global.t(l.confirm_questionnaire_completion),
-            type: AireQuestionOptionType.Checkbox,
-            required: true,
-            prompt: "",
-            options: {
-                multiselect: false,
-                values: [i18n.global.t(l.button_continue)]
-            } as AireQuestionOptionCheckbox,
-        }, "system", () => {
-            sendQuestionnaireAnswers()
-        })
-
-        Chat.current.questionnaire.completed = true;
-        return false;
-    }
-
-    pushQuestion(next, Chat.current.questionnaire.active_id)
-    return true;
-}
-
-function checkAnswerForRedFlag(msg: AireChatMessage): boolean {
-    if (msg.question?.type == AireQuestionOptionType.Checkbox) {
-        if (msg.question.answer == (msg.question.options as AireQuestionOptionCheckbox).red_flag) {
+        if (chat_id in cache && !force) {
             return true;
         }
-    }
-    return false;
-}
 
-function triggerRedFlag() {
-    const userMessage: ChatMessage = {
-        id: generateRandomID(),
-        sender: getUserName(),
-        role: "user",
-        message: "[Tell user that what they just answered is a red flag and alarming. Refuse to give further instructions because user needs urgent medical attention and tell the user to go to doctor as soon as possible]",
-        rating: 0,
-        timestamp: Date.now(),
-        hidden: true
-    }
+        if (AireServices.Memory) {
+            const result = await AireServices.Memory.getChat(chat_id);
+            if (result.status != AireStatus.Success || !result.data)
+                return false;
 
-    pushMessage(userMessage);
-    getResponse();
-    Chat.current.questionnaire = undefined;
-    startAutoSaveTimer();
-}
+            const chatlog = result.data;
+            const state = (chatlog.state || {}) as ChatState;
 
-/**
- * Constructs chatbot input data structure
- * @returns Input data for chatbot
- */
-function getChatbotInputData(): AireChatbotInput {
-    const locale = getUserLanguageCode()
-    const messages = Chat.messages
-        .filter(x => x.role === "assistant" || x.role === "user")
-        .map(x => {
-            const m: AireChatMessage = {
-                role: x.role,
-                content: x.message,
-                hidden: x.hidden,
-                rating: x.rating,
-            };
-            return m;
-        })
+            cache.set(chat_id, {
+                messages: chatlog.messages.map(mapMessage),
+                state: state,
+                stats: (chatlog.stats || {}) as ChatStats
+            })
 
-    const input: AireChatbotInput = {
-        chat: messages,
-        context: {
-            age: Chat.landingInfo?.age,
-            occupation: Chat.landingInfo?.occupation,
-            topic: Chat.current.topic?.name,
-            language: locale
+            if (state.questionnaire) {
+                useQuestionnaire().active = state.questionnaire;
+            }
+
+            return true;
         }
-    };
-
-    return input;
-}
-
-/**
- * Get answers from the current chat messages
- * @param questionnaire_id Questionnaire ID
- * @returns List of answer objects
- */
-function getAnswerObjects(questionnaire_id: string) {
-    return Chat.messages
-        .filter(x => x.question && questionnaire_id === x.question.questionnaire_id)
-        .map(x => x.question!)
-}
-
-/**
- * Initializes chat state object
- */
-function initChatState(): ChatContext {
-    return {
-        messages: [],
-        awaitingResponse: false,
-        hasFinished: false,
-        modified: false,
-        cache: new Map,
-        current: {},
-        stats: {}
+        else {
+            console.error("Memory service is not available")
+            return false;
+        }
     }
 }
 
-/**
- * Resets the chat state
- * @param skip_save Skips saving current chat, default is false
- * @param clear_cache Set to false, if you don't want to clear the cache
- */
-async function resetChatState(skip_save: boolean = false, clear_cache = true) {
-    cancelAutoSaveTimer()
+const context: ChatContext = reactive(new ChatContext());
 
-    if (!skip_save)
-        await saveChat()
-
-    if (clear_cache)
-        Chat.cache.clear()
-
-    Chat.id = undefined;
-    Chat.messages = [];
-    Chat.awaitingResponse = false;
-    Chat.modified = false;
-    Chat.landingInfo = undefined;
-    Chat.current = {};
-    Chat.hasFinished = false;
-
-    pushSystemMessage(l.system_greeting)
+export default function useChat() {
+    return context;
 }
 
-function getResponse() {
+async function streamResponse() {
     if (AireServices.AI) {
-        Chat.awaitingResponse = true;
+        useChatbot().setStatus("writing", false);
+
         const input = getChatbotInputData()
         AireServices.AI.stream(input, receiver, errorHandler);
     } else {
@@ -931,64 +335,72 @@ function getResponse() {
     }
 }
 
-/**
- * Starts the auto save timer
- */
-function startAutoSaveTimer() {
-    cancelAutoSaveTimer()
+async function receiver(e: AireTalkEvent) {
+    const chat = useChat();
 
-    save_timer_id = setTimeout(async () => {
-        save_timer_id = undefined
-        await saveChat()
-    }, SAVE_TIMER_TIMEOUT)
-}
-
-/**
- * Cancels auto save timer
- */
-function cancelAutoSaveTimer() {
-    if (save_timer_id)
-        clearTimeout(save_timer_id);
-    save_timer_id = undefined
-}
-
-/**
- * Fucntion to create an ID to the chat messages.
- * @returns a random number
- */
-function generateRandomID(): string {
-    return Math.floor(Math.random() * Date.now()).toString()
-}
-
-/**
- * If user is logged in, returns the user name
- * @returns Name of the user
- */
-function getUserName() {
-    if (Login.user) {
-        return `${Login.user.first_name || ""} ${Login.user.last_name || ""}`.trim();
+    if (e.type === "keywords") {
+        onReceiveKeywords(e.keywords || [])
+        return;
     }
-    return ""
+
+    if (e.type === "token-count") {
+        chat.stats.token_count = e.tokenCount
+        return;
+    }
+
+    if (e.type === "message" || e.type === "end") {
+        const final = (e.type === "end");
+        let last = chat.messages[chat.messages.length - 1];
+        let firstMessage = false // start of the answer stream?
+
+        if (last.role !== "assistant") {
+            last = createAssistantMessage("");
+            firstMessage = true
+        }
+
+        if (e.message) {
+            last.content += e.message.content;
+        }
+
+        if (final) {
+            const bot = useChatbot();
+            bot.setStatus("answered");
+        }
+        chat.push(last, firstMessage, final);
+    }
 }
 
-/**
- * 
- */
-function startFinishAnimation() {
-    Chat.hasFinished = true;
-    cancelStartFinishAnimation()
+function errorHandler(status: AireStatus) {
+    console.error("Chat streaming error: ", status);
 
-    finish_animation_timer_id = setTimeout(async () => {
-        finish_animation_timer_id = undefined
-        Chat.hasFinished = false;
-    }, FINISH_ANIMATION_TIMER_TIMEOUT);
+    const msg = createErrorMessage(l.error_ai_not_responding);
+    useChat().push(msg);
+
+    useChatbot().setStatus("idle");
 }
 
-/**
- * Cancels 
- */
-function cancelStartFinishAnimation() {
-    if (finish_animation_timer_id)
-        clearTimeout(finish_animation_timer_id);
-    finish_animation_timer_id = undefined
+function onReceiveKeywords(keywords: string[]) {
+    const summary = useSummary();
+    summary.set(summary.summary, keywords);
+
+    if (keywords.length > 0) {
+        queryQuestionnaire(keywords)
+            .then(q => {
+                if (q) {
+                    const questionnaire = createQuestionnaire(q);
+                    if (questionnaire) {
+                        useQuestionnaire().startQuestionnaire(questionnaire);
+                    }
+                }
+            })
+
+        const content = useContent();
+        content.search(keywords, 4)
+            .then((results) => {
+                if (results.length > 0) {
+                    const msg = createContentMessage(results);
+                    useChat().push(msg);
+                }
+            })
+    }
 }

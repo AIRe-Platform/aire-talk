@@ -1,45 +1,54 @@
 <script setup lang="ts">
-import Spinner from '@/components/Spinner.vue';
-import { resendVerification, verifyAccount } from '@/context/login';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { ref } from 'vue';
+import { reactive } from 'vue';
+import useLogin from '@/context/login';
+import Spinner from '@/components/common/Spinner.vue';
 
-let code = "";
-const busy = ref(false)
-const error = ref<string>()
-const codeSent = ref(false)
-const validCode = ref(false)
+const login = useLogin();
+
+const state = reactive<{
+    busy: boolean,
+    error?: string,
+    code: string,
+    codeSent: boolean,
+    validCode: boolean
+}>({
+    busy: false,
+    code: "",
+    codeSent: false,
+    validCode: false
+});
 
 const onVerify = () => {
-    busy.value = true;
-    verifyAccount(code)
+    state.busy = true;
+    login.verifyAccount(state.code)
         .then((status) => {
             if (status)
                 router.replace("/")
             else
-                error.value = l.error_verification_failure
+                state.error = l.error_verification_failure
         })
-        .finally(() => { busy.value = false })
+        .finally(() => { state.busy = false })
 }
 
 const filterInput = (e: Event) => {
     const field = e.target as HTMLInputElement
     const match = field.value.match(/(\d+)/g)
     field.value = match?.join("") || ""
-    validCode.value = field.value.length === 6
+    state.validCode = field.value.length === 6
 }
 
 const onResend = () => {
-    busy.value = true;
-    resendVerification()
+    state.busy = true;
+    login.resendVerification()
         .then((status => {
             if (status)
-                codeSent.value = true;
+                state.codeSent = true;
             else
-                error.value = l.error_verification_resend_failed
+                state.error = l.error_verification_resend_failed
         }))
-        .finally(() => { busy.value = false })
+        .finally(() => { state.busy = false })
 }
 </script>
 
@@ -49,24 +58,26 @@ const onResend = () => {
             <h3>{{ $t(l.verification_heading) }}</h3>
             <div>{{ $t(l.verification_description) }}</div>
             <form id="verification-code-form" @submit.prevent>
-                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true" v-model="code"
-                    :readonly="busy" inputmode="numeric" @input="filterInput" />
-                <div id="verification-error" v-if="error && !busy">{{ $t(error) }}</div>
-                <input type="submit" :value="$t(l.verification_button_verify)" @click="onVerify" :disabled="!validCode"
-                    v-if="!busy" />
+                <input id="verification-code" type="text" maxlength="6" autocomplete="off" autofocus="true"
+                    v-model="state.code" :readonly="state.busy" inputmode="numeric" @input="filterInput" />
+                <div id="verification-error" v-if="state.error && !state.busy">{{ $t(state.error) }}</div>
+                <input type="submit" :value="$t(l.verification_button_verify)" @click="onVerify"
+                    :disabled="!state.validCode" v-if="!state.busy" />
             </form>
-            <Spinner v-if="busy" />
-            <template v-if="!busy">
-                <span v-if="!codeSent" id="resend-verification-button" @click="onResend">
+            <Spinner v-if="state.busy" />
+            <template v-if="!state.busy">
+                <span v-if="!state.codeSent" id="resend-verification-button" @click="onResend">
                     {{ $t(l.verification_code_resend) }}
                 </span>
-                <span v-if="codeSent" id="resend-verification-notify">{{ $t(l.verification_code_resend_done) }}</span>
+                <span v-if="state.codeSent" id="resend-verification-notify">
+                    {{ $t(l.verification_code_resend_done) }}
+                </span>
             </template>
         </div>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #verification-code-view {
     display: flex;
     flex-direction: column;

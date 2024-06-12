@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { Login } from '@/context/login';
 import { AireServices, AireUserPreferences } from 'aire';
 import { reactive } from 'vue';
-import Switch from '../Switch.vue';
-import Spinner from '../Spinner.vue';
+import useLogin from '@/context/login';
+import Switch from '@/components/common/Switch.vue';
+import Spinner from '@/components/common/Spinner.vue';
+
+const login = useLogin();
 
 const state = reactive<{
     prefs: AireUserPreferences,
     overridePrompt: boolean,
     busy: boolean
 }>({
-    prefs: Login.user?.preferences || {},
-    overridePrompt: Login.user?.preferences?.experimental_custom_prompt !== undefined,
+    prefs: login.user?.preferences || {},
+    overridePrompt: login.user?.preferences?.experimental_custom_prompt !== undefined,
     busy: false
 });
 
@@ -20,10 +22,10 @@ const toggleOverridePrefs = () => {
 }
 
 const onSave = () => {
-    if (!Login.user || !AireServices.ID)
+    if (!login.user || !AireServices.ID)
         return;
 
-    const profile = Login.user;
+    const profile = login.user;
     profile.preferences = {
         experimental_custom_prompt: state.overridePrompt
             ? state.prefs.experimental_custom_prompt : undefined
@@ -32,9 +34,9 @@ const onSave = () => {
     state.busy = true;
     AireServices.ID.saveProfileData(profile)
         .then((res) => {
-            if (res.data?.preferences && Login.user) {
+            if (res.data?.preferences && login.user) {
                 state.prefs = res.data.preferences;
-                Login.user.preferences = state.prefs;
+                login.user.preferences = state.prefs;
             }
         })
         .finally(() => {

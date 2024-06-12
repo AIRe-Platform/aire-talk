@@ -2,34 +2,35 @@ import { reactive, watch } from "vue";
 
 export type Style = "theme-default" | "theme-dark";
 
-export interface ThemeConfig {
+export class ThemeContext {
     style: Style;
+
+    constructor() {
+        const defaultTheme: Style = window.matchMedia("(prefers-color-scheme: dark)") ? "theme-dark" : "theme-default";    
+        this.style = (localStorage.getItem("theme-style") || defaultTheme) as Style;
+        this.apply(this.style);
+    }
+
+    public apply(style: Style) {
+        if (this.style) {
+            document.documentElement.classList.remove(this.style);
+            localStorage.setItem("theme-style", style);
+        }
+        document.documentElement.classList.add(style)
+        this.style = style;
+    }
 }
 
-export const Theme = reactive<ThemeConfig>(initTheme());
+const context = reactive<ThemeContext>(new ThemeContext());
 
-function initTheme(): ThemeConfig {
-    const defaultTheme: Style = window.matchMedia("(prefers-color-scheme: dark)") ? "theme-dark" : "theme-default";
-    const theme: ThemeConfig = {
-        style: (localStorage.getItem("theme-style") || defaultTheme) as Style
-    }
-    applyStyle(theme.style);
-    return theme;
-}
-
-
-function applyStyle(newStyle: Style, oldStyle?: Style) {
-    if (oldStyle) {
-        document.documentElement.classList.remove(oldStyle);
-        localStorage.setItem("theme-style", newStyle);
-    }
-    document.documentElement.classList.add(newStyle)
+export default function useTheme() {
+    return context;
 }
 
 watch(
-    () => Theme.style,
-    (newValue, oldValue) => {
-        applyStyle(newValue, oldValue)
+    () => context.style,
+    (value) => {
+        context.apply(value)
     },
     { deep: true }
 );

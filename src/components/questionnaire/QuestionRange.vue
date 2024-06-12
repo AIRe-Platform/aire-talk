@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { answerQuestion } from '@/context/chat';
 import { AireQuestionOptionRange } from 'aire';
+import { ChatMessage } from '@/models/chat';
+import useQuestionnaire from '@/context/questionnaire';
 
 const props = defineProps<{
-    message_id: string;
+    message: ChatMessage;
     options: AireQuestionOptionRange;
     answer?: any
     readonly?: boolean
@@ -13,7 +14,10 @@ const props = defineProps<{
 const range = [...Array(1 + props.options.max - props.options.min).keys()].map(x => x + props.options.min)
 
 const onSubmitAnswer = (value: number) => {
-    answerQuestion(props.message_id, value)
+    const questionnaire = useQuestionnaire();
+    if (props.message.question) {
+        questionnaire.submitAnswer(props.message.question.question_id, value);
+    }
 }
 </script>
 
@@ -30,7 +34,7 @@ const onSubmitAnswer = (value: number) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
     flex-direction: column;

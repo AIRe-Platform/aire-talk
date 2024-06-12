@@ -79,8 +79,10 @@
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
     --chat-bubble-bot-label: #0D004C;
-    --chat-history-text-color:#424242;
+    --chat-history-text-color: #424242;
     --chat-menu-active: #d9f0ff;
+    --chat-document-back-ground: #f1f4f9;
+    --link-icon: #7F7AA2;
 }
 
 :root.theme-dark {
@@ -122,9 +124,11 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
-    --chat-bubble-bot-label:  #FDB913;
-    --chat-history-text-color:#47425E;
+    --chat-bubble-bot-label: #FDB913;
+    --chat-history-text-color: #47425E;
     --chat-menu-active: #d9f0ff;
+    --chat-document-back-ground: #a2b2cc;
+    --link-icon: #47425E;
 }
 
 html {
@@ -186,7 +190,6 @@ select {
     font-family: var(--font-family);
     font-size: var(--font-medium);
 
-    &:hover,
     &:focus {
         border-color: var(--accent-primary-color);
         box-shadow: 0 0 5px var(--accent-primary-color);
@@ -247,15 +250,3 @@ button {
 .font-large {
     font-size: var(--font-large);
 }
-
-.desktop-screen {
-    width: 100%;
-}
-
-.tablet-screen {
-    max-width: 50%;
-}
-
-/* .mobile-screen {
-    max-width: 28%;
-} */

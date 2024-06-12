@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import { Chat } from '@/context/chat';
+import useChat from '@/context/chat';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { ref } from 'vue';
+import { reactive } from 'vue';
 
-const occupation = ref("");
-const age = ref<number>();
-const isFormCompleted = ref(false);
+const state = reactive<{
+    occupation: string,
+    age?: number,
+    completed: boolean
+}>({
+    occupation: "",
+    completed: false
+});
+
+const chat = useChat();
 
 const checkForm = () => {
-    isFormCompleted.value = (occupation.value.length > 0 && age.value != null);
+    state.completed = (state.occupation?.length > 0 && state.age !== undefined);
 };
 
 const saveForm = (e: Event) => {
     e.preventDefault();
-    Chat.landingInfo = {
-        age: age.value!,
-        occupation: occupation.value
-    }
+    chat.meta.age = state.age;
+    chat.meta.occupation = state.occupation;
     router.push("/chat");
 };
 </script>
@@ -29,14 +34,15 @@ const saveForm = (e: Event) => {
             <div class="landing-form-line">{{ $t(l.landing_view_text) }}</div>
             <label> {{ $t(l.landing_label_age) }} </label>
             <input id="age" type="number" required="true" min="0" autofocus autocomplete="off" @input="checkForm"
-                v-model.number="age" />
+                v-model.number="state.age" />
             <label for="occupation"> {{ $t(l.landing_label_occupation) }} </label>
-            <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm" v-model="occupation">
+            <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm"
+                v-model="state.occupation">
             <div class="landing-form-buttons">
                 <button>
                     <RouterLink class="nav-link" to="/">{{ $t(l.button_back) }}</RouterLink>
                 </button>
-                <button :disabled="!isFormCompleted" @click="saveForm">
+                <button :disabled="!state.completed" @click="saveForm">
                     {{ $t(l.button_continue) }}
                 </button>
             </div>
@@ -44,7 +50,7 @@ const saveForm = (e: Event) => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 #landing-view {
     margin: auto;
     width: 50%;

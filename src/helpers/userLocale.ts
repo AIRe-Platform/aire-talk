@@ -1,8 +1,9 @@
-import { Login } from "@/context/login";
+import useLogin from "@/context/login";
 import { getUILanguage } from "@/locales";
 
 export function getUserLanguageCode(): string {
-    let lang = Login.user?.language;
+    const login = useLogin();
+    let lang = login.user?.language;
     if (!lang || lang === "")
         lang = getUILanguage();
     return lang;
