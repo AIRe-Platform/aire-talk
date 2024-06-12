@@ -159,7 +159,20 @@ export class ContentContext {
             return;
         }
 
-        console.error("Memory service does not implement API for posting view counts.");
+        await AireServices.Memory.postContentView(content_id)
+            .then((result) => {
+                if (result.data) {
+                    const cache = useContentCache();
+                    let content = cache.get(content_id);
+
+                    if (content)
+                        content.views = result.data.views;
+                    else
+                        content = result.data;
+
+                    cache.set(content_id, content);
+                }
+            })
     }
 }
 
