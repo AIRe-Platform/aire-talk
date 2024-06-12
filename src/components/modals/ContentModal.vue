@@ -8,94 +8,85 @@ const props = defineProps<{
     content: AireContent,
     onClose: () => void
 }>()
+
+const openUrl = (url: string) => {
+    window.open(url, '_blank');
+}
 </script>
 
 <template>
     <Modal :active="active" @close="props.onClose" :showCloseButton="true">
-        <div class="modal-component">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1>{{ (props.content.name) }}</h1>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-body-container" v-if="props.content.type == AireContentType.Image">
-                        <img v-bind:src="props.content.url" class="modal-body-image">
-                    </div>
-                    <div class="modal-body-container" v-if="props.content.type == AireContentType.Video">
-                        <video class="modal-body-video" controls>
-                            <source v-bind:src="props.content.url" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="modal-body-container" v-if="props.content.type == AireContentType.URL">
-                        <a v-bind:href=props.content.url target="_blank">{{ props.content.url }}</a>
-                    </div>
-                    <div class="modal-body-container" v-if="props.content.type == AireContentType.Document">
-                        <div class="icon catalogue-content-mobile" :src="props.content.url" alt="">
-                        </div>
-                        <div>{{ props.content.name }}</div>
-                    </div>
-                </div>
+        <h1 class="content-header">{{ (props.content.name) }}</h1>
+        <div class="content-body">
+            <div class="content-media">
+                <img v-bind:src="props.content.url" v-if="props.content.type == AireContentType.Image">
+                <video controls v-if="props.content.type == AireContentType.Video">
+                    <source v-bind:src="props.content.url" type="video/mp4">
+                </video>
+                <button class="media-url" @click="openUrl(props.content.url)" v-if="props.content.type == AireContentType.URL">
+                    <font-awesome-icon icon="fa-solid fa-link" />
+                    <span>{{ props.content.url }}</span>
+                </button>
+                <button class="media-document" @click="openUrl(props.content.url)" v-if="props.content.type == AireContentType.Document">
+                    <font-awesome-icon icon="fa-solid fa-file-invoice" />
+                    <span>{{ props.content.name }}</span>
+                </button>
             </div>
         </div>
     </Modal>
 </template>
 
-<style lang="scss" scoped>
-.modal-component {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row-reverse;
-}
-
-.modal-body-image {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-
-.modal-button {
-    cursor: pointer;
-    width: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.modal-body-container {
+<style scoped>
+.content-body {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.modal-body-video {
-    width: 100%;
-    height: 100%;
+.content-header {
+    margin-right: 2rem;
 }
 
-.modal-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.modal-body {
-    display: flex;
-    justify-content: center;
-}
-
-.catalogue-content-mobile {
-    width: 15rem;
-    height: 15rem;
-}
-
-/* mobile*/
-.ui-mode-mobile {
-    .modal-body-video-container {
-        margin-top: 1rem;
+.content-media {
+    img,
+    video,
+    .content-document {
+        width: 100%;
+        height: auto;
     }
 
-    .modal-body-video {
-        max-width: 100%;
-        max-height: 100%;
+    .media-url {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        max-width: 32rem;
+        gap: 1rem;
+
+        span {
+            text-overflow: ellipsis;
+            overflow: hidden
+        }
+    }
+
+    .media-document {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 32rem;
+        gap: 1rem;
+
+        svg {
+            width: 64px;
+            height: auto;
+        }
+
+        span {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden
+        }
     }
 }
 </style>

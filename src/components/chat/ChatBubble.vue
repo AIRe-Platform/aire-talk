@@ -137,7 +137,7 @@ onMounted(() => {
             </Panel>
         </div>
         <ChatMessageModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
-            :selectedContent="state.openContent" :onClose="closeModal" />
+            :content="state.openContent" :onClose="closeModal" />
         <DialogModal :active="state.revertConfirm" :buttons="[
             { loc_key: l.button_accept },
             { loc_key: l.button_cancel },

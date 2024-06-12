@@ -19,7 +19,8 @@ import {
     faPaperPlane,
     faFile,
     faLink,
-    faXmark
+    faXmark,
+    faFileInvoice
 } from "@fortawesome/free-solid-svg-icons";
 import useLogin from "./context/login";
 
@@ -37,7 +38,8 @@ library.add(
     faPaperPlane,
     faFile,
     faLink,
-    faXmark
+    faXmark,
+    faFileInvoice
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
