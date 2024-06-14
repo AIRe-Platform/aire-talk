@@ -11,8 +11,9 @@ const props = defineProps<{
     onClose: () => void
 }>()
 
-const openUrl = (url: string) => {
-    window.open(url, '_blank');
+const openUrl = (url?: string) => {
+    if (url)
+        window.open(url, '_blank');
 };
 </script>
 
@@ -35,7 +36,7 @@ const openUrl = (url: string) => {
                     </video>
                     <p>{{ props.content.name }}</p>
                 </template>
-                <button class="media-url" @click="openUrl(props.content.url)"
+                <button class="media-url" @click="openUrl(props.content?.url)"
                     v-if="props.content.type == AireContentType.URL">
                     <font-awesome-icon icon="fa-solid fa-link" />
                     <span>
@@ -45,7 +46,7 @@ const openUrl = (url: string) => {
                         </small>
                     </span>
                 </button>
-                <button class="media-document" @click="openUrl(props.content.url)"
+                <button class="media-document" @click="openUrl(props.content?.url)"
                     v-if="props.content.type == AireContentType.Document">
                     <font-awesome-icon icon="fa-solid fa-file-invoice" />
                     <span>{{ props.content.name }}</span>

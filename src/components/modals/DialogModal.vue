@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue';
-import { LocalizationKey } from '@/locales';
 import Modal from '@/components/common/Modal.vue';
+import { LocalizationKey } from '@/locales/keys';
 
 defineEmits<{
     select: [number]
@@ -14,7 +14,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <Modal @on-close.stop>
+    <Modal :active="true">
         <div class="dialog-question">
             <slot></slot>
         </div>
