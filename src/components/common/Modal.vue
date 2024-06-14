@@ -30,7 +30,7 @@ defineComponent({ name: "ModalComponent" })
                 </Panel>
             </Transition>
         </div>
-    </transition>
+    </Transition>
 </template>
 
 <style scoped>
