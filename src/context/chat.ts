@@ -305,10 +305,6 @@ export class ChatContext {
                 stats: (chatlog.stats || {}) as ChatStats
             })
 
-            if (state.questionnaire) {
-                useQuestionnaire().active = state.questionnaire;
-            }
-
             return true;
         }
         else {

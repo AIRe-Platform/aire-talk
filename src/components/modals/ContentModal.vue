@@ -9,8 +9,9 @@ const props = defineProps<{
     onClose: () => void
 }>()
 
-const openUrl = (url: string) => {
-    window.open(url, '_blank');
+const openUrl = (url?: string) => {
+    if (url)
+        window.open(url, '_blank');
 }
 </script>
 
