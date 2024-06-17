@@ -84,7 +84,7 @@ let message_id_idx = 0;
 function newMessageId(): string {
     const i = message_id_idx;
     message_id_idx += 1;
-    return i.toString();
+    return `message-${i}`;
 }
 
 function getUserName() {
