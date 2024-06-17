@@ -191,7 +191,9 @@ export class ChatContext {
      * Save the modifications of the current chat
      */
     public async save() {
-        if (!useLogin().user || !this.modified)
+        const hasUserMessages = context.messages.filter(x => x.role === "user").length > 0;
+
+        if (!useLogin().user || !this.modified || !hasUserMessages)
             return;
 
         const questionnaire = useQuestionnaire();
@@ -223,6 +225,7 @@ export class ChatContext {
                         });
 
                         context.id = result.data.id;
+                        context.modified = false;
                         console.log("Chat saved");
                     }
                 })
