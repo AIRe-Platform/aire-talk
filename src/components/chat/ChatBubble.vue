@@ -69,6 +69,7 @@ const showContent = async (content: AireContent) => {
 };
 
 const closeModal = () => {
+    state.openContent = undefined;
     toggleModal();
 };
 
