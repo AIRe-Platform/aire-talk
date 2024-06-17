@@ -260,7 +260,7 @@ onMounted(() => {
 .ui-mode-mobile {
     .chat-view-content {
         width: 100%;
-        padding-top: 1rem;
+        padding-top: 2.5rem;
         padding-left: 0;
         padding-right: 0;
         margin: 0;
