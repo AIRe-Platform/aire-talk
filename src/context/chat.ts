@@ -25,6 +25,7 @@ import { getChatbotInputData } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import useContent from "./content";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
+import { getChatContentIds } from "@/helpers/contentUtils";
 
 export class ChatContext {
     id?: string;
@@ -396,6 +397,10 @@ function onReceiveKeywords(keywords: string[]) {
         const content = useContent();
         content.search(keywords, 4)
             .then((results) => {
+                results = results
+                    .filter(x => !getChatContentIds(context.messages).includes(x.id!))
+                    .splice(0, 2);
+
                 if (results.length > 0) {
                     const msg = createContentMessage(results);
                     useChat().push(msg);
