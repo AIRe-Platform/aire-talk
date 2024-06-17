@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, onMounted } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import { router } from "@/router";
 import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
-import { createReminderQuestionnaire } from "@/controllers/reminderController";
-import useQuestionnaire from "@/context/questionnaire";
 
 const props = defineProps<{
     optionsOpen: boolean
@@ -14,7 +12,6 @@ const props = defineProps<{
 
 const chat = useChat();
 const bot = useChatbot();
-const questionnnaires = useQuestionnaire();
 
 defineEmits<{
     toggleOptions: []
@@ -28,16 +25,6 @@ function submit() {
         chat.send(prompt);
     textInput.value = "";
 }
-
-onMounted(async () => {
-    bot.setStatus("writing")
-    createReminderQuestionnaire()
-        .then((reminderQuestionnaire) => {
-            if (reminderQuestionnaire)
-                questionnnaires.startQuestionnaire(reminderQuestionnaire)
-        })
-        .finally(() => bot.setStatus("idle"))
-});
 </script>
 
 <template>

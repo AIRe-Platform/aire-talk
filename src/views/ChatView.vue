@@ -12,6 +12,9 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
+import { createReminderQuestionnaire } from "@/controllers/reminderController";
+import useChatbot from "@/context/chatbot";
+import useQuestionnaire from "@/context/questionnaire";
 
 const showSideBar = ref(false);
 const chat = useChat();
@@ -92,9 +95,22 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
     return false;
 }
 
-onMounted(() => {
+onMounted(async () => {
     showSideBar.value = !useMobileLayout.value;
     scrollChatToBottom()
+
+    const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
+    if (isNewChat) {
+        const bot = useChatbot();
+
+        bot.setStatus("writing")
+        createReminderQuestionnaire()
+            .then((reminderQuestionnaire) => {
+                if (reminderQuestionnaire)
+                    useQuestionnaire().startQuestionnaire(reminderQuestionnaire)
+            })
+            .finally(() => bot.setStatus("idle"))
+    }
 });
 </script>
 
