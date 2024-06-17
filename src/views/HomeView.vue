@@ -8,6 +8,7 @@ import useChat from '@/context/chat';
 
 import DialogModal from "@/components/modals/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
+import { setUIModeLayoutBeforeMount } from '@/context/ui';
 
 const login = useLogin();
 const chat = useChat();
@@ -47,6 +48,7 @@ const navigateTo = (path: string) => {
 }
 
 onMounted(async () => {
+    setUIModeLayoutBeforeMount();
     const last = await getLastChatId();
     state.showLastChatButton = (last !== undefined);
 })

@@ -12,6 +12,7 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
+import { setUIModeLayoutBeforeMount } from "@/context/ui";
 
 const showSideBar = ref(false);
 const chat = useChat();
@@ -94,7 +95,8 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 
 onMounted(() => {
     showSideBar.value = !useMobileLayout.value;
-    scrollChatToBottom()
+    scrollChatToBottom();
+    setUIModeLayoutBeforeMount();
 });
 </script>
 

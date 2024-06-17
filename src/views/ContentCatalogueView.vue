@@ -11,6 +11,7 @@ import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import Panel from "@/components/common/Panel.vue";
 import ContentModal from "@/components/modals/ContentModal.vue";
+import { setUIModeLayoutBeforeMount } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -40,13 +41,14 @@ const listContent = async () => {
     const ids = getChatContentIds(chat.messages);
     ids.forEach(async (x) => {
         const item = await content.get(x);
-        if(item) {
+        if (item) {
             state.contentList.push(item);
         }
     })
 }
 
 onMounted(() => {
+    setUIModeLayoutBeforeMount();
     listContent();
 })
 
