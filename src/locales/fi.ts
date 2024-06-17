@@ -193,6 +193,10 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
         "The following questions are being recorded for analysis",
     question_answer: "Vastauksesi",
 
+    reminder_start_question: "Haluatko jatkaa jotakin aikaisempaa keskustelua?",
+    reminder_keyword_question: "Haluatko jatkaa keskustelua joistakin seuraavista aiheista?",
+    reminder_summary_question: "Onko tämä aihe vielä ajankohtainen, josta haluaisit keskustella?",
+
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
     button_back: "Takaisin",
