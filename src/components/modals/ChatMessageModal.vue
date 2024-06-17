@@ -31,7 +31,7 @@ const openUrl = (url?: string) => {
                     <p>{{ props.content.name }}</p>
                 </template>
                 <template v-if="props.content.type == AireContentType.Video">
-                    <video controls>
+                    <video controls autoplay>
                         <source v-bind:src="props.content.url" type="video/mp4">
                     </video>
                     <p>{{ props.content.name }}</p>
@@ -74,6 +74,8 @@ const openUrl = (url?: string) => {
     .content-document {
         width: 100%;
         height: auto;
+        max-width: 50rem;
+        max-height: 25rem;
     }
 
     .media-url {
@@ -112,6 +114,18 @@ const openUrl = (url?: string) => {
             width: 100%;
             text-overflow: ellipsis;
             overflow: hidden
+        }
+    }
+}
+
+.ui-mode-mobile {
+    .message-media {
+
+        img,
+        video,
+        .content-document {
+            max-width: 20rem;
+            max-height: 10rem;
         }
     }
 }
