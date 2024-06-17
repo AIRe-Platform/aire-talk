@@ -119,48 +119,45 @@ onMounted(async () => {
 <template>
     <ChatOptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
     <div class="chat-view">
-        <div class="chat-view-content" id="chat-viewport">
+        <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
                 <!-- If chat bubble -->
                 <template v-if="!messageGroup.isQuestionnaire">
                     <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
                         <div class="chat-view-row">
-                            <div class="chat-view-content-left">
-                                <div class="chat-view-user" v-if="msg.role === 'user'">
-                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                                </div>
+                            <div class="chat-view-left">
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="msg.role === 'user'" />
                             </div>
-                            <div class="chat-view-content-right">
-                                <div class="chat-view-assistant" v-if="msg.role === 'assistant'">
-                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
-                                </div>
+                            <div class="chat-view-right">
+                                <ChatBubble :message="msg" :can_revert="canRevert(msg)"
+                                    v-if="msg.role === 'assistant'" />
                             </div>
                         </div>
-                        <div class="chat-view-system" v-if="msg.role === 'system'">
+                        <div class="chat-view-center" v-if="msg.role === 'system'">
                             <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
                         </div>
                     </template>
                 </template>
                 <!-- If questionnaire item -->
                 <template v-if="messageGroup.isQuestionnaire">
-                    <div class="chat-group-type-questionnaire">
+                    <div class="chat-group-questionnaire">
                         <div class="chat-questionnaire-start">
                             <h3>{{ $t(l.questionnaire_start) }}</h3>
                             <div>{{ $t(l.questionnaire_explanation) }}</div>
                         </div>
                         <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
                             <div class="chat-view-row">
-                                <div class="chat-view-content-left">
+                                <div class="chat-view-left">
                                 </div>
-                                <div class="chat-view-content-right">
+                                <div class="chat-view-right">
                                     <QuestionItem :message="msg" />
                                 </div>
                             </div>
                             <div class="chat-view-row">
-                                <div class="chat-view-content-left">
+                                <div class="chat-view-left">
                                     <QuestionAnswer :message="msg" />
                                 </div>
-                                <div class="chat-view-content-right">
+                                <div class="chat-view-right">
                                 </div>
                             </div>
                         </template>
@@ -179,9 +176,53 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+.chat-view {
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    flex-grow: 1;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+.chat-view-container {
+    display: inline;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    gap: 1.5rem;
+}
+
 .chat-view-row {
     display: flex;
     padding: 0.2rem 3rem;
+}
+
+.chat-view-left {
+    display: flex;
+    justify-content: flex-end;
+    border-right: 2px dotted var(--dividers);
+    width: calc(50% + 1px);
+    flex-shrink: 0;
+}
+
+.chat-view-right {
+    display: flex;
+    justify-content: flex-start;
+    align-self: flex-end;
+    width: calc(50% - 3px);
+    flex-shrink: 0;
+}
+
+.chat-view-center {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .chat-side-panels {
@@ -200,58 +241,7 @@ onMounted(async () => {
     width: 16rem;
 }
 
-.chat-view {
-    display: flex;
-    overflow: hidden;
-    flex-direction: column;
-    flex-grow: 1;
-    border-radius: 0.5rem;
-}
-
-.chat-view-content {
-    display: inline;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: 100%;
-    padding-top: 8rem;
-    padding-bottom: 4rem;
-    gap: 1.5rem;
-}
-
-.chat-view-system {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    display: flex;
-    justify-content: space-around;
-}
-
-.chat-view-content-left {
-    display: flex;
-    justify-content: flex-end;
-    border-right: 2px dotted var(--dividers);
-    width: 50%;
-}
-
-.chat-view-user {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.chat-view-content-right {
-    display: flex;
-    justify-content: flex-start;
-    align-self: flex-end;
-    width: 50%;
-}
-
-.chat-view-assistant {
-    display: flex;
-    justify-content: flex-start;
-}
-
-.chat-group-type-questionnaire {
+.chat-group-questionnaire {
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border: 1px solid var(--panel-border-color);
@@ -276,7 +266,7 @@ onMounted(async () => {
 }
 
 .ui-mode-mobile {
-    .chat-view-content {
+    .chat-view-container {
         width: 100%;
         padding-top: 2.5rem;
         padding-left: 0;
@@ -295,19 +285,21 @@ onMounted(async () => {
 
     .chat-view-row {
         display: flex;
+        flex-direction: column;
         padding: unset;
+        width: 100%;
     }
 
-    .chat-view-content-left {
+    .chat-view-left {
         justify-content: flex-start;
         border-right: none;
+        width: 100%;
     }
 
-    .chat-view-content-right {
-        width: unset;
+    .chat-view-right {
+        width: 100%;
         justify-content: flex-end;
         border-right: none;
-
     }
 }
 </style>
