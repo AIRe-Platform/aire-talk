@@ -6,7 +6,7 @@ import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 
-import DialogModal from "@/components/modals/DialogModal.vue";
+import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
 import { setUIModeLayoutBeforeMount } from '@/context/ui';
 

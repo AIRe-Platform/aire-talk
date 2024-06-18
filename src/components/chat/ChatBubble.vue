@@ -6,10 +6,10 @@ import { l } from '@/locales';
 import { AireContent, AireContentType } from 'aire';
 
 import useContent from '@/context/content';
-import DialogModal from '@/components/modals/DialogModal.vue';
+import DialogModal from '@/components/layout/DialogModal.vue';
 import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
 import ChatContent from '@/components/chat/ChatContent.vue';
-import ChatMessageModal from '@/components/modals/ChatMessageModal.vue';
+import ChatMessageModal from '@/components/chat/ChatMessageModal.vue';
 import Panel from "@/components/common/Panel.vue";
 
 const contentContext = useContent();
