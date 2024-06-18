@@ -62,6 +62,8 @@ const ReminderController: QuestionnaireController = {
                 instructions += summaryAnswer.prompt + "\n"
             })
 
+            context.reset();
+
             const message = createInstructionMessage(instructions);
             chat.push(message);
             chat.forceResponse();
