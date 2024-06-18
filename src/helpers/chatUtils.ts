@@ -1,6 +1,6 @@
 import useChat from "@/context/chat";
 import { AireChatMessage, AireChatMetadata, AireChatStats, AireChatbotInput, AireServices } from "aire";
-import { getUserLanguageCode } from "./userLocale";
+import { getUserLanguageCode } from "./localeUtils";
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.

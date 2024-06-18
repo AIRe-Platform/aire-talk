@@ -2,11 +2,12 @@ import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage } from "@/models/chat";
 import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion } from "aire";
+import { getSystemLanguageCode } from "./localeUtils";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
 
-export function mapMessage(msg: AireChatMessage): ChatMessage {    
+export function mapMessage(msg: AireChatMessage): ChatMessage {
     return {
         ...msg,
         id: newMessageId(),
@@ -27,11 +28,17 @@ export function createMessage(
         case "user": sender = getUserName(); break;
     }
 
+    let content = message;
+    if (localize && content) {
+        const loc = getSystemLanguageCode();
+        content = i18n.global.t(content, 1, { locale: loc });
+    }
+
     return {
         id: newMessageId(),
         sender: sender,
         role: role,
-        content: (localize && message) ? i18n.global.t(message) : message,
+        content: content,
         rating: 0,
         timestamp: Date.now(),
         hidden: hidden
@@ -44,7 +51,7 @@ export function createContentMessage(content: AireContent[]): ChatMessage {
     return msg;
 }
 
-export function createSystemMessage(message_loc_key: string, localize: boolean = true) : ChatMessage {
+export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
     return createMessage("system", message_loc_key, localize);
 }
 
