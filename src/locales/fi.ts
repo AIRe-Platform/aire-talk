@@ -190,7 +190,7 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     questionnaire_start: "Kyselyn alku",
     questionnaire_end: "Kyselyn loppu",
     questionnaire_explanation:
-        "The following questions are being recorded for analysis",
+        "Seuraavat kysymykset tallennetaan analysoitavaksi",
     question_answer: "Vastauksesi",
 
     reminder_start_question: "Haluatko jatkaa jotakin aikaisempaa keskustelua?",

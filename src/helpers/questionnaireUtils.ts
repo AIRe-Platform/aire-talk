@@ -5,7 +5,7 @@ import {
     AireQuestionnaireAnswer,
     AireServices,
 } from "aire";
-import { getUserLanguageCode } from "./userLocale";
+import { getUserLanguageCode } from "./localeUtils";
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 
