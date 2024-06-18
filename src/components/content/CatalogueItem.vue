@@ -95,9 +95,7 @@ const emits = defineEmits<{
 }
 
 .video,
-.image,
-.link,
-.doc {
+.image {
     max-width: 10rem;
     border-radius: 1rem;
     max-height: 6rem;
