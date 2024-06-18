@@ -167,6 +167,10 @@ export enum LocalizationKey {
     questionnaire_explanation = "questionnaire_explanation",
     question_answer = "question_answer",
 
+    reminder_start_question = "reminder_start_question",
+    reminder_keyword_question = "reminder_keyword_question",
+    reminder_summary_question = "reminder_summary_question",
+
     button_accept = "button_accept",
     button_cancel = "button_cancel",
     button_back = "button_back",

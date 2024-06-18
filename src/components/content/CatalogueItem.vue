@@ -1,0 +1,103 @@
+<script setup lang="ts">
+import Panel from '@/components/common/Panel.vue';
+import { defineProps, defineEmits } from "vue";
+import { AireContentType, AireContent } from 'aire';
+
+const props = defineProps<{
+    content: AireContent
+}>();
+
+const emits = defineEmits<{
+    select: []
+}>();
+</script>
+
+<template>
+    <Panel class="catalogue-item" @click="emits('select')">
+        <div class="catalogue-item-header">
+            <div v-if="props.content.modified">
+                {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
+            </div>
+            <div class="icon content-video" v-if="props.content.type == AireContentType.Video">
+            </div>
+            <div class="icon content-image" v-if="props.content.type == AireContentType.Image">
+            </div>
+            <div class="icon content-document" v-if="props.content.type == AireContentType.Document">
+            </div>
+            <div class="icon content-url" v-if="props.content.type == AireContentType.URL">
+            </div>
+        </div>
+        <div class="catalogue-item-media">
+            <video muted class="video" v-if="props.content.type == AireContentType.Video">
+                <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
+                    type="video/mp4">
+            </video>
+            <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
+            <font-awesome-icon class="link" icon="fa-solid fa-link" v-if="props.content.type == AireContentType.URL" />
+            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="props.content.type == AireContentType.Document" />
+        </div>
+        <div class="catalogue-item-description">
+            <p>{{ props.content.name }}</p>
+        </div>
+    </Panel>
+</template>
+
+<style scoped>
+.catalogue-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 14rem;
+    height: 14rem;
+    padding: 0.5rem;
+}
+
+.catalogue-item-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1rem;
+    font-size: var(--font-small);
+    align-items: center;
+    width: 100%;
+}
+
+.catalogue-item-media {
+    max-height: 12rem;
+    max-width: 10.6rem;
+}
+
+.catalogue-item-description {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    margin: 0 0.5rem;
+    height: 4rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 3;
+
+    p {
+        margin: 0;
+    }
+}
+
+.link, 
+.doc {
+    height: 3rem;
+    width: auto;
+}
+
+.video,
+.image {
+    max-width: 10rem;
+    border-radius: 1rem;
+    max-height: 6rem;
+}
+</style>

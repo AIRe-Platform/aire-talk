@@ -1,3 +1,4 @@
+import useMobileLayout from "@/helpers/mobile";
 import { reactive, watch } from "vue";
 
 export enum UIPanels {
@@ -55,6 +56,11 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
         localStorage.setItem("ui-font-size", newSize);
     }
     document.documentElement.classList.add(newSize);
+}
+
+export function setUIModeLayoutBeforeMount(){
+    console.log("useMobileLayout.value", useMobileLayout.value, "set UIMode to ", useMobileLayout.value ? UIMode.Mobile : UIMode.Desktop);
+    applyUiClass(useMobileLayout.value ? UIMode.Mobile : UIMode.Desktop);
 }
 
 export function applyUiClass(mode: UIMode) {

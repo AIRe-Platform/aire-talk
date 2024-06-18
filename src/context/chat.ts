@@ -25,6 +25,7 @@ import { getChatbotInputData } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import useContent from "./content";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
+import { getChatContentIds } from "@/helpers/contentUtils";
 
 export class ChatContext {
     id?: string;
@@ -191,7 +192,9 @@ export class ChatContext {
      * Save the modifications of the current chat
      */
     public async save() {
-        if (!useLogin().user || !this.modified)
+        const hasUserMessages = context.messages.filter(x => x.role === "user").length > 0;
+
+        if (!useLogin().user || !this.modified || !hasUserMessages)
             return;
 
         const questionnaire = useQuestionnaire();
@@ -223,6 +226,7 @@ export class ChatContext {
                         });
 
                         context.id = result.data.id;
+                        context.modified = false;
                         console.log("Chat saved");
                     }
                 })
@@ -393,6 +397,10 @@ function onReceiveKeywords(keywords: string[]) {
         const content = useContent();
         content.search(keywords, 4)
             .then((results) => {
+                results = results
+                    .filter(x => !getChatContentIds(context.messages).includes(x.id!))
+                    .splice(0, 2);
+
                 if (results.length > 0) {
                     const msg = createContentMessage(results);
                     useChat().push(msg);

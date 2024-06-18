@@ -2,10 +2,14 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
+import { onMounted } from 'vue';
+import { setUIModeLayoutBeforeMount } from '@/context/ui';
 
 const navigateTo = (path: string) => {
     router.push(path)
 }
+
+onMounted(setUIModeLayoutBeforeMount);
 </script>
 
 <template>

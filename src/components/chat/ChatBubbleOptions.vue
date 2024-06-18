@@ -7,7 +7,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import { AireContent } from 'aire';
 import useChat from '@/context/chat';
 import useContent from '@/context/content';
-import DialogModal from "@/components/modals/DialogModal.vue";
+import DialogModal from "@/components/layout/DialogModal.vue";
 
 const props = defineProps<{
     parent: ChatMessage

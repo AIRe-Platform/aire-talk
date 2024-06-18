@@ -1,34 +1,42 @@
 <script setup lang="ts">
+import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
-import { AireContent, AireContentType } from "aire";
+import { AireContent, AireContentType } from 'aire';
 import Modal from "@/components/common/Modal.vue";
 
 const props = defineProps<{
     active: boolean,
-    content: AireContent,
+    parent: ChatMessage,
+    content?: AireContent,
     onClose: () => void
 }>()
 
 const openUrl = (url?: string) => {
     if (url)
         window.open(url, '_blank');
-}
+};
 </script>
 
 <template>
     <Modal :active="active" @close="props.onClose" :showCloseButton="true">
-        <h1 class="content-header">{{ (props.content.name) }}</h1>
-        <div class="content-body">
-            <div class="content-media" v-if="props.content">
+        <div class="message-header">
+            <h1 v-if="props.parent.role != 'user'">{{ $t(props.parent.sender) }}</h1>
+            <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}</h1>
+        </div>
+        <div class="message-body">
+            <p v-if="props.parent.content">{{ props.parent.content }}</p>
+            <div class="message-media" v-if="props.content">
                 <template v-if="props.content.type == AireContentType.Image">
                     <img v-bind:src="props.content.url" />
+                    <p>{{ props.content.name }}</p>
                 </template>
                 <template v-if="props.content.type == AireContentType.Video">
-                    <video controls>
+                    <video controls autoplay>
                         <source v-bind:src="props.content.url" type="video/mp4">
                     </video>
+                    <p>{{ props.content.name }}</p>
                 </template>
-                <button class="media-url" @click="openUrl(props.content.url)"
+                <button class="media-url" @click="openUrl(props.content?.url)"
                     v-if="props.content.type == AireContentType.URL">
                     <font-awesome-icon icon="fa-solid fa-link" />
                     <span>
@@ -38,7 +46,7 @@ const openUrl = (url?: string) => {
                         </small>
                     </span>
                 </button>
-                <button class="media-document" @click="openUrl(props.content.url)"
+                <button class="media-document" @click="openUrl(props.content?.url)"
                     v-if="props.content.type == AireContentType.Document">
                     <font-awesome-icon icon="fa-solid fa-file-invoice" />
                     <span>{{ props.content.name }}</span>
@@ -49,22 +57,25 @@ const openUrl = (url?: string) => {
 </template>
 
 <style scoped>
-.content-body {
+.message-body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.content-header {
+.message-header {
     margin-right: 2rem;
 }
 
-.content-media {
+.message-media {
+
     img,
     video,
     .content-document {
         width: 100%;
         height: auto;
+        max-width: 50rem;
+        max-height: 25rem;
     }
 
     .media-url {
@@ -103,6 +114,18 @@ const openUrl = (url?: string) => {
             width: 100%;
             text-overflow: ellipsis;
             overflow: hidden
+        }
+    }
+}
+
+.ui-mode-mobile {
+    .message-media {
+
+        img,
+        video,
+        .content-document {
+            max-width: 20rem;
+            max-height: 10rem;
         }
     }
 }

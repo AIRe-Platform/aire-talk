@@ -6,9 +6,10 @@ import { l } from '@/locales';
 import { AireContent, AireContentType } from 'aire';
 
 import useContent from '@/context/content';
-import DialogModal from '@/components/modals/DialogModal.vue';
+import DialogModal from '@/components/layout/DialogModal.vue';
 import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
-import ChatMessageModal from '@/components/modals/ChatMessageModal.vue';
+import ChatContent from '@/components/chat/ChatContent.vue';
+import ChatMessageModal from '@/components/chat/ChatMessageModal.vue';
 import Panel from "@/components/common/Panel.vue";
 
 const contentContext = useContent();
@@ -69,6 +70,7 @@ const showContent = async (content: AireContent) => {
 };
 
 const closeModal = () => {
+    state.openContent = undefined;
     toggleModal();
 };
 
@@ -97,43 +99,9 @@ onMounted(() => {
             <span class="chat-message-text">
                 {{ message.content }}
             </span>
-            <Panel class="content-panel" v-if="message.media">
-                <div class="content-container" v-for="content in state.content" :key="message.id + '_' + content.id"
-                    @click.stop="showContent(content)">
-                    <ChatBubbleOptions :parent="message" :can_revert="false" :content="content" />
-                    <div class="header-row">
-                        <p v-if="state">{{ new Date(content.modified).toLocaleString($i18n.locale) }}</p>
-                        <div class="icon content-image" v-if="content && content.type == AireContentType.Image">
-                        </div>
-                        <div class="icon content-video" v-if="content && content.type == AireContentType.Video">
-                        </div>
-                        <div class="icon content-url" v-if="content && content.type == AireContentType.URL">
-                        </div>
-                        <div class="icon content-document" v-if="content && content.type == AireContentType.Document">
-                        </div>
-                    </div>
-                    <div class="chat-message-content" v-if="content?.type == AireContentType.Image">
-                        <img v-bind:src="content.url" class="chat-message-image-contain">
-                    </div>
-                    <div class="chat-message-content" v-if="content?.type == AireContentType.URL">
-                        <div class="chat-message-document-container" v-if="content.url">
-                            <font-awesome-icon icon="fa-solid fa-link" class="icon-link" />
-                        </div>
-                    </div>
-                    <div class="chat-message-content" v-if="content?.type == AireContentType.Video">
-                        <video class="chat-message-video-video">
-                            <source v-bind:src="content.url" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="chat-message-content" v-if="content?.type == AireContentType.Document">
-                        <div class="chat-message-document-container" v-if="content.url">
-                            <div class="icon document"></div>
-                        </div>
-                    </div>
-                    <div class="footer-row">
-                        <p>{{ content.name }}</p>
-                    </div>
-                </div>
+            <Panel class="chat-content-panel" v-if="message.media">
+                <ChatContent v-for="id in message.media" :contentId="id" :key="id" :parent="props.message"
+                    @show="showContent" />
             </Panel>
         </div>
         <ChatMessageModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
@@ -160,14 +128,14 @@ onMounted(() => {
 <style lang="scss" scoped>
 .chat-bubble {
     display: block;
+    line-height: 1.4rem;
     padding: 0.5rem 1rem;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    line-height: 1.4rem;
-    /* background-color: var(--chat-bubble-background-color); */
-    line-height: 1.4rem;
-    border-radius: 1rem;
+    margin: 1rem 1.5rem;
+
     border: 2px solid var(--box-stroke);
+    border-radius: 1rem;
+
+    max-width: calc(100% - 2rem - 3rem - 4px); // Removed padding, margin, border
 }
 
 .chat-bubble-user {
@@ -196,6 +164,7 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);
+    width: 100%;
 }
 
 .chat-user-label {
@@ -215,130 +184,24 @@ onMounted(() => {
     white-space: pre-line;
 }
 
-.content-panel {
+.chat-content-panel {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    max-width: 36rem;
-    width: fit-content;
-}
-
-.content-container {
-    background-color: var(--panel-background-color);
-    display: flex;
-    flex-direction: column;
-    min-width: 16rem;
-    margin: 1rem;
-    border-radius: 1rem;
-    justify-content: center;
-}
-
-.header-row {
-    display: flex;
-    flex-direction: row;
     justify-content: space-around;
-    align-items: center;
-}
-
-.chat-message-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.chat-message-image {
-    display: flex;
-    justify-content: center;
-}
-
-.chat-message-url {
-    display: flex;
-    align-items: center;
-}
-
-.margin-left {
-    margin-left: 1rem;
-}
-
-.chat-message-video {
-    display: flex;
-    justify-content: center;
-}
-
-.chat-message-document {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.chat-message-document-container {
-    background-color: var(--chat-document-back-ground);
-    width: 14rem;
-    height: 8rem;
-    border-radius: 1rem;
-    border-width: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--box-stroke);
-}
-
-.chat-message-video-video {
-    border-radius: 1rem;
-    width: 14rem;
-    height: 8rem;
-}
-
-.chat-message-image-contain {
-    height: 8rem;
-    width: 14rem;
-    object-fit: cover;
-
-    border-radius: 1rem;
-}
-
-.chat-message-question {
-    font-weight: bold;
+    gap: 1rem;
     padding: 1rem;
+    margin: 0;
+    margin-top: 1rem;
 }
 
-.icon-link {
-    width: 5rem;
-    height: 6rem;
-    color: var(--link-icon);
-}
+.ui-mode-mobile {
+    .chat-bubble {
+        margin: 0.5rem 1rem 0.5rem 0.3rem
+    }
 
-.footer-row {
-    display: flex;
-    margin-left: 1rem;
-    justify-content: flex-start;
-    max-width: 13rem;
-    overflow: scroll;
-    max-height: 4rem;
-}
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .ui-mode-mobile {
-        .chat-bubble {
-            max-width: unset;
-            margin: 0.5rem 1rem 0.5rem 0.3rem
-        }
-
-        .chat-message-question {
-            padding: 0;
-        }
-
-        .chat-message-video-video {
-            max-width: 17rem;
-            max-height: 12rem;
-        }
-
-        .chat-bubble-content {
-            font-size: var(--font-small);
-        }
+    .chat-bubble-content {
+        font-size: var(--font-small);
     }
 }
 </style>

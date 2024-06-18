@@ -9,7 +9,7 @@ import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 
 import Spinner from "@/components/common/Spinner.vue";
-import DialogModal from "@/components/modals/DialogModal.vue";
+import DialogModal from "@/components/layout/DialogModal.vue";
 
 
 interface ChatLogItem {
