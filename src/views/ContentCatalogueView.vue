@@ -3,9 +3,8 @@ import { l } from "@/locales";
 import { router } from "@/router";
 import { onMounted, reactive, ref } from "vue";
 import { AireContent, AireContentType } from "aire";
-import { getChatContentIds } from "@/helpers/contentUtils";
+import { getAllSuggestedContentFromHistory } from "@/helpers/contentUtils";
 
-import useChat from "@/context/chat";
 import useContent from "@/context/content";
 
 import Spinner from "@/components/common/Spinner.vue";
@@ -18,13 +17,13 @@ const navigateTo = (path: string) => {
 }
 
 const contentModalOpen = ref(false);
-const chat = useChat();
 const content = useContent();
 
 const toggleContentModal = (item?: AireContent) => {
     state.selectedItem = item;
     contentModalOpen.value = !contentModalOpen.value;
 };
+
 const state = reactive<{
     busy: boolean,
     deleteId?: string,
@@ -38,7 +37,7 @@ const state = reactive<{
 });
 
 const listContent = async () => {
-    const ids = getChatContentIds(chat.messages);
+    const ids = await getAllSuggestedContentFromHistory();
     ids.forEach(async (x) => {
         const item = await content.get(x);
         if (item) {
@@ -49,15 +48,16 @@ const listContent = async () => {
 
 onMounted(() => {
     setUIModeLayoutBeforeMount();
-    listContent();
+    state.busy = true;
+    listContent()
+        .finally(() => {
+            state.busy = false;
+        })
 })
 
 </script>
 
 <template>
-    <div class="chat-history-busy" v-if="state.busy">
-        <Spinner />
-    </div>
     <ContentModal :active="contentModalOpen" :content="state.selectedItem" :onClose="toggleContentModal"
         v-if="state.selectedItem" />
     <div class="content-catalogue-view">
@@ -73,6 +73,7 @@ onMounted(() => {
                 </div>
             </div>
             <div class="content-catalogue-content">
+                <Spinner v-if="state.busy" />
                 <Panel class="content-catalogue-item" v-for="item in state.contentList" v-bind:key="item.id"
                     @click="toggleContentModal(item)">
 
