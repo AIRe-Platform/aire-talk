@@ -51,6 +51,7 @@ const emits = defineEmits<{
     justify-content: space-between;
     width: 14rem;
     height: 14rem;
+    gap: 0.5rem;
     /* padding: 0.3rem; */
 }
 
@@ -58,17 +59,19 @@ const emits = defineEmits<{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     font-size: var(--font-small);
     align-items: center;
     width: 100%;
 }
 
 .catalogue-item-media {
-    max-height: 8rem;
     display: flex;
-    min-height: 8rem;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    flex-shrink: 1;
 }
 
 .catalogue-item-description {
@@ -79,7 +82,7 @@ const emits = defineEmits<{
     justify-content: center;
     text-align: center;
 
-    margin: 0 0.5rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
     height: 4rem;
 
     overflow: hidden;
