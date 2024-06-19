@@ -39,10 +39,6 @@ onMounted(async () => {
     justify-content: flex-start;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
-    flex-basis: 1;
-    width: 100%;
-    max-width: 40%;
-    min-width: 16rem;
 }
 
 .chat-content-title {
@@ -95,7 +91,6 @@ onMounted(async () => {
 
 .ui-mode-mobile {
     .chat-content {
-        width: 100%;
         max-width: unset;
         min-width: unset;
     }
