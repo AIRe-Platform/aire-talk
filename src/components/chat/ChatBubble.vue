@@ -9,8 +9,8 @@ import useContent from '@/context/content';
 import DialogModal from '@/components/layout/DialogModal.vue';
 import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
 import ChatContent from '@/components/chat/ChatContent.vue';
-import ChatMessageModal from '@/components/chat/ChatMessageModal.vue';
 import Panel from "@/components/common/Panel.vue";
+import ContentModal from '../content/ContentModal.vue';
 
 const contentContext = useContent();
 const chat = useChat();
@@ -104,22 +104,22 @@ onMounted(() => {
                     @show="showContent" />
             </Panel>
         </div>
-        <ChatMessageModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
+        <ContentModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
             :content="state.openContent" :onClose="closeModal" />
         <DialogModal :active="state.revertConfirm" :buttons="[
-            { loc_key: l.button_accept },
-            { loc_key: l.button_cancel },
-        ]" @select="(i: number) => {
-            switch (i) {
-                case 0:
-                    onRevert();
-                    break;
-                default:
-                case 1:
-                    state.revertConfirm = false;
-                    break;
-            }
-        }" :accept="onRevert" :decline="() => { }">
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        switch (i) {
+            case 0:
+                onRevert();
+                break;
+            default:
+            case 1:
+                state.revertConfirm = false;
+                break;
+        }
+    }" :accept="onRevert" :decline="() => { }">
             {{ $t(l.popup_confirm_revert_message) }}
         </DialogModal>
     </div>

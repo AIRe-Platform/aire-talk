@@ -2,7 +2,7 @@
 import { l } from "@/locales";
 import { router } from "@/router";
 import { onMounted, reactive, ref } from "vue";
-import { AireContent } from "aire";
+import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory } from "@/helpers/contentUtils";
 
 import useContent from "@/context/content";
@@ -17,7 +17,7 @@ const navigateTo = (path: string) => {
 }
 
 const contentModalOpen = ref(false);
-const content = useContent();
+const contentContext = useContent();
 
 const toggleContentModal = (item?: AireContent) => {
     state.selectedItem = item;
@@ -27,19 +27,30 @@ const toggleContentModal = (item?: AireContent) => {
 const state = reactive<{
     busy: boolean,
     deleteId?: string,
+    openContent?: AireContent,
     confirmDelete: boolean,
     selectedItem?: AireContent,
-    contentList: AireContent[]
+    contentList: AireContent[],
+    modalOpen: boolean
 }>({
     busy: false,
     confirmDelete: false,
+    modalOpen: false,
     contentList: []
 });
 
+const toggleModal = () => {
+    state.modalOpen = !state.modalOpen;
+};
+
+const closeModal = () => {
+    state.openContent = undefined;
+    toggleModal();
+};
 const listContent = async () => {
     const ids = await getAllSuggestedContentFromHistory();
     ids.forEach(async (x) => {
-        const item = await content.get(x);
+        const item = await contentContext.get(x);
         if (item) {
             state.contentList.push(item);
         }
@@ -55,11 +66,30 @@ onMounted(() => {
         })
 })
 
+const showContent = async (content: AireContent) => {
+    state.openContent = content;
+    switch (content.type) {
+        case AireContentType.Image:
+        case AireContentType.Video:
+            toggleModal();
+            break;
+        default:
+            {
+                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
+                if (url) {
+                    window.open(url, '_blank');
+                }
+            }
+    }
+
+    if (content.id)
+        contentContext.addViewCount(content.id);
+};
 </script>
 
 <template>
-    <ContentModal :active="contentModalOpen" :content="state.selectedItem" :onClose="toggleContentModal"
-        v-if="state.selectedItem" />
+    <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
+        :onClose="closeModal" />
     <div class="content-catalogue-view">
         <div class="icon close-window xmark-icon" @click="navigateTo('/chat')">
         </div>
@@ -71,7 +101,7 @@ onMounted(() => {
         <div class="content-catalogue-list">
             <Spinner v-if="state.busy" />
             <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item"
-                @select="() => toggleContentModal(item)" />
+                @select="() => toggleContentModal(item)" @show="showContent" />
         </div>
     </div>
 </template>

@@ -8,12 +8,13 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-    select: []
+    select: [],
+    show: [AireContent]
 }>();
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('select')">
+    <Panel class="catalogue-item" @click="emits('show', props.content);">
         <div class="catalogue-item-header">
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
@@ -34,7 +35,8 @@ const emits = defineEmits<{
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
             <font-awesome-icon class="link" icon="fa-solid fa-link" v-if="props.content.type == AireContentType.URL" />
-            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="props.content.type == AireContentType.Document" />
+            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice"
+                v-if="props.content.type == AireContentType.Document" />
         </div>
         <div class="catalogue-item-description">
             <p>{{ props.content.name }}</p>
@@ -50,7 +52,7 @@ const emits = defineEmits<{
     justify-content: space-between;
     width: 14rem;
     height: 14rem;
-    padding: 0.5rem;
+    /* padding: 0.3rem; */
 }
 
 .catalogue-item-header {
@@ -64,8 +66,10 @@ const emits = defineEmits<{
 }
 
 .catalogue-item-media {
-    max-height: 12rem;
-    max-width: 10.6rem;
+    max-height: 8rem;
+    display: flex;
+    min-height: 8rem;
+    align-items: center;
 }
 
 .catalogue-item-description {
@@ -88,7 +92,7 @@ const emits = defineEmits<{
     }
 }
 
-.link, 
+.link,
 .doc {
     height: 3rem;
     width: auto;
