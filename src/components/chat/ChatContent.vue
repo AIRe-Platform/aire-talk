@@ -16,11 +16,6 @@ const emits = defineEmits<{
     show: [AireContent]
 }>();
 
-const toggleContentModal = (item?: AireContent) => {
-    /*   state.selectedItem = item;
-      contentModalOpen.value = !contentModalOpen.value; */
-};
-
 const state = reactive<{
     content?: AireContent
 }>({});
@@ -33,8 +28,7 @@ onMounted(async () => {
 <template>
     <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
         <ChatBubbleOptions :parent="props.parent" :can_revert="false" :content="state.content" />
-        <CatalogueItem :content="state.content" @show="state.content"
-            @select="() => toggleContentModal(state.content)" />
+        <CatalogueItem :content="state.content" @show="state.content" />
     </div>
 </template>
 

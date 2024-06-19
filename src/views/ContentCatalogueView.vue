@@ -16,13 +16,7 @@ const navigateTo = (path: string) => {
     router.push(path);
 }
 
-const contentModalOpen = ref(false);
 const contentContext = useContent();
-
-const toggleContentModal = (item?: AireContent) => {
-    state.selectedItem = item;
-    contentModalOpen.value = !contentModalOpen.value;
-};
 
 const state = reactive<{
     busy: boolean,
@@ -100,8 +94,7 @@ const showContent = async (content: AireContent) => {
         </div>
         <div class="content-catalogue-list">
             <Spinner v-if="state.busy" />
-            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item"
-                @select="() => toggleContentModal(item)" @show="showContent" />
+            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent" />
         </div>
     </div>
 </template>

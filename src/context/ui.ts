@@ -51,7 +51,6 @@ function initSettings(): UISettingsOptions {
 
 function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     if (oldSize) {
-        // console.log("document.documentElement", document.documentElement);
         document.documentElement.classList.remove(oldSize);
         localStorage.setItem("ui-font-size", newSize);
     }
@@ -59,7 +58,6 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
 }
 
 export function setUIModeLayoutBeforeMount(){
-    console.log("useMobileLayout.value", useMobileLayout.value, "set UIMode to ", useMobileLayout.value ? UIMode.Mobile : UIMode.Desktop);
     applyUiClass(useMobileLayout.value ? UIMode.Mobile : UIMode.Desktop);
 }
 

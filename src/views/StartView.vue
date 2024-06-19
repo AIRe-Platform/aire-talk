@@ -35,7 +35,6 @@ onMounted(setUIModeLayoutBeforeMount);
                 <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
             </div>
         </div>
-
     </div>
 </template>
 

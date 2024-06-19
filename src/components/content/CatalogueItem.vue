@@ -8,7 +8,6 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-    select: [],
     show: [AireContent]
 }>();
 </script>
