@@ -12,7 +12,7 @@ const es: Locale = {
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
 
-    start_greeting: "Bienvenid{symbol} a la plataforma AIRe",
+    start_greeting: "{'Bienvenid@ a la plataforma AIRe'}",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
     start_second_paragraph:
