@@ -28,6 +28,7 @@ export enum LocalizationKey {
     signup_form_title = "signup_form_title",
     signup_form_submit = "signup_form_submit",
     signup_label_email = "signup_label_email",
+    signup_password_instructions = "signup_password_instructions",
     signup_label_password = "signup_label_password",
     signup_label_confirm_password = "signup_label_confirm_password",
 
