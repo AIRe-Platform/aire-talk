@@ -4,6 +4,7 @@ import { router } from '@/router';
 import { reactive } from 'vue';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
+import DialogModal from "@/components/layout/DialogModal.vue";
 
 const login = useLogin();
 
@@ -12,14 +13,23 @@ const state = reactive<{
     error?: string,
     code: string,
     codeSent: boolean,
-    validCode: boolean
+    validCode: boolean,
+    showConfirmLogout: boolean,
+    showLastChatButton: boolean
 }>({
     busy: false,
     code: "",
     codeSent: false,
-    validCode: false
+    validCode: false,
+    showConfirmLogout: false,
+    showLastChatButton: false
 });
 
+const onConfirmLogout = async () => {
+    state.showConfirmLogout = false;
+    await login.logout();
+    router.push("/");
+}
 const onVerify = () => {
     state.busy = true;
     login.verifyAccount(state.code)
@@ -73,8 +83,20 @@ const onResend = () => {
                     {{ $t(l.verification_code_resend_done) }}
                 </span>
             </template>
+            <div id="verification-code-logout" @click="state.showConfirmLogout = !state.showConfirmLogout">
+                {{ $t(l.nav_logout) }}
+            </div>
         </div>
     </div>
+    <DialogModal :active="state.showConfirmLogout" :buttons="[
+                { loc_key: l.button_accept },
+                { loc_key: l.button_cancel },
+            ]" @select="(i: number) => {
+                if (i == 0) { onConfirmLogout() }
+                else if (i == 1) { state.showConfirmLogout = false; }
+            }">
+        {{ $t(l.popup_confirm_logout) }}
+    </DialogModal>
 </template>
 
 <style lang="scss" scoped>
@@ -126,5 +148,9 @@ const onResend = () => {
     color: var(--accent-secondary-color);
     font-size: small;
     font-style: italic;
+}
+
+#verification-code-logout {
+    padding-top: 2rem;
 }
 </style>
