@@ -8,12 +8,12 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-    select: []
+    show: [AireContent]
 }>();
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('select')">
+    <Panel class="catalogue-item" @click="emits('show', props.content);">
         <div class="catalogue-item-header">
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
@@ -34,7 +34,8 @@ const emits = defineEmits<{
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
             <font-awesome-icon class="link" icon="fa-solid fa-link" v-if="props.content.type == AireContentType.URL" />
-            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="props.content.type == AireContentType.Document" />
+            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice"
+                v-if="props.content.type == AireContentType.Document" />
         </div>
         <div class="catalogue-item-description">
             <p>{{ props.content.name }}</p>
@@ -50,22 +51,27 @@ const emits = defineEmits<{
     justify-content: space-between;
     width: 14rem;
     height: 14rem;
-    padding: 0.5rem;
+    gap: 0.5rem;
+    /* padding: 0.3rem; */
 }
 
 .catalogue-item-header {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     font-size: var(--font-small);
     align-items: center;
     width: 100%;
 }
 
 .catalogue-item-media {
-    max-height: 12rem;
-    max-width: 10.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    flex-shrink: 1;
 }
 
 .catalogue-item-description {
@@ -76,7 +82,7 @@ const emits = defineEmits<{
     justify-content: center;
     text-align: center;
 
-    margin: 0 0.5rem;
+    margin: 0 0.5rem 0.5rem 0.5rem;
     height: 4rem;
 
     overflow: hidden;
@@ -88,7 +94,7 @@ const emits = defineEmits<{
     }
 }
 
-.link, 
+.link,
 .doc {
     height: 3rem;
     width: auto;

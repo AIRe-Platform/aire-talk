@@ -29,9 +29,9 @@ const vi: Locale = {
     login_label_password: "Mật khẩu",
     login_failure_message: "Đăng nhập thất bại",
     login_forgot_password: "Tôi quên mật khẩu của tôi",
-
     signup_label_email: "E-mail",
-    signup_label_password: "Contraseña",
+    signup_password_instructions: "Mật khẩu phải có ít nhất 8 ký tự và chứa chữ hoa, chữ thường và số.",
+    signup_label_password: "Mật khẩu",
     signup_form_title: "Tạo tài khoản",
     signup_form_submit: "Đăng ký",
     signup_label_confirm_password: "Xác nhận mật khẩu",
@@ -71,7 +71,7 @@ const vi: Locale = {
 
     profile_heading_password: "Đổi mật khẩu",
     profile_description_password:
-        "Mật khẩu phải có ít nhất 6 ký tự và chứa cả chữ thường và chữ in hoa cũng như số.",
+        "Mật khẩu phải có ít nhất 8 ký tự và chứa cả chữ thường và chữ in hoa cũng như số.",
     profile_label_current_password: "Mật khẩu hiện tại",
     profile_label_new_password: "Mật khẩu mới",
     profile_button_change_password: "Đổi mật khẩu",
@@ -130,10 +130,11 @@ const vi: Locale = {
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
         Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
-    error_signup_bad_request: `Đăng ký không thành công. 
- 
-Email có thể đã được đăng ký hoặc mật khẩu không đáp ứng yêu cầu tối thiểu.
-Mật khẩu phải chứa ít nhất chữ thường và chữ in hoa cũng như số.`,
+    error_signup_bad_request: `Đăng ký không thành công.
+
+ Email có thể đã được đăng ký hoặc mật khẩu không đáp ứng yêu cầu tối thiểu.
+
+ Mật khẩu phải có ít nhất 8 ký tự bao gồm chữ thường, chữ in hoa và số.`,
 
     error_signup_general: "Đăng ký không thành công. Vui lòng thử lại sau.",
     error_profile_edit: "Lưu không thành công.",

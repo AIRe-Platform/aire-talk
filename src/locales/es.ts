@@ -12,7 +12,7 @@ const es: Locale = {
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
 
-    start_greeting: "Bienvenid@ a la plataforma AIRe",
+    start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
     start_second_paragraph:
@@ -34,6 +34,7 @@ const es: Locale = {
     signup_form_title: "Crear una cuenta",
     signup_form_submit: "Registrar",
     signup_label_email: "Email",
+    signup_password_instructions: "La contraseña debe contener al menos 8 caracteres y contener al menos una mayúscula, una minúscula y un número.",
     signup_label_password: "Contraseña",
     signup_label_confirm_password: "Confirma contraseña",
 
@@ -67,7 +68,7 @@ const es: Locale = {
 
     profile_heading_password: "Cambiar contraseña",
     profile_description_password:
-        "La contraseña debe teber al menos 6 caracteres y contener al menos una mayúscula, una minúscula y un número.",
+        "La contraseña debe teber al menos 8 caracteres y contener al menos una mayúscula, una minúscula y un número.",
 
     profile_label_current_password: "Contraseña actual",
     profile_label_new_password: "Nueva contraseña",
@@ -140,7 +141,7 @@ const es: Locale = {
     
     El correo puede que ya este registrado o que la contraseña no cumple los requisitos mínimos.
 
-    La contraseña debe tener al menos una letra mayúscula, una letra minúscula y un número.`,
+    La contraseña debe tener al menos 8 caracteres y debe contener como mínimo una letra mayúscula, una letra minúscula y un número.`,
 
     error_signup_general:
         "El registro ha fallado. Por favor, inténtelo de nuevo más tarde.",

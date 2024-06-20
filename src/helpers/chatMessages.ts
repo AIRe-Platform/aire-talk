@@ -2,7 +2,6 @@ import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage } from "@/models/chat";
 import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion } from "aire";
-import { getSystemLanguageCode } from "./localeUtils";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -30,8 +29,7 @@ export function createMessage(
 
     let content = message;
     if (localize && content) {
-        const loc = getSystemLanguageCode();
-        content = i18n.global.t(content, 1, { locale: loc });
+        content = i18n.global.t(content);
     }
 
     return {

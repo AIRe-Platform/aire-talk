@@ -18,7 +18,7 @@ onMounted(setUIModeLayoutBeforeMount);
             <div class="greeting">
                 <div class="chat-bot">
                 </div>
-                <h1>{{ $t(l.start_greeting) }}</h1>
+                <h1>{{ $t('start_greeting') }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
                 <Separator />
                 <p>{{ $t(l.start_second_paragraph) }}</p>
@@ -35,7 +35,6 @@ onMounted(setUIModeLayoutBeforeMount);
                 <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
             </div>
         </div>
-
     </div>
 </template>
 

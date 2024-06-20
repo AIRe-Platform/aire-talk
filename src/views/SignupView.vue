@@ -54,6 +54,7 @@ const onSignup = (e: Event) => {
             <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
             <input type="password" id="signup-password" required="true" autocomplete="off" v-model="fields.password"
                 :readonly="busy" />
+            <small id="password-instructions">{{ $t(l.signup_password_instructions) }}</small>
             <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"
                 v-model="fields.passwordConfirm" :readonly="busy" />

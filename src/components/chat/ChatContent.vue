@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import useContent from '@/context/content';
 import { ChatMessage } from '@/models/chat';
-import { AireContent, AireContentType } from 'aire';
+import { AireContent } from 'aire';
 import { defineProps, defineEmits, reactive, onMounted } from 'vue';
+import CatalogueItem from "@/components/content/CatalogueItem.vue";
 
 import ChatBubbleOptions from './ChatBubbleOptions.vue';
 
@@ -27,33 +28,7 @@ onMounted(async () => {
 <template>
     <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
         <ChatBubbleOptions :parent="props.parent" :can_revert="false" :content="state.content" />
-        <div class="chat-content-title">
-            <div class="icon content-image" v-if="state.content.type == AireContentType.Image">
-            </div>
-            <div class="icon content-video" v-if="state.content.type == AireContentType.Video">
-            </div>
-            <div class="icon content-url" v-if="state.content.type == AireContentType.URL">
-            </div>
-            <div class="icon content-document" v-if="state.content.type == AireContentType.Document">
-            </div>
-            <p v-if="state">{{ new Date(state.content.modified).toLocaleString($i18n.locale) }}</p>
-        </div>
-        <div class="chat-content-media">
-            <img v-if="state.content.type == AireContentType.Image" v-bind:src="state.content.url"
-                class="chat-content-image">
-            <video v-if="state.content.type == AireContentType.Video" class="chat-content-video">
-                <source v-bind:src="state.content.url" type="video/mp4">
-            </video>
-            <div v-if="state.content.type == AireContentType.URL" class="chat-content-link">
-                <font-awesome-icon icon="fa-solid fa-link"/>
-            </div>
-            <div v-if="state.content.type == AireContentType.Document" class="chat-content-document">
-                <font-awesome-icon icon="fa-solid fa-file-invoice"/>
-            </div>
-        </div>
-        <div class="chat-content-description">
-            <p>{{ state.content.name }}</p>
-        </div>
+        <CatalogueItem :content="state.content" @show="state.content" />
     </div>
 </template>
 
@@ -64,10 +39,6 @@ onMounted(async () => {
     justify-content: flex-start;
     background-color: var(--panel-background-color);
     border-radius: 1rem;
-    flex-basis: 1;
-    width: 100%;
-    max-width: 40%;
-    min-width: 16rem;
 }
 
 .chat-content-title {
@@ -120,7 +91,6 @@ onMounted(async () => {
 
 .ui-mode-mobile {
     .chat-content {
-        width: 100%;
         max-width: unset;
         min-width: unset;
     }

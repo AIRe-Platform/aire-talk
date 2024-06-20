@@ -1,6 +1,6 @@
 import useChat from "@/context/chat";
+import { getUILanguage } from "@/locales";
 import { AireChatMessage, AireChatMetadata, AireChatStats, AireChatbotInput, AireServices } from "aire";
-import { getUserLanguageCode } from "./localeUtils";
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
@@ -37,7 +37,7 @@ export async function getChatStats(): Promise<AireChatStats | undefined> {
  */
 export function getChatbotInputData(): AireChatbotInput {
     const chat = useChat();
-    const locale = getUserLanguageCode()
+    const locale = getUILanguage();
 
     const messages = chat.messages
         .filter(x => x.role === "assistant" || x.role === "user")
