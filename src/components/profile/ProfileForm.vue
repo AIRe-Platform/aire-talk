@@ -2,7 +2,6 @@
 import { reactive } from 'vue';
 import { AireServices, AireUser } from "aire";
 import { l } from '@/locales';
-import ISO6391 from 'iso-639-1';
 import useLogin from '@/context/login';
 import Spinner from "@/components/common/Spinner.vue";
 
@@ -21,7 +20,6 @@ const profile = reactive<{
     last_name?: string;
     gender?: "male" | "female" | "other";
     age?: number;
-    language?: string;
     country?: string;
     bio?: string;
     last_login?: string;
@@ -33,13 +31,6 @@ const genderList = [
     { id: "female", name: l.gender_female },
     { id: "other", name: l.gender_other },
 ];
-
-const languages = ISO6391.getAllCodes().map(x => {
-    return {
-        name: `${ISO6391.getNativeName(x)} (${ISO6391.getName(x)})`,
-        lang: x
-    }
-})
 
 const onSaveChanges = (e: Event) => {
     const form = e.target as HTMLFormElement;
@@ -106,19 +97,6 @@ const activateField = (id: string) => {
                 <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="state.busy" />
                 <div class="icon edit" @click.prevent="activateField('age')" :disabled="state.busy">
                 </div>
-            </div>
-        </span>
-        <span class="form-item">
-            <label class="form-label" for="language">{{ $t(l.profile_label_language) }}</label>
-            <div class="form-input">
-                <select id="language" v-model="profile.language" :disabled="state.busy">
-                    <option v-for="loc in languages" :key="loc.lang" :value="loc.lang">
-                        {{ loc.name }}
-                    </option>
-                </select>
-                <div class="icon edit" @click.prevent="activateField('language')" :disabled="state.busy">
-                </div>
-
             </div>
         </span>
         <span class="form-item">
