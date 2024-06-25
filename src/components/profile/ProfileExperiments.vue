@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AireServices, AireUserPreferences } from 'aire';
 import { reactive } from 'vue';
+import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Switch from '@/components/common/Switch.vue';
 import Spinner from '@/components/common/Spinner.vue';
@@ -47,20 +48,22 @@ const onSave = () => {
 
 <template>
     <div class="profile-experiments">
-        <h3>Experiments</h3>
+        <h3>{{ $t(l.profile_experiments_title) }}</h3>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
-                <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt" @change="toggleOverridePrefs" :colorized="true" />
-                <span>Override chatbot system prompt</span>
+                <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
+                    @change="toggleOverridePrefs" :colorized="true" />
+                <span>{{ $t(l.profile_experiments_text) }}</span>
             </div>
             <textarea v-model="state.prefs.experimental_custom_prompt" :readonly="!state.overridePrompt"></textarea>
-            <p>Add <code>{user_summary}</code> into your prompt if you wish to inject a summary of your user profile.</p>
+            <p>{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
+            $t(l.profile_experiments_description) }}</p>
         </div>
         <template v-if="state.busy">
             <Spinner />
         </template>
         <template v-if="!state.busy">
-            <button class="save-experiments-button" @click="onSave">Apply changes</button>
+            <button class="save-experiments-button" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
         </template>
     </div>
 </template>
