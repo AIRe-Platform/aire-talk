@@ -89,6 +89,12 @@ export enum LocalizationKey {
     profile_question_age = "profile_question_age",
     profile_question_language = "profile_question_language",
     profile_question_country = "profile_question_country",
+    
+    profile_experiments_title = "profile_experiments_title",
+    profile_experiments_text = "profile_experiments_text",
+    profile_experiments_add = "profile_experiments_add",
+    profile_experiments_description = "profile_experiments_description",
+    profile_experiments_apply = "profile_experiments_apply",
 
     verification_heading = "verification_heading",
     verification_description = "verification_description",
@@ -116,6 +122,8 @@ export enum LocalizationKey {
     settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
     settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
     settings_ui_screen_size_dynamic = "settings_ui_screen_size_dynamic",
+
+    switch_color_mode = "switch_color_mode",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",

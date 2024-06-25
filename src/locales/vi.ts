@@ -99,6 +99,12 @@ const vi: Locale = {
     profile_question_language: "Ngôn ngữ chính của bạn là gì?",
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
+    profile_experiments_title: "Thí nghiệm",
+    profile_experiments_text: "Ghi đè lời nhắc hệ thống chatbot",
+    profile_experiments_add: "Thêm vào",
+    profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
+    profile_experiments_apply: "Áp dụng các thay đổi",
+
     verification_heading: "Xác thực tài khoản của bạn",
     verification_description: "Nhập mã xác minh bạn nhận được trong email",
     verification_button_verify: "Xác minh",
@@ -124,7 +130,9 @@ const vi: Locale = {
     settings_ui_screen_size_mobile: "Di động",
     settings_ui_screen_size_tablet: "Viên thuốc",
     settings_ui_screen_size_desktop: "Máy tính để bàn",
-    settings_ui_screen_size_dynamic: "Dynamic",
+    settings_ui_screen_size_dynamic: "Năng động",
+
+    switch_color_mode: "Màu chế độ chủ đề",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.

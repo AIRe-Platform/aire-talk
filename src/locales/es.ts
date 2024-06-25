@@ -51,7 +51,7 @@ const es: Locale = {
     nav_theme: "Cambiar tema",
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
-    nav_catalogue: "Content Catalogue",
+    nav_catalogue: "Catálogo de contenidos",
 
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
@@ -91,17 +91,23 @@ const es: Locale = {
     gender_female: "mujer",
     gender_other: "otro",
 
-    profile_question_button: "Complete profile",
+    profile_question_button: "Completa tu perfil",
     profile_question_confirm:
-        "Do you want to answer some questions about your personal information?",
+        "¿Quieres responder algunas preguntas sobre tu información personal?",
     profile_question_completion:
-        "Click done if you information is correct. You can edit your information later on your profile page.",
-    profile_question_first_name: "What is your first name?",
-    profile_question_last_name: "What is your last name?",
-    profile_question_gender: "What is your gender?",
-    profile_question_age: "How old are you?",
-    profile_question_language: "What is your primary language?",
-    profile_question_country: "Which country you live in?",
+        "Click listo si tu informacion es correcta. Luego mas adelante puedes modificar tu informacion en tu perfil.",
+    profile_question_first_name: "¿Cuál es tu nombre?",
+    profile_question_last_name: "¿Cuál es tu apellido?",
+    profile_question_gender: "¿Qué género eres?",
+    profile_question_age: "¿Cuántos años tienes?",
+    profile_question_language: "¿Cuál es tu lengua materno?",
+    profile_question_country: "¿En qué país vives?",
+
+    profile_experiments_title: "Experimentos",
+    profile_experiments_text: "Sobrescribe el sistema de chatbot",
+    profile_experiments_add: "Añade",
+    profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
+    profile_experiments_apply: "Aplicar cambios",
 
     verification_heading: "Verifica tu cuenta",
     verification_description:
@@ -131,7 +137,9 @@ const es: Locale = {
     settings_ui_screen_size_mobile: "Móvil",
     settings_ui_screen_size_tablet: "Tablet",
     settings_ui_screen_size_desktop: "Pantalla",
-    settings_ui_screen_size_dynamic: "Dynamic",
+    settings_ui_screen_size_dynamic: "Dinámica",
+
+    switch_color_mode: "Color del tema",
 
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
