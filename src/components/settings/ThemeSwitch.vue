@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useTheme from "@/context/theme";
 import Switch from "@/components/common/Switch.vue";
+import { l } from "@/locales";
 
 const theme = useTheme();
 
@@ -11,7 +12,7 @@ const onSwitchTheme = (dark: boolean) => {
 
 <template>
     <div class="theme-container">
-        <p class="theme-switch-label"> Color mode</p>
+        <p class="theme-switch-label"> {{ $t(l.switch_color_mode) }}</p>
         <div class="theme-switch">
             <font-awesome-icon icon="fa-solid fa-sun" />
             <Switch :is-on="theme.style === 'theme-dark'" @change="onSwitchTheme" />
