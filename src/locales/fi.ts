@@ -34,6 +34,7 @@ const fi: Locale = {
     signup_form_title: "Luo tili",
     signup_form_submit: "Rekisteröidy",
     signup_label_email: "Sähköpostiosoite",
+    signup_password_instructions: "Salasanassa on oltava vähintään 8 merkkiä ja sisältää isoja sekä pieniä kirjaimia ja numeroita.",
     signup_label_password: "Salasana",
     signup_label_confirm_password: "Vahvista salasana",
 
@@ -67,7 +68,7 @@ const fi: Locale = {
 
     profile_heading_password: "Vaihda salasana",
     profile_description_password:
-        "Salasanassa on oltava vähintään 6 merkkiä ja sisältää isoja sekä pieniä kirjaimia ja numeroita.",
+        "Salasanassa on oltava vähintään 8 merkkiä ja sisältää isoja sekä pieniä kirjaimia ja numeroita.",
     profile_label_current_password: "Nykyinen salasana",
     profile_label_new_password: "Uusi salasana",
     profile_button_change_password: "Vaihda salasana",
@@ -135,7 +136,7 @@ const fi: Locale = {
 
 Sähköpostiosoite saattaa olla jo rekisteröity tai salasanasi ei täytä vähimmäisvaatimuksia. 
 
-Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja isoja kirjaimia sekä numeroita.`,
+Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja isoja kirjaimia sekä numeroita.`,
     error_signup_general:
         "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_profile_edit: "Tallentaminen epäonnistui.",
@@ -190,8 +191,12 @@ Salasanan tulee olla vähintään 6 merkkiä pitkä sekä sisältää pieniä ja
     questionnaire_start: "Kyselyn alku",
     questionnaire_end: "Kyselyn loppu",
     questionnaire_explanation:
-        "The following questions are being recorded for analysis",
+        "Seuraavat kysymykset tallennetaan analysoitavaksi",
     question_answer: "Vastauksesi",
+
+    reminder_start_question: "Haluatko jatkaa jotakin aikaisempaa keskustelua?",
+    reminder_keyword_question: "Haluatko jatkaa keskustelua joistakin seuraavista aiheista?",
+    reminder_summary_question: "Onko tämä aihe vielä ajankohtainen, josta haluaisit keskustella?",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",

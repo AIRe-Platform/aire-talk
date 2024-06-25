@@ -6,7 +6,7 @@ import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, Ai
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
 
-export function mapMessage(msg: AireChatMessage): ChatMessage {    
+export function mapMessage(msg: AireChatMessage): ChatMessage {
     return {
         ...msg,
         id: newMessageId(),
@@ -27,11 +27,16 @@ export function createMessage(
         case "user": sender = getUserName(); break;
     }
 
+    let content = message;
+    if (localize && content) {
+        content = i18n.global.t(content);
+    }
+
     return {
         id: newMessageId(),
         sender: sender,
         role: role,
-        content: (localize && message) ? i18n.global.t(message) : message,
+        content: content,
         rating: 0,
         timestamp: Date.now(),
         hidden: hidden
@@ -44,7 +49,7 @@ export function createContentMessage(content: AireContent[]): ChatMessage {
     return msg;
 }
 
-export function createSystemMessage(message_loc_key: string, localize: boolean = true) : ChatMessage {
+export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
     return createMessage("system", message_loc_key, localize);
 }
 
@@ -84,7 +89,7 @@ let message_id_idx = 0;
 function newMessageId(): string {
     const i = message_id_idx;
     message_id_idx += 1;
-    return i.toString();
+    return `message-${i}`;
 }
 
 function getUserName() {

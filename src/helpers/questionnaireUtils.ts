@@ -5,9 +5,9 @@ import {
     AireQuestionnaireAnswer,
     AireServices,
 } from "aire";
-import { getUserLanguageCode } from "./userLocale";
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
+import { getUILanguage } from "@/locales";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -55,7 +55,7 @@ export async function queryQuestionnaire(
         console.error("Memory service is not available");
         return;
     }
-    const lang = getUserLanguageCode();
+    const lang = getUILanguage();
     const query = await AireServices.Memory.queryQuestionnaire(keywords, lang);
 
     if (!query.data)

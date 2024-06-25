@@ -104,7 +104,6 @@ export class LoginContext {
         const token = localStorage.getItem("aire_session_token");
         if (AireServices.ID && token) {
             console.debug("Restoring session...");
-            await useChat().reset(false, true);
     
             const status = await AireServices.ID.verifyToken(token);
             if (status == AireStatus.Success) {
@@ -112,6 +111,8 @@ export class LoginContext {
                 if (userResponse.status == AireStatus.Success) {
                     this.user = userResponse.data;
                     this.saveSession()
+
+                    await useChat().reset(false, true);
                     return true;
                 }
             }

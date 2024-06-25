@@ -28,6 +28,7 @@ export enum LocalizationKey {
     signup_form_title = "signup_form_title",
     signup_form_submit = "signup_form_submit",
     signup_label_email = "signup_label_email",
+    signup_password_instructions = "signup_password_instructions",
     signup_label_password = "signup_label_password",
     signup_label_confirm_password = "signup_label_confirm_password",
 
@@ -166,6 +167,10 @@ export enum LocalizationKey {
     questionnaire_end = "questionnaire_end",
     questionnaire_explanation = "questionnaire_explanation",
     question_answer = "question_answer",
+
+    reminder_start_question = "reminder_start_question",
+    reminder_keyword_question = "reminder_keyword_question",
+    reminder_summary_question = "reminder_summary_question",
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",

@@ -13,7 +13,7 @@ export const supportedLocales: LanguageCode[] = [
     "en", "fi", "es", "vi"
 ]
 
-const i18n = createI18n(initLocale());
+const i18n = initLocale();
 export default i18n;
 
 function initLocale() {
@@ -23,7 +23,7 @@ function initLocale() {
     const loc = storedLocale ?? defaultLocale;
     document.documentElement.lang = loc;
 
-    return {
+    return createI18n({
         locale: loc,
         legacy: false,
         messages: {
@@ -31,8 +31,10 @@ function initLocale() {
             fi: { ...fi },
             es: { ...es },
             vi: { ...vi }
-        }
-    }
+        },
+        fallbackLocale: defaultLocale,
+        availableLocales: supportedLocales,
+    })
 }
 
 export function setUILanguage(lang: LanguageCode) {

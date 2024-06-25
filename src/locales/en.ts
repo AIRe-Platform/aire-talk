@@ -34,6 +34,7 @@ const en: Locale = {
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
     signup_label_email: "Email",
+    signup_password_instructions: "Password must contains at least 8 characters and contain both lower and upper case letters as well as numbers.",
     signup_label_password: "Password",
     signup_label_confirm_password: "Confirm password",
 
@@ -67,7 +68,7 @@ const en: Locale = {
 
     profile_heading_password: "Change Password",
     profile_description_password:
-        "Password must be at least 6 characters and contain both lower and upper case letters as well as numbers.",
+        "Password must be at least 8 characters and contain both lower and upper case letters as well as numbers.",
     profile_label_current_password: "Current password",
     profile_label_new_password: "New password",
     profile_button_change_password: "Change password",
@@ -137,7 +138,7 @@ const en: Locale = {
  
     The email may already be registered or the password does not meet the minimum requirements.
     
-    The password must contain at least lower and upper case letter as well as numbers.`,
+    The password must contain at least 8 characters including lower and upper case letter as well as numbers.`,
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
     error_profile_password:
@@ -193,6 +194,10 @@ const en: Locale = {
     questionnaire_explanation:
         "The following questions are being recorded for analysis",
     question_answer: "Your answer",
+
+    reminder_start_question: "Do you want to continue some earlier conversation?",
+    reminder_keyword_question: "Do you want to continue chatting about some of the following topics?",
+    reminder_summary_question: "Is this topic still relevant that you would like to chat about?",
 
     button_accept: "Accept",
     button_cancel: "Cancel",

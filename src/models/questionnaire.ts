@@ -3,7 +3,8 @@ import { AireQuestion, AireQuestionnaireAnswer } from "aire";
 export enum QuestionnaireControlFlow 
 {
     Default = "default",
-    PersonalInfo = "personal_info"
+    PersonalInfo = "personal_info",
+    Reminder = "reminder"
 }
 
 export interface Questionnaire {
