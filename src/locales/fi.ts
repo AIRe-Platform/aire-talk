@@ -101,12 +101,12 @@ const fi: Locale = {
     profile_question_language: "Mikä on ensisijainen kielesi?",
     profile_question_country: "Mikä on asuinmaasi?",
 
-    profile_experiments_title: "Experiments",
-    profile_experiments_text: "Override chatbot system prompt",
-    profile_experiments_add: "Add",
-    profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
-    profile_experiments_apply: "Apply changes",
-    
+    profile_experiments_title: "Kokeilut",
+    profile_experiments_text: "Ohita chatbotin järjestelmä kehote",
+    profile_experiments_add: "Lisätä",
+    profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
+    profile_experiments_apply: "Ota muutokset käyttöön",
+
     verification_heading: "Vahvista tilisi",
     verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
     verification_button_verify: "Tarkista",
