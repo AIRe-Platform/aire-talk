@@ -225,7 +225,9 @@ const es: Locale = {
     en: "Inglés",
     fi: "Finés",
     es: "Español",
-    vi: "Vietnamita"
+    vi: "Vietnamita",
+    id: "Indonesio",
+    sw: "Swajili"
 };
 
 export default es;

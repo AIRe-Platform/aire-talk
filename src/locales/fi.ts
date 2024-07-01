@@ -217,7 +217,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",
-    vi: "Vietnam"
+    vi: "Vietnam",
+    id: "Indonesia",
+    sw: "Swahili"
 };
 
 export default fi;

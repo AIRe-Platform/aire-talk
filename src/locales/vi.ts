@@ -214,7 +214,9 @@ const vi: Locale = {
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",
-    vi: "Tiếng Việt"
+    vi: "Tiếng Việt",
+    id: "Tiếng Indonesia",
+    sw: "Tiếng Swahili"
 };
 
 export default vi;

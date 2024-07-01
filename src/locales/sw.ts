@@ -1,0 +1,206 @@
+import { Locale } from ".";
+
+const sw: Locale = {
+    title: "AIRe Talk",
+    footer: "Maendeleo",
+    not_found: "Ukurasa haujapatikana",
+
+    aire_bot: "AIRe Bot",
+    aire_system: "AIRe System",
+    system_greeting:
+        "Karibu kwenye AIRe Talk! Anza kwa kueleza ni msaada gani unahitaji au una dalili gani.",
+    system_topic: "Umechagua mada: ",
+    system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
+
+    start_greeting: "Karibu kwenye jukwaa la AIRe",
+    start_first_paragraph:
+        "Mshirika kwa utendaji bora na ustawi",
+    start_second_paragraph:
+        "Endelea kwa kuingia au kuunda wasifu mpya kwako mwenyewe.",
+    start_footer:
+        "AIRe ni suluhisho linalosaidiwa na AI ambalo hukusaidia kutambua mahitaji yako ya urekebishaji na kukuongoza kwenye huduma na maudhui ya urekebishaji ya kibinafsi.",
+    start_disclaimer: "AIRe si zana ya uchunguzi wa kimatibabu.",
+
+    home_start_new_chat: "Anzisha gumzo jipya",
+    home_continue_chat: "Endelea gumzo la awali",
+
+    login_form_title: "Ingia",
+    login_form_submit: "Ingia",
+    login_label_username: "Barua pepe au jina la mtumiaji",
+    login_label_password: "Nenosiri",
+    login_failure_message: "Imeshindwa kuingia",
+    login_forgot_password: "Nimesahau nenosiri langu",
+
+    signup_form_title: "Tengeneza akaunti",
+    signup_form_submit: "Jisajili",
+    signup_label_email: "Barua pepe",
+    signup_password_instructions: "Nenosiri lazima liwe na angalau vibambo 8 na liwe na herufi ndogo na kubwa pamoja na nambari.",
+    signup_label_password: "Nenosiri",
+    signup_label_confirm_password: "Thibitisha nenosiri",
+
+    nav_start: "Habari!",
+    nav_home: "Nyumbani",
+    nav_chat: "Soga",
+    nav_chat_history: "Historia ya gumzo",
+    nav_chat_new: "Soga mpya",
+    nav_content_catalogue: "Katalogi ya maudhui",
+    nav_profile: "Wasifu",
+    nav_login: "Ingia",
+    nav_logout: "Ondoka",
+    nav_signup: "Jisajili",
+    nav_theme: "Badilisha mandhari",
+    nav_preferences: "Mipangilio",
+    nav_main_menu: "Menyu kuu",
+    nav_catalogue: "Katalogi ya Maudhui",
+
+    profile_title: "Akaunti ya mtumiaji",
+    profile_label_first_name: "Jina la kwanza",
+    profile_label_last_name: "Jina la mwisho",
+    profile_label_gender: "Jinsia",
+    profile_label_age: "Umri",
+    profile_label_language: "Lugha",
+    profile_label_country: "Nchi",
+    profile_label_bio: "Wasifu",
+    profile_button_save: "Sasisha",
+
+    profile_heading_connected_services: "Huduma Zilizounganishwa",
+    profile_empty_service_list: "Hakuna huduma zilizounganishwa",
+
+    profile_heading_password: "Badilisha Nenosiri",
+    profile_description_password: "Nenosiri lazima liwe na angalau herufi 8 na liwe na herufi za herufi ndogo na kubwa pamoja na nambari.",
+    profile_label_current_password: "Nenosiri la sasa",
+    profile_label_new_password: "Nenosiri jipya",
+    profile_button_change_password: "Badilisha nenosiri",
+
+    profile_heading_delete_account: "Futa Akaunti",
+    profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",
+    profile_label_password_confirm: "Thibitisha nenosiri",
+    profile_label_keep_anonymized_data: "Anonimisha my data instead of deleting it. Hii inasaidia maendeleo ya jukwaa la AIRe. Hii ni hiari kabisa.",
+    profile_user_info_intro: "Taarifa ya sasa ya mtumiaji kulingana na uchambuzi wa AIRe:",
+    profile_years_old: " miaka.",
+    profile_from: " Kutoka ",
+    profile_speaks: " Ambaye anazungumza ",
+    profile_button_delete: "Futa akaunti",
+
+    gender_male: "mwanamume",
+    gender_female: "mwanamke",
+    gender_other: "nyingine",
+
+    profile_question_button: "Kamilisha wasifu",
+    profile_question_confirm: "Je, ungependa kujibu maswali kuhusu taarifa yako binafsi?",
+    profile_question_completion: "Bonyeza endelea ikiwa taarifa yako ni sahihi. Unaweza kuhariri taarifa yako baadaye kwenye ukurasa wako wa wasifu.",
+    profile_question_first_name: "Jina lako la kwanza ni nini?",
+    profile_question_last_name: "Jina lako la mwisho ni nini?",
+    profile_question_gender: "Jinsia yako ni nini?",
+    profile_question_age: "Umri wako ni miaka mingapi?",
+    profile_question_language: "Lugha yako kuu ni ipi?",
+    profile_question_country: "Nchi unayoishi ni ipi?",
+
+    profile_experiments_title: "Jaribio",
+    profile_experiments_text: "Badilisha kitabu cha mazungumzo cha mfumo wa mazungumzo",
+    profile_experiments_add: "Ongeza",
+    profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
+    profile_experiments_apply: "Tumia mabadiliko",
+
+    verification_heading: "Thibitisha Akaunti Yako",
+    verification_description: "Weka msimbo wa uthibitisho ulioupokea kwenye barua pepe yako",
+    verification_button_verify: "Thibitisha",
+    verification_code_resend: "Tuma msimbo mpya",
+    verification_code_resend_done: "Msimbo mpya uko njiani!",
+
+    recovery_heading: "Uokoaji wa Akaunti",
+    recovery_label_email: "Anwani ya barua pepe",
+    recovery_label_code: "Msimbo wa uokoaji",
+    recovery_label_password: "Nenosiri jipya",
+    recovery_enter_code: "Weka msimbo wa uokoaji tuliotuma kwako.",
+    recovery_not_available: "Uokoaji wa akaunti haupatikani kwa sasa.",
+    recovery_failure: "Akaunti hii haiwezi kurejeshwa.",
+    recovery_password_changed: "Nenosiri limebadilishwa kwa mafanikio.",
+    recovery_back_to_login: "Rudi kwa kuingia",
+
+    settings_title: "Mipangilio",
+    settings_language: "Lugha ya kiolesura cha mtumiaji",
+    settings_ui_size: "Ukubwa wa kiolesura cha mtumiaji",
+    settings_ui_size_normal: "Kawaida",
+    settings_ui_size_large: "Kubwa",
+    settings_ui_screen_size: "Mapendeleo ya azimio la skrini",
+    settings_ui_screen_size_mobile: "Simu",
+    settings_ui_screen_size_tablet: "Kompyuta kibao",
+    settings_ui_screen_size_desktop: "Kompyuta ndogo",
+    settings_ui_screen_size_dynamic: "Dynamic",
+
+    switch_color_mode: "Rangi ya Maudhui",
+
+    error_generic: "Hitilafu isiyojulikana imetokea!",
+    error_ai_not_responding: "Boti haikujibu. Hii inaweza kutokea kutokana na uchujaji wa yaliyomo.\nIkiwa tatizo litabaki, tafadhali jaribu tena baadaye.",
+    error_signup_password_mismatch: "Maneno ya siri hayalingani!",
+    error_signup_bad_request: "Usajili umeshindwa. \n\nBarua pepe inaweza tayari kuwa imesajiliwa au nenosiri halikidhi mahitaji ya chini.\n    \nNenosiri lazima liwe na angalau herufi 8 ikiwa ni pamoja na herufi ndogo na kubwa pamoja na nambari.",
+    error_signup_general: "Usajili umeshindwa. Tafadhali, jaribu tena baadaye.",
+    error_profile_edit: "Hifadhi haikufanikiwa.",
+    error_profile_password: "Imeshindwa kubadilisha nenosiri. Angalia kwamba nenosiri uliloweka ni sahihi na kwamba nenosiri jipya linakidhi mahitaji.",
+    error_profile_delete_account: "Imeshindwa kufuta akaunti. Jaribu tena baadaye.",
+
+    landing_view_title: "Karibu kwenye jukwaa la AIRe!",
+    landing_view_text: "Tuanze kwa kujaza taarifa za awali kuhusu wewe mwenyewe.",
+    landing_label_age: "Umri wako",
+    landing_label_occupation: "Shughuli yako ya sasa na ya zamani (Tumia commas kuwatenganisha shughuli)",
+
+    onboarding_greetings: "Habari!",
+    onboarding_question: "Je, ungependa kujadili juu ya mada hizi?",
+    topic_backpain: "Maumivu ya mgongo",
+    topic_neckpain: "Maumivu ya shingo",
+    topic_sleep_apnea: "Apnea ya kulala",
+    topic_increased_weight: "Kuongezeka kwa uzito",
+    topic_trouble_talking: "Shida ya kuzungumza",
+
+    summary_chag_log_title: "Maelezo",
+    summary_generate_summary: "Fupisha",
+    summary_query_surveys_button: "Utafiti wa maswali",
+    summary_send_survey_button: "Tuma majibu ya utafiti",
+
+    error_verification_failure: "Haiwezi kuthibitisha msimbo. Inaweza kuwa umekwisha muda wake.",
+    error_verification_resend_failed: "Haiwezi kutuma tena msimbo. Jaribu tena baadaye",
+
+    chat_history_title: "Historia ya Mazungumzo",
+    chat_history_image: "Faili ya Picha:",
+    chat_history_video: "Faili ya Video:",
+    chat_history_loading: "Inapakia...",
+    chat_history_tokens: "{0} vibambo",
+    chat_input_title: "Ungependa kuuliza au kusema nini?",
+
+    popup_confirm_revert_message: "Je, una uhakika unataka kurudisha mazungumzo kwa ujumbe huu?",
+    popup_confirm_remove_chat: "Je, una uhakika unataka kuondoa mazungumzo haya?",
+    popup_confirm_logout: "Je, una uhakika unataka kutoka?",
+    popup_logout_message: "Umefanya kutoka.",
+
+    no_questionnaires_found: "Hakuna maswali yaliyopatikana yanayofaa.",
+    confirm_questionnaire_start: 'Je, ungependa kujaza uchunguzi "{0}"?',
+    confirm_questionnaire_completion: "Unapokuwa umefurahishwa na majibu yako, chagua kuendelea.",
+    questionnaire: "Uchunguzi",
+    questionnaire_start: "Mwanzo wa uchunguzi",
+    questionnaire_end: "Mwisho wa uchunguzi",
+    questionnaire_explanation: "Maswali yafuatayo yanarekodiwa kwa ajili ya uchambuzi",
+    question_answer: "Jibu lako",
+
+    reminder_start_question: "Je, ungependa kuendelea na mazungumzo ya awali?",
+    reminder_keyword_question: "Je, ungependa kuendelea kuzungumza juu ya mada zifuatazo?",
+    reminder_summary_question: "Je, mada hii bado ni muhimu kwako kuendelea kuzungumza juu yake?",
+
+    button_accept: "Kubali",
+    button_cancel: "Ghairi",
+    button_back: "Rudi",
+    button_continue: "Endelea",
+    button_close: "Funga",
+    button_delete_content: "Futa maudhui",
+    button_display: "Onyesha",
+
+    en: "Kiingereza",
+    fi: "Kifini",
+    es: "Kihispania",
+    vi: "Kivietinamu",
+    id: "Kihindonesia",
+    sw: "Kiswahili"
+
+};
+
+export default sw;

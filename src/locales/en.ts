@@ -218,7 +218,9 @@ const en: Locale = {
     en: "English",
     fi: "Finnish",
     es: "Spanish",
-    vi: "Vietnamese"
+    vi: "Vietnamese",
+    id: "Indonesian",
+    sw: "Swahili"
 };
 
 export default en;
