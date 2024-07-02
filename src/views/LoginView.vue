@@ -91,6 +91,8 @@ const onLogin = (e: Event) => {
     font-size: var(--font-small);
     align-self: center;
     padding: 0.5rem;
+    color: var(--link-color);
+    text-decoration: underline;
 }
 
 #login-failed-message {
