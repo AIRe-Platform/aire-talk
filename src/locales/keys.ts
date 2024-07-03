@@ -66,7 +66,7 @@ export enum LocalizationKey {
     profile_label_new_password = "profile_label_new_password",
     profile_button_change_password = "profile_button_change_password",
 
-    profile_heading_delete_accout = "profile_heading_delete_account",
+    profile_heading_delete_account = "profile_heading_delete_account",
     profile_description_delete_account = "profile_description_delete_account",
     profile_label_password_confirm = "profile_label_password_confirm",
     profile_label_keep_anonymized_data = "profile_label_keep_anonymized_data",

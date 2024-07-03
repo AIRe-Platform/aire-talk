@@ -46,7 +46,7 @@ const onDeleteAccount = (e: Event) => {
 
 <template>
     <form id="delete-form" @submit.prevent="onDeleteAccount">
-        <h3>{{ $t(l.profile_heading_delete_accout) }}</h3>
+        <h3>{{ $t(l.profile_heading_delete_account) }}</h3>
         <div class="form-row description">{{ $t(l.profile_description_delete_account) }}</div>
         <div class="form-content">
             <span class="form-item">
