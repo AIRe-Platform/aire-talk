@@ -153,5 +153,7 @@ const onResend = () => {
 #verification-code-logout {
     padding-top: 2rem;
     cursor: pointer;
+    color: var(--link-color);
+    text-decoration: underline;
 }
 </style>
