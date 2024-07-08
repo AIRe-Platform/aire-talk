@@ -118,7 +118,7 @@ const onClickOutside = (e: Event) => {
     .settings-panel {
         width: 65%;
         margin-left: 4rem;
-        margin-bottom: -1rem;
+        margin-bottom: 0rem;
     }
 }
 </style>
