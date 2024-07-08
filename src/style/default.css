@@ -75,7 +75,7 @@
     --shadow-color: gray;
     --border-color: lightgray;
     --font-family: "Sofia Pro", sans-serif;
-    --error-color: rgb(255, 120, 120);
+    --error-color: #8D3548;
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(255, 255, 255, 0.7);
     --chat-bubble-bot-label: #0D004C;
