@@ -84,6 +84,7 @@
     --chat-document-back-ground: #f1f4f9;
     --link-icon: #7F7AA2;
     --link-color: #67C2FF;
+    --settings-panel-theme-color: #176087;
 }
 
 :root.theme-dark {
@@ -131,6 +132,7 @@
     --chat-document-back-ground: #a2b2cc;
     --link-icon: #47425E;
     --link-color: #67C2FF;
+    --settings-panel-theme-color: white;
 }
 
 html {

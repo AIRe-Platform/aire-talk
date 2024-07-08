@@ -37,7 +37,7 @@ const onSwitchTheme = (dark: boolean) => {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: var(--button-color);
+    color: var(--settings-panel-theme-color);
     width: 100%;
 }
 </style>
