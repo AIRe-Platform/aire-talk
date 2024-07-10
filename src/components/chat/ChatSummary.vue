@@ -136,14 +136,14 @@ onMounted(() => {
     height: 2rem;
     border-radius: 1rem;
     border: 2px solid var(--border-color);
-    background-color: var(--panel-background-color);
+    background-color: var(--summary-keyword-item-background);
 }
 
 .summary-keyword-text {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent-secondary-color);
+    color: var(--summary-keyword-item-font-color);
     margin-right: 1rem;
     margin-left: 1rem;
 }
@@ -155,6 +155,8 @@ onMounted(() => {
     cursor: pointer;
     width: 2rem;
     transition: color .2s;
+    color: #B6465F;
+    font-size: large;
 
     &:hover {
         color: var(--accent-secondary-color);

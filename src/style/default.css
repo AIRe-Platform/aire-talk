@@ -41,7 +41,7 @@
 }
 
 :root.theme-default {
-    --button-color: #176087;
+    --button-color: #2374AB;
     --box-stroke: #bcd0ce;
     --title-text: #5a5a5a;
     --basic-text: #000000;
@@ -85,10 +85,13 @@
     --link-icon: #7F7AA2;
     --link-color: #67C2FF;
     --settings-panel-theme-color: #176087;
+    --summary-keyword-item-background: #FFFFFF;
+    --summary-keyword-item-font-color: #176087;
+
 }
 
 :root.theme-dark {
-    --button-color: #176087;
+    --button-color: #2374AB;
     --box-stroke: #176087;
     --title-text: #5a5a5a;
     --basic-text: #ffffff;
@@ -126,13 +129,16 @@
     --error-color: rgb(255, 120, 120);
     --chat-bubble-background-color: var(--background-color);
     --overlay-color: rgba(0, 0, 0, 0.7);
-    --chat-bubble-bot-label: #FDB913;
+    --chat-bubble-bot-label: #FDD26D;
     --chat-history-text-color: #47425E;
     --chat-menu-active: #d9f0ff;
     --chat-document-back-ground: #a2b2cc;
     --link-icon: #47425E;
     --link-color: #67C2FF;
     --settings-panel-theme-color: white;
+    --summary-keyword-item-background: #F1F4F9;
+    --summary-keyword-item-font-color: #2374AB;
+
 }
 
 html {
