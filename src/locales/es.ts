@@ -62,7 +62,9 @@ const es: Locale = {
     profile_label_country: "País",
     profile_label_bio: "Bio",
     profile_button_save: "Guardar",
-
+    profile_characters_max: '{0} carácteres máximo.',
+    profile_remaining: "carácteres restantes.",
+    
     profile_heading_connected_services: "Connectado",
     profile_empty_service_list: "No Conectado",
 

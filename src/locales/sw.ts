@@ -62,6 +62,8 @@ const sw: Locale = {
     profile_label_country: "Nchi",
     profile_label_bio: "Wasifu",
     profile_button_save: "Sasisha",
+    profile_characters_max: '{0} wahusika zaidi.',
+    profile_remaining: "wahusika waliobaki.",
 
     profile_heading_connected_services: "Huduma Zilizounganishwa",
     profile_empty_service_list: "Hakuna huduma zilizounganishwa",

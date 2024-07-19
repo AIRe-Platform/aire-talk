@@ -59,6 +59,8 @@ const vi: Locale = {
     profile_label_language: "Ngôn ngữ",
     profile_label_country: "Quốc gia",
     profile_label_bio: "Tiểu sử",
+    profile_characters_max: '{0} ký tự tối đa.',
+    profile_remaining: "ký tự còn lại.",
     profile_user_info_intro:
         "Thông tin người dùng hiện tại theo phân tích của AIRe:",
     profile_years_old: " tuổi.",

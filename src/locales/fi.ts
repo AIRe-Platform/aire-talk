@@ -62,7 +62,9 @@ const fi: Locale = {
     profile_label_country: "Maa",
     profile_label_bio: "Tietoja",
     profile_button_save: "Tallenna",
-
+    profile_characters_max: '{0} merkkejä maksimissaan.',
+    profile_remaining: "jäljellä olevat merkit.",
+    
     profile_heading_connected_services: "Yhdistetyt palvelut",
     profile_empty_service_list: "Ei yhdistettyjä palveluita",
 

@@ -62,7 +62,9 @@ const en: Locale = {
     profile_label_country: "Country",
     profile_label_bio: "Bio",
     profile_button_save: "Update",
-
+    profile_characters_max: '{0} characters maximum.',
+    profile_remaining: "remaining characters.",
+    
     profile_heading_connected_services: "Connected Services",
     profile_empty_service_list: "No connected services",
 

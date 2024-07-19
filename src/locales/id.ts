@@ -62,6 +62,8 @@ const id: Locale = {
     profile_label_country: "Negara",
     profile_label_bio: "Bio",
     profile_button_save: "Perbarui",
+    profile_characters_max: '{0} karakter paling banyak.',
+    profile_remaining: "karakter yang tersisa.",
 
     profile_heading_connected_services: "Layanan Terhubung",
     profile_empty_service_list: "Tidak ada layanan terhubung",

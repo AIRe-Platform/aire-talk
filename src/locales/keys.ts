@@ -89,6 +89,8 @@ export enum LocalizationKey {
     profile_question_age = "profile_question_age",
     profile_question_language = "profile_question_language",
     profile_question_country = "profile_question_country",
+    profile_characters_max = "profile_characters_max",
+    profile_remaining = "profile_remaining",
     
     profile_experiments_title = "profile_experiments_title",
     profile_experiments_text = "profile_experiments_text",
