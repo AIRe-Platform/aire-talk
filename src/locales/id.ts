@@ -192,6 +192,7 @@ const id: Locale = {
     popup_confirm_remove_chat: "Apakah Anda yakin ingin menghapus obrolan ini?",
     popup_confirm_logout: "Apakah Anda yakin ingin keluar?",
     popup_logout_message: "Anda sekarang logout.",
+    popup_confirm_profile_updated: "Profil diperbarui.",
 
     no_questionnaires_found: "Tidak dapat menemukan kuesioner yang sesuai.",
     confirm_questionnaire_start:

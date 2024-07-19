@@ -192,6 +192,7 @@ const en: Locale = {
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
     popup_confirm_logout: "Are you sure you want to logout?",
     popup_logout_message: "You are now logout.",
+    popup_confirm_profile_updated: "Profile updated.",
 
     no_questionnaires_found: "Could not find suitable questionnaires.",
     confirm_questionnaire_start:

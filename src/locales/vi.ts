@@ -188,6 +188,7 @@ const vi: Locale = {
         "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
     popup_confirm_logout: "Bạn có chắc chắn bạn muốn thoát?",
     popup_logout_message: "Bây giờ bạn đã đăng xuất.",
+    popup_confirm_profile_updated: "Hồ sơ cá nhân đã cập nhật.",
 
     no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
     confirm_questionnaire_start:

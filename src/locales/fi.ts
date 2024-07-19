@@ -192,6 +192,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
     popup_confirm_logout: "Haluatko varmasti kirjautua ulos?",
     popup_logout_message: "Olet nyt kirjautunut ulos.",
+    popup_confirm_profile_updated: "Profiili päivitetty.",
 
     no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',

@@ -174,6 +174,7 @@ const sw: Locale = {
     popup_confirm_remove_chat: "Je, una uhakika unataka kuondoa mazungumzo haya?",
     popup_confirm_logout: "Je, una uhakika unataka kutoka?",
     popup_logout_message: "Umefanya kutoka.",
+    popup_confirm_profile_updated: "Wasifu umesasishwa.",
 
     no_questionnaires_found: "Hakuna maswali yaliyopatikana yanayofaa.",
     confirm_questionnaire_start: 'Je, ungependa kujaza uchunguzi "{0}"?',

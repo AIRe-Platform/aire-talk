@@ -198,6 +198,7 @@ const es: Locale = {
     popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
     popup_confirm_logout: "¿Estas seguro de que quieres salir?",
     popup_logout_message: "Ya has cerrado sesión.",
+    popup_confirm_profile_updated: "Perfil actualizado.",
 
     no_questionnaires_found:
         "No se pudieron encontrar los cuestionarios adecuados.",
