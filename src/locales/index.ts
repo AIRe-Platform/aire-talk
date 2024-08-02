@@ -3,6 +3,8 @@ import en from './en';
 import fi from './fi';
 import es from './es';
 import vi from './vi';
+import id from './id';
+import sw from './sw';
 import { LocalizationKey } from './keys';
 import { LanguageCode } from 'iso-639-1';
 
@@ -10,7 +12,7 @@ export const l = LocalizationKey;
 export type Locale = { [id in LocalizationKey]: string };
 
 export const supportedLocales: LanguageCode[] = [
-    "en", "fi", "es", "vi"
+    "en", "fi", "es", "vi", "id", "sw"
 ]
 
 const i18n = initLocale();
@@ -30,6 +32,8 @@ function initLocale() {
             en: { ...en },
             fi: { ...fi },
             es: { ...es },
+            id: { ...id },
+            sw: { ...sw },
             vi: { ...vi }
         },
         fallbackLocale: defaultLocale,

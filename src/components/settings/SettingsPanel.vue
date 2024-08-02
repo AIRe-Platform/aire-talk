@@ -31,7 +31,7 @@ const setScreenSize = (e: Event) => {
     }
 }
 const onClickOutside = (e: Event) => {
-    e.stopImmediatePropagation();
+    //e.stopImmediatePropagation();
     UIState.panels.delete(UIPanels.Settings);
 };
 </script>
@@ -118,7 +118,7 @@ const onClickOutside = (e: Event) => {
     .settings-panel {
         width: 65%;
         margin-left: 4rem;
-        margin-bottom: -1rem;
+        margin-bottom: 0rem;
     }
 }
 </style>

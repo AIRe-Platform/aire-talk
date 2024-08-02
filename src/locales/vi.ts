@@ -59,6 +59,8 @@ const vi: Locale = {
     profile_label_language: "Ngôn ngữ",
     profile_label_country: "Quốc gia",
     profile_label_bio: "Tiểu sử",
+    profile_characters_max: '{0} ký tự tối đa.',
+    profile_remaining: "ký tự còn lại.",
     profile_user_info_intro:
         "Thông tin người dùng hiện tại theo phân tích của AIRe:",
     profile_years_old: " tuổi.",
@@ -99,6 +101,12 @@ const vi: Locale = {
     profile_question_language: "Ngôn ngữ chính của bạn là gì?",
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
+    profile_experiments_title: "Thí nghiệm",
+    profile_experiments_text: "Ghi đè lời nhắc hệ thống chatbot",
+    profile_experiments_add: "Thêm vào",
+    profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
+    profile_experiments_apply: "Áp dụng các thay đổi",
+
     verification_heading: "Xác thực tài khoản của bạn",
     verification_description: "Nhập mã xác minh bạn nhận được trong email",
     verification_button_verify: "Xác minh",
@@ -124,7 +132,9 @@ const vi: Locale = {
     settings_ui_screen_size_mobile: "Di động",
     settings_ui_screen_size_tablet: "Viên thuốc",
     settings_ui_screen_size_desktop: "Máy tính để bàn",
-    settings_ui_screen_size_dynamic: "Dynamic",
+    settings_ui_screen_size_dynamic: "Năng động",
+
+    switch_color_mode: "Màu chế độ chủ đề",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
@@ -178,6 +188,7 @@ const vi: Locale = {
         "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
     popup_confirm_logout: "Bạn có chắc chắn bạn muốn thoát?",
     popup_logout_message: "Bây giờ bạn đã đăng xuất.",
+    popup_confirm_profile_updated: "Hồ sơ cá nhân đã cập nhật.",
 
     no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
     confirm_questionnaire_start:
@@ -206,7 +217,9 @@ const vi: Locale = {
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",
-    vi: "Tiếng Việt"
+    vi: "Tiếng Việt",
+    id: "Tiếng Indonesia",
+    sw: "Tiếng Swahili"
 };
 
 export default vi;

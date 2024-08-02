@@ -62,7 +62,9 @@ const en: Locale = {
     profile_label_country: "Country",
     profile_label_bio: "Bio",
     profile_button_save: "Update",
-
+    profile_characters_max: '{0} characters maximum.',
+    profile_remaining: "remaining characters.",
+    
     profile_heading_connected_services: "Connected Services",
     profile_empty_service_list: "No connected services",
 
@@ -102,6 +104,12 @@ const en: Locale = {
     profile_question_language: "What is your primary language?",
     profile_question_country: "Which country you live in?",
 
+    profile_experiments_title: "Experiments",
+    profile_experiments_text: "Override chatbot system prompt",
+    profile_experiments_add: "Add",
+    profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
+    profile_experiments_apply: "Apply changes",
+
     verification_heading: "Verify Your Account",
     verification_description:
         "Enter the verification code you received in your email",
@@ -129,6 +137,8 @@ const en: Locale = {
     settings_ui_screen_size_tablet: "Tablet",
     settings_ui_screen_size_desktop: "Desktop",
     settings_ui_screen_size_dynamic: "Dynamic",
+
+    switch_color_mode: "Theme color",
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: `The bot failed to respond. This might occur due to content filtering.
@@ -182,6 +192,7 @@ const en: Locale = {
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
     popup_confirm_logout: "Are you sure you want to logout?",
     popup_logout_message: "You are now logout.",
+    popup_confirm_profile_updated: "Profile updated.",
 
     no_questionnaires_found: "Could not find suitable questionnaires.",
     confirm_questionnaire_start:
@@ -210,7 +221,9 @@ const en: Locale = {
     en: "English",
     fi: "Finnish",
     es: "Spanish",
-    vi: "Vietnamese"
+    vi: "Vietnamese",
+    id: "Indonesian",
+    sw: "Swahili"
 };
 
 export default en;
