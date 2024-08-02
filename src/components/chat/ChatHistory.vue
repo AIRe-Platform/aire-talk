@@ -121,7 +121,7 @@ const getTokenCount = (id: string) => {
 
 const onClickOutside = (e: Event) => {
     if (!state.deleteId) {
-        e.stopImmediatePropagation();
+        //e.stopImmediatePropagation();
         UIState.panels.delete(UIPanels.ChatHistory);
     }
 };

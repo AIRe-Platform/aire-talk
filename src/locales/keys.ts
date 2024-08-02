@@ -66,7 +66,7 @@ export enum LocalizationKey {
     profile_label_new_password = "profile_label_new_password",
     profile_button_change_password = "profile_button_change_password",
 
-    profile_heading_delete_accout = "profile_heading_delete_account",
+    profile_heading_delete_account = "profile_heading_delete_account",
     profile_description_delete_account = "profile_description_delete_account",
     profile_label_password_confirm = "profile_label_password_confirm",
     profile_label_keep_anonymized_data = "profile_label_keep_anonymized_data",
@@ -89,6 +89,14 @@ export enum LocalizationKey {
     profile_question_age = "profile_question_age",
     profile_question_language = "profile_question_language",
     profile_question_country = "profile_question_country",
+    profile_characters_max = "profile_characters_max",
+    profile_remaining = "profile_remaining",
+    
+    profile_experiments_title = "profile_experiments_title",
+    profile_experiments_text = "profile_experiments_text",
+    profile_experiments_add = "profile_experiments_add",
+    profile_experiments_description = "profile_experiments_description",
+    profile_experiments_apply = "profile_experiments_apply",
 
     verification_heading = "verification_heading",
     verification_description = "verification_description",
@@ -116,6 +124,8 @@ export enum LocalizationKey {
     settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
     settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
     settings_ui_screen_size_dynamic = "settings_ui_screen_size_dynamic",
+
+    switch_color_mode = "switch_color_mode",
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
@@ -158,6 +168,7 @@ export enum LocalizationKey {
     popup_confirm_remove_chat = "popup_confirm_remove_chat",
     popup_confirm_logout = "popup_confirm_logout",
     popup_logout_message = "popup_logout_message",
+    popup_confirm_profile_updated = "popup_confirm_profile_updated",
 
     no_questionnaires_found = "no_questionnaires_found",
     confirm_questionnaire_start = "confirm_questionnaire_start",
@@ -183,5 +194,7 @@ export enum LocalizationKey {
     en = "en",
     fi = "fi",
     es = "es",
-    vi = "vi"
+    vi = "vi",
+    id = "id",
+    sw = "sw",
 }

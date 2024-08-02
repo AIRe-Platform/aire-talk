@@ -62,7 +62,9 @@ const fi: Locale = {
     profile_label_country: "Maa",
     profile_label_bio: "Tietoja",
     profile_button_save: "Tallenna",
-
+    profile_characters_max: '{0} merkkejä maksimissaan.',
+    profile_remaining: "jäljellä olevat merkit.",
+    
     profile_heading_connected_services: "Yhdistetyt palvelut",
     profile_empty_service_list: "Ei yhdistettyjä palveluita",
 
@@ -101,6 +103,12 @@ const fi: Locale = {
     profile_question_language: "Mikä on ensisijainen kielesi?",
     profile_question_country: "Mikä on asuinmaasi?",
 
+    profile_experiments_title: "Kokeilut",
+    profile_experiments_text: "Ohita chatbotin järjestelmä kehote",
+    profile_experiments_add: "Lisätä",
+    profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
+    profile_experiments_apply: "Ota muutokset käyttöön",
+
     verification_heading: "Vahvista tilisi",
     verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
     verification_button_verify: "Tarkista",
@@ -127,6 +135,8 @@ const fi: Locale = {
     settings_ui_screen_size_tablet: "Tabletti",
     settings_ui_screen_size_desktop: "Työpöytä",
     settings_ui_screen_size_dynamic: "Dynamic",
+
+    switch_color_mode: "Teematila",
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Tämä voi johtua sisältösuodattimesta.
@@ -182,6 +192,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
     popup_confirm_logout: "Haluatko varmasti kirjautua ulos?",
     popup_logout_message: "Olet nyt kirjautunut ulos.",
+    popup_confirm_profile_updated: "Profiili päivitetty.",
 
     no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
@@ -209,7 +220,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",
-    vi: "Vietnam"
+    vi: "Vietnam",
+    id: "Indonesia",
+    sw: "Swahili"
 };
 
 export default fi;
