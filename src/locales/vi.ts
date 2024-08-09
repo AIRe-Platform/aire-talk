@@ -208,6 +208,8 @@ const vi: Locale = {
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",
+    button_yes: "Đúng",
+    button_no: "Không",
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",

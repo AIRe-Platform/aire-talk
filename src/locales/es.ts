@@ -219,6 +219,8 @@ const es: Locale = {
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
+    button_yes: "Sí",
+    button_no: "No",
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",

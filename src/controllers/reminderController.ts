@@ -27,8 +27,8 @@ const ReminderController: QuestionnaireController = {
             options: {
                 multiselect: false,
                 values: [
-                    i18n.global.t(l.button_accept),
-                    i18n.global.t(l.button_cancel)
+                    i18n.global.t(l.button_yes),
+                    i18n.global.t(l.button_no)
                 ]
             } as AireQuestionOptionCheckbox
         };
