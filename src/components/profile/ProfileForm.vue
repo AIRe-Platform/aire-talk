@@ -62,7 +62,12 @@ const onSaveChanges = (e: Event) => {
                     state.error = l.error_profile_edit;
                 }
             })
-            .finally(() => (state.busy = false, state.show_confirmation_modal = true));
+            .finally(() => {
+                state.busy = false;
+                if (!state.error) {
+                    state.show_confirmation_modal = true;
+                }
+            });
     }
 };
 
