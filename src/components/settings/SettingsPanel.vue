@@ -1,20 +1,13 @@
 <script setup lang="ts">
-import { supportedLocales, setUILanguage, l } from "@/locales";
+import { l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
-import ISO6391, { LanguageCode } from 'iso-639-1';
 
+import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 
-
-const setLang = async (e: Event) => {
-
-    const el = e.target as HTMLSelectElement;
-    setUILanguage(el.value as LanguageCode);
-    el.blur();
-};
 
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
@@ -42,14 +35,7 @@ const onClickOutside = (e: Event) => {
             {{ $t(l.settings_title) }}
         </div>
         <Separator />
-        <div class="settings-item">
-            <label for="settings-language">{{ $t(l.settings_language) }}</label>
-            <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
-                <option v-for="lang in supportedLocales" :value="lang" :key="lang">
-                    {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
-                </option>
-            </select>
-        </div>
+        <LanguageSelector />
         <Separator />
         <ThemeSwitch />
         <Separator />

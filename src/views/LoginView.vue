@@ -5,6 +5,7 @@ import { router } from '@/router';
 import { useRoute } from 'vue-router';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
+import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 
 const route = useRoute();
 
@@ -54,7 +55,12 @@ const onLogin = (e: Event) => {
                 <Spinner />
             </div>
             <RouterLink to="/recovery" class="login-recovery-link">{{ $t(l.login_forgot_password) }}</RouterLink>
+            <div class="language-selector">
+                <LanguageSelector />
+            </div>
+
         </form>
+
     </div>
 </template>
 
@@ -118,6 +124,18 @@ input[type=password] {
     .form-content {
         width: 70%;
         padding: 1rem 2rem;
+    }
+}
+
+.language-selector {
+    padding-top: 3rem;
+    padding-right: 9rem;
+}
+
+.ui-mode-mobile {
+    .language-selector {
+        padding-top: 3rem;
+        padding-right: 4rem;
     }
 }
 </style>
