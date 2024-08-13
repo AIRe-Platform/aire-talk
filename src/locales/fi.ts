@@ -219,6 +219,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_delete_content: "Poista sisältö",
     button_display: "Näytä",
 
+    content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
+
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",

@@ -227,6 +227,8 @@ const es: Locale = {
     button_delete_content: "Eliminar contenido",
     button_display: "Mostrar",
 
+    content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
+
     en: "Inglés",
     fi: "Finés",
     es: "Español",

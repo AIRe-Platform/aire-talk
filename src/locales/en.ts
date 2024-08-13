@@ -220,6 +220,8 @@ const en: Locale = {
     button_delete_content: "Delete content",
     button_display: "Display",
 
+    content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

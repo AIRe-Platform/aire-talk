@@ -199,6 +199,8 @@ const sw: Locale = {
     button_delete_content: "Futa maudhui",
     button_display: "Onyesha",
 
+    content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
+
     en: "Kiingereza",
     fi: "Kifini",
     es: "Kihispania",

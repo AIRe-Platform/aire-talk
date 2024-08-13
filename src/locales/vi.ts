@@ -216,6 +216,8 @@ const vi: Locale = {
     button_delete_content: "Xóa nội dung",
     button_display: "Chưng ra",
 
+    content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
+
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",
