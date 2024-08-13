@@ -211,6 +211,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
+    button_yes: "Kyllä",
+    button_no: "Ei",
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",

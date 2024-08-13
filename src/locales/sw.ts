@@ -191,6 +191,8 @@ const sw: Locale = {
 
     button_accept: "Kubali",
     button_cancel: "Ghairi",
+    button_yes: "Ndio",
+    button_no: "Hapana",
     button_back: "Rudi",
     button_continue: "Endelea",
     button_close: "Funga",
