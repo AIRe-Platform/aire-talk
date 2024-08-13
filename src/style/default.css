@@ -87,7 +87,7 @@
     --settings-panel-theme-color: #176087;
     --summary-keyword-item-background: #FFFFFF;
     --summary-keyword-item-font-color: #176087;
-
+    --suggestions-background: #F1F4F9;
 }
 
 :root.theme-dark {
@@ -138,7 +138,7 @@
     --settings-panel-theme-color: white;
     --summary-keyword-item-background: #F1F4F9;
     --summary-keyword-item-font-color: #2374AB;
-
+    --suggestions-background: #176087;
 }
 
 html {
