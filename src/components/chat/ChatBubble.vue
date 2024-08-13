@@ -76,6 +76,7 @@ const closeModal = () => {
 
 const listContent = async () => {
     state.content = [];
+    console.log("chats:", props.message);
     props.message.media?.forEach(async (x) => {
         const item = await contentContext.get(x);
         if (item)
@@ -89,7 +90,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :id="props.message.id" :class=classList @click="toggleModal">
+    <div :id="props.message.id" :class="[...classList, { 'is-suggestion': props.message.suggestion }]"
+        @click="toggleModal">
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
@@ -193,6 +195,10 @@ onMounted(() => {
     padding: 1rem;
     margin: 0;
     margin-top: 1rem;
+}
+
+.is-suggestion {
+    background-color: var(--suggestions-background);
 }
 
 .ui-mode-mobile {
