@@ -76,7 +76,6 @@ const closeModal = () => {
 
 const listContent = async () => {
     state.content = [];
-    console.log("chats:", props.message);
     props.message.media?.forEach(async (x) => {
         const item = await contentContext.get(x);
         if (item)
