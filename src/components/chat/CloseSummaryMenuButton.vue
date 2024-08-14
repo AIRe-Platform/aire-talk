@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
+import { ref } from "vue";
+
+const props = defineProps<{
+    menuOpen: boolean
+}>()
+
+const closingMenu = ref(false);
+
+closingMenu.value = false;
+
+const emit = defineEmits<{
+    toggleMenuOpen: []
+}>()
+
+const handleClick = async () => {
+    closingMenu.value = true;
+    setTimeout(() => {
+        emit('toggleMenuOpen');
+    }, 150);
+}
+</script>
+
+<template>
+    <div class="close-summary-menu-button fade-in-and-left"
+        :class="{ 'button-active': props.menuOpen, 'fade-out-and-right': closingMenu }" v-show="props.menuOpen"
+        @click="handleClick">
+        <div class="icon close-window"></div>
+    </div>
+</template>
+
+<style lang="scss" scoped>
+.close-summary-menu-button {
+    position: absolute;
+    display: flex;
+    top: 1.5rem;
+    height: 1rem;
+    cursor: pointer;
+    align-items: flex-end;
+    flex-direction: column;
+
+    &:hover {
+        color: var(--accent-primary-color);
+    }
+}
+
+.button-active {
+    color: var(--accent-primary-color);
+    right: 1.5rem;
+}
+
+.ui-mode-mobile {
+    .close-summary-menu-button {
+        display: flex;
+        border: none;
+        box-shadow: unset;
+        width: 1rem;
+        right: 2rem;
+    }
+}
+</style>
