@@ -10,7 +10,6 @@ import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
-import { setUIModeLayoutBeforeMount } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -52,7 +51,6 @@ const listContent = async () => {
 }
 
 onMounted(() => {
-    setUIModeLayoutBeforeMount();
     state.busy = true;
     listContent()
         .finally(() => {
@@ -162,7 +160,7 @@ const showContent = async (content: AireContent) => {
     overflow: auto;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;

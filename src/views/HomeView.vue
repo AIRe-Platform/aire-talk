@@ -8,7 +8,6 @@ import useChat from '@/context/chat';
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
-import { setUIModeLayoutBeforeMount } from '@/context/ui';
 
 const login = useLogin();
 const chat = useChat();
@@ -48,7 +47,6 @@ const navigateTo = (path: string) => {
 }
 
 onMounted(async () => {
-    setUIModeLayoutBeforeMount();
     const last = await getLastChatId();
     state.showLastChatButton = (last !== undefined);
 })
@@ -186,7 +184,7 @@ onMounted(async () => {
     background-size: contain;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .home-header {
         height: 20rem;
     }
@@ -208,7 +206,7 @@ onMounted(async () => {
     }
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;

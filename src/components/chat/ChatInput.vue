@@ -169,7 +169,7 @@ function submit() {
     height: 2rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     .chat-options-button,
     .chat-content {
@@ -186,7 +186,7 @@ function submit() {
 }
 
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     .chat-options-button,
     .chat-content {

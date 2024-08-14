@@ -1,9 +1,6 @@
-import { UIMode, UISettings, applyUiClass } from "@/context/ui";
-import { ref } from 'vue';
+import { computed } from 'vue';
 
-export const useMobileLayout = ref<boolean>(isMobileResolution());
-
-function isMobileResolution(): boolean {
+export const isMobileResolution = computed(() => {
     const view = document.defaultView;
     if (!view)
         return false;
@@ -12,13 +9,4 @@ function isMobileResolution(): boolean {
     const narrow = (view.innerWidth <= 920);
 
     return portrait || narrow;
-}
-
-window.addEventListener("resize", (e: Event) => {
-    useMobileLayout.value = isMobileResolution();
-    if (UISettings.uiMode === UIMode.Dynamic) {
-        applyUiClass(isMobileResolution() ? UIMode.Mobile : UIMode.Desktop)
-    }
 });
-
-export default useMobileLayout;

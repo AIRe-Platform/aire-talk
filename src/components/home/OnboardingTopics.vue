@@ -125,7 +125,7 @@ const buttonSelected = async (topic: Topic) => {
     margin: 0.2rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .onboarding-button {
         width: 3.5rem;
         height: 3.2rem;

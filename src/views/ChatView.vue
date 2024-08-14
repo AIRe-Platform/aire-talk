@@ -3,7 +3,6 @@ import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { l } from '@/locales';
 import { ChatMessage } from "@/models/chat";
-import useMobileLayout from "@/helpers/mobile";
 import useChat, { ChatContext } from "@/context/chat";
 
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
@@ -12,7 +11,6 @@ import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
 import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
-import { setUIModeLayoutBeforeMount } from "@/context/ui";
 import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
@@ -97,8 +95,6 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 }
 
 onMounted(async () => {
-    showSideBar.value = !useMobileLayout.value;
-    setUIModeLayoutBeforeMount();
     scrollChatToBottom()
 
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
@@ -265,7 +261,7 @@ onMounted(async () => {
     padding-top: 1rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-view-container {
         width: 100%;
         padding-top: 2.5rem;

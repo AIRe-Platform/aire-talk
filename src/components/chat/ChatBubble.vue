@@ -76,7 +76,6 @@ const closeModal = () => {
 
 const listContent = async () => {
     state.content = [];
-    console.log("chats:", props.message);
     props.message.media?.forEach(async (x) => {
         const item = await contentContext.get(x);
         if (item)
@@ -201,7 +200,7 @@ onMounted(() => {
     background-color: var(--suggestions-background);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-bubble {
         margin: 0.5rem 1rem 0.5rem 0.3rem
     }

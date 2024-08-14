@@ -89,7 +89,7 @@ onMounted(async () => {
     color: var(--link-icon);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-content {
         max-width: unset;
         min-width: unset;

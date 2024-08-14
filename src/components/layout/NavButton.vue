@@ -120,7 +120,7 @@ const props = defineProps<{
     top: 50%;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .nav-button {
         padding: 0.5rem;
         left: 0.5rem;

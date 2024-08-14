@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
+import { UIFontSize, UIPanels, UISettings, UIState } from "@/context/ui";
 
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
@@ -15,17 +15,10 @@ const setTextSize = (e: Event) => {
     el.blur();
 }
 
-const setScreenSize = (e: Event) => {
-    const el = e.target as HTMLSelectElement;
-    UISettings.uiMode = el.value as UIMode;
-    el.blur();
-    if (UISettings.uiMode == UIMode.Mobile) {
-        UIState.isNavMenuCompressed = true;
-    }
-}
 const onClickOutside = (e: Event) => {
     //e.stopImmediatePropagation();
     UIState.panels.delete(UIPanels.Settings);
+    UIState.isNavMenuCompressed = false;
 };
 </script>
 
@@ -47,14 +40,6 @@ const onClickOutside = (e: Event) => {
             </select>
         </div>
         <Separator />
-        <div class="settings-item">
-            <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
-            <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.uiMode">
-                <option :value="UIMode.Dynamic">{{ $t(l.settings_ui_screen_size_dynamic) }}</option>
-                <option :value="UIMode.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
-                <option :value="UIMode.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
-            </select>
-        </div>
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
@@ -100,7 +85,7 @@ const onClickOutside = (e: Event) => {
     margin-left: 16rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
         width: 65%;
         margin-left: 4rem;

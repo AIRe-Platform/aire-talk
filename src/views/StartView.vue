@@ -3,13 +3,11 @@ import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
 import { onMounted } from 'vue';
-import { setUIModeLayoutBeforeMount } from '@/context/ui';
 
 const navigateTo = (path: string) => {
     router.push(path)
 }
 
-onMounted(setUIModeLayoutBeforeMount);
 </script>
 
 <template>
@@ -112,7 +110,7 @@ onMounted(setUIModeLayoutBeforeMount);
     font-size: var(--font-small);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     #start-view {
         background-size: cover;
