@@ -6,16 +6,14 @@ const props = defineProps<{
     menuOpen: boolean
 }>()
 
-const closingMenu = ref(false);
-
-closingMenu.value = false;
+const isClosingMenu = ref(false);
 
 const emit = defineEmits<{
     toggleMenuOpen: []
 }>()
 
 const handleClick = async () => {
-    closingMenu.value = true;
+    isClosingMenu.value = true;
     setTimeout(() => {
         emit('toggleMenuOpen');
     }, 150);
@@ -24,7 +22,7 @@ const handleClick = async () => {
 
 <template>
     <div class="close-summary-menu-button fade-in-and-left"
-        :class="{ 'button-active': props.menuOpen, 'fade-out-and-right': closingMenu }" v-show="props.menuOpen"
+        :class="{ 'button-active': props.menuOpen, 'fade-out-and-right': isClosingMenu }" v-show="props.menuOpen"
         @click="handleClick">
         <div class="icon close-window"></div>
     </div>
