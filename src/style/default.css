@@ -260,3 +260,40 @@ button {
 .font-large {
     font-size: var(--font-large);
 }
+
+
+@keyframes fade-in-and-left {
+    0% {
+        opacity: 0;
+        right: -1rem;
+        transform: translate(100%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        right: 3rem;
+        transform: translate(100%, 0);
+    }
+}
+
+@keyframes fade-out-and-right {
+    0% {
+        opacity: 1;
+        right: 3rem;
+        transform: translate(100%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        right: 0rem;
+        transform: translate(100%, 0);
+    }
+}
+
+.fade-in-and-left {
+    animation: fade-in-and-left 0.4s;
+}
+
+.fade-out-and-right {
+    animation: fade-out-and-right 0.4s;
+}
