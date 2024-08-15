@@ -8,8 +8,6 @@ import ProfileView from "./views/ProfileView.vue";
 import ChatView from "./views/ChatView.vue";
 import LandingView from "./views/LandingView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
-import VerificationView from "./views/VerificationView.vue";
-import RecoveryView from "./views/RecoveryView.vue";
 import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
@@ -88,25 +86,7 @@ export const router = createRouter({
             name: "Landing",
         },
         {
-            path: "/verify",
-            component: VerificationView,
-            name: "VerificationCode",
-            meta: {
-                title: l.verification_heading,
-                require_login: true
-            },
-        },
-        {
-            path: "/recovery",
-            component: RecoveryView,
-            name: "Recovery",
-            meta: {
-                title: l.recovery_heading,
-                no_login: true,
-            },
-        },
-        {
-            path: "/callback",
+            path: "/auth/callback",
             component: AuthorizationCallbackView,
             name: "AuthorizationCallback",
             meta: {
@@ -125,11 +105,7 @@ router.beforeEach(async (to, from) => {
     const login = useLogin();
 
     if (login.user) {
-        if (!login.user.verified && to.path !== "/verify")
-            return "/verify"
-        else if (login.user.verified && to.path === "/verify")
-            return "/home"
-        else if (to.meta.no_login)
+        if (to.meta.no_login)
             return "/home"
     }
     else {

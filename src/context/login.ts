@@ -1,41 +1,106 @@
-import { AireServices, AireUser, AireStatus } from "aire";
+import { AireServices, AireUser, AireStatus, AireErrorResult } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
+import { randomHexString, SHA256 } from "@/helpers/crypto";
+
+interface LoginAuthState {
+    state: string;
+    code_verifier: string;
+}
+
+export interface LoginAuthResult {
+    ok: boolean;
+    error?: AireErrorResult;
+}
 
 export class LoginContext {
     public user?: AireUser;
-    private credentials?: { username: string, password: string }
+    public auth_state?: LoginAuthState;
 
-    public async login(username: string, password: string): Promise<boolean> {
+    constructor() {
+        const auth_state_data = window.localStorage.getItem("aire_auth_state");
+        if (auth_state_data)
+            this.auth_state = JSON.parse(auth_state_data);
+    }
+
+    public async redirectToLogin(): Promise<boolean> {
         if (AireServices.ID) {
-            const status = await AireServices.ID.login(username, password);
-            if (status == AireStatus.Success) {
-                const userResponse = await AireServices.ID.getUser();
-                if (userResponse.status == AireStatus.Success) {
-                    this.user = userResponse.data
-                    this.saveSession()
-    
-                    // need credentials for re-login
-                    if (!this.user?.verified) {
-                        this.credentials = { username: username, password: password }
-                    }
-    
-                    useChat().reset(false, true);
+            const code_challenge = randomHexString(32);
+            const state = randomHexString(32);
+            this.auth_state = {
+                state: state,
+                code_verifier: await SHA256(code_challenge)
+            };
+            window.localStorage.setItem("aire_auth_state", JSON.stringify(this.auth_state));
+
+            try {
+                const res = await AireServices.ID.getLoginRedirectUrl(code_challenge, state);
+                if (res.status == AireStatus.Success && res.data) {
+                    window.open(res.data, "_self");
                     return true;
                 }
+            }
+            catch {
+                /* fallthru */
             }
         }
         return false;
     }
 
+    public async loginWithAuthenticationCode(code: string, state: string): Promise<LoginAuthResult> {
+        if (AireServices.ID && this.auth_state) {
+            if (state !== this.auth_state.state) {
+                return {
+                    ok: false,
+                    error: {
+                        error: "state_mismatch",
+                        error_message: "State mismatch"
+                    }
+                };
+            }
+
+            const response = await AireServices.ID.loginWithCode(
+                code,
+                this.auth_state.code_verifier,
+                this.auth_state.state);
+
+            if (response.status == AireStatus.Success) {
+                const userResponse = await AireServices.ID.getUser();
+                if (userResponse.status == AireStatus.Success) {
+                    this.user = userResponse.data
+                    this.saveSession()
+
+                    useChat().reset(false, true);
+                    return { ok: true };
+                }
+                else {
+                    return {
+                        ok: false,
+                        error: {
+                            error: "user_request_failed",
+                            error_message: "Failed to request user data."
+                        }
+                    }
+                }
+            }
+            else {
+                return { ok: false, error: response.error }
+            }
+        }
+        else {
+            return {
+                ok: false, error: {
+                    error: "unavailable",
+                    error_message: "Cannot perform login at this moment."
+                }
+            };
+        }
+    }
+
     public async signup(email: string, password: string): Promise<AireStatus> {
         if (AireServices.ID) {
             const status = await AireServices.ID.signup(email, password);
-            if (status === AireStatus.Success) {
-                const loggedIn = await this.login(email, password);
-                return loggedIn ? AireStatus.Success : AireStatus.UnknownError;
-            }
             return status;
         }
         return AireStatus.UnknownError;
@@ -43,14 +108,12 @@ export class LoginContext {
 
     public async logout() {
         this.user = undefined;
-        this.credentials = undefined;
-    
         localStorage.removeItem("aire_session_token");
-    
+
         if (AireServices.ID) {
             AireServices.ID.logout();
         }
-    
+
         await useChat().reset(false, true);
         useContent().reset();
     }
@@ -65,46 +128,23 @@ export class LoginContext {
         }
         return undefined
     }
-    
+
     public async changePassword(current_password: string, new_password: string): Promise<boolean> {
         if (AireServices.ID && this.user) {
             const status = await AireServices.ID.changePassword(this.user.uuid, current_password, new_password)
             if (status == AireStatus.Success) {
-                // Need to log in again
-                const email = this.user?.email
                 await this.logout();
-                if (email)
-                    return await this.login(email, new_password);
+                await this.redirectToLogin()
             }
         }
         return false;
     }
-    
-    public async verifyAccount(code: string): Promise<boolean> {
-        if (AireServices.ID && this.user && !this.user.verified && this.credentials) {
-            const status = await AireServices.ID.verifyUserCode(code);
-            if (status == AireStatus.Success) {
-                const result = await this.login(this.credentials.username, this.credentials.password)
-                this.credentials = undefined;
-                return result;
-            }
-        }
-        return false;
-    }
-    
-    public async resendVerification(): Promise<boolean> {
-        if (AireServices.ID && this.user && !this.user.verified) {
-            const status = await AireServices.ID.resendVerification();
-            return status == AireStatus.Success
-        }
-        return false;
-    }
-    
+
     public async restoreSession(): Promise<boolean> {
         const token = localStorage.getItem("aire_session_token");
         if (AireServices.ID && token) {
             console.debug("Restoring session...");
-    
+
             const status = await AireServices.ID.verifyToken(token);
             if (status == AireStatus.Success) {
                 const userResponse = await AireServices.ID.getUser();
@@ -119,7 +159,7 @@ export class LoginContext {
         }
         return false;
     }
-    
+
     public saveSession() {
         const token = AireServices.ID?.getAccessToken();
         if (token) {

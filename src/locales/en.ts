@@ -24,12 +24,12 @@ const en: Locale = {
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
-    login_form_title: "Login",
-    login_form_submit: "Login",
-    login_label_username: "Email or username",
-    login_label_password: "Password",
-    login_failure_message: "Failed to login",
-    login_forgot_password: "I forgot my password",
+    login_title: "Login",
+    login_redirect: "Redirecting to login page...",
+    login_failure: "The login service is unavailable at the moment. Please try again later.",
+    login_callback_failure: "Login attempt failed.",
+    login_callback_error_description: "Details:",
+    login_callback_button: "Back to home page",
 
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
@@ -109,23 +109,6 @@ const en: Locale = {
     profile_experiments_add: "Add",
     profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
     profile_experiments_apply: "Apply changes",
-
-    verification_heading: "Verify Your Account",
-    verification_description:
-        "Enter the verification code you received in your email",
-    verification_button_verify: "Verify",
-    verification_code_resend: "Send me a new code",
-    verification_code_resend_done: "A new code is on its way!",
-
-    recovery_heading: "Account Recovery",
-    recovery_label_email: "Email address",
-    recovery_label_code: "Recovery code",
-    recovery_label_password: "New password",
-    recovery_enter_code: "Enter the recovery code we just sent you.",
-    recovery_not_available: "Account recovery is not available currently.",
-    recovery_failure: "This account cannot be recovered.",
-    recovery_password_changed: "The password was changed successfully.",
-    recovery_back_to_login: "Back to login",
 
     settings_title: "Settings",
     settings_language: "User interface language",

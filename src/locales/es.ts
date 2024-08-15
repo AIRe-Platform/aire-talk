@@ -24,12 +24,12 @@ const es: Locale = {
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
 
-    login_form_title: "Inicia sesión",
-    login_form_submit: "Entrar",
-    login_label_username: "Email o nombre de usuario",
-    login_label_password: "Contraseña",
-    login_failure_message: "Error al iniciar sesión",
-    login_forgot_password: "Olvidé mi contraseña",
+    login_title: "Inicia sesión",
+    login_redirect: "Redireccionando a la página de inicio de sesión...",
+    login_failure: "El servicio de inicio de sesión no está disponible en este momento. Inténtelo nuevamente más tarde.",
+    login_callback_failure: "Intento de inicio de sesión fallido.",
+    login_callback_error_description: "Detalles:",
+    login_callback_button: "Volver a la página de inicio",
 
     signup_form_title: "Crear una cuenta",
     signup_form_submit: "Registrar",
@@ -110,25 +110,6 @@ const es: Locale = {
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
-
-    verification_heading: "Verifica tu cuenta",
-    verification_description:
-        "Ingresa el código de verificación que recibiste en tu correo electrónico",
-    verification_button_verify: "Verificar",
-    verification_code_resend: "Envíame un nuevo código",
-    verification_code_resend_done: "¡Un nuevo código está en camino!",
-
-    recovery_heading: "Recuperación de cuenta",
-    recovery_label_email: "Dirección de correo electrónico",
-    recovery_label_code: "Código de recuperación",
-    recovery_label_password: "Nueva contraseña",
-    recovery_enter_code:
-        "Ingresa el código de recuperación que te acabamos de enviar.",
-    recovery_not_available:
-        "La recuperación de cuenta no está disponible actualmente.",
-    recovery_failure: "Esta cuenta no se puede recuperar.",
-    recovery_password_changed: "La contraseña se cambió exitosamente.",
-    recovery_back_to_login: "Atrás para iniciar sesión",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
