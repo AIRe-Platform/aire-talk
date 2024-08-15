@@ -150,9 +150,18 @@ You may add additional accurate notices of copyright ownership.
 Exhibit B - “Incompatible With Secondary Licenses” Notice
 This Source Code Form is “Incompatible With Secondary Licenses”, as defined by the Mozilla Public License, v. 2.0.
 
-(PENDING OF CONFIRMATION)
-## Licensing of Assets
+(PENDING OF CONFIRMATION)## Licensing of Assets
 
 All images, videos, and other non-code assets in this project are licensed under the Mozilla Public License, Version 2.0. You may obtain a copy of the License at https://mozilla.org/MPL/2.0/.
 
 If any asset was not created by the project maintainers and is included under a different license, that license is noted in the file name or directory where the asset is stored.
+
+
+(UNFINISHED)## Submodules and Third-Party Dependencies 
+
+This project includes the following submodules, each with its own licensing terms:
+
+- [Submodule Name](link to submodule): Licensed under the [Submodule License Name (e.g., MIT, Apache 2.0)].
+- [Submodule Name](link to submodule): Licensed under the [Submodule License Name (e.g., GPL, LGPL)].
+
+Please review the individual licenses for the submodules to understand the terms and conditions that apply.
