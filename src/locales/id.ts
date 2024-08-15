@@ -212,6 +212,8 @@ const id: Locale = {
 
     button_accept: "Terima",
     button_cancel: "Batal",
+    button_yes: "Ya",
+    button_no: "Tidak",
     button_back: "Kembali",
     button_continue: "Lanjutkan",
     button_close: "Tutup",
