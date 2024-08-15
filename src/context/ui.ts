@@ -26,12 +26,14 @@ export interface UISettingsOptions {
 export interface UIStateOptions {
     showMenu: boolean;
     isNavMenuCompressed: boolean;
+    isClosingMenu: boolean;
     panels: Set<UIPanels>;
 }
 
 export const UIState = reactive<UIStateOptions>({
     showMenu: false,
     isNavMenuCompressed: false,
+    isClosingMenu: false,
     panels: new Set<UIPanels>(),
 });
 
@@ -56,6 +58,18 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
     }
     document.documentElement.classList.add(newSize);
 }
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+export async function closeBurgerMenu(){
+    if (UIState.showMenu) {
+        UIState.isClosingMenu = true;
+        await sleep(500);
+        UIState.isClosingMenu = false;
+    }
+}
+
 
 export function setUIModeLayoutBeforeMount(){
     applyUiClass(useMobileLayout.value ? UIMode.Mobile : UIMode.Desktop);
