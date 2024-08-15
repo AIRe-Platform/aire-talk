@@ -207,8 +207,6 @@ const id: Locale = {
     button_close: "Tutup",
     button_delete_content: "Hapus konten",
     button_display: "Tampilkan",
-    button_yes: "Ya",
-    button_no: "Tidak",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
     
