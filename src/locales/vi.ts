@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const vi: Locale = {
@@ -200,6 +205,8 @@ const vi: Locale = {
     button_close: "Đóng",
     button_delete_content: "Xóa nội dung",
     button_display: "Chưng ra",
+
+    content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

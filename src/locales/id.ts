@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const id: Locale = {
@@ -195,6 +200,8 @@ const id: Locale = {
 
     button_accept: "Terima",
     button_cancel: "Batal",
+    button_yes: "Ya",
+    button_no: "Tidak",
     button_back: "Kembali",
     button_continue: "Lanjutkan",
     button_close: "Tutup",
@@ -203,6 +210,8 @@ const id: Locale = {
     button_yes: "Ya",
     button_no: "Tidak",
 
+    content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
+    
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",

@@ -1,3 +1,7 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps, onMounted, reactive } from 'vue';
@@ -89,7 +93,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :id="props.message.id" :class=classList @click="toggleModal">
+    <div :id="props.message.id" :class="[...classList, { 'is-suggestion': props.message.suggestion }]"
+        @click="toggleModal">
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
@@ -193,6 +198,10 @@ onMounted(() => {
     padding: 1rem;
     margin: 0;
     margin-top: 1rem;
+}
+
+.is-suggestion {
+    background-color: var(--suggestions-background);
 }
 
 .ui-mode-mobile {

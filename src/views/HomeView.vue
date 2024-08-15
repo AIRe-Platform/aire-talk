@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
@@ -86,12 +91,12 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        if (i == 0) { onConfirmLogout() }
-        else if (i == 1) { state.showConfirmLogout = false; }
-    }">
+                        { loc_key: l.button_accept },
+                        { loc_key: l.button_cancel },
+                    ]" @select="(i: number) => {
+                        if (i == 0) { onConfirmLogout() }
+                        else if (i == 1) { state.showConfirmLogout = false; }
+                    }">
         {{ $t(l.popup_confirm_logout) }}
     </DialogModal>
 </template>

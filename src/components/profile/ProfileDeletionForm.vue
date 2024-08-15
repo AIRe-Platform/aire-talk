@@ -1,3 +1,7 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { AireServices, AireStatus } from 'aire';
@@ -55,7 +59,8 @@ const onDeleteAccount = (e: Event) => {
                     v-model="state.confirmPassword" :readonly="state.busy" />
             </span>
             <span class="form-toggle" @click.stop="">
-                <input id="keep_anonymized_data" type="checkbox" v-model="state.keepAnonymizedData" :disabled="state.busy" />
+                <input id="keep_anonymized_data" type="checkbox" v-model="state.keepAnonymizedData"
+                    :disabled="state.busy" />
                 <label for="keep_anonymized_data" class="checkbox-label" @click.stop="">
                     {{ $t(l.profile_label_keep_anonymized_data) }}
                 </label>

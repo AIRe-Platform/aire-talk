@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const en: Locale = {
@@ -202,6 +207,8 @@ const en: Locale = {
     button_close: "Close",
     button_delete_content: "Delete content",
     button_display: "Display",
+
+    content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 
     en: "English",
     fi: "Finnish",

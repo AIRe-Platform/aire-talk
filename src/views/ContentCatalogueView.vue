@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
@@ -95,6 +100,9 @@ const showContent = async (content: AireContent) => {
         <div class="content-catalogue-list">
             <Spinner v-if="state.busy" />
             <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent" />
+            <div v-if="state.contentList.length == 0">
+                <h3>{{ $t(l.content_catalogue_empty) }}</h3>
+            </div>
         </div>
     </div>
 </template>

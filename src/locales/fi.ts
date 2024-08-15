@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const fi: Locale = {
@@ -202,6 +207,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_close: "Sulje",
     button_delete_content: "Poista sisältö",
     button_display: "Näytä",
+
+    content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
 
     en: "Englanti",
     fi: "Suomi",

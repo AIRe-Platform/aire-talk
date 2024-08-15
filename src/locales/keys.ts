@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 export enum LocalizationKey {
     title = "title",
     footer = "footer",
@@ -175,7 +180,9 @@ export enum LocalizationKey {
     button_continue = "button_continue",
     button_close = "button_close",
     button_delete_content = "button_delete_content",
-    button_display  = "button_display",
+    button_display = "button_display",
+
+    content_catalogue_empty = "content_catalogue_empty",
     
     en = "en",
     fi = "fi",

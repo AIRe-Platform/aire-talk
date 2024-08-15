@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const sw: Locale = {
@@ -182,6 +187,8 @@ const sw: Locale = {
     button_close: "Funga",
     button_delete_content: "Futa maudhui",
     button_display: "Onyesha",
+
+    content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
     en: "Kiingereza",
     fi: "Kifini",

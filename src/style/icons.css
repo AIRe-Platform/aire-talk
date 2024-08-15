@@ -1,3 +1,8 @@
+/*  This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+
 .icon {
     background-repeat: no-repeat;
     background-size: contain;
@@ -79,14 +84,14 @@
     background-image: url("@/assets/icons/chat-history-dark-mobile.svg");
     width: 2rem;
     height: 2rem;
-    transform: scale(1.4);
+    /* transform: scale(1.4); */
 }
 
 .theme-default .icon.chat-history-mobile {
     background-image: url("@/assets/icons/chat-history-light-mobile.svg");
     width: 2rem;
     height: 2rem;
-    transform: scale(1.4);
+   /*  transform: scale(1.4); */
 }
 
 .theme-dark .icon.catalogue-content-mobile {
