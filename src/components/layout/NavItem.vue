@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import useMobileLayout from "@/helpers/mobile";
 import { defineProps } from 'vue';
 import { UIState } from "@/context/ui";
 
@@ -11,11 +12,13 @@ const props = defineProps<{
 
 <template>
     <div class="nav-item" :class="{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }">
+        <div v-if="!useMobileLayout && props.icon || UIState.isNavMenuCompressed"
+            :class="['icon ' + props.icon, { 'nav-item-desktop-icon': !useMobileLayout }]">
+        </div>
         <div class="nav-link" v-if="!UIState.isNavMenuCompressed || !props.icon">
             {{ props.label }}
         </div>
-        <div v-if="UIState.isNavMenuCompressed && props.icon" :class="'icon ' + props.icon">
-        </div>
+
     </div>
 </template>
 
@@ -23,19 +26,26 @@ const props = defineProps<{
 .nav-item {
     padding: 1rem;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     cursor: pointer;
     text-align: center;
     font-weight: bold;
+    align-items: center;
+    gap: 1rem;
 }
 
 .nav-item-active {
     background-color: var(--menu-active);
 }
 
+.nav-item-desktop-icon {
+    transform: scale(0.7) !important;
+}
+
 .ui-mode-mobile {
     .nav-item {
         padding: 2rem;
+        justify-content: center;
     }
 
     .small-layout {
