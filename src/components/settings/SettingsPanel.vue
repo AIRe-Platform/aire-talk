@@ -5,8 +5,9 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
+import { onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
+import { UIFontSize, UIPanels, UIMode, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
@@ -28,10 +29,26 @@ const setScreenSize = (e: Event) => {
         UIState.isNavMenuCompressed = true;
     }
 }
-const onClickOutside = (e: Event) => {
-    //e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.Settings);
+
+const onClickOutside = async (e: Event) => {
+    //If clicking outside of chatHistory panel is just clicking again in button of settings => do nothing
+    if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is chat history panel switch between them
+    } else if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
+        UIState.panels.add(UIPanels.ChatHistory);
+        UIState.panels.delete(UIPanels.Settings);
+        e.stopImmediatePropagation();
+    } else {
+        UIState.panels.delete(UIPanels.Settings);
+        await closeBurgerMenu();
+        UIState.isNavMenuCompressed = false;
+        UIState.showMenu = false;
+    }
 };
+
+onMounted(refreshBurgerMenuButtonsRef);
+
 </script>
 
 <template>

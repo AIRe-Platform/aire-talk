@@ -98,10 +98,12 @@ const toggleSettingsPanel = () => {
         (p) => p.name === 'Content-catalogue'
     )" />
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" @click="navigateTo('/login')" :active="!useMobileLayout && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" icon="login"
+                    @click="navigateTo('/login')" :active="!useMobileLayout && $route.matched.some(
         (p) => p.name === 'Login'
     )" />
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" @click="navigateTo('/signup')" :active="!useMobileLayout && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" icon="signup"
+                    @click="navigateTo('/signup')" :active="!useMobileLayout && $route.matched.some(
         (p) => p.name === 'Signup'
     )" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
@@ -109,7 +111,7 @@ const toggleSettingsPanel = () => {
         (p) => p.name === 'Profile'
     )" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
-                    :active="!useMobileLayout && UIState.panels.has(
+                    class="settings-nav-button" :active="!useMobileLayout && UIState.panels.has(
         UIPanels.Settings
     )" />
                 <Separator v-if="!UIState.isNavMenuCompressed" />
@@ -123,9 +125,6 @@ const toggleSettingsPanel = () => {
 </template>
 
 <style lang="scss" scoped>
-#chat-history-button {}
-
-
 .nav-menu {
     display: flex;
     flex-direction: column;
