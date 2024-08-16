@@ -3,12 +3,13 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireServices, AireUser, AireStatus, AireErrorResult } from "aire";
+import { AireServices, AireUser, AireStatus, AireErrorResult, AireLoginOptions, AireAuthCodeLoginOptions, AireLogoutOptions } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
 import { getUILanguage } from "@/locales";
+import useTheme from "./theme";
 
 interface LoginAuthState {
     state: string;
@@ -32,16 +33,23 @@ export class LoginContext {
 
     public async redirectToLogin(): Promise<boolean> {
         if (AireServices.ID) {
-            const code_challenge = randomHexString(32);
-            const state = randomHexString(32);
+            const options: AireLoginOptions = {
+                state: randomHexString(32),
+                code_challenge: randomHexString(32),
+                code_challenge_method: "S256",
+                redirect_uri: document.location.origin + "/auth/callback",
+                locale: getUILanguage(),
+                theme: useTheme().style.includes("dark") ? "dark" : "light"
+            };
+
             this.auth_state = {
-                state: state,
-                code_verifier: await SHA256(code_challenge)
+                state: options.state!,
+                code_verifier: await SHA256(options.code_challenge!)
             };
             window.localStorage.setItem("aire_auth_state", JSON.stringify(this.auth_state));
 
             try {
-                const res = await AireServices.ID.getLoginUrl(code_challenge, state, getUILanguage());
+                const res = await AireServices.ID.getLoginUrl(options);
                 if (res.status == AireStatus.Success && res.data) {
                     window.open(res.data, "_self");
                     return true;
@@ -66,10 +74,14 @@ export class LoginContext {
                 };
             }
 
-            const response = await AireServices.ID.loginWithCode(
-                code,
-                this.auth_state.code_verifier,
-                this.auth_state.state);
+            const options: AireAuthCodeLoginOptions = {
+                code: code,
+                code_verifier: this.auth_state.code_verifier,
+                state: this.auth_state.state,
+                redirect_uri: document.location.origin + "/auth/callback"
+            };
+
+            const response = await AireServices.ID.loginWithCode(options);
 
             if (response.status == AireStatus.Success) {
                 const userResponse = await AireServices.ID.getUser();
@@ -120,7 +132,13 @@ export class LoginContext {
         localStorage.removeItem("aire_session_token");
 
         if (AireServices.ID) {
-            const logout = await AireServices.ID.getLogoutUrl(document.location.origin, getUILanguage());
+            const options: AireLogoutOptions = {
+                return_url: document.location.origin,
+                theme: useTheme().style.includes("dark") ? "dark" : "light",
+                locale: getUILanguage()
+            };
+
+            const logout = await AireServices.ID.getLogoutUrl(options);
             AireServices.ID.logout();
 
             if (logout.status == AireStatus.Success && logout.data)
