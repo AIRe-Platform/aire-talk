@@ -12,7 +12,7 @@ import { UIState, UIPanels } from "@/context/ui";
 import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
-import { closeBurgerMenu } from "@/context/ui";
+import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -25,8 +25,6 @@ interface ChatLogItem {
 
 const chat = useChat();
 const cache = useChatCache();
-const chatHistoryButtonRef = ref<HTMLElement | null>(null);
-const settingsButtonRef = ref<HTMLElement | null>(null);
 
 const state = reactive<{
     busy: boolean,
@@ -58,10 +56,8 @@ const refresh = () => {
             });
         })
         .finally(() => {
-            state.busy = false
-            chatHistoryButtonRef.value = document.querySelector('.chat-history-nav-button');
-            settingsButtonRef.value = document.querySelector('.settings-nav-button');
-
+            state.busy = false;
+            refreshBurgerMenuButtonsRef();
         })
 };
 onMounted(refresh);
@@ -133,10 +129,10 @@ const getTokenCount = (id: string) => {
 
 const onClickOutside = async (e: Event) => {
     //If clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
-    if (chatHistoryButtonRef.value && chatHistoryButtonRef.value.contains(e.target as Node)) {
+    if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
         e.stopImmediatePropagation();
         //If it is settings panel switch between them
-    } else if (settingsButtonRef.value && settingsButtonRef.value.contains(e.target as Node)) {
+    } else if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
         UIState.panels.delete(UIPanels.ChatHistory);
         UIState.panels.add(UIPanels.Settings);
         e.stopImmediatePropagation();

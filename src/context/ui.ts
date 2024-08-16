@@ -33,6 +33,8 @@ export interface UIStateOptions {
     isNavMenuCompressed: boolean;
     isClosingMenu: boolean;
     panels: Set<UIPanels>;
+    chatHistoryButtonRef: HTMLElement | null;
+    settingsButtonRef: HTMLElement | null;
 }
 
 export const UIState = reactive<UIStateOptions>({
@@ -40,6 +42,8 @@ export const UIState = reactive<UIStateOptions>({
     isNavMenuCompressed: false,
     isClosingMenu: false,
     panels: new Set<UIPanels>(),
+    chatHistoryButtonRef: document.querySelector('.chat-history-nav-button') || null,
+    settingsButtonRef: document.querySelector('.settings-nav-button') || null,
 });
 
 export const UISettings = reactive<UISettingsOptions>(initSettings());
@@ -66,6 +70,10 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+export async function refreshBurgerMenuButtonsRef(){
+    UIState.chatHistoryButtonRef = document.querySelector('.chat-history-nav-button') || null;
+    UIState.settingsButtonRef = document.querySelector('.settings-nav-button') || null;
+}
 
 export async function closeBurgerMenu(){
     if (UIState.showMenu) {
