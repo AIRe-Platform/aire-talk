@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="20.114754"
+   height="23.019609"
+   viewBox="0 0 20.114754 23.019609"
+   fill="none"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="AIRe_icon_mobile_signup_light.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true"
+     inkscape:zoom="11.313709"
+     inkscape:cx="-14.142136"
+     inkscape:cy="23.201941"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g4" />
+  <g
+     id="g4"
+     transform="translate(-0.0225017)">
+    <g
+       id="g5">
+      <circle
+         cx="9"
+         cy="7"
+         r="6"
+         stroke="#2374ab"
+         stroke-width="2"
+         id="circle1" />
+      <path
+         d="M 13.90605,12.958086 C 13.341435,12.669718 12.162439,12.5 11.457778,12.5"
+         stroke="#2374ab"
+         stroke-width="2"
+         id="path2"
+         sodipodi:nodetypes="cc"
+         style="stroke-linecap:round" />
+      <path
+         d="m 1.0225017,22.99567 v -4.782599 c 0,-1.729114 1.094544,-4.238147 3.093962,-5.259313 0.564617,-0.288368 1.939696,-0.458086 2.64436,-0.458086"
+         stroke="#2374ab"
+         stroke-width="2"
+         id="path2-0"
+         sodipodi:nodetypes="cssc" />
+      <path
+         id="path3"
+         style="fill:#2374ab;fill-opacity:1;stroke-width:1.43233;stroke-linecap:round;stroke-linejoin:round;paint-order:markers fill stroke"
+         d="M 15.793986 14.333984 A 4.3431373 4.3431373 0 0 0 11.450236 18.675781 A 4.3431373 4.3431373 0 0 0 15.793986 23.019531 A 4.3431373 4.3431373 0 0 0 20.137736 18.675781 A 4.3431373 4.3431373 0 0 0 15.793986 14.333984 z M 15.793986 15.285156 C 16.243459 15.285156 16.604533 15.646231 16.604533 16.095703 L 16.604533 17.865234 L 18.374064 17.865234 C 18.823537 17.865234 19.184611 18.22631 19.184611 18.675781 C 19.184611 19.125254 18.823537 19.488281 18.374064 19.488281 L 16.604533 19.488281 L 16.604533 21.255859 C 16.604533 21.705332 16.243459 22.068359 15.793986 22.068359 C 15.344514 22.068359 14.983439 21.705332 14.983439 21.255859 L 14.983439 19.488281 L 13.213908 19.488281 C 12.764435 19.488281 12.403361 19.125254 12.403361 18.675781 C 12.403361 18.22631 12.764435 17.865234 13.213908 17.865234 L 14.983439 17.865234 L 14.983439 16.095703 C 14.983439 15.646231 15.344514 15.285156 15.793986 15.285156 z " />
+    </g>
+  </g>
+</svg>

@@ -98,10 +98,12 @@ const toggleSettingsPanel = () => {
         (p) => p.name === 'Content-catalogue'
     )" />
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" @click="navigateTo('/login')" :active="!useMobileLayout && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" icon="login"
+                    @click="navigateTo('/login')" :active="!useMobileLayout && $route.matched.some(
         (p) => p.name === 'Login'
     )" />
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" @click="navigateTo('/signup')" :active="!useMobileLayout && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" icon="signup"
+                    @click="navigateTo('/signup')" :active="!useMobileLayout && $route.matched.some(
         (p) => p.name === 'Signup'
     )" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
