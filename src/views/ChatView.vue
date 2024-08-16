@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
@@ -9,7 +14,7 @@ import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSummary from "@/components/chat/ChatSummary.vue";
-import ChatOptionsButton from "@/components/chat/ChatOptionsButton.vue";
+import CloseSummaryMenuButton from "@/components/chat/CloseSummaryMenuButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
@@ -113,7 +118,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <ChatOptionsButton @click="toggleSidebar" :open="showSideBar" v-if="showSideBar && hasPanels(chat)" />
+    <CloseSummaryMenuButton @toggle-menu-open="toggleSidebar" :menu-open="showSideBar"
+        v-if="showSideBar && hasPanels(chat)" />
     <div class="chat-view">
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">

@@ -1,3 +1,7 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import {
@@ -21,7 +25,7 @@ const isReadonly = (active_id: string | undefined, msg: ChatMessage) => {
     if (!active_id)
         return true;
 
-    if(!msg.question?.questionnaire_id)
+    if (!msg.question?.questionnaire_id)
         return true;
 
     return !msg.question.questionnaire_id.startsWith(active_id)
@@ -34,8 +38,8 @@ const isReadonly = (active_id: string | undefined, msg: ChatMessage) => {
             <h3 class="question-answer">{{ $t(l.question_answer) }}<i class="icon questionnaire-answer-default"></i>
             </h3>
         </div>
-        <QuestionCheckbox v-if="props.message.question.type == AireQuestionOptionType.Checkbox"
-            :message="props.message" :options="(props.message.question.options as AireQuestionOptionCheckbox)"
+        <QuestionCheckbox v-if="props.message.question.type == AireQuestionOptionType.Checkbox" :message="props.message"
+            :options="(props.message.question.options as AireQuestionOptionCheckbox)"
             :answer="props.message.question.answer" :readonly="isReadonly(questionnaire.active?.id, props.message)" />
         <QuestionRange v-if="props.message.question.type == AireQuestionOptionType.Range" :message="props.message"
             :options="(props.message.question.options as AireQuestionOptionRange)"
@@ -43,8 +47,8 @@ const isReadonly = (active_id: string | undefined, msg: ChatMessage) => {
         <QuestionOpen v-if="props.message.question.type == AireQuestionOptionType.Open" :message="props.message"
             :options="(props.message.question.options as AireQuestionOptionOpen)"
             :answer="props.message.question.answer" :readonly="isReadonly(questionnaire.active?.id, props.message)" />
-        <QuestionNumber v-if="props.message.question.type == AireQuestionOptionType.Number"
-            :message="props.message" :options="(props.message.question.options as AireQuestionOptionNumber)"
+        <QuestionNumber v-if="props.message.question.type == AireQuestionOptionType.Number" :message="props.message"
+            :options="(props.message.question.options as AireQuestionOptionNumber)"
             :answer="props.message.question.answer" :readonly="isReadonly(questionnaire.active?.id, props.message)" />
     </div>
 </template>
