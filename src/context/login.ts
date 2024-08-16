@@ -8,6 +8,7 @@ import { reactive } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
+import { getUILanguage } from "@/locales";
 
 interface LoginAuthState {
     state: string;
@@ -40,7 +41,7 @@ export class LoginContext {
             window.localStorage.setItem("aire_auth_state", JSON.stringify(this.auth_state));
 
             try {
-                const res = await AireServices.ID.getLoginUrl(code_challenge, state);
+                const res = await AireServices.ID.getLoginUrl(code_challenge, state, getUILanguage());
                 if (res.status == AireStatus.Success && res.data) {
                     window.open(res.data, "_self");
                     return true;
@@ -119,7 +120,7 @@ export class LoginContext {
         localStorage.removeItem("aire_session_token");
 
         if (AireServices.ID) {
-            const logout = await AireServices.ID.getLogoutUrl(document.location.origin);
+            const logout = await AireServices.ID.getLogoutUrl(document.location.origin, getUILanguage());
             AireServices.ID.logout();
 
             if (logout.status == AireStatus.Success && logout.data)
