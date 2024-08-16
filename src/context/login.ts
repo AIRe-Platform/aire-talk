@@ -40,7 +40,7 @@ export class LoginContext {
             window.localStorage.setItem("aire_auth_state", JSON.stringify(this.auth_state));
 
             try {
-                const res = await AireServices.ID.getLoginRedirectUrl(code_challenge, state);
+                const res = await AireServices.ID.getLoginUrl(code_challenge, state);
                 if (res.status == AireStatus.Success && res.data) {
                     window.open(res.data, "_self");
                     return true;
@@ -112,15 +112,19 @@ export class LoginContext {
     }
 
     public async logout() {
+        await useChat().reset(false, true);
+        useContent().reset();
+
         this.user = undefined;
         localStorage.removeItem("aire_session_token");
 
         if (AireServices.ID) {
+            const logout = await AireServices.ID.getLogoutUrl(document.location.origin);
             AireServices.ID.logout();
-        }
 
-        await useChat().reset(false, true);
-        useContent().reset();
+            if (logout.status == AireStatus.Success && logout.data)
+                window.open(logout.data, "_self");
+        }
     }
 
     public async saveProfile(user: AireUser): Promise<AireUser | undefined> {
