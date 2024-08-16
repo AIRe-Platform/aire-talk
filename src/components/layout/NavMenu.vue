@@ -109,7 +109,7 @@ const toggleSettingsPanel = () => {
         (p) => p.name === 'Profile'
     )" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
-                    :active="!useMobileLayout && UIState.panels.has(
+                    class="settings-nav-button" :active="!useMobileLayout && UIState.panels.has(
         UIPanels.Settings
     )" />
                 <Separator v-if="!UIState.isNavMenuCompressed" />
@@ -123,9 +123,6 @@ const toggleSettingsPanel = () => {
 </template>
 
 <style lang="scss" scoped>
-#chat-history-button {}
-
-
 .nav-menu {
     display: flex;
     flex-direction: column;

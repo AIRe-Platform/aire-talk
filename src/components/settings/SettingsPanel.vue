@@ -5,14 +5,18 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
+import { onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
+import { UIFontSize, UIPanels, UIMode, UISettings, UIState, closeBurgerMenu } from "@/context/ui";
 
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 
+
+const chatHistoryButtonRef = ref<HTMLElement | null>(null);
+const settingsButtonRef = ref<HTMLElement | null>(null);
 
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
@@ -28,10 +32,30 @@ const setScreenSize = (e: Event) => {
         UIState.isNavMenuCompressed = true;
     }
 }
-const onClickOutside = (e: Event) => {
-    //e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.Settings);
+
+const onClickOutside = async (e: Event) => {
+    //If clicking outside of chatHistory panel is just clicking again in button of settings => do nothing
+    if (settingsButtonRef.value && settingsButtonRef.value.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is chat history panel switch between them
+    } else if (chatHistoryButtonRef.value && chatHistoryButtonRef.value.contains(e.target as Node)) {
+        UIState.panels.add(UIPanels.ChatHistory);
+        UIState.panels.delete(UIPanels.Settings);
+        e.stopImmediatePropagation();
+    } else {
+        UIState.panels.delete(UIPanels.Settings);
+        await closeBurgerMenu();
+        UIState.isNavMenuCompressed = false;
+        UIState.showMenu = false;
+    }
 };
+
+const refresh = () => {
+    chatHistoryButtonRef.value = document.querySelector('.chat-history-nav-button');
+    settingsButtonRef.value = document.querySelector('.settings-nav-button');
+}
+onMounted(refresh);
+
 </script>
 
 <template>

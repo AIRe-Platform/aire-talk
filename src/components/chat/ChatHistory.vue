@@ -26,6 +26,8 @@ interface ChatLogItem {
 const chat = useChat();
 const cache = useChatCache();
 const chatHistoryButtonRef = ref<HTMLElement | null>(null);
+const settingsButtonRef = ref<HTMLElement | null>(null);
+
 const state = reactive<{
     busy: boolean,
     deleteId?: string,
@@ -58,6 +60,8 @@ const refresh = () => {
         .finally(() => {
             state.busy = false
             chatHistoryButtonRef.value = document.querySelector('.chat-history-nav-button');
+            settingsButtonRef.value = document.querySelector('.settings-nav-button');
+
         })
 };
 onMounted(refresh);
@@ -128,8 +132,13 @@ const getTokenCount = (id: string) => {
 };
 
 const onClickOutside = async (e: Event) => {
-    //IF clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
+    //If clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
     if (chatHistoryButtonRef.value && chatHistoryButtonRef.value.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is settings panel switch between them
+    } else if (settingsButtonRef.value && settingsButtonRef.value.contains(e.target as Node)) {
+        UIState.panels.delete(UIPanels.ChatHistory);
+        UIState.panels.add(UIPanels.Settings);
         e.stopImmediatePropagation();
     } else {
         if (!state.deleteId) {
