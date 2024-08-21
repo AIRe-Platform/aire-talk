@@ -1,13 +1,14 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v. 2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
 
 <script setup lang="ts">
 import { l } from '@/locales';
 import { onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
-
+import useChat, { ChatContext, onReceiveKeywords } from '@/context/chat';
 import useSummary from '@/context/summary';
 import useQuestionnaire from '@/context/questionnaire';
 
@@ -23,6 +24,7 @@ const state = reactive<{
 });
 const summary = useSummary();
 const questionnaires = useQuestionnaire();
+const chatContent: ChatContext = useChat();
 
 const generateSummary = async () => {
     state.busy = true;
@@ -31,6 +33,21 @@ const generateSummary = async () => {
     await summary.update();
 
     state.busy = false;
+}
+
+
+const generateSuggestions = async () => {
+    try {
+        state.busy = true;
+        // Convert Set<string> to string[] and pass it to onReceiveKeywords
+        const keywordsArray = Array.from(summary.keywords);
+        await onReceiveKeywords(chatContent, keywordsArray, true);
+
+    } catch (error) {
+        console.error('Error generating suggestions:', error);
+    } finally {
+        state.busy = false;
+    }
 }
 
 const querySurveys = async () => {
@@ -92,6 +109,10 @@ onMounted(() => {
                 <button v-if="state.missing_personal_info" class="summary-button" @click="askPersonalInformation">
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+                <button class="summary-button" v-if="chatContent.suggestionMessage" @click="generateSuggestions">
+                    <span class="summary-button-text"> {{ $t(l.summary_suggestions) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </div>
         </template>

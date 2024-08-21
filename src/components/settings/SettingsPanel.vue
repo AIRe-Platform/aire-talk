@@ -1,11 +1,13 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v. 2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
 
 <script setup lang="ts">
 import { l } from "@/locales";
+import { onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UISettings, UIState } from "@/context/ui";
+import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
@@ -19,11 +21,25 @@ const setTextSize = (e: Event) => {
     el.blur();
 }
 
-const onClickOutside = (e: Event) => {
-    //e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.Settings);
-    UIState.isNavMenuCompressed = false;
+const onClickOutside = async (e: Event) => {
+    //If clicking outside of chatHistory panel is just clicking again in button of settings => do nothing
+    if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is chat history panel switch between them
+    } else if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
+        UIState.panels.add(UIPanels.ChatHistory);
+        UIState.panels.delete(UIPanels.Settings);
+        e.stopImmediatePropagation();
+    } else {
+        UIState.panels.delete(UIPanels.Settings);
+        await closeBurgerMenu();
+        UIState.isNavMenuCompressed = false;
+        UIState.showMenu = false;
+    }
 };
+
+onMounted(refreshBurgerMenuButtonsRef);
+
 </script>
 
 <template>

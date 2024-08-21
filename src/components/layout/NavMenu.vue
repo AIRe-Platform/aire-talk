@@ -1,6 +1,7 @@
-// This Source Code Form is subject to the terms of the Mozilla Public
-// License, v. 2.0. If a copy of the MPL was not distributed with this
-// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
 
 <script setup lang="ts">
 import i18n, { l } from "@/locales";
@@ -97,10 +98,10 @@ const toggleSettingsPanel = () => {
         (p) => p.name === 'Content-catalogue'
     )" />
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" @click="navigateTo('/login')" :active="!isMobileResolution && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" icon="login" @click="navigateTo('/login')" :active="!isMobileResolution && $route.matched.some(
         (p) => p.name === 'Login'
     )" />
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" @click="navigateTo('/signup')" :active="!isMobileResolution && $route.matched.some(
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" icon="signup" @click="navigateTo('/signup')" :active="!isMobileResolution && $route.matched.some(
         (p) => p.name === 'Signup'
     )" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
@@ -122,9 +123,6 @@ const toggleSettingsPanel = () => {
 </template>
 
 <style lang="scss" scoped>
-#chat-history-button {}
-
-
 .nav-menu {
     display: flex;
     flex-direction: column;

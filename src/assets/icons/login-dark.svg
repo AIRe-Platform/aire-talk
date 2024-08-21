@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="5.0454102mm"
+   height="5.2921901mm"
+   viewBox="0 0 5.04541 5.2921902"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="AIRe_icon_mobile_login_dark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip0_2825_512">
+      <rect
+         width="20"
+         height="20"
+         fill="#ffffff"
+         id="rect2"
+         x="0"
+         y="0" />
+    </clipPath>
+    <clipPath
+       id="clip0_2825_512-4">
+      <rect
+         width="20"
+         height="20"
+         fill="#ffffff"
+         id="rect2-8"
+         x="0"
+         y="0" />
+    </clipPath>
+    <clipPath
+       id="clip0_2825_512-3">
+      <rect
+         width="20"
+         height="20"
+         fill="#ffffff"
+         id="rect2-1"
+         x="0"
+         y="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="16"
+     inkscape:cx="-9.5"
+     inkscape:cy="23.34375"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-175.88257,-245.95646)">
+    <path
+       id="path1"
+       style="color:#000000;fill:#ffffff;fill-opacity:1;stroke-width:1.01571;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;paint-order:markers fill stroke"
+       d="M 177.84679 245.95646 C 177.46783 245.95646 177.15536 246.26145 177.15536 246.62877 L 177.15536 247.29695 C 177.1549 247.30095 177.155 247.30597 177.15484 247.30987 C 177.15483 247.43688 177.25779 247.53984 177.3848 247.53983 C 177.51181 247.53984 177.61477 247.43688 177.61476 247.30987 L 177.61528 247.30987 L 177.61528 246.62877 C 177.61528 246.50079 177.71529 246.40398 177.84731 246.40398 L 180.23683 246.40398 C 180.36887 246.40398 180.46884 246.50078 180.46885 246.62877 L 180.46885 250.5784 C 180.46885 250.70639 180.36885 250.80319 180.23683 250.80319 L 177.84731 250.80319 C 177.71527 250.80319 177.61528 250.7064 177.61528 250.5784 L 177.61528 249.89937 L 177.61321 249.89937 C 177.61237 249.77297 177.50965 249.67095 177.38325 249.67096 C 177.25624 249.67095 177.15328 249.77391 177.15329 249.90092 C 177.1533 249.91112 177.15412 249.92131 177.15536 249.93141 L 177.15536 250.5784 C 177.15536 250.94572 177.46783 251.24864 177.84679 251.24864 L 180.23631 251.24864 C 180.61526 251.24864 180.92774 250.94572 180.92774 250.5784 L 180.92774 246.62877 C 180.92774 246.26145 180.61526 245.95646 180.23631 245.95646 L 177.84679 245.95646 z M 178.48344 247.82818 L 178.48396 247.8287 C 178.42796 247.82869 178.37185 247.85039 178.32893 247.89329 C 178.24313 247.97909 178.24313 248.117 178.32893 248.20283 L 178.51187 248.38577 L 176.10168 248.38577 C 175.98029 248.38577 175.88257 248.48347 175.88257 248.60488 C 175.88257 248.72625 175.98027 248.82399 176.10168 248.82399 L 178.51342 248.82399 L 178.331 249.0064 C 178.2452 249.0922 178.2452 249.23062 178.331 249.31646 C 178.4168 249.40226 178.55471 249.40226 178.64054 249.31646 L 179.19606 248.76094 C 179.26656 248.69044 179.27909 248.58463 179.23379 248.50152 C 179.23079 248.49652 179.22797 248.4908 179.22397 248.4855 C 179.22342 248.48467 179.22291 248.4834 179.2219 248.4824 C 179.2189 248.4774 179.21493 248.47242 179.21053 248.46742 C 179.20553 248.46042 179.2001 248.4544 179.194 248.4483 L 178.63847 247.89278 C 178.59557 247.84988 178.53947 247.82818 178.48344 247.82818 z " />
+  </g>
+</svg>
