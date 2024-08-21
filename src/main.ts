@@ -25,7 +25,8 @@ import {
     faFile,
     faLink,
     faXmark,
-    faFileInvoice
+    faFileInvoice,
+    faLightbulb
 } from "@fortawesome/free-solid-svg-icons";
 import useLogin from "./context/login";
 
@@ -44,7 +45,8 @@ library.add(
     faFile,
     faLink,
     faXmark,
-    faFileInvoice
+    faFileInvoice,
+    faLightbulb
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
