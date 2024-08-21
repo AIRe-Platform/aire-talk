@@ -12,7 +12,8 @@ import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 
 const props = defineProps<{
-    optionsOpen: boolean
+    optionsOpen: boolean,
+    optionsVisible: boolean,
 }>()
 
 const chat = useChat();
@@ -32,7 +33,7 @@ function submit() {
 }
 </script>
 
-<template>
+<template v-if="props.visible">
     <div class="chat-input">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
@@ -47,7 +48,7 @@ function submit() {
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
-            <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
+            <div v-if="props.optionsVisible" class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
                 </div>

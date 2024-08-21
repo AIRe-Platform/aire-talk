@@ -209,9 +209,5 @@ onMounted(() => {
     .chat-bubble {
         margin: 0.5rem 1rem 0.5rem 0.3rem
     }
-
-    .chat-bubble-content {
-        font-size: var(--font-small);
-    }
 }
 </style>

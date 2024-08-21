@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory } from "@/helpers/contentUtils";
 
@@ -96,8 +96,8 @@ const showContent = async (content: AireContent) => {
                 <h3>{{ $t(l.nav_catalogue) }}</h3>
             </div>
         </div>
+        <Spinner v-if="state.busy" />
         <div class="content-catalogue-list">
-            <Spinner v-if="state.busy" />
             <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent" />
             <div v-if="state.contentList.length == 0">
                 <h3>{{ $t(l.content_catalogue_empty) }}</h3>
@@ -112,15 +112,11 @@ const showContent = async (content: AireContent) => {
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
-
     padding: 0rem;
-
-
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border-color: var(--panel-border-color);
     position: relative;
-
     overflow: hidden;
 }
 

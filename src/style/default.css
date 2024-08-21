@@ -302,3 +302,9 @@ button {
 .fade-out-and-right {
     animation: fade-out-and-right 0.4s;
 }
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    button, input {
+        font-size: var(--font-medium);
+    }
+}

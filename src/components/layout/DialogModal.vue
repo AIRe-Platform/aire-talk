@@ -40,7 +40,7 @@ const props = defineProps<{
 .dialog-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 3rem;

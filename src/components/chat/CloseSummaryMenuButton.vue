@@ -53,7 +53,7 @@ const handleClick = async () => {
     right: 1.5rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .close-summary-menu-button {
         display: flex;
         border: none;

@@ -315,5 +315,9 @@ const onClickOutside = async (e: Event) => {
     .chat-history-item {
         justify-content: flex-start;
     }
+
+    .chat-history-item-row {
+        gap: 0;
+    }
 }
 </style>

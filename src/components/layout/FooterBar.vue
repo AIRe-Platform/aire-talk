@@ -36,7 +36,7 @@ const version = {
     justify-content: space-evenly;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .footer {
         width: 100%;
         justify-content: center;

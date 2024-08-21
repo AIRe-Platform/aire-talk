@@ -201,6 +201,7 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 20%;
+        font-size: var(--font-medium)
     }
 
     &>.form-input {
