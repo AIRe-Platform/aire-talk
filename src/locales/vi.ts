@@ -161,6 +161,7 @@ const vi: Locale = {
     summary_generate_summary: "Tóm tắt",
     summary_query_surveys_button: "Khảo sát truy vấn",
     summary_send_survey_button: "Gửi câu trả lời khảo sát",
+    summary_suggestions: "Gợi ý",
 
     error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
     error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",

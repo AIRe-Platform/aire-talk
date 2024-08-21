@@ -148,6 +148,7 @@ const sw: Locale = {
     summary_generate_summary: "Fupisha",
     summary_query_surveys_button: "Utafiti wa maswali",
     summary_send_survey_button: "Tuma majibu ya utafiti",
+    summary_suggestions: "Mapendekezo",
 
     error_verification_failure: "Haiwezi kuthibitisha msimbo. Inaweza kuwa umekwisha muda wake.",
     error_verification_resend_failed: "Haiwezi kutuma tena msimbo. Jaribu tena baadaye",

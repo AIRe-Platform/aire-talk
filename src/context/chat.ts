@@ -36,7 +36,7 @@ export class ChatContext {
     id?: string;
     autosave_timer?: number;
     modified: boolean;
-
+    suggestionMessage?: ChatMessage | null;
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public meta: {
@@ -256,7 +256,7 @@ export class ChatContext {
             return false;
         }
 
-        this.id = chat_id
+        this.id = chat_id;
         this.messages = cached.messages;
         this.stats = cached.stats || {};
         this.meta.topic = cached.state.topic;
@@ -344,7 +344,7 @@ async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
     if (e.type === "keywords") {
-        onReceiveKeywords(e.keywords || [])
+        onReceiveKeywords(context, e.keywords || [], false)
         return;
     }
 
@@ -384,7 +384,7 @@ function errorHandler(status: AireStatus) {
     useChatbot().setStatus("idle");
 }
 
-function onReceiveKeywords(keywords: string[]) {
+export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[], generateSuggestions: boolean) {
     const summary = useSummary();
     summary.set(summary.summary, keywords);
 
@@ -398,18 +398,26 @@ function onReceiveKeywords(keywords: string[]) {
                     }
                 }
             })
+        chatContext.suggestionMessage = await searchForSuggestions(keywords);
 
-        const content = useContent();
-        content.search(keywords, 4)
-            .then((results) => {
-                results = results
-                    .filter(x => !getChatContentIds(context.messages).includes(x.id!))
-                    .splice(0, 2);
-
-                if (results.length > 0) {
-                    const msg = createContentMessage(results);
-                    useChat().push(msg);
-                }
-            })
+        if(generateSuggestions && chatContext.suggestionMessage){
+            useChat().push(chatContext.suggestionMessage);
+        }
     }
+}
+
+async function searchForSuggestions(keywords: string[]): Promise<ChatMessage | null>{
+    const content = useContent();
+    
+    let results = await content.search(keywords, 4);
+
+    results = results
+        .filter(x => !getChatContentIds(context.messages).includes(x.id!))
+        .slice(0, 2);
+    if (results.length > 0){
+        const msg = createContentMessage(results);
+        return msg;
+    }
+    else
+        return null;
 }

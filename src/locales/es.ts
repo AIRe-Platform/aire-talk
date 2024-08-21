@@ -166,6 +166,7 @@ const es: Locale = {
     summary_generate_summary: "Resumir",
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
+    summary_suggestions: "Sugerencias",
 
     error_verification_failure:
         "No se pudo verificar el código. Puede que esté caducado.",
