@@ -22,7 +22,6 @@ const openUrl = (url?: string) => {
 };
 
 const download = async (url?: string) => {
-    console.log("descargando...", url);
     if (url) {
         try {
             const response = await fetch(url);
@@ -35,10 +34,9 @@ const download = async (url?: string) => {
             document.body.removeChild(link);
             URL.revokeObjectURL(link.href); // Clean up the URL object
         } catch (error) {
-            console.error('Failed to download video:', error);
+            console.error('Failed to download in ContentModal:', error);
         }
     }
-
 };
 </script>
 
