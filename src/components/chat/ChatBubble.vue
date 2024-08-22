@@ -53,25 +53,33 @@ const onRevert = () => {
     chat.revertTo(props.message.id)
 };
 
+
 const showContent = async (content: AireContent) => {
-    state.openContent = content;
-    switch (content.type) {
-        case AireContentType.Image:
-        case AireContentType.Video:
-            toggleModal();
-            break;
-        default:
-            {
-                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
-                if (url) {
-                    window.open(url, '_blank');
+    try {
+        state.openContent = content;
+        switch (content.type) {
+            case AireContentType.Image:
+            case AireContentType.Video:
+                toggleModal();
+                break;
+            default:
+                {
+                    const url = content.id
+                        ? await contentContext.getUrl(content.id)
+                        : content.url;
+
+                    if (url) {
+                        window.open(url, '_blank');
+                    }
                 }
-            }
+        }
+
+        if (content.id) {
+            await contentContext.addViewCount(content.id);
+        }
+    } catch (error) {
+        console.error('Error showing content in ChatBubble:', error);
     }
-
-    if (content.id)
-        contentContext.addViewCount(content.id);
-
 };
 
 const closeModal = () => {
@@ -80,16 +88,32 @@ const closeModal = () => {
 };
 
 const listContent = async () => {
-    state.content = [];
-    props.message.media?.forEach(async (x) => {
-        const item = await contentContext.get(x);
-        if (item)
-            state.content.push(item);
-    })
-}
+    try {
+        state.content = [];
 
+        // Iterate over the media items and fetch their content asynchronously
+        const fetchContentPromises = props.message.media?.map(async (x) => {
+            try {
+                const item = await contentContext.get(x);
+                if (item) {
+                    state.content.push(item);
+                }
+            } catch (error) {
+                console.error(`Error fetching content for media ID ${x}:`, error);
+            }
+        });
+
+        // Wait for all fetch operations to complete
+        if (fetchContentPromises) {
+            await Promise.all(fetchContentPromises);
+        }
+
+    } catch (error) {
+        console.error('Error listing content in ChatBubble:', error);
+    }
+}
 onMounted(() => {
-    listContent()
+    listContent();
 })
 </script>
 

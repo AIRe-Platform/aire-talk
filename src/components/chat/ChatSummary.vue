@@ -27,12 +27,16 @@ const questionnaires = useQuestionnaire();
 const chatContent: ChatContext = useChat();
 
 const generateSummary = async () => {
-    state.busy = true;
+    try {
+        state.busy = true;
 
-    summary.reset();
-    await summary.update();
-
-    state.busy = false;
+        summary.reset();
+        await summary.update();
+    } catch (error) {
+        console.error('Error generating summary in ChatSummary:', error);
+    } finally {
+        state.busy = false;
+    }
 }
 
 
@@ -45,22 +49,27 @@ const generateSuggestions = async () => {
         chatContent.suggestionMessage = null;
 
     } catch (error) {
-        console.error('Error generating suggestions:', error);
+        console.error('Error generating suggestions in ChatSummary:', error);
     } finally {
         state.busy = false;
     }
 }
 
 const querySurveys = async () => {
-    state.busy = true;
+    try {
+        state.busy = true;
 
-    const queried = await queryQuestionnaire([...summary.keywords]);
-    if (queried) {
-        const questionnaire = createQuestionnaire(queried);
-        if (questionnaire)
-            questionnaires.startQuestionnaire(questionnaire);
+        const queried = await queryQuestionnaire([...summary.keywords]);
+        if (queried) {
+            const questionnaire = createQuestionnaire(queried);
+            if (questionnaire)
+                questionnaires.startQuestionnaire(questionnaire);
+        }
+    } catch (error) {
+        console.error('Error querySurveys in ChatSummary:', error);
+    } finally {
+        state.busy = false;
     }
-    state.busy = false;
 }
 
 const askPersonalInformation = () => {
