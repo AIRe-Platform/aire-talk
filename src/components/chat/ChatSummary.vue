@@ -42,6 +42,7 @@ const generateSuggestions = async () => {
         // Convert Set<string> to string[] and pass it to onReceiveKeywords
         const keywordsArray = Array.from(summary.keywords);
         await onReceiveKeywords(chatContent, keywordsArray, true);
+        chatContent.suggestionMessage = null;
 
     } catch (error) {
         console.error('Error generating suggestions:', error);
