@@ -29,12 +29,12 @@ const id: Locale = {
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
 
-    login_form_title: "Masuk",
-    login_form_submit: "Masuk",
-    login_label_username: "Email atau nama pengguna",
-    login_label_password: "Kata sandi",
-    login_failure_message: "Gagal masuk",
-    login_forgot_password: "Saya lupa kata sandi saya",
+    login_title: "Masuk",
+    login_redirect: "Mengalihkan ke halaman login...",
+    login_failure: "Layanan login tidak tersedia saat ini. Silakan coba lagi nanti.",
+    login_callback_failure: "Upaya masuk gagal.",
+    login_callback_error_description: "Detail:",
+    login_callback_button: "Kembali ke beranda",
 
     signup_form_title: "Buat akun",
     signup_form_submit: "Daftar",
@@ -114,23 +114,6 @@ const id: Locale = {
     profile_experiments_add: "Tambahkan",
     profile_experiments_description: "ke prompt Anda jika Anda ingin menyuntikkan ringkasan profil pengguna Anda.",
     profile_experiments_apply: "Terapkan perubahan",
-
-    verification_heading: "Verifikasi Akun Anda",
-    verification_description:
-        "Masukkan kode verifikasi yang Anda terima di email Anda",
-    verification_button_verify: "Verifikasi",
-    verification_code_resend: "Kirim ulang kode",
-    verification_code_resend_done: "Kode baru sedang dalam perjalanan!",
-
-    recovery_heading: "Pemulihan Akun",
-    recovery_label_email: "Alamat email",
-    recovery_label_code: "Kode pemulihan",
-    recovery_label_password: "Kata sandi baru",
-    recovery_enter_code: "Masukkan kode pemulihan yang baru saja kami kirimkan.",
-    recovery_not_available: "Pemulihan akun tidak tersedia saat ini.",
-    recovery_failure: "Akun ini tidak dapat dipulihkan.",
-    recovery_password_changed: "Kata sandi berhasil diubah.",
-    recovery_back_to_login: "Kembali ke login",
 
     settings_title: "Pengaturan",
     settings_language: "Bahasa antarmuka pengguna",
