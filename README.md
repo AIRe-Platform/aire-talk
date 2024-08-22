@@ -25,13 +25,15 @@ This is the source code for AIRe Talk web app.
 npm install
 ```
 
-To change the API endpoint, make a file `.env.local` like so:
+Create a file `.env.local` in the root of the project directory. Place the following environment values in it:
 
 ```sh
-VITE_AIRE_SERVICES_ENDPOINT="https://gl-dev-aire-services.azurewebsites.net/api/"
+VITE_COMMIT_TAG="local build"
+VITE_AIRE_SERVICES_ENDPOINT="http://localhost:7071/api"
+VITE_AIRE_CLIENT_ID=b25e388d-ec5e-4f8b-adc4-5793cfe75621
 ```
 
-The above example make the app use staging APIs. If the environment value is not set, the app defaults to `http://localhost:7071/api`.
+Change the `VITE_AIRE_CLIENT_ID` to match the app's client ID you have configured in AIRe ID service. See AIRe ID for more information.
 
 ### Compiles and hot-reloads for development
 
@@ -82,3 +84,5 @@ VS Code: Use Vue Language Features plugin as your formatting tool to automatical
 
 - `VITE_COMMIT_HASH` Adds commit hash into the page footer
 - `VITE_COMMIT_TAG` Adds tag into the page footer
+- `VITE_AIRE_SERVICES_ENDPOINT` URL to the AIRe Services API endpoints.
+- `VITE_AIRE_CLIENT_ID` Client identifier GUID (registered in AIRe ID).
