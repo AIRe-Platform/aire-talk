@@ -5,15 +5,10 @@
 
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { l } from '@/locales';
-import { router } from '@/router';
-import { useRoute } from 'vue-router';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
-import LanguageSelector from "@/components/settings/LanguageSelector.vue";
-
-const route = useRoute();
 
 const state = reactive<{
     busy: boolean,
@@ -21,52 +16,27 @@ const state = reactive<{
     username?: string,
     password?: string
 }>({
-    busy: false,
-    error: false,
-    username: route.query.username as string || "",
-    password: route.query.password as string || ""
+    busy: true,
+    error: false
 });
 
-
-const onLogin = (e: Event) => {
-    const form = e.target as HTMLFormElement;
-    if (!form.checkValidity())
-        return;
-
-    state.busy = true;
-    useLogin().login(state.username!, state.password!)
-        .then((result) => {
-            state.error = !result;
-            if (result)
-                router.replace("/home")
-        })
-        .finally(() => state.busy = false);
-};
+onMounted(() => {
+    useLogin()
+        .redirectToLogin()
+        .then(ok => { state.error = !ok; })
+        .finally(() => { state.busy = false; })
+})
 </script>
 
 <template>
     <div class="login-view">
-        <form id="login-form" class="form-content" @submit.prevent="onLogin">
-            <h2>{{ $t(l.login_form_title) }}</h2>
-            <label for="login-username" class="form-label">{{ $t(l.login_label_username) }}</label>
-            <input v-model="state.username" type="text" id="login-username" required="true" autocomplete="username"
-                :readonly="state.busy" />
-            <label for="login-password" class="form-label">{{ $t(l.login_label_password) }}</label>
-            <input v-model="state.password" type="password" id="login-password" required="true"
-                autocomplete="current-password" :readonly="state.busy" />
-            <br />
-            <small id="login-failed-message" v-if="state.error">{{ $t(l.login_failure_message) }}</small>
-            <input type="submit" :value="$t(l.login_form_submit)" v-if="!state.busy" />
-            <div class="login-busy" v-if="state.busy">
-                <Spinner />
-            </div>
-            <RouterLink to="/recovery" class="login-recovery-link">{{ $t(l.login_forgot_password) }}</RouterLink>
-            <div class="language-selector">
-                <LanguageSelector />
-            </div>
-
-        </form>
-
+        <template v-if="state.busy">
+            <Spinner />
+            <div class="login-message">{{ $t(l.login_redirect) }}</div>
+        </template>
+        <div class="login-error" v-if="state.error">
+            {{ $t(l.login_failure) }}
+        </div>
     </div>
 </template>
 

@@ -21,9 +21,11 @@ const chat = useChat();
 const state = reactive<{
     showConfirmLogout: boolean,
     showLastChatButton: boolean,
+    isLoadingView: boolean,
 }>({
     showConfirmLogout: false,
-    showLastChatButton: false
+    showLastChatButton: false,
+    isLoadingView: true,
 });
 
 const onConfirmLogout = async () => {
@@ -55,13 +57,14 @@ const navigateTo = (path: string) => {
 onMounted(async () => {
     const last = await getLastChatId();
     state.showLastChatButton = (last !== undefined);
+    state.isLoadingView = false;
 })
 </script>
 
 <template>
     <OnboardingTopics />
 
-    <div id="home-view">
+    <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
                 <div class="home-header-title">
@@ -90,12 +93,12 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" :buttons="[
-                        { loc_key: l.button_accept },
-                        { loc_key: l.button_cancel },
-                    ]" @select="(i: number) => {
-                        if (i == 0) { onConfirmLogout() }
-                        else if (i == 1) { state.showConfirmLogout = false; }
-                    }">
+        { loc_key: l.button_accept },
+        { loc_key: l.button_cancel },
+    ]" @select="(i: number) => {
+        if (i == 0) { onConfirmLogout() }
+        else if (i == 1) { state.showConfirmLogout = false; }
+    }">
         {{ $t(l.popup_confirm_logout) }}
     </DialogModal>
 </template>

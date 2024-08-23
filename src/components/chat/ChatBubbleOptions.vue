@@ -67,12 +67,18 @@ const applyRating = () => {
         chat.rateMessage(props.parent.id, state.rating);
 }
 
+
 const onCopyClipboard = async () => {
-    if (props.parent.content) {
-        await clipboard.copy(props.parent.content)
-        state.copiedToClipboard = true;
+    try {
+        if (props.parent.content) {
+            await clipboard.copy(props.parent.content);
+            state.copiedToClipboard = true;
+        }
+    } catch (error) {
+        console.error('Error copying to clipboard in ChatBubbleOptions:', error);
+        state.copiedToClipboard = false;
     }
-}
+};
 
 const onConfirmRevert = () => {
     chat.revertTo(props.parent.id)
