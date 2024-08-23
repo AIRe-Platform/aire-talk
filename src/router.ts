@@ -4,7 +4,6 @@
 
 
 import { createRouter, createWebHistory } from "vue-router";
-import { initApp } from "./main";
 import StartView from "./views/StartView.vue";
 import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
@@ -18,6 +17,7 @@ import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 import ContentCatalogueView from "./views/ContentCatalogueView.vue";
 import useLogin from "./context/login";
+import { initWithRetry } from "./main";
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,9 +106,8 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-    await initApp();
+    await initWithRetry();
     const login = useLogin();
-
     if (login.user) {
         if (to.meta.no_login)
             return "/home"

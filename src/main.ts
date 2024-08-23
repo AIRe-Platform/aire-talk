@@ -51,16 +51,19 @@ library.add(
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
-export async function initApp() {
-    if (AppState.value !== "init") return;
+async function initApp() {
+    if (AppState.value !== "init")
+        return true;
 
-    const result = await aireInit({
+    return await aireInit({
         api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
         client_id: import.meta.env.VITE_AIRE_CLIENT_ID
     })
         .then(async (result) => {
             if (result) {
-                await useLogin().restoreSession();
+                await useLogin()
+                    .restoreSession()
+                    .catch(() => console.log("Failed to restore session"));
                 return true;
             }
             return false;
@@ -69,9 +72,6 @@ export async function initApp() {
             console.error(reason);
             return false;
         });
-
-    AppState.value = result ? "loaded" : "error";
-    console.debug("App init done");
 }
 
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
@@ -91,3 +91,29 @@ aireSetResponseCallback(() => {
     useLogin().logout();
     router.replace("/login");
 }, AireStatus.LoginRequired);
+
+export async function initWithRetry() {
+    let init_counter = 0;
+    const MAX_INIT_RETRIES = 5;
+    const delay = (ms: number) => {
+        return new Promise(res => setTimeout(res, ms))
+    }
+
+    while (init_counter <= MAX_INIT_RETRIES) {
+        init_counter++;
+
+        if (await initApp()) {
+            AppState.value = "loaded";
+            return;
+        }
+
+        if (init_counter <= MAX_INIT_RETRIES) {
+            console.error(`Failed to connect AIRe services. Retry (${init_counter}/${MAX_INIT_RETRIES})...`);
+            await delay(5000);
+        }
+        else {
+            console.error("Giving up. Reload the page.");
+            AppState.value = "error";
+        }
+    }
+}

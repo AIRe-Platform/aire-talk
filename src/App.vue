@@ -14,11 +14,6 @@ import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 
-setTimeout(() => {
-    if (AppState.value === "init")
-        location.reload()
-}, 5000)
-
 const closeNavMenu = async () => {
     await closeBurgerMenu();
     UIState.showMenu = false;
@@ -103,8 +98,8 @@ const closeNavMenu = async () => {
     align-items: stretch;
     justify-content: center;
     text-align: center;
+    background-color: var(--panel-background-color);
 }
-
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
