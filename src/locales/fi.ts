@@ -80,6 +80,11 @@ const fi: Locale = {
     profile_label_new_password: "Uusi salasana",
     profile_button_change_password: "Vaihda salasana",
 
+    profile_heading_personal_data: "Yksilöitävät tiedot",
+    profile_description_personal_data: 
+        "Kaikki keräämämme yksilöitävät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Tietosi ovat AIRe-palvelujen käytettävissä vain silloin, kun sinä käytät niitä. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
+    profile_button_download_personal_data: "Lataa",
+
     profile_heading_delete_account: "Tilin poistaminen",
     profile_description_delete_account:
         "Tämä poistaa tilisi AIRe-alustalta. Syötä salasanasi vahvistaaksesi poiston.",

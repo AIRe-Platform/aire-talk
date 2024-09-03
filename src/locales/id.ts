@@ -80,6 +80,11 @@ const id: Locale = {
     profile_label_new_password: "Kata sandi baru",
     profile_button_change_password: "Ubah kata sandi",
 
+    profile_heading_personal_data: "Data Pribadi",
+    profile_description_personal_data: 
+        "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
+    profile_button_download_personal_data: "Unduh",
+
     profile_heading_delete_account: "Hapus Akun",
     profile_description_delete_account:
         "Ini akan menghapus akun Anda dari platform AIRe. Konfirmasikan penghapusan dengan memasukkan kata sandi Anda.",

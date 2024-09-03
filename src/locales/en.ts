@@ -80,6 +80,11 @@ const en: Locale = {
     profile_label_new_password: "New password",
     profile_button_change_password: "Change password",
 
+    profile_heading_personal_data: "Personal Data",
+    profile_description_personal_data: 
+        "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
+    profile_button_download_personal_data: "Download",
+
     profile_heading_delete_account: "Delete Account",
     profile_description_delete_account:
         "This deletes your account from AIRe platform. Confirm deletion by entering your password.",

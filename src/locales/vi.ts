@@ -84,6 +84,11 @@ const vi: Locale = {
     profile_label_new_password: "Mật khẩu mới",
     profile_button_change_password: "Đổi mật khẩu",
 
+    profile_heading_personal_data: "Dữ liệu cá nhân",
+    profile_description_personal_data: 
+        "Tất cả thông tin của bạn được mã hóa theo cách mà chỉ bạn mới có quyền truy cập. Các dịch vụ AIRe chỉ có thể sử dụng dữ liệu của bạn khi bạn đang sử dụng các dịch vụ. Tại đây, bạn có thể tải xuống tất cả dữ liệu của mình được lưu trong AIRe. Xin lưu ý rằng việc thu thập dữ liệu có thể mất một thời gian.",
+    profile_button_download_personal_data: "Tải xuống",
+
     profile_heading_delete_account: "Xóa tài khoản",
     profile_description_delete_account:
         "Việc này sẽ xóa tài khoản của bạn khỏi nền tảng AIRe. Xác nhận xóa bằng cách nhập mật khẩu của bạn.",

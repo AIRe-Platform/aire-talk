@@ -81,6 +81,11 @@ const es: Locale = {
     profile_label_new_password: "Nueva contraseña",
     profile_button_change_password: "Cambiar contraseña",
 
+    profile_heading_personal_data: "Datos personales",
+    profile_description_personal_data: 
+        "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
+    profile_button_download_personal_data: "Descargar",
+
     profile_heading_delete_account: "Borrar cuenta",
     profile_description_delete_account:
         "Esto borra tu cuenta de la plataforma AIRe. Confirma que realmente quieres borrar tu cuenta.",

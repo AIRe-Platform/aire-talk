@@ -10,6 +10,7 @@ import { l } from "@/locales";
 import { AireServices, AireScope } from "aire";
 import ProfileForm from "@/components/profile/ProfileForm.vue";
 import ProfileConnections from "@/components/profile/ProfileConnections.vue";
+import ProfilePersonalData from "@/components/profile/ProfilePersonalData.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
@@ -52,6 +53,10 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
             <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
                 <ProfilePasswordForm />
+            </div>
+            <Separator />
+            <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileRead)">
+                <ProfilePersonalData />
             </div>
             <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">

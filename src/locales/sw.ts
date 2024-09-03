@@ -79,6 +79,11 @@ const sw: Locale = {
     profile_label_new_password: "Nenosiri jipya",
     profile_button_change_password: "Badilisha nenosiri",
 
+    profile_heading_personal_data: "Data ya Kibinafsi",
+    profile_description_personal_data: 
+        "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
+    profile_button_download_personal_data: "Pakua",
+
     profile_heading_delete_account: "Futa Akaunti",
     profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",
     profile_label_password_confirm: "Thibitisha nenosiri",
