@@ -4,7 +4,9 @@
  -->
 
 <script setup lang="ts">
-import { l } from '@/locales';
+import { getUILanguage, l } from '@/locales';
+import { AireKeyword } from 'aire';
+
 import { onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
@@ -45,7 +47,7 @@ const generateSuggestions = async () => {
         state.busy = true;
         // Convert Set<string> to string[] and pass it to onReceiveKeywords
         const keywordsArray = Array.from(summary.keywords);
-        await onReceiveKeywords(chatContent, keywordsArray, true);
+        await onReceiveKeywords(chatContent, keywordsArray.map(keyword => keyword.value), true);
         chatContent.suggestionMessage = null;
 
     } catch (error) {
@@ -59,7 +61,7 @@ const querySurveys = async () => {
     try {
         state.busy = true;
 
-        const queried = await queryQuestionnaire([...summary.keywords]);
+        const queried = await queryQuestionnaire([...summary.keywords].map(keyword => keyword.value));
         if (queried) {
             const questionnaire = createQuestionnaire(queried);
             if (questionnaire)
@@ -72,13 +74,23 @@ const querySurveys = async () => {
     }
 }
 
+const getTranslationForKeyword = (keyword: AireKeyword): string => {
+
+    const UILanguage = getUILanguage();
+    const translation = keyword.translations?.find(transition => transition.languageID == UILanguage);
+    if (translation)
+        return translation.value;
+    else
+        return keyword.value;
+}
+
 const askPersonalInformation = () => {
     const personalInfoQuestionnaire = createPersonalInfoQuestionnaire();
     if (personalInfoQuestionnaire)
         questionnaires.startQuestionnaire(personalInfoQuestionnaire);
 }
 
-const removeWord = (word: string) => {
+const removeWord = (word: AireKeyword) => {
     summary.keywords.delete(word);
 }
 
@@ -98,9 +110,9 @@ onMounted(() => {
                 {{ summary.summary }}
             </div>
             <div class="summary-keywords" v-if="summary.keywords.size > 0">
-                <div class="summary-keyword-item" v-for="word, id in summary.keywords" :key="id">
-                    <span class="summary-keyword-text">{{ word }}</span>
-                    <div class="summary-keyword-delete" @click="removeWord(word)">
+                <div class="summary-keyword-item" v-for="(keyword, id) in summary.keywords" :key="id">
+                    <span class="summary-keyword-text">{{ getTranslationForKeyword(keyword) }}</span>
+                    <div class="summary-keyword-delete" @click="removeWord(keyword)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>

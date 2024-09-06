@@ -4,16 +4,16 @@
 
 
 import { getChatbotInputData } from "@/helpers/chatUtils";
-import { AireServices } from "aire";
+import { AireKeyword, AireServices, AireStatus } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
 
 export class SummaryContext {
     public summary?: string;
-    public keywords: Set<string>;
+    public keywords: Set<AireKeyword>;
 
     constructor() {
-        this.keywords = new Set<string>();
+        this.keywords = new Set<AireKeyword>();
     }
 
     /**
@@ -27,9 +27,8 @@ export class SummaryContext {
     /** 
      * Set values
      */
-    public set(summary?: string, keywords?: Array<string>) {
+    public set(summary?: string) {
         this.summary = summary;
-        this.keywords = new Set(keywords);
     }
 
     /**
@@ -45,9 +44,11 @@ export class SummaryContext {
         const input = getChatbotInputData();
 
         await AireServices.AI.generateKeywords(input)
-            .then((result) => {
+            .then(async (result) => {
                 if (result.data) {
-                    this.keywords = new Set(result.data);
+                    const keywordsArray = result.data;
+                    await this.getKeywordsTranslations(keywordsArray);
+                    
                     chat.autoSave();
                 } else {
                     throw Error(result.status.toString());
@@ -57,6 +58,42 @@ export class SummaryContext {
                 console.error("Failed to refresh keywords", err);
             });
     }
+
+    /**
+     * Update the keywords
+     */
+    public async getKeywordsTranslations(keywordsArray: string[]) {
+       
+        let combinedKeywords = "";
+
+        if (!AireServices.Memory) {
+            console.warn("Memory service is unavailable");
+            return;
+        }
+        combinedKeywords = Array.from(keywordsArray).join(", ");
+       
+        console.log("combinedKeywords", combinedKeywords);
+
+        // Only query the Memory service if there are valid keywords
+        if (combinedKeywords) {
+            try {
+                const memoryResult = await AireServices.Memory.queryKeywords(combinedKeywords);
+                
+                if (memoryResult.status == AireStatus.Success && memoryResult.data) {
+                    this.keywords = new Set(memoryResult.data);
+                    console.log("Keywords successfully saved: ", memoryResult.data);
+                } else {
+                    console.error(`Memory service failed with status: ${memoryResult.status}`);
+                }
+
+            } catch (err) {
+                console.error("Failed to query keywords from memory", err);
+            }
+        } else {
+            console.warn("No keywords generated to query in Memory service");
+        }
+    }
+
 
     /** 
      * Update the summary
@@ -98,7 +135,7 @@ export class SummaryContext {
         await AireServices.AI.generateAbstract(input)
             .then((result) => {
                 if (result.data) {
-                    this.keywords = new Set(result.data?.keywords);
+                    this.getKeywordsTranslations(result.data?.keywords);
                     context.summary = result.data?.summary;
                     chat.autoSave();
                 } else {

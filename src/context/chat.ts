@@ -209,7 +209,7 @@ export class ChatContext {
             const state: ChatState = {
                 ...this.meta,
                 summary: summary.summary,
-                keywords: [...summary.keywords],
+                keywords: [...summary.keywords].map((keyword) => keyword.value),
                 questionnaire: questionnaire.active
             };
 
@@ -263,7 +263,7 @@ export class ChatContext {
 
         const state = cached.state;
         if (state) {
-            useSummary().set(state.summary, state.keywords);
+            useSummary().set(state.summary);
 
             if (state.questionnaire)
                 useQuestionnaire().restoreState(state.questionnaire);
@@ -370,6 +370,8 @@ async function receiver(e: AireTalkEvent) {
         if (final) {
             const bot = useChatbot();
             bot.setStatus("answered");
+            onReceiveKeywords(context, (['back pain']), true);//all type
+
         }
         chat.push(last, firstMessage, final);
     }
@@ -386,8 +388,8 @@ function errorHandler(status: AireStatus) {
 
 export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[], generateSuggestions: boolean) {
     const summary = useSummary();
-    summary.set(summary.summary, keywords);
-
+    summary.set(summary.summary);
+    summary.getKeywordsTranslations(keywords);
     if (keywords.length > 0) {
         queryQuestionnaire(keywords)
             .then(q => {
