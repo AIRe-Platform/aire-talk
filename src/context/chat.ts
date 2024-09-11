@@ -371,8 +371,6 @@ async function receiver(e: AireTalkEvent) {
         if (final) {
             const bot = useChatbot();
             bot.setStatus("answered");
-            onReceiveKeywords(context, (['back pain']), true);//all type
-
         }
         chat.push(last, firstMessage, final);
     }
