@@ -14,6 +14,7 @@ import useChat from '@/context/chat';
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
+import EventComponent from "@/components/common/Event.vue";
 
 const login = useLogin();
 const chat = useChat();
@@ -74,6 +75,7 @@ onMounted(async () => {
                     <p>{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
+            <EventComponent />
             <div class="quick-nav">
                 <div class="icon frontpage-button" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}

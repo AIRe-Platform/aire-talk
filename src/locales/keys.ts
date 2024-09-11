@@ -188,6 +188,7 @@ export enum LocalizationKey {
     button_close = "button_close",
     button_delete_content = "button_delete_content",
     button_display = "button_display",
+    button_mark_as_read = "button_mark_as_read",
 
     content_catalogue_empty = "content_catalogue_empty",
     
