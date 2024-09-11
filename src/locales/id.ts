@@ -213,6 +213,7 @@ const id: Locale = {
     button_close: "Tutup",
     button_delete_content: "Hapus konten",
     button_display: "Tampilkan",
+    button_mark_as_read: "Tandai sebagai sudah dibaca",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
     

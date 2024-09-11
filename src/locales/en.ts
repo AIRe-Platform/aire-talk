@@ -213,6 +213,7 @@ const en: Locale = {
     button_close: "Close",
     button_delete_content: "Delete content",
     button_display: "Display",
+    button_mark_as_read: "Mark as read",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 

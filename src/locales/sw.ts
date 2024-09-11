@@ -193,6 +193,7 @@ const sw: Locale = {
     button_close: "Funga",
     button_delete_content: "Futa maudhui",
     button_display: "Onyesha",
+    button_mark_as_read: "Weka alama kama imesomwa",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
