@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, onMounted, reactive, ref } from "vue";
+import { defineEmits, onMounted, reactive } from "vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";

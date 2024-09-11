@@ -59,6 +59,7 @@ const showContent = async (content: AireContent) => {
         state.openContent = content;
         switch (content.type) {
             case AireContentType.Image:
+
             case AireContentType.Video:
                 toggleModal();
                 break;
@@ -112,6 +113,7 @@ const listContent = async () => {
         console.error('Error listing content in ChatBubble:', error);
     }
 }
+
 onMounted(() => {
     listContent();
 })
@@ -137,19 +139,19 @@ onMounted(() => {
         <ContentModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
             :content="state.openContent" :onClose="closeModal" />
         <DialogModal :active="state.revertConfirm" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onRevert();
-                break;
-            default:
-            case 1:
-                state.revertConfirm = false;
-                break;
-        }
-    }" :accept="onRevert" :decline="() => { }">
+            { loc_key: l.button_accept },
+            { loc_key: l.button_cancel },
+        ]" @select="(i: number) => {
+            switch (i) {
+                case 0:
+                    onRevert();
+                    break;
+                default:
+                case 1:
+                    state.revertConfirm = false;
+                    break;
+            }
+        }" :accept="onRevert" :decline="() => { }">
             {{ $t(l.popup_confirm_revert_message) }}
         </DialogModal>
     </div>

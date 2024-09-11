@@ -21,6 +21,10 @@ const openUrl = (url?: string) => {
         window.open(url, '_blank');
 };
 
+/**
+ *  not in use
+ * @param url
+ */
 const download = async (url?: string) => {
     if (url) {
         try {
@@ -79,8 +83,8 @@ const download = async (url?: string) => {
                 </div>
             </div>
             <div class="message-options">
-                <div class="icon download" @click="download(props.content?.url)">
-                </div>
+                <!--  <div class="icon download" @click="download(props.content?.url)">
+                </div> -->
             </div>
         </div>
     </Modal>
