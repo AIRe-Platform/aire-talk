@@ -31,6 +31,7 @@ import useLogin from "./login";
 import useContent from "./content";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import { getChatContentIds } from "@/helpers/contentUtils";
+import useSuggestion from "./suggestion";
 
 export class ChatContext {
     id?: string;
@@ -388,6 +389,7 @@ function errorHandler(status: AireStatus) {
 
 export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[], generateSuggestions: boolean) {
     const summary = useSummary();
+    const suggestion = useSuggestion();
     summary.set(summary.summary);
     summary.getKeywordsTranslations(keywords);
     if (keywords.length > 0) {
@@ -403,7 +405,7 @@ export async function onReceiveKeywords(chatContext: ChatContext, keywords: stri
         chatContext.suggestionMessage = await searchForSuggestions(keywords);
 
         if(generateSuggestions && chatContext.suggestionMessage){
-            useChat().push(chatContext.suggestionMessage);
+            suggestion.setSuggestions(chatContext.suggestionMessage);
         }
     }
 }
@@ -418,6 +420,7 @@ async function searchForSuggestions(keywords: string[]): Promise<ChatMessage | n
         .slice(0, 2);
     if (results.length > 0){
         const msg = createContentMessage(results);
+
         return msg;
     }
     else
