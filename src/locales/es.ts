@@ -173,6 +173,8 @@ const es: Locale = {
     summary_send_survey_button: "Enviar respuestas a la encuesta",
     summary_suggestions: "Sugerencias",
 
+    suggestion_check_for_more: "Obtén más sugerencias",
+
     error_verification_failure:
         "No se pudo verificar el código. Puede que esté caducado.",
     error_verification_resend_failed:

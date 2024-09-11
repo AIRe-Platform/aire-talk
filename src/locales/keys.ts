@@ -147,6 +147,8 @@ export enum LocalizationKey {
     summary_query_surveys_button = "summary_query_surveys_button",
     summary_send_survey_button = "summary_send_survey_button",
     summary_suggestions = "summary_suggestions",
+    
+    suggestion_check_for_more = "suggestion_check_for_more",
 
     error_verification_resend_failed = "error_verification_resend_failed",
     error_verification_failure = "error_verification_failure",

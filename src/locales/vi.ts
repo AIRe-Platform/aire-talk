@@ -168,6 +168,8 @@ const vi: Locale = {
     summary_send_survey_button: "Gửi câu trả lời khảo sát",
     summary_suggestions: "Gợi ý",
 
+    suggestion_check_for_more: "Kiểm tra thêm",
+
     error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
     error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",
 

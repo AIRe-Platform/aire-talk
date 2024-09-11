@@ -170,6 +170,8 @@ const id: Locale = {
     summary_send_survey_button: "Kirim jawaban survei",
     summary_suggestions: "Saran",
     
+    suggestion_check_for_more: "Periksa lebih lanjut",
+
     error_verification_failure: "Tidak dapat memverifikasi kode. Mungkin sudah kedaluwarsa.",
     error_verification_resend_failed:
         "Tidak dapat mengirim ulang kode. Coba lagi nanti",

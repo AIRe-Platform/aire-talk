@@ -170,6 +170,8 @@ const en: Locale = {
     summary_send_survey_button: "Send survey answers",
     summary_suggestions: "Suggestions",
 
+    suggestion_check_for_more: "Check here for more",
+
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed:
         "Could not resend the code. Try again later",
