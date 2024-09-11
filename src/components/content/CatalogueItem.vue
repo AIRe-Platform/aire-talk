@@ -9,7 +9,8 @@ import { defineProps, defineEmits } from "vue";
 import { AireContentType, AireContent } from 'aire';
 
 const props = defineProps<{
-    content: AireContent
+    content: AireContent,
+    isFromSummary: boolean
 }>();
 
 const emits = defineEmits<{
@@ -18,7 +19,9 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('show', props.content);">
+    <Panel class="catalogue-item" @click="emits('show', props.content);"
+        :class="{ 'is-from-summarycontent': props.isFromSummary }">
+
         <div class="catalogue-item-header">
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
@@ -58,6 +61,10 @@ const emits = defineEmits<{
     height: 14rem;
     gap: 0.5rem;
     /* padding: 0.3rem; */
+}
+
+.is-from-summarycontent {
+    width: 11.7rem;
 }
 
 .catalogue-item-header {

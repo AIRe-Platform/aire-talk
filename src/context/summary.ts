@@ -7,10 +7,12 @@ import { getChatbotInputData } from "@/helpers/chatUtils";
 import { AireKeyword, AireServices, AireStatus } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
+import { ChatMessage } from "@/models/chat";
 
 export class SummaryContext {
     public summary?: string;
     public keywords: Set<AireKeyword>;
+    public suggestions?: ChatMessage | null;
 
     constructor() {
         this.keywords = new Set<AireKeyword>();
@@ -22,6 +24,7 @@ export class SummaryContext {
     public reset() {
         this.summary = undefined;
         this.keywords.clear();
+        this.suggestions = undefined;
     }
 
     /** 
@@ -72,8 +75,6 @@ export class SummaryContext {
         }
         combinedKeywords = Array.from(keywordsArray).join(", ");
        
-        console.log("combinedKeywords", combinedKeywords);
-
         // Only query the Memory service if there are valid keywords
         if (combinedKeywords) {
             try {
@@ -81,7 +82,6 @@ export class SummaryContext {
                 
                 if (memoryResult.status == AireStatus.Success && memoryResult.data) {
                     this.keywords = new Set(memoryResult.data);
-                    console.log("Keywords successfully saved: ", memoryResult.data);
                 } else {
                     console.error(`Memory service failed with status: ${memoryResult.status}`);
                 }
@@ -94,6 +94,22 @@ export class SummaryContext {
         }
     }
 
+    /**
+     * Set suggestions
+     */
+    public async setSuggestions(suggestions: ChatMessage) {
+    
+        let combinedKeywords = "";
+
+        if (!AireServices.Memory) {
+            console.warn("Memory service is unavailable");
+            return;
+        }
+        if(suggestions){
+            this.suggestions = suggestions;
+            console.log("this.suggestions successfully saved: ", this.suggestions);
+        }   
+    }
 
     /** 
      * Update the summary

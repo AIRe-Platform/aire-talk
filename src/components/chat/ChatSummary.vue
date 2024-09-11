@@ -10,24 +10,28 @@ import { AireKeyword } from 'aire';
 import { onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
-import useChat, { ChatContext, onReceiveKeywords } from '@/context/chat';
+import useChat, { ChatContext } from '@/context/chat';
 import useSummary from '@/context/summary';
 import useQuestionnaire from '@/context/questionnaire';
 
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
+import ChatSuggestion from './ChatSuggestion.vue';
+import useSuggestion from '@/context/suggestion';
 
 const state = reactive<{
     busy: boolean,
-    missing_personal_info: boolean
+    missing_personal_info: boolean,
+    is_suggestions_shown: boolean
 }>({
     busy: false,
-    missing_personal_info: false
+    missing_personal_info: false,
+    is_suggestions_shown: false
 });
 const summary = useSummary();
 const questionnaires = useQuestionnaire();
 const chatContent: ChatContext = useChat();
-
+const suggestion = useSuggestion();
 const generateSummary = async () => {
     try {
         state.busy = true;
@@ -41,20 +45,8 @@ const generateSummary = async () => {
     }
 }
 
-
-const generateSuggestions = async () => {
-    try {
-        state.busy = true;
-        // Convert Set<string> to string[] and pass it to onReceiveKeywords
-        const keywordsArray = Array.from(summary.keywords);
-        await onReceiveKeywords(chatContent, keywordsArray.map(keyword => keyword.value), true);
-        chatContent.suggestionMessage = null;
-
-    } catch (error) {
-        console.error('Error generating suggestions in ChatSummary:', error);
-    } finally {
-        state.busy = false;
-    }
+const toggleSuggestions = async () => {
+    state.is_suggestions_shown = !state.is_suggestions_shown;
 }
 
 const querySurveys = async () => {
@@ -94,6 +86,7 @@ const removeWord = (word: AireKeyword) => {
     summary.keywords.delete(word);
 }
 
+
 onMounted(() => {
     state.missing_personal_info = createPersonalInformationQuestions().length > 0;
 })
@@ -132,13 +125,17 @@ onMounted(() => {
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button class="summary-button" v-if="chatContent.suggestionMessage" @click="generateSuggestions">
+                <button class="summary-button" v-if="chatContent.suggestionMessage" @click="toggleSuggestions">
                     <span class="summary-button-text"> {{ $t(l.summary_suggestions) }} </span>
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </div>
         </template>
     </Panel>
+    <ChatSuggestion v-if="suggestion.suggestions && state.is_suggestions_shown" @close-panel="toggleSuggestions">
+    </ChatSuggestion>
+
+
 </template>
 
 <style lang="scss" scoped>

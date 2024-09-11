@@ -98,7 +98,8 @@ const showContent = async (content: AireContent) => {
         </div>
         <Spinner v-if="state.busy" />
         <div class="content-catalogue-list">
-            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent" />
+            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent"
+                :isFromSummary="false" />
             <div v-if="state.contentList.length == 0">
                 <h3>{{ $t(l.content_catalogue_empty) }}</h3>
             </div>
