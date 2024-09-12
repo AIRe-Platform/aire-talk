@@ -12,7 +12,6 @@ export interface ChatMessage extends AireChatMessage {
     sender: string;
     isError?: boolean;
     localize?: boolean;
-    suggestion?: boolean;
 }
 export interface ChatStats {
     token_count?: number;

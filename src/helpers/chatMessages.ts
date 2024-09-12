@@ -23,8 +23,7 @@ export function createMessage(
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
-    hidden: boolean = false,
-    suggestion: boolean = false): ChatMessage {
+    hidden: boolean = false): ChatMessage {
 
     let sender = "";
     switch (role) {
@@ -46,18 +45,17 @@ export function createMessage(
         rating: 0,
         timestamp: Date.now(),
         hidden: hidden,
-        suggestion: suggestion
     }
 }
 
 export function createContentMessage(content: AireContent[]): ChatMessage {
-    const msg = createMessage("assistant", l.system_found_content, true, false, true);
+    const msg = createMessage("assistant", l.system_found_content, true, false);
     msg.media = content.map(x => x.id!);
     return msg;
 }
 
 export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
-    return createMessage("system", message_loc_key, localize, false, false);
+    return createMessage("system", message_loc_key, localize, false);
 }
 
 export function createErrorMessage(message_loc_key: string): ChatMessage {
@@ -71,7 +69,7 @@ export function createAssistantMessage(message: string): ChatMessage {
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {
-    return createMessage("user", instructions, false, true, false);
+    return createMessage("user", instructions, false, true);
 }
 
 export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion): ChatMessage {
