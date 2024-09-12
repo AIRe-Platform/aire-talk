@@ -33,7 +33,7 @@ onMounted(async () => {
 <template>
     <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
         <ChatBubbleOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
-        <CatalogueItem :content="state.content" @show="state.content" :is-from-summary="true" />
+        <CatalogueItem :content="state.content" @show="state.content!" :is-from-summary="true" />
     </div>
 </template>
 
