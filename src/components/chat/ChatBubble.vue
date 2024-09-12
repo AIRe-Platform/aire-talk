@@ -120,11 +120,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :id="props.message.id" :class="[...classList, { 'is-suggestion': props.message.suggestion }]"
-        @click="toggleModal">
+    <div :id="props.message.id" :class="[...classList]" @click="toggleModal">
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
-        <div class="chat-bubble-content">
+        <div class="chat-bubble-content" :class="{ 'is-user': props.message.role === 'user' }">
+
             <span class="chat-user-label">
                 {{ (isSystem || isBot) ? $t(message.sender) : message.sender }}
             </span>
@@ -173,11 +173,13 @@ onMounted(() => {
 .chat-bubble-user {
     align-self: flex-start;
     background-color: var(--user-chat-box-background);
+    width: 100%;
 }
 
 .chat-bubble-bot {
     align-self: flex-end;
     height: fit-content;
+    width: 100%;
     background-color: var(--ia-chat-box-background);
 }
 
@@ -227,8 +229,9 @@ onMounted(() => {
     margin-top: 1rem;
 }
 
-.is-suggestion {
-    background-color: var(--suggestions-background);
+.is-user {
+    display: flex;
+    align-items: flex-end;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
