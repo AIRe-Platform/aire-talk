@@ -345,7 +345,7 @@ async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
     if (e.type === "keywords") {
-        onReceiveKeywords(context, e.keywords || [], false)
+        onReceiveKeywords(context, e.keywords || [])
         return;
     }
 
@@ -371,6 +371,10 @@ async function receiver(e: AireTalkEvent) {
         if (final) {
             const bot = useChatbot();
             bot.setStatus("answered");
+          //  onReceiveKeywords(context, (['back pain']));//all type
+          //  onReceiveKeywords(context, (['eye test']));//all type
+           // onReceiveKeywords(context, (['head']));//video
+
         }
         chat.push(last, firstMessage, final);
     }
@@ -385,7 +389,7 @@ function errorHandler(status: AireStatus) {
     useChatbot().setStatus("idle");
 }
 
-export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[], generateSuggestions: boolean) {
+export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[]) {
     const summary = useSummary();
     const suggestion = useSuggestion();
     summary.set(summary.summary);
@@ -402,7 +406,7 @@ export async function onReceiveKeywords(chatContext: ChatContext, keywords: stri
             })
         chatContext.suggestionMessage = await searchForSuggestions(keywords);
 
-        if(generateSuggestions && chatContext.suggestionMessage){
+        if(chatContext.suggestionMessage){
             suggestion.setSuggestions(chatContext.suggestionMessage);
         }
     }
