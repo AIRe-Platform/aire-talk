@@ -1,7 +1,13 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
+
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory } from "@/helpers/contentUtils";
 
@@ -10,7 +16,6 @@ import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
-import { setUIModeLayoutBeforeMount } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -52,7 +57,6 @@ const listContent = async () => {
 }
 
 onMounted(() => {
-    setUIModeLayoutBeforeMount();
     state.busy = true;
     listContent()
         .finally(() => {
@@ -92,9 +96,13 @@ const showContent = async (content: AireContent) => {
                 <h3>{{ $t(l.nav_catalogue) }}</h3>
             </div>
         </div>
+        <Spinner v-if="state.busy" />
         <div class="content-catalogue-list">
-            <Spinner v-if="state.busy" />
-            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent" />
+            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent"
+                :isFromSummary="false" />
+            <div v-if="state.contentList.length == 0">
+                <h3>{{ $t(l.content_catalogue_empty) }}</h3>
+            </div>
         </div>
     </div>
 </template>
@@ -105,15 +113,11 @@ const showContent = async (content: AireContent) => {
     flex-direction: column;
     align-items: center;
     flex-grow: 1;
-
     padding: 0rem;
-
-
     background-color: var(--panel-background-color);
     border-radius: 1rem;
     border-color: var(--panel-border-color);
     position: relative;
-
     overflow: hidden;
 }
 
@@ -159,7 +163,7 @@ const showContent = async (content: AireContent) => {
     overflow: auto;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;

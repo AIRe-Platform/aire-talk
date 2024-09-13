@@ -38,7 +38,7 @@ const props = defineProps<{
     color: var(--accent-primary-color);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .options-button {
         display: flex;
         border: none;

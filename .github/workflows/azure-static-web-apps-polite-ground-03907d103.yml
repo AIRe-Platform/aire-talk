@@ -39,6 +39,7 @@ jobs:
         env:
           VITE_COMMIT_HASH: ${{ steps.commit_hash.outputs.sha_short }}
           VITE_AIRE_SERVICES_ENDPOINT: ${{ vars.AIRE_SERVICES_ENDPOINT }}
+          VITE_AIRE_CLIENT_ID: ${{ vars.AIRE_CLIENT_ID }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

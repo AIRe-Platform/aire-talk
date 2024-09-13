@@ -1,3 +1,8 @@
+/*  This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+
 @font-face {
     font-family: "Sansation";
     font-weight: 400;
@@ -87,7 +92,7 @@
     --settings-panel-theme-color: #176087;
     --summary-keyword-item-background: #FFFFFF;
     --summary-keyword-item-font-color: #176087;
-
+    --suggestions-background: #F1F4F9;
 }
 
 :root.theme-dark {
@@ -138,7 +143,7 @@
     --settings-panel-theme-color: white;
     --summary-keyword-item-background: #F1F4F9;
     --summary-keyword-item-font-color: #2374AB;
-
+    --suggestions-background: #176087;
 }
 
 html {
@@ -259,4 +264,47 @@ button {
 
 .font-large {
     font-size: var(--font-large);
+}
+
+
+@keyframes fade-in-and-left {
+    0% {
+        opacity: 0;
+        right: -1rem;
+        transform: translate(100%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        right: 3rem;
+        transform: translate(100%, 0);
+    }
+}
+
+@keyframes fade-out-and-right {
+    0% {
+        opacity: 1;
+        right: 3rem;
+        transform: translate(100%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        right: 0rem;
+        transform: translate(100%, 0);
+    }
+}
+
+.fade-in-and-left {
+    animation: fade-in-and-left 0.4s;
+}
+
+.fade-out-and-right {
+    animation: fade-out-and-right 0.4s;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    button, input {
+        font-size: var(--font-medium);
+    }
 }

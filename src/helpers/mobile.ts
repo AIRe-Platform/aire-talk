@@ -1,4 +1,7 @@
-import { UIMode, UISettings, applyUiClass } from "@/context/ui";
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 import { ref } from 'vue';
 
 export const useMobileLayout = ref<boolean>(isMobileResolution());
@@ -13,12 +16,5 @@ function isMobileResolution(): boolean {
 
     return portrait || narrow;
 }
-
-window.addEventListener("resize", (e: Event) => {
-    useMobileLayout.value = isMobileResolution();
-    if (UISettings.uiMode === UIMode.Dynamic) {
-        applyUiClass(isMobileResolution() ? UIMode.Mobile : UIMode.Desktop)
-    }
-});
 
 export default useMobileLayout;

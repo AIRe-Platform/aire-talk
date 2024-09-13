@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const id: Locale = {
@@ -24,12 +29,12 @@ const id: Locale = {
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
 
-    login_form_title: "Masuk",
-    login_form_submit: "Masuk",
-    login_label_username: "Email atau nama pengguna",
-    login_label_password: "Kata sandi",
-    login_failure_message: "Gagal masuk",
-    login_forgot_password: "Saya lupa kata sandi saya",
+    login_title: "Masuk",
+    login_redirect: "Mengalihkan ke halaman login...",
+    login_failure: "Layanan login tidak tersedia saat ini. Silakan coba lagi nanti.",
+    login_callback_failure: "Upaya masuk gagal.",
+    login_callback_error_description: "Detail:",
+    login_callback_button: "Kembali ke beranda",
 
     signup_form_title: "Buat akun",
     signup_form_submit: "Daftar",
@@ -75,6 +80,11 @@ const id: Locale = {
     profile_label_new_password: "Kata sandi baru",
     profile_button_change_password: "Ubah kata sandi",
 
+    profile_heading_personal_data: "Data Pribadi",
+    profile_description_personal_data: 
+        "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
+    profile_button_download_personal_data: "Unduh",
+
     profile_heading_delete_account: "Hapus Akun",
     profile_description_delete_account:
         "Ini akan menghapus akun Anda dari platform AIRe. Konfirmasikan penghapusan dengan memasukkan kata sandi Anda.",
@@ -109,23 +119,6 @@ const id: Locale = {
     profile_experiments_add: "Tambahkan",
     profile_experiments_description: "ke prompt Anda jika Anda ingin menyuntikkan ringkasan profil pengguna Anda.",
     profile_experiments_apply: "Terapkan perubahan",
-
-    verification_heading: "Verifikasi Akun Anda",
-    verification_description:
-        "Masukkan kode verifikasi yang Anda terima di email Anda",
-    verification_button_verify: "Verifikasi",
-    verification_code_resend: "Kirim ulang kode",
-    verification_code_resend_done: "Kode baru sedang dalam perjalanan!",
-
-    recovery_heading: "Pemulihan Akun",
-    recovery_label_email: "Alamat email",
-    recovery_label_code: "Kode pemulihan",
-    recovery_label_password: "Kata sandi baru",
-    recovery_enter_code: "Masukkan kode pemulihan yang baru saja kami kirimkan.",
-    recovery_not_available: "Pemulihan akun tidak tersedia saat ini.",
-    recovery_failure: "Akun ini tidak dapat dipulihkan.",
-    recovery_password_changed: "Kata sandi berhasil diubah.",
-    recovery_back_to_login: "Kembali ke login",
 
     settings_title: "Pengaturan",
     settings_language: "Bahasa antarmuka pengguna",
@@ -175,6 +168,9 @@ const id: Locale = {
     summary_generate_summary: "Ringkas",
     summary_query_surveys_button: "Kueri survei",
     summary_send_survey_button: "Kirim jawaban survei",
+    summary_suggestions: "Saran",
+    
+    suggestion_check_for_more: "Periksa lebih lanjut",
 
     error_verification_failure: "Tidak dapat memverifikasi kode. Mungkin sudah kedaluwarsa.",
     error_verification_resend_failed:
@@ -212,12 +208,17 @@ const id: Locale = {
 
     button_accept: "Terima",
     button_cancel: "Batal",
+    button_yes: "Ya",
+    button_no: "Tidak",
     button_back: "Kembali",
     button_continue: "Lanjutkan",
     button_close: "Tutup",
     button_delete_content: "Hapus konten",
     button_display: "Tampilkan",
+    button_mark_as_read: "Tandai sebagai sudah dibaca",
 
+    content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
+    
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",

@@ -1,3 +1,8 @@
+/*  This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+
 .icon {
     background-repeat: no-repeat;
     background-size: contain;
@@ -79,14 +84,14 @@
     background-image: url("@/assets/icons/chat-history-dark-mobile.svg");
     width: 2rem;
     height: 2rem;
-    transform: scale(1.4);
+    /* transform: scale(1.4); */
 }
 
 .theme-default .icon.chat-history-mobile {
     background-image: url("@/assets/icons/chat-history-light-mobile.svg");
     width: 2rem;
     height: 2rem;
-    transform: scale(1.4);
+   /*  transform: scale(1.4); */
 }
 
 .theme-dark .icon.catalogue-content-mobile {
@@ -207,4 +212,40 @@
     background-image: url("@/assets/icons/document_dark.svg");
     width: 5rem;
     height: 6rem;
+}
+
+.theme-dark .icon.signup {
+    background-image: url("@/assets/icons/signup-dark.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-default .icon.signup {
+    background-image: url("@/assets/icons/signup-light.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-dark .icon.logout {
+    background-image: url("@/assets/icons/logout-dark.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-default .icon.logout {
+    background-image: url("@/assets/icons/logout-light.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-dark .icon.login {
+    background-image: url("@/assets/icons/login-dark.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-default .icon.login {
+    background-image: url("@/assets/icons/login-light.svg");
+    width: 2rem;
+    height: 2rem;
 }

@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
@@ -62,12 +67,18 @@ const applyRating = () => {
         chat.rateMessage(props.parent.id, state.rating);
 }
 
+
 const onCopyClipboard = async () => {
-    if (props.parent.content) {
-        await clipboard.copy(props.parent.content)
-        state.copiedToClipboard = true;
+    try {
+        if (props.parent.content) {
+            await clipboard.copy(props.parent.content);
+            state.copiedToClipboard = true;
+        }
+    } catch (error) {
+        console.error('Error copying to clipboard in ChatBubbleOptions:', error);
+        state.copiedToClipboard = false;
     }
-}
+};
 
 const onConfirmRevert = () => {
     chat.revertTo(props.parent.id)
@@ -143,7 +154,7 @@ onMounted(() => {
                 </button>
             </template>
         </div>
-        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -229,7 +240,7 @@ onMounted(() => {
 }
 
 /* mobile*/
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-bubble-options-menu {
         top: -1rem;
         right: 1rem;

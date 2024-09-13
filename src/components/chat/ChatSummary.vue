@@ -1,44 +1,79 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
-import { l } from '@/locales';
+import { getUILanguage, l } from '@/locales';
+import { AireKeyword } from 'aire';
+
 import { onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
-
+import useChat, { ChatContext } from '@/context/chat';
 import useSummary from '@/context/summary';
 import useQuestionnaire from '@/context/questionnaire';
 
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
+import ChatSuggestion from './ChatSuggestion.vue';
+import useSuggestion from '@/context/suggestion';
 
 const state = reactive<{
     busy: boolean,
-    missing_personal_info: boolean
+    missing_personal_info: boolean,
+    is_suggestions_shown: boolean
 }>({
     busy: false,
-    missing_personal_info: false
+    missing_personal_info: false,
+    is_suggestions_shown: false
 });
 const summary = useSummary();
 const questionnaires = useQuestionnaire();
-
+const chatContent: ChatContext = useChat();
+const suggestion = useSuggestion();
 const generateSummary = async () => {
-    state.busy = true;
+    try {
+        state.busy = true;
 
-    summary.reset();
-    await summary.update();
+        summary.reset();
+        await summary.update();
+    } catch (error) {
+        console.error('Error generating summary in ChatSummary:', error);
+    } finally {
+        state.busy = false;
+    }
+}
 
-    state.busy = false;
+const toggleSuggestions = async () => {
+    state.is_suggestions_shown = !state.is_suggestions_shown;
 }
 
 const querySurveys = async () => {
-    state.busy = true;
+    try {
+        state.busy = true;
 
-    const queried = await queryQuestionnaire([...summary.keywords]);
-    if (queried) {
-        const questionnaire = createQuestionnaire(queried);
-        if (questionnaire)
-            questionnaires.startQuestionnaire(questionnaire);
+        const queried = await queryQuestionnaire([...summary.keywords].map(keyword => keyword.value));
+        if (queried) {
+            const questionnaire = createQuestionnaire(queried);
+            if (questionnaire)
+                questionnaires.startQuestionnaire(questionnaire);
+        }
+    } catch (error) {
+        console.error('Error querySurveys in ChatSummary:', error);
+    } finally {
+        state.busy = false;
     }
-    state.busy = false;
+}
+
+const getTranslationForKeyword = (keyword: AireKeyword): string => {
+
+    const UILanguage = getUILanguage();
+    const translation = keyword.translations?.find(transition => transition.languageID == UILanguage);
+    if (translation)
+        return translation.value;
+    else
+        return keyword.value;
 }
 
 const askPersonalInformation = () => {
@@ -47,9 +82,10 @@ const askPersonalInformation = () => {
         questionnaires.startQuestionnaire(personalInfoQuestionnaire);
 }
 
-const removeWord = (word: string) => {
+const removeWord = (word: AireKeyword) => {
     summary.keywords.delete(word);
 }
+
 
 onMounted(() => {
     state.missing_personal_info = createPersonalInformationQuestions().length > 0;
@@ -67,9 +103,9 @@ onMounted(() => {
                 {{ summary.summary }}
             </div>
             <div class="summary-keywords" v-if="summary.keywords.size > 0">
-                <div class="summary-keyword-item" v-for="word, id in summary.keywords" :key="id">
-                    <span class="summary-keyword-text">{{ word }}</span>
-                    <div class="summary-keyword-delete" @click="removeWord(word)">
+                <div class="summary-keyword-item" v-for="(keyword, id) in summary.keywords" :key="id">
+                    <span class="summary-keyword-text">{{ getTranslationForKeyword(keyword) }}</span>
+                    <div class="summary-keyword-delete" @click="removeWord(keyword)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>
@@ -89,9 +125,17 @@ onMounted(() => {
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
+                <button class="summary-button" v-if="chatContent.suggestionMessage" @click="toggleSuggestions">
+                    <span class="summary-button-text"> {{ $t(l.summary_suggestions) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-lightbulb" />
+                </button>
             </div>
         </template>
     </Panel>
+    <ChatSuggestion v-if="suggestion.suggestions && state.is_suggestions_shown" @close-panel="toggleSuggestions">
+    </ChatSuggestion>
+
+
 </template>
 
 <style lang="scss" scoped>
@@ -195,7 +239,7 @@ onMounted(() => {
     margin-right: 0.5rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .summary-panel {
         width: unset;
     }

@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const sw: Locale = {
@@ -24,12 +29,12 @@ const sw: Locale = {
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
 
-    login_form_title: "Ingia",
-    login_form_submit: "Ingia",
-    login_label_username: "Barua pepe au jina la mtumiaji",
-    login_label_password: "Nenosiri",
-    login_failure_message: "Imeshindwa kuingia",
-    login_forgot_password: "Nimesahau nenosiri langu",
+    login_title: "Ingia",
+    login_redirect: "Inaelekeza kwenye ukurasa wa kuingia...",
+    login_failure: "Huduma ya kuingia haipatikani kwa sasa. Tafadhali jaribu tena baadaye.",
+    login_callback_failure: "Jaribio la kuingia limeshindwa.",
+    login_callback_error_description: "Maelezo:",
+    login_callback_button: "Rudi kwenye ukurasa wa nyumbani",
 
     signup_form_title: "Tengeneza akaunti",
     signup_form_submit: "Jisajili",
@@ -74,6 +79,11 @@ const sw: Locale = {
     profile_label_new_password: "Nenosiri jipya",
     profile_button_change_password: "Badilisha nenosiri",
 
+    profile_heading_personal_data: "Data ya Kibinafsi",
+    profile_description_personal_data: 
+        "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
+    profile_button_download_personal_data: "Pakua",
+
     profile_heading_delete_account: "Futa Akaunti",
     profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",
     profile_label_password_confirm: "Thibitisha nenosiri",
@@ -103,22 +113,6 @@ const sw: Locale = {
     profile_experiments_add: "Ongeza",
     profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
     profile_experiments_apply: "Tumia mabadiliko",
-
-    verification_heading: "Thibitisha Akaunti Yako",
-    verification_description: "Weka msimbo wa uthibitisho ulioupokea kwenye barua pepe yako",
-    verification_button_verify: "Thibitisha",
-    verification_code_resend: "Tuma msimbo mpya",
-    verification_code_resend_done: "Msimbo mpya uko njiani!",
-
-    recovery_heading: "Uokoaji wa Akaunti",
-    recovery_label_email: "Anwani ya barua pepe",
-    recovery_label_code: "Msimbo wa uokoaji",
-    recovery_label_password: "Nenosiri jipya",
-    recovery_enter_code: "Weka msimbo wa uokoaji tuliotuma kwako.",
-    recovery_not_available: "Uokoaji wa akaunti haupatikani kwa sasa.",
-    recovery_failure: "Akaunti hii haiwezi kurejeshwa.",
-    recovery_password_changed: "Nenosiri limebadilishwa kwa mafanikio.",
-    recovery_back_to_login: "Rudi kwa kuingia",
 
     settings_title: "Mipangilio",
     settings_language: "Lugha ya kiolesura cha mtumiaji",
@@ -159,6 +153,9 @@ const sw: Locale = {
     summary_generate_summary: "Fupisha",
     summary_query_surveys_button: "Utafiti wa maswali",
     summary_send_survey_button: "Tuma majibu ya utafiti",
+    summary_suggestions: "Mapendekezo",
+
+    suggestion_check_for_more: "Angalia zaidi",
 
     error_verification_failure: "Haiwezi kuthibitisha msimbo. Inaweza kuwa umekwisha muda wake.",
     error_verification_resend_failed: "Haiwezi kutuma tena msimbo. Jaribu tena baadaye",
@@ -191,11 +188,16 @@ const sw: Locale = {
 
     button_accept: "Kubali",
     button_cancel: "Ghairi",
+    button_yes: "Ndio",
+    button_no: "Hapana",
     button_back: "Rudi",
     button_continue: "Endelea",
     button_close: "Funga",
     button_delete_content: "Futa maudhui",
     button_display: "Onyesha",
+    button_mark_as_read: "Weka alama kama imesomwa",
+
+    content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
     en: "Kiingereza",
     fi: "Kifini",

@@ -1,19 +1,21 @@
+<!--
+ This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { AppState } from '@/main';
 import { UIPanels, UIState } from '@/context/ui';
-
+import { closeBurgerMenu } from "@/context/ui";
 import FooterBar from '@/components/layout/FooterBar.vue';
 import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 
-setTimeout(() => {
-    if (AppState.value === "init")
-        location.reload()
-}, 5000)
-
-const closeNavMenu = () => {
+const closeNavMenu = async () => {
+    await closeBurgerMenu();
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
     UIState.panels.clear();
@@ -27,7 +29,7 @@ const closeNavMenu = () => {
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
             <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
         </div>
-        <div class="main-content" >
+        <div class="main-content">
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
         </div>
@@ -55,8 +57,10 @@ const closeNavMenu = () => {
 
 .main-mask {
     position: fixed;
-    top: 0; left: 0;
-    bottom: 0; right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     z-index: 3;
     backdrop-filter: blur(2px);
 }
@@ -94,10 +98,10 @@ const closeNavMenu = () => {
     align-items: stretch;
     justify-content: center;
     text-align: center;
+    background-color: var(--panel-background-color);
 }
 
-
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
         font-size: small;
     }

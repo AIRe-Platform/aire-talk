@@ -1,10 +1,16 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import Panel from '@/components/common/Panel.vue';
 import { defineProps, defineEmits } from "vue";
 import { AireContentType, AireContent } from 'aire';
 
 const props = defineProps<{
-    content: AireContent
+    content: AireContent,
+    isFromSummary: boolean
 }>();
 
 const emits = defineEmits<{
@@ -13,7 +19,9 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('show', props.content);">
+    <Panel class="catalogue-item" @click="emits('show', props.content);"
+        :class="{ 'is-from-summarycontent': props.isFromSummary }">
+
         <div class="catalogue-item-header">
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
@@ -53,6 +61,10 @@ const emits = defineEmits<{
     height: 14rem;
     gap: 0.5rem;
     /* padding: 0.3rem; */
+}
+
+.is-from-summarycontent {
+    width: 11.7rem;
 }
 
 .catalogue-item-header {

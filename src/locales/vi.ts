@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const vi: Locale = {
@@ -23,12 +28,13 @@ const vi: Locale = {
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
 
-    login_form_title: "Đăng nhập",
-    login_form_submit: "Đăng nhập",
-    login_label_username: "E-mail hoặc tên người dùng",
-    login_label_password: "Mật khẩu",
-    login_failure_message: "Đăng nhập thất bại",
-    login_forgot_password: "Tôi quên mật khẩu của tôi",
+    login_title: "Đăng nhập",
+    login_redirect: "Đang chuyển hướng đến trang đăng nhập...",
+    login_failure: "Dịch vụ đăng nhập hiện không khả dụng. Vui lòng thử lại sau.",
+    login_callback_failure: "Không đăng nhập được.",
+    login_callback_error_description: "Chi tiết:",
+    login_callback_button: "Quay lại trang chủ",
+
     signup_label_email: "E-mail",
     signup_password_instructions: "Mật khẩu phải có ít nhất 8 ký tự và chứa chữ hoa, chữ thường và số.",
     signup_label_password: "Mật khẩu",
@@ -78,6 +84,11 @@ const vi: Locale = {
     profile_label_new_password: "Mật khẩu mới",
     profile_button_change_password: "Đổi mật khẩu",
 
+    profile_heading_personal_data: "Dữ liệu cá nhân",
+    profile_description_personal_data: 
+        "Tất cả thông tin của bạn được mã hóa theo cách mà chỉ bạn mới có quyền truy cập. Các dịch vụ AIRe chỉ có thể sử dụng dữ liệu của bạn khi bạn đang sử dụng các dịch vụ. Tại đây, bạn có thể tải xuống tất cả dữ liệu của mình được lưu trong AIRe. Xin lưu ý rằng việc thu thập dữ liệu có thể mất một thời gian.",
+    profile_button_download_personal_data: "Tải xuống",
+
     profile_heading_delete_account: "Xóa tài khoản",
     profile_description_delete_account:
         "Việc này sẽ xóa tài khoản của bạn khỏi nền tảng AIRe. Xác nhận xóa bằng cách nhập mật khẩu của bạn.",
@@ -106,22 +117,6 @@ const vi: Locale = {
     profile_experiments_add: "Thêm vào",
     profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
     profile_experiments_apply: "Áp dụng các thay đổi",
-
-    verification_heading: "Xác thực tài khoản của bạn",
-    verification_description: "Nhập mã xác minh bạn nhận được trong email",
-    verification_button_verify: "Xác minh",
-    verification_code_resend: "Gửi cho tôi mã mới",
-    verification_code_resend_done: "Một mã mới đang trên đường đến!",
-
-    recovery_heading: "Khôi phục tài khoản",
-    recovery_label_email: "Địa chỉ email",
-    recovery_label_code: "Mã khôi phục",
-    recovery_label_password: "Mật khẩu mới",
-    recovery_enter_code: "Nhập mã khôi phục chúng tôi vừa gửi cho bạn.",
-    recovery_not_available: "Hiện không thể khôi phục tài khoản.",
-    recovery_failure: "Không thể khôi phục tài khoản này.",
-    recovery_password_changed: "Mật khẩu đã được thay đổi thành công.",
-    recovery_back_to_login: "Quay lại đăng nhập",
 
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",
@@ -171,6 +166,9 @@ const vi: Locale = {
     summary_generate_summary: "Tóm tắt",
     summary_query_surveys_button: "Khảo sát truy vấn",
     summary_send_survey_button: "Gửi câu trả lời khảo sát",
+    summary_suggestions: "Gợi ý",
+
+    suggestion_check_for_more: "Kiểm tra thêm",
 
     error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
     error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",
@@ -208,11 +206,16 @@ const vi: Locale = {
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",
+    button_yes: "Đúng",
+    button_no: "Không",
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",
     button_delete_content: "Xóa nội dung",
     button_display: "Chưng ra",
+    button_mark_as_read: "Đánh dấu là đã đọc",
+
+    content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

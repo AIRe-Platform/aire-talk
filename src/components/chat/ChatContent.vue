@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import useContent from '@/context/content';
 import { ChatMessage } from '@/models/chat';
@@ -8,7 +13,7 @@ import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ChatBubbleOptions from './ChatBubbleOptions.vue';
 
 const props = defineProps<{
-    parent: ChatMessage,
+    parent?: ChatMessage,
     contentId: string;
 }>();
 
@@ -27,8 +32,8 @@ onMounted(async () => {
 
 <template>
     <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
-        <ChatBubbleOptions :parent="props.parent" :can_revert="false" :content="state.content" />
-        <CatalogueItem :content="state.content" @show="state.content" />
+        <ChatBubbleOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
+        <CatalogueItem :content="state.content" @show="state.content!" :is-from-summary="true" />
     </div>
 </template>
 
@@ -89,7 +94,7 @@ onMounted(async () => {
     color: var(--link-icon);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-content {
         max-width: unset;
         min-width: unset;

@@ -1,24 +1,33 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import i18n, { l } from "@/locales";
 import { router } from "@/router";
+import { ref } from "vue";
 import { UIPanels, UIState } from "@/context/ui";
-import useMobileLayout from "@/helpers/mobile";
 import useLogin from "@/context/login";
 import useChat from "@/context/chat";
-
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 import NavItem from "@/components/layout/NavItem.vue";
 import NavButton from "@/components/layout/NavButton.vue";
+import { closeBurgerMenu } from "@/context/ui";
 
 const login = useLogin();
 const chat = useChat();
 
-const onOpen = (e: Event) => {
+const isIconsMenu = ref(false);
+
+const onOpen = async (e: Event) => {
     e.stopImmediatePropagation();
+    await closeBurgerMenu();
     UIState.showMenu = !UIState.showMenu;
-    if (!UIState.showMenu)
+    if (!UIState.showMenu) {
         UIState.isNavMenuCompressed = false;
+    }
 };
 
 const toggleChatHistoryMenu = () => {
@@ -27,21 +36,23 @@ const toggleChatHistoryMenu = () => {
 };
 
 const switchMenu = () => {
-    if (useMobileLayout.value) {
-        if (!UIState.isNavMenuCompressed) {
-            UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
-        }
+    if (!UIState.isNavMenuCompressed) {
+        UIState.isNavMenuCompressed = !UIState.isNavMenuCompressed;
+        isIconsMenu.value = true;
     }
+    else
+        isIconsMenu.value = false;
 };
 
 const newChat = async () => {
     await chat.startNew();
+    await closeBurgerMenu();
     navigateTo("/chat");
 };
 
-const navigateTo = (path: string) => {
+const navigateTo = async (path: string) => {
     router.push(path);
-
+    await closeBurgerMenu();
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
 };
@@ -50,54 +61,63 @@ const toggleSettingsPanel = () => {
     switchMenu();
     UIState.panels.add(UIPanels.Settings);
 };
+
+const navLogoClick = () => {
+    if(login.user)
+       navigateTo("/home");
+    else
+        navigateTo("/");
+}
 </script>
 
 <template>
     <NavButton :open="UIState.showMenu" @click="onOpen"></NavButton>
-    <div class="nav-menu" :class="{ 'nav-menu-open': UIState.showMenu, 'short-nav-menu': UIState.isNavMenuCompressed }">
+    <div class="nav-menu" :class="{
+        'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
+        'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
+        'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
+    }">
         <Panel class="nav-menu-bar">
-            <div class="nav-link" v-if="login.user" @click="navigateTo('/home')">
-                <div class="nav-logo" v-if="!useMobileLayout">
-                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
-                </div>
-            </div>
-            <div class="nav-link" v-if="!login.user" @click="navigateTo('/')">
+            <div class="nav-link" @click="navLogoClick">
                 <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                 </div>
             </div>
-            <div class="nav-menu-list">
-                <Separator v-if="!UIState.isNavMenuCompressed" />
+            <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
+                <Separator />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
-                    @click="toggleChatHistoryMenu"
-                    :active="!useMobileLayout && UIState.panels.has(UIPanels.ChatHistory)" />
+                    @click="toggleChatHistoryMenu" :active="UIState.panels.has(UIPanels.ChatHistory)"
+                    class="chat-history-nav-button" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat)" icon="new-chat-mobile"
-                    @click="navigateTo('/chat')" :active="!useMobileLayout && $route.matched.some(
+                    @click="navigateTo('/chat')" :active="$route.matched.some(
                         (p) => p.name === 'Chat'
                     )" />
-                <NavItem v-if="chat.id" :label="i18n.global.t(l.nav_chat_new)" icon="new-chat-mobile" @click="newChat" :active="false" />
+                <NavItem v-if="chat.id" :label="i18n.global.t(l.nav_chat_new)" icon="new-chat-mobile" @click="newChat"
+                    :active="false" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_catalogue)"
-                    icon="catalogue-content-mobile margin-left" @click="navigateTo('/content-catalogue')" :active="!useMobileLayout && $route.matched.some(
+                    icon="catalogue-content-mobile margin-left" @click="navigateTo('/content-catalogue')" :active="$route.matched.some(
                         (p) => p.name === 'Content-catalogue'
                     )" />
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" @click="navigateTo('/login')" :active="!useMobileLayout && $route.matched.some(
-                    (p) => p.name === 'Login'
-                )" />
-                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" @click="navigateTo('/signup')" :active="!useMobileLayout && $route.matched.some(
-                    (p) => p.name === 'Signup'
-                )" />
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" icon="login"
+                    @click="navigateTo('/login')" :active="$route.matched.some(
+                        (p) => p.name === 'Login'
+                    )" />
+                <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" icon="signup"
+                    @click="navigateTo('/signup')" :active="$route.matched.some(
+                        (p) => p.name === 'Signup'
+                    )" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
-                    @click="navigateTo('/profile')" :active="!useMobileLayout && $route.matched.some(
+                    @click="navigateTo('/profile')" :active="$route.matched.some(
                         (p) => p.name === 'Profile'
                     )" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
-                    :active="!useMobileLayout && UIState.panels.has(
+                    :active="UIState.panels.has(
                         UIPanels.Settings
                     )" />
-                <Separator v-if="!UIState.isNavMenuCompressed" />
+                <Separator />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
-                    @click="navigateTo('/home')" :active="!useMobileLayout && $route.matched.some(
+                    @click="navigateTo('/home')" :active="$route.matched.some(
                         (p) => p.name === 'Login'
                     )" />
             </div>
@@ -116,6 +136,7 @@ const toggleSettingsPanel = () => {
     height: 100%;
     margin: 0rem;
     transition: box-shadow 0.25s, width 0.25s, height 0.25s;
+    //transition: box-shadow 2s, width 2s, height 2s;
     position: absolute;
 }
 
@@ -184,7 +205,39 @@ const toggleSettingsPanel = () => {
     flex-grow: 1;
 }
 
-.ui-mode-mobile {
+@keyframes nav-menu-closing-effect {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.nav-menu-closing-effect {
+    animation: nav-menu-closing-effect 0.3s;
+}
+
+@keyframes close-menu-effect {
+    0% {
+        width: 16rem;
+    }
+
+    30% {
+        width: 16rem;
+    }
+
+    100% {
+        width: 0rem;
+    }
+}
+
+.close-menu-effect {
+    animation: close-menu-effect 0.6s;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .menu-container {
         overflow: hidden;
         margin: 0;
@@ -194,11 +247,15 @@ const toggleSettingsPanel = () => {
 
     .nav-menu {
         margin: 0;
-        font-size: var(--font-small);
+        //font-size: var(--font-small);
+    }
+
+    .short-nav-menu .separator {
+        display: none;
     }
 
     .nav-menu-open {
-        width: 65%;
+        width: 16rem;
         position: absolute;
     }
 
@@ -206,17 +263,71 @@ const toggleSettingsPanel = () => {
         align-items: center;
     }
 
-    .nav-logo {
-        width: 50%;
+    .short-nav-menu .nav-logo img {
+        width: 90%
     }
 
     .short-nav-menu {
         width: 4.5rem;
     }
 
-    .short-nav-menu .nav-item {
+    .short-nav-menu .nav-menu-bar {
+        overflow: hidden;
+    }
+
+    .nav-item {
         padding: 0rem;
         margin: 1rem;
+    }
+
+    @keyframes nav-menu-closing-effect {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .nav-menu-closing-effect {
+        animation: nav-menu-closing-effect 0.3s;
+    }
+
+    @keyframes close-menu-compressed-effect {
+        0% {
+            width: 65%;
+        }
+
+        30% {
+            width: 65%;
+        }
+
+        100% {
+            width: 0%;
+        }
+    }
+
+    .close-nav-menu-compressed {
+        animation: close-menu-compressed-effect 0.6s;
+    }
+
+    @keyframes close-menu-compressed-with-icons-effect {
+        0% {
+            width: 4.5rem;
+        }
+
+        30% {
+            width: 4.5rem;
+        }
+
+        100% {
+            width: 0%;
+        }
+    }
+
+    .close-nav-menu-compressed-with-icons {
+        animation: close-menu-compressed-with-icons-effect 0.6s;
     }
 }
 </style>

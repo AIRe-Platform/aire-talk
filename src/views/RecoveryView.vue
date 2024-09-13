@@ -1,3 +1,9 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
+
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { getUILanguage, l } from '@/locales';
@@ -172,7 +178,7 @@ input[type=submit] {
     width: 60%;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .form-content {
         width: 70%;
         padding: 1rem 2rem;

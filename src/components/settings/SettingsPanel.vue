@@ -1,20 +1,19 @@
-<script setup lang="ts">
-import { supportedLocales, setUILanguage, l } from "@/locales";
-import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UIMode, UISettings, UIState } from "@/context/ui";
-import ISO6391, { LanguageCode } from 'iso-639-1';
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
 
+<script setup lang="ts">
+import { l } from "@/locales";
+import { onMounted, ref } from "vue";
+import { vOnClickOutside } from "@vueuse/components";
+import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+
+import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 
-
-const setLang = async (e: Event) => {
-
-    const el = e.target as HTMLSelectElement;
-    setUILanguage(el.value as LanguageCode);
-    el.blur();
-};
 
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
@@ -22,18 +21,25 @@ const setTextSize = (e: Event) => {
     el.blur();
 }
 
-const setScreenSize = (e: Event) => {
-    const el = e.target as HTMLSelectElement;
-    UISettings.uiMode = el.value as UIMode;
-    el.blur();
-    if (UISettings.uiMode == UIMode.Mobile) {
-        UIState.isNavMenuCompressed = true;
+const onClickOutside = async (e: Event) => {
+    //If clicking outside of chatHistory panel is just clicking again in button of settings => do nothing
+    if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is chat history panel switch between them
+    } else if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
+        UIState.panels.add(UIPanels.ChatHistory);
+        UIState.panels.delete(UIPanels.Settings);
+        e.stopImmediatePropagation();
+    } else {
+        UIState.panels.delete(UIPanels.Settings);
+        await closeBurgerMenu();
+        UIState.isNavMenuCompressed = false;
+        UIState.showMenu = false;
     }
-}
-const onClickOutside = (e: Event) => {
-    //e.stopImmediatePropagation();
-    UIState.panels.delete(UIPanels.Settings);
 };
+
+onMounted(refreshBurgerMenuButtonsRef);
+
 </script>
 
 <template>
@@ -42,14 +48,7 @@ const onClickOutside = (e: Event) => {
             {{ $t(l.settings_title) }}
         </div>
         <Separator />
-        <div class="settings-item">
-            <label for="settings-language">{{ $t(l.settings_language) }}</label>
-            <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
-                <option v-for="lang in supportedLocales" :value="lang" :key="lang">
-                    {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
-                </option>
-            </select>
-        </div>
+        <LanguageSelector />
         <Separator />
         <ThemeSwitch />
         <Separator />
@@ -61,14 +60,6 @@ const onClickOutside = (e: Event) => {
             </select>
         </div>
         <Separator />
-        <div class="settings-item">
-            <label for="settings-screen-size">{{ $t(l.settings_ui_screen_size) }}</label>
-            <select id="settings-screen-size" @change="setScreenSize" :value="UISettings.uiMode">
-                <option :value="UIMode.Dynamic">{{ $t(l.settings_ui_screen_size_dynamic) }}</option>
-                <option :value="UIMode.Mobile">{{ $t(l.settings_ui_screen_size_mobile) }}</option>
-                <option :value="UIMode.Desktop">{{ $t(l.settings_ui_screen_size_desktop) }}</option>
-            </select>
-        </div>
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
@@ -114,7 +105,7 @@ const onClickOutside = (e: Event) => {
     margin-left: 16rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
         width: 65%;
         margin-left: 4rem;

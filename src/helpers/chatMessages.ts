@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage } from "@/models/chat";
@@ -39,18 +44,18 @@ export function createMessage(
         content: content,
         rating: 0,
         timestamp: Date.now(),
-        hidden: hidden
+        hidden: hidden,
     }
 }
 
 export function createContentMessage(content: AireContent[]): ChatMessage {
-    const msg = createMessage("assistant", l.system_found_content, true);
+    const msg = createMessage("assistant", l.system_found_content, true, false);
     msg.media = content.map(x => x.id!);
     return msg;
 }
 
 export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
-    return createMessage("system", message_loc_key, localize);
+    return createMessage("system", message_loc_key, localize, false);
 }
 
 export function createErrorMessage(message_loc_key: string): ChatMessage {

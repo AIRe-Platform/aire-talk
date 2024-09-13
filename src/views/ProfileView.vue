@@ -1,9 +1,16 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
+
 <script setup lang="ts">
 import { router } from "@/router";
 import { l } from "@/locales";
 import { AireServices, AireScope } from "aire";
 import ProfileForm from "@/components/profile/ProfileForm.vue";
 import ProfileConnections from "@/components/profile/ProfileConnections.vue";
+import ProfilePersonalData from "@/components/profile/ProfilePersonalData.vue";
 import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
@@ -46,6 +53,10 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
             <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
                 <ProfilePasswordForm />
+            </div>
+            <Separator />
+            <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileRead)">
+                <ProfilePersonalData />
             </div>
             <Separator />
             <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
@@ -118,7 +129,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     }
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-view {
         padding: 2rem 0rem;
         width: 95%;

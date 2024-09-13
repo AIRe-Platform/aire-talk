@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const fi: Locale = {
@@ -24,12 +29,12 @@ const fi: Locale = {
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
 
-    login_form_title: "Kirjaudu sisään",
-    login_form_submit: "Kirjaudu",
-    login_label_username: "Sähköpostiosoite tai käyttäjänimi",
-    login_label_password: "Salasana",
-    login_failure_message: "Kirjautuminen epäonnistui",
-    login_forgot_password: "Unohdin salasanani",
+    login_title: "Kirjaudu sisään",
+    login_redirect: "Siirrytään kirjautumissivulle...",
+    login_failure: "Kirjautumispalvelu ei ole tällä hetkellä saavutettavissa. Yritä myöhemmin uudelleen.",
+    login_callback_failure: "Kirjautuminen epäonnistui",
+    login_callback_error_description: "Lisätiedot:",
+    login_callback_button: "Takaisin etusivulle",
 
     signup_form_title: "Luo tili",
     signup_form_submit: "Rekisteröidy",
@@ -75,6 +80,11 @@ const fi: Locale = {
     profile_label_new_password: "Uusi salasana",
     profile_button_change_password: "Vaihda salasana",
 
+    profile_heading_personal_data: "Henkilökohtaiset tiedot",
+    profile_description_personal_data: 
+        "Kaikki keräämämme yksilöivät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Tietosi ovat AIRe-palvelujen käytettävissä vain silloin, kun sinä käytät niitä. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
+    profile_button_download_personal_data: "Lataa",
+
     profile_heading_delete_account: "Tilin poistaminen",
     profile_description_delete_account:
         "Tämä poistaa tilisi AIRe-alustalta. Syötä salasanasi vahvistaaksesi poiston.",
@@ -108,22 +118,6 @@ const fi: Locale = {
     profile_experiments_add: "Lisätä",
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
     profile_experiments_apply: "Ota muutokset käyttöön",
-
-    verification_heading: "Vahvista tilisi",
-    verification_description: "Syötä sähköpostiisi saama vahvistuskoodi",
-    verification_button_verify: "Tarkista",
-    verification_code_resend: "Lähetä minulle uusi vahvistuskoodi",
-    verification_code_resend_done: "Uusi koodi on matkalla!",
-
-    recovery_heading: "Tilin palautus",
-    recovery_label_email: "Sähköpostiosoite",
-    recovery_label_code: "Palautuskoodi",
-    recovery_label_password: "Uusi salasana",
-    recovery_enter_code: "Syötä sinulle lähettämämme palautuskoodi",
-    recovery_not_available: "Tilinpalautus ei ole käytettävissä",
-    recovery_failure: "Tätä tiliä ei voitu palauttaa.",
-    recovery_password_changed: "Salasana vaihdettu",
-    recovery_back_to_login: "Takaisin kirjautumiseen",
 
     settings_title: "Asetukset",
     settings_language: "Käyttöliittymän kieli",
@@ -170,10 +164,13 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     topic_increased_weight: "Painonnousu",
     topic_trouble_talking: "Puhevaikeudet",
 
+    suggestion_check_for_more: "Katso lisää täältä",
+
     summary_chag_log_title: "Yhteenveto",
     summary_generate_summary: "Luo yhteenveto",
     summary_query_surveys_button: "Hae kyselyitä",
     summary_send_survey_button: "Lähetä kyselyn vastaukset",
+    summary_suggestions: "Ehdotuksia",
 
     error_verification_resend_failed:
         "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
@@ -211,11 +208,16 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
+    button_yes: "Kyllä",
+    button_no: "Ei",
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",
     button_delete_content: "Poista sisältö",
     button_display: "Näytä",
+    button_mark_as_read: "Merkitse luetuksi",
+
+    content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
 
     en: "Englanti",
     fi: "Suomi",

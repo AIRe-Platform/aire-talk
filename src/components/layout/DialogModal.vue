@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { defineEmits, defineProps } from 'vue';
 import Modal from '@/components/common/Modal.vue';
@@ -35,7 +40,7 @@ const props = defineProps<{
 .dialog-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 3rem;

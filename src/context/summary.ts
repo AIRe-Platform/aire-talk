@@ -1,14 +1,21 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { getChatbotInputData } from "@/helpers/chatUtils";
-import { AireServices } from "aire";
+import { AireKeyword, AireServices, AireStatus } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
+import { ChatMessage } from "@/models/chat";
 
 export class SummaryContext {
     public summary?: string;
-    public keywords: Set<string>;
+    public keywords: Set<AireKeyword>;
+    public suggestions?: ChatMessage | null;
 
     constructor() {
-        this.keywords = new Set<string>();
+        this.keywords = new Set<AireKeyword>();
     }
 
     /**
@@ -17,14 +24,14 @@ export class SummaryContext {
     public reset() {
         this.summary = undefined;
         this.keywords.clear();
+        this.suggestions = undefined;
     }
 
     /** 
      * Set values
      */
-    public set(summary?: string, keywords?: Array<string>) {
+    public set(summary?: string) {
         this.summary = summary;
-        this.keywords = new Set(keywords);
     }
 
     /**
@@ -40,9 +47,11 @@ export class SummaryContext {
         const input = getChatbotInputData();
 
         await AireServices.AI.generateKeywords(input)
-            .then((result) => {
+            .then(async (result) => {
                 if (result.data) {
-                    this.keywords = new Set(result.data);
+                    const keywordsArray = result.data;
+                    await this.getKeywordsTranslations(keywordsArray);
+                    
                     chat.autoSave();
                 } else {
                     throw Error(result.status.toString());
@@ -51,6 +60,55 @@ export class SummaryContext {
             .catch((err) => {
                 console.error("Failed to refresh keywords", err);
             });
+    }
+
+    /**
+     * Update the keywords
+     */
+    public async getKeywordsTranslations(keywordsArray: string[]) {
+       
+        let combinedKeywords = "";
+
+        if (!AireServices.Memory) {
+            console.warn("Memory service is unavailable");
+            return;
+        }
+        combinedKeywords = Array.from(keywordsArray).join(", ");
+       
+        // Only query the Memory service if there are valid keywords
+        if (combinedKeywords) {
+            try {
+                const memoryResult = await AireServices.Memory.queryKeywords(combinedKeywords);
+                
+                if (memoryResult.status == AireStatus.Success && memoryResult.data) {
+                    this.keywords = new Set(memoryResult.data);
+                } else {
+                    console.error(`Memory service failed with status: ${memoryResult.status}`);
+                }
+
+            } catch (err) {
+                console.error("Failed to query keywords from memory", err);
+            }
+        } else {
+            console.warn("No keywords generated to query in Memory service");
+        }
+    }
+
+    /**
+     * Set suggestions
+     */
+    public async setSuggestions(suggestions: ChatMessage) {
+    
+        let combinedKeywords = "";
+
+        if (!AireServices.Memory) {
+            console.warn("Memory service is unavailable");
+            return;
+        }
+        if(suggestions){
+            this.suggestions = suggestions;
+            console.log("this.suggestions successfully saved: ", this.suggestions);
+        }   
     }
 
     /** 
@@ -93,7 +151,7 @@ export class SummaryContext {
         await AireServices.AI.generateAbstract(input)
             .then((result) => {
                 if (result.data) {
-                    this.keywords = new Set(result.data?.keywords);
+                    this.getKeywordsTranslations(result.data?.keywords);
                     context.summary = result.data?.summary;
                     chat.autoSave();
                 } else {

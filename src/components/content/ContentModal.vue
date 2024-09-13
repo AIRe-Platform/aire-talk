@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps } from 'vue';
@@ -15,6 +20,28 @@ const openUrl = (url?: string) => {
     if (url)
         window.open(url, '_blank');
 };
+
+/**
+ *  not in use
+ * @param url
+ */
+const download = async (url?: string) => {
+    if (url) {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'video.mp4'; // You can specify the default filename
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href); // Clean up the URL object
+        } catch (error) {
+            console.error('Failed to download in ContentModal:', error);
+        }
+    }
+};
 </script>
 
 <template>
@@ -24,40 +51,55 @@ const openUrl = (url?: string) => {
             <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}</h1>
         </div>
         <div v-if="!props.parent" class="message-header-gap"></div>
-        <div class="message-body">
-            <p v-if="props.parent && props.parent.content">{{ props.parent.content }}</p>
-            <div class="message-media" v-if="props.content">
-                <template v-if="props.content.type == AireContentType.Image">
-                    <img v-bind:src="props.content.url" />
-                    <p>{{ props.content.name }}</p>
-                </template>
-                <template v-if="props.content.type == AireContentType.Video">
-                    <video controls autoplay>
-                        <source v-bind:src="props.content.url" type="video/mp4">
-                    </video>
-                    <p>{{ props.content.name }}</p>
-                </template>
-                <button class="media-url" @click="openUrl(props.content?.url)"
-                    v-if="props.content.type == AireContentType.URL">
-                    <font-awesome-icon icon="fa-solid fa-link" />
-                    <span>
-                        <h2>{{ props.content.name }}</h2>
-                        <small>
-                            <code>{{ props.content.url }}</code>
-                        </small>
-                    </span>
-                </button>
-                <button class="media-document" @click="openUrl(props.content?.url)"
-                    v-if="props.content.type == AireContentType.Document">
-                    <font-awesome-icon icon="fa-solid fa-file-invoice" />
-                    <span>{{ props.content.name }}</span>
-                </button>
+        <div class="message-container">
+            <div class="message-body">
+                <p v-if="props.parent && props.parent.content">{{ props.parent.content }}</p>
+                <div class="message-media" v-if="props.content">
+                    <template v-if="props.content.type == AireContentType.Image">
+                        <img v-bind:src="props.content.url" />
+                        <p>{{ props.content.name }}</p>
+                    </template>
+                    <template v-if="props.content.type == AireContentType.Video">
+                        <video controls autoplay>
+                            <source v-bind:src="props.content.url" type="video/mp4">
+                        </video>
+                        <p>{{ props.content.name }}</p>
+                    </template>
+                    <button class="media-url" @click="openUrl(props.content?.url)"
+                        v-if="props.content.type == AireContentType.URL">
+                        <font-awesome-icon icon="fa-solid fa-link" />
+                        <span>
+                            <h2>{{ props.content.name }}</h2>
+                            <small>
+                                <code>{{ props.content.url }}</code>
+                            </small>
+                        </span>
+                    </button>
+                    <button class="media-document" @click="openUrl(props.content?.url)"
+                        v-if="props.content.type == AireContentType.Document">
+                        <font-awesome-icon icon="fa-solid fa-file-invoice" />
+                        <span>{{ props.content.name }}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="message-options">
+                <!--  <div class="icon download" @click="download(props.content?.url)">
+                </div> -->
             </div>
         </div>
     </Modal>
 </template>
 
 <style scoped>
+.message-container {
+    display: flex;
+}
+
+.message-options {
+    display: flex;
+    align-items: flex-end;
+}
+
 .message-body {
     display: flex;
     flex-direction: column;
@@ -123,7 +165,7 @@ const openUrl = (url?: string) => {
     }
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
 
         img,

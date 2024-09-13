@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 export enum LocalizationKey {
     title = "title",
     footer = "footer",
@@ -18,12 +23,12 @@ export enum LocalizationKey {
     start_footer = "start_footer",
     start_disclaimer = "start_disclaimer",
 
-    login_form_title = "login_form_title",
-    login_form_submit = "login_form_submit",
-    login_label_username = "login_label_username",
-    login_label_password = "login_label_password",
-    login_failure_message = "login_failure_message",
-    login_forgot_password = "login_forgot_password",
+    login_title = "login_title",
+    login_redirect = "login_redirect",
+    login_failure = "login_failure",
+    login_callback_failure = "login_callback_failure",
+    login_callback_button = "login_callback_button",
+    login_callback_error_description = "login_callback_error_description",
 
     signup_form_title = "signup_form_title",
     signup_form_submit = "signup_form_submit",
@@ -66,6 +71,10 @@ export enum LocalizationKey {
     profile_label_new_password = "profile_label_new_password",
     profile_button_change_password = "profile_button_change_password",
 
+    profile_heading_personal_data = "profile_heading_personal_data",
+    profile_description_personal_data = "profile_description_personal_data",
+    profile_button_download_personal_data = "profile_button_download_personal_data",
+
     profile_heading_delete_account = "profile_heading_delete_account",
     profile_description_delete_account = "profile_description_delete_account",
     profile_label_password_confirm = "profile_label_password_confirm",
@@ -97,22 +106,6 @@ export enum LocalizationKey {
     profile_experiments_add = "profile_experiments_add",
     profile_experiments_description = "profile_experiments_description",
     profile_experiments_apply = "profile_experiments_apply",
-
-    verification_heading = "verification_heading",
-    verification_description = "verification_description",
-    verification_button_verify = "verification_button_verify",
-    verification_code_resend = "verification_code_resend",
-    verification_code_resend_done = "verification_code_resend_done",
-
-    recovery_heading = "recovery_heading",
-    recovery_label_email = "recovery_label_email",
-    recovery_label_code = "recovery_label_code",
-    recovery_label_password = "recovery_label_password",
-    recovery_enter_code = "recovery_enter_code",
-    recovery_password_changed = "recovery_password_changed",
-    recovery_failure = "recovery_failure",
-    recovery_not_available = "recovery_not_available",
-    recovery_back_to_login = "recovery_back_to_login",
 
     settings_title = "settings_title",
     settings_language = "settings_language",
@@ -153,6 +146,9 @@ export enum LocalizationKey {
     summary_generate_summary = "summary_generate_summary",
     summary_query_surveys_button = "summary_query_surveys_button",
     summary_send_survey_button = "summary_send_survey_button",
+    summary_suggestions = "summary_suggestions",
+    
+    suggestion_check_for_more = "suggestion_check_for_more",
 
     error_verification_resend_failed = "error_verification_resend_failed",
     error_verification_failure = "error_verification_failure",
@@ -185,11 +181,16 @@ export enum LocalizationKey {
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",
+    button_yes = "button_yes",
+    button_no = "button_no",
     button_back = "button_back",
     button_continue = "button_continue",
     button_close = "button_close",
     button_delete_content = "button_delete_content",
-    button_display  = "button_display",
+    button_display = "button_display",
+    button_mark_as_read = "button_mark_as_read",
+
+    content_catalogue_empty = "content_catalogue_empty",
     
     en = "en",
     fi = "fi",

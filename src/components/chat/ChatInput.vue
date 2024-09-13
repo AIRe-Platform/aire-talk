@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from "vue";
 import { router } from "@/router";
@@ -7,7 +12,8 @@ import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 
 const props = defineProps<{
-    optionsOpen: boolean
+    optionsOpen: boolean,
+    optionsVisible: boolean,
 }>()
 
 const chat = useChat();
@@ -27,7 +33,7 @@ function submit() {
 }
 </script>
 
-<template>
+<template v-if="props.visible">
     <div class="chat-input">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
@@ -42,7 +48,7 @@ function submit() {
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
-            <div class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
+            <div v-if="props.optionsVisible" class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                 @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
                 </div>
@@ -169,7 +175,7 @@ function submit() {
     height: 2rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     .chat-options-button,
     .chat-content {
@@ -186,7 +192,7 @@ function submit() {
 }
 
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     .chat-options-button,
     .chat-content {

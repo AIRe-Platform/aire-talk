@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const es: Locale = {
@@ -24,12 +29,12 @@ const es: Locale = {
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
 
-    login_form_title: "Inicia sesión",
-    login_form_submit: "Entrar",
-    login_label_username: "Email o nombre de usuario",
-    login_label_password: "Contraseña",
-    login_failure_message: "Error al iniciar sesión",
-    login_forgot_password: "Olvidé mi contraseña",
+    login_title: "Inicia sesión",
+    login_redirect: "Redireccionando a la página de inicio de sesión...",
+    login_failure: "El servicio de inicio de sesión no está disponible en este momento. Inténtelo nuevamente más tarde.",
+    login_callback_failure: "Intento de inicio de sesión fallido.",
+    login_callback_error_description: "Detalles:",
+    login_callback_button: "Volver a la página de inicio",
 
     signup_form_title: "Crear una cuenta",
     signup_form_submit: "Registrar",
@@ -76,6 +81,11 @@ const es: Locale = {
     profile_label_new_password: "Nueva contraseña",
     profile_button_change_password: "Cambiar contraseña",
 
+    profile_heading_personal_data: "Datos personales",
+    profile_description_personal_data: 
+        "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
+    profile_button_download_personal_data: "Descargar",
+
     profile_heading_delete_account: "Borrar cuenta",
     profile_description_delete_account:
         "Esto borra tu cuenta de la plataforma AIRe. Confirma que realmente quieres borrar tu cuenta.",
@@ -110,25 +120,6 @@ const es: Locale = {
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
-
-    verification_heading: "Verifica tu cuenta",
-    verification_description:
-        "Ingresa el código de verificación que recibiste en tu correo electrónico",
-    verification_button_verify: "Verificar",
-    verification_code_resend: "Envíame un nuevo código",
-    verification_code_resend_done: "¡Un nuevo código está en camino!",
-
-    recovery_heading: "Recuperación de cuenta",
-    recovery_label_email: "Dirección de correo electrónico",
-    recovery_label_code: "Código de recuperación",
-    recovery_label_password: "Nueva contraseña",
-    recovery_enter_code:
-        "Ingresa el código de recuperación que te acabamos de enviar.",
-    recovery_not_available:
-        "La recuperación de cuenta no está disponible actualmente.",
-    recovery_failure: "Esta cuenta no se puede recuperar.",
-    recovery_password_changed: "La contraseña se cambió exitosamente.",
-    recovery_back_to_login: "Atrás para iniciar sesión",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
@@ -180,6 +171,9 @@ const es: Locale = {
     summary_generate_summary: "Resumir",
     summary_query_surveys_button: "Consultar encuestas",
     summary_send_survey_button: "Enviar respuestas a la encuesta",
+    summary_suggestions: "Sugerencias",
+
+    suggestion_check_for_more: "Obtén más sugerencias",
 
     error_verification_failure:
         "No se pudo verificar el código. Puede que esté caducado.",
@@ -219,11 +213,16 @@ const es: Locale = {
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",
+    button_yes: "Sí",
+    button_no: "No",
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
     button_delete_content: "Eliminar contenido",
     button_display: "Mostrar",
+    button_mark_as_read: "Marcar como leído",
+
+    content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
     en: "Inglés",
     fi: "Finés",

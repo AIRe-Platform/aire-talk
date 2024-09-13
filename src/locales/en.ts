@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { Locale } from ".";
 
 const en: Locale = {
@@ -24,12 +29,12 @@ const en: Locale = {
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
-    login_form_title: "Login",
-    login_form_submit: "Login",
-    login_label_username: "Email or username",
-    login_label_password: "Password",
-    login_failure_message: "Failed to login",
-    login_forgot_password: "I forgot my password",
+    login_title: "Login",
+    login_redirect: "Redirecting to login page...",
+    login_failure: "The login service is unavailable at the moment. Please try again later.",
+    login_callback_failure: "Login attempt failed.",
+    login_callback_error_description: "Details:",
+    login_callback_button: "Back to home page",
 
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
@@ -75,6 +80,11 @@ const en: Locale = {
     profile_label_new_password: "New password",
     profile_button_change_password: "Change password",
 
+    profile_heading_personal_data: "Personal Data",
+    profile_description_personal_data: 
+        "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
+    profile_button_download_personal_data: "Download",
+
     profile_heading_delete_account: "Delete Account",
     profile_description_delete_account:
         "This deletes your account from AIRe platform. Confirm deletion by entering your password.",
@@ -109,23 +119,6 @@ const en: Locale = {
     profile_experiments_add: "Add",
     profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
     profile_experiments_apply: "Apply changes",
-
-    verification_heading: "Verify Your Account",
-    verification_description:
-        "Enter the verification code you received in your email",
-    verification_button_verify: "Verify",
-    verification_code_resend: "Send me a new code",
-    verification_code_resend_done: "A new code is on its way!",
-
-    recovery_heading: "Account Recovery",
-    recovery_label_email: "Email address",
-    recovery_label_code: "Recovery code",
-    recovery_label_password: "New password",
-    recovery_enter_code: "Enter the recovery code we just sent you.",
-    recovery_not_available: "Account recovery is not available currently.",
-    recovery_failure: "This account cannot be recovered.",
-    recovery_password_changed: "The password was changed successfully.",
-    recovery_back_to_login: "Back to login",
 
     settings_title: "Settings",
     settings_language: "User interface language",
@@ -175,6 +168,9 @@ const en: Locale = {
     summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
     summary_send_survey_button: "Send survey answers",
+    summary_suggestions: "Suggestions",
+
+    suggestion_check_for_more: "Check here for more",
 
     error_verification_failure: "Could not verify the code. It may be expired.",
     error_verification_resend_failed:
@@ -212,11 +208,16 @@ const en: Locale = {
 
     button_accept: "Accept",
     button_cancel: "Cancel",
+    button_yes: "Yes",
+    button_no: "No",
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
     button_delete_content: "Delete content",
     button_display: "Display",
+    button_mark_as_read: "Mark as read",
+
+    content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 
     en: "English",
     fi: "Finnish",

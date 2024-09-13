@@ -1,3 +1,9 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
+
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
@@ -8,7 +14,7 @@ import useChat from '@/context/chat';
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
-import { setUIModeLayoutBeforeMount } from '@/context/ui';
+import EventComponent from "@/components/common/Event.vue";
 
 const login = useLogin();
 const chat = useChat();
@@ -16,9 +22,11 @@ const chat = useChat();
 const state = reactive<{
     showConfirmLogout: boolean,
     showLastChatButton: boolean,
+    isLoadingView: boolean,
 }>({
     showConfirmLogout: false,
-    showLastChatButton: false
+    showLastChatButton: false,
+    isLoadingView: true,
 });
 
 const onConfirmLogout = async () => {
@@ -48,16 +56,16 @@ const navigateTo = (path: string) => {
 }
 
 onMounted(async () => {
-    setUIModeLayoutBeforeMount();
     const last = await getLastChatId();
     state.showLastChatButton = (last !== undefined);
+    state.isLoadingView = false;
 })
 </script>
 
 <template>
     <OnboardingTopics />
 
-    <div id="home-view">
+    <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
                 <div class="home-header-title">
@@ -67,6 +75,7 @@ onMounted(async () => {
                     <p>{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
+            <EventComponent />
             <div class="quick-nav">
                 <div class="icon frontpage-button" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
@@ -186,7 +195,7 @@ onMounted(async () => {
     background-size: contain;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .home-header {
         height: 20rem;
     }
@@ -208,7 +217,7 @@ onMounted(async () => {
     }
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;

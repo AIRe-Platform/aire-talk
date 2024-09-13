@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { AireServices, AireUser } from "aire";
@@ -62,7 +67,12 @@ const onSaveChanges = (e: Event) => {
                     state.error = l.error_profile_edit;
                 }
             })
-            .finally(() => (state.busy = false, state.show_confirmation_modal = true));
+            .finally(() => {
+                state.busy = false;
+                if (!state.error) {
+                    state.show_confirmation_modal = true;
+                }
+            });
     }
 };
 
@@ -191,6 +201,7 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 20%;
+        font-size: var(--font-medium)
     }
 
     &>.form-input {
@@ -280,7 +291,7 @@ const activateField = (id: string) => {
     background-color: var(--error-color);
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-form {
         flex-direction: column;
         flex-wrap: nowrap;

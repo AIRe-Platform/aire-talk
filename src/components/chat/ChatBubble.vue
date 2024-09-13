@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps, onMounted, reactive } from 'vue';
@@ -48,25 +53,34 @@ const onRevert = () => {
     chat.revertTo(props.message.id)
 };
 
+
 const showContent = async (content: AireContent) => {
-    state.openContent = content;
-    switch (content.type) {
-        case AireContentType.Image:
-        case AireContentType.Video:
-            toggleModal();
-            break;
-        default:
-            {
-                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
-                if (url) {
-                    window.open(url, '_blank');
+    try {
+        state.openContent = content;
+        switch (content.type) {
+            case AireContentType.Image:
+
+            case AireContentType.Video:
+                toggleModal();
+                break;
+            default:
+                {
+                    const url = content.id
+                        ? await contentContext.getUrl(content.id)
+                        : content.url;
+
+                    if (url) {
+                        window.open(url, '_blank');
+                    }
                 }
-            }
+        }
+
+        if (content.id) {
+            await contentContext.addViewCount(content.id);
+        }
+    } catch (error) {
+        console.error('Error showing content in ChatBubble:', error);
     }
-
-    if (content.id)
-        contentContext.addViewCount(content.id);
-
 };
 
 const closeModal = () => {
@@ -75,24 +89,42 @@ const closeModal = () => {
 };
 
 const listContent = async () => {
-    state.content = [];
-    props.message.media?.forEach(async (x) => {
-        const item = await contentContext.get(x);
-        if (item)
-            state.content.push(item);
-    })
+    try {
+        state.content = [];
+
+        // Iterate over the media items and fetch their content asynchronously
+        const fetchContentPromises = props.message.media?.map(async (x) => {
+            try {
+                const item = await contentContext.get(x);
+                if (item) {
+                    state.content.push(item);
+                }
+            } catch (error) {
+                console.error(`Error fetching content for media ID ${x}:`, error);
+            }
+        });
+
+        // Wait for all fetch operations to complete
+        if (fetchContentPromises) {
+            await Promise.all(fetchContentPromises);
+        }
+
+    } catch (error) {
+        console.error('Error listing content in ChatBubble:', error);
+    }
 }
 
 onMounted(() => {
-    listContent()
+    listContent();
 })
 </script>
 
 <template>
-    <div :id="props.message.id" :class=classList @click="toggleModal">
+    <div :id="props.message.id" :class="[...classList]" @click="toggleModal">
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
-        <div class="chat-bubble-content">
+        <div class="chat-bubble-content" :class="{ 'is-user': props.message.role === 'user' }">
+
             <span class="chat-user-label">
                 {{ (isSystem || isBot) ? $t(message.sender) : message.sender }}
             </span>
@@ -107,19 +139,19 @@ onMounted(() => {
         <ContentModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
             :content="state.openContent" :onClose="closeModal" />
         <DialogModal :active="state.revertConfirm" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onRevert();
-                break;
-            default:
-            case 1:
-                state.revertConfirm = false;
-                break;
-        }
-    }" :accept="onRevert" :decline="() => { }">
+            { loc_key: l.button_accept },
+            { loc_key: l.button_cancel },
+        ]" @select="(i: number) => {
+            switch (i) {
+                case 0:
+                    onRevert();
+                    break;
+                default:
+                case 1:
+                    state.revertConfirm = false;
+                    break;
+            }
+        }" :accept="onRevert" :decline="() => { }">
             {{ $t(l.popup_confirm_revert_message) }}
         </DialogModal>
     </div>
@@ -141,11 +173,13 @@ onMounted(() => {
 .chat-bubble-user {
     align-self: flex-start;
     background-color: var(--user-chat-box-background);
+    width: 100%;
 }
 
 .chat-bubble-bot {
     align-self: flex-end;
     height: fit-content;
+    width: 100%;
     background-color: var(--ia-chat-box-background);
 }
 
@@ -195,13 +229,14 @@ onMounted(() => {
     margin-top: 1rem;
 }
 
-.ui-mode-mobile {
+.is-user {
+    display: flex;
+    align-items: flex-end;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-bubble {
         margin: 0.5rem 1rem 0.5rem 0.3rem
-    }
-
-    .chat-bubble-content {
-        font-size: var(--font-small);
     }
 }
 </style>

@@ -1,3 +1,8 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
 <script setup lang="ts">
 import { l } from "@/locales";
 import { defineEmits, onMounted, reactive } from "vue";
@@ -7,6 +12,7 @@ import { UIState, UIPanels } from "@/context/ui";
 import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
+import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -50,7 +56,8 @@ const refresh = () => {
             });
         })
         .finally(() => {
-            state.busy = false
+            state.busy = false;
+            refreshBurgerMenuButtonsRef();
         })
 };
 onMounted(refresh);
@@ -67,8 +74,9 @@ const onSelect = async (id: string) => {
     if (open)
         router.push("/chat");
 
-    emit("closePanel", undefined);
     UIState.panels.delete(UIPanels.ChatHistory);
+    await closeBurgerMenu();
+    emit("closePanel", undefined);
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
 };
@@ -119,10 +127,23 @@ const getTokenCount = (id: string) => {
 
 };
 
-const onClickOutside = (e: Event) => {
-    if (!state.deleteId) {
-        //e.stopImmediatePropagation();
+const onClickOutside = async (e: Event) => {
+    //If clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
+    if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
+        e.stopImmediatePropagation();
+        //If it is settings panel switch between them
+    } else if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
         UIState.panels.delete(UIPanels.ChatHistory);
+        UIState.panels.add(UIPanels.Settings);
+        e.stopImmediatePropagation();
+    } else {
+        if (!state.deleteId) {
+            UIState.panels.delete(UIPanels.ChatHistory);
+
+            await closeBurgerMenu();
+            UIState.isNavMenuCompressed = false;
+            UIState.showMenu = false;
+        }
     }
 };
 </script>
@@ -282,7 +303,7 @@ const onClickOutside = (e: Event) => {
     right: -3rem;
 }
 
-.ui-mode-mobile {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
         width: 80%;
         z-index: 10;
@@ -293,6 +314,10 @@ const onClickOutside = (e: Event) => {
 
     .chat-history-item {
         justify-content: flex-start;
+    }
+
+    .chat-history-item-row {
+        gap: 0;
     }
 }
 </style>

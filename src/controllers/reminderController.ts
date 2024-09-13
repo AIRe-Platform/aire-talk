@@ -1,3 +1,8 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import {
     AireChatMetadata,
     AireQuestion,
@@ -27,8 +32,8 @@ const ReminderController: QuestionnaireController = {
             options: {
                 multiselect: false,
                 values: [
-                    i18n.global.t(l.button_accept),
-                    i18n.global.t(l.button_cancel)
+                    i18n.global.t(l.button_yes),
+                    i18n.global.t(l.button_no)
                 ]
             } as AireQuestionOptionCheckbox
         };

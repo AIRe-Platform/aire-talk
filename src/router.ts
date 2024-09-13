@@ -1,5 +1,9 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+
 import { createRouter, createWebHistory } from "vue-router";
-import { initApp } from "./main";
 import StartView from "./views/StartView.vue";
 import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
@@ -8,12 +12,12 @@ import ProfileView from "./views/ProfileView.vue";
 import ChatView from "./views/ChatView.vue";
 import LandingView from "./views/LandingView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
-import VerificationView from "./views/VerificationView.vue";
-import RecoveryView from "./views/RecoveryView.vue";
+import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 import ContentCatalogueView from "./views/ContentCatalogueView.vue";
 import useLogin from "./context/login";
+import { initWithRetry } from "./main";
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,22 +91,12 @@ export const router = createRouter({
             name: "Landing",
         },
         {
-            path: "/verify",
-            component: VerificationView,
-            name: "VerificationCode",
+            path: "/auth/callback",
+            component: AuthorizationCallbackView,
+            name: "AuthorizationCallback",
             meta: {
-                title: l.verification_heading,
-                require_login: true
-            },
-        },
-        {
-            path: "/recovery",
-            component: RecoveryView,
-            name: "Recovery",
-            meta: {
-                title: l.recovery_heading,
-                no_login: true,
-            },
+                title: l.nav_login
+            }
         },
         {
             path: "/:pathMatch(.*)*",
@@ -112,15 +106,10 @@ export const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-    await initApp();
+    await initWithRetry();
     const login = useLogin();
-
     if (login.user) {
-        if (!login.user.verified && to.path !== "/verify")
-            return "/verify"
-        else if (login.user.verified && to.path === "/verify")
-            return "/home"
-        else if (to.meta.no_login)
+        if (to.meta.no_login)
             return "/home"
     }
     else {
