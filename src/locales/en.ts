@@ -6,12 +6,9 @@
 import { Locale } from ".";
 
 const en: Locale = {
-    title: "AIRe Talk",
     footer: "Development",
     not_found: "Page not found",
 
-    aire_bot: "AIRe Bot",
-    aire_system: "AIRe System",
     system_greeting:
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
@@ -29,7 +26,6 @@ const en: Locale = {
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
-    login_title: "Login",
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
     login_callback_failure: "Login attempt failed.",
@@ -53,7 +49,6 @@ const en: Locale = {
     nav_login: "Log in",
     nav_logout: "Logout",
     nav_signup: "Sign up",
-    nav_theme: "Change theme",
     nav_preferences: "Settings",
     nav_main_menu: "Main menu",
     nav_catalogue: "Content Catalogue",
@@ -91,11 +86,7 @@ const en: Locale = {
     profile_label_password_confirm: "Confirm password",
     profile_label_keep_anonymized_data:
         "Anonymize my data instead of deleting it. This helps the development of AIRe platform. This is completely optional.",
-    profile_user_info_intro:
-        "The current user information according to AIRe analysis:",
-    profile_years_old: " years old.",
-    profile_from: " From ",
-    profile_speaks: " Who speaks ",
+
     profile_button_delete: "Delete account",
 
     gender_male: "male",
@@ -111,7 +102,6 @@ const en: Locale = {
     profile_question_last_name: "What is your last name?",
     profile_question_gender: "What is your gender?",
     profile_question_age: "How old are you?",
-    profile_question_language: "What is your primary language?",
     profile_question_country: "Which country you live in?",
 
     profile_experiments_title: "Experiments",
@@ -125,11 +115,6 @@ const en: Locale = {
     settings_ui_size: "User interface size",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Large",
-    settings_ui_screen_size: "Screen resolution preference",
-    settings_ui_screen_size_mobile: "Mobile",
-    settings_ui_screen_size_tablet: "Tablet",
-    settings_ui_screen_size_desktop: "Desktop",
-    settings_ui_screen_size_dynamic: "Dynamic",
 
     switch_color_mode: "Theme color",
 
@@ -144,8 +129,6 @@ const en: Locale = {
     The password must contain at least 8 characters including lower and upper case letter as well as numbers.`,
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
-    error_profile_password:
-        "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
     error_profile_delete_account:
         "Failed to delete the account. Try again later.",
 
@@ -167,18 +150,10 @@ const en: Locale = {
     summary_chag_log_title: "Summary",
     summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
-    summary_send_survey_button: "Send survey answers",
     summary_suggestions: "Suggestions",
 
     suggestion_check_for_more: "Check here for more",
 
-    error_verification_failure: "Could not verify the code. It may be expired.",
-    error_verification_resend_failed:
-        "Could not resend the code. Try again later",
-
-    chat_history_title: "Chat History",
-    chat_history_image: "Image file:",
-    chat_history_video: "Video file:",
     chat_history_loading: "Loading...",
     chat_history_tokens: "{0} tokens",
     chat_input_title: "What would you like to ask or tell?",
@@ -187,10 +162,8 @@ const en: Locale = {
         "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
     popup_confirm_logout: "Are you sure you want to logout?",
-    popup_logout_message: "You are now logout.",
     popup_confirm_profile_updated: "Profile updated.",
 
-    no_questionnaires_found: "Could not find suitable questionnaires.",
     confirm_questionnaire_start:
         'Would you like to fill a questionnaire "{0}"?',
     confirm_questionnaire_completion:
@@ -213,8 +186,6 @@ const en: Locale = {
     button_back: "Back",
     button_continue: "Continue",
     button_close: "Close",
-    button_delete_content: "Delete content",
-    button_display: "Display",
     button_mark_as_read: "Mark as read",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
@@ -224,7 +195,8 @@ const en: Locale = {
     es: "Spanish",
     vi: "Vietnamese",
     id: "Indonesian",
-    sw: "Swahili"
+    sw: "Swahili",
+    rw: "kinyarwanda"
 };
 
 export default en;

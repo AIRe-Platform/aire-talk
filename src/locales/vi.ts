@@ -6,12 +6,9 @@
 import { Locale } from ".";
 
 const vi: Locale = {
-    title: "AIRe Talk",
     footer: "Phát triển",
     not_found: "Không tìm thấy trang",
 
-    aire_bot: "AIRe bot",
-    aire_system: "AIRe System",
     system_greeting:
         "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
     system_topic: "Bạn đã chọn chủ đề: ",
@@ -28,7 +25,6 @@ const vi: Locale = {
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
 
-    login_title: "Đăng nhập",
     login_redirect: "Đang chuyển hướng đến trang đăng nhập...",
     login_failure: "Dịch vụ đăng nhập hiện không khả dụng. Vui lòng thử lại sau.",
     login_callback_failure: "Không đăng nhập được.",
@@ -52,7 +48,6 @@ const vi: Locale = {
     nav_login: "Đăng nhập",
     nav_logout: "Đăng xuất",
     nav_signup: "Đăng ký",
-    nav_theme: "Thay đổi chủ đề",
     nav_preferences: "Cài đặt",
     nav_main_menu: "Thực đơn chính",
     nav_catalogue: "Danh mục nội dung",
@@ -67,11 +62,7 @@ const vi: Locale = {
     profile_label_bio: "Tiểu sử",
     profile_characters_max: '{0} ký tự tối đa.',
     profile_remaining: "ký tự còn lại.",
-    profile_user_info_intro:
-        "Thông tin người dùng hiện tại theo phân tích của AIRe:",
-    profile_years_old: " tuổi.",
-    profile_from: " Từ ",
-    profile_speaks: "Ai đang nói",
+   
     profile_button_save: "Lưu thay đổi",
 
     profile_heading_connected_services: "Dịch vụ được kết nối",
@@ -109,7 +100,6 @@ const vi: Locale = {
     profile_question_last_name: "Họ của bạn là gì?",
     profile_question_gender: "Giới tính của bạn là gì?",
     profile_question_age: "Bạn bao nhiêu tuổi?",
-    profile_question_language: "Ngôn ngữ chính của bạn là gì?",
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
     profile_experiments_title: "Thí nghiệm",
@@ -123,11 +113,6 @@ const vi: Locale = {
     settings_ui_size: "Kích thước giao diện người dùng",
     settings_ui_size_normal: "Bình thường",
     settings_ui_size_large: "Lớn",
-    settings_ui_screen_size: "Tùy chọn độ phân giải màn hình",
-    settings_ui_screen_size_mobile: "Di động",
-    settings_ui_screen_size_tablet: "Viên thuốc",
-    settings_ui_screen_size_desktop: "Máy tính để bàn",
-    settings_ui_screen_size_dynamic: "Năng động",
 
     switch_color_mode: "Màu chế độ chủ đề",
 
@@ -143,8 +128,6 @@ const vi: Locale = {
 
     error_signup_general: "Đăng ký không thành công. Vui lòng thử lại sau.",
     error_profile_edit: "Lưu không thành công.",
-    error_profile_password:
-        "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
     error_profile_delete_account: "Không thể xóa tài khoản. Thử lại sau.",
 
     landing_view_title: "Chào mừng đến với AIRe platform",
@@ -165,17 +148,10 @@ const vi: Locale = {
     summary_chag_log_title: "Bản tóm tắt",
     summary_generate_summary: "Tóm tắt",
     summary_query_surveys_button: "Khảo sát truy vấn",
-    summary_send_survey_button: "Gửi câu trả lời khảo sát",
     summary_suggestions: "Gợi ý",
 
     suggestion_check_for_more: "Kiểm tra thêm",
 
-    error_verification_failure: "Không thể xác minh mã. Nó có thể đã hết hạn.",
-    error_verification_resend_failed: "Không thể gửi lại mã. Thử lại sau",
-
-    chat_history_title: "Lịch sử trò chuyện",
-    chat_history_image: "Tập tin hình ảnh:",
-    chat_history_video: "Tập tin video:",
     chat_history_loading: "Đang tải...",
     chat_history_tokens: "{0} token",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
@@ -185,10 +161,8 @@ const vi: Locale = {
     popup_confirm_remove_chat:
         "Bạn có chắc chắn muốn xóa cuộc trò chuyện này không?",
     popup_confirm_logout: "Bạn có chắc chắn bạn muốn thoát?",
-    popup_logout_message: "Bây giờ bạn đã đăng xuất.",
     popup_confirm_profile_updated: "Hồ sơ cá nhân đã cập nhật.",
 
-    no_questionnaires_found: "Không thể tìm thấy bảng câu hỏi phù hợp.",
     confirm_questionnaire_start:
         'Bạn có muốn điền vào bảng câu hỏi "{0}" không?',
     confirm_questionnaire_completion:
@@ -211,8 +185,6 @@ const vi: Locale = {
     button_back: "Quay lại",
     button_continue: "Tiếp tục",
     button_close: "Đóng",
-    button_delete_content: "Xóa nội dung",
-    button_display: "Chưng ra",
     button_mark_as_read: "Đánh dấu là đã đọc",
 
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
@@ -222,7 +194,8 @@ const vi: Locale = {
     es: "Người Tây Ban Nha",
     vi: "Tiếng Việt",
     id: "Tiếng Indonesia",
-    sw: "Tiếng Swahili"
+    sw: "Tiếng Swahili",
+    rw: "Tiếng Rwanda"
 };
 
 export default vi;
