@@ -6,6 +6,9 @@
 import { Locale } from ".";
 
 const en: Locale = {
+    aire_bot: "AIRe Bot",
+    aire_system: "AIRe System",
+    
     footer: "Development",
     not_found: "Page not found",
 

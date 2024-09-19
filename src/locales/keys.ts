@@ -4,6 +4,9 @@
 
 
 export enum LocalizationKey {
+    aire_bot = "aire_bot",
+    aire_system = "aire_system",
+
     footer = "footer",
     not_found = "not_found",
 

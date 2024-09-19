@@ -6,6 +6,9 @@
 import { Locale } from ".";
 
 const vi: Locale = {
+    aire_bot: "AIRe bot",
+    aire_system: "Hệ thống AIRe",
+
     footer: "Phát triển",
     not_found: "Không tìm thấy trang",
 

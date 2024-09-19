@@ -6,6 +6,9 @@
 import { Locale } from ".";
 
 const es: Locale = {
+    aire_bot: "Bot AIRe",
+    aire_system: "Sistema AIRe",
+    
     footer: "Desarollo",
     not_found: "Página no encontrada",
 

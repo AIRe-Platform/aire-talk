@@ -6,6 +6,9 @@
 import { Locale } from ".";
 
 const fi: Locale = {
+    aire_bot: "AIRe-botti",
+    aire_system: "AIRe-järjestelmä",
+
     footer: "Kehitysversio",
     not_found: "Sivua ei löytynyt",
 
