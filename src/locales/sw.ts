@@ -122,6 +122,7 @@ const sw: Locale = {
     error_signup_general: "Usajili umeshindwa. Tafadhali, jaribu tena baadaye.",
     error_profile_edit: "Hifadhi haikufanikiwa.",
     error_profile_delete_account: "Imeshindwa kufuta akaunti. Jaribu tena baadaye.",
+    error_profile_password: "Imeshindwa kubadilisha nenosiri. Angalia kwamba nenosiri uliloweka ni sahihi na kwamba nenosiri jipya linakidhi mahitaji.",
 
     landing_view_title: "Karibu kwenye jukwaa la AIRe!",
     landing_view_text: "Tuanze kwa kujaza taarifa za awali kuhusu wewe mwenyewe.",

@@ -7,11 +7,8 @@
 import { ChatMessage } from '@/models/chat';
 import { defineProps, onMounted, reactive } from 'vue';
 import useChat from '@/context/chat';
-import { l } from '@/locales';
 import { AireContent, AireContentType } from 'aire';
-
 import useContent from '@/context/content';
-import DialogModal from '@/components/layout/DialogModal.vue';
 import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
 import ChatContent from '@/components/chat/ChatContent.vue';
 import Panel from "@/components/common/Panel.vue";
@@ -138,22 +135,6 @@ onMounted(() => {
         </div>
         <ContentModal :active="state.openContent !== undefined && state.modalOpen" :parent="props.message"
             :content="state.openContent" :onClose="closeModal" />
-        <DialogModal :active="state.revertConfirm" :buttons="[
-            { loc_key: l.button_accept },
-            { loc_key: l.button_cancel },
-        ]" @select="(i: number) => {
-            switch (i) {
-                case 0:
-                    onRevert();
-                    break;
-                default:
-                case 1:
-                    state.revertConfirm = false;
-                    break;
-            }
-        }" :accept="onRevert" :decline="() => { }">
-            {{ $t(l.popup_confirm_revert_message) }}
-        </DialogModal>
     </div>
 </template>
 
@@ -211,7 +192,7 @@ onMounted(() => {
 }
 
 .chat-bubble-user .chat-user-label {
-    color: var(--accent-primary-color);
+    color: var(--chat-user-label);
 }
 
 .chat-message-text {

@@ -115,6 +115,7 @@ export enum LocalizationKey {
     error_signup_general = "error_signup_general",
     error_profile_edit = "error_profile_edit",
     error_profile_delete_account = "error_profile_delete_account",
+    error_profile_change_password = "error_profile_password",
 
     landing_view_title = "landing_view_title",
     landing_view_text = "landing_view_text",

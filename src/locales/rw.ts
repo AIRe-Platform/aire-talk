@@ -63,7 +63,7 @@ const rw: Locale = {
     profile_label_age: "Imyaka",
     profile_label_language: "Ururimi",
     profile_label_country: "Igihugu",
-    profile_label_bio: "Incamake y'uwo uriwe mu magambo make",
+    profile_label_bio: "Uwo uriwe",
     profile_button_save: "Ibishya",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
@@ -107,7 +107,7 @@ const rw: Locale = {
     profile_question_age: "Ufite imyaka ingahe?",
     profile_question_country: "Utuye mu kihe gihugu?",
 
-    profile_experiments_title: "Amagerageza/ Amaperereza",
+    profile_experiments_title: "Igerageza",
     profile_experiments_text: "Hindura amabwiriza ya sisitemu y'ikiganiro cy'ikoranabuhanga",
     profile_experiments_add: "Ongeraho",
     profile_experiments_description: "mu mabwiriza yawe niba ushaka gushyiraho ishusho ngufi y'umwirondoro wawe.",
@@ -119,7 +119,7 @@ const rw: Locale = {
     settings_ui_size_normal: "Bisanzwe",
     settings_ui_size_large: "Kinini",
 
-    switch_color_mode: "Ibara rigarara muri konte yawe",
+    switch_color_mode: "Hindura ibara",
 
     error_generic: "Habayemo ikibazo",
     error_ai_not_responding: `Ntabwo tubashije kugusubiza. ibi bishobora kuba biri guterwa ni uko turi gucagura amakuru yerekeye ibyo wabajije. iki kibazo nikidakemuka, wongere ugerageze mu kanya.`,
@@ -129,7 +129,8 @@ const rw: Locale = {
     error_profile_edit: "kubibika ntabwo byakunze",
     error_profile_delete_account:
         "Gusiba konte ntabwo byemeye. Ongera ugerageze nyuma",
-
+    error_profile_password:
+        "Guhindura ijambo ry'ibanga ntabwo byakunze. Reba neza ko ijambo ryibanga winjije ariryo kandi ko ijambo ryibanga rishya ryujuje ibisabwa.",
     landing_view_title: "Murakaza neza ku rubuga rwa AIRe!",
     landing_view_text:
         "Reka dutangire twuzuza amakuru y'ibanze akwerekeyeho",

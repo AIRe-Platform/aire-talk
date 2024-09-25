@@ -58,11 +58,14 @@ const onSave = () => {
             <div class="experimental-item-toggle">
                 <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
                     @change="toggleOverridePrefs" :colorized="true" />
-                <span>{{ $t(l.profile_experiments_text) }}</span>
+                <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
+
             </div>
-            <textarea v-model="state.prefs.experimental_custom_prompt" :readonly="!state.overridePrompt"></textarea>
-            <p>{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
-            $t(l.profile_experiments_description) }}</p>
+
+            <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
+                :readonly="!state.overridePrompt" aria-describedby="prompt-override-desc"></textarea>
+            <p id="prompt-override-desc">{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
+                $t(l.profile_experiments_description) }}</p>
         </div>
         <template v-if="state.busy">
             <Spinner />

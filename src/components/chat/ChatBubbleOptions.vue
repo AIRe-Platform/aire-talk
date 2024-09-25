@@ -108,20 +108,9 @@ onMounted(() => {
 
 <template>
     <DialogModal :active="state.confirmRevert" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onConfirmRevert();
-                break;
-
-            default:
-            case 1:
-                onCancelRevert();
-                break;
-        }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmRevert },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelRevert }
+    ]">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
     <div class=" chat-bubble-options">

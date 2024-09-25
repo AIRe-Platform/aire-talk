@@ -33,6 +33,7 @@ const questionnaires = useQuestionnaire();
 const chatContent: ChatContext = useChat();
 const suggestion = useSuggestion();
 const generateSummary = async () => {
+    console.log("summarizing")
     try {
         state.busy = true;
 
@@ -88,6 +89,7 @@ const removeWord = (word: AireKeyword) => {
 
 
 onMounted(() => {
+    generateSummary();
     state.missing_personal_info = createPersonalInformationQuestions().length > 0;
 })
 </script>

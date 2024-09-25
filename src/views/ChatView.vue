@@ -21,7 +21,7 @@ import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
 
-const showSideBar = ref(false);
+const showSideBar = ref(true);
 const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
@@ -171,7 +171,8 @@ onMounted(async () => {
                 </template>
             </template>
         </div>
-        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="chatSummaryPanelEnabled(chat)" />
+        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar"
+            :options-visible="chatSummaryPanelEnabled(chat)" />
     </div>
     <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(chat) }">
         <ChatSummary v-if="chatSummaryPanelEnabled(chat)" />

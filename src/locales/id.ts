@@ -134,6 +134,8 @@ const id: Locale = {
     error_profile_edit: "Gagal menyimpan.",
     error_profile_delete_account:
         "Gagal menghapus akun. Coba lagi nanti.",
+    error_profile_password:
+        "Gagal mengubah kata sandi. Periksa bahwa kata sandi yang Anda masukkan benar dan bahwa kata sandi baru memenuhi persyaratan.",
 
     landing_view_title: "Selamat datang di platform AIRe!",
     landing_view_text:

@@ -48,8 +48,8 @@ function submit() {
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
-                @click="() => $emit('toggleOptions')">
+            <div v-if="props.optionsVisible" class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }" @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
                 </div>
             </div>
@@ -57,7 +57,7 @@ function submit() {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="bot.status === 'writing'" v-model="textInput" />
+                    :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
             </form>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default">

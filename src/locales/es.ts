@@ -136,6 +136,8 @@ const es: Locale = {
     error_profile_edit: "Error al guardar.",
     error_profile_delete_account:
         "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
+    error_profile_password:
+        "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
 
     landing_view_title: "Bienvenido a la plataforma AIRe",
     landing_view_text:
