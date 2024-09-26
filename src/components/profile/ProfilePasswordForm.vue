@@ -32,7 +32,6 @@ const onChangePassword = (e: Event) => {
                 if (result) {
                     state.error = undefined;
                 } else {
-                    console.log("herer error")
                     state.error = l.error_profile_change_password;
                 }
             })
