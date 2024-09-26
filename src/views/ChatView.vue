@@ -21,7 +21,7 @@ import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
 
-const showSideBar = ref(false);
+const showSideBar = ref(true);
 const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
