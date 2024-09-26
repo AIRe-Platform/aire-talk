@@ -48,8 +48,8 @@ function submit() {
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
-                @click="() => $emit('toggleOptions')">
+            <div v-if="props.optionsVisible" class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }" @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
                 </div>
             </div>

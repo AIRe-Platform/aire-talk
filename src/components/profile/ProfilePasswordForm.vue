@@ -25,7 +25,6 @@ const onChangePassword = (e: Event) => {
     const form = e.target as HTMLFormElement;
     if (!form.checkValidity())
         return;
-
     if (AireServices.ID) {
         state.busy = true;
         useLogin().changePassword(state.currentPassword, state.newPassword)
@@ -33,6 +32,7 @@ const onChangePassword = (e: Event) => {
                 if (result) {
                     state.error = undefined;
                 } else {
+                    console.log("herer error")
                     state.error = l.error_profile_change_password;
                 }
             })
