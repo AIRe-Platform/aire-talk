@@ -57,7 +57,7 @@ function submit() {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="bot.status === 'writing'" v-model="textInput" />
+                    :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
             </form>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default">

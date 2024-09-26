@@ -97,7 +97,7 @@ const activateField = (id: string) => {
                     <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
                     <span v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
-        $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
+                        $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
                 </div>
@@ -110,7 +110,7 @@ const activateField = (id: string) => {
                     <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
                     <span v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
-        $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
+                        $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
                 </div>
@@ -120,7 +120,7 @@ const activateField = (id: string) => {
             <label class="form-label" for="gender">{{ $t(l.profile_label_gender) }}</label>
             <div class="form-input">
                 <select id="gender" v-model="profile.gender" :disabled="state.busy">
-                    <option v-for=" g  in  genderList " :key="g.id" :value="g.id">
+                    <option v-for=" g in genderList " :key="g.id" :value="g.id">
                         {{ $t(g.name) }}
                     </option>
                 </select>
@@ -149,14 +149,11 @@ const activateField = (id: string) => {
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
                 <div class="imput-column">
-
-
-
                     <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="state.busy"
                         :maxlength=MAX_LENGTH_BIO></textarea>
                     <span> {{
-        remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
-        $t(l.profile_remaining) }}</span>
+                        remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
+                            $t(l.profile_remaining) }}</span>
                 </div>
                 <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
                 </div>
