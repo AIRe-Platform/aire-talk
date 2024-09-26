@@ -33,7 +33,6 @@ const questionnaires = useQuestionnaire();
 const chatContent: ChatContext = useChat();
 const suggestion = useSuggestion();
 const generateSummary = async () => {
-    console.log("summarizing")
     try {
         state.busy = true;
 
