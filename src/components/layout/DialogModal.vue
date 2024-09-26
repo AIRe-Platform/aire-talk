@@ -18,10 +18,9 @@ const props = defineProps<{
 }>()
 
 const emitSelect = (i: number) => {
-    console.log("que es esto", props.buttons)
     const button = props.buttons[i];
     if (button.onClick) {
-        button.onClick();  // Trigger the passed action
+        button.onClick();
     }
     emit('select', i);
 }
