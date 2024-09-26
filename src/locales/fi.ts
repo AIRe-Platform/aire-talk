@@ -134,6 +134,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     error_profile_edit: "Tallentaminen epäonnistui.",
     error_profile_delete_account:
         "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_profile_password:
+        "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset.",
 
     landing_view_title: "Tervetuloa AIReen!",
     landing_view_text:

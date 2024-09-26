@@ -134,6 +134,8 @@ const en: Locale = {
     error_profile_edit: "Save failed.",
     error_profile_delete_account:
         "Failed to delete the account. Try again later.",
+    error_profile_password:
+        "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
 
     landing_view_title: "Welcome to the AIRe platform!",
     landing_view_text:

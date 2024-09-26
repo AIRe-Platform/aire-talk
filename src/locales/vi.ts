@@ -132,7 +132,9 @@ const vi: Locale = {
     error_signup_general: "Đăng ký không thành công. Vui lòng thử lại sau.",
     error_profile_edit: "Lưu không thành công.",
     error_profile_delete_account: "Không thể xóa tài khoản. Thử lại sau.",
-
+    error_profile_password:
+    "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
+    
     landing_view_title: "Chào mừng đến với AIRe platform",
     landing_view_text:
         "Hãy bắt đầu bằng cách điền những thông tin sơ bộ sau đây về bản thân bạn.",
