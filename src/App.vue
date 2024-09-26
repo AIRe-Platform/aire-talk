@@ -23,7 +23,7 @@ const closeNavMenu = async () => {
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
         <NavMenu />
         <div class="main-panels" v-if="UIState.panels.size > 0">
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
