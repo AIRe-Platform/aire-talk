@@ -24,7 +24,7 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
         return undefined;
 
     const summary = useSummary();
-    const questions = getRelevantQuestions(model, [...summary.keywords]);
+    const questions = getRelevantQuestions(model, [...summary.keywords].map((keyword) => keyword.value));
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
 
@@ -50,7 +50,7 @@ export async function queryQuestionnaire(
 ): Promise<AireQuestionnaire | undefined>  {
     if(!keywords) {
         const summary = useSummary();
-        keywords = [...summary.keywords];
+        keywords = [...summary.keywords].map((keyword) => keyword.value);
     }
 
     if (keywords.length < 1)
