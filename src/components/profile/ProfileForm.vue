@@ -84,17 +84,11 @@ const activateField = (id: string) => {
 
 <template>
     <DialogModal :active="state.show_confirmation_modal" :buttons="[
-        { loc_key: l.button_accept }
-    ]" @select="(i: number) => {
-        switch (i) {
-            default:
-            case 0:
-                state.show_confirmation_modal = false;
-                break;
-        }
-    }" :accept="() => { }" :decline="() => { }">
+        { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
+    ]">
         {{ $t(l.popup_confirm_profile_updated) }}
     </DialogModal>
+
     <form class="profile-form" @submit.prevent="onSaveChanges">
         <span class="form-item baseline">
             <label class="form-label" for="first-name">{{ $t(l.profile_label_first_name) }}</label>

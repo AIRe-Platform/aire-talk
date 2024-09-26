@@ -95,12 +95,9 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        if (i == 0) { onConfirmLogout() }
-        else if (i == 1) { state.showConfirmLogout = false; }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmLogout },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }
+    ]">
         {{ $t(l.popup_confirm_logout) }}
     </DialogModal>
 </template>

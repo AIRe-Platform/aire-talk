@@ -150,19 +150,9 @@ const onClickOutside = async (e: Event) => {
 
 <template>
     <DialogModal :active="state.confirmDelete" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onConfirmDelete();
-                break;
-            default:
-            case 1:
-                onCancelDelete();
-                break;
-        }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmDelete },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelDelete }
+    ]">
         {{ $t(l.popup_confirm_remove_chat) }}
     </DialogModal>
     <div class="chat-history-panel" v-on-click-outside="onClickOutside">
