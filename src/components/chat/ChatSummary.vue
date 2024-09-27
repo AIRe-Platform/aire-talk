@@ -22,16 +22,15 @@ import useSuggestion from '@/context/suggestion';
 const state = reactive<{
     busy: boolean,
     missing_personal_info: boolean,
-    is_suggestions_shown: boolean
 }>({
     busy: false,
     missing_personal_info: false,
-    is_suggestions_shown: false
 });
 const summary = useSummary();
 const questionnaires = useQuestionnaire();
 const chatContent: ChatContext = useChat();
 const suggestion = useSuggestion();
+
 const generateSummary = async () => {
     try {
         state.busy = true;
@@ -46,7 +45,7 @@ const generateSummary = async () => {
 }
 
 const toggleSuggestions = async () => {
-    state.is_suggestions_shown = !state.is_suggestions_shown;
+    summary.isSuggestionsShown = !summary.isSuggestionsShown;
 }
 
 const querySurveys = async () => {
@@ -133,7 +132,7 @@ onMounted(() => {
             </div>
         </template>
     </Panel>
-    <ChatSuggestion v-if="suggestion.suggestions && state.is_suggestions_shown" @close-panel="toggleSuggestions">
+    <ChatSuggestion v-if="suggestion.suggestions && summary.isSuggestionsShown" @close-panel="toggleSuggestions">
     </ChatSuggestion>
 
 

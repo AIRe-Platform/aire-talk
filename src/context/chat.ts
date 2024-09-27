@@ -33,6 +33,7 @@ import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaire
 import { getChatContentIds } from "@/helpers/contentUtils";
 import useSuggestion from "./suggestion";
 
+
 export class ChatContext {
     id?: string;
     autosave_timer?: number;
@@ -45,12 +46,14 @@ export class ChatContext {
         occupation?: string;
         topic?: Topic;
     };
+    isEndOfConversation: boolean;
 
     constructor() {
         this.messages = [];
         this.stats = {};
         this.meta = {};
         this.modified = false;
+        this.isEndOfConversation = false;
     }
 
     /** Resets the chat state */
@@ -71,6 +74,7 @@ export class ChatContext {
         this.meta = {};
         this.modified = false;
         this.stats = {};
+        this.isEndOfConversation = false;
 
         useQuestionnaire().reset();
         useSummary().reset();
@@ -123,6 +127,23 @@ export class ChatContext {
         scrollChatToBottom();
     }
 
+    /**
+     * Add new user message and wait response from the chatbot
+     * @param message Message content
+     */
+    public endConversation() {
+        //create a message with the final words and push it
+        const chatMessage: ChatMessage = {
+            role: "system",
+            timestamp: Date.now(), // current timestamp
+            content: "Conversation ended. Feel free to start a new chat if you need further help!",
+            id: "sadafae",
+            sender:l.aire_system
+        };
+        this.messages.push(chatMessage);
+        this.isEndOfConversation = false;
+    }
+    
     /**
      * Reverts chat to an earlier state
      * @param id Message ID to revert to
@@ -341,7 +362,7 @@ async function streamResponse() {
     }
 }
 
-async function receiver(e: AireTalkEvent) {
+async function receiver(this: any, e: AireTalkEvent) {
     const chat = useChat();
 
     if (e.type === "keywords") {
@@ -367,16 +388,31 @@ async function receiver(e: AireTalkEvent) {
         if (e.message) {
             last.content += e.message.content;
         }
-
         if (final) {
             const bot = useChatbot();
             bot.setStatus("answered");
+
           //  onReceiveKeywords(context, (['back pain']));//all type
           //  onReceiveKeywords(context, (['eye test']));//all type
-           // onReceiveKeywords(context, (['head']));//video
+          //  onReceiveKeywords(context, (['head']));//video
 
+            if (last.content?.includes("[END OF CONVERSATION]")) {
+                last.content = last.content.replace("[END OF CONVERSATION]", "").trim();
+                chat.isEndOfConversation = true;
+            }
         }
         chat.push(last, firstMessage, final);
+        if (chat.isEndOfConversation) {
+            chat.endConversation();
+            await useSummary().updateSummary();
+        
+            // Wait for 1 second (1000 milliseconds)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        
+            useSummary().isSuggestionsShown = true;
+            chat.save();
+        }
+        
     }
 }
 

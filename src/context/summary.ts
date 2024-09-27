@@ -13,9 +13,11 @@ export class SummaryContext {
     public summary?: string;
     public keywords: Set<AireKeyword>;
     public suggestions?: ChatMessage | null;
+    public isSuggestionsShown: boolean
 
     constructor() {
         this.keywords = new Set<AireKeyword>();
+        this.isSuggestionsShown = false;
     }
 
     /**
@@ -25,6 +27,7 @@ export class SummaryContext {
         this.summary = undefined;
         this.keywords.clear();
         this.suggestions = undefined;
+        this.isSuggestionsShown = false;
     }
 
     /** 
