@@ -4,7 +4,7 @@
 
 
 import { AireServices, AireUser, AireStatus, AireErrorResult, AireLoginOptions, AireAuthCodeLoginOptions, AireLogoutOptions } from "aire";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
@@ -199,5 +199,13 @@ export class LoginContext {
 const context = reactive(new LoginContext());
 
 export default function useLogin() {
+
+    // Watch for changes in context.user to update when logginin
+    watch(
+        () => context.user,
+        (newUser) => {
+            context.user = newUser;
+        }
+    );
     return context;
 }

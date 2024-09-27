@@ -194,6 +194,8 @@ const en: Locale = {
     button_mark_as_read: "Mark as read",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+    
+    logout_inactivity_message: "You have been logged out due to inactivity.",
 
     en: "English",
     fi: "Finnish",

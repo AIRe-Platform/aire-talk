@@ -168,6 +168,8 @@ export enum LocalizationKey {
     button_mark_as_read = "button_mark_as_read",
 
     content_catalogue_empty = "content_catalogue_empty",
+
+    logout_inactivity_message = "logout_inactivity_message",
     
     en = "en",
     fi = "fi",

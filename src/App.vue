@@ -13,17 +13,77 @@ import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
+import { startInactivityListener, stopInactivityListener, resetLogoutTimer } from '@/helpers/inactivityLogout';
+import { onMounted, onUnmounted, reactive, watch } from 'vue';
+import useLogin from '@/context/login';
+import { router } from './router';
+import DialogModal from "@/components/layout/DialogModal.vue";
+import { l } from '@/locales';
+
+const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
+
+const login = useLogin();
+const state = reactive<{
+    showInactivityPopup: boolean
+}>({
+    showInactivityPopup: false
+});
 
 const closeNavMenu = async () => {
     await closeBurgerMenu();
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
     UIState.panels.clear();
-}
+};
+
+const handleLogout = async () => {
+    await login.logout();
+    stopInactivityListener();
+    router.push("/");
+};
+
+const onToggleInactivityPopup = async () => {
+    state.showInactivityPopup = !state.showInactivityPopup;
+};
+
+const handleMouseMove = (event: MouseEvent) => {
+    console.debug('mouseover mouse moved!', event);
+    if (login.user) {
+        startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+    }
+};
+
+const handleMouseWheel = (event: WheelEvent) => {
+    console.debug('Wheel scrolled!', event);
+    if (login.user) {
+        startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+    }
+
+};
+
+onMounted(() => {
+    const event: Event = new Event('customEvent');
+    const stopWatching = watch(
+        () => login.user,
+        (user) => {
+            if (user) {
+                startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+            }
+        }
+    );
+
+    onUnmounted(() => {
+        stopWatching();
+        stopInactivityListener();
+    });
+});
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
+    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: handleLogout }]">
+        {{ $t(l.logout_inactivity_message) }}
+    </DialogModal>
+    <div id="main" v-if="AppState === 'loaded'" tabindex="0" @wheel="handleMouseWheel" @mousemove="handleMouseMove">
         <NavMenu />
         <div class="main-panels" v-if="UIState.panels.size > 0">
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
@@ -41,8 +101,9 @@ const closeNavMenu = async () => {
     <div class="main-error" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
-
 </template>
+
+
 
 <style src="@/style/default.css" />
 <style src="@/style/icons.css" />
@@ -53,6 +114,7 @@ const closeNavMenu = async () => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
+    pointer-events: auto;
 }
 
 .main-mask {

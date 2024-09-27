@@ -197,6 +197,8 @@ const es: Locale = {
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
+    logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
+
     en: "Inglés",
     fi: "Finés",
     es: "Español",

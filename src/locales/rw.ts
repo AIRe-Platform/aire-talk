@@ -189,6 +189,8 @@ const rw: Locale = {
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 
+    logout_inactivity_message: "Winjiye hanze kubera kudakora.",
+
     en: "Icyongereza",
     fi: "Igifinilande",
     es: "Icyespanyoro",

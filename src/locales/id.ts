@@ -195,6 +195,8 @@ const id: Locale = {
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
     
+    logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
+
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",

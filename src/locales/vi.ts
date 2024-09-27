@@ -194,6 +194,8 @@ const vi: Locale = {
 
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
 
+    logout_inactivity_message: "Bạn đã bị đăng xuất do không hoạt động.",
+
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",

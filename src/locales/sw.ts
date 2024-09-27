@@ -176,6 +176,8 @@ const sw: Locale = {
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
+    logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
+
     en: "Kiingereza",
     fi: "Kifini",
     es: "Kihispania",
