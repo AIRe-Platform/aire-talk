@@ -13,7 +13,7 @@ import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
-import { startInactivityListener, stopInactivityListener, resetLogoutTimer } from '@/helpers/inactivityLogout';
+import { startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
 import { onMounted, onUnmounted, reactive, watch } from 'vue';
 import useLogin from '@/context/login';
 import { router } from './router';
@@ -47,14 +47,14 @@ const onToggleInactivityPopup = async () => {
 };
 
 const handleMouseMove = (event: MouseEvent) => {
-    console.debug('mouseover mouse moved!', event);
+    // console.debug('mouseover mouse moved!', event);
     if (login.user) {
         startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
     }
 };
 
 const handleMouseWheel = (event: WheelEvent) => {
-    console.debug('Wheel scrolled!', event);
+    // console.debug('Wheel scrolled!', event);
     if (login.user) {
         startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
     }

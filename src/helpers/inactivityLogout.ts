@@ -23,7 +23,7 @@ export const startInactivityListener = (logoutCallback: () => void, timeoutDurat
     if (listenersAttached) return; // Prevent re-adding event listeners
 
     resetHandler = () => {
-        console.debug("User triggered: " + event + " . Resetting logout timer.");
+        // console.debug("User triggered: " + event + " . Resetting logout timer.");
         resetLogoutTimer(logoutCallback, timeoutDuration);
     };
 
