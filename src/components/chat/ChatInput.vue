@@ -10,6 +10,7 @@ import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
+import { ChatMessage, ChatMessageType } from "@/models/chat";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -31,17 +32,24 @@ function submit() {
         chat.send(prompt);
     textInput.value = "";
 }
+
+function conversationEnded(messages: ChatMessage[])
+{
+    if(messages.length > 0) {
+        return messages[messages.length - 1].type == ChatMessageType.EndOfConversation;
+    }
+    return false;
+}
 </script>
 
 <template v-if="props.visible">
-    <div class="chat-input">
+    <div class="chat-input" v-if="!conversationEnded(chat.messages)">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
         }">
         </div>
         <div class="chat-input-header">
-
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0"
                 @click="() => router.push('/content-catalogue')">

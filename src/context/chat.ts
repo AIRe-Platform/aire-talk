@@ -4,7 +4,7 @@
 
 
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
+import { ChatMessage, ChatMessageType, ChatState, ChatStats } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
     AireServices,
@@ -46,14 +46,12 @@ export class ChatContext {
         occupation?: string;
         topic?: Topic;
     };
-    isEndOfConversation: boolean;
 
     constructor() {
         this.messages = [];
         this.stats = {};
         this.meta = {};
         this.modified = false;
-        this.isEndOfConversation = false;
     }
 
     /** Resets the chat state */
@@ -74,7 +72,6 @@ export class ChatContext {
         this.meta = {};
         this.modified = false;
         this.stats = {};
-        this.isEndOfConversation = false;
 
         useQuestionnaire().reset();
         useSummary().reset();
@@ -132,18 +129,11 @@ export class ChatContext {
      * @param message Message content
      */
     public endConversation() {
-        //create a message with the final words and push it
-        const chatMessage: ChatMessage = {
-            role: "system",
-            timestamp: Date.now(), // current timestamp
-            content: "Conversation ended. Feel free to start a new chat if you need further help!",
-            id: "sadafae",
-            sender:l.aire_system
-        };
-        this.messages.push(chatMessage);
-        this.isEndOfConversation = false;
+        const msg = createSystemMessage(l.system_end_of_conversation);
+        msg.type = ChatMessageType.EndOfConversation;
+        this.messages.push(msg);
     }
-    
+
     /**
      * Reverts chat to an earlier state
      * @param id Message ID to revert to
@@ -362,7 +352,7 @@ async function streamResponse() {
     }
 }
 
-async function receiver(this: any, e: AireTalkEvent) {
+async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
     if (e.type === "keywords") {
@@ -379,6 +369,7 @@ async function receiver(this: any, e: AireTalkEvent) {
         const final = (e.type === "end");
         let last = chat.messages[chat.messages.length - 1];
         let firstMessage = false // start of the answer stream?
+        let endConversation = false;
 
         if (last.role !== "assistant") {
             last = createAssistantMessage("");
@@ -392,27 +383,23 @@ async function receiver(this: any, e: AireTalkEvent) {
             const bot = useChatbot();
             bot.setStatus("answered");
 
-          //  onReceiveKeywords(context, (['back pain']));//all type
-          //  onReceiveKeywords(context, (['eye test']));//all type
-          //  onReceiveKeywords(context, (['head']));//video
-
             if (last.content?.includes("[END OF CONVERSATION]")) {
                 last.content = last.content.replace("[END OF CONVERSATION]", "").trim();
-                chat.isEndOfConversation = true;
+                endConversation = true;
             }
         }
+
         chat.push(last, firstMessage, final);
-        if (chat.isEndOfConversation) {
+
+        if (endConversation) {
             chat.endConversation();
-            await useSummary().updateSummary();
-        
-            // Wait for 1 second (1000 milliseconds)
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        
-            useSummary().isSuggestionsShown = true;
-            chat.save();
+            await useSummary().updateSummary()
+                .then(() => {
+                    useSummary().isSuggestionsShown = true;
+                    chat.save();
+                })
         }
-        
+
     }
 }
 
@@ -442,21 +429,21 @@ export async function onReceiveKeywords(chatContext: ChatContext, keywords: stri
             })
         chatContext.suggestionMessage = await searchForSuggestions(keywords);
 
-        if(chatContext.suggestionMessage){
+        if (chatContext.suggestionMessage) {
             suggestion.setSuggestions(chatContext.suggestionMessage);
         }
     }
 }
 
-async function searchForSuggestions(keywords: string[]): Promise<ChatMessage | null>{
+async function searchForSuggestions(keywords: string[]): Promise<ChatMessage | null> {
     const content = useContent();
-    
+
     let results = await content.search(keywords, 4);
 
     results = results
         .filter(x => !getChatContentIds(context.messages).includes(x.id!))
         .slice(0, 2);
-    if (results.length > 0){
+    if (results.length > 0) {
         const msg = createContentMessage(results);
 
         return msg;

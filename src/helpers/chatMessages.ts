@@ -5,7 +5,7 @@
 
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
-import { ChatMessage } from "@/models/chat";
+import { ChatMessage, ChatMessageType } from "@/models/chat";
 import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion } from "aire";
 
 const BOT_NAME = "aire_bot"
@@ -16,6 +16,7 @@ export function mapMessage(msg: AireChatMessage): ChatMessage {
         ...msg,
         id: newMessageId(),
         sender: getSenderName(msg.role),
+        type: (msg.type as ChatMessageType) || ChatMessageType.Default,
     };
 }
 
@@ -38,6 +39,7 @@ export function createMessage(
     }
 
     return {
+        type: ChatMessageType.Default,
         id: newMessageId(),
         sender: sender,
         role: role,

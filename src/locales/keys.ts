@@ -13,6 +13,7 @@ export enum LocalizationKey {
     system_greeting = "system_greeting",
     system_topic = "system_topic",
     system_found_content = "system_found_content",
+    system_end_of_conversation = "system_end_of_conversation",
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",

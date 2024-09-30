@@ -92,8 +92,6 @@ export class SummaryContext {
             } catch (err) {
                 console.error("Failed to query keywords from memory", err);
             }
-        } else {
-            console.warn("No keywords generated to query in Memory service");
         }
     }
 
@@ -101,17 +99,7 @@ export class SummaryContext {
      * Set suggestions
      */
     public async setSuggestions(suggestions: ChatMessage) {
-    
-        let combinedKeywords = "";
-
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
-            return;
-        }
-        if(suggestions){
-            this.suggestions = suggestions;
-            console.log("this.suggestions successfully saved: ", this.suggestions);
-        }   
+        this.suggestions = suggestions;
     }
 
     /** 
