@@ -97,7 +97,7 @@ onMounted(() => {
             <div class="summary-keywords" v-if="listChatKeywords(chatContext.messages).length > 0">
                 <div class="summary-keyword-item" v-for="(keyword, id) in listChatKeywords(chatContext.messages)" :key="id">
                     <span class="summary-keyword-text">{{ getTranslationForKeyword(keyword) }}</span>
-                    <div class="summary-keyword-delete" @click="chatContext.removeKeyword(keyword)">
+                    <div class="summary-keyword-delete" @click="chatContext.removeKeyword(keyword, true)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>
