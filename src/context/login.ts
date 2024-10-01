@@ -124,7 +124,7 @@ export class LoginContext {
         return AireStatus.UnknownError;
     }
 
-    public async logout() {
+    public async logout(return_params?: string) {
         await useChat().reset(false, true);
         useContent().reset();
 
@@ -137,6 +137,11 @@ export class LoginContext {
                 theme: useTheme().style.includes("dark") ? "dark" : "light",
                 locale: getUILanguage()
             };
+
+            if(return_params) {
+                const p = new URLSearchParams(return_params);
+                options.return_url += "?" + p.toString();
+            }
 
             const logout = await AireServices.ID.getLogoutUrl(options);
             AireServices.ID.logout();
