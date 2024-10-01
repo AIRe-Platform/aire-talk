@@ -8,10 +8,10 @@ import { l } from '@/locales';
 import ContentModal from '../content/ContentModal.vue';
 
 import { onMounted, reactive, defineEmits } from 'vue';
-import useSuggestion from '@/context/suggestion';
+import useSuggestion from '@/context/suggestions';
 import Panel from '@/components/common/Panel.vue';
 import ChatContent from '@/components/chat/ChatContent.vue';
-import { AireChatMessage, AireContent, AireContentType } from 'aire';
+import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
 import { router } from '@/router';
 import CloseSuggestionMenuButton from "@/components/chat/CloseSuggestionMenuButton.vue";
@@ -44,7 +44,7 @@ const toggleSuggestionMenuModal = () => {
 
 // Now returns an array of media IDs
 const getContentIDs = (): string[] => {
-    const chatMessage = suggestion.suggestions as AireChatMessage;
+    const chatMessage = suggestion.message;
     return chatMessage?.media || [];
 };
 
@@ -56,9 +56,17 @@ const showContent = async (content: AireContent) => {
             case AireContentType.Video:
                 toggleModal();
                 break;
-            default:
-                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
-                if (url) window.open(url, '_blank');
+            default: {
+                let url = content.url;
+
+                if (content.id)
+                    url = await contentContext.getUrl(content.id);
+
+                if (url)
+                    window.open(url, '_blank');
+
+                break;
+            }
         }
 
         if (content.id) {
@@ -119,8 +127,8 @@ onMounted(() => {
                 :menu-open="state.isSuggestionMenuOpen" @click.stop="emit('closePanel', undefined)" />
         </div>
 
-        <div class="suggestion-title" v-if="suggestion.suggestions">
-            <span class="suggestion-suggestions-text">{{ suggestion.suggestions.content }}</span>
+        <div class="suggestion-title" v-if="suggestion.message">
+            <span class="suggestion-suggestions-text">{{ suggestion.message.content }}</span>
         </div>
         <div class="suggestion-suggestions" v-for="(contentItem, index) in state.content" :key="index">
             <ChatContent v-if="contentItem.id" :contentId="contentItem.id" @show="() => showContent(contentItem)" />

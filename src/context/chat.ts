@@ -18,8 +18,7 @@ import {
     createSystemMessage,
     createUserMessage,
     mapMessage,
-    createAssistantMessage,
-    createContentMessage
+    createAssistantMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -28,10 +27,8 @@ import useSummary from "./summary";
 import i18n, { l } from "@/locales";
 import { getChatbotInputData } from "@/helpers/chatUtils";
 import useLogin from "./login";
-import useContent from "./content";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
-import { getChatContentIds } from "@/helpers/contentUtils";
-import useSuggestion from "./suggestion";
+import useKeywords from "./keywords";
 
 
 export class ChatContext {
@@ -129,6 +126,10 @@ export class ChatContext {
      * @param message Message content
      */
     public endConversation() {
+        // TODO: Maybe update summary?
+        // TODO: Generate keywords?
+        // TODO: Present choices on how to continue?
+
         const msg = createSystemMessage(l.system_end_of_conversation);
         msg.type = ChatMessageType.EndOfConversation;
         this.messages.push(msg);
@@ -216,12 +217,13 @@ export class ChatContext {
 
         const questionnaire = useQuestionnaire();
         const summary = useSummary();
+        const keywords = useKeywords();
 
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
                 summary: summary.summary,
-                keywords: [...summary.keywords].map((keyword) => keyword.value),
+                keywords: [...keywords.items].map((keyword) => keyword.value),
                 questionnaire: questionnaire.active
             };
 
@@ -356,7 +358,20 @@ async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
     if (e.type === "keywords") {
-        onReceiveKeywords(context, e.keywords || [])
+        // Update keywords
+        useKeywords().update(e.keywords);
+
+        // Search questionnaires and start prompt to start one if found
+        if (e.keywords && e.keywords.length > 0) {
+            queryQuestionnaire(e.keywords)
+                .then(questionnaire => {
+                    if (questionnaire) {
+                        const q = createQuestionnaire(questionnaire);
+                        if (q)
+                            useQuestionnaire().startQuestionnaire(q);
+                    }
+                })
+        }
         return;
     }
 
@@ -393,11 +408,6 @@ async function receiver(e: AireTalkEvent) {
 
         if (endConversation) {
             chat.endConversation();
-            await useSummary().updateSummary()
-                .then(() => {
-                    useSummary().isSuggestionsShown = true;
-                    chat.save();
-                })
         }
 
     }
@@ -410,44 +420,4 @@ function errorHandler(status: AireStatus) {
     useChat().push(msg);
 
     useChatbot().setStatus("idle");
-}
-
-export async function onReceiveKeywords(chatContext: ChatContext, keywords: string[]) {
-    const summary = useSummary();
-    const suggestion = useSuggestion();
-    summary.set(summary.summary);
-    summary.getKeywordsTranslations(keywords);
-    if (keywords.length > 0) {
-        queryQuestionnaire(keywords)
-            .then(q => {
-                if (q) {
-                    const questionnaire = createQuestionnaire(q);
-                    if (questionnaire) {
-                        useQuestionnaire().startQuestionnaire(questionnaire);
-                    }
-                }
-            })
-        chatContext.suggestionMessage = await searchForSuggestions(keywords);
-
-        if (chatContext.suggestionMessage) {
-            suggestion.setSuggestions(chatContext.suggestionMessage);
-        }
-    }
-}
-
-async function searchForSuggestions(keywords: string[]): Promise<ChatMessage | null> {
-    const content = useContent();
-
-    let results = await content.search(keywords, 4);
-
-    results = results
-        .filter(x => !getChatContentIds(context.messages).includes(x.id!))
-        .slice(0, 2);
-    if (results.length > 0) {
-        const msg = createContentMessage(results);
-
-        return msg;
-    }
-    else
-        return null;
 }
