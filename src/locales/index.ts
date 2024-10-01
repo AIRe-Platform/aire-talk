@@ -64,5 +64,5 @@ export function setUILanguage(lang: LanguageCode) {
 
 export function getUILanguage() {
     const loc = i18n.global.locale as any;
-    return loc.value as string;
+    return loc.value as LanguageCode;
 }

@@ -11,14 +11,17 @@ import {
     AireTalkEvent,
     AireChatLog,
     AireStatus,
+    AireKeyword,
 } from "aire";
 import { reactive } from "vue";
 import {
+    mapMessage,
     createErrorMessage,
     createSystemMessage,
     createUserMessage,
-    mapMessage,
-    createAssistantMessage
+    createAssistantMessage,
+    createInstructionMessage,
+    createNotificationMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -30,12 +33,12 @@ import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useKeywords from "./keywords";
 
-
 export class ChatContext {
     id?: string;
     autosave_timer?: number;
     modified: boolean;
-    suggestionMessage?: ChatMessage | null;
+    keyword_blacklist: Set<string>;
+
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public meta: {
@@ -49,6 +52,7 @@ export class ChatContext {
         this.stats = {};
         this.meta = {};
         this.modified = false;
+        this.keyword_blacklist = new Set<string>();
     }
 
     /** Resets the chat state */
@@ -69,6 +73,7 @@ export class ChatContext {
         this.meta = {};
         this.modified = false;
         this.stats = {};
+        this.keyword_blacklist.clear();
 
         useQuestionnaire().reset();
         useSummary().reset();
@@ -88,6 +93,48 @@ export class ChatContext {
             const topic_name = i18n.global.t(topic.localization_key);
             const msg = createSystemMessage(`${topic_msg}${topic_name}`, false);
             this.push(msg);
+        }
+    }
+
+    /**
+     * Inject keyword with a prompt into the conversation
+     * @param keyword Keyword object
+     */
+    public pushKeyword(keyword: AireKeyword) {
+        if (this.keyword_blacklist.has(keyword.value))
+            return;
+
+        // Create notification message
+        const notification = createNotificationMessage(ChatMessageType.Keyword, keyword.value);
+        this.push(notification);
+
+        // Create hidden prompt injection
+        const prompt = keyword.prompt ?? `The system has identified a topic: ${keyword.value}`
+        const promptMessage = createInstructionMessage(prompt);
+        this.push(promptMessage);
+    }
+
+    /**
+     * Finds keyword notification message and its injected prompt
+     * @param keyword Keyword to remove
+     * @param blacklist Set true to prevent keyword from coming back
+     */
+    public removeKeyword(keyword: string, blacklist: boolean = false) {
+        const i = this.messages
+            .findIndex(x => x.type == ChatMessageType.Keyword && x.content == keyword);
+
+        if (i > -1) {
+            if (this.messages.length < i + 1) {
+                // Check if the next message is an instruction
+                if (this.messages[i + 1].type == ChatMessageType.Instruction) {
+                    this.messages.splice(i + 1, 1);
+                }
+            }
+            this.messages.splice(i, 1);
+        }
+
+        if (blacklist) {
+            this.keyword_blacklist.add(keyword);
         }
     }
 
@@ -217,14 +264,13 @@ export class ChatContext {
 
         const questionnaire = useQuestionnaire();
         const summary = useSummary();
-        const keywords = useKeywords();
 
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
                 summary: summary.summary,
-                keywords: [...keywords.items].map((keyword) => keyword.value),
-                questionnaire: questionnaire.active
+                questionnaire: questionnaire.active,
+                keyword_blacklist: [...this.keyword_blacklist]
             };
 
             const chatLog: AireChatLog = {
@@ -274,6 +320,7 @@ export class ChatContext {
         this.messages = cached.messages;
         this.stats = cached.stats || {};
         this.meta.topic = cached.state.topic;
+        this.keyword_blacklist = new Set(cached.state.keyword_blacklist);
 
         const state = cached.state;
         if (state) {
@@ -359,7 +406,11 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "keywords") {
         // Update keywords
-        useKeywords().update(e.keywords);
+        useKeywords()
+            .updateMetadata(e.keywords)
+            .then(keywords => {
+                keywords.forEach(k => chat.pushKeyword(k));
+            })
 
         // Search questionnaires and start prompt to start one if found
         if (e.keywords && e.keywords.length > 0) {

@@ -1,36 +1,59 @@
 import { AireKeyword, AireServices, AireStatus } from "aire";
 import { reactive } from "vue";
+import { LanguageCode } from "iso-639-1";
 
 export class KeywordsContext {
-    public items: Set<AireKeyword>;
+    public metadata: Array<AireKeyword>;
 
     constructor() {
-        this.items = new Set<AireKeyword>();
+        this.metadata = new Array<AireKeyword>();
     }
 
-    public async update(keywords?: string[]) {
+    public async updateMetadata(keywords?: string[]): Promise<AireKeyword[]> {
         if (!AireServices.Memory) {
             console.warn("Memory service is unavailable");
-            return;
+            return [];
         }
 
         if (!keywords || keywords.length == 0) {
-            this.items.clear();
-            return;
+            return [];
         }
 
-        const query = keywords.join(",");
-        try {
-            const result = await AireServices.Memory.queryKeywords(query);
+        const newKeywords = keywords.filter(x => this.metadata.findIndex(k => k.value == x) < 0);
+        const results = new Array<AireKeyword>();
 
-            if (result.status == AireStatus.Success && result.data) {
-                this.items = new Set(result.data);
-            } else {
-                console.error(`Failed to get keywords metadata: ${result.status}`);
-            }
-        } catch (err) {
-            console.error("Failed to query keyword metadata from Memory", err);
+        for(let i = 0; i < newKeywords.length; i++) {
+            const keyword = newKeywords[i];
+            await AireServices.Memory?.getKeyword(keyword)
+                .then(result => {
+                    if (result.status == AireStatus.Success && result.data) {
+                        this.metadata.push(result.data);
+                        results.push(result.data);
+                    }
+                    else {
+                        console.warn("Could not get information about a keyword", keyword);
+                    }
+                })
+                .catch(err => {
+                    console.error("Failed to request keyword information", keyword, err);
+                })
         }
+
+        return results;
+    }
+
+    public getTranslation(keyword: string, lang: LanguageCode): string | undefined {
+        const item = this.metadata.find(x => x.value == keyword);
+        if (item) {
+            const translation = item.translations?.find(x => x.languageID == lang);
+            return translation?.value;
+        }
+    }
+
+    public getMetadata(keywords: string[]): AireKeyword[] {
+        return keywords
+            .map(x => this.metadata.find(k => k.value == x))
+            .filter(x => x !== undefined);
     }
 }
 

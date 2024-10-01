@@ -16,10 +16,10 @@ export enum ChatMessageType {
 
     // Message notifying of identified keyword/theme
     // The actual (hidden) content is a prompt to guide the chatbot.
-    KeywordPrompt = "prompt_keyword",
+    Keyword = "keyword",
 
-    // Action message, activating will generate a summary
-    ActionSummarize = "action_summarize",
+    // The message contains instructions for the chatbot
+    Instruction = "instruction",
 }
 
 export interface ChatMessage extends AireChatMessage {
@@ -36,6 +36,6 @@ export interface ChatStats {
 export interface ChatState {
     questionnaire?: Questionnaire;
     summary?: string;
-    keywords?: Array<string>;
     topic?: Topic;
+    keyword_blacklist?: string[];
 }

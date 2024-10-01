@@ -71,7 +71,15 @@ export function createAssistantMessage(message: string): ChatMessage {
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {
-    return createMessage("user", instructions, false, true);
+    const msg = createMessage("user", `[INST]${instructions}[/INST]`, false, true);
+    msg.type = ChatMessageType.Instruction;
+    return msg;
+}
+
+export function createNotificationMessage(type: ChatMessageType, content?: string) {
+    const msg = createMessage("assistant", content);
+    msg.type = type;
+    return msg;
 }
 
 export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion): ChatMessage {
@@ -89,7 +97,7 @@ export function createQuestionnaireMessage(questionnaire_id: string, question: A
 }
 
 export function createUserMessage(message: string): ChatMessage {
-    return createMessage("user", message);
+    return createMessage("user", message.replaceAll("[", "").replaceAll("]", ""));
 }
 
 let message_id_idx = 0;

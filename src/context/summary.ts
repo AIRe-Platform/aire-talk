@@ -4,11 +4,9 @@
 
 
 import { getChatbotInputData } from "@/helpers/chatUtils";
-import { AireKeyword, AireServices, AireStatus } from "aire";
+import { AireServices } from "aire";
 import { reactive } from "vue";
 import useChat from "./chat";
-import { ChatMessage } from "@/models/chat";
-import { i } from "vite/dist/node/types.d-aGj9QkWt";
 
 export class SummaryContext {
     public summary?: string;
