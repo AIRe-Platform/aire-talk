@@ -492,8 +492,8 @@ async function receiver(e: AireTalkEvent) {
         if (final) {
             useChatbot().reportReady();
 
-            if (last.content?.includes("[END OF CONVERSATION]")) {
-                last.content = last.content.replace("[END OF CONVERSATION]", "").trim();
+            if (last.content?.includes("[END_OF_CONVERSATION]")) {
+                last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
                 endConversation = true;
             }
         }
