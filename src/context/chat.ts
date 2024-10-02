@@ -28,7 +28,7 @@ import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData, findLatestSummary } from "@/helpers/chatUtils";
+import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useKeywords from "./keywords";
@@ -308,7 +308,6 @@ export class ChatContext {
             return false;
 
         const cached = useChatCache().get(chat_id);
-
         if (!cached) {
             return false;
         }
@@ -324,6 +323,8 @@ export class ChatContext {
             if (state.questionnaire)
                 useQuestionnaire().restoreState(state.questionnaire);
         }
+
+        useKeywords().updateMetadata(listChatKeywords(this.messages));
 
         scrollChatToBottom();
         return true;
