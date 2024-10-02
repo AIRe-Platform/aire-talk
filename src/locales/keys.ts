@@ -133,7 +133,7 @@ export enum LocalizationKey {
     topic_increased_weight = "topic_increased_weight",
     topic_trouble_talking = "topic_trouble_talking",
 
-    summary_chag_log_title = "summary_chag_log_title",
+    summary_title = "summary_title",
     summary_generate_summary = "summary_generate_summary",
     summary_query_surveys_button = "summary_query_surveys_button",
     summary_suggestions = "summary_suggestions",

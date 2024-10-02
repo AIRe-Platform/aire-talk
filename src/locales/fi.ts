@@ -157,7 +157,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     suggestion_check_for_more: "Katso lisää täältä",
 
-    summary_chag_log_title: "Yhteenveto",
+    summary_title: "Yhteenveto",
     summary_generate_summary: "Luo yhteenveto",
     summary_query_surveys_button: "Hae kyselyitä",
     summary_suggestions: "Ehdotuksia",

@@ -16,6 +16,9 @@ const sw: Locale = {
         "Karibu kwenye AIRe Talk! Anza kwa kueleza ni msaada gani unahitaji au una dalili gani.",
     system_topic: "Umechagua mada: ",
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
+    system_end_of_conversation: "Mazungumzo yamekwisha",
+
+    notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
     start_greeting: "Karibu kwenye jukwaa la AIRe",
     start_first_paragraph:
@@ -137,7 +140,7 @@ const sw: Locale = {
     topic_increased_weight: "Kuongezeka kwa uzito",
     topic_trouble_talking: "Shida ya kuzungumza",
 
-    summary_chag_log_title: "Maelezo",
+    summary_title: "Maelezo",
     summary_generate_summary: "Fupisha",
     summary_query_surveys_button: "Utafiti wa maswali",
     summary_suggestions: "Mapendekezo",

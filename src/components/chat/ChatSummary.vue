@@ -87,7 +87,7 @@ onMounted(() => {
 <template>
     <Panel class="summary-panel">
         <div class="summary-title">
-            {{ $t(l.summary_chag_log_title) }}
+            {{ $t(l.summary_title) }}
         </div>
         <Spinner v-if="state.busy" />
         <template v-if="!state.busy">

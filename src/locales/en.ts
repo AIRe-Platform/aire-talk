@@ -16,6 +16,9 @@ const en: Locale = {
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
     system_found_content: "I found some content that may interest you. Take a look!",
+    system_end_of_conversation: "The conversation has ended",
+
+    notification_keyword: "Theme \"{keyword}\" recognized",
 
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph:
@@ -152,7 +155,7 @@ const en: Locale = {
     topic_increased_weight: "Increased weight",
     topic_trouble_talking: "Trouble talking",
 
-    summary_chag_log_title: "Summary",
+    summary_title: "Summary",
     summary_generate_summary: "Summarize",
     summary_query_surveys_button: "Query surveys",
     summary_suggestions: "Suggestions",
