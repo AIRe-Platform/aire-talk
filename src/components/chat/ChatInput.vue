@@ -10,7 +10,7 @@ import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
-import { ChatMessage, ChatMessageType } from "@/models/chat";
+import { conversationEnded } from "@/helpers/chatUtils";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -31,14 +31,6 @@ function submit() {
     if (prompt.length > 0)
         chat.send(prompt);
     textInput.value = "";
-}
-
-function conversationEnded(messages: ChatMessage[])
-{
-    if(messages.length > 0) {
-        return messages[messages.length - 1].type == ChatMessageType.EndOfConversation;
-    }
-    return false;
 }
 </script>
 

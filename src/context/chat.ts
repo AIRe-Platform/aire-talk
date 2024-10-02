@@ -21,14 +21,14 @@ import {
     createUserMessage,
     createAssistantMessage,
     createInstructionMessage,
-    createNotificationMessage
+    createKeywordMessage,
+    createSummaryMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
-import useSummary from "./summary";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData } from "@/helpers/chatUtils";
+import { getChatbotInputData, findLatestSummary } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useKeywords from "./keywords";
@@ -76,7 +76,6 @@ export class ChatContext {
         this.keyword_blacklist.clear();
 
         useQuestionnaire().reset();
-        useSummary().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
         this.push(system_message);
@@ -104,8 +103,7 @@ export class ChatContext {
         if (this.keyword_blacklist.has(keyword.value))
             return;
 
-        // Create notification message
-        const notification = createNotificationMessage(ChatMessageType.Keyword, keyword.value);
+        const notification = createKeywordMessage(ChatMessageType.Keyword, keyword.value);
         this.push(notification);
 
         // Create hidden prompt injection
@@ -161,7 +159,7 @@ export class ChatContext {
             this.messages[this.messages.length - 1] = message;
         }
 
-        if (final && message.role !== "system") {
+        if (final) {
             this.autoSave();
         }
 
@@ -173,13 +171,13 @@ export class ChatContext {
      * @param message Message content
      */
     public endConversation() {
-        // TODO: Maybe update summary?
-        // TODO: Generate keywords?
-        // TODO: Present choices on how to continue?
-
         const msg = createSystemMessage(l.system_end_of_conversation);
         msg.type = ChatMessageType.EndOfConversation;
         this.messages.push(msg);
+
+        this.summarize();
+
+        // TODO: Show content suggestions, allow continuing conversation
     }
 
     /**
@@ -263,12 +261,11 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
-        const summary = useSummary();
 
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
-                summary: summary.summary,
+                summary: findLatestSummary(this.messages),
                 questionnaire: questionnaire.active,
                 keyword_blacklist: [...this.keyword_blacklist]
             };
@@ -324,8 +321,6 @@ export class ChatContext {
 
         const state = cached.state;
         if (state) {
-            useSummary().set(state.summary);
-
             if (state.questionnaire)
                 useQuestionnaire().restoreState(state.questionnaire);
         }
@@ -381,6 +376,38 @@ export class ChatContext {
             console.error("Memory service is not available")
             return false;
         }
+    }
+
+    public async summarize(): Promise<boolean> {
+        if (!AireServices.AI) {
+            console.warn("AI service is unavailable");
+            return false;
+        }
+
+        const input = getChatbotInputData();
+        if (input.chat.length == 0) {
+            return false;
+        }
+
+
+        const chat = useChat();
+        useChatbot().setStatus("writing");
+
+        return await AireServices.AI.generateSummary(input)
+            .then((result) => {
+                if (result.status == AireStatus.Success && result.data) {
+                    const msg = createSummaryMessage(result.data);
+                    chat.push(msg);
+                    return true;
+                } else {
+                    throw Error(result.status.toString());
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to generate summary: ", err);
+                return false;
+            })
+            .finally(() => useChatbot().setStatus("idle"))
     }
 }
 

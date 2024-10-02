@@ -5,11 +5,10 @@
 
 <script setup lang="ts">
 import { getUILanguage, l } from '@/locales';
-import { onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
 import useChat, { ChatContext } from '@/context/chat';
-import useSummary from '@/context/summary';
 import useQuestionnaire from '@/context/questionnaire';
 
 import Spinner from '@/components/common/Spinner.vue';
@@ -17,7 +16,7 @@ import Panel from '@/components/common/Panel.vue';
 import ChatSuggestion from './ChatSuggestion.vue';
 import useSuggestion from '@/context/suggestions';
 import useKeywords from '@/context/keywords';
-import { listChatKeywords } from '@/helpers/chatUtils';
+import { listChatKeywords, findLatestSummary } from '@/helpers/chatUtils';
 
 const state = reactive<{
     busy: boolean,
@@ -29,7 +28,6 @@ const state = reactive<{
     showSuggestions: false
 });
 
-const summary = useSummary();
 const questionnaires = useQuestionnaire();
 const chatContext: ChatContext = useChat();
 const suggestion = useSuggestion();
@@ -37,9 +35,7 @@ const suggestion = useSuggestion();
 const generateSummary = async () => {
     try {
         state.busy = true;
-
-        summary.reset();
-        await summary.update();
+        await chatContext.summarize()
     } catch (error) {
         console.error('Error generating summary in ChatSummary:', error);
     } finally {
@@ -82,6 +78,14 @@ const askPersonalInformation = () => {
 onMounted(() => {
     state.missingPersonalInfo = createPersonalInformationQuestions().length > 0;
 })
+
+const summary = computed(() => {
+    return findLatestSummary(chatContext.messages);
+})
+
+const keywords = computed(() => {
+    return listChatKeywords(chatContext.messages);
+})
 </script>
 
 <template>
@@ -91,11 +95,11 @@ onMounted(() => {
         </div>
         <Spinner v-if="state.busy" />
         <template v-if="!state.busy">
-            <div class="summary-text" v-if="summary.summary">
-                {{ summary.summary }}
+            <div class="summary-text" v-if="summary">
+                {{ summary }}
             </div>
-            <div class="summary-keywords" v-if="listChatKeywords(chatContext.messages).length > 0">
-                <div class="summary-keyword-item" v-for="(keyword, id) in listChatKeywords(chatContext.messages)" :key="id">
+            <div class="summary-keywords" v-if="keywords.length > 0">
+                <div class="summary-keyword-item" v-for="(keyword, id) in keywords" :key="id">
                     <span class="summary-keyword-text">{{ getTranslationForKeyword(keyword) }}</span>
                     <div class="summary-keyword-delete" @click="chatContext.removeKeyword(keyword, true)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />

@@ -21,6 +21,7 @@ export function mapMessage(msg: AireChatMessage): ChatMessage {
 }
 
 export function createMessage(
+    type: ChatMessageType,
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
@@ -39,7 +40,7 @@ export function createMessage(
     }
 
     return {
-        type: ChatMessageType.Default,
+        type: type,
         id: newMessageId(),
         sender: sender,
         role: role,
@@ -51,39 +52,37 @@ export function createMessage(
 }
 
 export function createContentMessage(content: AireContent[]): ChatMessage {
-    const msg = createMessage("assistant", l.system_found_content, true, false);
+    const msg = createMessage(ChatMessageType.Default, "assistant", l.system_found_content, true, false);
     msg.media = content.map(x => x.id!);
     return msg;
 }
 
 export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
-    return createMessage("system", message_loc_key, localize, false);
+    return createMessage(ChatMessageType.Default, "system", message_loc_key, localize, false);
 }
 
 export function createErrorMessage(message_loc_key: string): ChatMessage {
-    const msg = createSystemMessage(message_loc_key);
-    msg.isError = true;
-    return msg;
+    return createMessage(ChatMessageType.Error, "system", message_loc_key, true);
 }
 
 export function createAssistantMessage(message: string): ChatMessage {
-    return createMessage("assistant", message)
+    return createMessage(ChatMessageType.Default, "assistant", message)
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {
-    const msg = createMessage("user", `[INST]${instructions}[/INST]`, false, true);
-    msg.type = ChatMessageType.Instruction;
-    return msg;
+    return createMessage(ChatMessageType.Instruction, "user", `[INST]${instructions}[/INST]`, false, true);
 }
 
-export function createNotificationMessage(type: ChatMessageType, content?: string) {
-    const msg = createMessage("assistant", content);
-    msg.type = type;
-    return msg;
+export function createKeywordMessage(type: ChatMessageType, keyword: string) {
+    return createMessage(ChatMessageType.Keyword, "assistant", keyword);
+}
+
+export function createSummaryMessage(summary: string) {
+    return createMessage(ChatMessageType.Summary, "system", summary);
 }
 
 export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion): ChatMessage {
-    const msg = createMessage("assistant");
+    const msg = createMessage(ChatMessageType.Questionnaire, "assistant");
     const item: AireQuestionnaireAnswer = {
         questionnaire_id: questionnaire_id,
         question_id: question.id,
@@ -97,7 +96,10 @@ export function createQuestionnaireMessage(questionnaire_id: string, question: A
 }
 
 export function createUserMessage(message: string): ChatMessage {
-    return createMessage("user", message.replaceAll("[", "").replaceAll("]", ""));
+    const sanitized = message
+        .replaceAll("[INST]", "")
+        .replaceAll("[/INST]", "");
+    return createMessage(ChatMessageType.Default, "user", sanitized);
 }
 
 let message_id_idx = 0;

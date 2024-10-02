@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { ChatMessage } from '@/models/chat';
+import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { defineProps, onMounted, reactive } from 'vue';
 import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
@@ -12,6 +12,7 @@ import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
 import ChatContent from '@/components/chat/ChatContent.vue';
 import Panel from "@/components/common/Panel.vue";
 import ContentModal from '../content/ContentModal.vue';
+import { l } from '@/locales';
 
 const contentContext = useContent();
 const props = defineProps<{ message: ChatMessage, can_revert: boolean }>();
@@ -37,7 +38,7 @@ switch (props.message.role) {
         classList.push("chat-bubble-system");
         break;
 }
-if (props.message.isError)
+if (props.message.type == ChatMessageType.Error)
     classList.push("chat-bubble-error");
 
 const toggleModal = () => {
@@ -113,8 +114,10 @@ onMounted(() => {
         <ChatBubbleOptions :parent="props.message" :can_revert="props.can_revert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content" :class="{ 'is-user': props.message.role === 'user' }">
-
-            <span class="chat-user-label">
+            <span class="chat-bubble-title" v-if="props.message.type == ChatMessageType.Summary">
+                {{ $t(l.summary_title) }}
+            </span>
+            <span class="chat-user-label" v-else-if="props.message.role !== 'system'">
                 {{ (isSystem || isBot) ? $t(message.sender) : message.sender }}
             </span>
             <span class="chat-message-text">
@@ -141,6 +144,12 @@ onMounted(() => {
     border-radius: 1rem;
 
     max-width: calc(100% - 2rem - 3rem - 4px); // Removed padding, margin, border
+}
+
+.chat-bubble-title {
+    font-size: var(--font-medium);
+    font-weight: bold;
+    align-self: center;
 }
 
 .chat-bubble-user {
