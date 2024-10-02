@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 import { router } from "@/router";
 import { l } from "@/locales";
 import useChat from "@/context/chat";
@@ -32,10 +32,14 @@ function submit() {
         chat.send(prompt);
     textInput.value = "";
 }
+
+const ended = computed(() => {
+    return conversationEnded(chat.messages);
+})
 </script>
 
 <template v-if="props.visible">
-    <div class="chat-input" v-if="!conversationEnded(chat.messages)">
+    <div class="chat-input" v-if="!ended">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'

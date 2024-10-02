@@ -38,6 +38,7 @@ export class ChatContext {
     autosave_timer?: number;
     modified: boolean;
     keyword_blacklist: Set<string>;
+    questionnaire_queries: Array<string>;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -53,6 +54,7 @@ export class ChatContext {
         this.meta = {};
         this.modified = false;
         this.keyword_blacklist = new Set<string>();
+        this.questionnaire_queries = new Array<string>();
     }
 
     /** Resets the chat state */
@@ -74,6 +76,7 @@ export class ChatContext {
         this.modified = false;
         this.stats = {};
         this.keyword_blacklist.clear();
+        this.questionnaire_queries = [];
 
         useQuestionnaire().reset();
 
@@ -267,7 +270,8 @@ export class ChatContext {
                 ...this.meta,
                 summary: findLatestSummary(this.messages),
                 questionnaire: questionnaire.active,
-                keyword_blacklist: [...this.keyword_blacklist]
+                keyword_blacklist: [...this.keyword_blacklist],
+                questionnaire_queries: this.questionnaire_queries
             };
 
             const chatLog: AireChatLog = {
@@ -317,6 +321,7 @@ export class ChatContext {
         this.stats = cached.stats || {};
         this.meta.topic = cached.state.topic;
         this.keyword_blacklist = new Set(cached.state.keyword_blacklist);
+        this.questionnaire_queries = cached.state.questionnaire_queries || [];
 
         const state = cached.state;
         if (state) {
@@ -392,7 +397,7 @@ export class ChatContext {
 
 
         const chat = useChat();
-        useChatbot().setStatus("writing");
+        useChatbot().makeBusy();
 
         return await AireServices.AI.generateSummary(input)
             .then((result) => {
@@ -408,7 +413,27 @@ export class ChatContext {
                 console.error("Failed to generate summary: ", err);
                 return false;
             })
-            .finally(() => useChatbot().setStatus("idle"))
+            .finally(() => useChatbot().reportReady())
+    }
+
+    public async queryQuestionnaires(keywords: string[]) {
+        if (keywords.length > 0) {
+            const q = keywords.sort().join(",");
+            if(this.questionnaire_queries.includes(q))
+                return; // No requeries with the same keys
+
+            useChatbot().makeBusy();
+            queryQuestionnaire(keywords)
+                .then(questionnaire => {
+                    this.questionnaire_queries.push(q);
+                    if (questionnaire) {
+                        const q = createQuestionnaire(questionnaire);
+                        if (q)
+                            useQuestionnaire().startQuestionnaire(q);
+                    }
+                })
+                .finally(() => useChatbot().reportReady())
+        }
     }
 }
 
@@ -420,7 +445,7 @@ export default function useChat() {
 
 async function streamResponse() {
     if (AireServices.AI) {
-        useChatbot().setStatus("writing", false);
+        useChatbot().makeBusy();
 
         const input = getChatbotInputData()
         AireServices.AI.stream(input, receiver, errorHandler);
@@ -432,7 +457,7 @@ async function streamResponse() {
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
-    if (e.type === "keywords") {
+    if (e.type === "keywords" && e.keywords) {
         // Update keywords
         useKeywords()
             .updateMetadata(e.keywords)
@@ -441,16 +466,7 @@ async function receiver(e: AireTalkEvent) {
             })
 
         // Search questionnaires and start prompt to start one if found
-        if (e.keywords && e.keywords.length > 0) {
-            queryQuestionnaire(e.keywords)
-                .then(questionnaire => {
-                    if (questionnaire) {
-                        const q = createQuestionnaire(questionnaire);
-                        if (q)
-                            useQuestionnaire().startQuestionnaire(q);
-                    }
-                })
-        }
+        chat.queryQuestionnaires(e.keywords);
         return;
     }
 
@@ -474,8 +490,7 @@ async function receiver(e: AireTalkEvent) {
             last.content += e.message.content;
         }
         if (final) {
-            const bot = useChatbot();
-            bot.setStatus("answered");
+            useChatbot().reportReady();
 
             if (last.content?.includes("[END OF CONVERSATION]")) {
                 last.content = last.content.replace("[END OF CONVERSATION]", "").trim();
@@ -498,5 +513,5 @@ function errorHandler(status: AireStatus) {
     const msg = createErrorMessage(l.error_ai_not_responding);
     useChat().push(msg);
 
-    useChatbot().setStatus("idle");
+    useChatbot().reportReady();
 }

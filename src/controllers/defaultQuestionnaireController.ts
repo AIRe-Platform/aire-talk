@@ -87,20 +87,20 @@ async function digest(questionnaire_id: string) {
     const bot = useChatbot();
     const answers = getAnsweredQuestions(questionnaire_id);
 
-    bot.setStatus("writing", false);
+    bot.makeBusy();
 
     const results = await processAnswers(questionnaire_id, answers);
     if (!results) {
         const err = createErrorMessage(l.error_ai_not_responding);
         chat.push(err);
-        bot.setStatus("idle");
+        bot.reportReady();
         return;
     }
 
     if (!await saveResults(results)) {
         const err = createErrorMessage(l.error_generic);
         chat.push(err);
-        bot.setStatus("idle");
+        bot.reportReady();
         return;
     }
 
@@ -116,6 +116,7 @@ async function digest(questionnaire_id: string) {
     const msg = createInstructionMessage(message);
     chat.push(msg);
     chat.forceResponse();
+    bot.reportReady();
 }
 
 async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {

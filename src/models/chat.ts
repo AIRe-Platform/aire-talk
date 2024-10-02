@@ -49,4 +49,5 @@ export interface ChatState {
     summary?: string;
     topic?: Topic;
     keyword_blacklist?: string[];
+    questionnaire_queries?: string[];
 }

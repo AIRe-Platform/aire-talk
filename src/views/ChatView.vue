@@ -116,15 +116,13 @@ onMounted(async () => {
 
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
     if (isNewChat) {
-        const bot = useChatbot();
-
-        bot.setStatus("writing")
+        useChatbot().makeBusy();
         createReminderQuestionnaire()
             .then((reminderQuestionnaire) => {
                 if (reminderQuestionnaire)
                     useQuestionnaire().startQuestionnaire(reminderQuestionnaire)
             })
-            .finally(() => bot.setStatus("idle"))
+            .finally(() => useChatbot().reportReady())
     }
 });
 </script>
