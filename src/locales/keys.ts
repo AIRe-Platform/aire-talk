@@ -134,9 +134,11 @@ export enum LocalizationKey {
     topic_trouble_talking = "topic_trouble_talking",
 
     summary_title = "summary_title",
-    summary_generate_summary = "summary_generate_summary",
-    summary_query_surveys_button = "summary_query_surveys_button",
-    summary_suggestions = "summary_suggestions",
+    suggestions_title = "suggestions_title",
+    tools_title = "tools_title",
+    tools_button_summarize = "tools_button_summarize",
+    tools_button_query_surveys = "tools_button_query_surveys",
+    tools_button_suggestions = "tools_button_suggestions",
     
     suggestion_check_for_more = "suggestion_check_for_more",
 

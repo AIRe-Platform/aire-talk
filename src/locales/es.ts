@@ -158,9 +158,11 @@ const es: Locale = {
     topic_trouble_talking: "Problemas para hablar",
 
     summary_title: "Resumen",
-    summary_generate_summary: "Resumir",
-    summary_query_surveys_button: "Consultar encuestas",
-    summary_suggestions: "Sugerencias",
+    suggestions_title: "Sugerencias",
+    tools_title: "Herramientas",
+    tools_button_summarize: "Resumir",
+    tools_button_query_surveys: "Consultar encuestas",
+    tools_button_suggestions: "Sugerencias",
 
     suggestion_check_for_more: "Obtén más sugerencias",
 

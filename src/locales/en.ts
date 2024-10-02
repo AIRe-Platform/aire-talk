@@ -156,9 +156,11 @@ const en: Locale = {
     topic_trouble_talking: "Trouble talking",
 
     summary_title: "Summary",
-    summary_generate_summary: "Summarize",
-    summary_query_surveys_button: "Query surveys",
-    summary_suggestions: "Suggestions",
+    suggestions_title: "Suggestions",
+    tools_title: "Tools",
+    tools_button_summarize: "Summarize",
+    tools_button_query_surveys: "Query surveys",
+    tools_button_suggestions: "Suggestions",
 
     suggestion_check_for_more: "Check here for more",
 

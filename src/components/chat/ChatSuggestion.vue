@@ -121,7 +121,7 @@ onMounted(() => {
     <Panel class="suggestion-panel">
         <div class="suggestions-first-row">
             <div class="suggestions-title">
-                {{ $t(l.summary_suggestions) }}
+                {{ $t(l.suggestions_title) }}
             </div>
             <CloseSuggestionMenuButton @toggle-menu-open="toggleSuggestionMenuModal"
                 :menu-open="state.isSuggestionMenuOpen" @click.stop="emit('closePanel', undefined)" />

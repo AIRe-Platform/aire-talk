@@ -150,9 +150,11 @@ const rw: Locale = {
     topic_trouble_talking: "Ibibazo byo kunanirwa kuvuga",
 
     summary_title: "Incamake",
-    summary_generate_summary: "Vuga muri make",
-    summary_query_surveys_button: "Ubushakashatsi",
-    summary_suggestions: "Suggestions",
+    suggestions_title: "Ibyifuzo",
+    tools_title: "Ibikoresho",
+    tools_button_summarize: "Vuga muri make",
+    tools_button_query_surveys: "Ubushakashatsi",
+    tools_button_suggestions: "Ibyifuzo",
 
     suggestion_check_for_more: "Check here for more",
 

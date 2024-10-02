@@ -141,9 +141,11 @@ const sw: Locale = {
     topic_trouble_talking: "Shida ya kuzungumza",
 
     summary_title: "Maelezo",
-    summary_generate_summary: "Fupisha",
-    summary_query_surveys_button: "Utafiti wa maswali",
-    summary_suggestions: "Mapendekezo",
+    suggestions_title: "Mapendekezo",
+    tools_title: "Zana",
+    tools_button_summarize: "Fupisha",
+    tools_button_query_surveys: "Utafiti wa maswali",
+    tools_button_suggestions: "Mapendekezo",
 
     suggestion_check_for_more: "Angalia zaidi",
 

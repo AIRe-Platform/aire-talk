@@ -154,9 +154,11 @@ const vi: Locale = {
     topic_trouble_talking: "Khó nói chuyện",
 
     summary_title: "Bản tóm tắt",
-    summary_generate_summary: "Tóm tắt",
-    summary_query_surveys_button: "Khảo sát truy vấn",
-    summary_suggestions: "Gợi ý",
+    suggestions_title: "Gợi ý",
+    tools_title: "Công cụ",
+    tools_button_summarize: "Tóm tắt",
+    tools_button_query_surveys: "Khảo sát truy vấn",
+    tools_button_suggestions: "Gợi ý",
 
     suggestion_check_for_more: "Kiểm tra thêm",
 

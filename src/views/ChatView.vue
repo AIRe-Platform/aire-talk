@@ -9,12 +9,12 @@ import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { l } from '@/locales';
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import useChat, { ChatContext } from "@/context/chat";
+import useChat from "@/context/chat";
 
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
 import ChatBubble from "@/components/chat/ChatBubble.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
-import ChatSummary from "@/components/chat/ChatSummary.vue";
+import ChatSidePanel from "@/components/chat/ChatSidePanel.vue";
 import CloseSummaryMenuButton from "@/components/chat/CloseSummaryMenuButton.vue";
 import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 import { createReminderQuestionnaire } from "@/controllers/reminderController";
@@ -22,7 +22,7 @@ import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
 import ChatNotification from "@/components/chat/ChatNotification.vue";
 
-const showSideBar = ref(true);
+const showSideBar = ref(false);
 const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
@@ -33,14 +33,6 @@ const canRevert = (msg: ChatMessage) => {
 const toggleSidebar = () => {
     showSideBar.value = !showSideBar.value;
 };
-
-const chatSummaryPanelEnabled = (chat: ChatContext) => {
-    return chat.messages.length > 1;
-}
-
-const hasPanels = (chat: ChatContext) => {
-    return chatSummaryPanelEnabled(chat);
-}
 
 interface MessageGroup {
     id: string;
@@ -102,8 +94,7 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 }
 
 const isNotificationMessage = (msg: ChatMessage) => {
-    switch(msg.type)
-    {
+    switch (msg.type) {
         case ChatMessageType.Keyword:
             return true;
         default:
@@ -128,8 +119,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <CloseSummaryMenuButton @toggle-menu-open="toggleSidebar" :menu-open="showSideBar"
-        v-if="showSideBar && hasPanels(chat)" />
+    <CloseSummaryMenuButton @toggle-menu-open="toggleSidebar" :menu-open="showSideBar" v-if="showSideBar" />
     <div class="chat-view">
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
@@ -143,7 +133,7 @@ onMounted(async () => {
                             <div class="chat-view-right">
                                 <template v-if="msg.role === 'assistant'">
                                     <ChatNotification :message="msg" v-if="isNotificationMessage(msg)" />
-                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-else/>
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-else />
                                 </template>
                             </div>
                         </div>
@@ -182,11 +172,10 @@ onMounted(async () => {
                 </template>
             </template>
         </div>
-        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar"
-            :options-visible="chatSummaryPanelEnabled(chat)" />
+        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="true" />
     </div>
-    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(chat) }">
-        <ChatSummary v-if="chatSummaryPanelEnabled(chat)" />
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
+        <ChatSidePanel />
     </div>
 </template>
 

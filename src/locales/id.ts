@@ -156,9 +156,11 @@ const id: Locale = {
     topic_trouble_talking: "Kesulitan berbicara",
 
     summary_title: "Ringkasan",
-    summary_generate_summary: "Ringkas",
-    summary_query_surveys_button: "Kueri survei",
-    summary_suggestions: "Saran",
+    suggestions_title: "Saran",
+    tools_title: "Alat",
+    tools_button_summarize: "Ringkas",
+    tools_button_query_surveys: "Kueri survei",
+    tools_button_suggestions: "Saran",
     
     suggestion_check_for_more: "Periksa lebih lanjut",
 

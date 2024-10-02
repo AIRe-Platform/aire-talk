@@ -3,6 +3,7 @@ import { computed, defineProps } from 'vue';
 import useKeywords from '@/context/keywords';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
+import useChat from '@/context/chat';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -17,11 +18,16 @@ const content = computed(() => {
     }
     return props.message.content;
 });
+
+const chat = useChat();
 </script>
 
 <template>
     <div class="chat-notification" v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
+        <div class="button-keyword-delete" @click="chat.removeKeyword(props.message.content, true)">
+            <font-awesome-icon icon="fa-solid fa-xmark" />
+        </div>
     </div>
 </template>
 
@@ -34,5 +40,20 @@ const content = computed(() => {
     flex-grow: 1;
     font-size: var(--font-small);
     color: var(--title-text);
+}
+
+.button-keyword-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 2rem;
+    transition: color .2s;
+    color: #B6465F;
+    font-size: large;
+
+    &:hover {
+        color: var(--accent-secondary-color);
+    }
 }
 </style>
