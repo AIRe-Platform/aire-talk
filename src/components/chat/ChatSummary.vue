@@ -5,8 +5,6 @@
 
 <script setup lang="ts">
 import { getUILanguage, l } from '@/locales';
-import { AireKeyword } from 'aire';
-
 import { onMounted, reactive } from 'vue';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
@@ -17,18 +15,23 @@ import useQuestionnaire from '@/context/questionnaire';
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
 import ChatSuggestion from './ChatSuggestion.vue';
-import useSuggestion from '@/context/suggestion';
+import useSuggestion from '@/context/suggestions';
+import useKeywords from '@/context/keywords';
+import { listChatKeywords } from '@/helpers/chatUtils';
 
 const state = reactive<{
     busy: boolean,
-    missing_personal_info: boolean,
+    missingPersonalInfo: boolean,
+    showSuggestions: boolean
 }>({
     busy: false,
-    missing_personal_info: false,
+    missingPersonalInfo: false,
+    showSuggestions: false
 });
+
 const summary = useSummary();
 const questionnaires = useQuestionnaire();
-const chatContent: ChatContext = useChat();
+const chatContext: ChatContext = useChat();
 const suggestion = useSuggestion();
 
 const generateSummary = async () => {
@@ -45,14 +48,14 @@ const generateSummary = async () => {
 }
 
 const toggleSuggestions = async () => {
-    summary.isSuggestionsShown = !summary.isSuggestionsShown;
+    state.showSuggestions = !state.showSuggestions;
 }
 
 const querySurveys = async () => {
     try {
         state.busy = true;
-
-        const queried = await queryQuestionnaire([...summary.keywords].map(keyword => keyword.value));
+        const keywords = listChatKeywords(chatContext.messages);
+        const queried = await queryQuestionnaire(keywords);
         if (queried) {
             const questionnaire = createQuestionnaire(queried);
             if (questionnaire)
@@ -65,14 +68,9 @@ const querySurveys = async () => {
     }
 }
 
-const getTranslationForKeyword = (keyword: AireKeyword): string => {
-
-    const UILanguage = getUILanguage();
-    const translation = keyword.translations?.find(transition => transition.languageID == UILanguage);
-    if (translation)
-        return translation.value;
-    else
-        return keyword.value;
+const getTranslationForKeyword = (keyword: string): string => {
+    const lang = getUILanguage();
+    return useKeywords().getTranslation(keyword, lang) ?? keyword;
 }
 
 const askPersonalInformation = () => {
@@ -81,14 +79,8 @@ const askPersonalInformation = () => {
         questionnaires.startQuestionnaire(personalInfoQuestionnaire);
 }
 
-const removeWord = (word: AireKeyword) => {
-    summary.keywords.delete(word);
-}
-
-
 onMounted(() => {
-    generateSummary();
-    state.missing_personal_info = createPersonalInformationQuestions().length > 0;
+    state.missingPersonalInfo = createPersonalInformationQuestions().length > 0;
 })
 </script>
 
@@ -102,10 +94,10 @@ onMounted(() => {
             <div class="summary-text" v-if="summary.summary">
                 {{ summary.summary }}
             </div>
-            <div class="summary-keywords" v-if="summary.keywords.size > 0">
-                <div class="summary-keyword-item" v-for="(keyword, id) in summary.keywords" :key="id">
+            <div class="summary-keywords" v-if="listChatKeywords(chatContext.messages).length > 0">
+                <div class="summary-keyword-item" v-for="(keyword, id) in listChatKeywords(chatContext.messages)" :key="id">
                     <span class="summary-keyword-text">{{ getTranslationForKeyword(keyword) }}</span>
-                    <div class="summary-keyword-delete" @click="removeWord(keyword)">
+                    <div class="summary-keyword-delete" @click="chatContext.removeKeyword(keyword, true)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </div>
@@ -117,25 +109,22 @@ onMounted(() => {
                     </div>
                 </button>
                 <button class="summary-button" @click="querySurveys"
-                    v-if="summary.keywords.size > 0 && !questionnaires.active">
+                    v-if="listChatKeywords(chatContext.messages).length > 0 && !questionnaires.active">
                     <span class="summary-button-text">{{ $t(l.summary_query_surveys_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button v-if="state.missing_personal_info" class="summary-button" @click="askPersonalInformation">
+                <button v-if="state.missingPersonalInfo" class="summary-button" @click="askPersonalInformation">
                     <span class="summary-button-text">{{ $t(l.profile_question_button) }}</span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
-                <button class="summary-button" v-if="chatContent.suggestionMessage" @click="toggleSuggestions">
+                <button class="summary-button" v-if="useSuggestion().message" @click="toggleSuggestions">
                     <span class="summary-button-text"> {{ $t(l.summary_suggestions) }} </span>
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </div>
         </template>
     </Panel>
-    <ChatSuggestion v-if="suggestion.suggestions && summary.isSuggestionsShown" @close-panel="toggleSuggestions">
-    </ChatSuggestion>
-
-
+    <ChatSuggestion v-if="suggestion.message && state.showSuggestions" @close-panel="toggleSuggestions" />
 </template>
 
 <style lang="scss" scoped>

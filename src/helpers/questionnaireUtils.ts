@@ -3,7 +3,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import useSummary from "@/context/summary";
 import {
     AireQuestion,
     AireQuestionnaire,
@@ -13,6 +12,7 @@ import {
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
+import useKeywords from "@/context/keywords";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -23,8 +23,8 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
     if(!model.id)
         return undefined;
 
-    const summary = useSummary();
-    const questions = getRelevantQuestions(model, [...summary.keywords].map((keyword) => keyword.value));
+    const keywords = useKeywords();
+    const questions = getRelevantQuestions(model, [...keywords.items].map((keyword) => keyword.value));
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
 
@@ -49,8 +49,8 @@ export async function queryQuestionnaire(
     keywords: string[] | undefined = undefined
 ): Promise<AireQuestionnaire | undefined>  {
     if(!keywords) {
-        const summary = useSummary();
-        keywords = [...summary.keywords].map((keyword) => keyword.value);
+        const kw = useKeywords();
+        keywords = [...kw.items].map((keyword) => keyword.value);
     }
 
     if (keywords.length < 1)

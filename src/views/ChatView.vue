@@ -8,7 +8,7 @@
 import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { l } from '@/locales';
-import { ChatMessage } from "@/models/chat";
+import { ChatMessage, ChatMessageType } from "@/models/chat";
 import useChat, { ChatContext } from "@/context/chat";
 
 import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
@@ -20,6 +20,7 @@ import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
 import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
+import ChatNotification from "@/components/chat/ChatNotification.vue";
 
 const showSideBar = ref(true);
 const chat = useChat();
@@ -100,6 +101,16 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
     return false;
 }
 
+const isNotificationMessage = (msg: ChatMessage) => {
+    switch(msg.type)
+    {
+        case ChatMessageType.Keyword:
+            return true;
+        default:
+            return false;
+    }
+}
+
 onMounted(async () => {
     scrollChatToBottom()
 
@@ -132,8 +143,10 @@ onMounted(async () => {
                                 <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="msg.role === 'user'" />
                             </div>
                             <div class="chat-view-right">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                    v-if="msg.role === 'assistant'" />
+                                <template v-if="msg.role === 'assistant'">
+                                    <ChatNotification :message="msg" v-if="isNotificationMessage(msg)" />
+                                    <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-else/>
+                                </template>
                             </div>
                         </div>
                         <div class="chat-view-center" v-if="msg.role === 'system'">

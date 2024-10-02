@@ -13,12 +13,12 @@ import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
-import { startInactivityListener, stopInactivityListener, resetLogoutTimer } from '@/helpers/inactivityLogout';
+import { startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
 import { onMounted, onUnmounted, reactive, watch } from 'vue';
 import useLogin from '@/context/login';
-import { router } from './router';
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { l } from '@/locales';
+import { router } from './router';
 
 const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
 
@@ -36,27 +36,27 @@ const closeNavMenu = async () => {
     UIState.panels.clear();
 };
 
-const handleLogout = async () => {
-    await login.logout();
+const onInactivityTimeout = async () => {
     stopInactivityListener();
-    router.push("/");
+    login.logout("inactivity=1");
 };
 
-const onToggleInactivityPopup = async () => {
-    state.showInactivityPopup = !state.showInactivityPopup;
-};
+const closeInactivityPopup = () => {
+    router.push("/");
+    state.showInactivityPopup = false;
+}
 
 const handleMouseMove = (event: MouseEvent) => {
-    console.debug('mouseover mouse moved!', event);
+    // console.debug('mouseover mouse moved!', event);
     if (login.user) {
-        startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+        startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
     }
 };
 
 const handleMouseWheel = (event: WheelEvent) => {
-    console.debug('Wheel scrolled!', event);
+    // console.debug('Wheel scrolled!', event);
     if (login.user) {
-        startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+        startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
     }
 
 };
@@ -67,7 +67,7 @@ onMounted(() => {
         () => login.user,
         (user) => {
             if (user) {
-                startInactivityListener(onToggleInactivityPopup, LOGOUT_TIMER_START, event);
+                startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
             }
         }
     );
@@ -76,11 +76,14 @@ onMounted(() => {
         stopWatching();
         stopInactivityListener();
     });
+
+    const search = new URLSearchParams(window.location.search);
+    state.showInactivityPopup = search.get("inactivity") == "1";
 });
 </script>
 
 <template>
-    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: handleLogout }]">
+    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'" tabindex="0" @wheel="handleMouseWheel" @mousemove="handleMouseMove">

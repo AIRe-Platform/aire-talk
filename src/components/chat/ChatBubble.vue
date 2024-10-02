@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
 import { defineProps, onMounted, reactive } from 'vue';
-import useChat from '@/context/chat';
 import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
 import ChatBubbleOptions from '@/components/chat/ChatBubbleOptions.vue'
@@ -15,7 +14,6 @@ import Panel from "@/components/common/Panel.vue";
 import ContentModal from '../content/ContentModal.vue';
 
 const contentContext = useContent();
-const chat = useChat();
 const props = defineProps<{ message: ChatMessage, can_revert: boolean }>();
 const isSystem = props.message.role === "system";
 const isBot = props.message.role === "assistant";
@@ -46,17 +44,11 @@ const toggleModal = () => {
     state.modalOpen = !state.modalOpen;
 };
 
-const onRevert = () => {
-    chat.revertTo(props.message.id)
-};
-
-
 const showContent = async (content: AireContent) => {
     try {
         state.openContent = content;
         switch (content.type) {
             case AireContentType.Image:
-
             case AireContentType.Video:
                 toggleModal();
                 break;

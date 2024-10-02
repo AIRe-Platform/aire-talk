@@ -7,12 +7,28 @@ import { AireChatMessage } from "aire";
 import { Topic } from "./topic";
 import { Questionnaire } from "./questionnaire";
 
+export enum ChatMessageType {
+    // Default message style
+    Default = "default",
+
+    // A message signifying the end of conversation
+    EndOfConversation = "end_of_conversation",
+
+    // Message notifying of identified keyword/theme
+    // The actual (hidden) content is a prompt to guide the chatbot.
+    Keyword = "keyword",
+
+    // The message contains instructions for the chatbot
+    Instruction = "instruction",
+}
+
 export interface ChatMessage extends AireChatMessage {
     id: string;
     sender: string;
     isError?: boolean;
     localize?: boolean;
 }
+
 export interface ChatStats {
     token_count?: number;
 }
@@ -20,6 +36,6 @@ export interface ChatStats {
 export interface ChatState {
     questionnaire?: Questionnaire;
     summary?: string;
-    keywords?: Array<string>;
     topic?: Topic;
+    keyword_blacklist?: string[];
 }

@@ -5,6 +5,7 @@
 
 import useChat from "@/context/chat";
 import { getUILanguage } from "@/locales";
+import { ChatMessage, ChatMessageType } from "@/models/chat";
 import { AireChatMessage, AireChatMetadata, AireChatStats, AireChatbotInput, AireServices } from "aire";
 
 /**
@@ -62,4 +63,10 @@ export function getChatbotInputData(): AireChatbotInput {
     };
 
     return input;
+}
+
+export function listChatKeywords(messages: ChatMessage[]) {
+    return messages
+        .filter(x => x.type == ChatMessageType.Keyword && x.content)
+        .map(x => x.content!);
 }
