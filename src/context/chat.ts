@@ -35,7 +35,7 @@ import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
-import { getKeywordMetadata, updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 
 export class ChatContext {
     id?: string;
