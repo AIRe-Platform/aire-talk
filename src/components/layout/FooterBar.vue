@@ -28,7 +28,7 @@ const version = {
     z-index: 10;
     height: 1rem;
     font-size: xx-small;
-    color: var(--title-text);
+    color: var(--footer-text);
 }
 
 .footer {

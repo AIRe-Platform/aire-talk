@@ -50,6 +50,7 @@
     --box-stroke: #bcd0ce;
     --title-text: #5a5a5a;
     --basic-text: #000000;
+    --footer-text: #5a5a5a;
     --panel-background-color: #e3fffa;
     --panel-border-color: rgba(200, 218, 215, 1);
     --panel-menu-background-color: #ffffff;
@@ -99,8 +100,9 @@
 :root.theme-dark {
     --button-color: #2374AB;
     --box-stroke: #176087;
-    --title-text: #5a5a5a;
+    --title-text: #bcd0ce;
     --basic-text: #ffffff;
+    --footer-text: #5a5a5a;
     --panel-background-color: #e3fffa;
     --panel-menu-background-color: #47425e;
     --panel-border-color: rgba(55, 50, 80, 1);

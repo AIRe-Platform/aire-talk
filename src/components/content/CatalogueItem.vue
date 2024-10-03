@@ -101,6 +101,8 @@ const emits = defineEmits<{
     text-overflow: ellipsis;
     line-clamp: 3;
 
+    font-size: var(--font-small);
+
     p {
         margin: 0;
     }
