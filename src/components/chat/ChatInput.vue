@@ -4,12 +4,13 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 import { router } from "@/router";
 import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
+import { conversationEnded } from "@/helpers/chatUtils";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -31,25 +32,28 @@ function submit() {
         chat.send(prompt);
     textInput.value = "";
 }
+
+const ended = computed(() => {
+    return conversationEnded(chat.messages);
+})
 </script>
 
 <template v-if="props.visible">
-    <div class="chat-input">
+    <div class="chat-input" v-if="!ended">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
         }">
         </div>
         <div class="chat-input-header">
-
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0"
                 @click="() => router.push('/content-catalogue')">
                 <div class="icon chatbox-content-default">
                 </div>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
-                @click="() => $emit('toggleOptions')">
+            <div v-if="props.optionsVisible" class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }" @click="() => $emit('toggleOptions')">
                 <div class="icon summary-switch-default">
                 </div>
             </div>
@@ -57,7 +61,7 @@ function submit() {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="bot.status === 'writing'" v-model="textInput" />
+                    :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
             </form>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default">

@@ -50,6 +50,7 @@
     --box-stroke: #bcd0ce;
     --title-text: #5a5a5a;
     --basic-text: #000000;
+    --footer-text: #5a5a5a;
     --panel-background-color: #e3fffa;
     --panel-border-color: rgba(200, 218, 215, 1);
     --panel-menu-background-color: #ffffff;
@@ -93,13 +94,15 @@
     --summary-keyword-item-background: #FFFFFF;
     --summary-keyword-item-font-color: #176087;
     --suggestions-background: #F1F4F9;
+    --chat-user-label: #0D5C63;
 }
 
 :root.theme-dark {
     --button-color: #2374AB;
     --box-stroke: #176087;
-    --title-text: #5a5a5a;
+    --title-text: #bcd0ce;
     --basic-text: #ffffff;
+    --footer-text: #5a5a5a;
     --panel-background-color: #e3fffa;
     --panel-menu-background-color: #47425e;
     --panel-border-color: rgba(55, 50, 80, 1);
@@ -119,7 +122,7 @@
     --menu-active: #2374ab80;
     --button-gradient-color: linear-gradient(#2374ab, #176087);
     --chat-history-item-date: #47425e;
-    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.8);
+    --chat-bubble-options-button-hover: rgba(0, 180, 157);
     --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
     --chat-options-menu-background: #f1f4f9;
     --text-color-in-select: black;
@@ -144,6 +147,7 @@
     --summary-keyword-item-background: #F1F4F9;
     --summary-keyword-item-font-color: #2374AB;
     --suggestions-background: #176087;
+    --chat-user-label: #D9F0FF;
 }
 
 html {

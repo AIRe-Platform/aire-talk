@@ -6,16 +6,23 @@
 import { Locale } from ".";
 
 const id: Locale = {
-    title: "AIRe Talk",
+    aire_bot: "AIRe Bot",
+    aire_system: "Sistem AIRe",
+    
     footer: "Pengembangan",
     not_found: "Halaman tidak ditemukan",
 
-    aire_bot: "AIRe Bot",
-    aire_system: "Sistem AIRe",
     system_greeting:
         "Selamat datang di AIRe Talk! Mulailah dengan menjelaskan bantuan apa yang Anda butuhkan atau gejala apa yang Anda miliki.",
     system_topic: "Anda telah memilih topik: ",
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
+    system_end_of_conversation: "Percakapan telah berakhir",
+    system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
+
+    conversation_option_continue: "Lanjutkan percakapan",
+    conversation_option_new_chat: "Mulai percakapan baru",
+
+    notification_keyword: "Tema \"{keyword}\" dikenali",
 
     start_greeting: "Selamat datang di platform AIRe",
     start_first_paragraph:
@@ -29,7 +36,6 @@ const id: Locale = {
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
 
-    login_title: "Masuk",
     login_redirect: "Mengalihkan ke halaman login...",
     login_failure: "Layanan login tidak tersedia saat ini. Silakan coba lagi nanti.",
     login_callback_failure: "Upaya masuk gagal.",
@@ -53,7 +59,6 @@ const id: Locale = {
     nav_login: "Masuk",
     nav_logout: "Keluar",
     nav_signup: "Daftar",
-    nav_theme: "Ubah tema",
     nav_preferences: "Pengaturan",
     nav_main_menu: "Menu utama",
     nav_catalogue: "Katalog Konten",
@@ -91,11 +96,7 @@ const id: Locale = {
     profile_label_password_confirm: "Konfirmasi kata sandi",
     profile_label_keep_anonymized_data:
         "Anonimkan data saya alih-alih menghapusnya. Ini membantu pengembangan platform AIRe. Ini sepenuhnya opsional.",
-    profile_user_info_intro:
-        "Informasi pengguna saat ini menurut analisis AIRe:",
-    profile_years_old: " tahun.",
-    profile_from: " Dari ",
-    profile_speaks: " Yang berbicara ",
+
     profile_button_delete: "Hapus akun",
 
     gender_male: "laki-laki",
@@ -111,7 +112,6 @@ const id: Locale = {
     profile_question_last_name: "Apa nama belakang Anda?",
     profile_question_gender: "Jenis kelamin Anda?",
     profile_question_age: "Berapa usia Anda?",
-    profile_question_language: "Bahasa utama Anda?",
     profile_question_country: "Negara mana tempat tinggal Anda?",
 
     profile_experiments_title: "Eksperimen",
@@ -125,11 +125,6 @@ const id: Locale = {
     settings_ui_size: "Ukuran antarmuka pengguna",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Besar",
-    settings_ui_screen_size: "Preferensi resolusi layar",
-    settings_ui_screen_size_mobile: "Ponsel",
-    settings_ui_screen_size_tablet: "Tablet",
-    settings_ui_screen_size_desktop: "Desktop",
-    settings_ui_screen_size_dynamic: "Dinamis",
 
     switch_color_mode: "Mode warna",
 
@@ -144,10 +139,10 @@ const id: Locale = {
     Kata sandi harus mengandung setidaknya 8 karakter termasuk huruf kecil dan besar serta angka.`,
     error_signup_general: "Pendaftaran gagal. Silakan coba lagi nanti.",
     error_profile_edit: "Gagal menyimpan.",
-    error_profile_password:
-        "Gagal mengubah kata sandi. Periksa bahwa kata sandi yang Anda masukkan benar dan bahwa kata sandi baru memenuhi persyaratan.",
     error_profile_delete_account:
         "Gagal menghapus akun. Coba lagi nanti.",
+    error_profile_password:
+        "Gagal mengubah kata sandi. Periksa bahwa kata sandi yang Anda masukkan benar dan bahwa kata sandi baru memenuhi persyaratan.",
 
     landing_view_title: "Selamat datang di platform AIRe!",
     landing_view_text:
@@ -164,21 +159,15 @@ const id: Locale = {
     topic_increased_weight: "Kenaikan berat badan",
     topic_trouble_talking: "Kesulitan berbicara",
 
-    summary_chag_log_title: "Ringkasan",
-    summary_generate_summary: "Ringkas",
-    summary_query_surveys_button: "Kueri survei",
-    summary_send_survey_button: "Kirim jawaban survei",
-    summary_suggestions: "Saran",
+    summary_title: "Ringkasan",
+    suggestions_title: "Saran",
+    tools_title: "Alat",
+    tools_button_summarize: "Ringkas",
+    tools_button_query_surveys: "Kueri survei",
+    tools_button_suggestions: "Saran",
     
     suggestion_check_for_more: "Periksa lebih lanjut",
 
-    error_verification_failure: "Tidak dapat memverifikasi kode. Mungkin sudah kedaluwarsa.",
-    error_verification_resend_failed:
-        "Tidak dapat mengirim ulang kode. Coba lagi nanti",
-
-    chat_history_title: "Riwayat Obrolan",
-    chat_history_image: "Berkas gambar:",
-    chat_history_video: "Berkas video:",
     chat_history_loading: "Memuat...",
     chat_history_tokens: "{0} token",
     chat_input_title: "Apa yang ingin Anda tanyakan atau katakan?",
@@ -187,10 +176,8 @@ const id: Locale = {
         "Apakah Anda yakin ingin mengembalikan obrolan ke pesan ini?",
     popup_confirm_remove_chat: "Apakah Anda yakin ingin menghapus obrolan ini?",
     popup_confirm_logout: "Apakah Anda yakin ingin keluar?",
-    popup_logout_message: "Anda sekarang logout.",
     popup_confirm_profile_updated: "Profil diperbarui.",
 
-    no_questionnaires_found: "Tidak dapat menemukan kuesioner yang sesuai.",
     confirm_questionnaire_start:
         'Apakah Anda ingin mengisi kuesioner "{0}"?',
     confirm_questionnaire_completion:
@@ -213,18 +200,19 @@ const id: Locale = {
     button_back: "Kembali",
     button_continue: "Lanjutkan",
     button_close: "Tutup",
-    button_delete_content: "Hapus konten",
-    button_display: "Tampilkan",
     button_mark_as_read: "Tandai sebagai sudah dibaca",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
     
+    logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
+
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",
     vi: "Vietnam",
     id: "Indonesia",
-    sw: "Swahili"
+    sw: "Swahili",
+    rw: "kinyarwanda"
 };
 
 export default id;

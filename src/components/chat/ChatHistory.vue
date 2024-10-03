@@ -16,6 +16,7 @@ import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
+import { ChatMessageType } from "@/models/chat";
 
 
 interface ChatLogItem {
@@ -111,11 +112,7 @@ const getLastMessage = (id: string) => {
     if (!log)
         return undefined;
 
-    return (
-        log.messages[log.messages.length - 1].content ||
-        log.messages[log.messages.length - 1].question?.question ||
-        ""
-    );
+    return log.messages.findLast(x => x.type == ChatMessageType.Default && x.content)?.content || "";
 };
 
 const getTokenCount = (id: string) => {
@@ -150,19 +147,9 @@ const onClickOutside = async (e: Event) => {
 
 <template>
     <DialogModal :active="state.confirmDelete" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onConfirmDelete();
-                break;
-            default:
-            case 1:
-                onCancelDelete();
-                break;
-        }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmDelete },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelDelete }
+    ]">
         {{ $t(l.popup_confirm_remove_chat) }}
     </DialogModal>
     <div class="chat-history-panel" v-on-click-outside="onClickOutside">

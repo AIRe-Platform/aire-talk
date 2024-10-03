@@ -41,9 +41,19 @@ const emits = defineEmits<{
                     type="video/mp4">
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
-            <font-awesome-icon class="link" icon="fa-solid fa-link" v-if="props.content.type == AireContentType.URL" />
-            <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice"
-                v-if="props.content.type == AireContentType.Document" />
+            <div v-if="props.content.type == AireContentType.URL">
+                <div class="icon content-url" v-if="!props.content.thumbnailUrl"></div>
+                <div v-else class="div-thumbnail">
+                    <img class="thumbnail" :src="props.content.thumbnailUrl" alt="Thumbnail" />
+                </div>
+            </div>
+            <div v-if="props.content.type == AireContentType.Document">
+                <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="!props.content.thumbnailUrl" />
+                <div v-else class="div-thumbnail">
+                    <img class="thumbnail" :src="props.content.thumbnailUrl" alt="Thumbnail" />
+                </div>
+            </div>
+
         </div>
         <div class="catalogue-item-description">
             <p>{{ props.content.name }}</p>
@@ -101,9 +111,26 @@ const emits = defineEmits<{
     text-overflow: ellipsis;
     line-clamp: 3;
 
+    font-size: var(--font-small);
+
     p {
         margin: 0;
     }
+}
+
+.div-thumbnail {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.thumbnail {
+    max-width: 10rem;
+    border-radius: 1rem;
+    max-height: 6rem;
 }
 
 .link,

@@ -6,16 +6,23 @@
 import { Locale } from ".";
 
 const sw: Locale = {
-    title: "AIRe Talk",
+    aire_bot: "AIRe Bot",
+    aire_system: "Sistem AIRe",
+    
     footer: "Maendeleo",
     not_found: "Ukurasa haujapatikana",
 
-    aire_bot: "AIRe Bot",
-    aire_system: "AIRe System",
     system_greeting:
         "Karibu kwenye AIRe Talk! Anza kwa kueleza ni msaada gani unahitaji au una dalili gani.",
     system_topic: "Umechagua mada: ",
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
+    system_end_of_conversation: "Mazungumzo yamekwisha",
+    system_end_of_conversation_options: "Ungependa kufanya nini?",
+
+    conversation_option_continue: "Endelea na mazungumzo",
+    conversation_option_new_chat: "Anzisha mazungumzo mapya",
+
+    notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
     start_greeting: "Karibu kwenye jukwaa la AIRe",
     start_first_paragraph:
@@ -29,7 +36,6 @@ const sw: Locale = {
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
 
-    login_title: "Ingia",
     login_redirect: "Inaelekeza kwenye ukurasa wa kuingia...",
     login_failure: "Huduma ya kuingia haipatikani kwa sasa. Tafadhali jaribu tena baadaye.",
     login_callback_failure: "Jaribio la kuingia limeshindwa.",
@@ -53,7 +59,6 @@ const sw: Locale = {
     nav_login: "Ingia",
     nav_logout: "Ondoka",
     nav_signup: "Jisajili",
-    nav_theme: "Badilisha mandhari",
     nav_preferences: "Mipangilio",
     nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
@@ -88,10 +93,6 @@ const sw: Locale = {
     profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",
     profile_label_password_confirm: "Thibitisha nenosiri",
     profile_label_keep_anonymized_data: "Anonimisha my data instead of deleting it. Hii inasaidia maendeleo ya jukwaa la AIRe. Hii ni hiari kabisa.",
-    profile_user_info_intro: "Taarifa ya sasa ya mtumiaji kulingana na uchambuzi wa AIRe:",
-    profile_years_old: " miaka.",
-    profile_from: " Kutoka ",
-    profile_speaks: " Ambaye anazungumza ",
     profile_button_delete: "Futa akaunti",
 
     gender_male: "mwanamume",
@@ -105,7 +106,6 @@ const sw: Locale = {
     profile_question_last_name: "Jina lako la mwisho ni nini?",
     profile_question_gender: "Jinsia yako ni nini?",
     profile_question_age: "Umri wako ni miaka mingapi?",
-    profile_question_language: "Lugha yako kuu ni ipi?",
     profile_question_country: "Nchi unayoishi ni ipi?",
 
     profile_experiments_title: "Jaribio",
@@ -119,11 +119,6 @@ const sw: Locale = {
     settings_ui_size: "Ukubwa wa kiolesura cha mtumiaji",
     settings_ui_size_normal: "Kawaida",
     settings_ui_size_large: "Kubwa",
-    settings_ui_screen_size: "Mapendeleo ya azimio la skrini",
-    settings_ui_screen_size_mobile: "Simu",
-    settings_ui_screen_size_tablet: "Kompyuta kibao",
-    settings_ui_screen_size_desktop: "Kompyuta ndogo",
-    settings_ui_screen_size_dynamic: "Dynamic",
 
     switch_color_mode: "Rangi ya Maudhui",
 
@@ -133,8 +128,8 @@ const sw: Locale = {
     error_signup_bad_request: "Usajili umeshindwa. \n\nBarua pepe inaweza tayari kuwa imesajiliwa au nenosiri halikidhi mahitaji ya chini.\n    \nNenosiri lazima liwe na angalau herufi 8 ikiwa ni pamoja na herufi ndogo na kubwa pamoja na nambari.",
     error_signup_general: "Usajili umeshindwa. Tafadhali, jaribu tena baadaye.",
     error_profile_edit: "Hifadhi haikufanikiwa.",
-    error_profile_password: "Imeshindwa kubadilisha nenosiri. Angalia kwamba nenosiri uliloweka ni sahihi na kwamba nenosiri jipya linakidhi mahitaji.",
     error_profile_delete_account: "Imeshindwa kufuta akaunti. Jaribu tena baadaye.",
+    error_profile_password: "Imeshindwa kubadilisha nenosiri. Angalia kwamba nenosiri uliloweka ni sahihi na kwamba nenosiri jipya linakidhi mahitaji.",
 
     landing_view_title: "Karibu kwenye jukwaa la AIRe!",
     landing_view_text: "Tuanze kwa kujaza taarifa za awali kuhusu wewe mwenyewe.",
@@ -149,20 +144,15 @@ const sw: Locale = {
     topic_increased_weight: "Kuongezeka kwa uzito",
     topic_trouble_talking: "Shida ya kuzungumza",
 
-    summary_chag_log_title: "Maelezo",
-    summary_generate_summary: "Fupisha",
-    summary_query_surveys_button: "Utafiti wa maswali",
-    summary_send_survey_button: "Tuma majibu ya utafiti",
-    summary_suggestions: "Mapendekezo",
+    summary_title: "Maelezo",
+    suggestions_title: "Mapendekezo",
+    tools_title: "Zana",
+    tools_button_summarize: "Fupisha",
+    tools_button_query_surveys: "Utafiti wa maswali",
+    tools_button_suggestions: "Mapendekezo",
 
     suggestion_check_for_more: "Angalia zaidi",
 
-    error_verification_failure: "Haiwezi kuthibitisha msimbo. Inaweza kuwa umekwisha muda wake.",
-    error_verification_resend_failed: "Haiwezi kutuma tena msimbo. Jaribu tena baadaye",
-
-    chat_history_title: "Historia ya Mazungumzo",
-    chat_history_image: "Faili ya Picha:",
-    chat_history_video: "Faili ya Video:",
     chat_history_loading: "Inapakia...",
     chat_history_tokens: "{0} vibambo",
     chat_input_title: "Ungependa kuuliza au kusema nini?",
@@ -170,10 +160,8 @@ const sw: Locale = {
     popup_confirm_revert_message: "Je, una uhakika unataka kurudisha mazungumzo kwa ujumbe huu?",
     popup_confirm_remove_chat: "Je, una uhakika unataka kuondoa mazungumzo haya?",
     popup_confirm_logout: "Je, una uhakika unataka kutoka?",
-    popup_logout_message: "Umefanya kutoka.",
     popup_confirm_profile_updated: "Wasifu umesasishwa.",
 
-    no_questionnaires_found: "Hakuna maswali yaliyopatikana yanayofaa.",
     confirm_questionnaire_start: 'Je, ungependa kujaza uchunguzi "{0}"?',
     confirm_questionnaire_completion: "Unapokuwa umefurahishwa na majibu yako, chagua kuendelea.",
     questionnaire: "Uchunguzi",
@@ -193,19 +181,19 @@ const sw: Locale = {
     button_back: "Rudi",
     button_continue: "Endelea",
     button_close: "Funga",
-    button_delete_content: "Futa maudhui",
-    button_display: "Onyesha",
     button_mark_as_read: "Weka alama kama imesomwa",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
+
+    logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
 
     en: "Kiingereza",
     fi: "Kifini",
     es: "Kihispania",
     vi: "Kivietinamu",
     id: "Kihindonesia",
-    sw: "Kiswahili"
-
+    sw: "Kiswahili",
+    rw: "Kinyarwanda"
 };
 
 export default sw;

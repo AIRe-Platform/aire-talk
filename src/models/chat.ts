@@ -7,12 +7,45 @@ import { AireChatMessage } from "aire";
 import { Topic } from "./topic";
 import { Questionnaire } from "./questionnaire";
 
+export enum ChatMessageType {
+    // Default message style
+    Default = "default",
+
+    // A message signifying the end of conversation
+    EndOfConversation = "end_of_conversation",
+
+    // A message signifying the continuation of conversation
+    ContinueConversation = "continue_conversation",
+
+    // Message notifying of identified keyword/theme
+    // The actual (hidden) content is a prompt to guide the chatbot.
+    Keyword = "keyword",
+
+    // The message contains instructions for the chatbot
+    Instruction = "instruction",
+
+    // The message contains the summary of the conversation
+    Summary = "summary",
+
+    // The message contains an error message
+    Error = "error",
+
+    // The message contains a questionnaire prompt
+    Questionnaire = "questionnaire",
+
+    // The message contains content suggestions
+    Content = "content",
+
+    // The message presents options going forward when the conversation has ended
+    EndOfConversationOptions = "end_of_conversation_options",
+}
+
 export interface ChatMessage extends AireChatMessage {
     id: string;
     sender: string;
-    isError?: boolean;
     localize?: boolean;
 }
+
 export interface ChatStats {
     token_count?: number;
 }
@@ -20,6 +53,15 @@ export interface ChatStats {
 export interface ChatState {
     questionnaire?: Questionnaire;
     summary?: string;
-    keywords?: Array<string>;
     topic?: Topic;
+    keyword_blacklist?: string[];
+    questionnaire_queries?: string[];
+    content_queries?: string[];
+}
+
+export interface ChatMessageGroup {
+    id: string;
+    messages: Array<ChatMessage>;
+    isQuestionnaire: boolean;
+    isCompleted?: boolean;
 }

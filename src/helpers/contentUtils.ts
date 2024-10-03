@@ -9,11 +9,20 @@ import { getAllChats } from "./chatUtils";
 import useChat from "@/context/chat";
 
 export function getChatContentIds(messages: ChatMessage[]): string[] {
-    const content = messages
+    const contentIds = messages
         .flatMap(x => x.media)
         .filter(x => x !== undefined)
         .map(x => x!);
-    return [...new Set(content)];
+
+    const thumbnailUrls = messages
+        .flatMap(x => x.thumbnail)
+        .filter(x => x !== undefined)
+        .map(x => x!);
+
+    // Combine all content and thumbnils ids
+    const allUnique = [...new Set([...contentIds, ...thumbnailUrls])];
+    
+    return allUnique;
 }
 
 export async function getAllSuggestedContentFromHistory(): Promise<string[]> {

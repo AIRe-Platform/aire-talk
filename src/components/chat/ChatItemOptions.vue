@@ -108,61 +108,50 @@ onMounted(() => {
 
 <template>
     <DialogModal :active="state.confirmRevert" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        switch (i) {
-            case 0:
-                onConfirmRevert();
-                break;
-
-            default:
-            case 1:
-                onCancelRevert();
-                break;
-        }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmRevert },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelRevert }
+    ]">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
-    <div class=" chat-bubble-options">
-        <div class="chat-bubble-options-button" @click.stop="onToggleMenu"
+    <div class="chat-item-options">
+        <div class="chat-item-options-button" @click.stop="onToggleMenu"
             :class="{ 'is-content': props.content !== undefined }">
             <div class="icon chat-option-desktop">
             </div>
         </div>
-        <div class="chat-bubble-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
-            <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
+        <div class="chat-item-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
+            <div @click.stop="onThumbsUp" class="chat-item-options-menu-button thumbs-up"
                 :class="{ 'is-selected': state.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-            </button>
-            <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
+            </div>
+            <div @click.stop="onThumbsDown" class="chat-item-options-menu-button thumbs-down"
                 :class="{ 'is-selected': state.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
-            </button>
+            </div>
             <template v-if="!props.content">
-                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
+                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button check"
                     :class="{ 'is-selected': state.copiedToClipboard }" v-if="state.copiedToClipboard">
                     <font-awesome-icon icon="fa-solid fa-check" />
-                </button>
-                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
+                </div>
+                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button copy"
                     v-if="!state.copiedToClipboard">
                     <font-awesome-icon icon="fa-solid fa-copy" />
-                </button>
-                <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin"
+                </div>
+                <div @click.stop="onRevert" class="chat-item-options-menu-button spin"
                     v-if="props.can_revert">
                     <font-awesome-icon icon="fa-solid fa-arrows-spin" />
-                </button>
+                </div>
             </template>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-.chat-bubble-options {
+.chat-item-options {
     position: relative;
 }
 
-.chat-bubble-options-button {
+.chat-item-options-button {
     position: absolute;
     top: -1.1rem;
     right: -1.6rem;
@@ -181,53 +170,35 @@ onMounted(() => {
     }
 }
 
-.thumbs-up,
-.copy,
-.spin {
+.chat-item-options-menu-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 2rem;
+    border: 1.5px solid var(--chat-bubble-options-button-hover);
+    background-color: var(--chat-options-menu-background);
+    border-radius: 0.5rem;
     color: var(--button-color);
 
     &:hover {
         background-color: var(--chat-bubble-options-button-hover);
-        border-color: transparent;
-        color: var(--button-color);
-        border-color: var(--stroke);
-    }
-}
-
-.check {
-    color: var(--questionnaire-icon-background);
-
-    &:hover {
-        background-color: var(--user-chat-box-background);
-        border-color: transparent;
-        color: var(--questionnaire-icon-background);
-        border-color: var(--stroke);
+        border-color: var(--box-stroke);
     }
 }
 
 .thumbs-down {
     color: var(--delete-color);
-
-    &:hover {
-        background-color: var(--user-chat-box-background);
-        border-color: transparent;
-        color: var(--delete-color);
-        border-color: var(--stroke);
-    }
 }
 
-.chat-bubble-options-menu {
+.chat-item-options-menu {
     position: absolute;
     display: flex;
     flex-direction: column;
-    right: -4.5rem;
-    top: 0;
+    right: -1rem;
+    top: 1.2rem;
     gap: 0.2rem;
-}
-
-.chat-message-answer-options-menu-button {
-    cursor: pointer;
-    background-color: var(--chat-options-menu-background) !important;
 }
 
 .is-selected {
@@ -241,7 +212,7 @@ onMounted(() => {
 
 /* mobile*/
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .chat-bubble-options-menu {
+    .chat-item-options-menu {
         top: -1rem;
         right: 1rem;
         flex-direction: row;

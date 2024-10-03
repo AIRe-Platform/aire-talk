@@ -8,14 +8,22 @@ import { defineEmits, defineProps } from 'vue';
 import Modal from '@/components/common/Modal.vue';
 import { LocalizationKey } from '@/locales/keys';
 
-defineEmits<{
-    select: [number]
+
+const emit = defineEmits<{
+    (e: 'select', index: number): void;
 }>()
 
 const props = defineProps<{
-    buttons: Array<{ loc_key: LocalizationKey }>
+    buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>
 }>()
 
+const emitSelect = (i: number) => {
+    const button = props.buttons[i];
+    if (button.onClick) {
+        button.onClick();
+    }
+    emit('select', i);
+}
 </script>
 
 <template>
@@ -24,7 +32,8 @@ const props = defineProps<{
             <slot></slot>
         </div>
         <div class="dialog-buttons">
-            <button v-for="btn, i in props.buttons" @click.stop="() => $emit('select', i)" :key="`dialog-button-${i}`">
+            <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
+                :class="btn.className">
                 {{ $t(btn.loc_key) }}
             </button>
         </div>
@@ -44,5 +53,9 @@ const props = defineProps<{
     gap: 1rem;
     flex-wrap: wrap;
     margin-top: 3rem;
+}
+
+.cancel-button {
+    background-color: var(--delete-color);
 }
 </style>

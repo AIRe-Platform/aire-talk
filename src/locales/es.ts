@@ -6,17 +6,24 @@
 import { Locale } from ".";
 
 const es: Locale = {
-    title: "AIRe Talk",
+    aire_bot: "Bot AIRe",
+    aire_system: "Sistema AIRe",
+    
     footer: "Desarollo",
     not_found: "Página no encontrada",
 
-    aire_bot: "AIRe bot",
-    aire_system: "AIRe Sistema",
     system_topic: "Has seleccionado un tema: ",
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
+    system_end_of_conversation: "La conversación ha finalizado",
+    system_end_of_conversation_options: "¿Qué te gustaría hacer?",
 
+    conversation_option_continue: "Continuar la conversación",
+    conversation_option_new_chat: "Iniciar una nueva conversación",
+
+    notification_keyword: "Tema \"{keyword}\" reconocido",
+    
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
@@ -29,7 +36,6 @@ const es: Locale = {
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
 
-    login_title: "Inicia sesión",
     login_redirect: "Redireccionando a la página de inicio de sesión...",
     login_failure: "El servicio de inicio de sesión no está disponible en este momento. Inténtelo nuevamente más tarde.",
     login_callback_failure: "Intento de inicio de sesión fallido.",
@@ -53,7 +59,6 @@ const es: Locale = {
     nav_login: "Identifícate",
     nav_logout: "Salir",
     nav_signup: "Regístrate",
-    nav_theme: "Cambiar tema",
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
@@ -92,11 +97,6 @@ const es: Locale = {
     profile_label_password_confirm: "Confirma tu contraseña.",
     profile_label_keep_anonymized_data:
         "Haz mis datos anónimos en lugar de borrarlos. Esto ayudaría a desarroyar la plataforma AIRe. Esto es completamente opcional.",
-    profile_user_info_intro:
-        "La información actual del usuario según análisis de AIRe:",
-    profile_years_old: " años.",
-    profile_from: " De ",
-    profile_speaks: " Quien habla en ",
     profile_button_delete: "Borrar cuenta",
 
     gender_male: "hombre",
@@ -112,7 +112,6 @@ const es: Locale = {
     profile_question_last_name: "¿Cuál es tu apellido?",
     profile_question_gender: "¿Qué género eres?",
     profile_question_age: "¿Cuántos años tienes?",
-    profile_question_language: "¿Cuál es tu lengua materno?",
     profile_question_country: "¿En qué país vives?",
 
     profile_experiments_title: "Experimentos",
@@ -126,11 +125,6 @@ const es: Locale = {
     settings_ui_size: "Tamaño de la interfaz de usuario",
     settings_ui_size_normal: "Normal",
     settings_ui_size_large: "Grande",
-    settings_ui_screen_size: "Resolución de pantalla",
-    settings_ui_screen_size_mobile: "Móvil",
-    settings_ui_screen_size_tablet: "Tablet",
-    settings_ui_screen_size_desktop: "Pantalla",
-    settings_ui_screen_size_dynamic: "Dinámica",
 
     switch_color_mode: "Color del tema",
 
@@ -147,10 +141,10 @@ const es: Locale = {
     error_signup_general:
         "El registro ha fallado. Por favor, inténtelo de nuevo más tarde.",
     error_profile_edit: "Error al guardar.",
-    error_profile_password:
-        "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
     error_profile_delete_account:
         "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
+    error_profile_password:
+        "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
 
     landing_view_title: "Bienvenido a la plataforma AIRe",
     landing_view_text:
@@ -167,22 +161,15 @@ const es: Locale = {
     topic_increased_weight: "Aumento de peso",
     topic_trouble_talking: "Problemas para hablar",
 
-    summary_chag_log_title: "Resumen",
-    summary_generate_summary: "Resumir",
-    summary_query_surveys_button: "Consultar encuestas",
-    summary_send_survey_button: "Enviar respuestas a la encuesta",
-    summary_suggestions: "Sugerencias",
+    summary_title: "Resumen",
+    suggestions_title: "Sugerencias",
+    tools_title: "Herramientas",
+    tools_button_summarize: "Resumir",
+    tools_button_query_surveys: "Consultar encuestas",
+    tools_button_suggestions: "Sugerencias",
 
     suggestion_check_for_more: "Obtén más sugerencias",
 
-    error_verification_failure:
-        "No se pudo verificar el código. Puede que esté caducado.",
-    error_verification_resend_failed:
-        "No se pudo reenviar el código. Vuelve a intentarlo más tarde.",
-
-    chat_history_title: "Historial chat",
-    chat_history_image: "Imagen:",
-    chat_history_video: "Vídeo:",
     chat_history_loading: "Cargando...",
     chat_history_tokens: "{0} fichas",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
@@ -191,11 +178,8 @@ const es: Locale = {
         "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
     popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
     popup_confirm_logout: "¿Estas seguro de que quieres salir?",
-    popup_logout_message: "Ya has cerrado sesión.",
     popup_confirm_profile_updated: "Perfil actualizado.",
 
-    no_questionnaires_found:
-        "No se pudieron encontrar los cuestionarios adecuados.",
     confirm_questionnaire_start:
         '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion:
@@ -218,18 +202,19 @@ const es: Locale = {
     button_back: "Regresar",
     button_continue: "Continuar",
     button_close: "Cerrar",
-    button_delete_content: "Eliminar contenido",
-    button_display: "Mostrar",
     button_mark_as_read: "Marcar como leído",
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
+
+    logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
 
     en: "Inglés",
     fi: "Finés",
     es: "Español",
     vi: "Vietnamita",
     id: "Indonesio",
-    sw: "Swajili"
+    sw: "Swajili",
+    rw: "Kinyarwanda"
 };
 
 export default es;

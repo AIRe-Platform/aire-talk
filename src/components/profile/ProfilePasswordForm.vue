@@ -25,7 +25,6 @@ const onChangePassword = (e: Event) => {
     const form = e.target as HTMLFormElement;
     if (!form.checkValidity())
         return;
-
     if (AireServices.ID) {
         state.busy = true;
         useLogin().changePassword(state.currentPassword, state.newPassword)

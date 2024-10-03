@@ -6,16 +6,23 @@
 import { Locale } from ".";
 
 const fi: Locale = {
-    title: "AIRe Talk",
+    aire_bot: "AIRe-botti",
+    aire_system: "AIRe-järjestelmä",
+
     footer: "Kehitysversio",
     not_found: "Sivua ei löytynyt",
 
-    aire_bot: "AIRe-botti",
-    aire_system: "AIRe-järjestelmä",
     system_greeting:
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
+    system_end_of_conversation: "Keskustelu on päättynyt",    
+    system_end_of_conversation_options: "Miten haluat jatkaa?",
+
+    conversation_option_continue: "Jatka tätä keskustelua",
+    conversation_option_new_chat: "Aloita uusi keskustelu",
+
+    notification_keyword: "\"{keyword}\" teema tunnistettu",
 
     start_greeting: "Tervetuloa AIRe Talk -palveluun",
     start_first_paragraph:
@@ -29,7 +36,6 @@ const fi: Locale = {
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
 
-    login_title: "Kirjaudu sisään",
     login_redirect: "Siirrytään kirjautumissivulle...",
     login_failure: "Kirjautumispalvelu ei ole tällä hetkellä saavutettavissa. Yritä myöhemmin uudelleen.",
     login_callback_failure: "Kirjautuminen epäonnistui",
@@ -53,7 +59,6 @@ const fi: Locale = {
     nav_login: "Kirjaudu sisään",
     nav_logout: "Kirjaudu ulos",
     nav_signup: "Luo tili",
-    nav_theme: "Vaihda teema",
     nav_preferences: "Asetukset",
     nav_main_menu: "Päävalikko",
     nav_catalogue: "Sisältökatalogi",
@@ -91,10 +96,6 @@ const fi: Locale = {
     profile_label_password_confirm: "Salasana",
     profile_label_keep_anonymized_data:
         "Anonymisoi tietoni poistamisen sijaan. Tämä auttaa AIRe-alustan kehittämisessä. Tämä on täysin vapaaehtoista.",
-    profile_user_info_intro: "Nykyiset käyttäjätiedot AIRe-analyysin mukaan:",
-    profile_years_old: " vuotta vanha.",
-    profile_from: " Mistä ",
-    profile_speaks: " Puhuu ",
     profile_button_delete: "Poista tili",
 
     gender_male: "mies",
@@ -110,7 +111,6 @@ const fi: Locale = {
     profile_question_last_name: "Mikä on sukunimesi?",
     profile_question_gender: "Mikä on sukupuolesi?",
     profile_question_age: "Kuinka vanha olet?",
-    profile_question_language: "Mikä on ensisijainen kielesi?",
     profile_question_country: "Mikä on asuinmaasi?",
 
     profile_experiments_title: "Kokeilut",
@@ -124,11 +124,6 @@ const fi: Locale = {
     settings_ui_size: "Käyttöliittymän koko",
     settings_ui_size_normal: "Normaali",
     settings_ui_size_large: "Suuri",
-    settings_ui_screen_size: "Näytön resoluution asetus",
-    settings_ui_screen_size_mobile: "Mobiili",
-    settings_ui_screen_size_tablet: "Tabletti",
-    settings_ui_screen_size_desktop: "Työpöytä",
-    settings_ui_screen_size_dynamic: "Dynamic",
 
     switch_color_mode: "Teematila",
 
@@ -144,10 +139,10 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     error_signup_general:
         "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_profile_edit: "Tallentaminen epäonnistui.",
-    error_profile_password:
-        "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset",
     error_profile_delete_account:
         "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_profile_password:
+        "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset.",
 
     landing_view_title: "Tervetuloa AIReen!",
     landing_view_text:
@@ -166,20 +161,13 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     suggestion_check_for_more: "Katso lisää täältä",
 
-    summary_chag_log_title: "Yhteenveto",
-    summary_generate_summary: "Luo yhteenveto",
-    summary_query_surveys_button: "Hae kyselyitä",
-    summary_send_survey_button: "Lähetä kyselyn vastaukset",
-    summary_suggestions: "Ehdotuksia",
+    summary_title: "Yhteenveto",
+    suggestions_title: "Ehdotuksia",
+    tools_title: "Työkalut",
+    tools_button_summarize: "Luo yhteenveto",
+    tools_button_query_surveys: "Hae kyselyitä",
+    tools_button_suggestions: "Ehdotuksia",
 
-    error_verification_resend_failed:
-        "Vahvistuskoodin lähettäminen epäonnistui. Yritä myöhemmin uudelleen.",
-    error_verification_failure:
-        "Vahvistaminen epäonnistui. Vahvistuskoodi voi olla vahnentunut.",
-
-    chat_history_title: "Keskusteluhistoria",
-    chat_history_image: "Kuvatiedosto:",
-    chat_history_video: "Videotiedosto:",
     chat_history_loading: "Ladataan...",
     chat_history_tokens: "{0} tokenia",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
@@ -188,10 +176,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
         "Haluatko varmasti palauttaa keskustelun tähän viestiin?",
     popup_confirm_remove_chat: "Haluatko varmasti poistaa tämän keskustelun?",
     popup_confirm_logout: "Haluatko varmasti kirjautua ulos?",
-    popup_logout_message: "Olet nyt kirjautunut ulos.",
     popup_confirm_profile_updated: "Profiili päivitetty.",
 
-    no_questionnaires_found: "Sopivia kyselyitä ei löytynyt.",
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
     confirm_questionnaire_completion:
         "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
@@ -213,18 +199,19 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_back: "Takaisin",
     button_continue: "Jatka",
     button_close: "Sulje",
-    button_delete_content: "Poista sisältö",
-    button_display: "Näytä",
     button_mark_as_read: "Merkitse luetuksi",
 
     content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
+
+    logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
 
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",
     vi: "Vietnam",
     id: "Indonesia",
-    sw: "Swahili"
+    sw: "Swahili",
+    rw: "Ruandan kieli"
 };
 
 export default fi;

@@ -7,46 +7,27 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { l } from '@/locales';
-import { ChatMessage } from "@/models/chat";
-import useChat, { ChatContext } from "@/context/chat";
-
-import QuestionItem from "@/components/questionnaire/QuestionItem.vue";
-import ChatBubble from "@/components/chat/ChatBubble.vue";
+import { ChatMessage, ChatMessageGroup, ChatMessageType } from "@/models/chat";
+import useChat from "@/context/chat";
+import ChatItem from "@/components/chat/ChatItem.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
-import ChatSummary from "@/components/chat/ChatSummary.vue";
-import CloseSummaryMenuButton from "@/components/chat/CloseSummaryMenuButton.vue";
-import QuestionAnswer from "@/components/questionnaire/QuestionAnswer.vue";
+import ChatSidePanel from "@/components/chat/ChatSidePanel.vue";
 import { createReminderQuestionnaire } from "@/controllers/reminderController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
+import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
 
 const showSideBar = ref(false);
 const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
     const lastMessageId = chat.messages[chat.messages.length - 1].id;
-    return msg.id !== lastMessageId;
+    return msg.id !== lastMessageId && msg.type == ChatMessageType.Default;
 };
 
 const toggleSidebar = () => {
     showSideBar.value = !showSideBar.value;
 };
-
-const chatSummaryPanelEnabled = (chat: ChatContext) => {
-    return chat.messages.length > 1;
-}
-
-const hasPanels = (chat: ChatContext) => {
-    return chatSummaryPanelEnabled(chat);
-}
-
-interface MessageGroup {
-    id: string;
-    messages: Array<ChatMessage>;
-    isQuestionnaire: boolean;
-    isCompleted?: boolean;
-}
 
 // Group chat messages to groups 
 // based on similar consecutive message types (question or not)
@@ -58,7 +39,7 @@ const groupedMessages = () => {
         messages: [],
         isQuestionnaire: false,
         isCompleted: false,
-    } as MessageGroup;
+    } as ChatMessageGroup;
     let previousNonHiddenIndex = 0;
 
     for (let i = 0; i < chat.messages.length; i++) {
@@ -76,7 +57,7 @@ const groupedMessages = () => {
                     id: "msg-group-" + groupIndex++,
                     messages: [],
                     isQuestionnaire: !!message.question,
-                } as MessageGroup;
+                } as ChatMessageGroup;
                 currentGroup.messages.push(message);
             }
             previousNonHiddenIndex = i;
@@ -105,76 +86,41 @@ onMounted(async () => {
 
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
     if (isNewChat) {
-        const bot = useChatbot();
-
-        bot.setStatus("writing")
+        useChatbot().makeBusy();
         createReminderQuestionnaire()
             .then((reminderQuestionnaire) => {
                 if (reminderQuestionnaire)
                     useQuestionnaire().startQuestionnaire(reminderQuestionnaire)
             })
-            .finally(() => bot.setStatus("idle"))
+            .finally(() => useChatbot().reportReady())
     }
 });
 </script>
 
 <template>
-    <CloseSummaryMenuButton @toggle-menu-open="toggleSidebar" :menu-open="showSideBar"
-        v-if="showSideBar && hasPanels(chat)" />
     <div class="chat-view">
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
-                <!-- If chat bubble -->
-                <template v-if="!messageGroup.isQuestionnaire">
-                    <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
-                        <div class="chat-view-row">
-                            <div class="chat-view-left">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)" v-if="msg.role === 'user'" />
-                            </div>
-                            <div class="chat-view-right">
-                                <ChatBubble :message="msg" :can_revert="canRevert(msg)"
-                                    v-if="msg.role === 'assistant'" />
-                            </div>
+                <ChatQuestionnaire v-if="messageGroup.isQuestionnaire" :group="messageGroup" />
+                <template v-else v-for="msg in messageGroup.messages" v-bind:key="msg.id">
+                    <div class="chat-view-row">
+                        <div class="chat-view-left">
+                            <ChatItem v-if="msg.role === 'user'" :message="msg"/>
                         </div>
-                        <div class="chat-view-center" v-if="msg.role === 'system'">
-                            <ChatBubble :message="msg" :can_revert="canRevert(msg)" />
+                        <div class="chat-view-right">
+                            <ChatItem v-if="msg.role === 'assistant'" :message="msg" :canRevert="canRevert(msg)" />
                         </div>
-                    </template>
-                </template>
-                <!-- If questionnaire item -->
-                <template v-if="messageGroup.isQuestionnaire">
-                    <div class="chat-group-questionnaire">
-                        <div class="chat-questionnaire-start">
-                            <h3>{{ $t(l.questionnaire_start) }}</h3>
-                            <div>{{ $t(l.questionnaire_explanation) }}</div>
-                        </div>
-                        <template v-for="msg in messageGroup.messages" v-bind:key="msg.id">
-                            <div class="chat-view-row">
-                                <div class="chat-view-left">
-                                </div>
-                                <div class="chat-view-right">
-                                    <QuestionItem :message="msg" />
-                                </div>
-                            </div>
-                            <div class="chat-view-row">
-                                <div class="chat-view-left">
-                                    <QuestionAnswer :message="msg" />
-                                </div>
-                                <div class="chat-view-right">
-                                </div>
-                            </div>
-                        </template>
-                        <div v-if="messageGroup.isCompleted" class="chat-questionnaire-end">
-                            <h3>{{ $t(l.questionnaire_end) }}</h3>
-                        </div>
+                    </div>
+                    <div class="chat-view-center" v-if="msg.role === 'system'">
+                        <ChatItem :message="msg" />
                     </div>
                 </template>
             </template>
         </div>
-        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="chatSummaryPanelEnabled(chat)" />
+        <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="true" />
     </div>
-    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar && hasPanels(chat) }">
-        <ChatSummary v-if="chatSummaryPanelEnabled(chat)" />
+    <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
+        <ChatSidePanel />
     </div>
 </template>
 
@@ -242,30 +188,6 @@ onMounted(async () => {
 
 .chat-side-panels-open {
     width: 16rem;
-}
-
-.chat-group-questionnaire {
-    background-color: var(--panel-background-color);
-    border-radius: 1rem;
-    border: 1px solid var(--panel-border-color);
-    margin: 1rem;
-    padding: 1rem;
-}
-
-.chat-questionnaire-start {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-bottom: 1rem;
-}
-
-.chat-questionnaire-end {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 1rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

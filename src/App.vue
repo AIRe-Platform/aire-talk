@@ -13,17 +13,66 @@ import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
+import { startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
+import { onMounted, onUnmounted, reactive, watch } from 'vue';
+import useLogin from '@/context/login';
+import DialogModal from "@/components/layout/DialogModal.vue";
+import { l } from '@/locales';
+import { router } from './router';
+
+
+const login = useLogin();
+const state = reactive<{
+    showInactivityPopup: boolean
+}>({
+    showInactivityPopup: false
+});
 
 const closeNavMenu = async () => {
     await closeBurgerMenu();
     UIState.showMenu = false;
     UIState.isNavMenuCompressed = false;
     UIState.panels.clear();
+};
+
+const onInactivityTimeout = async () => {
+    stopInactivityListener();
+    login.logout("inactivity=1");
+};
+
+const closeInactivityPopup = () => {
+    router.push("/");
+    state.showInactivityPopup = false;
 }
+
+onMounted(() => {
+    const stopLoginWatch = watch(
+        () => login.user,
+        (user) => {
+            if (user && !import.meta.env.VITE_DEBUG_DISABLE_SESSION_TIMEOUT) {
+                startInactivityListener(onInactivityTimeout);
+            }
+            else {
+                stopInactivityListener();
+            }
+        }
+    );
+
+    onUnmounted(() => {
+        stopLoginWatch();
+        stopInactivityListener();
+    });
+
+    const search = new URLSearchParams(window.location.search);
+    state.showInactivityPopup = search.get("inactivity") == "1";
+});
 </script>
 
 <template>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="1">
+    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
+        {{ $t(l.logout_inactivity_message) }}
+    </DialogModal>
+    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
         <NavMenu />
         <div class="main-panels" v-if="UIState.panels.size > 0">
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
@@ -41,8 +90,9 @@ const closeNavMenu = async () => {
     <div class="main-error" v-if="AppState === 'error'">
         {{ $t("error_generic") }}
     </div>
-
 </template>
+
+
 
 <style src="@/style/default.css" />
 <style src="@/style/icons.css" />
@@ -53,6 +103,7 @@ const closeNavMenu = async () => {
     overflow: hidden;
     height: 100%;
     max-height: 100%;
+    pointer-events: auto;
 }
 
 .main-mask {

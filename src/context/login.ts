@@ -4,7 +4,7 @@
 
 
 import { AireServices, AireUser, AireStatus, AireErrorResult, AireLoginOptions, AireAuthCodeLoginOptions, AireLogoutOptions } from "aire";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
@@ -124,7 +124,7 @@ export class LoginContext {
         return AireStatus.UnknownError;
     }
 
-    public async logout() {
+    public async logout(return_params?: string) {
         await useChat().reset(false, true);
         useContent().reset();
 
@@ -137,6 +137,11 @@ export class LoginContext {
                 theme: useTheme().style.includes("dark") ? "dark" : "light",
                 locale: getUILanguage()
             };
+
+            if(return_params) {
+                const p = new URLSearchParams(return_params);
+                options.return_url += "?" + p.toString();
+            }
 
             const logout = await AireServices.ID.getLogoutUrl(options);
             AireServices.ID.logout();
@@ -199,5 +204,13 @@ export class LoginContext {
 const context = reactive(new LoginContext());
 
 export default function useLogin() {
+
+    // Watch for changes in context.user to update when logginin
+    watch(
+        () => context.user,
+        (newUser) => {
+            context.user = newUser;
+        }
+    );
     return context;
 }

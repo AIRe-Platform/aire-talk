@@ -4,15 +4,22 @@
 
 
 export enum LocalizationKey {
-    title = "title",
+    aire_bot = "aire_bot",
+    aire_system = "aire_system",
+
     footer = "footer",
     not_found = "not_found",
 
-    aire_bot = "aire_bot",
-    aire_system = "aire_system",
     system_greeting = "system_greeting",
     system_topic = "system_topic",
     system_found_content = "system_found_content",
+    system_end_of_conversation = "system_end_of_conversation",
+    system_end_of_conversation_options = "system_end_of_conversation_options",
+    
+    conversation_option_continue = "conversation_option_continue",
+    conversation_option_new_chat = "conversation_option_new_chat",
+
+    notification_keyword = "notification_keyword",
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
@@ -23,7 +30,6 @@ export enum LocalizationKey {
     start_footer = "start_footer",
     start_disclaimer = "start_disclaimer",
 
-    login_title = "login_title",
     login_redirect = "login_redirect",
     login_failure = "login_failure",
     login_callback_failure = "login_callback_failure",
@@ -47,7 +53,6 @@ export enum LocalizationKey {
     nav_login = "nav_login",
     nav_logout = "nav_logout",
     nav_signup = "nav_signup",
-    nav_theme = "nav_theme",
     nav_preferences = "nav_preferences",
     nav_main_menu = "nav_main_menu",
     nav_catalogue = "nav_catalogue",
@@ -79,10 +84,6 @@ export enum LocalizationKey {
     profile_description_delete_account = "profile_description_delete_account",
     profile_label_password_confirm = "profile_label_password_confirm",
     profile_label_keep_anonymized_data = "profile_label_keep_anonymized_data",
-    profile_user_info_intro = "profile_user_info_intro",
-    profile_years_old = "profile_years_old",
-    profile_from = "profile_from",
-    profile_speaks = "profile_speaks",
     profile_button_delete = "profile_button_delete",
 
     gender_male = "gender_male",
@@ -96,7 +97,6 @@ export enum LocalizationKey {
     profile_question_last_name = "profile_question_last_name",
     profile_question_gender = "profile_question_gender",
     profile_question_age = "profile_question_age",
-    profile_question_language = "profile_question_language",
     profile_question_country = "profile_question_country",
     profile_characters_max = "profile_characters_max",
     profile_remaining = "profile_remaining",
@@ -112,11 +112,6 @@ export enum LocalizationKey {
     settings_ui_size = "settings_ui_size",
     settings_ui_size_normal = "settings_ui_size_normal",
     settings_ui_size_large = "settings_ui_size_large",
-    settings_ui_screen_size = "settings_ui_screen_size",
-    settings_ui_screen_size_mobile = "settings_ui_screen_size_mobile",
-    settings_ui_screen_size_tablet = "settings_ui_screen_size_tablet",
-    settings_ui_screen_size_desktop = "settings_ui_screen_size_desktop",
-    settings_ui_screen_size_dynamic = "settings_ui_screen_size_dynamic",
 
     switch_color_mode = "switch_color_mode",
 
@@ -126,8 +121,8 @@ export enum LocalizationKey {
     error_signup_bad_request = "error_signup_bad_request",
     error_signup_general = "error_signup_general",
     error_profile_edit = "error_profile_edit",
-    error_profile_change_password = "error_profile_password",
     error_profile_delete_account = "error_profile_delete_account",
+    error_profile_change_password = "error_profile_password",
 
     landing_view_title = "landing_view_title",
     landing_view_text = "landing_view_text",
@@ -142,20 +137,15 @@ export enum LocalizationKey {
     topic_increased_weight = "topic_increased_weight",
     topic_trouble_talking = "topic_trouble_talking",
 
-    summary_chag_log_title = "summary_chag_log_title",
-    summary_generate_summary = "summary_generate_summary",
-    summary_query_surveys_button = "summary_query_surveys_button",
-    summary_send_survey_button = "summary_send_survey_button",
-    summary_suggestions = "summary_suggestions",
+    summary_title = "summary_title",
+    suggestions_title = "suggestions_title",
+    tools_title = "tools_title",
+    tools_button_summarize = "tools_button_summarize",
+    tools_button_query_surveys = "tools_button_query_surveys",
+    tools_button_suggestions = "tools_button_suggestions",
     
     suggestion_check_for_more = "suggestion_check_for_more",
 
-    error_verification_resend_failed = "error_verification_resend_failed",
-    error_verification_failure = "error_verification_failure",
-
-    chat_history_title = "chat_history_title",
-    chat_history_image = "chat_history_image",
-    chat_history_video = "chat_history_video",
     chat_history_loading = "chat_history_loading",
     chat_history_tokens = "chat_history_tokens",
     chat_input_title = "chat_input_title",
@@ -163,10 +153,8 @@ export enum LocalizationKey {
     popup_confirm_revert_message = "popup_confirm_revert_message",
     popup_confirm_remove_chat = "popup_confirm_remove_chat",
     popup_confirm_logout = "popup_confirm_logout",
-    popup_logout_message = "popup_logout_message",
     popup_confirm_profile_updated = "popup_confirm_profile_updated",
 
-    no_questionnaires_found = "no_questionnaires_found",
     confirm_questionnaire_start = "confirm_questionnaire_start",
     confirm_questionnaire_completion = "confirm_questionnaire_completion",
     questionnaire = "questionnaire",
@@ -186,11 +174,11 @@ export enum LocalizationKey {
     button_back = "button_back",
     button_continue = "button_continue",
     button_close = "button_close",
-    button_delete_content = "button_delete_content",
-    button_display = "button_display",
     button_mark_as_read = "button_mark_as_read",
 
     content_catalogue_empty = "content_catalogue_empty",
+
+    logout_inactivity_message = "logout_inactivity_message",
     
     en = "en",
     fi = "fi",
@@ -198,4 +186,5 @@ export enum LocalizationKey {
     vi = "vi",
     id = "id",
     sw = "sw",
+    rw = "rw"
 }

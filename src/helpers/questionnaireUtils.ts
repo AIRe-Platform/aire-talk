@@ -3,7 +3,6 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import useSummary from "@/context/summary";
 import {
     AireQuestion,
     AireQuestionnaire,
@@ -13,6 +12,7 @@ import {
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
+import { listChatKeywords } from "./chatUtils";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -20,11 +20,12 @@ import { getUILanguage } from "@/locales";
  * @returns Object representing questionnaire state
  */
 export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | undefined {
-    if(!model.id)
+    if (!model.id)
         return undefined;
 
-    const summary = useSummary();
-    const questions = getRelevantQuestions(model, [...summary.keywords]);
+    const chat = useChat();
+    const keywords = listChatKeywords(chat.messages);
+    const questions = getRelevantQuestions(model, keywords);
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
 
@@ -45,14 +46,7 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
  * Query questionnaires with current keywords and 
  * prompt user to start the questionnaire (if a questionnaire was found)
  */
-export async function queryQuestionnaire(
-    keywords: string[] | undefined = undefined
-): Promise<AireQuestionnaire | undefined>  {
-    if(!keywords) {
-        const summary = useSummary();
-        keywords = [...summary.keywords];
-    }
-
+export async function queryQuestionnaire(keywords: string[]): Promise<AireQuestionnaire | undefined> {
     if (keywords.length < 1)
         return;
 
@@ -91,8 +85,8 @@ export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords:
 export function getAnsweredQuestions(questionnaire_id: string): AireQuestionnaireAnswer[] {
     const chat = useChat();
     const items = chat.messages
-            .filter(x => x.question && x.question?.questionnaire_id === questionnaire_id && x.question.answer)
-            .map(x => x.question!);
+        .filter(x => x.question && x.question?.questionnaire_id === questionnaire_id && x.question.answer)
+        .map(x => x.question!);
     return items;
 }
 

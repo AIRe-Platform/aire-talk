@@ -11,6 +11,7 @@ import { onMounted, reactive } from 'vue';
 import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
+import useTheme, { ThemeContext } from "@/context/theme";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
@@ -23,10 +24,12 @@ const state = reactive<{
     showConfirmLogout: boolean,
     showLastChatButton: boolean,
     isLoadingView: boolean,
+    theme: ThemeContext,
 }>({
     showConfirmLogout: false,
     showLastChatButton: false,
     isLoadingView: true,
+    theme: new ThemeContext()
 });
 
 const onConfirmLogout = async () => {
@@ -56,6 +59,7 @@ const navigateTo = (path: string) => {
 }
 
 onMounted(async () => {
+    state.theme = useTheme();
     const last = await getLastChatId();
     state.showLastChatButton = (last !== undefined);
     state.isLoadingView = false;
@@ -69,10 +73,13 @@ onMounted(async () => {
         <div class="home-container">
             <div class="home-header">
                 <div class="home-header-title">
-                    <div class="aire-logo">
-                        <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                    <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
                     </div>
-                    <p>{{ $t(l.start_first_paragraph) }}</p>
+                    <div class="aire-logo" v-if="state.theme.style != 'theme-default'">
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg" alt="Logo" />
+                    </div>
+                    <p class="header-text">{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
             <EventComponent />
@@ -95,12 +102,9 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" :buttons="[
-        { loc_key: l.button_accept },
-        { loc_key: l.button_cancel },
-    ]" @select="(i: number) => {
-        if (i == 0) { onConfirmLogout() }
-        else if (i == 1) { state.showConfirmLogout = false; }
-    }">
+        { loc_key: l.button_accept, onClick: onConfirmLogout },
+        { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }
+    ]">
         {{ $t(l.popup_confirm_logout) }}
     </DialogModal>
 </template>
@@ -110,7 +114,7 @@ onMounted(async () => {
     width: 100%;
     height: 100%;
     background-image: var(--back-ground-texture);
-    color: var(--title-text);
+    color: var(--footer-text);
     background-size: cover;
 }
 
@@ -125,10 +129,7 @@ onMounted(async () => {
 
 .home-header {
     width: 100%;
-    background-image: url("@/assets/images/aire-fp-papertexture.png");
-    background-repeat: repeat-x;
     height: 420px;
-    background-position: bottom;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -142,10 +143,21 @@ onMounted(async () => {
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding-top: 5rem;
 }
 
 .aire-logo {
-    width: 20rem;
+    width: 25rem;
+    height: 12rem;
+}
+
+.image-logo {
+    width: inherit;
+}
+
+.header-text {
+    font-size: larger;
+    color: var(--basic-text);
 }
 
 .quick-nav {

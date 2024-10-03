@@ -49,7 +49,11 @@ export class ContentContext {
                     }
 
                     // Sort by date
-                    return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+                    // Sort by date
+                    const aDate = a.modified ? new Date(a.modified).getTime() : 0;  // Use 0 as fallback if undefined
+                    const bDate = b.modified ? new Date(b.modified).getTime() : 0;  // Use 0 as fallback if undefined
+
+                    return bDate - aDate;
                 }) || [];
 
                 if (max_items)
@@ -95,27 +99,42 @@ export class ContentContext {
             console.warn("Memory service is not available");
             return;
         }
-
+    
         const cached = cache.get(content_id);
         if (cached) {
-            if (cached.type == AireContentType.URL)
-                return cached;
-
-            // Check media blob URL validity
-            if (cached.url) {
-                const url = new URL(cached.url);
+            // Check if thumbnailUrl is valid and not expired
+            if (cached.thumbnailUrl) {
+                const url = new URL(cached.thumbnailUrl);
                 const expiry = url.searchParams.get("se");
                 if (expiry) {
-                    const d = new Date(expiry);
-                    if (d.getTime() > Date.now())
-                        return cached; // Cached URL is valid
+                    const expiryDate = new Date(expiry);
+                    if (expiryDate.getTime() > Date.now()) {
+                        // Cached thumbnailUrl is valid, now check the content URL
+                        if (cached.type === AireContentType.URL) {
+                            return cached; // Return cached if it's just a URL type
+                        }
+    
+                        // Check if the main media URL is valid
+                        if (cached.url) {
+                            const mediaUrl = new URL(cached.url);
+                            const mediaExpiry = mediaUrl.searchParams.get("se");
+                            if (mediaExpiry) {
+                                const mediaExpiryDate = new Date(mediaExpiry);
+                                if (mediaExpiryDate.getTime() > Date.now()) {
+                                    return cached; // Cached URL is valid
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-
+    
+        // Fetch fresh content if cached data is invalid or missing
         return await AireServices.Memory.getContentWithId(content_id)
             .then((result) => {
                 if (result.data) {
+                    // Update the cache with fresh data
                     cache.set(content_id, result.data);
                     return result.data;
                 } else {
@@ -125,8 +144,9 @@ export class ContentContext {
             .catch((err) => {
                 console.error("Failed to get content", err);
                 return undefined;
-            })
+            });
     }
+    
 
     public async getVote(content_id: string): Promise<number> {
         const vote = this.ratings.get(content_id);
