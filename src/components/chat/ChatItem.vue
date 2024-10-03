@@ -36,7 +36,7 @@ const isNotificationMessage = computed(() => {
     <ChatEndConversationMessage v-else-if="props.message.type == ChatMessageType.EndOfConversation" :message="props.message"/>
     <ChatEndOptionsMessage v-else-if="props.message.type == ChatMessageType.EndOfConversationOptions" :message="props.message"/>
     <ChatErrorMessage v-else-if="props.message.type == ChatMessageType.Error" :message="props.message"/>
-    <ChatDefaultMessage v-else :message="props.message" :canRevert="props.canRevert"/>
+    <ChatDefaultMessage v-else-if="props.message.type == ChatMessageType.Default" :message="props.message" :canRevert="props.canRevert"/>
 </template>
 
 <style lang="scss" scoped>
