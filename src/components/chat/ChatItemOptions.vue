@@ -170,47 +170,6 @@ onMounted(() => {
     }
 }
 
-.thumbs-up,
-.copy,
-.spin {
-    color: var(--button-color);
-
-    &:hover {
-        background-color: var(--chat-bubble-options-button-hover);
-        color: var(--button-color);
-        border-color: var(--box-stroke);
-    }
-}
-
-.check {
-    color: var(--questionnaire-icon-background);
-
-    &:hover {
-        background-color: var(--user-chat-box-background);
-        color: var(--questionnaire-icon-background);
-        border-color: var(--box-stroke);
-    }
-}
-
-.thumbs-down {
-    color: var(--delete-color);
-
-    &:hover {
-        background-color: var(--user-chat-box-background);
-        color: var(--delete-color);
-        border-color: var(--box-stroke);
-    }
-}
-
-.chat-item-options-menu {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    right: -1rem;
-    top: 1.2rem;
-    gap: 0.2rem;
-}
-
 .chat-item-options-menu-button {
     cursor: pointer;
     display: flex;
@@ -221,6 +180,25 @@ onMounted(() => {
     border: 1.5px solid var(--chat-bubble-options-button-hover);
     background-color: var(--chat-options-menu-background);
     border-radius: 0.5rem;
+    color: var(--button-color);
+
+    &:hover {
+        background-color: var(--chat-bubble-options-button-hover);
+        border-color: var(--box-stroke);
+    }
+}
+
+.thumbs-down {
+    color: var(--delete-color);
+}
+
+.chat-item-options-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: -1rem;
+    top: 1.2rem;
+    gap: 0.2rem;
 }
 
 .is-selected {

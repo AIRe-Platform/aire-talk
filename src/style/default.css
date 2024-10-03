@@ -122,7 +122,7 @@
     --menu-active: #2374ab80;
     --button-gradient-color: linear-gradient(#2374ab, #176087);
     --chat-history-item-date: #47425e;
-    --chat-bubble-options-button-hover: rgba(0, 180, 157, 0.8);
+    --chat-bubble-options-button-hover: rgba(0, 180, 157);
     --back-ground-texture: url("@/assets/images/AIRe_BGtexture_darkmode.png");
     --chat-options-menu-background: #f1f4f9;
     --text-color-in-select: black;
