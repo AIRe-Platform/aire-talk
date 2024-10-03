@@ -26,12 +26,13 @@ import {
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
-import useSummary from "./summary";
+import useSummary, { SummaryContext } from "./summary";
 import i18n, { l } from "@/locales";
 import { getChatbotInputData } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useKeywords from "./keywords";
+import useSuggestion from "./suggestions";
 
 export class ChatContext {
     id?: string;
@@ -172,9 +173,18 @@ export class ChatContext {
      * Add new user message and wait response from the chatbot
      * @param message Message content
      */
-    public endConversation() {
+    public async endConversation() {
         // TODO: Maybe update summary?
+        useSummary().update();
+        
         // TODO: Generate keywords?
+        const keywords = await useKeywords().getKeywords();
+        if(keywords){
+            const keywordStrings = keywords.map(x => x.value);
+            //TODO: generate suggestions
+            useSuggestion().searchContent(keywordStrings);
+        }
+
         // TODO: Present choices on how to continue?
 
         const msg = createSystemMessage(l.system_end_of_conversation);
@@ -449,8 +459,8 @@ async function receiver(e: AireTalkEvent) {
             const bot = useChatbot();
             bot.setStatus("answered");
 
-            if (last.content?.includes("[END OF CONVERSATION]")) {
-                last.content = last.content.replace("[END OF CONVERSATION]", "").trim();
+            if (last.content?.includes("[END_OF_CONVERSATION]")) {
+                last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
                 endConversation = true;
             }
         }
@@ -460,7 +470,6 @@ async function receiver(e: AireTalkEvent) {
         if (endConversation) {
             chat.endConversation();
         }
-
     }
 }
 
