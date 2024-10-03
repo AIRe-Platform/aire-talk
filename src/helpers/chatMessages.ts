@@ -52,7 +52,7 @@ export function createMessage(
 }
 
 export function createContentMessage(content: AireContent[]): ChatMessage {
-    const msg = createMessage(ChatMessageType.Default, "assistant", l.system_found_content, true, false);
+    const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
     msg.media = content.map(x => x.id!);
     return msg;
 }
@@ -70,10 +70,10 @@ export function createAssistantMessage(message: string): ChatMessage {
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {
-    return createMessage(ChatMessageType.Instruction, "user", `[INST]${instructions}[/INST]`, false, true);
+    return createMessage(ChatMessageType.Instruction, "system", `[INST]${instructions}[/INST]`, false, true);
 }
 
-export function createKeywordMessage(type: ChatMessageType, keyword: string) {
+export function createKeywordMessage(keyword: string) {
     return createMessage(ChatMessageType.Keyword, "assistant", keyword);
 }
 

@@ -31,7 +31,10 @@ export enum ChatMessageType {
     Error = "error",
 
     // The message contains a questionnaire prompt
-    Questionnaire = "questionnaire"
+    Questionnaire = "questionnaire",
+
+    // The message contains content suggestions
+    Content = "content",
 }
 
 export interface ChatMessage extends AireChatMessage {
@@ -50,4 +53,12 @@ export interface ChatState {
     topic?: Topic;
     keyword_blacklist?: string[];
     questionnaire_queries?: string[];
+    content_queries?: string[];
+}
+
+export interface ChatMessageGroup {
+    id: string;
+    messages: Array<ChatMessage>;
+    isQuestionnaire: boolean;
+    isCompleted?: boolean;
 }

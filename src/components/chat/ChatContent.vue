@@ -9,8 +9,7 @@ import { ChatMessage } from '@/models/chat';
 import { AireContent } from 'aire';
 import { defineProps, defineEmits, reactive, onMounted } from 'vue';
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
-
-import ChatBubbleOptions from './ChatBubbleOptions.vue';
+import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 
 const props = defineProps<{
     parent?: ChatMessage,
@@ -32,7 +31,9 @@ onMounted(async () => {
 
 <template>
     <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
-        <ChatBubbleOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
+        <div class="chat-content-options">
+            <ChatItemOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
+        </div>
         <CatalogueItem :content="state.content" @show="state.content!" :is-from-summary="true" />
     </div>
 </template>
@@ -42,56 +43,15 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background-color: var(--panel-background-color);
     border-radius: 1rem;
+    padding-top: 1rem;
 }
 
-.chat-content-title {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 0 1rem;
-}
-
-.chat-content-media {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 1rem;
-
-    border: 1px solid var(--box-stroke);
-    border-radius: 1rem;
-    overflow: hidden;
-}
-
-.chat-content-link,
-.chat-content-document {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    height: 4rem;
-    color: var(--box-stroke);
-    margin: 1rem;
-
-    &>* {
-        height: 100%;
-    }
-}
-
-.chat-content-description {
-    display: flex;
-    margin: 0 1rem;
-    justify-content: flex-start;
-}
-
-.icon-link {
-    width: 5rem;
-    height: 6rem;
-    color: var(--link-icon);
+.chat-content-options {
+    position: relative;
+    top: 1rem;
+    right: 1rem;
+    width: inherit;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

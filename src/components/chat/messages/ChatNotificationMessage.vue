@@ -1,3 +1,9 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+ License, v. 2.0. If a copy of the MPL was not distributed with this
+ file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ -->
+
+
 <script setup lang="ts">
 import { computed, defineProps } from 'vue';
 import useKeywords from '@/context/keywords';
@@ -23,7 +29,7 @@ const chat = useChat();
 </script>
 
 <template>
-    <div class="chat-notification" v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
+    <div :id="props.message.id" class="chat-notification" v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
         <div class="button-keyword-delete" @click="chat.removeKeyword(props.message.content, true)">
             <font-awesome-icon icon="fa-solid fa-xmark" />

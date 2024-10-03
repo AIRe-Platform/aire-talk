@@ -46,7 +46,7 @@ export function getChatbotInputData(): AireChatbotInput {
     const locale = getUILanguage();
 
     const messages = chat.messages
-        .filter(x => x.role === "assistant" || x.role === "user")
+        .filter(x => x.role === "assistant" || x.role === "user" || x.type == ChatMessageType.Instruction)
         .map(x => {
             const m: AireChatMessage = x;
             return m;

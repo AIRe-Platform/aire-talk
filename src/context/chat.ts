@@ -22,7 +22,8 @@ import {
     createAssistantMessage,
     createInstructionMessage,
     createKeywordMessage,
-    createSummaryMessage
+    createSummaryMessage,
+    createContentMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -32,6 +33,8 @@ import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/help
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useKeywords from "./keywords";
+import useContent from "./content";
+import { getChatContentIds } from "@/helpers/contentUtils";
 
 export class ChatContext {
     id?: string;
@@ -39,6 +42,7 @@ export class ChatContext {
     modified: boolean;
     keyword_blacklist: Set<string>;
     questionnaire_queries: Array<string>;
+    content_queries: Array<string>;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -55,6 +59,7 @@ export class ChatContext {
         this.modified = false;
         this.keyword_blacklist = new Set<string>();
         this.questionnaire_queries = new Array<string>();
+        this.content_queries = new Array<string>();
     }
 
     /** Resets the chat state */
@@ -77,6 +82,7 @@ export class ChatContext {
         this.stats = {};
         this.keyword_blacklist.clear();
         this.questionnaire_queries = [];
+        this.content_queries = [];
 
         useQuestionnaire().reset();
 
@@ -106,7 +112,7 @@ export class ChatContext {
         if (this.keyword_blacklist.has(keyword.value))
             return;
 
-        const notification = createKeywordMessage(ChatMessageType.Keyword, keyword.value);
+        const notification = createKeywordMessage(keyword.value);
         this.push(notification);
 
         // Create hidden prompt injection
@@ -271,7 +277,8 @@ export class ChatContext {
                 summary: findLatestSummary(this.messages),
                 questionnaire: questionnaire.active,
                 keyword_blacklist: [...this.keyword_blacklist],
-                questionnaire_queries: this.questionnaire_queries
+                questionnaire_queries: this.questionnaire_queries,
+                content_queries: this.content_queries,
             };
 
             const chatLog: AireChatLog = {
@@ -322,6 +329,7 @@ export class ChatContext {
         this.meta.topic = cached.state.topic;
         this.keyword_blacklist = new Set(cached.state.keyword_blacklist);
         this.questionnaire_queries = cached.state.questionnaire_queries || [];
+        this.content_queries = cached.state.content_queries || [];
 
         const state = cached.state;
         if (state) {
@@ -395,15 +403,13 @@ export class ChatContext {
             return false;
         }
 
-
-        const chat = useChat();
         useChatbot().makeBusy();
 
         return await AireServices.AI.generateSummary(input)
             .then((result) => {
                 if (result.status == AireStatus.Success && result.data) {
                     const msg = createSummaryMessage(result.data);
-                    chat.push(msg);
+                    this.push(msg);
                     return true;
                 } else {
                     throw Error(result.status.toString());
@@ -419,11 +425,11 @@ export class ChatContext {
     public async queryQuestionnaires(keywords: string[]) {
         if (keywords.length > 0) {
             const q = keywords.sort().join(",");
-            if(this.questionnaire_queries.includes(q))
+            if (this.questionnaire_queries.includes(q))
                 return; // No requeries with the same keys
 
             useChatbot().makeBusy();
-            queryQuestionnaire(keywords)
+            await queryQuestionnaire(keywords)
                 .then(questionnaire => {
                     this.questionnaire_queries.push(q);
                     if (questionnaire) {
@@ -433,6 +439,28 @@ export class ChatContext {
                     }
                 })
                 .finally(() => useChatbot().reportReady())
+        }
+    }
+
+    public async suggestContent(keywords: string[]) {
+        if (keywords.length > 0) {
+            const q = keywords.sort().join(",");
+            if (this.content_queries.includes(q))
+                return; // No requeries with the same keys
+            
+            useChatbot().makeBusy();
+
+            await useContent()
+                .search(keywords, 4)
+                .then(results => {
+                    // Filter out already suggested content
+                    const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
+                    if(content.length > 0) {
+                        const msg = createContentMessage(results);
+                        this.push(msg);
+                    }
+                })
+                .finally(() => useChatbot().reportReady());
         }
     }
 }
@@ -467,6 +495,10 @@ async function receiver(e: AireTalkEvent) {
 
         // Search questionnaires and start prompt to start one if found
         chat.queryQuestionnaires(e.keywords);
+
+        // Suggest content if found
+        chat.suggestContent(e.keywords);
+
         return;
     }
 
@@ -503,7 +535,6 @@ async function receiver(e: AireTalkEvent) {
         if (endConversation) {
             chat.endConversation();
         }
-
     }
 }
 

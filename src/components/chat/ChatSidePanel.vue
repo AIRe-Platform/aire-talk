@@ -9,7 +9,6 @@ import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaire
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
 import useChat, { ChatContext } from '@/context/chat';
 import useQuestionnaire from '@/context/questionnaire';
-
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
 import { listChatKeywords } from '@/helpers/chatUtils';
@@ -60,8 +59,9 @@ const askPersonalInformation = () => {
         questionnaires.startQuestionnaire(personalInfoQuestionnaire);
 }
 
-const suggestContent = () => {
-    alert("Not implemented");
+const makeSuggestions = () => {
+    const keywords = listChatKeywords(chatContext.messages);
+    chatContext.suggestContent(keywords);
 }
 
 onMounted(() => {
@@ -89,7 +89,7 @@ onMounted(() => {
                 <span class="chat-tool-button-text">{{ $t(l.profile_question_button) }}</span>
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
             </button>
-            <button class="chat-tool-button" @click="suggestContent">
+            <button class="chat-tool-button" @click="makeSuggestions">
                 <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
                 <font-awesome-icon icon="fa-solid fa-lightbulb" />
             </button>

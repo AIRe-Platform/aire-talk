@@ -113,13 +113,13 @@ onMounted(() => {
     ]">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
-    <div class=" chat-bubble-options">
-        <div class="chat-bubble-options-button" @click.stop="onToggleMenu"
+    <div class="chat-item-options">
+        <div class="chat-item-options-button" @click.stop="onToggleMenu"
             :class="{ 'is-content': props.content !== undefined }">
             <div class="icon chat-option-desktop">
             </div>
         </div>
-        <div class="chat-bubble-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
+        <div class="chat-item-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
             <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
                 :class="{ 'is-selected': state.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
@@ -147,11 +147,11 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-.chat-bubble-options {
+.chat-item-options {
     position: relative;
 }
 
-.chat-bubble-options-button {
+.chat-item-options-button {
     position: absolute;
     top: -1.1rem;
     right: -1.6rem;
@@ -205,12 +205,12 @@ onMounted(() => {
     }
 }
 
-.chat-bubble-options-menu {
+.chat-item-options-menu {
     position: absolute;
     display: flex;
     flex-direction: column;
-    right: -4.5rem;
-    top: 0;
+    right: -1rem;
+    top: 1.2rem;
     gap: 0.2rem;
 }
 
@@ -230,7 +230,7 @@ onMounted(() => {
 
 /* mobile*/
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .chat-bubble-options-menu {
+    .chat-item-options-menu {
         top: -1rem;
         right: 1rem;
         flex-direction: row;
