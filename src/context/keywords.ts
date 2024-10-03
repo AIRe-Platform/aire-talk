@@ -55,6 +55,30 @@ export class KeywordsContext {
             .map(x => this.metadata.find(k => k.value == x))
             .filter(x => x !== undefined);
     }
+    
+    public async getKeywords(search?: string): Promise<AireKeyword[] | undefined> {
+        if (!AireServices.Memory) {
+            console.warn("Memory service is not available");
+            return undefined;
+        }
+    
+        // Call the queryKeywords method
+        return await AireServices.Memory.queryKeywords(search)
+            .then((result) => {
+                if (result.status === AireStatus.Success && result.data) {
+                    // Assuming you have some caching mechanism or need to return the result
+                    return result.data;
+                } else {
+                    throw new Error(`Failed to get keywords: ${result.status}`);
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to get keywords", err);
+                return undefined; // Handle the failure case
+            });
+    }
+    
+        
 }
 
 
