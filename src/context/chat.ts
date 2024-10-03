@@ -179,14 +179,13 @@ export class ChatContext {
      * Add new user message and wait response from the chatbot
      * @param message Message content
      */
-    public endConversation() {
+    public async endConversation() {
         const msg = createSystemMessage(l.system_end_of_conversation);
         msg.type = ChatMessageType.EndOfConversation;
         this.messages.push(msg);
 
-        this.summarize();
-
-        // TODO: Show content suggestions, allow continuing conversation
+        await this.summarize();
+        await this.suggestContent(listChatKeywords(this.messages));
     }
 
     /**
@@ -422,46 +421,53 @@ export class ChatContext {
             .finally(() => useChatbot().reportReady())
     }
 
-    public async queryQuestionnaires(keywords: string[]) {
+    public async queryQuestionnaires(keywords: string[]): Promise<boolean> {
         if (keywords.length > 0) {
             const q = keywords.sort().join(",");
             if (this.questionnaire_queries.includes(q))
-                return; // No requeries with the same keys
+                return false; // No requeries with the same keys
 
             useChatbot().makeBusy();
-            await queryQuestionnaire(keywords)
+            return await queryQuestionnaire(keywords)
                 .then(questionnaire => {
                     this.questionnaire_queries.push(q);
                     if (questionnaire) {
                         const q = createQuestionnaire(questionnaire);
-                        if (q)
+                        if (q) {
                             useQuestionnaire().startQuestionnaire(q);
+                            return true;
+                        }
                     }
+                    return false;
                 })
                 .finally(() => useChatbot().reportReady())
         }
+        return false;
     }
 
-    public async suggestContent(keywords: string[]) {
+    public async suggestContent(keywords: string[]): Promise<number> {
         if (keywords.length > 0) {
             const q = keywords.sort().join(",");
             if (this.content_queries.includes(q))
-                return; // No requeries with the same keys
-            
+                return 0; // No requeries with the same keys
+
             useChatbot().makeBusy();
 
-            await useContent()
+            return await useContent()
                 .search(keywords, 4)
                 .then(results => {
                     // Filter out already suggested content
                     const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
-                    if(content.length > 0) {
+                    if (content.length > 0) {
                         const msg = createContentMessage(results);
                         this.push(msg);
+                        return content.length;
                     }
+                    return 0;
                 })
                 .finally(() => useChatbot().reportReady());
         }
+        return 0;
     }
 }
 
@@ -494,10 +500,11 @@ async function receiver(e: AireTalkEvent) {
             })
 
         // Search questionnaires and start prompt to start one if found
-        chat.queryQuestionnaires(e.keywords);
+        const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
 
-        // Suggest content if found
-        chat.suggestContent(e.keywords);
+        // Suggest content if questionnaire was not found
+        if (!foundQuestionnaire)
+            chat.suggestContent(e.keywords);
 
         return;
     }
