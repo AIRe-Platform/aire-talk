@@ -30,15 +30,12 @@ import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import useSummary, { SummaryContext } from "./summary";
 import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-import useKeywords from "./keywords";
-import useSuggestion from "./suggestions";
 
 export class ChatContext {
     id?: string;
@@ -184,18 +181,7 @@ export class ChatContext {
      * @param message Message content
      */
     public async endConversation() {
-        // TODO: Maybe update summary?
-        useSummary().update();
-        
-        // TODO: Generate keywords?
-        const keywords = await useKeywords().getKeywords();
-        if(keywords){
-            const keywordStrings = keywords.map(x => x.value);
-            //TODO: generate suggestions
-            useSuggestion().searchContent(keywordStrings);
-        }
 
-        // TODO: Present choices on how to continue?
         const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
         this.messages.push(end);
 
