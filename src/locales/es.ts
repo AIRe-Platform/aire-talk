@@ -17,6 +17,10 @@ const es: Locale = {
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
     system_end_of_conversation: "La conversación ha finalizado",
+    system_end_of_conversation_options: "¿Qué te gustaría hacer?",
+
+    conversation_option_continue: "Continuar la conversación",
+    conversation_option_new_chat: "Iniciar una nueva conversación",
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 

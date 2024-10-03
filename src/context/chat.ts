@@ -23,7 +23,8 @@ import {
     createInstructionMessage,
     createKeywordMessage,
     createSummaryMessage,
-    createContentMessage
+    createContentMessage,
+    createControlFlowMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -180,12 +181,29 @@ export class ChatContext {
      * @param message Message content
      */
     public async endConversation() {
-        const msg = createSystemMessage(l.system_end_of_conversation);
-        msg.type = ChatMessageType.EndOfConversation;
-        this.messages.push(msg);
+        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+        this.messages.push(end);
 
         await this.summarize();
         await this.suggestContent(listChatKeywords(this.messages));
+
+        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+        this.messages.push(options);
+    }
+
+    /**
+     * Continues the conversation
+     */
+    public async continueConversation() {
+        const optionsIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversationOptions);
+        if (optionsIndex > -1)
+            this.messages.splice(optionsIndex, 1);
+
+        const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
+        this.messages.push(cont);
+
+        const inst = createInstructionMessage("The user wishes to continue the conversation.");
+        this.messages.push(inst);
     }
 
     /**

@@ -16,7 +16,11 @@ const fi: Locale = {
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
-    system_end_of_conversation: "Keskustelu on päättynyt",
+    system_end_of_conversation: "Keskustelu on päättynyt",    
+    system_end_of_conversation_options: "Miten haluat jatkaa?",
+
+    conversation_option_continue: "Jatka tätä keskustelua",
+    conversation_option_new_chat: "Aloita uusi keskustelu",
 
     notification_keyword: "\"{keyword}\" teema tunnistettu",
 

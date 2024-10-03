@@ -17,6 +17,10 @@ const sw: Locale = {
     system_topic: "Umechagua mada: ",
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
     system_end_of_conversation: "Mazungumzo yamekwisha",
+    system_end_of_conversation_options: "Ungependa kufanya nini?",
+
+    conversation_option_continue: "Endelea na mazungumzo",
+    conversation_option_new_chat: "Anzisha mazungumzo mapya",
 
     notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 

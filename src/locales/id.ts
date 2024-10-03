@@ -17,6 +17,10 @@ const id: Locale = {
     system_topic: "Anda telah memilih topik: ",
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
     system_end_of_conversation: "Percakapan telah berakhir",
+    system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
+
+    conversation_option_continue: "Lanjutkan percakapan",
+    conversation_option_new_chat: "Mulai percakapan baru",
 
     notification_keyword: "Tema \"{keyword}\" dikenali",
 

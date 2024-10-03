@@ -81,6 +81,11 @@ export function createSummaryMessage(summary: string) {
     return createMessage(ChatMessageType.Summary, "system", summary);
 }
 
+export function createControlFlowMessage(type: ChatMessageType, message_loc_key?: string) {
+    const hasMessage = message_loc_key ? true : false;
+    return createMessage(type, "system", message_loc_key, hasMessage, !hasMessage);
+}
+
 export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion): ChatMessage {
     const msg = createMessage(ChatMessageType.Questionnaire, "assistant");
     const item: AireQuestionnaireAnswer = {

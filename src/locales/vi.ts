@@ -17,6 +17,10 @@ const vi: Locale = {
     system_topic: "Bạn đã chọn chủ đề: ",
     system_found_content: "Tôi tìm thấy một số nội dung có thể bạn quan tâm. Hãy nhìn xem!",
     system_end_of_conversation: "Cuộc trò chuyện đã kết thúc",
+    system_end_of_conversation_options: "Bạn muốn làm gì?",
+
+    conversation_option_continue: "Tiếp tục cuộc trò chuyện",
+    conversation_option_new_chat: "Bắt đầu một cuộc trò chuyện mới",
 
     notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 

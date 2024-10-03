@@ -11,8 +11,8 @@ import ChatSummaryMessage from './messages/ChatSummaryMessage.vue';
 import ChatErrorMessage from './messages/ChatErrorMessage.vue';
 import ChatDefaultMessage from './messages/ChatDefaultMessage.vue';
 import ChatEndConversationMessage from './messages/ChatEndConversationMessage.vue';
-import ChatContinueConversationMessage from './messages/ChatContinueConversationMessage.vue';
 import ChatNotificationMessage from './messages/ChatNotificationMessage.vue';
+import ChatEndOptionsMessage from './messages/ChatEndOptionsMessage.vue';
 
 const props = defineProps<{ 
     message: ChatMessage, 
@@ -31,10 +31,10 @@ const isNotificationMessage = computed(() => {
 
 <template>
     <ChatNotificationMessage v-if="isNotificationMessage" :message="props.message"/>
-    <ChatEndConversationMessage v-else-if="props.message.type == ChatMessageType.EndOfConversation" :message="props.message"/>
-    <ChatContinueConversationMessage v-else-if="props.message.type == ChatMessageType.ContinueConversation" :message="props.message"/>
     <ChatContentMessage v-else-if="props.message.type == ChatMessageType.Content" :message="props.message"/>
     <ChatSummaryMessage v-else-if="props.message.type == ChatMessageType.Summary" :message="props.message"/>
+    <ChatEndConversationMessage v-else-if="props.message.type == ChatMessageType.EndOfConversation" :message="props.message"/>
+    <ChatEndOptionsMessage v-else-if="props.message.type == ChatMessageType.EndOfConversationOptions" :message="props.message"/>
     <ChatErrorMessage v-else-if="props.message.type == ChatMessageType.Error" :message="props.message"/>
     <ChatDefaultMessage v-else :message="props.message" :canRevert="props.canRevert"/>
 </template>

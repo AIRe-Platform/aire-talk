@@ -14,7 +14,7 @@ export enum ChatMessageType {
     // A message signifying the end of conversation
     EndOfConversation = "end_of_conversation",
 
-    // A message signifying the continuation of convesation
+    // A message signifying the continuation of conversation
     ContinueConversation = "continue_conversation",
 
     // Message notifying of identified keyword/theme
@@ -35,6 +35,9 @@ export enum ChatMessageType {
 
     // The message contains content suggestions
     Content = "content",
+
+    // The message presents options going forward when the conversation has ended
+    EndOfConversationOptions = "end_of_conversation_options",
 }
 
 export interface ChatMessage extends AireChatMessage {

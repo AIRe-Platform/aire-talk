@@ -14,6 +14,10 @@ export enum LocalizationKey {
     system_topic = "system_topic",
     system_found_content = "system_found_content",
     system_end_of_conversation = "system_end_of_conversation",
+    system_end_of_conversation_options = "system_end_of_conversation_options",
+    
+    conversation_option_continue = "conversation_option_continue",
+    conversation_option_new_chat = "conversation_option_new_chat",
 
     notification_keyword = "notification_keyword",
 
