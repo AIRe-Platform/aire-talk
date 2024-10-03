@@ -120,27 +120,27 @@ onMounted(() => {
             </div>
         </div>
         <div class="chat-item-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
-            <button @click.stop="onThumbsUp" class="chat-message-answer-options-menu-button thumbs-up"
+            <div @click.stop="onThumbsUp" class="chat-item-options-menu-button thumbs-up"
                 :class="{ 'is-selected': state.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-            </button>
-            <button @click.stop="onThumbsDown" class="chat-message-answer-options-menu-button thumbs-down"
+            </div>
+            <div @click.stop="onThumbsDown" class="chat-item-options-menu-button thumbs-down"
                 :class="{ 'is-selected': state.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
-            </button>
+            </div>
             <template v-if="!props.content">
-                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button check"
+                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button check"
                     :class="{ 'is-selected': state.copiedToClipboard }" v-if="state.copiedToClipboard">
                     <font-awesome-icon icon="fa-solid fa-check" />
-                </button>
-                <button @click.stop="onCopyClipboard" class="chat-message-answer-options-menu-button copy"
+                </div>
+                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button copy"
                     v-if="!state.copiedToClipboard">
                     <font-awesome-icon icon="fa-solid fa-copy" />
-                </button>
-                <button @click.stop="onRevert" class="chat-message-answer-options-menu-button spin"
+                </div>
+                <div @click.stop="onRevert" class="chat-item-options-menu-button spin"
                     v-if="props.can_revert">
                     <font-awesome-icon icon="fa-solid fa-arrows-spin" />
-                </button>
+                </div>
             </template>
         </div>
     </div>
@@ -177,9 +177,8 @@ onMounted(() => {
 
     &:hover {
         background-color: var(--chat-bubble-options-button-hover);
-        border-color: transparent;
         color: var(--button-color);
-        border-color: var(--stroke);
+        border-color: var(--box-stroke);
     }
 }
 
@@ -188,9 +187,8 @@ onMounted(() => {
 
     &:hover {
         background-color: var(--user-chat-box-background);
-        border-color: transparent;
         color: var(--questionnaire-icon-background);
-        border-color: var(--stroke);
+        border-color: var(--box-stroke);
     }
 }
 
@@ -199,9 +197,8 @@ onMounted(() => {
 
     &:hover {
         background-color: var(--user-chat-box-background);
-        border-color: transparent;
         color: var(--delete-color);
-        border-color: var(--stroke);
+        border-color: var(--box-stroke);
     }
 }
 
@@ -214,9 +211,16 @@ onMounted(() => {
     gap: 0.2rem;
 }
 
-.chat-message-answer-options-menu-button {
+.chat-item-options-menu-button {
     cursor: pointer;
-    background-color: var(--chat-options-menu-background) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 2rem;
+    border: 1.5px solid var(--chat-bubble-options-button-hover);
+    background-color: var(--chat-options-menu-background);
+    border-radius: 0.5rem;
 }
 
 .is-selected {
