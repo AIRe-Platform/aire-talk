@@ -49,7 +49,10 @@ export class ContentContext {
                     }
 
                     // Sort by date
-                    return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+                    if(b.modified && a.modified)
+                        return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+
+                    return 0;
                 }) || [];
 
                 if (max_items)
