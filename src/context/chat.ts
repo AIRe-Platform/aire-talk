@@ -33,9 +33,9 @@ import i18n, { l } from "@/locales";
 import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
-import useKeywords from "./keywords";
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
+import { getKeywordMetadata, updateKeywordMetadata } from "@/helpers/keywordUtils";
 
 export class ChatContext {
     id?: string;
@@ -354,7 +354,7 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        useKeywords().updateMetadata(listChatKeywords(this.messages));
+        updateKeywordMetadata(listChatKeywords(this.messages));
 
         scrollChatToBottom();
         return true;
@@ -511,10 +511,9 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
-        await useKeywords().updateMetadata(e.keywords);
         const currentKeywords = listChatKeywords(chat.messages);
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
-        useKeywords().getMetadata(newKeywords).forEach(k => chat.pushKeyword(k));
+        (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
         const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);

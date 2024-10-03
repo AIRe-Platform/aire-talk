@@ -12,7 +12,6 @@ import {
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
-import useKeywords from "@/context/keywords";
 import { listChatKeywords } from "./chatUtils";
 
 /**
