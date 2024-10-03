@@ -16,6 +16,9 @@ const en: Locale = {
         "Welcome to AIRe Talk! Begin by describing what aid you need or what symptoms you have.",
     system_topic: "You have selected a topic: ",
     system_found_content: "I found some content that may interest you. Take a look!",
+    system_end_of_conversation: "The conversation has ended.",
+
+    notification_keyword: "\"{keyword}\" key identified",
 
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph:
