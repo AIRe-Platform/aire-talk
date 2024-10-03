@@ -7,6 +7,7 @@ import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
 import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion } from "aire";
+import useContent from "@/context/content";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -50,11 +51,27 @@ export function createMessage(
     }
 }
 
-export function createContentMessage(content: AireContent[]): ChatMessage {
+
+export async function createContentMessage(content: AireContent[]): Promise<ChatMessage> {  
     const msg = createMessage("assistant", l.system_found_content, true, false);
+
+    // Map the media IDs
     msg.media = content.map(x => x.id!);
+
+    // Handle each content item and generate thumbnail URLs
+    const thumbnailUrls = await Promise.all(
+        content.map(async (x) => {
+            // Check if the content item has an id, then fetch the URL
+            return x.id ? await useContent().getUrl(x.id) : x.url;
+        })
+    );
+
+    // Filter out any undefined values from thumbnailUrls
+    msg.thumbnail = thumbnailUrls.filter((url): url is string => url !== undefined);
+
     return msg;
 }
+
 
 export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
     return createMessage("system", message_loc_key, localize, false);

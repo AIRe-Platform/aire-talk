@@ -29,7 +29,7 @@ export class SuggestionContext {
             .slice(0, 2);
     
         if (results.length > 0) {
-            this.message = createContentMessage(results);
+            this.message = await createContentMessage(results);
         }
         else {
             this.message = undefined;
