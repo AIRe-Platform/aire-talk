@@ -46,7 +46,7 @@ export function getChatbotInputData(): AireChatbotInput {
     const locale = getUILanguage();
 
     const messages = chat.messages
-        .filter(x => x.role === "assistant" || x.role === "user")
+        .filter(x => x.role === "assistant" || x.role === "user" || x.type == ChatMessageType.Instruction)
         .map(x => {
             const m: AireChatMessage = x;
             return m;
@@ -69,4 +69,21 @@ export function listChatKeywords(messages: ChatMessage[]) {
     return messages
         .filter(x => x.type == ChatMessageType.Keyword && x.content)
         .map(x => x.content!);
+}
+
+export function conversationEnded(messages: ChatMessage[])
+{
+    let ended = false;
+    messages.forEach(x => {
+        if(x.type == ChatMessageType.EndOfConversation)
+            ended = true;
+        else if (x.type == ChatMessageType.ContinueConversation)
+            ended = false;
+    })
+    return ended;
+}
+
+export function findLatestSummary(messages: ChatMessage[]) : string | undefined
+{
+    return messages.findLast(x => x.type == ChatMessageType.Summary)?.content;
 }

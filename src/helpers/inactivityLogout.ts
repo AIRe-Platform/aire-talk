@@ -6,25 +6,22 @@ let logoutTimer: number | undefined;
 let listenersAttached = false; // To track if event listeners are already attached
 let resetHandler: (() => void) | null = null; // Store reference to handler
 
-// Function to reset the logout timer
-export const resetLogoutTimer = (logoutCallback: () => void, timeoutDuration: number) => {
+const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
+
+const resetLogoutTimer = (logoutCallback: () => void) => {
     if (logoutTimer) {
         clearTimeout(logoutTimer);
     }
 
-    // Set a new timer
-    logoutTimer = window.setTimeout(() => {
-        logoutCallback();
-    }, timeoutDuration);
+    logoutTimer = setTimeout(logoutCallback, LOGOUT_TIMER_START);
 };
 
-// Function to start the inactivity listener
-export const startInactivityListener = (logoutCallback: () => void, timeoutDuration: number, event: Event) => {
-    if (listenersAttached) return; // Prevent re-adding event listeners
+export const startInactivityListener = (logoutCallback: () => void) => {
+    if (listenersAttached) 
+        return; // Prevent re-adding event listeners
 
     resetHandler = () => {
-        // console.debug("User triggered: " + event + " . Resetting logout timer.");
-        resetLogoutTimer(logoutCallback, timeoutDuration);
+        resetLogoutTimer(logoutCallback);
     };
 
     // Attach event listeners for user activity
@@ -34,14 +31,12 @@ export const startInactivityListener = (logoutCallback: () => void, timeoutDurat
     window.addEventListener('click', resetHandler as EventListener);
 
     listenersAttached = true;
-
-    // Start the timer for the first time
-    resetLogoutTimer(logoutCallback, timeoutDuration);
+    resetLogoutTimer(logoutCallback);
 };
 
-// Function to stop the inactivity listener
 export const stopInactivityListener = () => {
-    if (!listenersAttached || !resetHandler) return; // Only remove if attached
+    if (!listenersAttached || !resetHandler) 
+        return; // Only remove if attached
 
     window.removeEventListener('mousemove', resetHandler as EventListener);
     window.removeEventListener('keydown', resetHandler as EventListener);

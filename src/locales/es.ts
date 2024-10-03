@@ -16,9 +16,13 @@ const es: Locale = {
     system_greeting:
         "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
-    system_end_of_conversation: "La conversación ha terminado.",
+    system_end_of_conversation: "La conversación ha finalizado",
+    system_end_of_conversation_options: "¿Qué te gustaría hacer?",
 
-    notification_keyword: "\"{keyword}\" tema identificado",
+    conversation_option_continue: "Continuar la conversación",
+    conversation_option_new_chat: "Iniciar una nueva conversación",
+
+    notification_keyword: "Tema \"{keyword}\" reconocido",
     
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
@@ -157,10 +161,12 @@ const es: Locale = {
     topic_increased_weight: "Aumento de peso",
     topic_trouble_talking: "Problemas para hablar",
 
-    summary_chag_log_title: "Resumen",
-    summary_generate_summary: "Resumir",
-    summary_query_surveys_button: "Consultar encuestas",
-    summary_suggestions: "Sugerencias",
+    summary_title: "Resumen",
+    suggestions_title: "Sugerencias",
+    tools_title: "Herramientas",
+    tools_button_summarize: "Resumir",
+    tools_button_query_surveys: "Consultar encuestas",
+    tools_button_suggestions: "Sugerencias",
 
     suggestion_check_for_more: "Obtén más sugerencias",
 

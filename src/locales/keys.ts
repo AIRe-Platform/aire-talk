@@ -14,6 +14,10 @@ export enum LocalizationKey {
     system_topic = "system_topic",
     system_found_content = "system_found_content",
     system_end_of_conversation = "system_end_of_conversation",
+    system_end_of_conversation_options = "system_end_of_conversation_options",
+    
+    conversation_option_continue = "conversation_option_continue",
+    conversation_option_new_chat = "conversation_option_new_chat",
 
     notification_keyword = "notification_keyword",
 
@@ -133,10 +137,12 @@ export enum LocalizationKey {
     topic_increased_weight = "topic_increased_weight",
     topic_trouble_talking = "topic_trouble_talking",
 
-    summary_chag_log_title = "summary_chag_log_title",
-    summary_generate_summary = "summary_generate_summary",
-    summary_query_surveys_button = "summary_query_surveys_button",
-    summary_suggestions = "summary_suggestions",
+    summary_title = "summary_title",
+    suggestions_title = "suggestions_title",
+    tools_title = "tools_title",
+    tools_button_summarize = "tools_button_summarize",
+    tools_button_query_surveys = "tools_button_query_surveys",
+    tools_button_suggestions = "tools_button_suggestions",
     
     suggestion_check_for_more = "suggestion_check_for_more",
 

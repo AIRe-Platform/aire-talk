@@ -20,7 +20,6 @@ import DialogModal from "@/components/layout/DialogModal.vue";
 import { l } from '@/locales';
 import { router } from './router';
 
-const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
 
 const login = useLogin();
 const state = reactive<{
@@ -46,34 +45,21 @@ const closeInactivityPopup = () => {
     state.showInactivityPopup = false;
 }
 
-const handleMouseMove = (event: MouseEvent) => {
-    // console.debug('mouseover mouse moved!', event);
-    if (login.user) {
-        startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
-    }
-};
-
-const handleMouseWheel = (event: WheelEvent) => {
-    // console.debug('Wheel scrolled!', event);
-    if (login.user) {
-        startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
-    }
-
-};
-
 onMounted(() => {
-    const event: Event = new Event('customEvent');
-    const stopWatching = watch(
+    const stopLoginWatch = watch(
         () => login.user,
         (user) => {
-            if (user) {
-                startInactivityListener(onInactivityTimeout, LOGOUT_TIMER_START, event);
+            if (user && !import.meta.env.VITE_DEBUG_DISABLE_SESSION_TIMEOUT) {
+                startInactivityListener(onInactivityTimeout);
+            }
+            else {
+                stopInactivityListener();
             }
         }
     );
 
     onUnmounted(() => {
-        stopWatching();
+        stopLoginWatch();
         stopInactivityListener();
     });
 
@@ -86,7 +72,7 @@ onMounted(() => {
     <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="0" @wheel="handleMouseWheel" @mousemove="handleMouseMove">
+    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
         <NavMenu />
         <div class="main-panels" v-if="UIState.panels.size > 0">
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />

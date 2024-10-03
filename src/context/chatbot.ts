@@ -9,25 +9,39 @@ type ChatbotStatus = "idle" | "writing" | "answered";
 
 export class ChatbotContext {
     status: ChatbotStatus;
-    private timer?: number;
+
+    private running_tasks: number;
 
     constructor() {
         this.status = "idle";
+        this.running_tasks = 0;
     }
 
-    public setStatus(status: ChatbotStatus, useTimeout: boolean | number = true) {
-        const timeout_ms = (typeof useTimeout === 'number') ? useTimeout : 2000;
-        this.status = status;
+    public makeBusy(useTimeout: boolean | number = true) {
+        this.running_tasks += 1;
+        this.status = "writing";
 
         if (useTimeout) {
-            if (this.timer)
-                clearTimeout(this.timer);
+            const timeout_ms = (typeof useTimeout === 'number') ? useTimeout : 2000;
 
-            if (status !== "idle") {
-                this.timer = setTimeout(async () => {
+            setTimeout(() => {
+                this.reportReady()
+            }, timeout_ms);
+        }
+    }
+
+    public reportReady() {
+        this.running_tasks -= 1;
+        if (this.running_tasks < 0)
+            this.running_tasks = 0;
+
+        if (this.running_tasks == 0) {
+            this.status = "answered"
+
+            setTimeout(() => {
+                if (this.status == "answered")
                     this.status = "idle";
-                }, timeout_ms);
-            }
+            }, 2000);
         }
     }
 }

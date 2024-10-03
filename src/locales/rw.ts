@@ -16,6 +16,13 @@ const rw: Locale = {
         "Murakaza neza ku rubuga rwa AIRe. Tangira utubwira, icyo wifuza ko tugufasha cyangwa ibimenyetso by'uburwayi bwawe.",
     system_topic: "Wahisemo ingingo:",
     system_found_content: "Hari amakuru ashobora kugira icyo agufasha. Reba ayo makuru witonze.",
+    system_end_of_conversation: "Ikiganiro cyarangiye",
+    system_end_of_conversation_options: "Urashaka gukora iki?",
+
+    conversation_option_continue: "Komeza ikiganiro",
+    conversation_option_new_chat: "Tangira ikiganiro gishya",
+
+    notification_keyword: "Insanganyamatsiko \"{keyword}\" yamenyekanye",
 
     start_greeting: "Murakaza neza ku rubuga rwa AIRe",
     start_first_paragraph:
@@ -146,10 +153,12 @@ const rw: Locale = {
     topic_increased_weight: "Kongera ibiro",
     topic_trouble_talking: "Ibibazo byo kunanirwa kuvuga",
 
-    summary_chag_log_title: "Incamake",
-    summary_generate_summary: "Vuga muri make",
-    summary_query_surveys_button: "Ubushakashatsi",
-    summary_suggestions: "Suggestions",
+    summary_title: "Incamake",
+    suggestions_title: "Ibyifuzo",
+    tools_title: "Ibikoresho",
+    tools_button_summarize: "Vuga muri make",
+    tools_button_query_surveys: "Ubushakashatsi",
+    tools_button_suggestions: "Ibyifuzo",
 
     suggestion_check_for_more: "Check here for more",
 

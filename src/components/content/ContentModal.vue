@@ -20,36 +20,10 @@ const openUrl = (url?: string) => {
     if (url)
         window.open(url, '_blank');
 };
-
-/**
- *  not in use
- * @param url
- */
-const download = async (url?: string) => {
-    if (url) {
-        try {
-            const response = await fetch(url);
-            const blob = await response.blob();
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'video.mp4'; // You can specify the default filename
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href); // Clean up the URL object
-        } catch (error) {
-            console.error('Failed to download in ContentModal:', error);
-        }
-    }
-};
 </script>
 
 <template>
     <Modal :active="active" @close="props.onClose" :showCloseButton="true">
-        <div v-if="props.parent" class="message-header">
-            <h1 v-if="props.parent.role != 'user'">{{ $t(props.parent.sender) }}</h1>
-            <h1 v-if="props.parent.role == 'user'">{{ (props.parent.sender) }}</h1>
-        </div>
         <div v-if="!props.parent" class="message-header-gap"></div>
         <div class="message-container">
             <div class="message-body">
@@ -93,6 +67,7 @@ const download = async (url?: string) => {
 <style scoped>
 .message-container {
     display: flex;
+    padding-top: 1rem;
 }
 
 .message-options {

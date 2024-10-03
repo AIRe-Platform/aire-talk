@@ -69,6 +69,7 @@ const onSubmitAnswer = (value: number) => {
 }
 
 .questionnaire-range-button {
+    color: var(--accent-primary-color);
     border: 1px solid var(--border-color);
     background-color: var(--panel-background-color);
     height: 3rem;

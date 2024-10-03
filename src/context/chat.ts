@@ -21,16 +21,22 @@ import {
     createUserMessage,
     createAssistantMessage,
     createInstructionMessage,
-    createNotificationMessage
+    createKeywordMessage,
+    createSummaryMessage,
+    createContentMessage,
+    createControlFlowMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
-import useSummary, { SummaryContext } from "./summary";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData } from "@/helpers/chatUtils";
+import useSummary, { SummaryContext } from "./summary";
+import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
+import useContent from "./content";
+import { getChatContentIds } from "@/helpers/contentUtils";
+import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useKeywords from "./keywords";
 import useSuggestion from "./suggestions";
 
@@ -39,6 +45,8 @@ export class ChatContext {
     autosave_timer?: number;
     modified: boolean;
     keyword_blacklist: Set<string>;
+    questionnaire_queries: Array<string>;
+    content_queries: Array<string>;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -54,6 +62,8 @@ export class ChatContext {
         this.meta = {};
         this.modified = false;
         this.keyword_blacklist = new Set<string>();
+        this.questionnaire_queries = new Array<string>();
+        this.content_queries = new Array<string>();
     }
 
     /** Resets the chat state */
@@ -75,9 +85,10 @@ export class ChatContext {
         this.modified = false;
         this.stats = {};
         this.keyword_blacklist.clear();
+        this.questionnaire_queries = [];
+        this.content_queries = [];
 
         useQuestionnaire().reset();
-        useSummary().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
         this.push(system_message);
@@ -105,8 +116,7 @@ export class ChatContext {
         if (this.keyword_blacklist.has(keyword.value))
             return;
 
-        // Create notification message
-        const notification = createNotificationMessage(ChatMessageType.Keyword, keyword.value);
+        const notification = createKeywordMessage(keyword.value);
         this.push(notification);
 
         // Create hidden prompt injection
@@ -162,7 +172,7 @@ export class ChatContext {
             this.messages[this.messages.length - 1] = message;
         }
 
-        if (final && message.role !== "system") {
+        if (final) {
             this.autoSave();
         }
 
@@ -186,10 +196,29 @@ export class ChatContext {
         }
 
         // TODO: Present choices on how to continue?
+        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+        this.messages.push(end);
 
-        const msg = createSystemMessage(l.system_end_of_conversation);
-        msg.type = ChatMessageType.EndOfConversation;
-        this.messages.push(msg);
+        await this.summarize();
+        await this.suggestContent(listChatKeywords(this.messages));
+
+        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+        this.messages.push(options);
+    }
+
+    /**
+     * Continues the conversation
+     */
+    public async continueConversation() {
+        const optionsIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversationOptions);
+        if (optionsIndex > -1)
+            this.messages.splice(optionsIndex, 1);
+
+        const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
+        this.messages.push(cont);
+
+        const inst = createInstructionMessage("The user wishes to continue the conversation.");
+        this.messages.push(inst);
     }
 
     /**
@@ -273,14 +302,15 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
-        const summary = useSummary();
 
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
-                summary: summary.summary,
+                summary: findLatestSummary(this.messages),
                 questionnaire: questionnaire.active,
-                keyword_blacklist: [...this.keyword_blacklist]
+                keyword_blacklist: [...this.keyword_blacklist],
+                questionnaire_queries: this.questionnaire_queries,
+                content_queries: this.content_queries,
             };
 
             const chatLog: AireChatLog = {
@@ -321,7 +351,6 @@ export class ChatContext {
             return false;
 
         const cached = useChatCache().get(chat_id);
-
         if (!cached) {
             return false;
         }
@@ -331,14 +360,16 @@ export class ChatContext {
         this.stats = cached.stats || {};
         this.meta.topic = cached.state.topic;
         this.keyword_blacklist = new Set(cached.state.keyword_blacklist);
+        this.questionnaire_queries = cached.state.questionnaire_queries || [];
+        this.content_queries = cached.state.content_queries || [];
 
         const state = cached.state;
         if (state) {
-            useSummary().set(state.summary);
-
             if (state.questionnaire)
                 useQuestionnaire().restoreState(state.questionnaire);
         }
+
+        updateKeywordMetadata(listChatKeywords(this.messages));
 
         scrollChatToBottom();
         return true;
@@ -392,6 +423,85 @@ export class ChatContext {
             return false;
         }
     }
+
+    public async summarize(): Promise<boolean> {
+        if (!AireServices.AI) {
+            console.warn("AI service is unavailable");
+            return false;
+        }
+
+        const input = getChatbotInputData();
+        if (input.chat.length == 0) {
+            return false;
+        }
+
+        useChatbot().makeBusy();
+
+        return await AireServices.AI.generateSummary(input)
+            .then((result) => {
+                if (result.status == AireStatus.Success && result.data) {
+                    const msg = createSummaryMessage(result.data);
+                    this.push(msg);
+                    return true;
+                } else {
+                    throw Error(result.status.toString());
+                }
+            })
+            .catch((err) => {
+                console.error("Failed to generate summary: ", err);
+                return false;
+            })
+            .finally(() => useChatbot().reportReady())
+    }
+
+    public async queryQuestionnaires(keywords: string[]): Promise<boolean> {
+        if (keywords.length > 0) {
+            const q = keywords.sort().join(",");
+            if (this.questionnaire_queries.includes(q))
+                return false; // No requeries with the same keys
+
+            useChatbot().makeBusy();
+            return await queryQuestionnaire(keywords)
+                .then(questionnaire => {
+                    this.questionnaire_queries.push(q);
+                    if (questionnaire) {
+                        const q = createQuestionnaire(questionnaire);
+                        if (q) {
+                            useQuestionnaire().startQuestionnaire(q);
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .finally(() => useChatbot().reportReady())
+        }
+        return false;
+    }
+
+    public async suggestContent(keywords: string[]): Promise<number> {
+        if (keywords.length > 0) {
+            const q = keywords.sort().join(",");
+            if (this.content_queries.includes(q))
+                return 0; // No requeries with the same keys
+
+            useChatbot().makeBusy();
+
+            return await useContent()
+                .search(keywords, 4)
+                .then(async results => {
+                    // Filter out already suggested content
+                    const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
+                    if (content.length > 0) {
+                        const msg = createContentMessage(results);
+                        this.push(await msg);
+                        return content.length;
+                    }
+                    return 0;
+                })
+                .finally(() => useChatbot().reportReady());
+        }
+        return 0;
+    }
 }
 
 const context: ChatContext = reactive(new ChatContext());
@@ -402,7 +512,7 @@ export default function useChat() {
 
 async function streamResponse() {
     if (AireServices.AI) {
-        useChatbot().setStatus("writing", false);
+        useChatbot().makeBusy();
 
         const input = getChatbotInputData()
         AireServices.AI.stream(input, receiver, errorHandler);
@@ -414,25 +524,19 @@ async function streamResponse() {
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
-    if (e.type === "keywords") {
+    if (e.type === "keywords" && e.keywords) {
         // Update keywords
-        useKeywords()
-            .updateMetadata(e.keywords)
-            .then(keywords => {
-                keywords.forEach(k => chat.pushKeyword(k));
-            })
+        const currentKeywords = listChatKeywords(chat.messages);
+        const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
+        (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
-        if (e.keywords && e.keywords.length > 0) {
-            queryQuestionnaire(e.keywords)
-                .then(questionnaire => {
-                    if (questionnaire) {
-                        const q = createQuestionnaire(questionnaire);
-                        if (q)
-                            useQuestionnaire().startQuestionnaire(q);
-                    }
-                })
-        }
+        const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
+
+        // Suggest content if questionnaire was not found
+        if (!foundQuestionnaire)
+            chat.suggestContent(e.keywords);
+
         return;
     }
 
@@ -456,8 +560,7 @@ async function receiver(e: AireTalkEvent) {
             last.content += e.message.content;
         }
         if (final) {
-            const bot = useChatbot();
-            bot.setStatus("answered");
+            useChatbot().reportReady();
 
             if (last.content?.includes("[END_OF_CONVERSATION]")) {
                 last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
@@ -479,5 +582,5 @@ function errorHandler(status: AireStatus) {
     const msg = createErrorMessage(l.error_ai_not_responding);
     useChat().push(msg);
 
-    useChatbot().setStatus("idle");
+    useChatbot().reportReady();
 }

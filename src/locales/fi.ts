@@ -16,7 +16,11 @@ const fi: Locale = {
         "Tervetuloa AIRe Talk -palveluun! Aloita kuvailemalla tarvitsemaasi apua tai oireitasi.",
     system_topic: "Olet valinnut aiheeksi: ",
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
-    system_end_of_conversation: "Keskustelu on päättynyt",
+    system_end_of_conversation: "Keskustelu on päättynyt",    
+    system_end_of_conversation_options: "Miten haluat jatkaa?",
+
+    conversation_option_continue: "Jatka tätä keskustelua",
+    conversation_option_new_chat: "Aloita uusi keskustelu",
 
     notification_keyword: "\"{keyword}\" teema tunnistettu",
 
@@ -157,10 +161,12 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     suggestion_check_for_more: "Katso lisää täältä",
 
-    summary_chag_log_title: "Yhteenveto",
-    summary_generate_summary: "Luo yhteenveto",
-    summary_query_surveys_button: "Hae kyselyitä",
-    summary_suggestions: "Ehdotuksia",
+    summary_title: "Yhteenveto",
+    suggestions_title: "Ehdotuksia",
+    tools_title: "Työkalut",
+    tools_button_summarize: "Luo yhteenveto",
+    tools_button_query_surveys: "Hae kyselyitä",
+    tools_button_suggestions: "Ehdotuksia",
 
     chat_history_loading: "Ladataan...",
     chat_history_tokens: "{0} tokenia",

@@ -16,6 +16,13 @@ const vi: Locale = {
         "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
     system_topic: "Bạn đã chọn chủ đề: ",
     system_found_content: "Tôi tìm thấy một số nội dung có thể bạn quan tâm. Hãy nhìn xem!",
+    system_end_of_conversation: "Cuộc trò chuyện đã kết thúc",
+    system_end_of_conversation_options: "Bạn muốn làm gì?",
+
+    conversation_option_continue: "Tiếp tục cuộc trò chuyện",
+    conversation_option_new_chat: "Bắt đầu một cuộc trò chuyện mới",
+
+    notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 
     start_greeting: "Chào mừng đến với nền tảng AIRe",
     start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
@@ -150,10 +157,12 @@ const vi: Locale = {
     topic_increased_weight: "Tăng cân",
     topic_trouble_talking: "Khó nói chuyện",
 
-    summary_chag_log_title: "Bản tóm tắt",
-    summary_generate_summary: "Tóm tắt",
-    summary_query_surveys_button: "Khảo sát truy vấn",
-    summary_suggestions: "Gợi ý",
+    summary_title: "Bản tóm tắt",
+    suggestions_title: "Gợi ý",
+    tools_title: "Công cụ",
+    tools_button_summarize: "Tóm tắt",
+    tools_button_query_surveys: "Khảo sát truy vấn",
+    tools_button_suggestions: "Gợi ý",
 
     suggestion_check_for_more: "Kiểm tra thêm",
 

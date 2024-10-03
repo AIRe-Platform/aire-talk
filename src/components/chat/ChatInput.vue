@@ -4,13 +4,13 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, computed } from "vue";
 import { router } from "@/router";
 import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
-import { ChatMessage, ChatMessageType } from "@/models/chat";
+import { conversationEnded } from "@/helpers/chatUtils";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -33,17 +33,13 @@ function submit() {
     textInput.value = "";
 }
 
-function conversationEnded(messages: ChatMessage[])
-{
-    if(messages.length > 0) {
-        return messages[messages.length - 1].type == ChatMessageType.EndOfConversation;
-    }
-    return false;
-}
+const ended = computed(() => {
+    return conversationEnded(chat.messages);
+})
 </script>
 
 <template v-if="props.visible">
-    <div class="chat-input" v-if="!conversationEnded(chat.messages)">
+    <div class="chat-input" v-if="!ended">
         <div class="chat-bot" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'

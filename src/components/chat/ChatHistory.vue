@@ -16,6 +16,7 @@ import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
+import { ChatMessageType } from "@/models/chat";
 
 
 interface ChatLogItem {
@@ -111,11 +112,7 @@ const getLastMessage = (id: string) => {
     if (!log)
         return undefined;
 
-    return (
-        log.messages[log.messages.length - 1].content ||
-        log.messages[log.messages.length - 1].question?.question ||
-        ""
-    );
+    return log.messages.findLast(x => x.type == ChatMessageType.Default && x.content)?.content || "";
 };
 
 const getTokenCount = (id: string) => {

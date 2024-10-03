@@ -16,6 +16,13 @@ const id: Locale = {
         "Selamat datang di AIRe Talk! Mulailah dengan menjelaskan bantuan apa yang Anda butuhkan atau gejala apa yang Anda miliki.",
     system_topic: "Anda telah memilih topik: ",
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
+    system_end_of_conversation: "Percakapan telah berakhir",
+    system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
+
+    conversation_option_continue: "Lanjutkan percakapan",
+    conversation_option_new_chat: "Mulai percakapan baru",
+
+    notification_keyword: "Tema \"{keyword}\" dikenali",
 
     start_greeting: "Selamat datang di platform AIRe",
     start_first_paragraph:
@@ -152,10 +159,12 @@ const id: Locale = {
     topic_increased_weight: "Kenaikan berat badan",
     topic_trouble_talking: "Kesulitan berbicara",
 
-    summary_chag_log_title: "Ringkasan",
-    summary_generate_summary: "Ringkas",
-    summary_query_surveys_button: "Kueri survei",
-    summary_suggestions: "Saran",
+    summary_title: "Ringkasan",
+    suggestions_title: "Saran",
+    tools_title: "Alat",
+    tools_button_summarize: "Ringkas",
+    tools_button_query_surveys: "Kueri survei",
+    tools_button_suggestions: "Saran",
     
     suggestion_check_for_more: "Periksa lebih lanjut",
 
