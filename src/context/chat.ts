@@ -511,11 +511,10 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
-        useKeywords()
-            .updateMetadata(e.keywords)
-            .then(keywords => {
-                keywords.forEach(k => chat.pushKeyword(k));
-            })
+        await useKeywords().updateMetadata(e.keywords);
+        const currentKeywords = listChatKeywords(chat.messages);
+        const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
+        useKeywords().getMetadata(newKeywords).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
         const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
