@@ -53,24 +53,24 @@ export function createMessage(
 }
 
 export async function createContentMessage(content: AireContent[]): Promise<ChatMessage> {
-    const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
-console.log("msg", msg);
+        const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
+    console.log("msg", msg);
 
-// Map the media IDs
-msg.media = content.map(x => x.id!);
+    // Map the media IDs
+    msg.media = content.map(x => x.id!);
 
-// Handle each content item and generate thumbnail URLs
-const thumbnailUrls = await Promise.all(
-    content.map(async (x) => {
-        // Check if the content item has an id, then fetch the URL
-        return x.id ? await useContent().getUrl(x.id) : x.url;
-    })
-);
+    // Handle each content item and generate thumbnail URLs
+    const thumbnailUrls = await Promise.all(
+        content.map(async (x) => {
+            // Check if the content item has an id, then fetch the URL
+            return x.id ? await useContent().getUrl(x.id) : x.url;
+        })
+    );
 
-// Filter out any undefined values from thumbnailUrls
-msg.thumbnail = thumbnailUrls.filter((url): url is string => url !== undefined);
+    // Filter out any undefined values from thumbnailUrls
+    msg.thumbnail = thumbnailUrls.filter((url): url is string => url !== undefined);
 
-return msg;
+    return msg;
 }
 
 export function createSystemMessage(message_loc_key: string, localize: boolean = true): ChatMessage {
