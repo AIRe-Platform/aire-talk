@@ -36,6 +36,7 @@ import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaire
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export class ChatContext {
     id?: string;
@@ -44,7 +45,7 @@ export class ChatContext {
     keyword_blacklist: Set<string>;
     questionnaire_queries: Array<string>;
     content_queries: Array<string>;
-
+    is_red_flag_triggered: boolean;
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public meta: {
@@ -61,6 +62,7 @@ export class ChatContext {
         this.keyword_blacklist = new Set<string>();
         this.questionnaire_queries = new Array<string>();
         this.content_queries = new Array<string>();
+        this.is_red_flag_triggered = false;
     }
 
     /** Resets the chat state */
@@ -84,7 +86,7 @@ export class ChatContext {
         this.keyword_blacklist.clear();
         this.questionnaire_queries = [];
         this.content_queries = [];
-
+        this.is_red_flag_triggered = false;
         useQuestionnaire().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
@@ -185,11 +187,14 @@ export class ChatContext {
         const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
         this.messages.push(end);
 
-        await this.summarize();
-        await this.suggestContent(listChatKeywords(this.messages));
-
-        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-        this.messages.push(options);
+        if(!this.is_red_flag_triggered){
+            await this.summarize();
+            await this.suggestContent(listChatKeywords(this.messages));
+    
+            const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+            this.messages.push(options);
+        }
+        
     }
 
     /**
@@ -465,26 +470,28 @@ export class ChatContext {
     }
 
     public async suggestContent(keywords: string[]): Promise<number> {
-        if (keywords.length > 0) {
-            const q = keywords.sort().join(",");
-            if (this.content_queries.includes(q))
-                return 0; // No requeries with the same keys
-
-            useChatbot().makeBusy();
-
-            return await useContent()
-                .search(keywords, 4)
-                .then(async results => {
-                    // Filter out already suggested content
-                    const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
-                    if (content.length > 0) {
-                        const msg = createContentMessage(results);
-                        this.push(await msg);
-                        return content.length;
-                    }
-                    return 0;
-                })
-                .finally(() => useChatbot().reportReady());
+        if(!this.is_red_flag_triggered){
+            if (keywords.length > 0) {
+                const q = keywords.sort().join(",");
+                if (this.content_queries.includes(q))
+                    return 0; // No requeries with the same keys
+    
+                useChatbot().makeBusy();
+    
+                return await useContent()
+                    .search(keywords, 4)
+                    .then(async results => {
+                        // Filter out already suggested content
+                        const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
+                        if (content.length > 0) {
+                            const msg = createContentMessage(results);
+                            this.push(await msg);
+                            return content.length;
+                        }
+                        return 0;
+                    })
+                    .finally(() => useChatbot().reportReady());
+            }
         }
         return 0;
     }
@@ -509,6 +516,9 @@ async function streamResponse() {
 
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
+
+    if(chat.is_red_flag_triggered)
+        return;
 
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
@@ -552,12 +562,17 @@ async function receiver(e: AireTalkEvent) {
                 last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
                 endConversation = true;
             }
+            if (last.content?.includes("[RED_FLAG]")) {
+                last.content = last.content.replace("[RED_FLAG]", "").trim();
+                endConversation = true;
+                chat.is_red_flag_triggered = true;
+            }
         }
 
         chat.push(last, firstMessage, final);
 
         if (endConversation) {
-            chat.endConversation();
+            await chat.endConversation();
         }
     }
 }
