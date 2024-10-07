@@ -18,11 +18,12 @@ const props = defineProps<{
 <template>
     <div :id="props.message.id" class="chat-event-scheduled-message" v-if="props.message.event">
         <span class="chat-event-scheduled-message-content">
-            {{ $t(l.system_event_scheduled,
-                {
-                    time: DateTime.fromSeconds(props.message.event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT),
-                    subject: props.message.event.content.message
-                })
+            {{
+                $t(l.system_event_scheduled,
+                    {
+                        time: DateTime.fromSeconds(props.message.event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT),
+                        subject: props.message.event.content.message
+                    })
             }}
         </span>
     </div>

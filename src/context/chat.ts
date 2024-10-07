@@ -12,6 +12,7 @@ import {
     AireChatLog,
     AireStatus,
     AireKeyword,
+    AireEvent,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -495,6 +496,14 @@ export class ChatContext {
         }
         return 0;
     }
+
+    public onEventScheduled(event: AireEvent) {
+        const msg = createScheduledEventMessage(event);
+        this.push(msg);
+
+        const inst = createInstructionMessage("A reminder for the event was set successfully.")
+        this.push(inst);
+    }
 }
 
 const context: ChatContext = reactive(new ChatContext());
@@ -542,8 +551,7 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "event-scheduled" && e.event) {
-        const msg = createScheduledEventMessage(e.event);
-        chat.push(msg);
+        chat.onEventScheduled(e.event);
         return;
     }
 
