@@ -18,6 +18,7 @@ const en: Locale = {
     system_found_content: "I found some content that may interest you. Take a look!",
     system_end_of_conversation: "The conversation has ended",
     system_end_of_conversation_options: "What would you like to do?",
+    system_event_scheduled: "A new reminder '{subject}' at {time} was created.",
 
     conversation_option_continue: "Continue conversation",
     conversation_option_new_chat: "Start a new conversation",

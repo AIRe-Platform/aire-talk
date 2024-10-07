@@ -13,6 +13,7 @@ import ChatDefaultMessage from './messages/ChatDefaultMessage.vue';
 import ChatEndConversationMessage from './messages/ChatEndConversationMessage.vue';
 import ChatNotificationMessage from './messages/ChatNotificationMessage.vue';
 import ChatEndOptionsMessage from './messages/ChatEndOptionsMessage.vue';
+import ChatEventScheduledMessage from './messages/ChatEventScheduledMessage.vue';
 
 const props = defineProps<{ 
     message: ChatMessage, 
@@ -35,6 +36,7 @@ const isNotificationMessage = computed(() => {
     <ChatSummaryMessage v-else-if="props.message.type == ChatMessageType.Summary" :message="props.message"/>
     <ChatEndConversationMessage v-else-if="props.message.type == ChatMessageType.EndOfConversation" :message="props.message"/>
     <ChatEndOptionsMessage v-else-if="props.message.type == ChatMessageType.EndOfConversationOptions" :message="props.message"/>
+    <ChatEventScheduledMessage v-else-if="props.message.type == ChatMessageType.EventScheduled" :message="props.message"/>
     <ChatErrorMessage v-else-if="props.message.type == ChatMessageType.Error" :message="props.message"/>
     <ChatDefaultMessage v-else-if="props.message.type == ChatMessageType.Default" :message="props.message" :canRevert="props.canRevert"/>
 </template>

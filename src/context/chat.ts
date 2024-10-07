@@ -24,7 +24,8 @@ import {
     createKeywordMessage,
     createSummaryMessage,
     createContentMessage,
-    createControlFlowMessage
+    createControlFlowMessage,
+    createScheduledEventMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -36,7 +37,6 @@ import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaire
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export class ChatContext {
     id?: string;
@@ -541,9 +541,9 @@ async function receiver(e: AireTalkEvent) {
         return;
     }
 
-    if (e.type === "event-scheduled") {
-        // TODO: Show information about event
-        console.log("Event scheduled.", e.event);
+    if (e.type === "event-scheduled" && e.event) {
+        const msg = createScheduledEventMessage(e.event);
+        chat.push(msg);
         return;
     }
 

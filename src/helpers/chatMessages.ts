@@ -7,7 +7,7 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion } from "aire";
+import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireEvent } from "aire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -95,6 +95,12 @@ export function createKeywordMessage(keyword: string) {
 
 export function createSummaryMessage(summary: string) {
     return createMessage(ChatMessageType.Summary, "system", summary);
+}
+
+export function createScheduledEventMessage(event: AireEvent) {
+    const msg = createMessage(ChatMessageType.EventScheduled, "system");
+    msg.event = event;
+    return msg;
 }
 
 export function createControlFlowMessage(type: ChatMessageType, message_loc_key?: string) {

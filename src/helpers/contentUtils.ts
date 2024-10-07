@@ -12,15 +12,10 @@ export function getChatContentIds(messages: ChatMessage[]): string[] {
     const contentIds = messages
         .flatMap(x => x.media)
         .filter(x => x !== undefined)
-        .map(x => x!);
-
-    const thumbnailUrls = messages
-        .flatMap(x => x.thumbnail)
-        .filter(x => x !== undefined)
-        .map(x => x!);
+        .flatMap(x => x!);
 
     // Combine all content and thumbnils ids
-    const allUnique = [...new Set([...contentIds, ...thumbnailUrls])];
+    const allUnique = [...new Set([...contentIds])];
     
     return allUnique;
 }

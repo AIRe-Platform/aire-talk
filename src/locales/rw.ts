@@ -18,6 +18,7 @@ const rw: Locale = {
     system_found_content: "Hari amakuru ashobora kugira icyo agufasha. Reba ayo makuru witonze.",
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
+    system_event_scheduled: "Kwibutsa gushya '{subject}' mugihe {time}.",
 
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",

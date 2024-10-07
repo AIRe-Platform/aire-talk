@@ -38,6 +38,9 @@ export enum ChatMessageType {
 
     // The message presents options going forward when the conversation has ended
     EndOfConversationOptions = "end_of_conversation_options",
+
+    // The message informs that a scheduled event was created
+    EventScheduled = "event_scheduled",
 }
 
 export interface ChatMessage extends AireChatMessage {

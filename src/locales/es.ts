@@ -18,6 +18,7 @@ const es: Locale = {
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
+    system_event_scheduled: "Se creó un nuevo recordatorio '{subject}' a las {time}.",
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",

@@ -18,6 +18,7 @@ const sw: Locale = {
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
+    system_event_scheduled: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
 
     conversation_option_continue: "Endelea na mazungumzo",
     conversation_option_new_chat: "Anzisha mazungumzo mapya",
