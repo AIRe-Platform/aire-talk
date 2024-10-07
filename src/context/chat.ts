@@ -541,6 +541,12 @@ async function receiver(e: AireTalkEvent) {
         return;
     }
 
+    if (e.type === "event-scheduled") {
+        // TODO: Show information about event
+        console.log("Event scheduled.", e.event);
+        return;
+    }
+
     if (e.type === "message" || e.type === "end") {
         const final = (e.type === "end");
         let last = chat.messages[chat.messages.length - 1];
