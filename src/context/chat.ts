@@ -187,14 +187,14 @@ export class ChatContext {
         const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
         this.messages.push(end);
 
-        if(!this.is_red_flag_triggered){
+        if (!this.is_red_flag_triggered) {
             await this.summarize();
             await this.suggestContent(listChatKeywords(this.messages));
-    
+
             const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
             this.messages.push(options);
         }
-        
+
     }
 
     /**
@@ -470,14 +470,14 @@ export class ChatContext {
     }
 
     public async suggestContent(keywords: string[]): Promise<number> {
-        if(!this.is_red_flag_triggered){
+        if (!this.is_red_flag_triggered) {
             if (keywords.length > 0) {
                 const q = keywords.sort().join(",");
                 if (this.content_queries.includes(q))
                     return 0; // No requeries with the same keys
-    
+
                 useChatbot().makeBusy();
-    
+
                 return await useContent()
                     .search(keywords, 4)
                     .then(async results => {
@@ -517,7 +517,7 @@ async function streamResponse() {
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
-    if(chat.is_red_flag_triggered)
+    if (chat.is_red_flag_triggered)
         return;
 
     if (e.type === "keywords" && e.keywords) {
@@ -554,13 +554,20 @@ async function receiver(e: AireTalkEvent) {
         let endConversation = false;
 
         if (last.role !== "assistant") {
-            last = createAssistantMessage("");
-            firstMessage = true
+            if (e.message && e.message.content.length > 0) {
+                last = createAssistantMessage("");
+                firstMessage = true
+            }
+            else {
+                // Ignore empty message
+                return;
+            }
         }
 
         if (e.message) {
             last.content += e.message.content;
         }
+
         if (final) {
             useChatbot().reportReady();
 
