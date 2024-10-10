@@ -6,7 +6,7 @@ let logoutTimer: number | undefined;
 let listenersAttached = false; // To track if event listeners are already attached
 let resetHandler: (() => void) | null = null; // Store reference to handler
 
-const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
+const LOGOUT_TIMER_START = 30 * 60 * 1000;   // 30 minutes in milliseconds: 30 * 60 * 1000;
 
 const resetLogoutTimer = (logoutCallback: () => void) => {
     if (logoutTimer) {
