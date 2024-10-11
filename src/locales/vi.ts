@@ -19,6 +19,7 @@ const vi: Locale = {
     system_end_of_conversation: "Cuộc trò chuyện đã kết thúc",
     system_end_of_conversation_options: "Bạn muốn làm gì?",
     system_event_scheduled: "Một lời nhắc nhở mới '{subject}' tại {time} đã được tạo.",
+    system_summary_instructions: "system_summary_instructions",
 
     conversation_option_continue: "Tiếp tục cuộc trò chuyện",
     conversation_option_new_chat: "Bắt đầu một cuộc trò chuyện mới",
