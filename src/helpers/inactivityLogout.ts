@@ -3,10 +3,12 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 let logoutTimer: number | undefined;
+let logoutWarningTimer: number | undefined;
 let listenersAttached = false; // To track if event listeners are already attached
 let resetHandler: (() => void) | null = null; // Store reference to handler
 
-const LOGOUT_TIMER_START = 5 * 60 * 1000;   // 5 minutes in milliseconds: 5 * 60 * 1000;
+const LOGOUT_TIMER_START = 30 * 60 * 1000;   // 30 minutes in milliseconds: 30 * 60 * 1000;
+export const LOGOUT_WARNING_START = 60 * 1000; // 1 minute in milliseconds
 
 const resetLogoutTimer = (logoutCallback: () => void) => {
     if (logoutTimer) {
@@ -16,12 +18,22 @@ const resetLogoutTimer = (logoutCallback: () => void) => {
     logoutTimer = setTimeout(logoutCallback, LOGOUT_TIMER_START);
 };
 
-export const startInactivityListener = (logoutCallback: () => void) => {
-    if (listenersAttached) 
+const resetLogoutWarningTimer = (warningCallback: (newState: boolean) => void) => {
+    if (logoutWarningTimer) {
+        clearTimeout(logoutWarningTimer);
+        warningCallback(false);
+    }
+
+    logoutWarningTimer = setTimeout(() => warningCallback(true), LOGOUT_TIMER_START - LOGOUT_WARNING_START);
+}
+
+export const startInactivityListener = (logoutCallback: () => void, warningCallback: (newState: boolean) => void) => {
+    if (listenersAttached)
         return; // Prevent re-adding event listeners
 
     resetHandler = () => {
         resetLogoutTimer(logoutCallback);
+        resetLogoutWarningTimer(warningCallback);
     };
 
     // Attach event listeners for user activity
@@ -35,7 +47,7 @@ export const startInactivityListener = (logoutCallback: () => void) => {
 };
 
 export const stopInactivityListener = () => {
-    if (!listenersAttached || !resetHandler) 
+    if (!listenersAttached || !resetHandler)
         return; // Only remove if attached
 
     window.removeEventListener('mousemove', resetHandler as EventListener);

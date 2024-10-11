@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineEmits, defineProps } from 'vue';
+import { computed, defineEmits, defineProps } from 'vue';
 import Modal from '@/components/common/Modal.vue';
 import { LocalizationKey } from '@/locales/keys';
 
@@ -24,6 +24,8 @@ const emitSelect = (i: number) => {
     }
     emit('select', i);
 }
+
+const hasButtons = computed(() => props.buttons.length > 0);
 </script>
 
 <template>
@@ -31,7 +33,7 @@ const emitSelect = (i: number) => {
         <div class="dialog-question">
             <slot></slot>
         </div>
-        <div class="dialog-buttons">
+        <div v-if="hasButtons" class="dialog-buttons">
             <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
                 :class="btn.className">
                 {{ $t(btn.loc_key) }}
