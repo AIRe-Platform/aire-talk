@@ -9,7 +9,7 @@ import { l } from "@/locales";
 import { router } from "@/router";
 import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
-import { getAllSuggestedContentFromHistory } from "@/helpers/contentUtils";
+import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
 
 import useContent from "@/context/content";
 
@@ -30,12 +30,14 @@ const state = reactive<{
     confirmDelete: boolean,
     selectedItem?: AireContent,
     contentList: AireContent[],
+    rankedContents: AireContent[],
     modalOpen: boolean
 }>({
     busy: false,
     confirmDelete: false,
     modalOpen: false,
-    contentList: []
+    contentList: [],
+    rankedContents: []
 });
 
 const toggleModal = () => {
@@ -48,21 +50,28 @@ const closeModal = () => {
 };
 const listContent = async () => {
     const ids = await getAllSuggestedContentFromHistory();
-    ids.forEach(async (x) => {
+
+    for (const x of ids) {
         const item = await contentContext.get(x);
         if (item) {
             state.contentList.push(item);
         }
-    })
-}
+    }
+};
 
-onMounted(() => {
+onMounted(async () => {
     state.busy = true;
-    listContent()
-        .finally(() => {
-            state.busy = false;
-        })
-})
+
+    await listContent();
+
+    state.busy = false;
+    console.log("state.contentList", state.contentList);  // Now this should show the populated content list
+
+    // Rank the content only if it's not empty
+    if (state.contentList && state.contentList.length > 0) {
+        state.rankedContents = await rankSelectedContent(state.contentList);
+    }
+});
 
 const showContent = async (content: AireContent) => {
     state.openContent = content;
@@ -98,9 +107,9 @@ const showContent = async (content: AireContent) => {
         </div>
         <Spinner v-if="state.busy" />
         <div class="content-catalogue-list">
-            <CatalogueItem v-for="item in state.contentList" v-bind:key="item.id" :content="item" @show="showContent"
+            <CatalogueItem v-for="item in state.rankedContents" v-bind:key="item.id" :content="item" @show="showContent"
                 :isFromSummary="false" />
-            <div v-if="state.contentList.length == 0">
+            <div v-if="state.rankedContents.length == 0">
                 <h3>{{ $t(l.content_catalogue_empty) }}</h3>
             </div>
         </div>
