@@ -4,13 +4,14 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, reactive } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import ChatContent from '@/components/chat/ChatContent.vue';
 import ContentModal from '@/components/content/ContentModal.vue';
 import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
+import { fetchAndRankContents, rankSelectedContent } from '@/helpers/contentUtils';
 
 const props = defineProps<{
     message: ChatMessage
@@ -18,9 +19,11 @@ const props = defineProps<{
 
 const state = reactive<{
     modalOpen: boolean,
-    openContent?: AireContent
+    openContent?: AireContent,
+    rankedContents?: AireContent[]
 }>({
-    modalOpen: false
+    modalOpen: false,
+    rankedContents: []
 });
 
 const contentCtx = useContent();
@@ -61,6 +64,13 @@ const closeModal = () => {
     state.openContent = undefined;
     toggleModal();
 };
+
+onMounted(async () => {
+    if (props.message.media) {
+        state.rankedContents = await fetchAndRankContents(props.message.media);
+    }
+});
+
 </script>
 
 <template>
@@ -72,8 +82,8 @@ const closeModal = () => {
             {{ message.content }}
         </span>
         <div class="chat-content-items" v-if="props.message.media">
-            <ChatContent v-for="id in props.message.media" :contentId="id" :key="id" :parent="props.message"
-                @show="showContent" />
+            <ChatContent v-for="content in state.rankedContents" :parent="props.message" :content="content"
+                :contentId="content.id || ''" :key="content.id" @show="showContent" />
         </div>
         <ContentModal :active="state.modalOpen" :content="state.openContent" @close="closeModal" />
     </div>

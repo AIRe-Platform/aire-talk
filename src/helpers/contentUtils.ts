@@ -7,6 +7,8 @@ import { useChatCache } from "@/context/cache";
 import { ChatMessage } from "@/models/chat";
 import { getAllChats } from "./chatUtils";
 import useChat from "@/context/chat";
+import { AireContent } from "aire";
+import useContent from "@/context/content";
 
 export function getChatContentIds(messages: ChatMessage[]): string[] {
     const contentIds = messages
@@ -36,3 +38,49 @@ export async function getAllSuggestedContentFromHistory(): Promise<string[]> {
 
     return [...content];
 }
+
+async function calculateRating(content: AireContent): Promise<number>  {
+    const viewsWeight = 0.7; // Adjust the weight for views
+    const thumbsUpWeight = 0.3; // Adjust the weight for thumbs up
+
+    const viewsScore = content.views || 0;
+    const thumbsUpScore = content.thumbs_up || 0;
+
+    // You could apply a logarithmic or linear scaling based on views or thumbs up
+    const rating = (viewsScore * viewsWeight) + (thumbsUpScore * thumbsUpWeight);
+
+    return rating;
+}
+
+export async function rankSelectedContent(selectedContents: AireContent[]): Promise<AireContent[]> {
+    // First, calculate the rating for each selected content item
+    const ratedContents = await Promise.all(selectedContents.map(async content => ({
+        ...content,
+        score: await calculateRating(content)
+    })));
+
+    // Sort the contents based on their ratings synchronously
+    ratedContents.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+    // Normalize the ratings by assigning a rank
+    return ratedContents;
+};
+
+// Function to fetch content and rank it
+export const fetchAndRankContents = async (media: string[]): Promise<AireContent[]> => {
+    const contents: AireContent[] = [];
+    const contentCtx = useContent();
+
+    for (const content of media) {
+        const fetchedContent = await contentCtx.get(content);
+        if (fetchedContent) {
+            contents.push(fetchedContent);
+        }
+    }
+
+    if (contents.length > 0) {
+        return await rankSelectedContent(contents);
+    }
+
+    return [];
+};

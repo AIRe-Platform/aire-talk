@@ -13,7 +13,8 @@ import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 
 const props = defineProps<{
     parent?: ChatMessage,
-    contentId: string;
+    contentId: string,
+    content: AireContent,
 }>();
 
 const emits = defineEmits<{
@@ -23,6 +24,7 @@ const emits = defineEmits<{
 const state = reactive<{
     content?: AireContent
 }>({});
+
 
 onMounted(async () => {
     state.content = await useContent().get(props.contentId);
@@ -34,7 +36,7 @@ onMounted(async () => {
         <div class="chat-content-options">
             <ChatItemOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
         </div>
-        <CatalogueItem :content="state.content" @show="state.content!" :is-from-summary="true" />
+        <CatalogueItem :content="props.content" @show="props.content!" :is-from-summary="true" />
     </div>
 </template>
 
