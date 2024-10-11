@@ -16,6 +16,7 @@ export enum LocalizationKey {
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
     system_event_scheduled = "system_event_scheduled",
+    system_summary_instructions = "system_summary_instructions",
     
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",

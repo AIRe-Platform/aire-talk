@@ -26,7 +26,8 @@ export function createMessage(
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
-    hidden: boolean = false): ChatMessage {
+    hidden: boolean = false,
+    isNewSummary: boolean = false): ChatMessage {
 
     let sender = "";
     switch (role) {
@@ -39,7 +40,7 @@ export function createMessage(
     if (localize && content) {
         content = i18n.global.t(content);
     }
-
+        
     return {
         type: type,
         id: newMessageId(),
@@ -49,12 +50,12 @@ export function createMessage(
         rating: 0,
         timestamp: Date.now(),
         hidden: hidden,
+        isNewSummary: isNewSummary
     }
 }
 
 export async function createContentMessage(content: AireContent[]): Promise<ChatMessage> {
         const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
-    console.log("msg", msg);
 
     // Map the media IDs
     msg.media = content.map(x => x.id!);
@@ -93,8 +94,8 @@ export function createKeywordMessage(keyword: string) {
     return createMessage(ChatMessageType.Keyword, "assistant", keyword);
 }
 
-export function createSummaryMessage(summary: string) {
-    return createMessage(ChatMessageType.Summary, "system", summary);
+export function createSummaryMessage(summary: string, isNewSummary: boolean) {
+    return createMessage(ChatMessageType.Summary, "system", summary, false, false, isNewSummary);
 }
 
 export function createScheduledEventMessage(event: AireEvent) {

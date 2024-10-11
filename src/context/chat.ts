@@ -180,22 +180,13 @@ export class ChatContext {
     }
 
     /**
-     * Add new user message and wait response from the chatbot
-     * @param message Message content
+     * When the user trigger end of the convesation, the sumarize and suggestion are shown
      */
     public async endConversation() {
 
-        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-        this.messages.push(end);
-
         if (!this.is_red_flag_triggered) {
             await this.summarize();
-            await this.suggestContent(listChatKeywords(this.messages));
-
-            const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-            this.messages.push(options);
         }
-
     }
 
     /**
@@ -206,6 +197,10 @@ export class ChatContext {
         if (optionsIndex > -1)
             this.messages.splice(optionsIndex, 1);
 
+        const endMessageIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversation);
+        if (endMessageIndex > -1)
+            this.messages.splice(endMessageIndex, 1);
+        
         const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
         this.messages.push(cont);
 
@@ -364,6 +359,7 @@ export class ChatContext {
         updateKeywordMetadata(listChatKeywords(this.messages));
 
         scrollChatToBottom();
+        console.log("chat messages", this.messages)
         return true;
     }
 
@@ -432,7 +428,7 @@ export class ChatContext {
         return await AireServices.AI.generateSummary(input)
             .then((result) => {
                 if (result.status == AireStatus.Success && result.data) {
-                    const msg = createSummaryMessage(result.data);
+                    const msg = createSummaryMessage(result.data, true);
                     this.push(msg);
                     return true;
                 } else {
@@ -531,16 +527,13 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
+        console.log("keyword incoming!! ", e.keywords);
         const currentKeywords = listChatKeywords(chat.messages);
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
         const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
-
-        // Suggest content if questionnaire was not found
-        if (!foundQuestionnaire)
-            chat.suggestContent(e.keywords);
 
         return;
     }
