@@ -16,7 +16,7 @@ export enum LocalizationKey {
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
     system_event_scheduled = "system_event_scheduled",
-    
+
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",
 
@@ -24,7 +24,7 @@ export enum LocalizationKey {
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
-    
+
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",
@@ -101,7 +101,7 @@ export enum LocalizationKey {
     profile_question_country = "profile_question_country",
     profile_characters_max = "profile_characters_max",
     profile_remaining = "profile_remaining",
-    
+
     profile_experiments_title = "profile_experiments_title",
     profile_experiments_text = "profile_experiments_text",
     profile_experiments_add = "profile_experiments_add",
@@ -144,7 +144,7 @@ export enum LocalizationKey {
     tools_button_summarize = "tools_button_summarize",
     tools_button_query_surveys = "tools_button_query_surveys",
     tools_button_suggestions = "tools_button_suggestions",
-    
+
     suggestion_check_for_more = "suggestion_check_for_more",
 
     chat_history_loading = "chat_history_loading",
@@ -180,7 +180,8 @@ export enum LocalizationKey {
     content_catalogue_empty = "content_catalogue_empty",
 
     logout_inactivity_message = "logout_inactivity_message",
-    
+    logout_inactivity_warning_message = "logout_inactivity_warning_message",
+
     en = "en",
     fi = "fi",
     es = "es",

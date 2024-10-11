@@ -8,7 +8,7 @@ import { Locale } from ".";
 const id: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "Sistem AIRe",
-    
+
     footer: "Pengembangan",
     not_found: "Halaman tidak ditemukan",
 
@@ -87,7 +87,7 @@ const id: Locale = {
     profile_button_change_password: "Ubah kata sandi",
 
     profile_heading_personal_data: "Data Pribadi",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
     profile_button_download_personal_data: "Unduh",
 
@@ -166,7 +166,7 @@ const id: Locale = {
     tools_button_summarize: "Ringkas",
     tools_button_query_surveys: "Kueri survei",
     tools_button_suggestions: "Saran",
-    
+
     suggestion_check_for_more: "Periksa lebih lanjut",
 
     chat_history_loading: "Memuat...",
@@ -204,8 +204,9 @@ const id: Locale = {
     button_mark_as_read: "Tandai sebagai sudah dibaca",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
-    
+
     logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Inggris",
     fi: "Finlandia",

@@ -205,6 +205,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
 
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
+    logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",
 
     en: "Englanti",
     fi: "Suomi",

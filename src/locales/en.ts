@@ -8,7 +8,7 @@ import { Locale } from ".";
 const en: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "AIRe System",
-    
+
     footer: "Development",
     not_found: "Page not found",
 
@@ -75,7 +75,7 @@ const en: Locale = {
     profile_button_save: "Update",
     profile_characters_max: '{0} characters maximum.',
     profile_remaining: "remaining characters.",
-    
+
     profile_heading_connected_services: "Connected Services",
     profile_empty_service_list: "No connected services",
 
@@ -87,7 +87,7 @@ const en: Locale = {
     profile_button_change_password: "Change password",
 
     profile_heading_personal_data: "Personal Data",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
     profile_button_download_personal_data: "Download",
 
@@ -204,8 +204,9 @@ const en: Locale = {
     button_mark_as_read: "Mark as read",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
-    
+
     logout_inactivity_message: "You have been logged out due to inactivity.",
+    logout_inactivity_warning_message: "You will be logged out in {duration} second(s) due to inactivity.",
 
     en: "English",
     fi: "Finnish",

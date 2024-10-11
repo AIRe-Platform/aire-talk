@@ -73,7 +73,7 @@ const vi: Locale = {
     profile_label_bio: "Tiểu sử",
     profile_characters_max: '{0} ký tự tối đa.',
     profile_remaining: "ký tự còn lại.",
-   
+
     profile_button_save: "Lưu thay đổi",
 
     profile_heading_connected_services: "Dịch vụ được kết nối",
@@ -87,7 +87,7 @@ const vi: Locale = {
     profile_button_change_password: "Đổi mật khẩu",
 
     profile_heading_personal_data: "Dữ liệu cá nhân",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Tất cả thông tin của bạn được mã hóa theo cách mà chỉ bạn mới có quyền truy cập. Các dịch vụ AIRe chỉ có thể sử dụng dữ liệu của bạn khi bạn đang sử dụng các dịch vụ. Tại đây, bạn có thể tải xuống tất cả dữ liệu của mình được lưu trong AIRe. Xin lưu ý rằng việc thu thập dữ liệu có thể mất một thời gian.",
     profile_button_download_personal_data: "Tải xuống",
 
@@ -105,7 +105,7 @@ const vi: Locale = {
 
     profile_question_button: "Hoàn thành hồ sơ",
     profile_question_confirm: "Bạn có muốn trả lời một số câu hỏi về thông tin cá nhân của mình không?",
-    profile_question_completion: 
+    profile_question_completion:
         "Nhấp tiếp tục nếu thông tin của bạn chính xác. Bạn có thể chỉnh sửa thông tin của mình sau trên trang hồ sơ của mình.",
     profile_question_first_name: "Tên của bạn là gì?",
     profile_question_last_name: "Họ của bạn là gì?",
@@ -141,8 +141,8 @@ const vi: Locale = {
     error_profile_edit: "Lưu không thành công.",
     error_profile_delete_account: "Không thể xóa tài khoản. Thử lại sau.",
     error_profile_password:
-    "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
-    
+        "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
+
     landing_view_title: "Chào mừng đến với AIRe platform",
     landing_view_text:
         "Hãy bắt đầu bằng cách điền những thông tin sơ bộ sau đây về bản thân bạn.",
@@ -205,6 +205,7 @@ const vi: Locale = {
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
 
     logout_inactivity_message: "Bạn đã bị đăng xuất do không hoạt động.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

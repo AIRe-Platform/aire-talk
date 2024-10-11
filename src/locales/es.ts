@@ -8,7 +8,7 @@ import { Locale } from ".";
 const es: Locale = {
     aire_bot: "Bot AIRe",
     aire_system: "Sistema AIRe",
-    
+
     footer: "Desarollo",
     not_found: "Página no encontrada",
 
@@ -24,7 +24,7 @@ const es: Locale = {
     conversation_option_new_chat: "Iniciar una nueva conversación",
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
-    
+
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
@@ -75,7 +75,7 @@ const es: Locale = {
     profile_button_save: "Guardar",
     profile_characters_max: '{0} carácteres máximo.',
     profile_remaining: "carácteres restantes.",
-    
+
     profile_heading_connected_services: "Connectado",
     profile_empty_service_list: "No Conectado",
 
@@ -88,7 +88,7 @@ const es: Locale = {
     profile_button_change_password: "Cambiar contraseña",
 
     profile_heading_personal_data: "Datos personales",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
     profile_button_download_personal_data: "Descargar",
 
@@ -208,6 +208,7 @@ const es: Locale = {
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Inglés",
     fi: "Finés",

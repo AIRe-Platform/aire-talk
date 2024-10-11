@@ -8,7 +8,7 @@ import { Locale } from ".";
 const sw: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "Sistem AIRe",
-    
+
     footer: "Maendeleo",
     not_found: "Ukurasa haujapatikana",
 
@@ -86,7 +86,7 @@ const sw: Locale = {
     profile_button_change_password: "Badilisha nenosiri",
 
     profile_heading_personal_data: "Data ya Kibinafsi",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
     profile_button_download_personal_data: "Pakua",
 
@@ -187,6 +187,7 @@ const sw: Locale = {
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
     logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Kiingereza",
     fi: "Kifini",

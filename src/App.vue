@@ -13,7 +13,7 @@ import NavMenu from '@/components/layout/NavMenu.vue';
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
-import { startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
+import { LOGOUT_WARNING_START, startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
 import { onMounted, onUnmounted, reactive, watch } from 'vue';
 import useLogin from '@/context/login';
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -24,9 +24,14 @@ import { router } from './router';
 const login = useLogin();
 const state = reactive<{
     showInactivityPopup: boolean
+    showInactivityWarningPopup: boolean
+    logoutCountdown: number
 }>({
-    showInactivityPopup: false
+    showInactivityPopup: false,
+    showInactivityWarningPopup: false,
+    logoutCountdown: 0,
 });
+let logoutCountdownInterval: number | undefined;
 
 const closeNavMenu = async () => {
     await closeBurgerMenu();
@@ -45,12 +50,28 @@ const closeInactivityPopup = () => {
     state.showInactivityPopup = false;
 }
 
+const setInactivityWarningPopupVisibility = (newState: boolean) => {
+    state.showInactivityWarningPopup = newState;
+    if (newState) {
+        state.logoutCountdown = Math.ceil(LOGOUT_WARNING_START / 1000);
+        logoutCountdownInterval = setInterval(() => {
+            if (state.logoutCountdown > 0) {
+                state.logoutCountdown--;
+            } else {
+                clearInterval(logoutCountdownInterval);
+            }
+        }, 1000);
+    } else {
+        clearInterval(logoutCountdownInterval);
+    }
+}
+
 onMounted(() => {
     const stopLoginWatch = watch(
         () => login.user,
         (user) => {
             if (user && !import.meta.env.VITE_DEBUG_DISABLE_SESSION_TIMEOUT) {
-                startInactivityListener(onInactivityTimeout);
+                startInactivityListener(onInactivityTimeout, setInactivityWarningPopupVisibility);
             }
             else {
                 stopInactivityListener();
@@ -71,6 +92,9 @@ onMounted(() => {
 <template>
     <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
+    </DialogModal>
+    <DialogModal :active="state.showInactivityWarningPopup" :buttons="[]">
+        {{ $t(l.logout_inactivity_warning_message, { duration: state.logoutCountdown }) }}
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'" tabindex="0">
         <NavMenu />

@@ -75,7 +75,7 @@ const rw: Locale = {
     profile_button_save: "Ibishya",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
-    
+
     profile_heading_connected_services: "Serivisi zifite aho zihuriye cyangwa zifitanye isano",
     profile_empty_service_list: "Nta serivices zifite aho zihuriye",
 
@@ -87,7 +87,7 @@ const rw: Locale = {
     profile_button_change_password: "Hindura ijambo ry'ibanga",
 
     profile_heading_personal_data: "Personal Data",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
     profile_button_download_personal_data: "Download",
 
@@ -200,6 +200,7 @@ const rw: Locale = {
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 
     logout_inactivity_message: "Winjiye hanze kubera kudakora.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Icyongereza",
     fi: "Igifinilande",
