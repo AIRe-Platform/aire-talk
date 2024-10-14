@@ -20,6 +20,7 @@ const en: Locale = {
     system_end_of_conversation_options: "What would you like to do?",
     system_event_scheduled: "A new reminder '{subject}' at {time} was created.",
     system_summary_instructions: "Read the summary and check that you think the found topics are correct. You can delete the ones you think are wrong by clicking on the button after the keywords. You can then accept or reject this summary.",
+    summary_aceptation_question: "Do you accept this summary?",
 
     conversation_option_continue: "Continue conversation",
     conversation_option_new_chat: "Start a new conversation",

@@ -17,7 +17,8 @@ export enum LocalizationKey {
     system_end_of_conversation_options = "system_end_of_conversation_options",
     system_event_scheduled = "system_event_scheduled",
     system_summary_instructions = "system_summary_instructions",
-    
+    summary_aceptation_question = "summary_aceptation_question",
+
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",
 
@@ -145,7 +146,6 @@ export enum LocalizationKey {
     tools_button_summarize = "tools_button_summarize",
     tools_button_query_surveys = "tools_button_query_surveys",
     tools_button_suggestions = "tools_button_suggestions",
-
     suggestion_check_for_more = "suggestion_check_for_more",
 
     chat_history_loading = "chat_history_loading",

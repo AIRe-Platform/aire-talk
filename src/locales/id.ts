@@ -20,7 +20,8 @@ const id: Locale = {
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
     system_event_scheduled: "Pengingat baru '{subject}' pada {time} telah dibuat.",
     system_summary_instructions: "system_summary_instructions",
-    
+    summary_aceptation_question: "summary_aceptation_question",
+
     conversation_option_continue: "Lanjutkan percakapan",
     conversation_option_new_chat: "Mulai percakapan baru",
 

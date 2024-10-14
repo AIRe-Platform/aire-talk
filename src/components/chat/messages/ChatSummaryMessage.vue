@@ -116,7 +116,7 @@ onMounted(async () => {
         <div class="message-options" v-if="state.isNewSummary">
             <Separator class="separator" />
             <span class="chat-summary-message-title">
-                Do you accept this summary?
+                {{ $t(l.summary_aceptation_question) }}
             </span>
             <span class="chat-conversation-options-buttons">
                 <button @click="acceptSummary">{{ $t(l.button_accept) }}</button>

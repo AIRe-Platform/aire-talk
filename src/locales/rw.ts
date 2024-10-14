@@ -20,7 +20,8 @@ const rw: Locale = {
     system_end_of_conversation_options: "Urashaka gukora iki?",
     system_event_scheduled: "Kwibutsa gushya '{subject}' mugihe {time}.",
     system_summary_instructions: "system_summary_instructions",
-    
+    summary_aceptation_question: "summary_aceptation_question",
+
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",
 
