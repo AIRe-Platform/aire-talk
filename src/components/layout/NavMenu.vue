@@ -112,9 +112,7 @@ const navLogoClick = () => {
                         (p) => p.name === 'Profile'
                     )" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
-                    :active="UIState.panels.has(
-                        UIPanels.Settings
-                    )" />
+                    :active="UIState.panels.has(UIPanels.Settings)" class="settings-nav-button" />
                 <Separator />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
                     @click="navigateTo('/home')" :active="$route.matched.some(
