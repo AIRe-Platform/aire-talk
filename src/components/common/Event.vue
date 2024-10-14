@@ -9,6 +9,7 @@ import Modal from '@/components/common/Modal.vue';
 import { onMounted, reactive, defineComponent } from 'vue';
 import { AireEvent, AireServices, AireStatus } from 'aire';
 import Separator from './Separator.vue';
+import { DateTime } from 'luxon';
 
 defineComponent({ name: "EventComponent" })
 
@@ -28,8 +29,8 @@ const checkForEvents = () => {
                 let unixNow = Date.now() / 1000;
                 if (res.status === AireStatus.Success && res.data) {
                     state.events = res.data.filter(event => {
-                        if( event.trigger_timestamp < unixNow && event.read_timestamp == null)
-                           return event;
+                        if (event.trigger_timestamp < unixNow && event.read_timestamp == null)
+                            return event;
                     })
                 }
             })
@@ -54,7 +55,7 @@ const markEventAsRead = (event: AireEvent) => {
     }
 }
 
-const closeModal = () => { state.visible  = false; }
+const closeModal = () => { state.visible = false; }
 
 onMounted(async () => {
     checkForEvents();
@@ -63,11 +64,11 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Modal :active="state.events.length > 0 && state.visible" :showCloseButton="true" @close="closeModal" >
+    <Modal :active="state.events.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
         <div class="event-panel" v-for="(event, index) in state.events" :key="index">
             <Separator />
             <div class="event-date">
-                {{ new Date(event.trigger_timestamp).toLocaleString($i18n.locale) }}
+                {{ DateTime.fromSeconds(event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
             </div>
             <div class="event-message">
                 {{ event.content.message }}
