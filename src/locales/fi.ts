@@ -65,6 +65,7 @@ const fi: Locale = {
     nav_preferences: "Asetukset",
     nav_main_menu: "Päävalikko",
     nav_catalogue: "Sisältökatalogi",
+    nav_about: "About",
 
     profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",

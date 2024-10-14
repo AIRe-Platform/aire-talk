@@ -65,6 +65,7 @@ const id: Locale = {
     nav_preferences: "Pengaturan",
     nav_main_menu: "Menu utama",
     nav_catalogue: "Katalog Konten",
+    nav_about: "About",
 
     profile_title: "Akun pengguna",
     profile_label_first_name: "Nama Depan",

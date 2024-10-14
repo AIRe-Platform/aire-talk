@@ -65,7 +65,8 @@ const rw: Locale = {
     nav_preferences: "Igenamiterere",
     nav_main_menu: "Ibikubiyemo nyamukuru",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
-
+    nav_about: "About",
+    
     profile_title: "Konti y'umukoresha",
     profile_label_first_name: "Izina rya mbere",
     profile_label_last_name: "Izina ry'umuryango",

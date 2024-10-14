@@ -65,7 +65,8 @@ const es: Locale = {
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
-
+    nav_about: "About",
+    
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",

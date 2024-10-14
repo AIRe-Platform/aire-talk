@@ -63,8 +63,8 @@ const toggleSettingsPanel = () => {
 };
 
 const navLogoClick = () => {
-    if(login.user)
-       navigateTo("/home");
+    if (login.user)
+        navigateTo("/home");
     else
         navigateTo("/");
 }
@@ -113,6 +113,10 @@ const navLogoClick = () => {
                     )" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
                     :active="UIState.panels.has(UIPanels.Settings)" class="settings-nav-button" />
+
+                <NavItem :label="i18n.global.t(l.nav_about)" icon="about" @click="navigateTo('/about')" :active="$route.matched.some(
+                    (p) => p.name === 'About'
+                )" />
                 <Separator />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
                     @click="navigateTo('/home')" :active="$route.matched.some(

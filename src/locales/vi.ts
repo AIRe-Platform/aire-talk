@@ -64,7 +64,8 @@ const vi: Locale = {
     nav_preferences: "Cài đặt",
     nav_main_menu: "Thực đơn chính",
     nav_catalogue: "Danh mục nội dung",
-
+    nav_about: "About",
+    
     profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",

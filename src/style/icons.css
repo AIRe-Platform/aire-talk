@@ -226,6 +226,18 @@
     height: 2rem;
 }
 
+.theme-dark .icon.about {
+    background-image: url("@/assets/icons/about-dark.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
+.theme-default .icon.about {
+    background-image: url("@/assets/icons/about-light.svg");
+    width: 2rem;
+    height: 2rem;
+}
+
 .theme-dark .icon.logout {
     background-image: url("@/assets/icons/logout-dark.svg");
     width: 2rem;

@@ -65,7 +65,8 @@ const sw: Locale = {
     nav_preferences: "Mipangilio",
     nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
-
+    nav_about: "About",
+    
     profile_title: "Akaunti ya mtumiaji",
     profile_label_first_name: "Jina la kwanza",
     profile_label_last_name: "Jina la mwisho",
