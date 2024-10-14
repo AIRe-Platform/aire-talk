@@ -8,7 +8,6 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
-import { onMounted } from 'vue';
 
 const navigateTo = (path: string) => {
     router.push(path)

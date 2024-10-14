@@ -5,10 +5,10 @@
 
 <script setup lang="ts">
 import useChat from '@/context/chat';
-import { findLatestSummary, listChatKeywords } from '@/helpers/chatUtils';
+import { listChatKeywords } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { defineProps, defineEmits, onMounted, reactive, watch } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import Separator from "@/components/common/Separator.vue";
 import { createControlFlowMessage } from '@/helpers/chatMessages';
 
@@ -20,9 +20,6 @@ const state = reactive<{
     isNewSummary: true
 });
 
-// Define emit to notify the parent
-/* const emit = defineEmits(['update:isAnswered']);
- */
 const props = defineProps<{
     message: ChatMessage,
     isNewSummary: boolean
