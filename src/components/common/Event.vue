@@ -26,10 +26,10 @@ const checkForEvents = () => {
 
         AireServices.Memory.getEvents()
             .then(res => {
-                let unixNow = Date.now() / 1000;
+                let now = DateTime.utc().toUnixInteger();
                 if (res.status === AireStatus.Success && res.data) {
                     state.events = res.data.filter(event => {
-                        if (event.trigger_timestamp < unixNow && event.read_timestamp == null)
+                        if (event.trigger_timestamp < now && event.read_timestamp == null)
                             return event;
                     })
                 }
@@ -42,7 +42,7 @@ const checkForEvents = () => {
 
 const markEventAsRead = (event: AireEvent) => {
     if (AireServices.Memory) {
-        event.read_timestamp = Math.floor(Date.now() / 1000);
+        event.read_timestamp = DateTime.utc().toUnixInteger();
         AireServices.Memory.editEvent(event)
             .then(res => {
                 if (res === AireStatus.Success) {
