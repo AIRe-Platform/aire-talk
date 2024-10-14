@@ -14,7 +14,7 @@ const props = defineProps<{
 }>();
 
 // Function to normalize the rating
-const normalizeRating = (rating: number, min: number = 1, max: number = 5): number => {
+const normalizeRating = (rating: number, min: number = 1, max: number = 3): number => {
     // Assuming your original ratings are between 0 and some max value
     const originalMin = 0;
     const originalMax = 10; // Adjust this depending on your highest possible rating score
@@ -73,7 +73,6 @@ const emits = defineEmits<{
         </div>
         <div class="star-rating">
             <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
-            <span v-if="normalizedRating % 1 !== 0" class="half-star">☆</span> <!-- Display half star if needed -->
         </div>
         <div class="catalogue-item-description">
             <p>{{ props.content.name }}</p>

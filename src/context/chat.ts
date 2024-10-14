@@ -319,7 +319,7 @@ export class ChatContext {
 
                         context.id = result.data.id;
                         context.modified = false;
-                        console.log("Chat saved");
+                        console.debug("Chat saved");
                     }
                 })
         } else {
@@ -350,6 +350,12 @@ export class ChatContext {
         this.questionnaire_queries = cached.state.questionnaire_queries || [];
         this.content_queries = cached.state.content_queries || [];
 
+        this.messages.forEach(message => {
+           if(message.type == ChatMessageType.Summary){
+                message.isNewSummary = false;
+           }
+        });
+
         const state = cached.state;
         if (state) {
             if (state.questionnaire)
@@ -359,7 +365,6 @@ export class ChatContext {
         updateKeywordMetadata(listChatKeywords(this.messages));
 
         scrollChatToBottom();
-        console.log("chat messages", this.messages)
         return true;
     }
 
@@ -527,7 +532,7 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
-        console.log("keyword incoming!! ", e.keywords);
+        console.debug("keyword incoming!! ", e.keywords);
         const currentKeywords = listChatKeywords(chat.messages);
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));

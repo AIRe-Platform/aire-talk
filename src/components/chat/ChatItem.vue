@@ -37,8 +37,8 @@ const isNotificationMessage = computed(() => {
 <template>
     <ChatNotificationMessage v-if="isNotificationMessage" :message="props.message" />
     <ChatContentMessage v-else-if="props.message.type == ChatMessageType.Content" :message="props.message" />
-    <ChatSummaryMessage v-else-if="props.message.type == ChatMessageType.Summary && props.message.isNewSummary"
-        :message="props.message" :isNewSummary="props.message.isNewSummary" />
+    <ChatSummaryMessage v-else-if="props.message.type == ChatMessageType.Summary" :message="props.message"
+        :isNewSummary="props.message.isNewSummary" />
     <ChatEndConversationMessage v-else-if="props.message.type == ChatMessageType.EndOfConversation"
         :message="props.message" />
     <ChatEndOptionsMessage v-else-if="props.message.type == ChatMessageType.EndOfConversationOptions"
