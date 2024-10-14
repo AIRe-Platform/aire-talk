@@ -29,7 +29,7 @@ const checkForEvents = () => {
                 let now = DateTime.utc().toUnixInteger();
                 if (res.status === AireStatus.Success && res.data) {
                     state.events = res.data.filter(event => {
-                        if (event.trigger_timestamp < now && event.read_timestamp == null)
+                        if (event.trigger_timestamp < now && !event.read_timestamp)
                             return event;
                     })
                 }
