@@ -207,6 +207,10 @@ onMounted(async () => {
     background-size: contain;
 }
 
+.frontpage-button:hover {
+    color: var(--accent-primary-color);
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .home-header {
         height: 20rem;
