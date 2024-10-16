@@ -531,9 +531,8 @@ async function receiver(e: AireTalkEvent) {
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
-        // // Search questionnaires and start prompt to start one if found
-        // const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
-
+        // Search questionnaires and start prompt to start one if found
+        await chat.queryQuestionnaires(e.keywords);
         return;
     }
 
