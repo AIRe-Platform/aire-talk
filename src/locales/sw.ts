@@ -186,6 +186,7 @@ const sw: Locale = {
     button_continue: "Endelea",
     button_close: "Funga",
     button_mark_as_read: "Weka alama kama imesomwa",
+    button_return_to_conversation: "Rudi kwenye mazungumzo",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 

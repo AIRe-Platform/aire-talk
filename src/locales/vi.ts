@@ -204,6 +204,7 @@ const vi: Locale = {
     button_continue: "Tiếp tục",
     button_close: "Đóng",
     button_mark_as_read: "Đánh dấu là đã đọc",
+    button_return_to_conversation: "Quay lại cuộc trò chuyện",
 
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
 

@@ -199,6 +199,7 @@ const rw: Locale = {
     button_continue: "Komeza",
     button_close: "Funga",
     button_mark_as_read: "Mark as read",
+    button_return_to_conversation: "Garuka ku biganiro",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 

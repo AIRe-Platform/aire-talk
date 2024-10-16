@@ -53,6 +53,7 @@ export function getChatbotInputData(): AireChatbotInput {
         })
 
     const input: AireChatbotInput = {
+        chat_id: chat.id,
         chat: messages,
         context: {
             age: chat.meta.age,
