@@ -32,12 +32,13 @@ import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData, listChatKeywords, findLatestSummaryMessage } from "@/helpers/chatUtils";
+import { getChatbotInputData, listChatKeywords, findLatestSummaryMessage, conversationEnded, getLastMessage } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { DateTime } from "luxon";
 
 export class ChatContext {
     id?: string;
@@ -186,7 +187,7 @@ export class ChatContext {
 
         if (!this.is_red_flag_triggered) {
             await this.summarize();
-        }else{
+        } else {
             const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
             this.messages.push(end);
         }
@@ -203,7 +204,7 @@ export class ChatContext {
         const endMessageIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversation);
         if (endMessageIndex > -1)
             this.messages.splice(endMessageIndex, 1);
-        
+
         const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
         this.messages.push(cont);
 
@@ -501,6 +502,32 @@ export class ChatContext {
 
         const inst = createInstructionMessage("A reminder was set successfully.")
         this.push(inst);
+    }
+
+    public async onContinueConversation(id: string): Promise<boolean> {
+        const loaded = await this.open(id);
+        if (!loaded)
+            return false;
+
+        const last = getLastMessage();
+        if(!last)
+            return false;
+        
+        if(conversationEnded(this.messages))
+            this.continueConversation();
+
+        let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
+
+        const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
+        if(timeDiff.isValid)
+            instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
+        
+
+        const inst = createInstructionMessage(instruction);
+        this.push(inst);
+        this.forceResponse();
+
+        return true;
     }
 }
 

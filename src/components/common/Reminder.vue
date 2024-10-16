@@ -63,7 +63,7 @@ const markEventAsRead = (index: number) => {
 }
 
 const returnToConversation = (id: string) => {
-    useChat().open(id)
+    useChat().onContinueConversation(id)
         .then(result => {
             if (result)
                 router.push("/chat");
