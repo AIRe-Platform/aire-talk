@@ -18,7 +18,7 @@ const rw: Locale = {
     system_found_content: "Hari amakuru ashobora kugira icyo agufasha. Reba ayo makuru witonze.",
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
-    system_event_scheduled: "Kwibutsa gushya '{subject}' mugihe {time}.",
+    system_reminder_set: "Kwibutsa gushya '{subject}' mugihe {time}.",
     system_summary_instructions: "system_summary_instructions",
     summary_aceptation_question: "summary_aceptation_question",
 

@@ -7,28 +7,27 @@
 import { l } from '@/locales';
 import Modal from '@/components/common/Modal.vue';
 import { onMounted, reactive, defineComponent } from 'vue';
-import { AireEvent, AireServices, AireStatus } from 'aire';
+import { AireReminder, AireServices, AireStatus } from 'aire';
 import Separator from './Separator.vue';
 import { DateTime } from 'luxon';
 
 defineComponent({ name: "EventComponent" })
 
 const state = reactive<{
-    events: AireEvent[],
+    reminders: AireReminder[],
     visible: boolean
 }>({
-    events: [],
+    reminders: [],
     visible: true,
 });
 
 const checkForEvents = () => {
     if (AireServices.Memory) {
-
-        AireServices.Memory.getEvents()
+        AireServices.Memory.getReminders(true)
             .then(res => {
                 let now = DateTime.utc().toUnixInteger();
                 if (res.status === AireStatus.Success && res.data) {
-                    state.events = res.data.filter(event => {
+                    state.reminders = res.data.filter(event => {
                         if (event.trigger_timestamp < now && !event.read_timestamp)
                             return event;
                     })
@@ -40,15 +39,11 @@ const checkForEvents = () => {
     }
 }
 
-const markEventAsRead = (event: AireEvent) => {
-    if (AireServices.Memory) {
-        event.read_timestamp = DateTime.utc().toUnixInteger();
-        AireServices.Memory.editEvent(event)
-            .then(res => {
-                if (res === AireStatus.Success) {
-                    checkForEvents();
-                }
-            })
+const markEventAsRead = (index: number) => {
+    const reminder = state.reminders.splice(index, 1); // remove from list immediately
+    if (AireServices.Memory && reminder[0]) {
+        reminder[0].read_timestamp = DateTime.utc().toUnixInteger();
+        AireServices.Memory.editReminder(reminder[0])
             .catch(err => {
                 console.error(err);
             })
@@ -60,21 +55,20 @@ const closeModal = () => { state.visible = false; }
 onMounted(async () => {
     checkForEvents();
 })
-
 </script>
 
 <template>
-    <Modal :active="state.events.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
-        <div class="event-panel" v-for="(event, index) in state.events" :key="index">
+    <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
+        <div class="reminders-panel" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
             <Separator />
-            <div class="event-date">
-                {{ DateTime.fromSeconds(event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
+            <div class="reminder-date">
+                {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
             </div>
-            <div class="event-message">
-                {{ event.content.message }}
+            <div class="reminder-message">
+                {{ reminder.content?.message }}
             </div>
-            <div class="event-buttons">
-                <button @click.stop="markEventAsRead(event)">
+            <div class="reminder-buttons">
+                <button @click.stop="markEventAsRead(i)">
                     {{ $t(l.button_mark_as_read) }}
                 </button>
             </div>
@@ -83,24 +77,24 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
-.event-panel {
+.reminders-panel {
     padding-top: 2em;
 }
 
-.event-date {
+.reminder-date {
     font-size: var(--font-small);
     font-family: var(--font-family);
     text-align: center;
     padding-bottom: 1rem;
 }
 
-.event-message {
+.reminder-message {
     font-size: var(--font-large);
     font-family: var(--font-family);
     text-align: center;
 }
 
-.event-buttons {
+.reminder-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

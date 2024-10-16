@@ -18,7 +18,7 @@ const fi: Locale = {
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
     system_end_of_conversation: "Keskustelu on päättynyt",    
     system_end_of_conversation_options: "Miten haluat jatkaa?",
-    system_event_scheduled: "Luotiin muistutus '{subject}' ajankohdalle {time}.",
+    system_reminder_set: "Luotiin muistutus '{subject}' ajankohdalle {time}.",
     system_summary_instructions: "system_summary_instructions",
     summary_aceptation_question: "summary_aceptation_question",
 

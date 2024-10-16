@@ -15,7 +15,7 @@ import useTheme, { ThemeContext } from "@/context/theme";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
-import EventComponent from "@/components/common/Event.vue";
+import ReminderComponent from "@/components/common/Reminder.vue";
 
 const login = useLogin();
 const chat = useChat();
@@ -82,7 +82,7 @@ onMounted(async () => {
                     <p class="header-text">{{ $t(l.start_first_paragraph) }}</p>
                 </div>
             </div>
-            <EventComponent />
+            <ReminderComponent />
             <div class="quick-nav">
                 <div class="icon frontpage-button" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}

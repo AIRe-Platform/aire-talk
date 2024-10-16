@@ -18,7 +18,7 @@ const sw: Locale = {
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
-    system_event_scheduled: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
+    system_reminder_set: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
     system_summary_instructions: "system_summary_instructions",
     summary_aceptation_question: "summary_aceptation_question",
 

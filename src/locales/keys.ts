@@ -15,7 +15,7 @@ export enum LocalizationKey {
     system_found_content = "system_found_content",
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
-    system_event_scheduled = "system_event_scheduled",
+    system_reminder_set = "system_reminder_set",
     system_summary_instructions = "system_summary_instructions",
     summary_aceptation_question = "summary_aceptation_question",
 

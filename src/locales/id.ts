@@ -18,7 +18,7 @@ const id: Locale = {
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
-    system_event_scheduled: "Pengingat baru '{subject}' pada {time} telah dibuat.",
+    system_reminder_set: "Pengingat baru '{subject}' pada {time} telah dibuat.",
     system_summary_instructions: "system_summary_instructions",
     summary_aceptation_question: "summary_aceptation_question",
 

@@ -12,7 +12,7 @@ import {
     AireChatLog,
     AireStatus,
     AireKeyword,
-    AireEvent,
+    AireReminder,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -26,7 +26,7 @@ import {
     createSummaryMessage,
     createContentMessage,
     createControlFlowMessage,
-    createScheduledEventMessage
+    createReminderCreatedMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -498,11 +498,11 @@ export class ChatContext {
         return 0;
     }
 
-    public onEventScheduled(event: AireEvent) {
-        const msg = createScheduledEventMessage(event);
+    public onCreatedReminder(reminder: AireReminder) {
+        const msg = createReminderCreatedMessage(reminder);
         this.push(msg);
 
-        const inst = createInstructionMessage("A reminder for the event was set successfully.")
+        const inst = createInstructionMessage("A reminder was set successfully.")
         this.push(inst);
     }
 }
@@ -548,8 +548,8 @@ async function receiver(e: AireTalkEvent) {
         return;
     }
 
-    if (e.type === "event-scheduled" && e.event) {
-        chat.onEventScheduled(e.event);
+    if (e.type === "reminder" && e.reminder) {
+        chat.onCreatedReminder(e.reminder);
         return;
     }
 
