@@ -180,12 +180,15 @@ export class ChatContext {
     }
 
     /**
-     * When the user trigger end of the convesation, the sumarize and suggestion are shown
+     * When the user trigger end of the convesation, the sumarize and suggestion are shown if not red flag have been triggered
      */
     public async endConversation() {
 
         if (!this.is_red_flag_triggered) {
             await this.summarize();
+        }else{
+            const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+            this.messages.push(end);
         }
     }
 
@@ -583,7 +586,7 @@ async function receiver(e: AireTalkEvent) {
 
         chat.push(last, firstMessage, final);
 
-        if (endConversation) {
+        if (endConversation || chat.is_red_flag_triggered) {
             await chat.endConversation();
         }
     }
