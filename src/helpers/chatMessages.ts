@@ -7,7 +7,7 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireEvent } from "aire";
+import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireReminder } from "aire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -49,8 +49,7 @@ export function createMessage(
         content: content,
         rating: 0,
         timestamp: Date.now(),
-        hidden: hidden,
-        isNewSummary: isNewSummary
+        hidden: hidden
     }
 }
 
@@ -98,9 +97,9 @@ export function createSummaryMessage(summary: string, isNewSummary: boolean) {
     return createMessage(ChatMessageType.Summary, "system", summary, false, false, isNewSummary);
 }
 
-export function createScheduledEventMessage(event: AireEvent) {
-    const msg = createMessage(ChatMessageType.EventScheduled, "system");
-    msg.event = event;
+export function createReminderCreatedMessage(reminder: AireReminder) {
+    const msg = createMessage(ChatMessageType.ReminderCreated, "system");
+    msg.reminder = reminder;
     return msg;
 }
 

@@ -11,7 +11,7 @@ import ChatContent from '@/components/chat/ChatContent.vue';
 import ContentModal from '@/components/content/ContentModal.vue';
 import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
-import { fetchAndRankContents, rankSelectedContent } from '@/helpers/contentUtils';
+import { fetchAndRankContents } from '@/helpers/contentUtils';
 
 const props = defineProps<{
     message: ChatMessage
@@ -74,11 +74,11 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="chat-content-message">
-        <span class="chat-content-message-title">
+    <div class="chat-content-suggestions">
+        <span class="chat-content-suggestions-title">
             {{ $t(l.suggestions_title) }}
         </span>
-        <span class="chat-content-message-text">
+        <span class="chat-content-suggestions-text">
             {{ message.content }}
         </span>
         <div class="chat-content-items" v-if="props.message.media">
@@ -90,7 +90,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.chat-content-message {
+.chat-content-suggestions {
     display: flex;
     flex-direction: column;
     line-height: 1.4rem;
@@ -103,14 +103,14 @@ onMounted(async () => {
     background-color: var(--ia-chat-box-background);
 }
 
-.chat-content-message-title {
+.chat-content-suggestions-title {
     font-size: var(--font-medium);
     font-weight: bold;
     align-self: center;
     color: var(--title-text);
 }
 
-.chat-content-message-text {
+.chat-content-suggestions-text {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);

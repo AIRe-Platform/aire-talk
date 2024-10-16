@@ -12,7 +12,7 @@ import {
     AireChatLog,
     AireStatus,
     AireKeyword,
-    AireEvent,
+    AireReminder,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -26,13 +26,13 @@ import {
     createSummaryMessage,
     createContentMessage,
     createControlFlowMessage,
-    createScheduledEventMessage
+    createReminderCreatedMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
+import { getChatbotInputData, listChatKeywords, findLatestSummaryMessage } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useContent from "./content";
@@ -293,7 +293,7 @@ export class ChatContext {
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
-                summary: findLatestSummary(this.messages),
+                summary: findLatestSummaryMessage(this.messages)?.content,
                 questionnaire: questionnaire.active,
                 keyword_blacklist: [...this.keyword_blacklist],
                 questionnaire_queries: this.questionnaire_queries,
@@ -349,12 +349,6 @@ export class ChatContext {
         this.keyword_blacklist = new Set(cached.state.keyword_blacklist);
         this.questionnaire_queries = cached.state.questionnaire_queries || [];
         this.content_queries = cached.state.content_queries || [];
-
-        this.messages.forEach(message => {
-           if(message.type == ChatMessageType.Summary){
-                message.isNewSummary = false;
-           }
-        });
 
         const state = cached.state;
         if (state) {
@@ -498,11 +492,11 @@ export class ChatContext {
         return 0;
     }
 
-    public onEventScheduled(event: AireEvent) {
-        const msg = createScheduledEventMessage(event);
+    public onCreatedReminder(reminder: AireReminder) {
+        const msg = createReminderCreatedMessage(reminder);
         this.push(msg);
 
-        const inst = createInstructionMessage("A reminder for the event was set successfully.")
+        const inst = createInstructionMessage("A reminder was set successfully.")
         this.push(inst);
     }
 }
@@ -538,8 +532,7 @@ async function receiver(e: AireTalkEvent) {
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
-        const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
-
+        await chat.queryQuestionnaires(e.keywords);
         return;
     }
 
@@ -548,8 +541,8 @@ async function receiver(e: AireTalkEvent) {
         return;
     }
 
-    if (e.type === "event-scheduled" && e.event) {
-        chat.onEventScheduled(e.event);
+    if (e.type === "reminder" && e.reminder) {
+        chat.onCreatedReminder(e.reminder);
         return;
     }
 

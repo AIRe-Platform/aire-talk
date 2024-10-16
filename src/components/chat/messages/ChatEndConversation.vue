@@ -7,8 +7,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
-import { DateTime } from 'luxon';
-import { l } from '@/locales';
 
 const props = defineProps<{
     message: ChatMessage
@@ -16,21 +14,15 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-event-scheduled-message" v-if="props.message.event">
-        <span class="chat-event-scheduled-message-content">
-            {{
-                $t(l.system_event_scheduled,
-                    {
-                        time: DateTime.fromSeconds(props.message.event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT),
-                        subject: props.message.event.content.message
-                    })
-            }}
+    <div :id="props.message.id" class="chat-end-conversation" v-if="props.message.content">
+        <span class="chat-end-conversation-content">
+            {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
     </div>
 </template>
 
 <style scoped>
-.chat-event-scheduled-message {
+.chat-end-conversation {
     display: block;
     line-height: 1.4rem;
     padding: 0.5rem 1rem;
@@ -42,7 +34,7 @@ const props = defineProps<{
     background-color: var(--ia-chat-box-background);
 }
 
-.chat-event-scheduled-message-content {
+.chat-end-conversation-content {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);
