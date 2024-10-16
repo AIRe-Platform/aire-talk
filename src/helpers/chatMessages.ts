@@ -49,8 +49,7 @@ export function createMessage(
         content: content,
         rating: 0,
         timestamp: Date.now(),
-        hidden: hidden,
-        isNewSummary: isNewSummary
+        hidden: hidden
     }
 }
 

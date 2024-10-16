@@ -83,7 +83,13 @@ export function conversationEnded(messages: ChatMessage[])
     return ended;
 }
 
-export function findLatestSummary(messages: ChatMessage[]) : string | undefined
+export function findLatestSummaryMessage(messages: ChatMessage[]) : ChatMessage | undefined
 {
-    return messages.findLast(x => x.type == ChatMessageType.Summary)?.content;
+    return messages.findLast(x => x.type == ChatMessageType.Summary);
+}
+
+export function getLastMessage() : ChatMessage | undefined
+{
+    const chat = useChat();
+    return chat.messages.length > 0 ? chat.messages[chat.messages.length - 1] : undefined;
 }
