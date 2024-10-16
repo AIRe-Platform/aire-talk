@@ -11,6 +11,7 @@ import { AireReminder, AireServices, AireStatus } from 'aire';
 import { DateTime } from 'luxon';
 import useChat from '@/context/chat';
 import { router } from '@/router';
+import { useChatCache } from '@/context/cache';
 
 defineComponent({ name: "EventComponent" })
 
@@ -29,8 +30,12 @@ const checkForEvents = () => {
                 let now = DateTime.utc().toUnixInteger();
                 if (res.status === AireStatus.Success && res.data) {
                     state.reminders = res.data.filter(event => {
-                        if (event.trigger_timestamp < now && !event.read_timestamp)
+                        if (event.trigger_timestamp < now && !event.read_timestamp) {
+                            if (event.chat_id) {
+                                useChat().load(event.chat_id); // Preload
+                            }
                             return event;
+                        }
                     })
                 }
             })
@@ -38,6 +43,12 @@ const checkForEvents = () => {
                 console.error(err);
             })
     }
+}
+
+const canContinue = (chat_id?: string) => {
+    if(!chat_id)
+        return false;
+    return useChatCache().has(chat_id);
 }
 
 const markEventAsRead = (index: number) => {
@@ -77,7 +88,7 @@ onMounted(async () => {
                     {{ reminder.content?.message }}
                 </div>
                 <div class="reminder-buttons">
-                    <button @click.stop="returnToConversation(reminder.chat_id)" v-if="reminder.chat_id">
+                    <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)">
                         {{ $t(l.button_return_to_conversation) }}
                     </button>
                     <button @click.stop="markEventAsRead(i)">
