@@ -16,13 +16,15 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-event-scheduled-message" v-if="props.message.event">
-        <span class="chat-event-scheduled-message-content">
+    <div :id="props.message.id" class="chat-reminder-created" v-if="props.message.reminder">
+        <span class="chat-reminder-content">
             {{
-                $t(l.system_event_scheduled,
+                $t(l.system_reminder_set,
                     {
-                        time: DateTime.fromSeconds(props.message.event.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT),
-                        subject: props.message.event.content.message
+                        time: DateTime
+                            .fromSeconds(props.message.reminder.trigger_timestamp)
+                            .toLocaleString(DateTime.DATETIME_SHORT),
+                        subject: props.message.reminder.content?.message
                     })
             }}
         </span>
@@ -30,7 +32,7 @@ const props = defineProps<{
 </template>
 
 <style scoped>
-.chat-event-scheduled-message {
+.chat-reminder-created {
     display: block;
     line-height: 1.4rem;
     padding: 0.5rem 1rem;
@@ -42,7 +44,7 @@ const props = defineProps<{
     background-color: var(--ia-chat-box-background);
 }
 
-.chat-event-scheduled-message-content {
+.chat-reminder-content {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);

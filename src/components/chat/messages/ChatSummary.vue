@@ -5,24 +5,21 @@
 
 <script setup lang="ts">
 import useChat from '@/context/chat';
-import { listChatKeywords } from '@/helpers/chatUtils';
+import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { defineProps, onMounted, reactive } from 'vue';
+import { computed, defineProps, onMounted, reactive } from 'vue';
 import Separator from "@/components/common/Separator.vue";
 import { createControlFlowMessage } from '@/helpers/chatMessages';
 
 const state = reactive<{
-    currentKeywords: string[],
-    isNewSummary: boolean
+    currentKeywords: string[]
 }>({
-    currentKeywords: [],
-    isNewSummary: true
+    currentKeywords: []
 });
 
 const props = defineProps<{
-    message: ChatMessage,
-    isNewSummary: boolean
+    message: ChatMessage
 }>();
 const chat = useChat();
 
@@ -71,54 +68,49 @@ const resetSummary = () => {
 };
 
 const acceptSummary = async () => {
-
     await chat.suggestContent(listChatKeywords(chat.messages));
+
     const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
     chat.messages.push(end);
+
     const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
     chat.messages.push(options);
-    state.isNewSummary = false;
 };
 
 onMounted(async () => {
     state.currentKeywords = listChatKeywords(chat.messages);
-    state.currentKeywords.push("anotherone", "bites", "dust");
-    state.isNewSummary = props.isNewSummary;
 })
+
+const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-summary-message">
-        <span class="chat-summary-message-title">
+    <div :id="props.message.id" class="chat-summary">
+        <span class="chat-summary-title">
             {{ $t(l.summary_title) }}
         </span>
-
-        <span class="chat-conversation-options-content" v-if="props.message.content">
+        <span class="chat-summary-options-content" v-if="props.message.content">
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
         <Separator class="separator" />
-
-        <span class="chat-summary-message-title">
-            Themes
-        </span>
-        <div class="chat-conversation-keyword-content" v-if="state.currentKeywords">
-            <div class="keyword-item" v-for="keyword in state.currentKeywords">
-                <span class="keyword-text">{{ keyword }}</span>
-                <div class="summary-keyword-delete" @click="removeThisKeyword(keyword)">
+        <div class="chat-summary-keywords" v-if="state.currentKeywords">
+            <div class="chat-summary-keyword" v-for="keyword, i in state.currentKeywords"
+                :key="'keyword_' + props.message.id + '_' + i">
+                <span class="chat-summary-keyword-label">{{ keyword }}</span>
+                <div class="chat-summary-keyword-delete" @click="removeThisKeyword(keyword)">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
             </div>
         </div>
-
-        <span class="chat-summary-message-content">
+        <span class="chat-summary-content">
             {{ $t(l.system_summary_instructions) }}
         </span>
-        <div class="message-options" v-if="state.isNewSummary">
+        <div class="chat-summary-options" v-if="isLastMessage">
             <Separator class="separator" />
-            <span class="chat-summary-message-title">
-                {{ $t(l.summary_aceptation_question) }}
+            <span class="chat-summary-title">
+                {{ $t(l.summary_acceptation_question) }}
             </span>
-            <span class="chat-conversation-options-buttons">
+            <span class="chat-summary-options-buttons">
                 <button @click="acceptSummary">{{ $t(l.button_accept) }}</button>
                 <button @click="resetSummary">{{ $t(l.button_cancel) }}</button>
             </span>
@@ -131,13 +123,13 @@ onMounted(async () => {
     padding: 1rem 0rem;
 }
 
-.message-options {
+.chat-summary-options {
     display: flex;
     flex-direction: column;
     align-self: center;
 }
 
-.chat-summary-message {
+.chat-summary {
     display: flex;
     flex-direction: column;
     line-height: 1.4rem;
@@ -150,7 +142,7 @@ onMounted(async () => {
     background-color: var(--ia-chat-box-background);
 }
 
-.chat-summary-message-title {
+.chat-summary-title {
     font-size: var(--font-medium);
     font-weight: bold;
     align-self: center;
@@ -158,14 +150,14 @@ onMounted(async () => {
     padding: 1rem 0rem;
 }
 
-.chat-summary-message-content,
-.chat-conversation-options-content {
+.chat-summary-content,
+.chat-summary-options-content {
     display: flex;
     flex-direction: column;
     padding: 2rem 10rem;
 }
 
-.keyword-item {
+.chat-summary-keyword {
     display: flex;
     flex-direction: row;
     font-size: var(--font-small);
@@ -177,7 +169,7 @@ onMounted(async () => {
     background-color: var(--summary-keyword-item-background);
 }
 
-.keyword-text {
+.chat-summary-keyword-label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,14 +178,14 @@ onMounted(async () => {
     margin-left: 1rem;
 }
 
-.chat-conversation-keyword-content {
+.chat-summary-keywords {
     display: flex;
     justify-content: center;
     gap: 2rem;
     padding: 1rem
 }
 
-.summary-keyword-delete {
+.chat-summary-keyword-delete {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,7 +200,7 @@ onMounted(async () => {
     }
 }
 
-.chat-conversation-options-buttons {
+.chat-summary-options-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;

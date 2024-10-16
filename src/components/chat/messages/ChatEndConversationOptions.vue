@@ -17,11 +17,11 @@ const chat = useChat();
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-conversation-options-message">
-        <span class="chat-conversation-options-content" v-if="props.message.content">
+    <div :id="props.message.id" class="chat-end-conversation-options">
+        <span class="chat-end-conversation-options-content" v-if="props.message.content">
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
-        <span class="chat-conversation-options-buttons">
+        <span class="chat-end-conversation-options-buttons">
             <button @click="chat.continueConversation">{{ $t(l.conversation_option_continue) }}</button>
             <button @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
         </span>
@@ -29,7 +29,7 @@ const chat = useChat();
 </template>
 
 <style scoped>
-.chat-conversation-options-message {
+.chat-end-conversation-options {
     display: flex;
     line-height: 1.4rem;
     padding: 0.5rem 1rem;
@@ -43,14 +43,14 @@ const chat = useChat();
     align-items: center;
 }
 
-.chat-conversation-options-message {
+.chat-end-conversation-options-content {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);
     width: 100%;
 }
 
-.chat-conversation-options-buttons {
+.chat-end-conversation-options-buttons {
     display: flex;
     flex-direction: row;
     gap: 1rem;
