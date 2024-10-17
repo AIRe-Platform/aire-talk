@@ -7,14 +7,8 @@
 import useChat from '@/context/chat';
 import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
 import { l } from '@/locales';
-import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { computed, defineProps, onMounted, reactive } from 'vue';
-
-const state = reactive<{
-    currentKeywords: string[]
-}>({
-    currentKeywords: []
-});
+import { ChatMessage } from '@/models/chat';
+import { computed, defineProps } from 'vue';
 
 const props = defineProps<{
     message: ChatMessage
@@ -24,22 +18,14 @@ const chat = useChat();
 
 const removeKeyword = (keyword: string) => {
     chat.removeKeyword(keyword, true);
-
-    const i = state.currentKeywords.findIndex(x => x == keyword);
-    if (i > -1) {
-        if (state.currentKeywords.length < i + 1) {
-            // Check if the next message is an instruction
-            if (state.currentKeywords[i + 1] == ChatMessageType.Instruction) {
-                state.currentKeywords.splice(i + 1, 1);
-            }
-        }
-        state.currentKeywords.splice(i, 1);
-    }
 };
 
-onMounted(async () => {
-    state.currentKeywords = listChatKeywords(chat.messages);
-})
+const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
+    const i = messages.findIndex(x => x.id === until_message_id);
+    return listChatKeywords(messages.slice(0, i));
+};
+
+const keywords = computed(() => getKeywords(chat.messages, props.message.id));
 
 const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
 </script>
@@ -52,8 +38,8 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
         <span class="chat-summary-content" v-if="props.message.content">
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
-        <div class="chat-summary-keywords" v-if="state.currentKeywords">
-            <div class="chat-summary-keyword" v-for="keyword, i in state.currentKeywords"
+        <div class="chat-summary-keywords" v-if="keywords && keywords.length > 0">
+            <div class="chat-summary-keyword" v-for="keyword, i in keywords"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
                 <div class="chat-summary-keyword-delete" @click="removeKeyword(keyword)" v-if="isLastMessage">
