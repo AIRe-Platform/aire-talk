@@ -9,8 +9,6 @@ import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { computed, defineProps, onMounted, reactive } from 'vue';
-import Separator from "@/components/common/Separator.vue";
-import { createControlFlowMessage } from '@/helpers/chatMessages';
 
 const state = reactive<{
     currentKeywords: string[]
@@ -21,16 +19,13 @@ const state = reactive<{
 const props = defineProps<{
     message: ChatMessage
 }>();
+
 const chat = useChat();
 
-
-const removeThisKeyword = (keyword: string) => {
-
+const removeKeyword = (keyword: string) => {
     chat.removeKeyword(keyword, true);
 
-    const i = state.currentKeywords
-        .findIndex(x => x == keyword);
-
+    const i = state.currentKeywords.findIndex(x => x == keyword);
     if (i > -1) {
         if (state.currentKeywords.length < i + 1) {
             // Check if the next message is an instruction
@@ -40,41 +35,6 @@ const removeThisKeyword = (keyword: string) => {
         }
         state.currentKeywords.splice(i, 1);
     }
-};
-
-const resetSummary = () => {
-    console.log("reject summary");
-
-    /*     if (findLatestSummary(chat.messages) != undefined) {
-            //removing the summary message rejected by the user
-            const summaryToDeleteMessageId = chat.messages.findLast(x => x.type == ChatMessageType.Summary)?.id;
-            const index = chat.messages.findIndex(x => x.id === summaryToDeleteMessageId);
-            chat.messages = chat.messages.slice(0, index);
-    
-            //get the lastest summary message after that
-            const summaryMessageId = chat.messages.findLast(x => x.type == ChatMessageType.Summary)?.id;
-    
-            if (summaryMessageId) {
-                chat.revertTo(summaryMessageId);
-                chat.continueConversation();
-            } else {
-                //reset to the beginning not new chat
-                chat.messages = chat.messages.slice(0, 1);
-            }
-        } 
-            state.isNewSummary = false;*/
-
-
-};
-
-const acceptSummary = async () => {
-    await chat.suggestContent(listChatKeywords(chat.messages));
-
-    const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-    chat.messages.push(end);
-
-    const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-    chat.messages.push(options);
 };
 
 onMounted(async () => {
@@ -89,30 +49,25 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
         <span class="chat-summary-title">
             {{ $t(l.summary_title) }}
         </span>
-        <span class="chat-summary-options-content" v-if="props.message.content">
+        <span class="chat-summary-content" v-if="props.message.content">
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
-        <Separator class="separator" />
         <div class="chat-summary-keywords" v-if="state.currentKeywords">
             <div class="chat-summary-keyword" v-for="keyword, i in state.currentKeywords"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <div class="chat-summary-keyword-delete" @click="removeThisKeyword(keyword)">
+                <div class="chat-summary-keyword-delete" @click="removeKeyword(keyword)" v-if="isLastMessage">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
             </div>
         </div>
-        <span class="chat-summary-content">
-            {{ $t(l.system_summary_instructions) }}
-        </span>
         <div class="chat-summary-options" v-if="isLastMessage">
-            <Separator class="separator" />
             <span class="chat-summary-title">
                 {{ $t(l.summary_acceptation_question) }}
             </span>
             <span class="chat-summary-options-buttons">
-                <button @click="acceptSummary">{{ $t(l.button_accept) }}</button>
-                <button @click="resetSummary">{{ $t(l.button_cancel) }}</button>
+                <button @click="chat.onAcceptSummary">{{ $t(l.button_yes) }}</button>
+                <button @click="chat.onRejectSummary">{{ $t(l.button_cancel) }}</button>
             </span>
         </div>
     </div>
@@ -154,7 +109,6 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
 .chat-summary-options-content {
     display: flex;
     flex-direction: column;
-    padding: 2rem 10rem;
 }
 
 .chat-summary-keyword {

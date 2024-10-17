@@ -19,8 +19,7 @@ const sw: Locale = {
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
     system_reminder_set: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
-    system_summary_instructions: "system_summary_instructions",
-    summary_acceptation_question: "summary_acceptation_question",
+    summary_acceptation_question: "Je, muhtasari ni sahihi?",
 
     conversation_option_continue: "Endelea na mazungumzo",
     conversation_option_new_chat: "Anzisha mazungumzo mapya",

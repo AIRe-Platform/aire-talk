@@ -40,6 +40,9 @@ import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import { DateTime } from "luxon";
 
+const RED_FLAG_TAG = "[RED_FLAG]";
+const END_OF_CONVERSATION_TAG = "[END_OF_CONVERSATION]";
+
 export class ChatContext {
     id?: string;
     autosave_timer?: number;
@@ -510,24 +513,47 @@ export class ChatContext {
             return false;
 
         const last = getLastMessage();
-        if(!last)
+        if (!last)
             return false;
-        
-        if(conversationEnded(this.messages))
+
+        if (conversationEnded(this.messages))
             this.continueConversation();
 
         let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
 
         const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
-        if(timeDiff.isValid)
+        if (timeDiff.isValid)
             instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
-        
 
         const inst = createInstructionMessage(instruction);
         this.push(inst);
         this.forceResponse();
 
         return true;
+    }
+
+    public async onAcceptSummary()
+    {
+        await this.suggestContent(listChatKeywords(this.messages));
+
+        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+        this.push(end);
+    
+        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+        this.push(options);
+    }
+
+    public onRejectSummary()
+    {
+        const instruction = `
+            The user rejected the summary. 
+            Ask what is wrong with it and how the user would like to have it modified.
+            After that, you should end the conversation with ${END_OF_CONVERSATION_TAG} to create a new summary.
+        `;
+
+        const inst = createInstructionMessage(instruction);
+        this.push(inst);
+        this.forceResponse();
     }
 }
 
@@ -600,12 +626,12 @@ async function receiver(e: AireTalkEvent) {
         if (final) {
             useChatbot().reportReady();
 
-            if (last.content?.includes("[END_OF_CONVERSATION]")) {
-                last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
+            if (last.content?.includes(END_OF_CONVERSATION_TAG)) {
+                last.content = last.content.replace(END_OF_CONVERSATION_TAG, "").trim();
                 endConversation = true;
             }
-            if (last.content?.includes("[RED_FLAG]")) {
-                last.content = last.content.replace("[RED_FLAG]", "").trim();
+            if (last.content?.includes(RED_FLAG_TAG)) {
+                last.content = last.content.replace(RED_FLAG_TAG, "").trim();
                 endConversation = true;
                 chat.is_red_flag_triggered = true;
             }

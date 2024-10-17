@@ -19,7 +19,6 @@ const id: Locale = {
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
     system_reminder_set: "Pengingat baru '{subject}' pada {time} telah dibuat.",
-    system_summary_instructions: "system_summary_instructions",
     summary_acceptation_question: "summary_acceptation_question",
 
     conversation_option_continue: "Lanjutkan percakapan",
