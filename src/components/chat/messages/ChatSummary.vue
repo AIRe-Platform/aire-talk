@@ -67,7 +67,7 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             </span>
             <span class="chat-summary-options-buttons">
                 <button @click="chat.onAcceptSummary">{{ $t(l.button_yes) }}</button>
-                <button @click="chat.onRejectSummary">{{ $t(l.button_cancel) }}</button>
+                <button @click="chat.onRejectSummary">{{ $t(l.button_no) }}</button>
             </span>
         </div>
     </div>
