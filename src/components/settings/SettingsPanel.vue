@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
