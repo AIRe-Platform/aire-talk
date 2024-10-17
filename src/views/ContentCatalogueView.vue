@@ -65,7 +65,6 @@ onMounted(async () => {
     await listContent();
 
     state.busy = false;
-    console.log("state.contentList", state.contentList);  // Now this should show the populated content list
 
     // Rank the content only if it's not empty
     if (state.contentList && state.contentList.length > 0) {

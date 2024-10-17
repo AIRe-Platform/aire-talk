@@ -68,9 +68,7 @@ const emits = defineEmits<{
             </div>
 
         </div>
-        <div class="catalogue-item-description">
-            <p>{{ props.content.score }}</p>
-        </div>
+
         <div class="star-rating">
             <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
         </div>
