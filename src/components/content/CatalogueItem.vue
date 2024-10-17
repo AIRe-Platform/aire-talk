@@ -118,7 +118,6 @@ const emits = defineEmits<{
     flex-direction: column;
 
     align-items: center;
-    justify-content: center;
     text-align: center;
 
     margin: 0 0.5rem 0.5rem 0.5rem;
