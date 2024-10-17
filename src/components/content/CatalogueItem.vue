@@ -5,13 +5,26 @@
 
 <script setup lang="ts">
 import Panel from '@/components/common/Panel.vue';
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, computed } from "vue";
 import { AireContentType, AireContent } from 'aire';
 
 const props = defineProps<{
     content: AireContent,
     isFromSummary: boolean
 }>();
+
+// Function to normalize the rating
+const normalizeRating = (rating: number, min: number = 1, max: number = 3): number => {
+    // Assuming your original ratings are between 0 and some max value
+    const originalMin = 0;
+    const originalMax = 10; // Adjust this depending on your highest possible rating score
+
+    // Normalize the rating between min and max (1 and 3 in this case)
+    return Math.max(min, Math.min(max, ((rating - originalMin) / (originalMax - originalMin)) * (max - min) + min));
+};
+// Normalize the rating between 1 and 3 stars
+const normalizedRating = computed(() => normalizeRating(props.content.score || 0));
+
 
 const emits = defineEmits<{
     show: [AireContent]
@@ -54,6 +67,10 @@ const emits = defineEmits<{
                 </div>
             </div>
 
+        </div>
+
+        <div class="star-rating">
+            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
         </div>
         <div class="catalogue-item-description">
             <p>{{ props.content.name }}</p>
@@ -101,7 +118,6 @@ const emits = defineEmits<{
     flex-direction: column;
 
     align-items: center;
-    justify-content: center;
     text-align: center;
 
     margin: 0 0.5rem 0.5rem 0.5rem;

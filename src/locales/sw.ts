@@ -8,7 +8,7 @@ import { Locale } from ".";
 const sw: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "Sistem AIRe",
-    
+
     footer: "Maendeleo",
     not_found: "Ukurasa haujapatikana",
 
@@ -18,6 +18,8 @@ const sw: Locale = {
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
+    system_reminder_set: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
+    summary_acceptation_question: "Je, muhtasari ni sahihi?",
 
     conversation_option_continue: "Endelea na mazungumzo",
     conversation_option_new_chat: "Anzisha mazungumzo mapya",
@@ -62,7 +64,8 @@ const sw: Locale = {
     nav_preferences: "Mipangilio",
     nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
-
+    nav_about: "About",
+    
     profile_title: "Akaunti ya mtumiaji",
     profile_label_first_name: "Jina la kwanza",
     profile_label_last_name: "Jina la mwisho",
@@ -85,7 +88,7 @@ const sw: Locale = {
     profile_button_change_password: "Badilisha nenosiri",
 
     profile_heading_personal_data: "Data ya Kibinafsi",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
     profile_button_download_personal_data: "Pakua",
 
@@ -182,10 +185,12 @@ const sw: Locale = {
     button_continue: "Endelea",
     button_close: "Funga",
     button_mark_as_read: "Weka alama kama imesomwa",
+    button_return_to_conversation: "Rudi kwenye mazungumzo",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
 
     logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Kiingereza",
     fi: "Kifini",

@@ -12,6 +12,7 @@ import {
     AireChatLog,
     AireStatus,
     AireKeyword,
+    AireReminder,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -24,18 +25,23 @@ import {
     createKeywordMessage,
     createSummaryMessage,
     createContentMessage,
-    createControlFlowMessage
+    createControlFlowMessage,
+    createReminderCreatedMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData, findLatestSummary, listChatKeywords } from "@/helpers/chatUtils";
+import { getChatbotInputData, listChatKeywords, findLatestSummaryMessage, conversationEnded, getLastMessage } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
 import useContent from "./content";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { DateTime } from "luxon";
+
+const RED_FLAG_TAG = "[RED_FLAG]";
+const END_OF_CONVERSATION_TAG = "[END_OF_CONVERSATION]";
 
 export class ChatContext {
     id?: string;
@@ -44,7 +50,7 @@ export class ChatContext {
     keyword_blacklist: Set<string>;
     questionnaire_queries: Array<string>;
     content_queries: Array<string>;
-
+    is_red_flag_triggered: boolean;
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public meta: {
@@ -61,6 +67,7 @@ export class ChatContext {
         this.keyword_blacklist = new Set<string>();
         this.questionnaire_queries = new Array<string>();
         this.content_queries = new Array<string>();
+        this.is_red_flag_triggered = false;
     }
 
     /** Resets the chat state */
@@ -84,7 +91,7 @@ export class ChatContext {
         this.keyword_blacklist.clear();
         this.questionnaire_queries = [];
         this.content_queries = [];
-
+        this.is_red_flag_triggered = false;
         useQuestionnaire().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
@@ -177,19 +184,16 @@ export class ChatContext {
     }
 
     /**
-     * Add new user message and wait response from the chatbot
-     * @param message Message content
+     * When the user trigger end of the convesation, the sumarize and suggestion are shown if not red flag have been triggered
      */
     public async endConversation() {
 
-        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-        this.messages.push(end);
-
-        await this.summarize();
-        await this.suggestContent(listChatKeywords(this.messages));
-
-        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-        this.messages.push(options);
+        if (!this.is_red_flag_triggered) {
+            await this.summarize();
+        } else {
+            const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+            this.messages.push(end);
+        }
     }
 
     /**
@@ -199,6 +203,10 @@ export class ChatContext {
         const optionsIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversationOptions);
         if (optionsIndex > -1)
             this.messages.splice(optionsIndex, 1);
+
+        const endMessageIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversation);
+        if (endMessageIndex > -1)
+            this.messages.splice(endMessageIndex, 1);
 
         const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
         this.messages.push(cont);
@@ -292,7 +300,7 @@ export class ChatContext {
         if (AireServices.Memory) {
             const state: ChatState = {
                 ...this.meta,
-                summary: findLatestSummary(this.messages),
+                summary: findLatestSummaryMessage(this.messages)?.content,
                 questionnaire: questionnaire.active,
                 keyword_blacklist: [...this.keyword_blacklist],
                 questionnaire_queries: this.questionnaire_queries,
@@ -318,7 +326,7 @@ export class ChatContext {
 
                         context.id = result.data.id;
                         context.modified = false;
-                        console.log("Chat saved");
+                        console.debug("Chat saved");
                     }
                 })
         } else {
@@ -426,7 +434,7 @@ export class ChatContext {
         return await AireServices.AI.generateSummary(input)
             .then((result) => {
                 if (result.status == AireStatus.Success && result.data) {
-                    const msg = createSummaryMessage(result.data);
+                    const msg = createSummaryMessage(result.data, true);
                     this.push(msg);
                     return true;
                 } else {
@@ -465,28 +473,87 @@ export class ChatContext {
     }
 
     public async suggestContent(keywords: string[]): Promise<number> {
-        if (keywords.length > 0) {
-            const q = keywords.sort().join(",");
-            if (this.content_queries.includes(q))
-                return 0; // No requeries with the same keys
+        if (!this.is_red_flag_triggered) {
+            if (keywords.length > 0) {
+                const q = keywords.sort().join(",");
+                if (this.content_queries.includes(q))
+                    return 0; // No requeries with the same keys
 
-            useChatbot().makeBusy();
+                useChatbot().makeBusy();
 
-            return await useContent()
-                .search(keywords, 4)
-                .then(async results => {
-                    // Filter out already suggested content
-                    const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
-                    if (content.length > 0) {
-                        const msg = createContentMessage(results);
-                        this.push(await msg);
-                        return content.length;
-                    }
-                    return 0;
-                })
-                .finally(() => useChatbot().reportReady());
+                return await useContent()
+                    .search(keywords, 4)
+                    .then(async results => {
+                        // Filter out already suggested content
+                        const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
+                        if (content.length > 0) {
+                            const msg = createContentMessage(results);
+                            this.push(await msg);
+                            return content.length;
+                        }
+                        return 0;
+                    })
+                    .finally(() => useChatbot().reportReady());
+            }
         }
         return 0;
+    }
+
+    public onCreatedReminder(reminder: AireReminder) {
+        const msg = createReminderCreatedMessage(reminder);
+        this.push(msg);
+
+        const inst = createInstructionMessage("A reminder was set successfully.")
+        this.push(inst);
+    }
+
+    public async onContinueConversation(id: string): Promise<boolean> {
+        const loaded = await this.open(id);
+        if (!loaded)
+            return false;
+
+        const last = getLastMessage();
+        if (!last)
+            return false;
+
+        if (conversationEnded(this.messages))
+            this.continueConversation();
+
+        let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
+
+        const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
+        if (timeDiff.isValid)
+            instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
+
+        const inst = createInstructionMessage(instruction);
+        this.push(inst);
+        this.forceResponse();
+
+        return true;
+    }
+
+    public async onAcceptSummary()
+    {
+        await this.suggestContent(listChatKeywords(this.messages));
+
+        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
+        this.push(end);
+    
+        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+        this.push(options);
+    }
+
+    public onRejectSummary()
+    {
+        const instruction = `
+            The user rejected the summary. 
+            Ask what is wrong with it and how the user would like to have it modified.
+            After that, you should end the conversation with ${END_OF_CONVERSATION_TAG} to create a new summary.
+        `;
+
+        const inst = createInstructionMessage(instruction);
+        this.push(inst);
+        this.forceResponse();
     }
 }
 
@@ -510,24 +577,28 @@ async function streamResponse() {
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
+    if (chat.is_red_flag_triggered)
+        return;
+
     if (e.type === "keywords" && e.keywords) {
         // Update keywords
+        console.debug("keyword incoming!! ", e.keywords);
         const currentKeywords = listChatKeywords(chat.messages);
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
         // Search questionnaires and start prompt to start one if found
-        const foundQuestionnaire = await chat.queryQuestionnaires(e.keywords);
-
-        // Suggest content if questionnaire was not found
-        if (!foundQuestionnaire)
-            chat.suggestContent(e.keywords);
-
+        await chat.queryQuestionnaires(e.keywords);
         return;
     }
 
     if (e.type === "token-count") {
         chat.stats.token_count = e.tokenCount
+        return;
+    }
+
+    if (e.type === "reminder" && e.reminder) {
+        chat.onCreatedReminder(e.reminder);
         return;
     }
 
@@ -538,26 +609,38 @@ async function receiver(e: AireTalkEvent) {
         let endConversation = false;
 
         if (last.role !== "assistant") {
-            last = createAssistantMessage("");
-            firstMessage = true
+            if (e.message && e.message.content.length > 0) {
+                last = createAssistantMessage("");
+                firstMessage = true
+            }
+            else {
+                // Ignore empty message
+                return;
+            }
         }
 
         if (e.message) {
             last.content += e.message.content;
         }
+
         if (final) {
             useChatbot().reportReady();
 
-            if (last.content?.includes("[END_OF_CONVERSATION]")) {
-                last.content = last.content.replace("[END_OF_CONVERSATION]", "").trim();
+            if (last.content?.includes(END_OF_CONVERSATION_TAG)) {
+                last.content = last.content.replace(END_OF_CONVERSATION_TAG, "").trim();
                 endConversation = true;
+            }
+            if (last.content?.includes(RED_FLAG_TAG)) {
+                last.content = last.content.replace(RED_FLAG_TAG, "").trim();
+                endConversation = true;
+                chat.is_red_flag_triggered = true;
             }
         }
 
         chat.push(last, firstMessage, final);
 
-        if (endConversation) {
-            chat.endConversation();
+        if (endConversation || chat.is_red_flag_triggered) {
+            await chat.endConversation();
         }
     }
 }

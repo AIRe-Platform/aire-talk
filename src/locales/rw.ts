@@ -18,6 +18,8 @@ const rw: Locale = {
     system_found_content: "Hari amakuru ashobora kugira icyo agufasha. Reba ayo makuru witonze.",
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
+    system_reminder_set: "Kwibutsa gushya '{subject}' mugihe {time}.",
+    summary_acceptation_question: "Incamake nukuri?",
 
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",
@@ -62,7 +64,8 @@ const rw: Locale = {
     nav_preferences: "Igenamiterere",
     nav_main_menu: "Ibikubiyemo nyamukuru",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
-
+    nav_about: "About",
+    
     profile_title: "Konti y'umukoresha",
     profile_label_first_name: "Izina rya mbere",
     profile_label_last_name: "Izina ry'umuryango",
@@ -74,7 +77,7 @@ const rw: Locale = {
     profile_button_save: "Ibishya",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
-    
+
     profile_heading_connected_services: "Serivisi zifite aho zihuriye cyangwa zifitanye isano",
     profile_empty_service_list: "Nta serivices zifite aho zihuriye",
 
@@ -86,7 +89,7 @@ const rw: Locale = {
     profile_button_change_password: "Hindura ijambo ry'ibanga",
 
     profile_heading_personal_data: "Personal Data",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
     profile_button_download_personal_data: "Download",
 
@@ -195,10 +198,12 @@ const rw: Locale = {
     button_continue: "Komeza",
     button_close: "Funga",
     button_mark_as_read: "Mark as read",
+    button_return_to_conversation: "Garuka ku biganiro",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
 
     logout_inactivity_message: "Winjiye hanze kubera kudakora.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Icyongereza",
     fi: "Igifinilande",

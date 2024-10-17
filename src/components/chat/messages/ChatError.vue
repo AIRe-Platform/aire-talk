@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 
 const props = defineProps<{
@@ -14,27 +15,37 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-end-conv-message" v-if="props.message.content">
-        <span class="chat-end-conv-message-content">
-            {{ props.message.localize ? $t(props.message.content) : props.message.content }}
-        </span>
+    <div :id="props.message.id" class="chat-error" v-if="props.message.content">
+        <div class="chat-error-title">
+            {{  $t(l.aire_system) }}
+        </div>
+        <div class="chat-error-content">
+            {{  props.message.localize ?  $t(props.message.content) : props.message.content }}
+        </div>
     </div>
 </template>
 
-<style scoped>
-.chat-end-conv-message {
+<style scoped lang="scss">
+.chat-error {
     display: block;
     line-height: 1.4rem;
     padding: 0.5rem 1rem;
     margin: 1rem 1.5rem;
-    border: 2px solid var(--box-stroke);
+    border: 2px solid var(--error-color);
+    background-color: var(--ia-chat-box-background);
+    color: var(--error-color);
     border-radius: 1rem;
     align-self: center;
     max-width: 80%;
-    background-color: var(--ia-chat-box-background);
 }
 
-.chat-end-conv-message-content {
+.chat-error-title {
+    font-size: var(--font-medium);
+    font-weight: bold;
+    align-self: center;
+}
+
+.chat-error-content {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);

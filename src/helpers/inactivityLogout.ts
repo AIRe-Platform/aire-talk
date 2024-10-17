@@ -2,26 +2,47 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+import { AireSettings } from "aire";
+
 let logoutTimer: number | undefined;
+let logoutWarningTimer: number | undefined;
 let listenersAttached = false; // To track if event listeners are already attached
 let resetHandler: (() => void) | null = null; // Store reference to handler
 
-const LOGOUT_TIMER_START = 30 * 60 * 1000;   // 5 minutes in milliseconds: 30 * 60 * 1000;
+let logoutTimerStart: number | undefined;
+export const LOGOUT_WARNING_START = 60 * 1000; // 1 minute in milliseconds
 
 const resetLogoutTimer = (logoutCallback: () => void) => {
     if (logoutTimer) {
         clearTimeout(logoutTimer);
     }
 
-    logoutTimer = setTimeout(logoutCallback, LOGOUT_TIMER_START);
+    logoutTimer = setTimeout(logoutCallback, logoutTimerStart!);
 };
 
-export const startInactivityListener = (logoutCallback: () => void) => {
-    if (listenersAttached) 
+const resetLogoutWarningTimer = (warningCallback: (newState: boolean) => void) => {
+    if (logoutWarningTimer) {
+        clearTimeout(logoutWarningTimer);
+        warningCallback(false);
+    }
+
+    logoutWarningTimer = setTimeout(() => warningCallback(true), logoutTimerStart! - LOGOUT_WARNING_START);
+}
+
+export const startInactivityListener = (logoutCallback: () => void, warningCallback: (newState: boolean) => void) => {
+    if (listenersAttached)
         return; // Prevent re-adding event listeners
+
+    if (logoutTimerStart === undefined) {
+        if (!AireSettings.Settings || !AireSettings.Settings.inactivityDuration)
+            throw new Error("Inactivity duration has not been configured");
+
+        logoutTimerStart = AireSettings.Settings.inactivityDuration * 60 * 1000;
+    }
 
     resetHandler = () => {
         resetLogoutTimer(logoutCallback);
+        resetLogoutWarningTimer(warningCallback);
     };
 
     // Attach event listeners for user activity
@@ -35,7 +56,7 @@ export const startInactivityListener = (logoutCallback: () => void) => {
 };
 
 export const stopInactivityListener = () => {
-    if (!listenersAttached || !resetHandler) 
+    if (!listenersAttached || !resetHandler)
         return; // Only remove if attached
 
     window.removeEventListener('mousemove', resetHandler as EventListener);
@@ -48,5 +69,6 @@ export const stopInactivityListener = () => {
 
     if (logoutTimer) {
         clearTimeout(logoutTimer);
+        clearTimeout(logoutWarningTimer);
     }
 };

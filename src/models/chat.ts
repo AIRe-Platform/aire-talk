@@ -38,6 +38,9 @@ export enum ChatMessageType {
 
     // The message presents options going forward when the conversation has ended
     EndOfConversationOptions = "end_of_conversation_options",
+
+    // The message informs that a reminder was created
+    ReminderCreated = "reminder_created",
 }
 
 export interface ChatMessage extends AireChatMessage {

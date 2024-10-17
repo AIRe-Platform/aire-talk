@@ -18,6 +18,8 @@ const fi: Locale = {
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
     system_end_of_conversation: "Keskustelu on päättynyt",    
     system_end_of_conversation_options: "Miten haluat jatkaa?",
+    system_reminder_set: "Luotiin muistutus '{subject}' ajankohdalle {time}.",
+    summary_acceptation_question: "Onko tiivistelmä oikein?",
 
     conversation_option_continue: "Jatka tätä keskustelua",
     conversation_option_new_chat: "Aloita uusi keskustelu",
@@ -62,6 +64,7 @@ const fi: Locale = {
     nav_preferences: "Asetukset",
     nav_main_menu: "Päävalikko",
     nav_catalogue: "Sisältökatalogi",
+    nav_about: "About",
 
     profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",
@@ -200,10 +203,12 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_continue: "Jatka",
     button_close: "Sulje",
     button_mark_as_read: "Merkitse luetuksi",
+    button_return_to_conversation: "Palaa keskusteluun",
 
     content_catalogue_empty: "Täältä löydät myöhemmin sisältökatalogi joka liittyy keskusteluihin, joita käytät AIRe Talkin kanssa.",
 
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
+    logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",
 
     en: "Englanti",
     fi: "Suomi",

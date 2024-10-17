@@ -19,7 +19,7 @@ export function checkAnswerForRedFlag(qa: AireQuestionnaireAnswer): boolean {
 
 export function triggerRedFlag() {
     const instructions = `
-    [Tell user that what they just answered is a red flag and alarming. Refuse to give further instructions because user needs urgent medical attention and tell the user to go to doctor as soon as possible]
+    [Tell user that what they just answered is a red flag and alarming. Refuse to give further instructions because user needs urgent medical attention and tell the user to go to doctor as soon as possible. Also end the message with [RED_FLAG]]
     `
     const msg = createInstructionMessage(instructions)
 

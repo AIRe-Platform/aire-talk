@@ -15,7 +15,9 @@ export enum LocalizationKey {
     system_found_content = "system_found_content",
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
-    
+    system_reminder_set = "system_reminder_set",
+    summary_acceptation_question = "summary_acceptation_question",
+
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",
 
@@ -23,7 +25,7 @@ export enum LocalizationKey {
 
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
-    
+
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",
@@ -56,6 +58,7 @@ export enum LocalizationKey {
     nav_preferences = "nav_preferences",
     nav_main_menu = "nav_main_menu",
     nav_catalogue = "nav_catalogue",
+    nav_about = "nav_about",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -100,7 +103,7 @@ export enum LocalizationKey {
     profile_question_country = "profile_question_country",
     profile_characters_max = "profile_characters_max",
     profile_remaining = "profile_remaining",
-    
+
     profile_experiments_title = "profile_experiments_title",
     profile_experiments_text = "profile_experiments_text",
     profile_experiments_add = "profile_experiments_add",
@@ -143,7 +146,6 @@ export enum LocalizationKey {
     tools_button_summarize = "tools_button_summarize",
     tools_button_query_surveys = "tools_button_query_surveys",
     tools_button_suggestions = "tools_button_suggestions",
-    
     suggestion_check_for_more = "suggestion_check_for_more",
 
     chat_history_loading = "chat_history_loading",
@@ -175,11 +177,13 @@ export enum LocalizationKey {
     button_continue = "button_continue",
     button_close = "button_close",
     button_mark_as_read = "button_mark_as_read",
+    button_return_to_conversation = "button_return_to_conversation",
 
     content_catalogue_empty = "content_catalogue_empty",
 
     logout_inactivity_message = "logout_inactivity_message",
-    
+    logout_inactivity_warning_message = "logout_inactivity_warning_message",
+
     en = "en",
     fi = "fi",
     es = "es",

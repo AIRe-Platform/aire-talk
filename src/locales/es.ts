@@ -8,7 +8,7 @@ import { Locale } from ".";
 const es: Locale = {
     aire_bot: "Bot AIRe",
     aire_system: "Sistema AIRe",
-    
+
     footer: "Desarollo",
     not_found: "Página no encontrada",
 
@@ -18,12 +18,14 @@ const es: Locale = {
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
+    system_reminder_set: "Se creó un nuevo recordatorio '{subject}' a las {time}.",
+    summary_acceptation_question: "¿Es correcto el resumen?",
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
-    
+
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
@@ -62,7 +64,8 @@ const es: Locale = {
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
-
+    nav_about: "About",
+    
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
@@ -74,7 +77,7 @@ const es: Locale = {
     profile_button_save: "Guardar",
     profile_characters_max: '{0} carácteres máximo.',
     profile_remaining: "carácteres restantes.",
-    
+
     profile_heading_connected_services: "Connectado",
     profile_empty_service_list: "No Conectado",
 
@@ -87,7 +90,7 @@ const es: Locale = {
     profile_button_change_password: "Cambiar contraseña",
 
     profile_heading_personal_data: "Datos personales",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
     profile_button_download_personal_data: "Descargar",
 
@@ -203,10 +206,12 @@ const es: Locale = {
     button_continue: "Continuar",
     button_close: "Cerrar",
     button_mark_as_read: "Marcar como leído",
+    button_return_to_conversation: "Regresar a la conversación",
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Inglés",
     fi: "Finés",

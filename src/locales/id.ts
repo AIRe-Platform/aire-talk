@@ -8,7 +8,7 @@ import { Locale } from ".";
 const id: Locale = {
     aire_bot: "AIRe Bot",
     aire_system: "Sistem AIRe",
-    
+
     footer: "Pengembangan",
     not_found: "Halaman tidak ditemukan",
 
@@ -18,6 +18,8 @@ const id: Locale = {
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
+    system_reminder_set: "Pengingat baru '{subject}' pada {time} telah dibuat.",
+    summary_acceptation_question: "summary_acceptation_question",
 
     conversation_option_continue: "Lanjutkan percakapan",
     conversation_option_new_chat: "Mulai percakapan baru",
@@ -62,6 +64,7 @@ const id: Locale = {
     nav_preferences: "Pengaturan",
     nav_main_menu: "Menu utama",
     nav_catalogue: "Katalog Konten",
+    nav_about: "About",
 
     profile_title: "Akun pengguna",
     profile_label_first_name: "Nama Depan",
@@ -86,7 +89,7 @@ const id: Locale = {
     profile_button_change_password: "Ubah kata sandi",
 
     profile_heading_personal_data: "Data Pribadi",
-    profile_description_personal_data: 
+    profile_description_personal_data:
         "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
     profile_button_download_personal_data: "Unduh",
 
@@ -165,7 +168,7 @@ const id: Locale = {
     tools_button_summarize: "Ringkas",
     tools_button_query_surveys: "Kueri survei",
     tools_button_suggestions: "Saran",
-    
+
     suggestion_check_for_more: "Periksa lebih lanjut",
 
     chat_history_loading: "Memuat...",
@@ -201,10 +204,12 @@ const id: Locale = {
     button_continue: "Lanjutkan",
     button_close: "Tutup",
     button_mark_as_read: "Tandai sebagai sudah dibaca",
+    button_return_to_conversation: "Kembali ke percakapan",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
-    
+
     logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
+    logout_inactivity_warning_message: "logout_inactivity_warning_message",
 
     en: "Inggris",
     fi: "Finlandia",

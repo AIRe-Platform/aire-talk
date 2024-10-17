@@ -5,6 +5,7 @@
 
 import { createRouter, createWebHistory } from "vue-router";
 import StartView from "./views/StartView.vue";
+import AboutView from "./views/AboutView.vue";
 import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
 import SignupView from "./views/SignupView.vue";
@@ -38,6 +39,14 @@ export const router = createRouter({
             meta: {
                 title: l.nav_home,
                 require_login: true
+            },
+        },
+        {
+            path: "/about",
+            component: AboutView,
+            name: "About",
+            meta: {
+                title: l.nav_home
             },
         },
         {

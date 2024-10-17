@@ -4,13 +4,14 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, reactive } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import ChatContent from '@/components/chat/ChatContent.vue';
 import ContentModal from '@/components/content/ContentModal.vue';
 import { AireContent, AireContentType } from 'aire';
 import useContent from '@/context/content';
+import { fetchAndRankContents } from '@/helpers/contentUtils';
 
 const props = defineProps<{
     message: ChatMessage
@@ -18,9 +19,11 @@ const props = defineProps<{
 
 const state = reactive<{
     modalOpen: boolean,
-    openContent?: AireContent
+    openContent?: AireContent,
+    rankedContents?: AireContent[]
 }>({
-    modalOpen: false
+    modalOpen: false,
+    rankedContents: []
 });
 
 const contentCtx = useContent();
@@ -61,26 +64,33 @@ const closeModal = () => {
     state.openContent = undefined;
     toggleModal();
 };
+
+onMounted(async () => {
+    if (props.message.media) {
+        state.rankedContents = await fetchAndRankContents(props.message.media);
+    }
+});
+
 </script>
 
 <template>
-    <div class="chat-content-message">
-        <span class="chat-content-message-title">
+    <div class="chat-content-suggestions">
+        <span class="chat-content-suggestions-title">
             {{ $t(l.suggestions_title) }}
         </span>
-        <span class="chat-content-message-text">
+        <span class="chat-content-suggestions-text">
             {{ message.content }}
         </span>
         <div class="chat-content-items" v-if="props.message.media">
-            <ChatContent v-for="id in props.message.media" :contentId="id" :key="id" :parent="props.message"
-                @show="showContent" />
+            <ChatContent v-for="content in state.rankedContents" :parent="props.message" :content="content"
+                :contentId="content.id || ''" :key="content.id" @show="showContent" />
         </div>
         <ContentModal :active="state.modalOpen" :content="state.openContent" @close="closeModal" />
     </div>
 </template>
 
 <style scoped>
-.chat-content-message {
+.chat-content-suggestions {
     display: flex;
     flex-direction: column;
     line-height: 1.4rem;
@@ -93,14 +103,14 @@ const closeModal = () => {
     background-color: var(--ia-chat-box-background);
 }
 
-.chat-content-message-title {
+.chat-content-suggestions-title {
     font-size: var(--font-medium);
     font-weight: bold;
     align-self: center;
     color: var(--title-text);
 }
 
-.chat-content-message-text {
+.chat-content-suggestions-text {
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);

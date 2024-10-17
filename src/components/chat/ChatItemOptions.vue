@@ -137,8 +137,7 @@ onMounted(() => {
                     v-if="!state.copiedToClipboard">
                     <font-awesome-icon icon="fa-solid fa-copy" />
                 </div>
-                <div @click.stop="onRevert" class="chat-item-options-menu-button spin"
-                    v-if="props.can_revert">
+                <div @click.stop="onRevert" class="chat-item-options-menu-button spin" v-if="props.can_revert">
                     <font-awesome-icon icon="fa-solid fa-arrows-spin" />
                 </div>
             </template>
