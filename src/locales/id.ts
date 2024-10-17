@@ -205,6 +205,7 @@ const id: Locale = {
     button_continue: "Lanjutkan",
     button_close: "Tutup",
     button_mark_as_read: "Tandai sebagai sudah dibaca",
+    button_return_to_conversation: "Kembali ke percakapan",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
 

@@ -67,7 +67,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <OnboardingTopics class="Onboarding-button" />
+    <OnboardingTopics />
 
     <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
@@ -207,8 +207,7 @@ onMounted(async () => {
     background-size: contain;
 }
 
-.frontpage-button:hover,
-.Onboarding-button:hover {
+.frontpage-button:hover {
     color: var(--accent-primary-color);
 }
 

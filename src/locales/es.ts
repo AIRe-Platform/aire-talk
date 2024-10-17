@@ -207,6 +207,7 @@ const es: Locale = {
     button_continue: "Continuar",
     button_close: "Cerrar",
     button_mark_as_read: "Marcar como leído",
+    button_return_to_conversation: "Regresar a la conversación",
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
