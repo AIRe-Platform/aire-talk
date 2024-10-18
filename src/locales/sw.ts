@@ -70,7 +70,7 @@ const sw: Locale = {
     profile_label_first_name: "Jina la kwanza",
     profile_label_last_name: "Jina la mwisho",
     profile_label_gender: "Jinsia",
-    profile_label_age: "Umri",
+    profile_label_year_of_birth: "Mwaka wa Kuzaliwa",
     profile_label_language: "Lugha",
     profile_label_country: "Nchi",
     profile_label_bio: "Wasifu",
@@ -108,7 +108,7 @@ const sw: Locale = {
     profile_question_first_name: "Jina lako la kwanza ni nini?",
     profile_question_last_name: "Jina lako la mwisho ni nini?",
     profile_question_gender: "Jinsia yako ni nini?",
-    profile_question_age: "Umri wako ni miaka mingapi?",
+    profile_question_year_of_birth: "Ulizaliwa mwaka gani?",
     profile_question_country: "Nchi unayoishi ni ipi?",
 
     profile_experiments_title: "Jaribio",

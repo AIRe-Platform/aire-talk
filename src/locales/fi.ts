@@ -70,7 +70,7 @@ const fi: Locale = {
     profile_label_first_name: "Etunimi",
     profile_label_last_name: "Sukunimi",
     profile_label_gender: "Sukupuoli",
-    profile_label_age: "Ikä",
+    profile_label_year_of_birth: "Syntymävuosi",
     profile_label_language: "Kieli",
     profile_label_country: "Maa",
     profile_label_bio: "Tietoja",
@@ -113,7 +113,7 @@ const fi: Locale = {
     profile_question_first_name: "Mikä on etunimesi?",
     profile_question_last_name: "Mikä on sukunimesi?",
     profile_question_gender: "Mikä on sukupuolesi?",
-    profile_question_age: "Kuinka vanha olet?",
+    profile_question_year_of_birth: "Minä vuonna synnyit?",
     profile_question_country: "Mikä on asuinmaasi?",
 
     profile_experiments_title: "Kokeilut",

@@ -70,7 +70,7 @@ const es: Locale = {
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
     profile_label_gender: "Género",
-    profile_label_age: "Edad",
+    profile_label_year_of_birth: "Año de nacimiento",
     profile_label_language: "Idioma",
     profile_label_country: "País",
     profile_label_bio: "Bio",
@@ -114,7 +114,7 @@ const es: Locale = {
     profile_question_first_name: "¿Cuál es tu nombre?",
     profile_question_last_name: "¿Cuál es tu apellido?",
     profile_question_gender: "¿Qué género eres?",
-    profile_question_age: "¿Cuántos años tienes?",
+    profile_question_year_of_birth: "¿En qué año naciste?",
     profile_question_country: "¿En qué país vives?",
 
     profile_experiments_title: "Experimentos",

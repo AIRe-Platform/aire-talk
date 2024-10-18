@@ -69,7 +69,7 @@ const vi: Locale = {
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",
     profile_label_gender: "Giới tính",
-    profile_label_age: "Tuổi",
+    profile_label_year_of_birth: "Năm sinh",
     profile_label_language: "Ngôn ngữ",
     profile_label_country: "Quốc gia",
     profile_label_bio: "Tiểu sử",
@@ -112,7 +112,7 @@ const vi: Locale = {
     profile_question_first_name: "Tên của bạn là gì?",
     profile_question_last_name: "Họ của bạn là gì?",
     profile_question_gender: "Giới tính của bạn là gì?",
-    profile_question_age: "Bạn bao nhiêu tuổi?",
+    profile_question_year_of_birth: "Bạn sinh năm nào?",
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
     profile_experiments_title: "Thí nghiệm",

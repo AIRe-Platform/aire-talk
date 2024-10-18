@@ -70,7 +70,7 @@ const rw: Locale = {
     profile_label_first_name: "Izina rya mbere",
     profile_label_last_name: "Izina ry'umuryango",
     profile_label_gender: "Igitsina",
-    profile_label_age: "Imyaka",
+    profile_label_year_of_birth: "Umwaka w'amavuko",
     profile_label_language: "Ururimi",
     profile_label_country: "Igihugu",
     profile_label_bio: "Uwo uriwe",
@@ -114,7 +114,7 @@ const rw: Locale = {
     profile_question_first_name: "Izina ryawe rya mbere ni irihe?",
     profile_question_last_name: "Izina ryawe ry'umuryango ni irihe?",
     profile_question_gender: "Igitsina cyawe ni iki?",
-    profile_question_age: "Ufite imyaka ingahe?",
+    profile_question_year_of_birth: "Wavutse umwaka ki?",
     profile_question_country: "Utuye mu kihe gihugu?",
 
     profile_experiments_title: "Igerageza",

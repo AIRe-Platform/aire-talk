@@ -70,7 +70,7 @@ const id: Locale = {
     profile_label_first_name: "Nama Depan",
     profile_label_last_name: "Nama Belakang",
     profile_label_gender: "Jenis Kelamin",
-    profile_label_age: "Usia",
+    profile_label_year_of_birth: "Tahun Lahir",
     profile_label_language: "Bahasa Utama",
     profile_label_country: "Negara",
     profile_label_bio: "Bio",
@@ -114,7 +114,7 @@ const id: Locale = {
     profile_question_first_name: "Apa nama depan Anda?",
     profile_question_last_name: "Apa nama belakang Anda?",
     profile_question_gender: "Jenis kelamin Anda?",
-    profile_question_age: "Berapa usia Anda?",
+    profile_question_year_of_birth: "Tahun berapa kamu lahir?",
     profile_question_country: "Negara mana tempat tinggal Anda?",
 
     profile_experiments_title: "Eksperimen",

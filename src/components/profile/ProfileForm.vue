@@ -15,6 +15,12 @@ import DialogModal from '@/components/layout/DialogModal.vue';
 const MAX_LENGTH_NAME = 50
 const MAX_LENGTH_BIO = 2000
 
+const currentYear = new Date().getFullYear();
+
+// Set the maximum year as the current year and minimum year as 130 years ago 
+const maxYear = currentYear;
+const minYear = currentYear - 130;
+
 const login = useLogin();
 
 const remainingCharacters = (maxLength: number, numCharacters?: number) => {
@@ -37,7 +43,7 @@ const profile = reactive<{
     first_name?: string;
     last_name?: string;
     gender?: "male" | "female" | "other";
-    age?: number;
+    year_of_birth?: number;
     country?: string;
     bio?: string;
     last_login?: string;
@@ -129,10 +135,11 @@ const activateField = (id: string) => {
             </div>
         </span>
         <span class="form-item">
-            <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
+            <label class="form-label" for="year_of_birth">{{ $t(l.profile_label_year_of_birth) }}</label>
             <div class="form-input">
-                <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="state.busy" />
-                <div class="icon edit" @click.prevent="activateField('age')" :disabled="state.busy">
+                <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
+                    placeholder="e.g., 1990" :readonly="state.busy" required />
+                <div class="icon edit" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
                 </div>
             </div>
         </span>

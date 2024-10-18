@@ -3,7 +3,18 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 
+<!--
+ 
 
+
+
+  this view is not in use, should we keep it?
+
+  
+  
+  
+
+  -->
 <script setup lang="ts">
 import useChat from '@/context/chat';
 import { l } from '@/locales';
@@ -12,7 +23,7 @@ import { reactive } from 'vue';
 
 const state = reactive<{
     occupation: string,
-    age?: number,
+    year_of_birth?: number,
     completed: boolean
 }>({
     occupation: "",
@@ -22,12 +33,12 @@ const state = reactive<{
 const chat = useChat();
 
 const checkForm = () => {
-    state.completed = (state.occupation?.length > 0 && state.age !== undefined);
+    state.completed = (state.occupation?.length > 0 && state.year_of_birth !== undefined);
 };
 
 const saveForm = (e: Event) => {
     e.preventDefault();
-    chat.meta.age = state.age;
+    chat.meta.year_of_birth = state.year_of_birth;
     chat.meta.occupation = state.occupation;
     router.push("/chat");
 };
@@ -38,9 +49,9 @@ const saveForm = (e: Event) => {
         <form class="landing-form" @change="checkForm">
             <h3 class="landing-form-line">{{ $t(l.landing_view_title) }} </h3>
             <div class="landing-form-line">{{ $t(l.landing_view_text) }}</div>
-            <label> {{ $t(l.landing_label_age) }} </label>
-            <input id="age" type="number" required="true" min="0" autofocus autocomplete="off" @input="checkForm"
-                v-model.number="state.age" />
+            <label> {{ $t(l.profile_label_year_of_birth) }} </label>
+            <input id="year_of_birth" type="number" required="true" min="0" autofocus autocomplete="off"
+                @input="checkForm" v-model.number="state.year_of_birth" />
             <label for="occupation"> {{ $t(l.landing_label_occupation) }} </label>
             <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm"
                 v-model="state.occupation">
