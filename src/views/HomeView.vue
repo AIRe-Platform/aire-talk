@@ -129,7 +129,6 @@ onMounted(async () => {
 
 .home-header {
     width: 100%;
-    height: 420px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -148,7 +147,6 @@ onMounted(async () => {
 
 .aire-logo {
     width: 25rem;
-    height: 12rem;
 }
 
 .image-logo {
@@ -157,7 +155,9 @@ onMounted(async () => {
 
 .header-text {
     font-size: larger;
+    text-align: center;
     color: var(--basic-text);
+    margin-inline: 0.5rem;
 }
 
 .quick-nav {
@@ -212,10 +212,6 @@ onMounted(async () => {
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .home-header {
-        height: 20rem;
-    }
-
     .chat-bot {
         padding: 2rem;
         width: 2.5rem;
@@ -233,11 +229,10 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 576px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;
-        height: 12rem;
     }
 
     .home-header-title {
