@@ -237,6 +237,7 @@ const onClickOutside = async (e: Event) => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    align-self: flex-start;
     gap: 0.5rem;
 }
 
@@ -310,6 +311,20 @@ const onClickOutside = async (e: Event) => {
 
     .chat-history-item-row {
         gap: 0;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .chat-history-item-row {
+        flex-direction: column;
+    }
+
+    .chat-history-item-preview {
+        margin-right: 0;
+    }
+
+    .chat-history-item-delete {
+        padding-bottom: 0;
     }
 }
 </style>
