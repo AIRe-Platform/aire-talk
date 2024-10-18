@@ -274,7 +274,12 @@ const onClickOutside = async (e: Event) => {
 .chat-history-item-preview {
     max-height: 2rem;
     margin-right: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-size: var(--font-small);
     color: var(--chat-history-text-color);
 }
