@@ -46,7 +46,7 @@ const checkForEvents = () => {
 }
 
 const canContinue = (chat_id?: string) => {
-    if(!chat_id)
+    if (!chat_id)
         return false;
     return useChatCache().has(chat_id);
 }
@@ -121,12 +121,14 @@ onMounted(async () => {
     font-size: var(--font-medium);
     font-family: var(--font-family);
     text-align: center;
+    color: var(--basic-text);
 }
 
 .reminder-message {
     font-size: var(--font-large);
     font-family: var(--font-family);
     text-align: center;
+    color: var(--basic-text);
 }
 
 .reminder-buttons {
