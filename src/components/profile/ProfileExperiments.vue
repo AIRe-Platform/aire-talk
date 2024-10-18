@@ -71,12 +71,14 @@ const onSave = () => {
             <Spinner />
         </template>
         <template v-if="!state.busy">
-            <button class="save-experiments-button" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+            <div class="save-experiments-button-wrapper">
+                <button @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+            </div>
         </template>
     </div>
 </template>
 
-<style>
+<style scoped>
 .profile-experiments {
     display: flex;
     flex-direction: column;
@@ -107,7 +109,10 @@ const onSave = () => {
     width: 2rem;
 }
 
-.save-experiments-button {
+.save-experiments-button-wrapper {
     height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
