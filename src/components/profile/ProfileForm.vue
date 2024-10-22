@@ -99,10 +99,10 @@ const activateField = (id: string) => {
         <span class="form-item baseline">
             <label class="form-label" for="first-name">{{ $t(l.profile_label_first_name) }}</label>
             <div class="form-input">
-                <div class="imput-column">
+                <div class="input-column">
                     <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
-                    <span v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
+                    <span class="max-length-message" v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <div class="icon edit tooltip" @click.prevent="activateField('first-name')" :disabled="state.busy"><span
@@ -114,10 +114,10 @@ const activateField = (id: string) => {
         <span class="form-item baseline">
             <label class="form-label" for="last-name">{{ $t(l.profile_label_last_name) }}</label>
             <div class="form-input">
-                <div class="imput-column">
+                <div class="input-column">
                     <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
-                    <span v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
+                    <span class="max-length-message" v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <div class="icon edit tooltip" @click.prevent="activateField('last-name')" :disabled="state.busy">
@@ -165,8 +165,8 @@ const activateField = (id: string) => {
         <span class="form-item-wide margin-top">
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
-                <div class="imput-column">
-                    <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="state.busy"
+                <div class="input-column">
+                    <textarea id="bio" v-model="profile.bio" :readonly="state.busy"
                         :maxlength=MAX_LENGTH_BIO></textarea>
                     <span> {{
                         remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
@@ -213,7 +213,7 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 20%;
-        font-size: var(--font-medium)
+        font-size: var(--font-medium);
     }
 
     &>.form-input {
@@ -221,6 +221,7 @@ const activateField = (id: string) => {
         align-items: flex-start;
         gap: 0.5rem;
         flex-grow: 1;
+        max-width: 100%;
 
         &>:first-child {
             width: 50%;
@@ -233,7 +234,7 @@ const activateField = (id: string) => {
     margin-top: 2rem;
 }
 
-.imput-column {
+.input-column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -257,18 +258,24 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 10%;
+        font-size: var(--font-medium);
     }
 
     .form-input-textarea {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
+        max-width: 100%;
+
+        & textarea {
+            resize: none;
+            height: 100%;
+        }
 
         &>:first-child {
             width: 50%;
             flex-grow: 1;
             height: 7rem;
-
         }
     }
 }
@@ -307,6 +314,34 @@ const activateField = (id: string) => {
     .profile-form {
         flex-direction: column;
         flex-wrap: nowrap;
+        align-items: stretch;
+    }
+
+    .form-item-wide>.form-label {
+        flex-basis: 20%;
+    }
+
+
+    .input-column {
+        height: auto;
+        position: relative;
+
+        &>.max-length-message {
+            position: absolute;
+            bottom: 0;
+            transform: translateY(100%);
+        }
+    }
+
+    .margin-top {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .form-item-wide,
+    .form-item {
+        flex-direction: column;
         align-items: stretch;
     }
 }

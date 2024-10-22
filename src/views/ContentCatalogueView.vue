@@ -111,7 +111,7 @@ const showContent = async (content: AireContent) => {
             <CatalogueItem v-for="item in state.rankedContents" v-bind:key="item.id" :content="item" @show="showContent"
                 :isFromSummary="false" />
             <div v-if="state.rankedContents.length == 0">
-                <h3>{{ $t(l.content_catalogue_empty) }}</h3>
+                <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
             </div>
         </div>
     </div>
@@ -177,6 +177,12 @@ const showContent = async (content: AireContent) => {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;
+    }
+}
+
+@media screen and (max-width: 715px) {
+    .empty-catalogue {
+        margin-inline: 5vw;
     }
 }
 </style>

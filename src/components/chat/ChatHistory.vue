@@ -240,6 +240,7 @@ const onClickOutside = async (e: Event) => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    align-self: flex-start;
     gap: 0.5rem;
 }
 
@@ -277,7 +278,12 @@ const onClickOutside = async (e: Event) => {
 .chat-history-item-preview {
     max-height: 2rem;
     margin-right: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-size: var(--font-small);
     color: var(--chat-history-text-color);
 }
@@ -308,6 +314,20 @@ const onClickOutside = async (e: Event) => {
 
     .chat-history-item-row {
         gap: 0;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .chat-history-item-row {
+        flex-direction: column;
+    }
+
+    .chat-history-item-preview {
+        margin-right: 0;
+    }
+
+    .chat-history-item-delete {
+        padding-bottom: 0;
     }
 }
 </style>

@@ -85,7 +85,7 @@ const onSave = () => {
     </div>
 </template>
 
-<style>
+<style scoped>
 .profile-experiments {
     display: flex;
     flex-direction: column;
@@ -114,5 +114,12 @@ const onSave = () => {
 
 .experimental-item-toggle-switch {
     width: 2rem;
+}
+
+.save-experiments-button-wrapper {
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

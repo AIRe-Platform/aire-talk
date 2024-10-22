@@ -107,10 +107,6 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     align-self: center;
 }
 
-.profile-logo {
-    width: 7rem;
-}
-
 .profile-content {
     display: flex;
     flex-direction: column;
