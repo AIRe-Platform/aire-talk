@@ -13,6 +13,7 @@ import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -172,7 +173,9 @@ const onClickOutside = async (e: Event) => {
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <div class="icon delete-bin">
+                        <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false)">
+                            <span class="tooltiptext">{{
+                                $t(l.tooltip_delete_chat) }}</span>
                         </div>
                     </div>
                 </div>

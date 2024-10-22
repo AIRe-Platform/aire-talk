@@ -70,7 +70,11 @@ const onDeleteAccount = (e: Event) => {
         <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
-                <input type="submit" :value="$t(l.profile_button_delete)" />
+                <div class="tooltip">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_delete) }}</span>
+                    <input type="submit" :value="$t(l.profile_button_delete)" />
+                </div>
             </template>
             <Spinner v-if="state.busy" />
         </div>

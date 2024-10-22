@@ -88,11 +88,15 @@ onMounted(async () => {
                     {{ reminder.content?.message }}
                 </div>
                 <div class="reminder-buttons">
-                    <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)">
+                    <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)"
+                        class="tooltip">
                         {{ $t(l.button_return_to_conversation) }}
+                        <span class="tooltiptext">{{ $t(l.tooltip_reminder_back_to_chat) }}</span>
                     </button>
-                    <button @click.stop="markEventAsRead(i)">
+                    <button @click.stop="markEventAsRead(i)" class="tooltip">
+
                         {{ $t(l.button_mark_as_read) }}
+                        <span class="tooltiptext">{{ $t(l.tooltip_mark_reminder_read) }}</span>
                     </button>
                 </div>
             </div>

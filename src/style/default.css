@@ -270,6 +270,65 @@ button {
     font-size: var(--font-large);
 }
 
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: max-content;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+  
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+.tooltip .tooltiptext[data-position="top"] {
+    bottom: auto;
+    top: 125%;
+}
+
+.tooltip .tooltiptext[data-position="left"] {
+    left: auto;
+    right: -1rem;
+    transform: translateX(0);
+}
+
+.tooltip .tooltiptext[data-position="right"] {
+    left: 100%;
+    transform: translateX(0);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Rotate the arrow when the tooltip is on top */
+.tooltip .tooltiptext[data-position="top"]::after {
+    top: auto;
+    bottom: 100%;  /* Move arrow to bottom when on top */
+    /*transform: rotate(180deg); /* Rotate the arrow 180 degrees ??*/
+    border-color: transparent transparent #555 transparent; /* Invert the arrow's color */
+}
 
 @keyframes fade-in-and-left {
     0% {

@@ -64,7 +64,11 @@ const onChangePassword = (e: Event) => {
         <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
-                <input type="submit" :value="$t(l.profile_button_change_password)" />
+                <div class="tooltip">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_save) }}</span>
+                    <input type="submit" :value="$t(l.profile_button_change_password)" />
+                </div>
             </template>
             <Spinner v-if="state.busy" />
         </div>

@@ -105,7 +105,9 @@ const activateField = (id: string) => {
                     <span v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('first-name')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -118,7 +120,9 @@ const activateField = (id: string) => {
                     <span v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -130,7 +134,9 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('gender')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -139,7 +145,9 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
                     placeholder="e.g., 1990" :readonly="state.busy" required />
-                <div class="icon edit" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -148,7 +156,9 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="state.busy" />
-                <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('country')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -162,14 +172,18 @@ const activateField = (id: string) => {
                         remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
-                <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
+                <div class="icon edit tooltip margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
         <div class="form-item error-message" v-if="state.error">
             {{ $t(state.error) }}
         </div>
-        <div class="form-buttons">
+        <div class="form-buttons tooltip">
+            <span class="tooltiptext">{{
+                $t(l.tooltip_save) }}</span>
             <template v-if="!state.busy">
                 <input type="submit" :value="$t(l.profile_button_save)" />
             </template>

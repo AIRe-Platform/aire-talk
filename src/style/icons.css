@@ -56,8 +56,8 @@
 
 .icon.delete-bin {
     background-image: url("@/assets/icons/delete-bin-default.svg");
-    width: 2rem;
-    height: 2rem;
+    width: 1.7rem;
+    height: 2.2rem;
 }
 
 .icon.chat-option-desktop {

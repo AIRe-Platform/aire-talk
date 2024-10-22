@@ -123,6 +123,6 @@ onMounted(async () => {
     align-items: center;
     align-self: center;
     max-width: 100%;
-    overflow-x: scroll;
+    /*  overflow-x: scroll; */
 }
 </style>

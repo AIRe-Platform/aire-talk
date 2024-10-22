@@ -42,8 +42,9 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <div class="chat-summary-keyword" v-for="keyword, i in keywords"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <div class="chat-summary-keyword-delete" @click="removeKeyword(keyword)" v-if="isLastMessage">
+                <div class="chat-summary-keyword-delete tooltip" @click="removeKeyword(keyword)" v-if="isLastMessage">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
+                    <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
                 </div>
             </div>
         </div>
@@ -52,8 +53,14 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 {{ $t(l.summary_acceptation_question) }}
             </span>
             <span class="chat-summary-options-buttons">
-                <button @click="chat.onAcceptSummary">{{ $t(l.button_yes) }}</button>
-                <button @click="chat.onRejectSummary">{{ $t(l.button_no) }}</button>
+                <button @click="chat.onAcceptSummary" class="tooltip">
+                    {{ $t(l.button_yes) }}
+                    <span class="tooltiptext">{{ $t(l.tooltip_accept_summary) }}</span>
+                </button>
+                <button @click="chat.onRejectSummary" class="tooltip">
+                    {{ $t(l.button_no) }}
+                    <span class="tooltiptext">{{ $t(l.tooltip_reject_summary) }}</span>
+                </button>
             </span>
         </div>
     </div>

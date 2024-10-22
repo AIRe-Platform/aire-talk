@@ -56,8 +56,12 @@ const onSave = () => {
         <h3>{{ $t(l.profile_experiments_title) }}</h3>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
-                <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
-                    @change="toggleOverridePrefs" :colorized="true" />
+                <div class="tooltip">
+                    <span class=" tooltiptext">{{
+                        $t(l.tooltip_override) }}</span>
+                    <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
+                        @change="toggleOverridePrefs" :colorized="true" />
+                </div>
                 <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
 
             </div>
@@ -70,8 +74,13 @@ const onSave = () => {
         <template v-if="state.busy">
             <Spinner />
         </template>
+
         <template v-if="!state.busy">
-            <button class="save-experiments-button" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+            <div class="tooltip">
+                <span class="tooltiptext">{{
+                    $t(l.tooltip_save) }}</span>
+                <button class="" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+            </div>
         </template>
     </div>
 </template>
@@ -105,9 +114,5 @@ const onSave = () => {
 
 .experimental-item-toggle-switch {
     width: 2rem;
-}
-
-.save-experiments-button {
-    height: 4rem;
 }
 </style>

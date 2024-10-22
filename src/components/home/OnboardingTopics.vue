@@ -52,8 +52,9 @@ const buttonSelected = async (topic: Topic) => {
             </div>
         </div>
     </div>
-    <button class="onboarding-button" @click="onTogglePanel">
+    <button class="onboarding-button tooltip" @click="onTogglePanel">
         <img src="@/assets/images/aire-logo-512.png" class="onboarding-button-image" alt="Logo">
+        <span class="tooltiptext">{{ $t(l.tooltip_onboarding_button) }}</span>
     </button>
 </template>
 

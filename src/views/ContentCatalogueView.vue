@@ -10,9 +10,8 @@ import { router } from "@/router";
 import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
-
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import useContent from "@/context/content";
-
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
@@ -97,7 +96,10 @@ const showContent = async (content: AireContent) => {
     <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <div class="icon close-window xmark-icon" @click="navigateTo('/chat')">
+        <div class="icon close-window xmark-icon tooltip" @mouseenter="adjustTooltipPosition($event, false)"
+            @click="navigateTo('/chat')">
+            <span class="tooltiptext">{{
+                $t(l.tooltip_close) }}</span>
         </div>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
