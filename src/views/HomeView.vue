@@ -14,7 +14,6 @@ import useChat from '@/context/chat';
 import useTheme, { ThemeContext } from "@/context/theme";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
-import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
 import ReminderComponent from "@/components/common/Reminder.vue";
 
 const login = useLogin();
@@ -67,8 +66,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <OnboardingTopics />
-
     <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
