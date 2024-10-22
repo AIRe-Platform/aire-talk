@@ -93,6 +93,6 @@ onMounted(handleCallback);
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     background-color: var(--panel-background-color);
-    font-size: small;
+    font-size: var(--font-small);
 }
 </style>

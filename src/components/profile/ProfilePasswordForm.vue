@@ -103,9 +103,9 @@ const onChangePassword = (e: Event) => {
     }
 
     input {
-        flex-basis: 20%;
-        flex-grow: 1;
+        flex: 1 1 auto;
         font-size: var(--font-large);
+        min-width: 0;
     }
 }
 

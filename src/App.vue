@@ -178,9 +178,8 @@ onMounted(() => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .main-content {
-        font-size: small;
+        font-size: var(--font-small);
     }
-
 
     .main-panels {
         top: -4rem;

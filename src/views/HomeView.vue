@@ -164,8 +164,10 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    align-items: center;
     margin: 2rem 0;
     gap: 2rem;
+    width: 100%;
 }
 
 .get-started {
@@ -259,7 +261,7 @@ onMounted(async () => {
 
     .home-footer {
         margin-top: 3rem;
-        font-size: xx-small;
+        font-size: var(--font-small);
         text-align: center;
         margin-bottom: 2rem;
     }

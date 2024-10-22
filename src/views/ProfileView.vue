@@ -95,6 +95,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: center;
     padding-bottom: 2rem;
     border-bottom-style: solid;
     border-color: var(--accent-primary-color);
