@@ -73,7 +73,7 @@ const onDeleteAccount = (e: Event) => {
                 <div class="tooltip">
                     <span class="tooltiptext">{{
                         $t(l.tooltip_delete) }}</span>
-                    <input type="submit" :value="$t(l.profile_button_delete)" />
+                    <button type="submit">{{ $t(l.profile_button_delete) }}</button>
                 </div>
             </template>
             <Spinner v-if="state.busy" />

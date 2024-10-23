@@ -47,7 +47,7 @@ const en: Locale = {
     signup_form_title: "Create account",
     signup_form_submit: "Sign up",
     signup_label_email: "Email",
-    signup_password_instructions: "Password must contains at least 8 characters and contain both lower and upper case letters as well as numbers.",
+    signup_password_instructions: "Password must contain at least 8 characters and contain both lower and upper case letters as well as numbers.",
     signup_label_password: "Password",
     signup_label_confirm_password: "Confirm password",
 

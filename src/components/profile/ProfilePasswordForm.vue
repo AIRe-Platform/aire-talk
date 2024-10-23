@@ -67,7 +67,7 @@ const onChangePassword = (e: Event) => {
                 <div class="tooltip">
                     <span class="tooltiptext">{{
                         $t(l.tooltip_save) }}</span>
-                    <input type="submit" :value="$t(l.profile_button_change_password)" />
+                    <button type="submit">{{ $t(l.profile_button_change_password) }}</button>
                 </div>
             </template>
             <Spinner v-if="state.busy" />
