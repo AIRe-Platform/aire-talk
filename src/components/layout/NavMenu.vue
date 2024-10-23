@@ -85,11 +85,13 @@ const navLogoClick = () => {
             </div>
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
                 <Separator />
+
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
                     @click="toggleChatHistoryMenu" :active="UIState.panels.has(UIPanels.ChatHistory)"
                     class="chat-history-nav-button" />
+
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat)" icon="new-chat-mobile"
-                    @click="navigateTo('/chat')" :active="$route.matched.some(
+                    :title="$t(l.nav_chat)" @click="navigateTo('/chat')" :active="$route.matched.some(
                         (p) => p.name === 'Chat'
                     )" />
                 <NavItem v-if="chat.id" :label="i18n.global.t(l.nav_chat_new)" icon="new-chat-mobile" @click="newChat"
