@@ -185,7 +185,7 @@ const activateField = (id: string) => {
             <span class="tooltiptext">{{
                 $t(l.tooltip_save) }}</span>
             <template v-if="!state.busy">
-                <input type="submit" :value="$t(l.profile_button_save)" />
+                <button type="submit">{{ $t(l.profile_button_save) }}</button>
             </template>
             <Spinner v-if="state.busy" />
         </div>

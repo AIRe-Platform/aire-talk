@@ -66,7 +66,7 @@ const onSignup = (e: Event) => {
                 v-model="fields.passwordConfirm" :readonly="busy" />
             <br />
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <input type="submit" :value="$t(l.signup_form_submit)" v-if="!busy" />
+            <button v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
             <div class="signup-busy" v-if="busy">
                 <Spinner />
             </div>

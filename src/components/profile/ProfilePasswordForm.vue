@@ -47,7 +47,7 @@ const onChangePassword = (e: Event) => {
 <template>
     <form class="password-form" @submit.prevent="onChangePassword">
         <h3>{{ $t(l.profile_heading_password) }}</h3>
-        <input hidden="true" type="text" id="username" autocomplete="off" />
+        <input aria-hidden="true" tabindex="-1" hidden="true" type="text" id="username" autocomplete="off" />
         <div class="form-content">
             <span class="form-item">
                 <label class="form-label" for="current_password">{{ $t(l.profile_label_current_password) }}</label>
@@ -67,7 +67,7 @@ const onChangePassword = (e: Event) => {
                 <div class="tooltip">
                     <span class="tooltiptext">{{
                         $t(l.tooltip_save) }}</span>
-                    <input type="submit" :value="$t(l.profile_button_change_password)" />
+                    <button type="submit">{{ $t(l.profile_button_change_password) }}</button>
                 </div>
             </template>
             <Spinner v-if="state.busy" />

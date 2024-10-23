@@ -56,6 +56,7 @@ defineComponent({ name: "ModalComponent" })
     right: 0;
     z-index: 9001;
 
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 

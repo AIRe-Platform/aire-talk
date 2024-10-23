@@ -9,7 +9,7 @@ defineComponent({ name: "SeparatorComponent " });
 </script>
 
 <template>
-    <svg class="separator">
+    <svg class="separator" aria-hidden="true">
         <line x1="8" y1="00" x2="100%" y2="00" />
     </svg>
 </template>

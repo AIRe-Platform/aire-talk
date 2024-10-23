@@ -77,7 +77,7 @@ const navLogoClick = () => {
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
     }">
-        <Panel class="nav-menu-bar">
+        <Panel class="nav-menu-bar" role="navigation">
             <div class="nav-link" @click="navLogoClick">
                 <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
