@@ -102,10 +102,10 @@ onMounted(() => {
             <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
             <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
         </div>
-        <div class="main-content">
+        <main class="main-content">
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
-        </div>
+        </main>
         <FooterBar />
     </div>
     <div class="main-splash" v-if="AppState === 'init'">
