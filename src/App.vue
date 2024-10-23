@@ -137,6 +137,7 @@ onMounted(() => {
     bottom: 0;
     right: 0;
     z-index: 3;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 
