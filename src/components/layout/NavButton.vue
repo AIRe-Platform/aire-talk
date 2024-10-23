@@ -5,6 +5,8 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
+import { l } from '@/locales';
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 
 const props = defineProps<{
     open: boolean
@@ -13,10 +15,11 @@ const props = defineProps<{
 
 <template>
     <div class="nav-button" :class="{ 'nav-button-active': props.open }">
-        <div type="button" class="nav-button-graphics" title="Menu">
+        <div type="button" class="nav-button-graphics tooltip" @mouseenter="adjustTooltipPosition($event, true)">
             <span class="button-bar button-bar--1"></span>
             <span class="button-bar button-bar--2"></span>
             <span class="button-bar button-bar--3"></span>
+            <span class="tooltiptext">{{ $t(l.nav_main_menu) }}</span>
         </div>
     </div>
 </template>
@@ -123,6 +126,10 @@ const props = defineProps<{
 .nav-button-active .button-bar--3 {
     transform: rotate(-45deg);
     top: 50%;
+}
+
+.tooltip {
+    display: flex;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

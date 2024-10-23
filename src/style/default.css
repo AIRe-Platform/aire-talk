@@ -326,7 +326,7 @@ button {
 .tooltip .tooltiptext[data-position="top"]::after {
     top: auto;
     bottom: 100%;  /* Move arrow to bottom when on top */
-    /*transform: rotate(180deg); /* Rotate the arrow 180 degrees ??*/
+    transform: rotate(0deg); /* Rotate the arrow 180 degrees ??*/
     border-color: transparent transparent #555 transparent; /* Invert the arrow's color */
 }
 

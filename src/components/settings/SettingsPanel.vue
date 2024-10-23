@@ -54,10 +54,13 @@ onMounted(refreshBurgerMenuButtonsRef);
         <Separator />
         <div class="settings-item">
             <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
-            <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
-                <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
-                <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
-            </select>
+            <div class="tooltip">
+                <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
+                    <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
+                    <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
+                </select>
+                <span class="tooltiptext">{{ $t(l.tooltip_menu_language) }}</span>
+            </div>
         </div>
         <Separator />
         <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
@@ -78,6 +81,10 @@ onMounted(refreshBurgerMenuButtonsRef);
     gap: 1rem;
     font-weight: bold;
     margin-left: 15rem;
+}
+
+#settings-text-size {
+    width: 12rem;
 }
 
 .settings-header {

@@ -2,10 +2,16 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+/**
+ * Method to adjust the tooltip text not to be croped by the screen borders or parent borders.
+ * @param event mouse event in the element to show the tooltip
+ * @param useMaxContent if true width set to max-content else auto
+ * @returns creates a setAttribute with a new value to get some extra css value from default.css
+ */
 export function adjustTooltipPosition(event: MouseEvent, useMaxContent: boolean): void {
   const targetElement = event.target as HTMLElement;
   const tooltip = targetElement.querySelector('.tooltiptext') as HTMLElement;
-  const parentElement = targetElement.parentElement?.parentElement?.parentElement as HTMLElement; // Get the 4xparent element in case of the chat history delete element
+  const greatGreatGrandParentElement = targetElement.parentElement?.parentElement?.parentElement as HTMLElement; // Get the 4xparent element in case of the chat history delete element
 
   if (!tooltip) return;
 
@@ -19,7 +25,7 @@ export function adjustTooltipPosition(event: MouseEvent, useMaxContent: boolean)
 
   // Calculate the tooltip's and parent's bounding boxes
   const tooltipRect = tooltip.getBoundingClientRect();
-  const parentRect = parentElement.getBoundingClientRect(); // Get 4xparent's rect
+  const greatGreatGrandParentRect = greatGreatGrandParentElement.getBoundingClientRect(); // Get 4xparent's rect
 
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
@@ -27,13 +33,13 @@ export function adjustTooltipPosition(event: MouseEvent, useMaxContent: boolean)
   let position = 'bottom'; // Default position
 
   // Adjust position based on proximity to screen edges and parent boundaries
-  if (tooltipRect.right > viewportWidth || tooltipRect.right > parentRect.right) {
-    position = 'left';
-  } else if (tooltipRect.left < 0 || tooltipRect.left < parentRect.left) {
-    position = 'right';
-  } else if (tooltipRect.top < 0 || tooltipRect.top < parentRect.top) {
+  if (tooltipRect.top < 0 || tooltipRect.top < greatGreatGrandParentRect.top) {
     position = 'top';
-  }
+  } else if (tooltipRect.left < 0 || tooltipRect.left < greatGreatGrandParentRect.left) {
+    position = 'right';
+  } else if (tooltipRect.right > viewportWidth || tooltipRect.right > greatGreatGrandParentRect.right) {
+    position = 'left';
+  } 
 
   // Apply the new position to the tooltiptext element
   tooltip.setAttribute('data-position', position);

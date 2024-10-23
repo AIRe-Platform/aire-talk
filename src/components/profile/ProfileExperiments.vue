@@ -57,8 +57,7 @@ const onSave = () => {
         <div class="experimental-item">
             <div class="experimental-item-toggle">
                 <div class="tooltip">
-                    <span class=" tooltiptext">{{
-                        $t(l.tooltip_override) }}</span>
+                    <span class=" tooltiptext">{{ $t(l.tooltip_override) }}</span>
                     <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
                         @change="toggleOverridePrefs" :colorized="true" />
                 </div>
@@ -77,8 +76,7 @@ const onSave = () => {
 
         <template v-if="!state.busy">
             <div class="tooltip">
-                <span class="tooltiptext">{{
-                    $t(l.tooltip_save) }}</span>
+                <span class="tooltiptext">{{ $t(l.tooltip_save) }}</span>
                 <button class="" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
             </div>
         </template>
