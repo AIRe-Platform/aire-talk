@@ -173,7 +173,7 @@ const onClickOutside = async (e: Event) => {
                         </div>
                     </div>
                     <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false)">
+                        <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')">
                             <span class="tooltiptext">{{
                                 $t(l.tooltip_delete_chat) }}</span>
                         </div>

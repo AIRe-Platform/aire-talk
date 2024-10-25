@@ -3,47 +3,34 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 /**
- * Method to adjust the tooltip text not to be croped by the screen borders or parent borders.
- * @param event mouse event in the element to show the tooltip
- * @param useMaxContent if true width set to max-content else auto
- * @returns creates a setAttribute with a new value to get some extra css value from default.css
+ * Adjusts the tooltip text position to avoid cropping by screen or parent borders.
+ * @param event Mouse event in the element to show the tooltip
+ * @param useMaxContent If true, sets width to max-content; else, auto
+ * @param avoidCropPosition If cropping occurs, specifies where to move: 'top', 'bottom', 'left', or 'right'
  */
-export function adjustTooltipPosition(event: MouseEvent, useMaxContent: boolean): void {
+export function adjustTooltipPosition(
+  event: MouseEvent, 
+  useMaxContent: boolean, 
+  avoidCropPosition?: 'top' | 'bottom' | 'left' | 'right'
+): void {
   const targetElement = event.target as HTMLElement;
   const tooltip = targetElement.querySelector('.tooltiptext') as HTMLElement;
-  const greatGreatGrandParentElement = targetElement.parentElement?.parentElement?.parentElement as HTMLElement; // Get the 4xparent element in case of the chat history delete element
 
   if (!tooltip) return;
 
-  // Skip recalculating if is-tooltip-set is already set
+  // Skip recalculating if tooltip is already set
   if (tooltip.getAttribute('is-tooltip-set') === 'true') {
     return;
   }
 
-  // Set the width dynamically based on the attribute or condition
+  // Set width based on condition
   tooltip.style.width = useMaxContent ? 'max-content' : 'auto';
 
-  // Calculate the tooltip's and parent's bounding boxes
-  const tooltipRect = tooltip.getBoundingClientRect();
-  const greatGreatGrandParentRect = greatGreatGrandParentElement.getBoundingClientRect(); // Get 4xparent's rect
+  // Adjust position if an avoidCropPosition is specified
+  if (avoidCropPosition) {
+    tooltip.setAttribute('data-avoid-crop-position', avoidCropPosition);
+  }
 
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-
-  let position = 'bottom'; // Default position
-
-  // Adjust position based on proximity to screen edges and parent boundaries
-  if (tooltipRect.top < 0 || tooltipRect.top < greatGreatGrandParentRect.top) {
-    position = 'top';
-  } else if (tooltipRect.left < 0 || tooltipRect.left < greatGreatGrandParentRect.left) {
-    position = 'right';
-  } else if (tooltipRect.right > viewportWidth || tooltipRect.right > greatGreatGrandParentRect.right) {
-    position = 'left';
-  } 
-
-  // Apply the new position to the tooltiptext element
-  tooltip.setAttribute('data-position', position);
-
-  // Mark as adjusted to avoid recalculating the position
+  // Mark as adjusted to avoid recalculating
   tooltip.setAttribute('is-tooltip-set', 'true');
 }

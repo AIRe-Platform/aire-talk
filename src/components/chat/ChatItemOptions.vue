@@ -117,7 +117,11 @@ onMounted(() => {
     <div class="chat-item-options">
         <div class="chat-item-options-button" @click.stop="onToggleMenu"
             :class="{ 'is-content': props.content !== undefined }">
-            <div class="icon chat-option-desktop tooltip" @mouseenter="adjustTooltipPosition($event, false)">
+            <div v-if="state.menuOpen" class="icon chat-option-desktop tooltip">
+                <span class="tooltiptext">{{ $t(l.tooltip_message_options) }}</span>
+            </div>
+            <div v-if="!state.menuOpen" class="icon chat-option-desktop tooltip"
+                @mouseenter="adjustTooltipPosition($event, false)">
                 <span class="tooltiptext">{{ $t(l.tooltip_message_options) }}</span>
             </div>
         </div>
