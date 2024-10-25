@@ -57,7 +57,7 @@ const ended = computed(() => {
             <div v-if="props.optionsVisible" class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }" @click="$emit('toggleOptions')">
                 <div class="icon summary-switch-default tooltip"
-                    @mouseenter="adjustTooltipPosition($event, false, 'left')">
+                    @mouseenter="adjustTooltipPosition($event, false, 'left-bottom')">
                     <span class="tooltiptext">{{ $t(l.tooltip_open_chat_side_panel) }}</span>
                 </div>
             </div>

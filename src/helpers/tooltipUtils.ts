@@ -6,12 +6,12 @@
  * Adjusts the tooltip text position to avoid cropping by screen or parent borders.
  * @param event Mouse event in the element to show the tooltip
  * @param useMaxContent If true, sets width to max-content; else, auto
- * @param avoidCropPosition If cropping occurs, specifies where to move: 'top', 'bottom', 'left', or 'right'
+ * @param avoidCropPosition If cropping occurs, specifies where to move: 'top', 'bottom', 'left', 'right' or 'left-bottom'
  */
 export function adjustTooltipPosition(
   event: MouseEvent, 
   useMaxContent: boolean, 
-  avoidCropPosition?: 'top' | 'bottom' | 'left' | 'right'
+  avoidCropPosition?: 'top' | 'bottom' | 'left' | 'right' | 'left-bottom'
 ): void {
   const targetElement = event.target as HTMLElement;
   const tooltip = targetElement.querySelector('.tooltiptext') as HTMLElement;
