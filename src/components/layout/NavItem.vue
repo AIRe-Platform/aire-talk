@@ -27,7 +27,7 @@ function formatTooltipKey(label: string): string {
             <div class="nav-link">
                 {{ props.label }}
             </div>
-            <span class="tooltiptext">{{ $t(formatTooltipKey(props.label)) }}</span>
+            <!--  <span class="tooltiptext">{{ $t(formatTooltipKey(props.label)) }}</span> -->
         </div>
     </div>
 </template>
