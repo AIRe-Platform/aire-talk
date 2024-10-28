@@ -7,7 +7,7 @@
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
-import { defineProps, onMounted, reactive } from 'vue';
+import { defineProps, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import { AireContent } from 'aire';
 import useChat from '@/context/chat';
@@ -21,6 +21,7 @@ const props = defineProps<{
     content?: AireContent
 }>()
 
+const optionsMenuRef = ref<HTMLElement | null>(null);
 const clipboard = useClipboard()
 const chat = useChat();
 const contentContext = useContent();
@@ -105,6 +106,18 @@ onMounted(() => {
         state.rating = props.parent.rating || 0;
     }
 })
+
+watch(state, (val) => {
+    if (val.menuOpen) {
+        nextTick(() => {
+            optionsMenuRef.value?.addEventListener('focusout', (e: FocusEvent) => {
+                if(!optionsMenuRef.value?.contains(e.relatedTarget as Node)) {
+                    onToggleMenu(e);
+                }
+            });
+        })
+    }
+})
 </script>
 
 <template>
@@ -115,7 +128,12 @@ onMounted(() => {
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
     <div class="chat-item-options">
-        <div class="chat-item-options-button" @click.stop="onToggleMenu"
+        <div class="chat-item-options-button"
+            tabindex="0"
+            @keypress.prevent.space.enter="onToggleMenu"
+            @click.stop="onToggleMenu"
+            aria-haspopup="true"
+            :aria-expanded="state.menuOpen"
             :class="{ 'is-content': props.content !== undefined }">
             <div v-if="state.menuOpen" class="icon chat-option-desktop tooltip">
                 <span class="tooltiptext">{{ $t(l.tooltip_message_options) }}</span>
@@ -125,37 +143,50 @@ onMounted(() => {
                 <span class="tooltiptext">{{ $t(l.tooltip_message_options) }}</span>
             </div>
         </div>
-        <div class="chat-item-options-menu" v-if="state.menuOpen" v-on-click-outside="onToggleMenu">
-            <div @click.stop="onThumbsUp" class="chat-item-options-menu-button thumbs-up tooltip"
-                @mouseenter="adjustTooltipPosition($event, true)" :class="{ 'is-selected': state.rating > 0 }">
+        <div class="chat-item-options-menu"
+            ref="optionsMenuRef"
+            v-if="state.menuOpen"
+            v-on-click-outside="onToggleMenu">
+            <div @click.stop="onThumbsUp"
+                role="button"
+                :tabindex="state.menuOpen ? 0 : -1"
+                @keypress.prevent.space.enter="onThumbsUp"
+                class="chat-item-options-menu-button thumbs-up tooltip"
+                @mouseenter="adjustTooltipPosition($event, true)"
+                :class="{ 'is-selected': state.rating > 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-up" />
                 <span class="tooltiptext">{{ $t(l.tooltip_thumbs_up) }}</span>
             </div>
-            <div @click.stop="onThumbsDown" class="chat-item-options-menu-button thumbs-down tooltip"
-                @mouseenter="adjustTooltipPosition($event, true)" :class="{ 'is-selected': state.rating < 0 }">
+            <div @click.stop="onThumbsDown"
+                role="button"
+                :tabindex="state.menuOpen ? 0 : -1"
+                @keypress.prevent.space.enter="onThumbsDown"
+                class="chat-item-options-menu-button thumbs-down tooltip"
+                @mouseenter="adjustTooltipPosition($event, true)"
+                :class="{ 'is-selected': state.rating < 0 }">
                 <font-awesome-icon icon="fa-solid fa-thumbs-down" />
                 <span class="tooltiptext">{{ $t(l.tooltip_thumbs_down) }}</span>
-
             </div>
             <template v-if="!props.content">
-                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button check tooltip"
+                <div @click.stop="onCopyClipboard"
+                    role="button"
+                    :tabindex="state.menuOpen ? 0 : -1"
+                    @keypress.prevent.space.enter="onCopyClipboard"
+                    class="chat-item-options-menu-button check tooltip"
                     @mouseenter="adjustTooltipPosition($event, false)"
-                    :class="{ 'is-selected': state.copiedToClipboard }" v-if="state.copiedToClipboard">
-                    <font-awesome-icon icon="fa-solid fa-check" />
-                    <span class="tooltiptext">{{ $t(l.tooltip_message_copied) }}</span>
-
+                    :class="{ 'is-selected': state.copiedToClipboard }">
+                    <font-awesome-icon :icon="['fa-solid', state.copiedToClipboard ? 'fa-check' : 'fa-copy']" />
+                    <span class="tooltiptext">{{ $t(state.copiedToClipboard ? l.tooltip_message_copied : l.tooltip_copy_message) }}</span>
                 </div>
-                <div @click.stop="onCopyClipboard" class="chat-item-options-menu-button copy tooltip"
-                    @mouseenter="adjustTooltipPosition($event, false)" v-if="!state.copiedToClipboard">
-                    <font-awesome-icon icon="fa-solid fa-copy" />
-                    <span class="tooltiptext">{{ $t(l.tooltip_copy_message) }}</span>
-
-                </div>
-                <div @click.stop="onRevert" class="chat-item-options-menu-button spin tooltip"
-                    @mouseenter="adjustTooltipPosition($event, false)" v-if="props.can_revert">
+                <div @click.stop="onRevert"
+                    role="button"
+                    :tabindex="state.menuOpen ? 0 : -1"
+                    @keypress.prevent.space.enter="onRevert"
+                    class="chat-item-options-menu-button spin tooltip"
+                    @mouseenter="adjustTooltipPosition($event, false)"
+                    v-if="props.can_revert">
                     <font-awesome-icon icon="fa-solid fa-arrows-spin" />
                     <span class="tooltiptext">{{ $t(l.tooltip_revert_message) }}</span>
-
                 </div>
             </template>
         </div>

@@ -6,12 +6,10 @@
 
 <script setup lang="ts">
 import { AppState } from '@/main';
-import { UIPanels, UIState } from '@/context/ui';
+import { UIState } from '@/context/ui';
 import { closeBurgerMenu } from "@/context/ui";
 import FooterBar from '@/components/layout/FooterBar.vue';
 import NavMenu from '@/components/layout/NavMenu.vue';
-import ChatHistory from '@/components/chat/ChatHistory.vue';
-import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
 import { LOGOUT_WARNING_START, startInactivityListener, stopInactivityListener } from '@/helpers/inactivityLogout';
 import { onMounted, onUnmounted, reactive, watch } from 'vue';
@@ -98,10 +96,6 @@ onMounted(() => {
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'" tabindex="0">
         <NavMenu />
-        <div class="main-panels" v-if="UIState.panels.size > 0">
-            <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
-            <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
-        </div>
         <main class="main-content">
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
@@ -150,19 +144,6 @@ onMounted(() => {
     background-image: var(--back-ground-texture);
     background-size: cover;
     position: relative;
-}
-
-.main-panels {
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow: hidden;
-    padding: 1rem;
-    top: 0;
-    bottom: 0;
-    z-index: 5;
 }
 
 .main-splash,

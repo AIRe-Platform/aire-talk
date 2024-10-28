@@ -54,8 +54,13 @@ const ended = computed(() => {
                     <span class="tooltiptext">{{ $t(l.tooltip_open_catalogue_content) }}</span>
                 </div>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button"
-                :class="{ 'chat-options-button-active': props.optionsOpen }" @click="$emit('toggleOptions')">
+            <div v-if="props.optionsVisible"
+                class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }"
+                role="button"
+                @keypress.prevent.space.enter="$emit('toggleOptions')"
+                @click="$emit('toggleOptions')"
+                tabindex="0">
                 <div class="icon summary-switch-default tooltip"
                     @mouseenter="adjustTooltipPosition($event, false, 'left-bottom')">
                     <span class="tooltiptext">{{ $t(l.tooltip_open_chat_side_panel) }}</span>

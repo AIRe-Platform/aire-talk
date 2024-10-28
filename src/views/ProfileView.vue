@@ -27,7 +27,11 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <div class="icon close-window xmark-icon tooltip" @click="navigateTo('/chat')">
+            <div class="icon close-window xmark-icon tooltip"
+                 @click="navigateTo('/chat')"
+                 tabindex="0"
+                 role="link"
+                 @keypress.prevent.space.enter="navigateTo('/chat')">
                 <span class="tooltiptext">{{
                     $t(l.tooltip_close) }}</span>
             </div>

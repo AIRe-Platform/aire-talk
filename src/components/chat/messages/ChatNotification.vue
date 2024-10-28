@@ -33,7 +33,11 @@ const chat = useChat();
     <div :id="props.message.id" class="chat-notification"
         v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
-        <div class="button-keyword-delete tooltip" @mouseenter="adjustTooltipPosition($event, false)"
+        <div class="button-keyword-delete tooltip"
+            @mouseenter="adjustTooltipPosition($event, false)"
+            tabindex="0"
+            role="button"
+            @keypress.prevent.space.enter="chat.removeKeyword(props.message.content, true)"
             @click="chat.removeKeyword(props.message.content, true)">
             <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
             <font-awesome-icon icon="fa-solid fa-xmark" />

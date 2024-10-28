@@ -120,7 +120,7 @@ onMounted(async () => {
         <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="true" />
     </div>
     <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
-        <ChatSidePanel @close="toggleSidebar" />
+        <ChatSidePanel @close="toggleSidebar" :is-open="showSideBar" />
     </div>
 </template>
 

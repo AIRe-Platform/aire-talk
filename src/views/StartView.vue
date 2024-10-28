@@ -8,6 +8,7 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
+import { UIState } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -26,10 +27,18 @@ const navigateTo = (path: string) => {
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button" @click="navigateTo('/login')">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="navigateTo('/login')"
+                    @click="navigateTo('/login')">
                     {{ $t(l.nav_login) }}
                 </div>
-                <div class="icon frontpage-button" @click="navigateTo('/signup')">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="navigateTo('/signup')"
+                    @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
                 </div>
             </div>
