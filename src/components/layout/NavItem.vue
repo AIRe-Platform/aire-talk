@@ -10,12 +10,13 @@ import { UIState } from "@/context/ui";
 const props = defineProps<{
     label: string,
     icon?: string,
-    active: boolean
+    active: boolean,
+    tooltip: string,
 }>()
 
 // create the new key from the label, with lower case all and replacing spaces with _
-function formatTooltipKey(label: string): string {
-    return 'tooltip_nav_menu_' + label.toLowerCase().replace(/\s+/g, '_');
+function formatTooltipKey(tooltip: string): string {
+    return 'tooltip_' + tooltip;
 }
 </script>
 
@@ -27,7 +28,7 @@ function formatTooltipKey(label: string): string {
             <div class="nav-link">
                 {{ props.label }}
             </div>
-            <!--  <span class="tooltiptext">{{ $t(formatTooltipKey(props.label)) }}</span> -->
+            <span class="tooltiptext">{{ $t(formatTooltipKey(props.tooltip)) }}</span>
         </div>
     </div>
 </template>

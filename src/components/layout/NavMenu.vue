@@ -88,42 +88,43 @@ const navLogoClick = () => {
 
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
                     @click="toggleChatHistoryMenu" :active="UIState.panels.has(UIPanels.ChatHistory)"
-                    class="chat-history-nav-button" />
+                    class="chat-history-nav-button" :tooltip="l.nav_chat_history" />
 
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_chat)" icon="new-chat-mobile"
                     :title="$t(l.nav_chat)" @click="navigateTo('/chat')" :active="$route.matched.some(
                         (p) => p.name === 'Chat'
-                    )" />
+                    )" :tooltip="l.nav_chat" />
                 <NavItem v-if="chat.id" :label="i18n.global.t(l.nav_chat_new)" icon="new-chat-mobile" @click="newChat"
-                    :active="false" />
+                    :active="false" :tooltip="l.nav_chat_new" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_catalogue)"
                     icon="catalogue-content-mobile margin-left" @click="navigateTo('/content-catalogue')" :active="$route.matched.some(
                         (p) => p.name === 'Content-catalogue'
-                    )" />
+                    )" :tooltip="l.nav_catalogue" />
                 <div class="nav-spacer"></div>
                 <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_login)" icon="login"
                     @click="navigateTo('/login')" :active="$route.matched.some(
                         (p) => p.name === 'Login'
-                    )" />
+                    )" :tooltip="l.nav_login" />
                 <NavItem v-if="!login.user" :label="i18n.global.t(l.nav_signup)" icon="signup"
                     @click="navigateTo('/signup')" :active="$route.matched.some(
                         (p) => p.name === 'Signup'
-                    )" />
+                    )" :tooltip="l.nav_signup" />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_profile)" icon="user-profile-mobile margin-left"
                     @click="navigateTo('/profile')" :active="$route.matched.some(
                         (p) => p.name === 'Profile'
-                    )" />
+                    )" :tooltip="l.nav_profile" />
                 <NavItem :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile" @click="toggleSettingsPanel"
-                    :active="UIState.panels.has(UIPanels.Settings)" class="settings-nav-button" />
+                    :active="UIState.panels.has(UIPanels.Settings)" class="settings-nav-button"
+                    :tooltip="l.nav_preferences" />
 
                 <NavItem :label="i18n.global.t(l.nav_about)" icon="about" @click="navigateTo('/about')" :active="$route.matched.some(
                     (p) => p.name === 'About'
-                )" />
+                )" :tooltip="l.nav_about" />
                 <Separator />
                 <NavItem v-if="login.user" :label="i18n.global.t(l.nav_main_menu)" icon="main-menu-mobile"
                     @click="navigateTo('/home')" :active="$route.matched.some(
                         (p) => p.name === 'Login'
-                    )" />
+                    )" :tooltip="l.nav_main_menu" />
             </div>
         </Panel>
     </div>
