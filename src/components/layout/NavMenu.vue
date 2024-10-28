@@ -104,10 +104,9 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)"
                     class="chat-history-nav-button"
                     :tooltip="l.nav_chat_history" />
-                <div class="popout-panel">
-                    <ChatHistory v-if="UIState.panels.has(UIPanels.ChatHistory)" />
+                <div class="popout-panel" v-if="UIState.panels.has(UIPanels.ChatHistory)">
+                    <ChatHistory />
                 </div>
-
                 <NavItem v-if="login.user"
                     :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_chat)"
@@ -174,8 +173,8 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :aria-expanded="UIState.panels.has(UIPanels.Settings)"
                     class="settings-nav-button"
                     :tooltip="l.nav_preferences"/>
-                <div class="popout-panel">
-                    <SettingsPanel v-if="UIState.panels.has(UIPanels.Settings)" />
+                <div class="popout-panel" v-if="UIState.panels.has(UIPanels.Settings)">
+                    <SettingsPanel />
                 </div>
                 <NavItem :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_about)"
@@ -418,7 +417,6 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
     }
 
     .popout-panel {
-        top: -4rem;
         bottom: 0rem;
         left: 0;
         right: 0;
