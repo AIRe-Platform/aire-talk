@@ -11,6 +11,7 @@ import { router } from '@/router';
 import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
+import TextButton from "@/components/common/TextButton.vue";
 
 const busy = ref(false);
 const error = ref<string>();
@@ -48,6 +49,9 @@ const onSignup = (e: Event) => {
             busy.value = false;
         })
 }
+const goBack = () => {
+    router.push("/");
+}
 </script>
 
 <template>
@@ -70,6 +74,8 @@ const onSignup = (e: Event) => {
             <div class="signup-busy" v-if="busy">
                 <Spinner />
             </div>
+            <!-- add a back button -->
+            <TextButton v-if="!busy" v-on:click="goBack" class="go-back">{{ $t(l.button_back) }}</TextButton>
         </form>
     </div>
 </template>
@@ -120,6 +126,15 @@ input[type=email],
 input[type=password] {
     padding: 0.5rem;
     margin: 0.2rem 0;
+}
+
+.go-back {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+    cursor: pointer;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
