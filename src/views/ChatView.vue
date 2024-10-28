@@ -105,7 +105,7 @@ onMounted(async () => {
                 <template v-else v-for="msg in messageGroup.messages" v-bind:key="msg.id">
                     <div class="chat-view-row">
                         <div class="chat-view-left">
-                            <ChatItem v-if="msg.role === 'user'" :message="msg"/>
+                            <ChatItem v-if="msg.role === 'user'" :message="msg" />
                         </div>
                         <div class="chat-view-right">
                             <ChatItem v-if="msg.role === 'assistant'" :message="msg" :canRevert="canRevert(msg)" />
@@ -120,7 +120,7 @@ onMounted(async () => {
         <ChatInput @toggle-options="toggleSidebar" :options-open="showSideBar" :options-visible="true" />
     </div>
     <div class="chat-side-panels" :class="{ 'chat-side-panels-open': showSideBar }">
-        <ChatSidePanel />
+        <ChatSidePanel @close="toggleSidebar" :is-open="showSideBar" />
     </div>
 </template>
 

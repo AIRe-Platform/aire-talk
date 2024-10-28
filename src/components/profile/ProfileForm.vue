@@ -15,6 +15,12 @@ import DialogModal from '@/components/layout/DialogModal.vue';
 const MAX_LENGTH_NAME = 50
 const MAX_LENGTH_BIO = 2000
 
+const currentYear = new Date().getFullYear();
+
+// Set the maximum year as the current year and minimum year as 130 years ago 
+const maxYear = currentYear;
+const minYear = currentYear - 130;
+
 const login = useLogin();
 
 const remainingCharacters = (maxLength: number, numCharacters?: number) => {
@@ -37,7 +43,7 @@ const profile = reactive<{
     first_name?: string;
     last_name?: string;
     gender?: "male" | "female" | "other";
-    age?: number;
+    year_of_birth?: number;
     country?: string;
     bio?: string;
     last_login?: string;
@@ -93,26 +99,30 @@ const activateField = (id: string) => {
         <span class="form-item baseline">
             <label class="form-label" for="first-name">{{ $t(l.profile_label_first_name) }}</label>
             <div class="form-input">
-                <div class="imput-column">
+                <div class="input-column">
                     <input id="first-name" type="text" v-model="profile.first_name" autocomplete="given-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
-                    <span v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
+                    <span class="max-length-message" v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('first-name')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
         <span class="form-item baseline">
             <label class="form-label" for="last-name">{{ $t(l.profile_label_last_name) }}</label>
             <div class="form-input">
-                <div class="imput-column">
+                <div class="input-column">
                     <input id="last-name" type="text" v-model="profile.last_name" autocomplete="family-name"
                         :readonly="state.busy" :maxlength=MAX_LENGTH_NAME />
-                    <span v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
+                    <span class="max-length-message" v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -124,15 +134,20 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('gender')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
         <span class="form-item">
-            <label class="form-label" for="age">{{ $t(l.profile_label_age) }}</label>
+            <label class="form-label" for="year_of_birth">{{ $t(l.profile_label_year_of_birth) }}</label>
             <div class="form-input">
-                <input id="age" type="number" v-model="profile.age" min="0" max="150" :readonly="state.busy" />
-                <div class="icon edit" @click.prevent="activateField('age')" :disabled="state.busy">
+                <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
+                    placeholder="e.g., 1990" :readonly="state.busy" required />
+                <div class="icon edit tooltip" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
@@ -141,30 +156,36 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="state.busy" />
-                <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
+                <div class="icon edit tooltip" @click.prevent="activateField('country')" :disabled="state.busy"><span
+                        class="tooltiptext">{{
+                            $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
         <span class="form-item-wide margin-top">
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
-                <div class="imput-column">
-                    <textarea id="bio" rows="4" cols="84" v-model="profile.bio" :readonly="state.busy"
+                <div class="input-column">
+                    <textarea id="bio" v-model="profile.bio" :readonly="state.busy"
                         :maxlength=MAX_LENGTH_BIO></textarea>
                     <span> {{
                         remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
-                <div class="icon edit margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
+                <div class="icon edit tooltip margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
+                    <span class="tooltiptext">{{
+                        $t(l.tooltip_edit) }}</span>
                 </div>
             </div>
         </span>
         <div class="form-item error-message" v-if="state.error">
             {{ $t(state.error) }}
         </div>
-        <div class="form-buttons">
+        <div class="form-buttons tooltip">
+            <span class="tooltiptext">{{
+                $t(l.tooltip_save) }}</span>
             <template v-if="!state.busy">
-                <input type="submit" :value="$t(l.profile_button_save)" />
+                <button type="submit">{{ $t(l.profile_button_save) }}</button>
             </template>
             <Spinner v-if="state.busy" />
         </div>
@@ -192,7 +213,7 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 20%;
-        font-size: var(--font-medium)
+        font-size: var(--font-medium);
     }
 
     &>.form-input {
@@ -200,6 +221,7 @@ const activateField = (id: string) => {
         align-items: flex-start;
         gap: 0.5rem;
         flex-grow: 1;
+        max-width: 100%;
 
         &>:first-child {
             width: 50%;
@@ -212,7 +234,7 @@ const activateField = (id: string) => {
     margin-top: 2rem;
 }
 
-.imput-column {
+.input-column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -236,18 +258,24 @@ const activateField = (id: string) => {
 
     &>.form-label {
         flex-basis: 10%;
+        font-size: var(--font-medium);
     }
 
     .form-input-textarea {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
+        max-width: 100%;
+
+        & textarea {
+            resize: none;
+            height: 100%;
+        }
 
         &>:first-child {
             width: 50%;
             flex-grow: 1;
             height: 7rem;
-
         }
     }
 }
@@ -286,6 +314,34 @@ const activateField = (id: string) => {
     .profile-form {
         flex-direction: column;
         flex-wrap: nowrap;
+        align-items: stretch;
+    }
+
+    .form-item-wide>.form-label {
+        flex-basis: 20%;
+    }
+
+
+    .input-column {
+        height: auto;
+        position: relative;
+
+        &>.max-length-message {
+            position: absolute;
+            bottom: 0;
+            transform: translateY(100%);
+        }
+    }
+
+    .margin-top {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .form-item-wide,
+    .form-item {
+        flex-direction: column;
         align-items: stretch;
     }
 }

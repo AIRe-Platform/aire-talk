@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, computed } from "vue";
 import { router } from "@/router";
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
@@ -49,12 +50,20 @@ const ended = computed(() => {
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
             <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0"
                 @click="() => router.push('/content-catalogue')">
-                <div class="icon chatbox-content-default">
+                <div class="icon chatbox-content-default tooltip" @mouseenter="adjustTooltipPosition($event, false)">
+                    <span class="tooltiptext">{{ $t(l.tooltip_open_catalogue_content) }}</span>
                 </div>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button"
-                :class="{ 'chat-options-button-active': props.optionsOpen }" @click="() => $emit('toggleOptions')">
-                <div class="icon summary-switch-default">
+            <div v-if="props.optionsVisible"
+                class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }"
+                role="button"
+                @keypress.prevent.space.enter="$emit('toggleOptions')"
+                @click="$emit('toggleOptions')"
+                tabindex="0">
+                <div class="icon summary-switch-default tooltip"
+                    @mouseenter="adjustTooltipPosition($event, false, 'left-bottom')">
+                    <span class="tooltiptext">{{ $t(l.tooltip_open_chat_side_panel) }}</span>
                 </div>
             </div>
         </div>
@@ -64,8 +73,9 @@ const ended = computed(() => {
                     :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
             </form>
             <div class="chat-send-button" @click="submit">
-                <div class="chat-send-icon icon send-message-default">
-
+                <div class="chat-send-icon icon send-message-default tooltip"
+                    @mouseenter="adjustTooltipPosition($event, false)">
+                    <span class="tooltiptext">{{ $t(l.tooltip_send_message) }}</span>
                 </div>
             </div>
         </div>

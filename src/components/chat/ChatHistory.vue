@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, onMounted, reactive } from "vue";
+import { defineEmits, onMounted, reactive, ref } from "vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
@@ -13,11 +13,11 @@ import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { ChatMessageType } from "@/models/chat";
-
 
 interface ChatLogItem {
     id: string;
@@ -26,6 +26,7 @@ interface ChatLogItem {
 
 const chat = useChat();
 const cache = useChatCache();
+const chatHistoryPanelRef = ref<HTMLElement | null>(null);
 
 const state = reactive<{
     busy: boolean,
@@ -61,7 +62,20 @@ const refresh = () => {
             refreshBurgerMenuButtonsRef();
         })
 };
-onMounted(refresh);
+
+onMounted(() => {
+    refresh();
+    chatHistoryPanelRef.value?.addEventListener('focusout', (e: FocusEvent) => {
+        const relTarget = e.relatedTarget as Node;
+        const target = e.target as HTMLElement;
+        if (
+            !chatHistoryPanelRef.value?.contains(relTarget) &&
+            !target.closest('.modal')
+        ) {
+            UIState.panels.delete(UIPanels.ChatHistory);
+        }
+    });
+});
 
 const isOpen = (id: string) => {
     return id === chat.id;
@@ -146,33 +160,49 @@ const onClickOutside = async (e: Event) => {
 </script>
 
 <template>
-    <DialogModal :active="state.confirmDelete" :buttons="[
-        { loc_key: l.button_accept, onClick: onConfirmDelete },
-        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelDelete }
-    ]">
-        {{ $t(l.popup_confirm_remove_chat) }}
-    </DialogModal>
-    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
-        <div class="chat-history-list">
-            <div class="chat-history-busy" v-if="state.busy">
-                <Spinner />
-            </div>
-            <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
-                :class="{ 'restore-chat-item-open': isOpen(item.id) }">
-                <div class="chat-history-item-row">
-                    <div class="chat-history-item-details" @click="onSelect(item.id)">
-                        <div class="chat-history-item-date">
-                            {{ item.time.toLocaleString($i18n.locale) }}
+    <div ref="chatHistoryPanelRef" class="chat-history-wrapper">
+        <DialogModal :active="state.confirmDelete" :buttons="[
+            { loc_key: l.button_accept, onClick: onConfirmDelete },
+            { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelDelete }
+        ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()">
+            {{ $t(l.popup_confirm_remove_chat) }}
+        </DialogModal>
+        <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+            <div class="chat-history-list">
+                <div class="chat-history-busy" v-if="state.busy">
+                    <Spinner />
+                </div>
+                <div class="chat-history-item"
+                    v-for="item in state.items"
+                    v-bind:key="item.id"
+                    :class="{ 'restore-chat-item-open': isOpen(item.id) }">
+                    <div class="chat-history-item-row">
+                        <div class="chat-history-item-details"
+                            tabindex="0"
+                            role="button"
+                            @keypress.prevent.space.enter="onSelect(item.id)"
+                            @click="onSelect(item.id)">
+                            <div class="chat-history-item-date">
+                                {{ item.time.toLocaleString($i18n.locale) }}
+                            </div>
+                            <div class="chat-history-item-preview">
+                                {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
+                            </div>
+                            <div class="chat-history-token" v-if="getTokenCount(item.id)">
+                                {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
+                            </div>
                         </div>
-                        <div class="chat-history-item-preview">
-                            {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
-                        </div>
-                        <div class="chat-history-token" v-if="getTokenCount(item.id)">
-                            {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
-                        </div>
-                    </div>
-                    <div class="chat-history-item-delete" @click="onDeleteChat(item.id)">
-                        <div class="icon delete-bin">
+                        <div class="chat-history-item-delete"
+                            tabindex="0"
+                            role="button"
+                            @keypress.prevent.space.enter="onDeleteChat(item.id)"
+                            @click="onDeleteChat(item.id)"
+                            :aria-label="$t(l.tooltip_delete_chat)"
+                        >
+                            <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')">
+                                <span class="tooltiptext">{{
+                                    $t(l.tooltip_delete_chat) }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -182,6 +212,10 @@ const onClickOutside = async (e: Event) => {
 </template>
 
 <style lang="scss" scoped>
+.chat-history-wrapper {
+    height: 100%;
+}
+
 .chat-history-panel {
     display: flex;
     flex-direction: column;
@@ -237,6 +271,7 @@ const onClickOutside = async (e: Event) => {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    align-self: flex-start;
     gap: 0.5rem;
 }
 
@@ -274,7 +309,12 @@ const onClickOutside = async (e: Event) => {
 .chat-history-item-preview {
     max-height: 2rem;
     margin-right: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-size: var(--font-small);
     color: var(--chat-history-text-color);
 }
@@ -305,6 +345,20 @@ const onClickOutside = async (e: Event) => {
 
     .chat-history-item-row {
         gap: 0;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .chat-history-item-row {
+        flex-direction: column;
+    }
+
+    .chat-history-item-preview {
+        margin-right: 0;
+    }
+
+    .chat-history-item-delete {
+        padding-bottom: 0;
     }
 }
 </style>

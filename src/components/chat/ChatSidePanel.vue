@@ -4,7 +4,8 @@
  -->
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
 import useChat, { ChatContext } from '@/context/chat';
@@ -13,14 +14,23 @@ import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
 import { listChatKeywords } from '@/helpers/chatUtils';
 import { l } from '@/locales';
+import useMobileLayout from '@/helpers/mobile';
 
 const state = reactive<{
     busy: boolean,
-    missingPersonalInfo: boolean
+    missingPersonalInfo: boolean,
+    isMobile: boolean,
 }>({
     busy: false,
-    missingPersonalInfo: false
+    missingPersonalInfo: false,
+    isMobile: false
 });
+
+const props = defineProps<{ isOpen: boolean }> ();
+
+const emits = defineEmits<{
+    close: []
+}>();
 
 const questionnaires = useQuestionnaire();
 const chatContext: ChatContext = useChat();
@@ -66,32 +76,49 @@ const makeSuggestions = () => {
 
 onMounted(() => {
     state.missingPersonalInfo = createPersonalInformationQuestions().length > 0;
-})
+    state.isMobile = useMobileLayout.value;
+});
+
+const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 </script>
 
 <template>
     <Panel class="chat-tools">
-        <div class="chat-tools-title">
-            {{ $t(l.tools_title) }}
+        <div class="chat-tools-header" :class="{ 'is-mobile': state.isMobile }">
+            <div class="chat-tools-title">
+                {{ $t(l.tools_title) }}
+            </div>
+            <div class="icon close-window xmark-icon tooltip"
+                v-if="state.isMobile"
+                @click.stop="emits('close')"
+                role="button"
+                :tabindex="sidePanelTabindex">
+                <span class="tooltiptext">{{ $t(l.tooltip_close) }}</span>
+            </div>
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
-            <button class="chat-tool-button" @click="generateSummary">
+            <button class="chat-tool-button tooltip" @click="generateSummary" :tabindex="sidePanelTabindex">
                 <span class="chat-tool-button-text">{{ $t(l.tools_button_summarize) }}</span>
                 <div class="update-icon"></div>
+                <span class="tooltiptext">{{ $t(l.tooltip_summarize) }}</span>
             </button>
-            <button class="chat-tool-button" @click="querySurveys"
+            <button class="chat-tool-button tooltip" @click="querySurveys" :tabindex="sidePanelTabindex"
                 v-if="listChatKeywords(chatContext.messages).length > 0 && !questionnaires.active">
                 <span class="chat-tool-button-text">{{ $t(l.tools_button_query_surveys) }}</span>
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                <span class="tooltiptext">{{ $t(l.tooltip_query_surveys) }}</span>
             </button>
-            <button v-if="state.missingPersonalInfo" class="chat-tool-button" @click="askPersonalInformation">
+            <button v-if="state.missingPersonalInfo" class="chat-tool-button tooltip" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                 <span class="chat-tool-button-text">{{ $t(l.profile_question_button) }}</span>
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                <span class="tooltiptext">{{ $t(l.tooltip_personal_information) }}</span>
             </button>
-            <button class="chat-tool-button" @click="makeSuggestions">
+            <button class="chat-tool-button tooltip" @click="makeSuggestions" :tabindex="sidePanelTabindex"
+                @mouseenter="adjustTooltipPosition($event, false)">
                 <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
                 <font-awesome-icon icon="fa-solid fa-lightbulb" />
+                <span class="tooltiptext">{{ $t(l.tooltip_suggestions) }}</span>
             </button>
         </div>
     </Panel>
@@ -108,6 +135,11 @@ onMounted(() => {
     padding: 1rem;
     margin: 1rem;
     gap: 1rem;
+}
+
+.chat-tools-header {
+    display: flex;
+
 }
 
 .update-icon {
@@ -141,6 +173,13 @@ onMounted(() => {
 
 .chat-tool-button-text {
     margin-right: 0.5rem;
+}
+
+.is-mobile {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 6rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

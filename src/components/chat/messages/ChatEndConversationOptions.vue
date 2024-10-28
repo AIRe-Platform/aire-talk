@@ -55,4 +55,18 @@ const chat = useChat();
     flex-direction: row;
     gap: 1rem;
 }
+
+@media screen and (max-width: 576px) {
+    .chat-end-conversation-options {
+        flex-direction: column;
+    }
+
+    .chat-end-conversation-options-content {
+        text-align: center;
+    }
+
+    .chat-end-conversation-options-buttons {
+        flex-direction: column;
+    }
+}
 </style>

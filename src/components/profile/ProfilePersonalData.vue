@@ -48,9 +48,13 @@ const onDownload = () => {
         <div class="profile-personal-data-error" v-if="state.error">
             {{ $t(state.error) }}
         </div>
-        <button class="profile-personal-data-button" @click="onDownload" :disabled="state.busy">
-            {{ $t(l.profile_button_download_personal_data) }}
-        </button>
+        <div class="tooltip">
+            <span class="tooltiptext">{{
+                $t(l.tooltip_download) }}</span>
+            <button class="profile-personal-data-button" @click="onDownload" :disabled="state.busy">
+                {{ $t(l.profile_button_download_personal_data) }}
+            </button>
+        </div>
     </div>
 </template>
 

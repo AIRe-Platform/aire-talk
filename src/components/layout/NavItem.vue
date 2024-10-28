@@ -10,17 +10,25 @@ import { UIState } from "@/context/ui";
 const props = defineProps<{
     label: string,
     icon?: string,
-    active: boolean
+    active: boolean,
+    tooltip: string,
 }>()
+
+// create the new key from the label, with lower case all and replacing spaces with _
+function formatTooltipKey(tooltip: string): string {
+    return 'tooltip_' + tooltip;
+}
 </script>
 
 <template>
     <div class="nav-item" :class="{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }">
-        <div v-if="props.icon || UIState.isNavMenuCompressed"
-            :class="['icon ' + props.icon]">
+        <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
         </div>
-        <div class="nav-link">
-            {{ props.label }}
+        <div class="tooltip">
+            <div class="nav-link">
+                {{ props.label }}
+            </div>
+            <span class="tooltiptext">{{ $t(formatTooltipKey(props.tooltip)) }}</span>
         </div>
     </div>
 </template>

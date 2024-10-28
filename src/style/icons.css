@@ -13,15 +13,15 @@
 
 .icon.frontpage-button {
     background-image: url("@/assets/icons/login-frontpage-button.svg");
+    background-position: center;
     display: flex;
-    width: 20rem;
+    width: min(20rem, 100%);
     height: 5rem;
     font-size: var(--font-medium);
     color: var(--button-text);
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    background-size:cover;
 }
 
 .theme-default .icon.back-button {
@@ -56,8 +56,8 @@
 
 .icon.delete-bin {
     background-image: url("@/assets/icons/delete-bin-default.svg");
-    width: 2rem;
-    height: 2rem;
+    width: 1.7rem;
+    height: 2.2rem;
 }
 
 .icon.chat-option-desktop {

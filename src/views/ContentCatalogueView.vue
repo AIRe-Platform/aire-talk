@@ -10,9 +10,8 @@ import { router } from "@/router";
 import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
-
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import useContent from "@/context/content";
-
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
@@ -97,7 +96,10 @@ const showContent = async (content: AireContent) => {
     <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <div class="icon close-window xmark-icon" @click="navigateTo('/chat')">
+        <div class="icon close-window xmark-icon tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')"
+            @click="navigateTo('/chat')">
+            <span class="tooltiptext">{{
+                $t(l.tooltip_close) }}</span>
         </div>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
@@ -109,7 +111,7 @@ const showContent = async (content: AireContent) => {
             <CatalogueItem v-for="item in state.rankedContents" v-bind:key="item.id" :content="item" @show="showContent"
                 :isFromSummary="false" />
             <div v-if="state.rankedContents.length == 0">
-                <h3>{{ $t(l.content_catalogue_empty) }}</h3>
+                <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
             </div>
         </div>
     </div>
@@ -175,6 +177,12 @@ const showContent = async (content: AireContent) => {
     .content-catalogue-view {
         padding: 2rem 0rem;
         width: 95%;
+    }
+}
+
+@media screen and (max-width: 715px) {
+    .empty-catalogue {
+        margin-inline: 5vw;
     }
 }
 </style>

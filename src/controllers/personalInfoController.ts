@@ -161,11 +161,11 @@ export function createPersonalInformationQuestions(): AireQuestion[] {
         })
     }
 
-    if (!login.user?.age) {
+    if (!login.user?.year_of_birth) {
         questions.push({
-            id: "age",
+            id: "year_of_birth",
             prompt: "",
-            question: i18n.global.t(l.profile_question_age),
+            question: i18n.global.t(l.profile_question_year_of_birth),
             type: AireQuestionOptionType.Number,
             required: true,
             options: {

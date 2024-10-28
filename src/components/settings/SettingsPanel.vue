@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
@@ -14,7 +14,7 @@ import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 
-
+const settingsPanelRef = ref<HTMLElement | null>(null);
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     UISettings.fontSize = el.value as UIFontSize;
@@ -38,29 +38,41 @@ const onClickOutside = async (e: Event) => {
     }
 };
 
-onMounted(refreshBurgerMenuButtonsRef);
+onMounted(() => {
+    refreshBurgerMenuButtonsRef();
+    settingsPanelRef.value?.addEventListener('focusout', (e) => {
+        if (!settingsPanelRef.value?.contains(e.relatedTarget as Node)) {
+            UIState.panels.delete(UIPanels.Settings);
+        }
+    });
+});
 
 </script>
 
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
-        <div class="settings-header">
-            {{ $t(l.settings_title) }}
+        <div ref="settingsPanelRef" class="settings-panel-ref">
+            <div class="settings-header">
+                {{ $t(l.settings_title) }}
+            </div>
+            <Separator />
+            <LanguageSelector />
+            <Separator />
+            <ThemeSwitch />
+            <Separator />
+            <div class="settings-item">
+                <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
+                <div class="tooltip">
+                    <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
+                        <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
+                        <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
+                    </select>
+                    <span class="tooltiptext">{{ $t(l.tooltip_menu_language) }}</span>
+                </div>
+            </div>
+            <Separator />
+            <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
         </div>
-        <Separator />
-        <LanguageSelector />
-        <Separator />
-        <ThemeSwitch />
-        <Separator />
-        <div class="settings-item">
-            <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
-            <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
-                <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
-                <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
-            </select>
-        </div>
-        <Separator />
-        <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
 
@@ -78,6 +90,15 @@ onMounted(refreshBurgerMenuButtonsRef);
     gap: 1rem;
     font-weight: bold;
     margin-left: 15rem;
+}
+
+.settings-panel-ref {
+    display: flex;
+    flex-direction: column;
+}
+
+#settings-text-size {
+    width: 12rem;
 }
 
 .settings-header {

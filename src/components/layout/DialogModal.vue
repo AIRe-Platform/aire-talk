@@ -4,13 +4,16 @@
  -->
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps } from 'vue';
+import { computed, defineEmits, defineProps, onMounted, onUnmounted, ref } from 'vue';
 import Modal from '@/components/common/Modal.vue';
 import { LocalizationKey } from '@/locales/keys';
 
-
+const buttonsRef = ref<HTMLElement | null>(null);
 const emit = defineEmits<{
+    // eslint-disable-next-line no-unused-vars
     (e: 'select', index: number): void;
+    // eslint-disable-next-line no-unused-vars
+    (e: 'focusFirstButton', element: HTMLElement | null): void;
 }>()
 
 const props = defineProps<{
@@ -26,6 +29,22 @@ const emitSelect = (i: number) => {
 }
 
 const hasButtons = computed(() => props.buttons.length > 0);
+
+onMounted(() => {
+    if (buttonsRef.value) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    emit('focusFirstButton', buttonsRef.value?.children[0] as HTMLElement);
+                }
+            });
+        });
+
+        observer.observe(buttonsRef.value);
+
+        onUnmounted(() => observer.disconnect());
+    }
+});
 </script>
 
 <template>
@@ -33,7 +52,7 @@ const hasButtons = computed(() => props.buttons.length > 0);
         <div class="dialog-question">
             <slot></slot>
         </div>
-        <div v-if="hasButtons" class="dialog-buttons">
+        <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
             <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
                 :class="btn.className">
                 {{ $t(btn.loc_key) }}

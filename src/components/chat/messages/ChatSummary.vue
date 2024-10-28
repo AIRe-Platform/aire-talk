@@ -6,8 +6,9 @@
 <script setup lang="ts">
 import useChat from '@/context/chat';
 import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
-import { l } from '@/locales';
-import { ChatMessage } from '@/models/chat';
+import { getKeywordTranslation } from '@/helpers/keywordUtils';
+import { getUILanguage, l } from '@/locales';
+import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { computed, defineProps } from 'vue';
 
 const props = defineProps<{
@@ -20,6 +21,17 @@ const removeKeyword = (keyword: string) => {
     chat.removeKeyword(keyword, true);
 };
 
+
+const contentKeyword = computed(() => {
+    const lang = getUILanguage();
+    if (props.message.content) {
+        if (props.message.type == ChatMessageType.Summary) {
+            return getKeywordTranslation(keywords.value[0], lang) ?? props.message.content;
+        }
+    }
+    return props.message.content;
+});
+
 const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
     const i = messages.findIndex(x => x.id === until_message_id);
     return listChatKeywords(messages.slice(0, i));
@@ -28,6 +40,7 @@ const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
 const keywords = computed(() => getKeywords(chat.messages, props.message.id));
 
 const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
+
 </script>
 
 <template>
@@ -41,9 +54,11 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
         <div class="chat-summary-keywords" v-if="keywords && keywords.length > 0">
             <div class="chat-summary-keyword" v-for="keyword, i in keywords"
                 :key="'keyword_' + props.message.id + '_' + i">
-                <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <div class="chat-summary-keyword-delete" @click="removeKeyword(keyword)" v-if="isLastMessage">
+                <span class="chat-summary-keyword-label">{{ { contentKeyword }.contentKeyword }}
+                </span>
+                <div class="chat-summary-keyword-delete tooltip" @click="removeKeyword(keyword)">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
+                    <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
                 </div>
             </div>
         </div>
@@ -52,8 +67,14 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 {{ $t(l.summary_acceptation_question) }}
             </span>
             <span class="chat-summary-options-buttons">
-                <button @click="chat.onAcceptSummary">{{ $t(l.button_yes) }}</button>
-                <button @click="chat.onRejectSummary">{{ $t(l.button_no) }}</button>
+                <button @click="chat.onAcceptSummary" class="tooltip">
+                    {{ $t(l.button_yes) }}
+                    <span class="tooltiptext">{{ $t(l.tooltip_accept_summary) }}</span>
+                </button>
+                <button @click="chat.onRejectSummary" class="tooltip">
+                    {{ $t(l.button_no) }}
+                    <span class="tooltiptext">{{ $t(l.tooltip_reject_summary) }}</span>
+                </button>
             </span>
         </div>
     </div>

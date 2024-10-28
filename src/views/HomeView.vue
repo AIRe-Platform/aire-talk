@@ -12,9 +12,9 @@ import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 import useTheme, { ThemeContext } from "@/context/theme";
+import { UIState } from "@/context/ui";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
-import OnboardingTopics from '@/components/home/OnboardingTopics.vue';
 import ReminderComponent from "@/components/common/Reminder.vue";
 
 const login = useLogin();
@@ -67,8 +67,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <OnboardingTopics />
-
     <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
@@ -84,13 +82,26 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button" @click="newChat()">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="newChat()"
+                    @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
-                <div class="icon frontpage-button" @click="openLastChat()" v-if="state.showLastChatButton">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="openLastChat()"
+                    @click="openLastChat()"
+                    v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </div>
-                <div class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="button"
+                    @keypress.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
+                    @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </div>
             </div>
@@ -129,7 +140,6 @@ onMounted(async () => {
 
 .home-header {
     width: 100%;
-    height: 420px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -148,7 +158,6 @@ onMounted(async () => {
 
 .aire-logo {
     width: 25rem;
-    height: 12rem;
 }
 
 .image-logo {
@@ -157,15 +166,19 @@ onMounted(async () => {
 
 .header-text {
     font-size: larger;
+    text-align: center;
     color: var(--basic-text);
+    margin-inline: 0.5rem;
 }
 
 .quick-nav {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    align-items: center;
     margin: 2rem 0;
     gap: 2rem;
+    width: 100%;
 }
 
 .get-started {
@@ -212,10 +225,6 @@ onMounted(async () => {
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .home-header {
-        height: 20rem;
-    }
-
     .chat-bot {
         padding: 2rem;
         width: 2.5rem;
@@ -233,11 +242,10 @@ onMounted(async () => {
     }
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 576px)) {
     .home-header {
         background-size: cover;
         padding-top: 5rem;
-        height: 12rem;
     }
 
     .home-header-title {
@@ -264,7 +272,7 @@ onMounted(async () => {
 
     .home-footer {
         margin-top: 3rem;
-        font-size: xx-small;
+        font-size: var(--font-small);
         text-align: center;
         margin-bottom: 2rem;
     }

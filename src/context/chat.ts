@@ -54,7 +54,7 @@ export class ChatContext {
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public meta: {
-        age?: number;
+        year_of_birth?: number;
         occupation?: string;
         topic?: Topic;
     };

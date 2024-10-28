@@ -59,7 +59,6 @@ const onSubmitAnswer = () => {
     gap: 0.5rem;
 
     input {
-        font-size: 2rem;
         width: 10rem;
     }
 

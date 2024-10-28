@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
-import ChatItemOptions from '../ChatItemOptions.vue';
+import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 
 const props = defineProps<{
     message: ChatMessage;

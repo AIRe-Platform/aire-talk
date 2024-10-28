@@ -18,10 +18,13 @@ const onSwitchTheme = (dark: boolean) => {
 <template>
     <div class="theme-container">
         <p class="theme-switch-label"> {{ $t(l.switch_color_mode) }}</p>
-        <div class="theme-switch">
+        <div class="theme-switch tooltip">
             <font-awesome-icon icon="fa-solid fa-sun" />
-            <Switch :is-on="theme.style === 'theme-dark'" @change="onSwitchTheme" />
+            <Switch :is-on="theme.style === 'theme-dark'"
+                @keypress.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
+                @change="onSwitchTheme" />
             <font-awesome-icon icon="fa-solid fa-moon" />
+            <span class="tooltiptext">{{ $t(l.tooltip_menu_ui_mode) }}</span>
         </div>
     </div>
 </template>

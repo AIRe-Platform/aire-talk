@@ -18,7 +18,11 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="switch" :class="{ 'switch-colored': props.isOn && $props.colorized }"
+    <div class="switch"
+        :class="{ 'switch-colored': props.isOn && $props.colorized }"
+        role="switch"
+        tabindex="0"
+        :aria-checked="props.isOn"
         @click="$emit('change', !props.isOn)">
         <div class="switch-handle" :class="{ 'switch-handle-on': props.isOn }"></div>
     </div>

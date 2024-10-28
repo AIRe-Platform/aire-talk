@@ -18,11 +18,14 @@ const setLang = async (e: Event) => {
 <template>
     <div class="language-selector-panel">
         <label for="settings-language">{{ $t(l.settings_language) }}</label>
-        <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
-            <option v-for="lang in supportedLocales" :value="lang" :key="lang">
-                {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
-            </option>
-        </select>
+        <div class="tooltip">
+            <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
+                <option v-for="lang in supportedLocales" :value="lang" :key="lang">
+                    {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
+                </option>
+            </select>
+            <span class="tooltiptext">{{ $t(l.tooltip_menu_language) }}</span>
+        </div>
     </div>
 </template>
 
@@ -31,5 +34,14 @@ const setLang = async (e: Event) => {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+.tooltip {
+    display: flex;
+    max-width: 12rem;
+}
+
+#settings-language {
+    max-width: -webkit-fill-available;
 }
 </style>

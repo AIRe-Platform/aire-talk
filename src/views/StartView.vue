@@ -8,6 +8,7 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
+import { UIState } from "@/context/ui";
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -19,18 +20,25 @@ const navigateTo = (path: string) => {
     <div id="start-view">
         <div class="start-container">
             <div class="greeting">
-                <div class="chat-bot">
-                </div>
+                <img src="@/assets/images/aire-bot.png" alt="AIRe chat bot logo" class="chat-bot">
                 <h1>{{ $t('start_greeting') }}</h1>
                 <p>{{ $t(l.start_first_paragraph) }}</p>
                 <Separator />
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button" @click="navigateTo('/login')">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="navigateTo('/login')"
+                    @click="navigateTo('/login')">
                     {{ $t(l.nav_login) }}
                 </div>
-                <div class="icon frontpage-button" @click="navigateTo('/signup')">
+                <div class="icon frontpage-button"
+                    :tabindex="UIState.showMenu ? -1 : 0"
+                    role="link"
+                    @keypress.prevent.space.enter="navigateTo('/signup')"
+                    @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
                 </div>
             </div>
@@ -46,7 +54,8 @@ const navigateTo = (path: string) => {
     width: 100%;
     height: 100%;
     background-image: url("@/assets/images/aire-bg-texture-3.png");
-
+    display: grid;
+    overflow: auto;
 }
 
 .start-container {
@@ -68,17 +77,16 @@ const navigateTo = (path: string) => {
     flex-direction: column;
     align-items: center;
     font-weight: bold;
+
+    &>* {
+        margin-inline: 0.5rem;
+    }
 }
 
 .chat-bot {
-    padding: 4.5rem;
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-    overflow: hidden;
-    background-image: url(/src/assets/images/aire-bot.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    aspect-ratio: 1;
+    height: 9rem;
+    margin-block: 4rem;
 }
 
 .line {
@@ -93,7 +101,8 @@ const navigateTo = (path: string) => {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    margin: 1rem 0px -5rem 0rem;
+    align-self: stretch;
+    margin-block: 1rem;
     gap: 2rem;
     align-items: center;
 }
@@ -109,14 +118,12 @@ const navigateTo = (path: string) => {
 
 .start-footer {
     display: flex;
-    padding: 0rem 3rem;
-    margin-top: 8rem;
     text-align: center;
     font-size: var(--font-small);
+    margin-inline: 0.5rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-
     #start-view {
         background-size: cover;
     }
@@ -131,15 +138,14 @@ const navigateTo = (path: string) => {
     }
 
     .chat-bot {
-        padding: 4rem;
+        height: 8rem;
         margin-top: 3rem;
         margin-bottom: 2rem;
     }
 
     .start-footer {
         padding: 0rem 2rem;
-        margin-top: 7rem;
-        font-size: xx-small;
+        font-size: var(--font-small);
     }
 
     .frontpage-button {

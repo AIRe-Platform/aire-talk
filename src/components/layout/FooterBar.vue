@@ -27,7 +27,7 @@ const version = {
     justify-content: center;
     z-index: 10;
     height: 1rem;
-    font-size: xx-small;
+    font-size: var(--font-small);
     color: var(--footer-text);
 }
 
