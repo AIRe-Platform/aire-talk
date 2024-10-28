@@ -313,7 +313,6 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
 }
 
 .popout-panel {
-    pointer-events: none;
     position: fixed;
     display: flex;
     flex-direction: row;
