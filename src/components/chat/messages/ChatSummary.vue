@@ -8,7 +8,7 @@ import useChat from '@/context/chat';
 import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
-import { ChatMessage, ChatMessageType } from '@/models/chat';
+import { ChatMessage } from '@/models/chat';
 import { computed, defineProps } from 'vue';
 
 const props = defineProps<{
@@ -24,13 +24,13 @@ const removeKeyword = (keyword: string) => {
 
 const contentKeyword = computed(() => {
     const lang = getUILanguage();
-    if (props.message.content) {
-        if (props.message.type == ChatMessageType.Summary) {
-            return getKeywordTranslation(keywords.value[0], lang) ?? props.message.content;
-        }
-    }
-    return props.message.content;
+    return keywords.value.map(keyword => {
+        // Get translation for each keyword
+        const translation = getKeywordTranslation(keyword, lang);
+        return translation !== undefined ? translation : keyword;
+    });
 });
+
 
 const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
     const i = messages.findIndex(x => x.id === until_message_id);
@@ -52,11 +52,10 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
         <div class="chat-summary-keywords" v-if="keywords && keywords.length > 0">
-            <div class="chat-summary-keyword" v-for="keyword, i in keywords"
+            <div class="chat-summary-keyword" v-for="(keyword, i) in contentKeyword"
                 :key="'keyword_' + props.message.id + '_' + i">
-                <span class="chat-summary-keyword-label">{{ { contentKeyword }.contentKeyword }}
-                </span>
-                <div class="chat-summary-keyword-delete tooltip" @click="removeKeyword(keyword)">
+                <span class="chat-summary-keyword-label">{{ keyword }}</span>
+                <div class="chat-summary-keyword-delete tooltip" @click="removeKeyword(keywords[i])">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                     <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
                 </div>
