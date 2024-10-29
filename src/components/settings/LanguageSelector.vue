@@ -44,4 +44,14 @@ const setLang = async (e: Event) => {
 #settings-language {
     max-width: -webkit-fill-available;
 }
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
+    #settings-language {
+        width: 100%;
+    }
+
+    .tooltip {
+        max-width: none;
+    }
+}
 </style>

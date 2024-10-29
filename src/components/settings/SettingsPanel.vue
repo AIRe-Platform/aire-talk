@@ -126,11 +126,21 @@ onMounted(() => {
     margin-left: 16rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
     .settings-panel {
         width: 65%;
-        margin-left: 4rem;
+        margin-left: 5rem;
         margin-bottom: 0rem;
+    }
+
+    .settings-panel-ref {
+        display: flex;
+    }
+
+    #settings-text-size {
+        width: -webkit-fill-available;
     }
 }
 </style>
