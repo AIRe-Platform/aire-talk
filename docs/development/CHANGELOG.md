@@ -7,32 +7,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+### Added
+
+## [1.0.1] - 2024-10-27
+### Fixed
+- Minor UI alignment issues on the setttings panel for a layout smaller than a normal desktop 1920x1080p.
+
+
 ## [1.0.0] - 2024-05-21
 ### Added
-- Initial release of the project.
-- Feature X: description of the feature.
-- User documentation for getting started.
-
-### Changed
-- Updated the API endpoint for resource Y.
-
-### Deprecated
-- Deprecated the old authentication method.
-
-### Removed
-- Removed legacy support for Z.
-
-### Fixed
-- Fixed bug in feature X that caused a crash on start.
-- Corrected typos in the user guide.
-
-### Security
-- Patched vulnerability in the authentication module.
-
-## [0.9.0] - 2024-04-15
-### Added
-- New configuration options for feature Y.
-
-### Fixed
-- Resolved performance issue in the data processing module.
+- Initial release of this changelog.
 
