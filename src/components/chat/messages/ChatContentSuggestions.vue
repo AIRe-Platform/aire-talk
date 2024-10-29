@@ -101,6 +101,7 @@ onMounted(async () => {
     align-self: center;
     max-width: 80%;
     background-color: var(--ia-chat-box-background);
+    overflow: auto;
 }
 
 .chat-content-suggestions-title {
