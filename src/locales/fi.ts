@@ -252,6 +252,8 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
     
+    Language_default_message: " Select Your Default Language",
+
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",

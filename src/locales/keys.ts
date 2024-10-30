@@ -225,6 +225,7 @@ export enum LocalizationKey {
     tooltip_nav_about = "tooltip_nav_about",
     tooltip_menu_language = "tooltip_menu_language",
     tooltip_menu_ui_mode = "tooltip_menu_ui_mode",
+    Language_default_message = "Language_default_message",
     
     en = "en",
     fi = "fi",

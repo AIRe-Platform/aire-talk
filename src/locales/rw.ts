@@ -247,6 +247,8 @@ const rw: Locale = {
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
     
+    Language_default_message: " Select Your Default Language",
+
     en: "Icyongereza",
     fi: "Igifinilande",
     es: "Icyespanyoro",

@@ -252,6 +252,8 @@ const vi: Locale = {
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
     
+    Language_default_message: " Select Your Default Language",
+
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",

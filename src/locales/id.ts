@@ -252,7 +252,9 @@ const id: Locale = {
     tooltip_nav_about: "description about",
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
-    
+
+    Language_default_message: " Select Your Default Language",
+
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",
