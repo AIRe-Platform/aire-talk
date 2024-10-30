@@ -581,8 +581,6 @@ async function receiver(e: AireTalkEvent) {
         return;
 
     if (e.type === "keywords" && e.keywords) {
-        // Update keywords
-        console.debug("keyword incoming!! ", e.keywords);
         const currentKeywords = listChatKeywords(chat.messages);
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
