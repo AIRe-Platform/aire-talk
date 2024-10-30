@@ -56,9 +56,9 @@ export function getChatbotInputData(): AireChatbotInput {
         chat_id: chat.id,
         chat: messages,
         context: {
-            year_of_birth: chat.meta.year_of_birth,
-            occupation: chat.meta.occupation,
-            topic: chat.meta.topic?.name,
+            year_of_birth: chat.state.year_of_birth,
+            occupation: chat.state.occupation,
+            topic: chat.state.topic?.name,
             language: locale
         }
     };
