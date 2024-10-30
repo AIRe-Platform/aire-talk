@@ -564,19 +564,32 @@ export default function useChat() {
 }
 
 async function streamResponse() {
-    if (AireServices.AI) {
-        useChatbot().makeBusy();
+    console.log("Chat is responding!");
 
-        const input = getChatbotInputData()
-        AireServices.AI.stream(input, receiver, errorHandler);
-    } else {
-        console.warn("AI service is unavailable");
-    }
+    // Generate a random delay between between 1000 ms and 500 ms
+    const randomDelay = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+
+    // Create a delay promise that resolves after the random delay
+    const delayPromise = new Promise<void>((resolve) => {
+        setTimeout(() => {
+            if (AireServices.AI) {
+                useChatbot().makeBusy();
+        
+                const input = getChatbotInputData()
+                AireServices.AI.stream(input, receiver, errorHandler);
+            } else {
+                console.warn("AI service is unavailable");
+            }
+            console.log(`Delay of ${randomDelay} ms complete.`);
+            resolve();
+        }, randomDelay);
+    });
 }
+
 
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
-
+   
     if (chat.is_red_flag_triggered)
         return;
 
