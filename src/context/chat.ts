@@ -573,8 +573,23 @@ async function receiver(e: AireTalkEvent) {
         const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
         (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
 
-        // Search questionnaires and start prompt to start one if found
+        // TODO: Remove this when the bot is able to suggest questionnaires
         await chat.queryQuestionnaires(e.keywords);
+
+        return;
+    }
+
+    if (e.type === "questionnaire" && e.questionnaire)
+    {
+        // TODO: Implement this
+        console.warn("Questionnaire event not handled", e.questionnaire);
+        return;
+    }
+
+    if (e.type === "content-suggestions" && e.content_suggestions)
+    {
+        // TODO: Implement this
+        console.warn("Content suggestions not handled", e.content_suggestions);
         return;
     }
 
