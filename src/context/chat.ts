@@ -448,45 +448,30 @@ export class ChatContext {
     }
 
     public async suggestContent(keywords: string[]): Promise<number> {
-        if (this.state.red_flag_triggered)
-            return 0;
+        if (!this.state.red_flag_triggered) {
+            if (keywords.length > 0) {
+                const q = keywords.sort().join(",");
+                if (this.state.content_queries?.includes(q))
+                    return 0; // No requeries with the same keys
 
-        if (keywords.length == 0)
-            return 0;
+                useChatbot().makeBusy();
 
-        const q = keywords.sort().join(",");
-        if (this.state.content_queries?.includes(q))
-            return 0; // No requeries with the same keys
-
-        useChatbot().makeBusy();
-
-        return await useContent()
-            .search(keywords, 4)
-            .then(async results => {
-                // Filter out already suggested content
-                const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
-                if (content.length > 0) {
-                    const msg = await createContentMessage(content);
-                    this.push(msg);
-
-                    content.forEach(x => {
-                        if (!x.name && !x.description)
-                            return;
-
-                        let inst = "A new content suggestion was added to the conversation.";
-                        if (x.name)
-                            inst = `\nTitle: ${x.name}`;
-                        if (x.description)
-                            inst = `\nDescription: ${x.description}`;
-
-                        const msg = createInstructionMessage(inst);
-                        this.push(msg);
+                return await useContent()
+                    .search(keywords, 4)
+                    .then(async results => {
+                        // Filter out already suggested content
+                        const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
+                        if (content.length > 0) {
+                            const msg = createContentMessage(results);
+                            this.push(await msg);
+                            return content.length;
+                        }
+                        return 0;
                     })
-                    return content.length;
-                }
-                return 0;
-            })
-            .finally(() => useChatbot().reportReady());
+                    .finally(() => useChatbot().reportReady());
+            }
+        }
+        return 0;
     }
 
     public onCreatedReminder(reminder: AireReminder) {
