@@ -312,7 +312,6 @@ export default function useChat() {
 async function streamResponse() {
     if (AireServices.AI) {
         useChatbot().makeBusy();
-    console.log("Chat is responding!");
 
         const input = getChatbotInputData()
         AireServices.AI.stream(input, receiver, errorHandler);
@@ -333,7 +332,7 @@ async function streamResponse() {
             } else {
                 console.warn("AI service is unavailable");
             }
-            console.log(`Delay of ${randomDelay} ms complete.`);
+            console.debug(`Delay of ${randomDelay} ms complete.`);
             resolve();
         }, randomDelay);
     });
