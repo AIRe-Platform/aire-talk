@@ -41,6 +41,7 @@ export class ChatContext {
     id?: string;
     autosave_timer?: number;
     modified: boolean;
+    forced_response: boolean;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -51,6 +52,7 @@ export class ChatContext {
         this.messages = [];
         this.stats = {};
         this.state = {};
+        this.forced_response = false;
     }
 
     /** Resets the chat state */
@@ -98,6 +100,8 @@ export class ChatContext {
     public send(message: string) {
         const msg = createUserMessage(message);
         this.push(msg);
+        
+        this.forced_response = false;
         streamResponse();
     }
 
@@ -166,7 +170,10 @@ export class ChatContext {
      * Forces the chat bot to respond
      */
     public forceResponse() {
-        streamResponse();
+        if(!this.forced_response) {
+            this.forced_response = true;
+            streamResponse();
+        }
     }
 
     /**
@@ -175,6 +182,7 @@ export class ChatContext {
     public regen() {
         if (this.messages[this.messages.length - 1].role === "assistant") {
             this.messages.splice(this.messages.length - 1, 1);
+            this.forced_response = true;
             streamResponse();
         }
     }
