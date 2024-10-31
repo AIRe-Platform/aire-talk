@@ -191,9 +191,9 @@ const vi: Locale = {
         "Các câu hỏi sau đây đang được ghi lại để phân tích",
     question_answer: "Câu trả lời của bạn",
 
-    reminder_start_question: "Bạn có muốn tiếp tục cuộc trò chuyện trước đó không?",
-    reminder_keyword_question: "Bạn có muốn tiếp tục trò chuyện về một số chủ đề sau không?",
-    reminder_summary_question: "Chủ đề này vẫn còn liên quan mà bạn muốn trò chuyện chứ?",
+    recall_start_question: "Bạn có muốn tiếp tục cuộc trò chuyện trước đó không?",
+    recall_keyword_question: "Bạn có muốn tiếp tục trò chuyện về một số chủ đề sau không?",
+    recall_summary_question: "Chủ đề này vẫn còn liên quan mà bạn muốn trò chuyện chứ?",
 
     button_accept: "Chấp nhận",
     button_cancel: "Hủy bỏ",

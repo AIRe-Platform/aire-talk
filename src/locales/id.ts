@@ -192,9 +192,9 @@ const id: Locale = {
         "Pertanyaan-pertanyaan berikut sedang direkam untuk analisis",
     question_answer: "Jawaban Anda",
 
-    reminder_start_question: "Apakah Anda ingin melanjutkan percakapan sebelumnya?",
-    reminder_keyword_question: "Apakah Anda ingin melanjutkan mengobrol tentang beberapa topik berikut?",
-    reminder_summary_question: "Apakah topik ini masih relevan bagi Anda untuk dibicarakan?",
+    recall_start_question: "Apakah Anda ingin melanjutkan percakapan sebelumnya?",
+    recall_keyword_question: "Apakah Anda ingin melanjutkan mengobrol tentang beberapa topik berikut?",
+    recall_summary_question: "Apakah topik ini masih relevan bagi Anda untuk dibicarakan?",
 
     button_accept: "Terima",
     button_cancel: "Batal",
