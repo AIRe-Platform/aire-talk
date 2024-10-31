@@ -88,7 +88,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
+    <DialogModal :active="state.showInactivityPopup"
+        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+        :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>
     <DialogModal :active="state.showInactivityWarningPopup" :buttons="[]">
