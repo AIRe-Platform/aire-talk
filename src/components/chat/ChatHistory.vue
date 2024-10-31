@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, onMounted, reactive, ref } from "vue";
+import { defineEmits, onMounted, onUnmounted, reactive, ref } from "vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels } from "@/context/ui";
@@ -32,10 +32,12 @@ const state = reactive<{
     busy: boolean,
     deleteId?: string,
     confirmDelete: boolean,
+    lastFocusedItem: HTMLElement | null
     items?: ChatLogItem[]
 }>({
     busy: false,
-    confirmDelete: false
+    confirmDelete: false,
+    lastFocusedItem: null
 });
 
 const emit = defineEmits<{
@@ -63,19 +65,23 @@ const refresh = () => {
         })
 };
 
+const focusOutListener = (e: FocusEvent) => {
+    const relTarget = e.relatedTarget as Node;
+    const target = e.target as Element;
+    if (
+        !chatHistoryPanelRef.value?.contains(relTarget) &&
+        !target.closest('.modal')
+    ) {
+        UIState.panels.delete(UIPanels.ChatHistory);
+    }
+};
+
 onMounted(() => {
     refresh();
-    chatHistoryPanelRef.value?.addEventListener('focusout', (e: FocusEvent) => {
-        const relTarget = e.relatedTarget as Node;
-        const target = e.target as HTMLElement;
-        if (
-            !chatHistoryPanelRef.value?.contains(relTarget) &&
-            !target.closest('.modal')
-        ) {
-            UIState.panels.delete(UIPanels.ChatHistory);
-        }
-    });
+    chatHistoryPanelRef.value?.addEventListener('focusout', focusOutListener);
 });
+
+onUnmounted(() => chatHistoryPanelRef.value?.removeEventListener('focusout', focusOutListener));
 
 const isOpen = (id: string) => {
     return id === chat.id;
@@ -107,16 +113,24 @@ const onConfirmDelete = () => {
                         state.items.splice(i, 1);
                 }
             })
-            .finally(() => { state.deleteId = undefined; });
+            .finally(() => {
+                state.lastFocusedItem = null;
+                state.deleteId = undefined;
+            });
     }
 };
 
 const onCancelDelete = () => {
+    if (state.lastFocusedItem) {
+        state.lastFocusedItem.focus();
+        state.lastFocusedItem = null;
+    }
     state.confirmDelete = false;
     state.deleteId = undefined;
 };
 
-const onDeleteChat = async (id: string) => {
+const onDeleteChat = async (id: string, e: Event) => {
+    state.lastFocusedItem = e.target as HTMLElement;
     state.deleteId = id;
     state.confirmDelete = true;
 };
@@ -180,7 +194,7 @@ const onClickOutside = async (e: Event) => {
                         <div class="chat-history-item-details"
                             tabindex="0"
                             role="button"
-                            @keypress.prevent.space.enter="onSelect(item.id)"
+                            @keydown.prevent.space.enter="onSelect(item.id)"
                             @click="onSelect(item.id)">
                             <div class="chat-history-item-date">
                                 {{ item.time.toLocaleString($i18n.locale) }}
@@ -195,8 +209,8 @@ const onClickOutside = async (e: Event) => {
                         <div class="chat-history-item-delete"
                             tabindex="0"
                             role="button"
-                            @keypress.prevent.space.enter="onDeleteChat(item.id)"
-                            @click="onDeleteChat(item.id)"
+                            @keydown.prevent.space.enter="onDeleteChat(item.id, $event)"
+                            @click="onDeleteChat(item.id, $event)"
                             :aria-label="$t(l.tooltip_delete_chat)"
                         >
                             <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')">

@@ -196,9 +196,9 @@ const es: Locale = {
         "Las siguientes preguntas se están registrando para su análisis.",
     question_answer: "Tu respuesta",
 
-    reminder_start_question: "¿Quieres continuar alguna conversación anterior?",
-    reminder_keyword_question: "¿Quieres seguir charlando sobre algunos de los siguientes temas?",
-    reminder_summary_question: "¿Sigue siendo relevante este tema sobre el que le gustaría conversar?",
+    recall_start_question: "¿Quieres continuar alguna conversación anterior?",
+    recall_keyword_question: "¿Quieres seguir charlando sobre algunos de los siguientes temas?",
+    recall_summary_question: "¿Sigue siendo relevante este tema sobre el que le gustaría conversar?",
 
     button_accept: "Aceptar",
     button_cancel: "Cancelar",

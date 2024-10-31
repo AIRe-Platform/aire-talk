@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-10-31
 ### Added
+- More keyboard navigatable elements/parts and some changes to UI behaviour when navigating.
 
 ## [1.0.2] - 2024-10-31
 ### Fixed

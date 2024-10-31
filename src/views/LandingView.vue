@@ -38,8 +38,8 @@ const checkForm = () => {
 
 const saveForm = (e: Event) => {
     e.preventDefault();
-    chat.meta.year_of_birth = state.year_of_birth;
-    chat.meta.occupation = state.occupation;
+    chat.state.year_of_birth = state.year_of_birth;
+    chat.state.occupation = state.occupation;
     router.push("/chat");
 };
 </script>

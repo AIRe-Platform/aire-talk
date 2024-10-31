@@ -169,9 +169,9 @@ export enum LocalizationKey {
 
     question_answer = "question_answer",
 
-    reminder_start_question = "reminder_start_question",
-    reminder_keyword_question = "reminder_keyword_question",
-    reminder_summary_question = "reminder_summary_question",
+    recall_start_question = "recall_start_question",
+    recall_keyword_question = "recall_keyword_question",
+    recall_summary_question = "recall_summary_question",
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",

@@ -7,7 +7,7 @@ import { useChatCache } from "@/context/cache";
 import { ChatMessage } from "@/models/chat";
 import { getAllChats } from "./chatUtils";
 import useChat from "@/context/chat";
-import { AireContent } from "aire";
+import { AireContent, AireContentMetadata } from "aire";
 import useContent from "@/context/content";
 
 export function getChatContentIds(messages: ChatMessage[]): string[] {
@@ -18,7 +18,7 @@ export function getChatContentIds(messages: ChatMessage[]): string[] {
 
     // Combine all content and thumbnils ids
     const allUnique = [...new Set([...contentIds])];
-    
+
     return allUnique;
 }
 
@@ -39,7 +39,7 @@ export async function getAllSuggestedContentFromHistory(): Promise<string[]> {
     return [...content];
 }
 
-async function calculateRating(content: AireContent): Promise<number>  {
+async function calculateRating(content: AireContent): Promise<number> {
     const viewsWeight = 0.7; // Adjust the weight for views
     const thumbsUpWeight = 0.3; // Adjust the weight for thumbs up
 
@@ -64,10 +64,10 @@ export async function rankSelectedContent(selectedContents: AireContent[]): Prom
 
     // Normalize the ratings by assigning a rank
     return ratedContents;
-};
+}
 
 // Function to fetch content and rank it
-export const fetchAndRankContents = async (media: string[]): Promise<AireContent[]> => {
+export async function fetchAndRankContents(media: string[]): Promise<AireContent[]> {
     const contents: AireContent[] = [];
     const contentCtx = useContent();
 
@@ -83,4 +83,8 @@ export const fetchAndRankContents = async (media: string[]): Promise<AireContent
     }
 
     return [];
-};
+}
+
+export async function chooseContentSuggestions(metadata: AireContentMetadata[]): Promise<AireContentMetadata[]> {
+    return [];
+}

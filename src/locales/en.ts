@@ -177,9 +177,9 @@ const en: Locale = {
     questionnaire_explanation: "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 
-    reminder_start_question: "Do you want to continue some earlier conversation?",
-    reminder_keyword_question: "Do you want to continue chatting about some of the following topics?",
-    reminder_summary_question: "Is this topic still relevant that you would like to chat about?",
+    recall_start_question: "Do you want to continue some earlier conversation?",
+    recall_keyword_question: "Do you want to continue chatting about some of the following topics?",
+    recall_summary_question: "Is this topic still relevant that you would like to chat about?",
 
     button_accept: "Accept",
     button_cancel: "Cancel",

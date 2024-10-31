@@ -29,10 +29,14 @@ defineComponent({ name: "ModalComponent" })
         <div v-show="props.active" class="modal" @click.stop="close">
             <Transition name="modal-animation-panel">
                 <Panel class="modal-panel" @click.stop>
-                    <div class="icon close-window modal-close tooltip" @click.stop="close" v-if="props.showCloseButton">
+                    <div class="icon close-window modal-close tooltip"
+                        @click.stop="close"
+                        tabindex="0"
+                        role="button"
+                        @keydown.prevent.space.enter="close"
+                        v-if="props.showCloseButton">
                         <span class=" tooltiptext">{{
                             $t(l.tooltip_close) }}</span>
-
                     </div>
                     <div class="modal-content">
                         <slot></slot>

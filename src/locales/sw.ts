@@ -174,9 +174,9 @@ const sw: Locale = {
     questionnaire_explanation: "Maswali yafuatayo yanarekodiwa kwa ajili ya uchambuzi",
     question_answer: "Jibu lako",
 
-    reminder_start_question: "Je, ungependa kuendelea na mazungumzo ya awali?",
-    reminder_keyword_question: "Je, ungependa kuendelea kuzungumza juu ya mada zifuatazo?",
-    reminder_summary_question: "Je, mada hii bado ni muhimu kwako kuendelea kuzungumza juu yake?",
+    recall_start_question: "Je, ungependa kuendelea na mazungumzo ya awali?",
+    recall_keyword_question: "Je, ungependa kuendelea kuzungumza juu ya mada zifuatazo?",
+    recall_summary_question: "Je, mada hii bado ni muhimu kwako kuendelea kuzungumza juu yake?",
 
     button_accept: "Kubali",
     button_cancel: "Ghairi",

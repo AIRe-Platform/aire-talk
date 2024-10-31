@@ -187,9 +187,9 @@ const rw: Locale = {
         "Ibi bibazo bikurikira biri gufatwa kugira ngo bisesengurwe",
     question_answer: "Igisubizo cyawe",
 
-    reminder_start_question: "Ushaka gukomeza ikiganiro twatangiriye mbere?",
-    reminder_keyword_question: "Ese uracyifuza kuganira kurizi ngingo zikurikira?",
-    reminder_summary_question: "Ese iyi ngingo  iracyakenewe kandi wifuza kuyiganiraho?",
+    recall_start_question: "Ushaka gukomeza ikiganiro twatangiriye mbere?",
+    recall_keyword_question: "Ese uracyifuza kuganira kurizi ngingo zikurikira?",
+    recall_summary_question: "Ese iyi ngingo  iracyakenewe kandi wifuza kuyiganiraho?",
 
     button_accept: "Emera",
     button_cancel: "Hagarika",

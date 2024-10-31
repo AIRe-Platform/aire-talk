@@ -21,7 +21,7 @@ const onSwitchTheme = (dark: boolean) => {
         <div class="theme-switch tooltip">
             <font-awesome-icon icon="fa-solid fa-sun" />
             <Switch :is-on="theme.style === 'theme-dark'"
-                @keypress.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
+                @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
                 @change="onSwitchTheme" />
             <font-awesome-icon icon="fa-solid fa-moon" />
             <span class="tooltiptext">{{ $t(l.tooltip_menu_ui_mode) }}</span>

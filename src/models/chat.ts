@@ -43,6 +43,11 @@ export enum ChatMessageType {
     ReminderCreated = "reminder_created",
 }
 
+export enum ChatMessageTag {
+    RED_FLAG_TAG = "[RED_FLAG]",
+    END_OF_CONVERSATION_TAG = "[END_OF_CONVERSATION]",
+}
+
 export interface ChatMessage extends AireChatMessage {
     id: string;
     sender: string;
@@ -56,10 +61,13 @@ export interface ChatStats {
 export interface ChatState {
     questionnaire?: Questionnaire;
     summary?: string;
-    topic?: Topic;
     keyword_blacklist?: string[];
     questionnaire_queries?: string[];
     content_queries?: string[];
+    red_flag_triggered?: boolean;
+    year_of_birth?: number;
+    occupation?: string;
+    topic?: Topic;
 }
 
 export interface ChatMessageGroup {

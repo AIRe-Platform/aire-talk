@@ -7,6 +7,7 @@ import {
     AireQuestion,
     AireQuestionnaire,
     AireQuestionnaireAnswer,
+    AireQuestionnaireMetadata,
     AireServices,
 } from "aire";
 import useChat from "@/context/chat";
@@ -95,4 +96,12 @@ export function getUnansweredQuestions(questions: AireQuestion[], answers: AireQ
         const ans = answers.find(a => a.question_id == q.id)
         return (ans === undefined)
     })
+}
+
+export function pickSuitableQuestionnaire(metadata: AireQuestionnaireMetadata[]): AireQuestionnaireMetadata | undefined {
+    // Duplicates
+    // Relevance
+    // Language
+
+    return undefined;
 }

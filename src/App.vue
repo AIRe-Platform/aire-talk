@@ -102,7 +102,7 @@ onMounted(() => {
     <DialogModal :active="state.showInactivityWarningPopup" :buttons="[]">
         {{ $t(l.logout_inactivity_warning_message, { duration: state.logoutCountdown }) }}
     </DialogModal>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
+    <div id="main" v-if="AppState === 'loaded'">
         <NavMenu />
         <main class="main-content">
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
