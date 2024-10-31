@@ -14,6 +14,7 @@ import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
 import { switchFocus } from '@/helpers/keyboarNavigation';
 import { UIState } from '@/context/ui';
+import { openAndContinueChat } from '@/helpers/chatUtils';
 
 defineComponent({ name: "EventComponent" });
 
@@ -66,7 +67,7 @@ const markEventAsRead = (index: number) => {
 }
 
 const returnToConversation = (id: string) => {
-    useChat().onContinueConversation(id)
+    openAndContinueChat(id)
         .then(result => {
             if (result)
                 router.push("/chat");

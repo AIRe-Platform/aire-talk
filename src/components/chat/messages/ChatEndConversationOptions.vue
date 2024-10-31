@@ -8,6 +8,7 @@ import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import useChat from '@/context/chat';
+import { continueConversation } from '@/helpers/chatUtils';
 
 const props = defineProps<{
     message: ChatMessage
@@ -22,7 +23,7 @@ const chat = useChat();
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
         <span class="chat-end-conversation-options-buttons">
-            <button @click="chat.continueConversation">{{ $t(l.conversation_option_continue) }}</button>
+            <button @click="continueConversation">{{ $t(l.conversation_option_continue) }}</button>
             <button @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
         </span>
     </div>

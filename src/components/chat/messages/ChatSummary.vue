@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import useChat from '@/context/chat';
-import { getLastMessage, listChatKeywords } from '@/helpers/chatUtils';
+import { getLastMessage, listChatKeywords, onAcceptSummary, onRejectSummary, removeKeyword } from '@/helpers/chatUtils';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
@@ -17,11 +17,6 @@ const props = defineProps<{
 
 const chat = useChat();
 
-const removeKeyword = (keyword: string) => {
-    chat.removeKeyword(keyword, true);
-};
-
-
 const contentKeyword = computed(() => {
     const lang = getUILanguage();
     return keywords.value.map(keyword => {
@@ -31,16 +26,13 @@ const contentKeyword = computed(() => {
     });
 });
 
-
 const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
     const i = messages.findIndex(x => x.id === until_message_id);
     return listChatKeywords(messages.slice(0, i));
 };
 
 const keywords = computed(() => getKeywords(chat.messages, props.message.id));
-
 const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
-
 </script>
 
 <template>
@@ -58,8 +50,8 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 <div class="chat-summary-keyword-delete tooltip"
                     tabindex="0"
                     role="button"
-                    @keydown.prevent.space.enter="removeKeyword(keywords[i])"
-                    @click="removeKeyword(keyword[i])">
+                    @keydown.prevent.space.enter="removeKeyword(keywords[i], true)"
+                    @click="removeKeyword(keyword[i], true)">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                     <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
                 </div>
@@ -70,11 +62,11 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 {{ $t(l.summary_acceptation_question) }}
             </span>
             <span class="chat-summary-options-buttons">
-                <button @click="chat.onAcceptSummary" class="tooltip">
+                <button @click="onAcceptSummary" class="tooltip">
                     {{ $t(l.button_yes) }}
                     <span class="tooltiptext">{{ $t(l.tooltip_accept_summary) }}</span>
                 </button>
-                <button @click="chat.onRejectSummary" class="tooltip">
+                <button @click="onRejectSummary" class="tooltip">
                     {{ $t(l.button_no) }}
                     <span class="tooltiptext">{{ $t(l.tooltip_reject_summary) }}</span>
                 </button>

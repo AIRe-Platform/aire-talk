@@ -14,6 +14,7 @@ import useChat from '@/context/chat';
 import useContent from '@/context/content';
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import { rateMessage } from '@/helpers/chatUtils';
 
 const props = defineProps<{
     parent: ChatMessage
@@ -22,7 +23,7 @@ const props = defineProps<{
 }>()
 
 const optionsMenuRef = ref<HTMLElement | null>(null);
-const clipboard = useClipboard()
+const clipboard = useClipboard();
 const chat = useChat();
 const contentContext = useContent();
 
@@ -66,7 +67,7 @@ const applyRating = () => {
         contentContext.vote(props.content.id, state.rating);
     }
     else
-        chat.rateMessage(props.parent.id, state.rating);
+        rateMessage(props.parent.id, state.rating);
 }
 
 

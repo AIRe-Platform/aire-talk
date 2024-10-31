@@ -4,15 +4,13 @@
 
 
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatMessage, ChatMessageTag, ChatMessageType, ChatState, ChatStats } from "@/models/chat";
+import { ChatMessage, ChatMessageTag, ChatState, ChatStats } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
     AireServices,
     AireTalkEvent,
     AireChatLog,
     AireStatus,
-    AireKeyword,
-    AireReminder,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -21,24 +19,23 @@ import {
     createSystemMessage,
     createUserMessage,
     createAssistantMessage,
-    createInstructionMessage,
-    createKeywordMessage,
-    createSummaryMessage,
-    createContentMessage,
-    createControlFlowMessage,
-    createReminderCreatedMessage
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
 import i18n, { l } from "@/locales";
-import { getChatbotInputData, listChatKeywords, findLatestSummaryMessage, conversationEnded, getLastMessage } from "@/helpers/chatUtils";
+import {
+    getChatbotInputData,
+    listChatKeywords,
+    findLatestSummaryMessage,
+    onCreatedReminder,
+    handleKeywordEvent,
+    handleContentSuggestionsEvent,
+    handleQuestionnaireEvent,
+    onEndConversation,
+} from "@/helpers/chatUtils";
 import useLogin from "./login";
-import { createQuestionnaire, queryQuestionnaire } from "@/helpers/questionnaireUtils";
-import useContent from "./content";
-import { getChatContentIds } from "@/helpers/contentUtils";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-import { DateTime } from "luxon";
 
 export class ChatContext {
     id?: string;
@@ -95,48 +92,6 @@ export class ChatContext {
     }
 
     /**
-     * Inject keyword with a prompt into the conversation
-     * @param keyword Keyword object
-     */
-    public pushKeyword(keyword: AireKeyword) {
-        if (this.state.keyword_blacklist?.includes(keyword.value))
-            return;
-
-        const notification = createKeywordMessage(keyword.value);
-        this.push(notification);
-
-        // Create hidden prompt injection
-        const prompt = keyword.prompt ?? `The system has identified a topic: ${keyword.value}`
-        const promptMessage = createInstructionMessage(prompt);
-        this.push(promptMessage);
-    }
-
-    /**
-     * Finds keyword notification message and its injected prompt
-     * @param keyword Keyword to remove
-     * @param blacklist Set true to prevent keyword from coming back
-     */
-    public removeKeyword(keyword: string, blacklist: boolean = false) {
-        const i = this.messages
-            .findIndex(x => x.type == ChatMessageType.Keyword && x.content == keyword);
-
-        if (i > -1) {
-            if (this.messages.length < i + 1) {
-                // Check if the next message is an instruction
-                if (this.messages[i + 1].type == ChatMessageType.Instruction) {
-                    this.messages.splice(i + 1, 1);
-                }
-            }
-            this.messages.splice(i, 1);
-        }
-
-        if (blacklist) {
-            this.state.keyword_blacklist ??= [];
-            this.state.keyword_blacklist.push(keyword);
-        }
-    }
-
-    /**
      * Add new user message and wait response from the chatbot
      * @param message Message content
      */
@@ -167,38 +122,6 @@ export class ChatContext {
     }
 
     /**
-     * When the user trigger end of the convesation, the sumarize and suggestion are shown if not red flag have been triggered
-     */
-    public async endConversation() {
-
-        if (!this.state.red_flag_triggered) {
-            await this.summarize();
-        } else {
-            const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-            this.messages.push(end);
-        }
-    }
-
-    /**
-     * Continues the conversation
-     */
-    public async continueConversation() {
-        const optionsIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversationOptions);
-        if (optionsIndex > -1)
-            this.messages.splice(optionsIndex, 1);
-
-        const endMessageIndex = this.messages.findLastIndex(x => x.type == ChatMessageType.EndOfConversation);
-        if (endMessageIndex > -1)
-            this.messages.splice(endMessageIndex, 1);
-
-        const cont = createControlFlowMessage(ChatMessageType.ContinueConversation);
-        this.messages.push(cont);
-
-        const inst = createInstructionMessage("The user wishes to continue the conversation.");
-        this.messages.push(inst);
-    }
-
-    /**
      * Reverts chat to an earlier state
      * @param id Message ID to revert to
      */
@@ -212,19 +135,6 @@ export class ChatContext {
         }
         else {
             console.debug("Message not found, cannot revert to " + message_id)
-        }
-    }
-
-    /**
-     * Rate assistant's message
-     * @param id Message ID
-     * @param vote Vote value (Upvote when > 0, Downvote when < 0, Revert vote when == 0)
-     */
-    public rateMessage(id: string, vote: number) {
-        const message = context.messages.find(x => x.id === id);
-        if (message && message.role === "assistant") {
-            message.rating = vote < 0 ? -1 : (vote > 0 ? 1 : 0);
-            this.autoSave();
         }
     }
 
@@ -391,158 +301,6 @@ export class ChatContext {
             return false;
         }
     }
-
-    public async summarize(): Promise<boolean> {
-        if (!AireServices.AI) {
-            console.warn("AI service is unavailable");
-            return false;
-        }
-
-        const input = getChatbotInputData();
-        if (input.chat.length == 0) {
-            return false;
-        }
-
-        useChatbot().makeBusy();
-
-        return await AireServices.AI.generateSummary(input)
-            .then((result) => {
-                if (result.status == AireStatus.Success && result.data) {
-                    const msg = createSummaryMessage(result.data, true);
-                    this.push(msg);
-                    return true;
-                } else {
-                    throw Error(result.status.toString());
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to generate summary: ", err);
-                return false;
-            })
-            .finally(() => useChatbot().reportReady())
-    }
-
-    public async queryQuestionnaires(keywords: string[]): Promise<boolean> {
-        if (keywords.length > 0) {
-            const q = keywords.sort().join(",");
-            if (this.state.questionnaire_queries?.includes(q))
-                return false; // No requeries with the same keys
-
-            useChatbot().makeBusy();
-            return await queryQuestionnaire(keywords)
-                .then(questionnaire => {
-                    this.state.questionnaire_queries ??= [];
-                    this.state.questionnaire_queries.push(q);
-                    if (questionnaire) {
-                        const q = createQuestionnaire(questionnaire);
-                        if (q) {
-                            useQuestionnaire().startQuestionnaire(q);
-                            return true;
-                        }
-                    }
-                    return false;
-                })
-                .finally(() => useChatbot().reportReady())
-        }
-        return false;
-    }
-
-    public async suggestContent(keywords: string[]): Promise<number> {
-        if (this.state.red_flag_triggered)
-            return 0;
-
-        if (keywords.length == 0)
-            return 0;
-
-        const q = keywords.sort().join(",");
-        if (this.state.content_queries?.includes(q))
-            return 0; // No requeries with the same keys
-
-        useChatbot().makeBusy();
-
-        return await useContent()
-            .search(keywords, 4)
-            .then(async results => {
-                // Filter out already suggested content
-                const content = results.filter(x => !getChatContentIds(this.messages).includes(x.id!));
-                if (content.length > 0) {
-                    const msg = await createContentMessage(content);
-                    this.push(msg);
-
-                    content.forEach(x => {
-                        if (!x.name && !x.description)
-                            return;
-
-                        let inst = "A new content suggestion was added to the conversation.";
-                        if (x.name)
-                            inst = `\nTitle: ${x.name}`;
-                        if (x.description)
-                            inst = `\nDescription: ${x.description}`;
-
-                        const msg = createInstructionMessage(inst);
-                        this.push(msg);
-                    })
-                    return content.length;
-                }
-                return 0;
-            })
-            .finally(() => useChatbot().reportReady());
-    }
-
-    public onCreatedReminder(reminder: AireReminder) {
-        const msg = createReminderCreatedMessage(reminder);
-        this.push(msg);
-
-        const inst = createInstructionMessage("A reminder was set successfully.")
-        this.push(inst);
-    }
-
-    public async onContinueConversation(id: string): Promise<boolean> {
-        const loaded = await this.open(id);
-        if (!loaded)
-            return false;
-
-        const last = getLastMessage();
-        if (!last)
-            return false;
-
-        if (conversationEnded(this.messages))
-            this.continueConversation();
-
-        let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
-
-        const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
-        if (timeDiff.isValid)
-            instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
-
-        const inst = createInstructionMessage(instruction);
-        this.push(inst);
-        this.forceResponse();
-
-        return true;
-    }
-
-    public async onAcceptSummary() {
-        await this.suggestContent(listChatKeywords(this.messages));
-
-        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-        this.push(end);
-
-        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-        this.push(options);
-    }
-
-    public onRejectSummary() {
-        const instruction = `
-            The user rejected the summary. 
-            Ask what is wrong with it and how the user would like to have it modified.
-            After that, you should end the conversation with ${ChatMessageTag.END_OF_CONVERSATION_TAG} to create a new summary.
-        `;
-
-        const inst = createInstructionMessage(instruction);
-        this.push(inst);
-        this.forceResponse();
-    }
 }
 
 const context: ChatContext = reactive(new ChatContext());
@@ -569,27 +327,17 @@ async function receiver(e: AireTalkEvent) {
         return;
 
     if (e.type === "keywords" && e.keywords) {
-        const currentKeywords = listChatKeywords(chat.messages);
-        const newKeywords = e.keywords.filter(x => !currentKeywords.includes(x));
-        (await updateKeywordMetadata(newKeywords)).forEach(k => chat.pushKeyword(k));
-
-        // TODO: Remove this when the bot is able to suggest questionnaires
-        await chat.queryQuestionnaires(e.keywords);
-
+        handleKeywordEvent(e.keywords);
         return;
     }
 
-    if (e.type === "questionnaire" && e.questionnaire)
-    {
-        // TODO: Implement this
-        console.warn("Questionnaire event not handled", e.questionnaire);
+    if (e.type === "questionnaire" && e.questionnaire) {
+        handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
-    if (e.type === "content-suggestions" && e.content_suggestions)
-    {
-        // TODO: Implement this
-        console.warn("Content suggestions not handled", e.content_suggestions);
+    if (e.type === "content-suggestions" && e.content_suggestions) {
+        handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
@@ -599,7 +347,7 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "reminder" && e.reminder) {
-        chat.onCreatedReminder(e.reminder);
+        onCreatedReminder(e.reminder);
         return;
     }
 
@@ -641,7 +389,7 @@ async function receiver(e: AireTalkEvent) {
         chat.push(last, firstMessage, final);
 
         if (endConversation || chat.state.red_flag_triggered) {
-            await chat.endConversation();
+            await onEndConversation();
         }
     }
 }

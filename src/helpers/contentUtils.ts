@@ -7,7 +7,7 @@ import { useChatCache } from "@/context/cache";
 import { ChatMessage } from "@/models/chat";
 import { getAllChats } from "./chatUtils";
 import useChat from "@/context/chat";
-import { AireContent } from "aire";
+import { AireContent, AireContentMetadata } from "aire";
 import useContent from "@/context/content";
 
 export function getChatContentIds(messages: ChatMessage[]): string[] {
@@ -82,5 +82,9 @@ export async function fetchAndRankContents(media: string[]): Promise<AireContent
         return await rankSelectedContent(contents);
     }
 
+    return [];
+}
+
+export async function chooseContentSuggestions(metadata: AireContentMetadata[]): Promise<AireContentMetadata[]> {
     return [];
 }
