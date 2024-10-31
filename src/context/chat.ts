@@ -310,13 +310,6 @@ export default function useChat() {
 }
 
 async function streamResponse() {
-    if (AireServices.AI) {
-        useChatbot().makeBusy();
-        const input = getChatbotInputData()
-        AireServices.AI.stream(input, receiver, errorHandler);
-    } else {
-        console.warn("AI service is unavailable");
-    }
     // Generate a random delay between between 1000 ms and 500 ms
     const randomDelay = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
 
