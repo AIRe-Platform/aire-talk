@@ -89,7 +89,9 @@ const activateField = (id: string) => {
 </script>
 
 <template>
-    <DialogModal :active="state.show_confirmation_modal" :buttons="[
+    <DialogModal :active="state.show_confirmation_modal"
+        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+        :buttons="[
         { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
     ]">
         {{ $t(l.popup_confirm_profile_updated) }}

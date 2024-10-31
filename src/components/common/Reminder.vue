@@ -45,6 +45,11 @@ const checkForEvents = () => {
             })
             .catch(err => {
                 console.error(err);
+            })
+            .finally(() => {
+                if (state.reminders.length !== 0) {
+                    UIState.reminderModalRef = reminderModalRef.value;
+                }
             });
     }
 }
@@ -81,7 +86,6 @@ const closeModal = () => {
 
 onMounted(async () => {
     checkForEvents();
-    UIState.reminderModalRef = reminderModalRef.value;
 });
 
 onUnmounted(() => UIState.reminderModalRef = null);
