@@ -19,24 +19,20 @@ const en: Locale = {
     system_end_of_conversation: "The conversation has ended",
     system_end_of_conversation_options: "What would you like to do?",
     system_reminder_set: "A new reminder '{subject}' at {time} was created.",
-    summary_acceptation_question: "Is the summary correct?",
 
     conversation_option_continue: "Continue conversation",
     conversation_option_new_chat: "Start a new conversation",
 
     notification_keyword: "Theme \"{keyword}\" recognized",
 
-    start_greeting: "Welcome to the AIRe platform",
-    start_first_paragraph:
-        "Partner for better functioning and wellbeing",
-    start_second_paragraph:
-        "Proceed by logging in or creating a new profile for yourself.",
-    start_footer:
-        "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
-    start_disclaimer: "AIRe is not a medical diagnostic tool.",
-
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
+
+    start_greeting: "Welcome to the AIRe platform",
+    start_first_paragraph: "Partner for better functioning and wellbeing",
+    start_second_paragraph: "Proceed by logging in or creating a new profile for yourself.",
+    start_footer: "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
+    start_disclaimer: "AIRe is not a medical diagnostic tool.",
 
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
@@ -82,24 +78,19 @@ const en: Locale = {
     profile_empty_service_list: "No connected services",
 
     profile_heading_password: "Change Password",
-    profile_description_password:
-        "Password must be at least 8 characters and contain both lower and upper case letters as well as numbers.",
+    profile_description_password: "Password must be at least 8 characters and contain both lower and upper case letters as well as numbers.",
     profile_label_current_password: "Current password",
     profile_label_new_password: "New password",
     profile_button_change_password: "Change password",
 
     profile_heading_personal_data: "Personal Data",
-    profile_description_personal_data:
-        "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
+    profile_description_personal_data: "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
     profile_button_download_personal_data: "Download",
 
     profile_heading_delete_account: "Delete Account",
-    profile_description_delete_account:
-        "This deletes your account from AIRe platform. Confirm deletion by entering your password.",
+    profile_description_delete_account: "This deletes your account from AIRe platform. Confirm deletion by entering your password.",
     profile_label_password_confirm: "Confirm password",
-    profile_label_keep_anonymized_data:
-        "Anonymize my data instead of deleting it. This helps the development of AIRe platform. This is completely optional.",
-
+    profile_label_keep_anonymized_data: "Anonymize my data instead of deleting it. This helps the development of AIRe platform. This is completely optional.",
     profile_button_delete: "Delete account",
 
     gender_male: "male",
@@ -107,10 +98,8 @@ const en: Locale = {
     gender_other: "other",
 
     profile_question_button: "Complete profile",
-    profile_question_confirm:
-        "Do you want to answer some questions about your personal information?",
-    profile_question_completion:
-        "Click continue if you information is correct. You can edit your information later on your profile page.",
+    profile_question_confirm: "Do you want to answer some questions about your personal information?",
+    profile_question_completion: "Click continue if you information is correct. You can edit your information later on your profile page.",
     profile_question_first_name: "What is your first name?",
     profile_question_last_name: "What is your last name?",
     profile_question_gender: "What is your gender?",
@@ -142,20 +131,17 @@ const en: Locale = {
     The password must contain at least 8 characters including lower and upper case letter as well as numbers.`,
     error_signup_general: "Registration failed. Please, try again later.",
     error_profile_edit: "Save failed.",
-    error_profile_delete_account:
-        "Failed to delete the account. Try again later.",
-    error_profile_password:
-        "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
+    error_profile_delete_account: "Failed to delete the account. Try again later.",
+    error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
 
     landing_view_title: "Welcome to the AIRe platform!",
-    landing_view_text:
-        "Let's begin by filling the following preliminary information about yourself.",
+    landing_view_text: "Let's begin by filling the following preliminary information about yourself.",
     landing_label_age: "Your age",
-    landing_label_occupation:
-        "Your current and past occupations (Use commas to separate the occupations)",
+    landing_label_occupation: "Your current and past occupations (Use commas to separate the occupations)",
 
     onboarding_greetings: "Hello there!",
     onboarding_question: "Would you like to discuss about these topics?",
+
     topic_backpain: "Back pain",
     topic_neckpain: "Neck pain",
     topic_sleep_apnea: "Sleep apnea",
@@ -163,7 +149,10 @@ const en: Locale = {
     topic_trouble_talking: "Trouble talking",
 
     summary_title: "Summary",
+    summary_acceptation_question: "Is the summary correct?",
+
     suggestions_title: "Suggestions",
+    
     tools_title: "Tools",
     tools_button_summarize: "Summarize",
     tools_button_query_surveys: "Query surveys",
@@ -175,21 +164,17 @@ const en: Locale = {
     chat_history_tokens: "{0} tokens",
     chat_input_title: "What would you like to ask or tell?",
 
-    popup_confirm_revert_message:
-        "Are you sure you want to revert the chat to this message?",
+    popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
     popup_confirm_logout: "Are you sure you want to logout?",
     popup_confirm_profile_updated: "Profile updated.",
 
-    confirm_questionnaire_start:
-        'Would you like to fill a questionnaire "{0}"?',
-    confirm_questionnaire_completion:
-        "When you are happy with your answers, choose continue.",
+    confirm_questionnaire_start: 'Would you like to fill a questionnaire "{0}"?',
+    confirm_questionnaire_completion: "When you are happy with your answers, choose continue.",
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
     questionnaire_end: "End of questionnaire",
-    questionnaire_explanation:
-        "The following questions are being recorded for analysis",
+    questionnaire_explanation: "The following questions are being recorded for analysis",
     question_answer: "Your answer",
 
     reminder_start_question: "Do you want to continue some earlier conversation?",
@@ -237,23 +222,23 @@ const en: Locale = {
     tooltip_mark_reminder_read: "And remove from here this reminder.",
     tooltip_reminder_back_to_chat: "To continue chating about this reminder.",
     tooltip_onboarding_button: "Talk about new topics.",
-    tooltip_nav_home: "description home",
-    tooltip_nav_chat: "description chat",
-    tooltip_nav_chat_history: "description chat history",
-    tooltip_nav_chat_new: "description chat new",
-    tooltip_nav_content_catalogue: "description content catalogue",
-    tooltip_nav_profile: "description profile",
-    tooltip_nav_login: "description login",
-    tooltip_nav_log_out: "description logout",
-    tooltip_nav_signup: "description signup",
-    tooltip_nav_preferences: "description preferences",
-    tooltip_nav_main_menu: "description main menu",
-    tooltip_nav_catalogue: "description catalogue",
-    tooltip_nav_about: "description about",
+    tooltip_nav_home: "Go to home view.",
+    tooltip_nav_chat: "Go chat with bot.",
+    tooltip_nav_chat_history: "Go to check old chats.",
+    tooltip_nav_chat_new: "Start a new chat.",
+    tooltip_nav_content_catalogue: "Check all content shown to you in the AIRe platform.",
+    tooltip_nav_profile: "Go to profile.",
+    tooltip_nav_login: "Go to login.",
+    tooltip_nav_log_out: "Get logout.",
+    tooltip_nav_signup: "Start using AIRe.",
+    tooltip_nav_preferences: "Go to your own settings.",
+    tooltip_nav_main_menu: "Go to main menu.",
+    tooltip_nav_catalogue: "Description catalogue.",
+    tooltip_nav_about: "Go to about us.",
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
 
-    Language_default_message: " Select Your Default Language",
+    Language_default_message: "Select UI Default Language:",
    
     en: "English",
     fi: "Finnish",
