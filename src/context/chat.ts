@@ -4,7 +4,7 @@
 
 
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
-import { ChatMessage, ChatMessageTag, ChatState, ChatStats } from "@/models/chat";
+import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
 import { Topic } from "@/models/topic";
 import {
     AireServices,
@@ -18,7 +18,6 @@ import {
     createErrorMessage,
     createSystemMessage,
     createUserMessage,
-    createAssistantMessage,
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -28,11 +27,12 @@ import {
     getChatbotInputData,
     listChatKeywords,
     findLatestSummaryMessage,
-    onCreatedReminder,
+    handleReminderEvent,
     handleKeywordEvent,
     handleContentSuggestionsEvent,
     handleQuestionnaireEvent,
-    onEndConversation,
+    handleEndEvent,
+    handleMessageEvent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
@@ -312,7 +312,6 @@ export default function useChat() {
 async function streamResponse() {
     if (AireServices.AI) {
         useChatbot().makeBusy();
-
         const input = getChatbotInputData()
         AireServices.AI.stream(input, receiver, errorHandler);
     } else {
@@ -320,6 +319,7 @@ async function streamResponse() {
     }
 }
 
+// Return true if event handled
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
 
@@ -327,17 +327,17 @@ async function receiver(e: AireTalkEvent) {
         return;
 
     if (e.type === "keywords" && e.keywords) {
-        handleKeywordEvent(e.keywords);
+        await handleKeywordEvent(e.keywords);
         return;
     }
 
     if (e.type === "questionnaire" && e.questionnaire) {
-        handleQuestionnaireEvent(e.questionnaire);
+        await handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
     if (e.type === "content-suggestions" && e.content_suggestions) {
-        handleContentSuggestionsEvent(e.content_suggestions);
+        await handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
@@ -347,50 +347,17 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "reminder" && e.reminder) {
-        onCreatedReminder(e.reminder);
+        await handleReminderEvent(e.reminder);
         return;
     }
 
-    if (e.type === "message" || e.type === "end") {
-        const final = (e.type === "end");
-        let last = chat.messages[chat.messages.length - 1];
-        let firstMessage = false // start of the answer stream?
-        let endConversation = false;
+    if (e.type === "message" && e.message) {
+        await handleMessageEvent(e.message);
+    }
 
-        if (last.role !== "assistant") {
-            if (e.message && e.message.content.length > 0) {
-                last = createAssistantMessage("");
-                firstMessage = true
-            }
-            else {
-                // Ignore empty message
-                return;
-            }
-        }
-
-        if (e.message) {
-            last.content += e.message.content;
-        }
-
-        if (final) {
-            useChatbot().reportReady();
-
-            if (last.content?.includes(ChatMessageTag.END_OF_CONVERSATION_TAG)) {
-                last.content = last.content.replace(ChatMessageTag.END_OF_CONVERSATION_TAG, "").trim();
-                endConversation = true;
-            }
-            if (last.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
-                last.content = last.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
-                endConversation = true;
-                chat.state.red_flag_triggered = true;
-            }
-        }
-
-        chat.push(last, firstMessage, final);
-
-        if (endConversation || chat.state.red_flag_triggered) {
-            await onEndConversation();
-        }
+    if (e.type === "end" && e.end) {
+        await handleEndEvent(e.end);
+        useChatbot().reportReady();
     }
 }
 

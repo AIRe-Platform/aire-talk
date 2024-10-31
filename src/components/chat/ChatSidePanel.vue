@@ -12,7 +12,7 @@ import useChat from '@/context/chat';
 import useQuestionnaire from '@/context/questionnaire';
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
-import { listChatKeywords, suggestContent, summarizeChat } from '@/helpers/chatUtils';
+import { listChatKeywords, suggestContentWithKeywords, summarizeChat } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import useMobileLayout from '@/helpers/mobile';
 
@@ -71,7 +71,7 @@ const askPersonalInformation = () => {
 
 const makeSuggestions = () => {
     const keywords = listChatKeywords(chat.messages);
-    suggestContent(keywords);
+    suggestContentWithKeywords(keywords);
 }
 
 onMounted(() => {

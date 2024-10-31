@@ -7,13 +7,13 @@ import {
     AireQuestion,
     AireQuestionnaire,
     AireQuestionnaireAnswer,
-    AireQuestionnaireMetadata,
     AireServices,
 } from "aire";
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
 import { listChatKeywords } from "./chatUtils";
+import { ChatMessageType } from "@/models/chat";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -98,10 +98,12 @@ export function getUnansweredQuestions(questions: AireQuestion[], answers: AireQ
     })
 }
 
-export function pickSuitableQuestionnaire(metadata: AireQuestionnaireMetadata[]): AireQuestionnaireMetadata | undefined {
-    // Duplicates
-    // Relevance
-    // Language
-
-    return undefined;
+export function getChatQuestionnairesIds(): string[] {
+    const chat = useChat();
+    const ids = new Set<string>();
+    chat.messages.forEach(x => {
+        if (x.type === ChatMessageType.Questionnaire && x.question?.questionnaire_id)
+            ids.add(x.question.questionnaire_id);
+    })
+    return [...ids];
 }

@@ -9,7 +9,10 @@ import {
     AireChatMessage,
     AireChatMetadata,
     AireChatStats,
+    AireChatbotEndEvent,
     AireChatbotInput,
+    AireChatbotMessageEvent,
+    AireContent,
     AireContentEvent,
     AireKeyword,
     AireQuestionnaireEvent,
@@ -19,6 +22,7 @@ import {
     AireTalkKeywords
 } from "aire";
 import {
+    createAssistantMessage,
     createContentMessage,
     createControlFlowMessage,
     createInstructionMessage,
@@ -28,8 +32,8 @@ import {
 } from "./chatMessages";
 import useChatbot from "@/context/chatbot";
 import useContent from "@/context/content";
-import { getChatContentIds } from "./contentUtils";
-import { createQuestionnaire, queryQuestionnaire } from "./questionnaireUtils";
+import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
+import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } from "./questionnaireUtils";
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
 import { updateKeywordMetadata } from "./keywordUtils";
@@ -119,7 +123,7 @@ export function getLastMessage(): ChatMessage | undefined {
 }
 
 export async function onAcceptSummary() {
-    await suggestContent(listChatKeywords(chat.messages));
+    await suggestContentWithKeywords(listChatKeywords(chat.messages));
 
     const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
     chat.push(end);
@@ -140,7 +144,7 @@ export function onRejectSummary() {
     chat.forceResponse();
 }
 
-export async function suggestContent(keywords: string[]): Promise<number> {
+export async function suggestContentWithKeywords(keywords: string[]): Promise<number> {
     if (chat.state.red_flag_triggered)
         return 0;
 
@@ -158,36 +162,33 @@ export async function suggestContent(keywords: string[]): Promise<number> {
         .then(async results => {
             // Filter out already suggested content
             const content = results.filter(x => !getChatContentIds(chat.messages).includes(x.id!));
-            if (content.length > 0) {
-                const msg = await createContentMessage(content);
-                chat.push(msg);
-
-                content.forEach(x => {
-                    if (!x.name && !x.description)
-                        return;
-
-                    let inst = "A new content suggestion was added to the conversation.";
-                    if (x.name)
-                        inst = `\nTitle: ${x.name}`;
-                    if (x.description)
-                        inst = `\nDescription: ${x.description}`;
-
-                    const msg = createInstructionMessage(inst);
-                    chat.push(msg);
-                })
-                return content.length;
-            }
-            return 0;
+            if (content.length > 0)
+                await showContentSuggestions(content);
+            return content.length;
         })
         .finally(() => useChatbot().reportReady());
 }
 
-export async function onCreatedReminder(reminder: AireReminder) {
-    const msg = createReminderCreatedMessage(reminder);
+export async function showContentSuggestions(content: AireContent[]) {
+    if (content.length === 0)
+        return;
+
+    const msg = await createContentMessage(content);
     chat.push(msg);
 
-    const inst = createInstructionMessage("A reminder was set successfully.")
-    chat.push(inst);
+    content.forEach(x => {
+        if (!x.name && !x.description)
+            return;
+
+        let inst = "A new content suggestion was added to the conversation.";
+        if (x.name)
+            inst = `\nTitle: ${x.name}`;
+        if (x.description)
+            inst = `\nDescription: ${x.description}`;
+
+        const msg = createInstructionMessage(inst);
+        chat.push(msg);
+    })
 }
 
 export async function openAndContinueChat(id: string): Promise<boolean> {
@@ -357,26 +358,144 @@ export function removeKeyword(keyword: string, blacklist: boolean = false) {
 }
 
 export async function handleKeywordEvent(e: AireTalkKeywords) {
+
     const currentKeywords = listChatKeywords(chat.messages);
     const newKeywords = e.filter(x => !currentKeywords.includes(x));
-    (await updateKeywordMetadata(newKeywords)).forEach(k => pushKeyword(k));
 
-    // TODO: Remove this when the bot is able to suggest questionnaires
-    //await chat.queryQuestionnaires(e.keywords);
+    if (newKeywords.length > 0) {
+        console.debug("Handling keyword event", e);
+        (await updateKeywordMetadata(newKeywords)).forEach(k => pushKeyword(k));
+    }
 }
 
 export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
+    console.debug("Handling questionnaire event", e);
+
     if (e.results.length > 0) {
-        // TODO: Pick suitable
-    }
-    else {
-        const msg = createInstructionMessage("Received content suggestions, but the feature is not yet implemented.")
-        chat.push(msg);
+        const alreadyAnswered = getChatQuestionnairesIds();
+        const lang = getUILanguage();
+
+        const suitable = e.results.filter(x =>
+            !alreadyAnswered.includes(x.id) &&
+            (!x.language || x.language.includes(lang)));
+
+        const best = suitable.filter(x => !x.relevance || x.relevance > 0.75).sort((a, b) => {
+            if (a.relevance && b.relevance)
+                return a.relevance - b.relevance
+            else
+                return 0;
+        }).pop();
+
+        if (best && AireServices.Memory) {
+            const result = await AireServices.Memory.getQuestionnaire(best.id);
+            if (result.status === AireStatus.Success && result.data) {
+                const q = createQuestionnaire(result.data);
+                if (q) {
+                    useQuestionnaire().startQuestionnaire(q);
+                    return;
+                }
+            }
+        }
     }
 
-    chat.forceResponse();
+    const inst = `
+        Questionnaire query "${e.search}" did not find suitable questionnaires.
+        Carry on with the conversation normally.
+    `
+    const msg = createInstructionMessage(inst);
+    chat.push(msg);
 }
 
 export async function handleContentSuggestionsEvent(e: AireContentEvent) {
-    // TODO: Implement
+    console.debug("Handling content suggestion event", e);
+
+    if (e.results.length > 0) {
+        const currentContent = getChatContentIds(chat.messages);
+
+        const suggestions = e.results
+            .filter(x => !currentContent.includes(x.id) && (!x.relevance || x.relevance > 0.75))
+            .map(x => x.id);
+
+        if (suggestions.length > 0) {
+            const content = await fetchAndRankContents(suggestions);
+            if (content.length > 0) {
+                await showContentSuggestions(content);
+
+                const inst = `
+                    You found ${content.length} content suggestions.
+                    Summarize the results briefly.
+                `
+                const msg = createInstructionMessage(inst);
+                chat.push(msg);
+                return;
+            }
+        }
+    }
+
+    const inst = `
+        Did not find any content suggestions with the query "${e.search}".
+        Carry on with the conversation normally.
+    `
+    const msg = createInstructionMessage(inst);
+    chat.push(msg);
+}
+
+export async function handleReminderEvent(reminder: AireReminder) {
+    console.debug("Handling reminder event", reminder);
+
+    const msg = createReminderCreatedMessage(reminder);
+    chat.push(msg);
+
+    const inst = createInstructionMessage("A reminder was set successfully.")
+    chat.push(inst);
+}
+
+export async function handleMessageEvent(message: AireChatbotMessageEvent) {
+    let last = chat.messages[chat.messages.length - 1];
+    let firstMessage = false // start of the answer stream?
+
+    if (last.role !== "assistant") {
+        if (message && message.content.length > 0) {
+            last = createAssistantMessage("");
+            firstMessage = true
+        }
+        else {
+            return;
+        }
+    }
+
+    if (message) {
+        last.content += message.content;
+    }
+
+    chat.push(last, firstMessage, false);
+}
+
+export async function handleEndEvent(e: AireChatbotEndEvent) {
+    let endConversation = false;
+    const last = chat.messages[chat.messages.length - 1];
+
+    if (last.role === "assistant") {
+        if (last.content?.includes(ChatMessageTag.END_OF_CONVERSATION_TAG)) {
+            last.content = last.content.replace(ChatMessageTag.END_OF_CONVERSATION_TAG, "").trim();
+            endConversation = true;
+        }
+        if (last.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
+            last.content = last.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
+            endConversation = true;
+            chat.state.red_flag_triggered = true;
+        }
+
+        chat.push(last, false, true);
+    }
+
+    if (endConversation || chat.state.red_flag_triggered) {
+        await onEndConversation();
+    }
+    else {
+        if (!e.received_message) {
+            if (!useQuestionnaire().active)
+                chat.forceResponse();
+        }
+    }
 }
