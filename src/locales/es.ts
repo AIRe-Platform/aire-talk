@@ -19,7 +19,6 @@ const es: Locale = {
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
     system_reminder_set: "Se creó un nuevo recordatorio '{subject}' a las {time}.",
-    summary_acceptation_question: "¿Es correcto el resumen?",
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",
@@ -64,7 +63,7 @@ const es: Locale = {
     nav_preferences: "Configuración",
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
-    nav_about: "About",
+    nav_about: "Nosotros",
     
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
@@ -158,6 +157,7 @@ const es: Locale = {
 
     onboarding_greetings: "¡Hola!",
     onboarding_question: "¿Le gustaría discutir sobre estos temas?",
+    
     topic_backpain: "Dolor de espalda",
     topic_neckpain: "Dolor de cuello",
     topic_sleep_apnea: "Apnea del sueño",
@@ -165,13 +165,15 @@ const es: Locale = {
     topic_trouble_talking: "Problemas para hablar",
 
     summary_title: "Resumen",
+    summary_acceptation_question: "¿Es correcto el resumen?",
+
     suggestions_title: "Sugerencias",
+    suggestion_check_for_more: "Obtén más sugerencias",
+
     tools_title: "Herramientas",
     tools_button_summarize: "Resumir",
     tools_button_query_surveys: "Consultar encuestas",
     tools_button_suggestions: "Sugerencias",
-
-    suggestion_check_for_more: "Obtén más sugerencias",
 
     chat_history_loading: "Cargando...",
     chat_history_tokens: "{0} fichas",
@@ -211,7 +213,7 @@ const es: Locale = {
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
 
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
-    logout_inactivity_warning_message: "logout_inactivity_warning_message",
+    logout_inactivity_warning_message: "Se cerrará su sesión en {duration} segundo(s) debido a inactividad.",
 
     tooltip_edit: "Editar",
     tooltip_delete: "Borrar tu cuenta.",
@@ -239,22 +241,24 @@ const es: Locale = {
     tooltip_mark_reminder_read: "Y elimina el recordatorio de aquí.",
     tooltip_reminder_back_to_chat: "Ir al chat de este recordatorio.",
     tooltip_onboarding_button: "Buscar nuevos temas.",
-    tooltip_nav_home: "Descripción home",
-    tooltip_nav_chat: "Descripción chat",
-    tooltip_nav_chat_history: "Descripción chat history",
-    tooltip_nav_chat_new: "Descripción chat new",
-    tooltip_nav_content_catalogue: "Descripción content catalogue",
-    tooltip_nav_profile: "Descripción profile",
-    tooltip_nav_login: "Descripción login",
-    tooltip_nav_log_out: "Descripción logout",
-    tooltip_nav_signup: "Descripción signup",
-    tooltip_nav_preferences: "Descripción preferences",
-    tooltip_nav_main_menu: "Descripción main menu",
-    tooltip_nav_catalogue: "Descripción catalogue",
-    tooltip_nav_about: "Descripción about",
-    tooltip_menu_language: "Choose UI language.",
-    tooltip_menu_ui_mode: "Switch UI color interface.",
+    tooltip_nav_home: "Ir a la vista principal.",
+    tooltip_nav_chat: "Ir a chatear con el bot.",
+    tooltip_nav_chat_history: "Ir a revisar chats antiguos.",
+    tooltip_nav_chat_new: "Iniciar un nuevo chat.",
+    tooltip_nav_content_catalogue: "Ver todo el contenido mostrado en la plataforma AIRe.",
+    tooltip_nav_profile: "Ir a perfil.",
+    tooltip_nav_login: "Ir a iniciar sesión.",
+    tooltip_nav_log_out: "Cerrar sesión.",
+    tooltip_nav_signup: "Empezar a usar AIRe.",
+    tooltip_nav_preferences: "Ir a tus propias configuraciones.",
+    tooltip_nav_main_menu: "Ir al menú principal.",
+    tooltip_nav_catalogue: "Descripción catálogo.",
+    tooltip_nav_about: "Ir a sobre nosotros.",
+    tooltip_menu_language: "Elija el idioma de IU.",
+    tooltip_menu_ui_mode: "Cambiar la interfaz de color.",
     
+    Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
+
     en: "Inglés",
     fi: "Finés",
     es: "Español",

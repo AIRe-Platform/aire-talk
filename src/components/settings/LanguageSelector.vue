@@ -2,17 +2,21 @@
  License, v. 2.0. If a copy of the MPL was not distributed with this
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
-
 <script setup lang="ts">
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import ISO6391, { LanguageCode } from 'iso-639-1';
-const setLang = async (e: Event) => {
+import { defineEmits } from 'vue';
 
+const emit = defineEmits(['languageSelected']);
+
+const setLang = async (e: Event) => {
     const el = e.target as HTMLSelectElement;
     setUILanguage(el.value as LanguageCode);
     el.blur();
-};
 
+    // Emit event to parent
+    emit('languageSelected');
+};
 </script>
 
 <template>
