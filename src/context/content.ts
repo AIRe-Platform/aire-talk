@@ -103,8 +103,8 @@ export class ContentContext {
         const cached = cache.get(content_id);
         if (cached) {
             // Check if thumbnailUrl is valid and not expired
-            if (cached.thumbnailUrl) {
-                const url = new URL(cached.thumbnailUrl);
+            if (cached.thumbnail_url) {
+                const url = new URL(cached.thumbnail_url);
                 const expiry = url.searchParams.get("se");
                 if (expiry) {
                     const expiryDate = new Date(expiry);

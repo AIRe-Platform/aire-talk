@@ -56,15 +56,15 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
             <div v-if="props.content.type == AireContentType.URL">
-                <div class="icon content-url" v-if="!props.content.thumbnailUrl"></div>
+                <div class="icon content-url" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnailUrl" alt="Thumbnail" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>
             </div>
             <div v-if="props.content.type == AireContentType.Document">
-                <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="!props.content.thumbnailUrl" />
+                <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="!props.content.thumbnail_url" />
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnailUrl" alt="Thumbnail" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>
             </div>
 
