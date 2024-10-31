@@ -12,7 +12,6 @@ import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 import useTheme, { ThemeContext } from "@/context/theme";
-import { UIState } from "@/context/ui";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import ReminderComponent from "@/components/common/Reminder.vue";
@@ -83,24 +82,24 @@ onMounted(async () => {
             <ReminderComponent />
             <div class="quick-nav">
                 <div class="icon frontpage-button"
-                    :tabindex="UIState.showMenu ? -1 : 0"
+                    tabindex="0"
                     role="link"
-                    @keypress.prevent.space.enter="newChat()"
+                    @keydown.prevent.space.enter="newChat()"
                     @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
                 <div class="icon frontpage-button"
-                    :tabindex="UIState.showMenu ? -1 : 0"
+                    tabindex="0"
                     role="link"
-                    @keypress.prevent.space.enter="openLastChat()"
+                    @keydown.prevent.space.enter="openLastChat()"
                     @click="openLastChat()"
                     v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </div>
                 <div class="icon frontpage-button"
-                    :tabindex="UIState.showMenu ? -1 : 0"
+                    tabindex="0"
                     role="button"
-                    @keypress.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
+                    @keydown.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
                     @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </div>

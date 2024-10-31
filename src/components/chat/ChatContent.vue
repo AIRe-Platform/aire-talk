@@ -36,7 +36,10 @@ onMounted(async () => {
         <div class="chat-content-options">
             <ChatItemOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
         </div>
-        <CatalogueItem :content="props.content" @show="props.content!" :is-from-summary="true" />
+        <CatalogueItem :content="props.content"
+            @show="props.content!"
+            @keydown-show="emits('show', props.content)"
+            :is-from-summary="true" />
     </div>
 </template>
 

@@ -28,25 +28,26 @@ const normalizedRating = computed(() => normalizeRating(props.content.score || 0
 
 const emits = defineEmits<{
     show: [AireContent]
+    keydownShow: [AireContent]
 }>();
+
+const isAireContentType = (value: any): value is AireContentType => Object.values(AireContentType).includes(value);
+
+const getIconClass = (type: AireContentType | undefined): string => isAireContentType(type) ? `content-${type}` : '';
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('show', props.content);"
+    <Panel class="catalogue-item" @click="emits('show', props.content)"
         :class="{ 'is-from-summarycontent': props.isFromSummary }">
 
         <div class="catalogue-item-header">
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
             </div>
-            <div class="icon content-video" v-if="props.content.type == AireContentType.Video">
-            </div>
-            <div class="icon content-image" v-if="props.content.type == AireContentType.Image">
-            </div>
-            <div class="icon content-document" v-if="props.content.type == AireContentType.Document">
-            </div>
-            <div class="icon content-url" v-if="props.content.type == AireContentType.URL">
-            </div>
+            <div :class="getIconClass(props.content.type)"
+                class="icon"
+                tabindex="0"
+                @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
         </div>
         <div class="catalogue-item-media">
             <video muted class="video" v-if="props.content.type == AireContentType.Video">

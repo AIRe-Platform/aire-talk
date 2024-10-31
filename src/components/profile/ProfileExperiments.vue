@@ -62,7 +62,7 @@ const onSave = () => {
                         :is-on="state.overridePrompt"
                         @change="toggleOverridePrefs"
                         :colorized="true"
-                        @keypress.prevent.space.enter="toggleOverridePrefs" />
+                        @keydown.prevent.space.enter="toggleOverridePrefs" />
                 </div>
                 <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
             </div>

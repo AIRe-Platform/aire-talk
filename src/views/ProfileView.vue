@@ -31,7 +31,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
                  @click="navigateTo('/chat')"
                  tabindex="0"
                  role="link"
-                 @keypress.prevent.space.enter="navigateTo('/chat')">
+                 @keydown.prevent.space.enter="navigateTo('/chat')">
                 <span class="tooltiptext">{{
                     $t(l.tooltip_close) }}</span>
             </div>

@@ -55,7 +55,11 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <div class="chat-summary-keyword" v-for="(keyword, i) in contentKeyword"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <div class="chat-summary-keyword-delete tooltip" @click="removeKeyword(keywords[i])">
+                <div class="chat-summary-keyword-delete tooltip"
+                    tabindex="0"
+                    role="button"
+                    @keydown.prevent.space.enter="removeKeyword(keywords[i])"
+                    @click="removeKeyword(keyword[i])">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                     <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
                 </div>

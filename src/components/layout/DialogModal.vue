@@ -16,6 +16,8 @@ const emit = defineEmits<{
     (e: 'focusFirstButton', element: HTMLElement | null): void;
 }>()
 
+let observer: IntersectionObserver | undefined;
+
 const props = defineProps<{
     buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>
 }>()
@@ -32,19 +34,25 @@ const hasButtons = computed(() => props.buttons.length > 0);
 
 onMounted(() => {
     if (buttonsRef.value) {
-        const observer = new IntersectionObserver((entries) => {
+        observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     emit('focusFirstButton', buttonsRef.value?.children[0] as HTMLElement);
                 }
             });
         });
-
         observer.observe(buttonsRef.value);
-
-        onUnmounted(() => observer.disconnect());
     }
 });
+
+onUnmounted(() => observer?.disconnect());
+
+const switchButtonFocus = (next: boolean, index: number) => {
+    const buttons = buttonsRef.value?.querySelectorAll('button');
+    if (!buttons) return;
+    const nextIndex = (index + (next ? 1 : -1) + buttons.length) % buttons.length;
+    buttons[nextIndex].focus();
+}
 </script>
 
 <template>
@@ -53,7 +61,11 @@ onMounted(() => {
             <slot></slot>
         </div>
         <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-            <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
+            <button v-for="(btn, i) in props.buttons"
+                @click.stop="emitSelect(i)"
+                :key="`dialog-button-${i}`"
+                @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
+                @keydown.prevent.shift.tab="switchButtonFocus(false, i)"
                 :class="btn.className">
                 {{ $t(btn.loc_key) }}
             </button>

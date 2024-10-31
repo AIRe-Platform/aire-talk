@@ -6,14 +6,16 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import Modal from '@/components/common/Modal.vue';
-import { onMounted, reactive, defineComponent } from 'vue';
+import { onMounted, reactive, defineComponent, ref, onUnmounted } from 'vue';
 import { AireReminder, AireServices, AireStatus } from 'aire';
 import { DateTime } from 'luxon';
 import useChat from '@/context/chat';
 import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
+import { switchFocus } from '@/helpers/keyboarNavigation';
+import { UIState } from '@/context/ui';
 
-defineComponent({ name: "EventComponent" })
+defineComponent({ name: "EventComponent" });
 
 const state = reactive<{
     reminders: AireReminder[],
@@ -22,6 +24,7 @@ const state = reactive<{
     reminders: [],
     visible: true,
 });
+const reminderModalRef = ref<HTMLElement | null>(null);
 
 const checkForEvents = () => {
     if (AireServices.Memory) {
@@ -36,12 +39,12 @@ const checkForEvents = () => {
                             }
                             return event;
                         }
-                    })
+                    });
                 }
             })
             .catch(err => {
                 console.error(err);
-            })
+            });
     }
 }
 
@@ -70,38 +73,47 @@ const returnToConversation = (id: string) => {
         });
 }
 
-const closeModal = () => { state.visible = false; }
+const closeModal = () => {
+    state.visible = false;
+    UIState.reminderModalRef = null;
+};
 
 onMounted(async () => {
     checkForEvents();
-})
+    UIState.reminderModalRef = reminderModalRef.value;
+});
+
+onUnmounted(() => UIState.reminderModalRef = null);
 </script>
 
 <template>
-    <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
-        <div class="reminders-panel">
-            <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
-                <div class="reminder-date">
-                    {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
-                </div>
-                <div class="reminder-message">
-                    {{ reminder.content?.message }}
-                </div>
-                <div class="reminder-buttons">
-                    <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)"
-                        class="tooltip">
-                        {{ $t(l.button_return_to_conversation) }}
-                        <span class="tooltiptext">{{ $t(l.tooltip_reminder_back_to_chat) }}</span>
-                    </button>
-                    <button @click.stop="markEventAsRead(i)" class="tooltip">
-
-                        {{ $t(l.button_mark_as_read) }}
-                        <span class="tooltiptext">{{ $t(l.tooltip_mark_reminder_read) }}</span>
-                    </button>
+    <div ref="reminderModalRef"
+        @keydown.prevent.tab.exact="switchFocus(true, reminderModalRef)"
+        @keydown.prevent.shift.tab="switchFocus(false, reminderModalRef)">
+        <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
+            <div class="reminders-panel">
+                <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
+                    <div class="reminder-date">
+                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
+                    </div>
+                    <div class="reminder-message">
+                        {{ reminder.content?.message }}
+                    </div>
+                    <div class="reminder-buttons">
+                        <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)"
+                            class="tooltip">
+                            {{ $t(l.button_return_to_conversation) }}
+                            <span class="tooltiptext">{{ $t(l.tooltip_reminder_back_to_chat) }}</span>
+                        </button>
+                        <button @click.stop="markEventAsRead(i)" class="tooltip">
+                            {{ $t(l.button_mark_as_read) }}
+                            <span class="tooltiptext">{{ $t(l.tooltip_mark_reminder_read) }}</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Modal>
+        </Modal>
+    </div>
 </template>
 
 <style lang="scss" scoped>
