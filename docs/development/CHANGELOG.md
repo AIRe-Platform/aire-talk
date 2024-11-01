@@ -7,9 +7,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+
+## [1.0.3] - 2024-11-01
+### Fixed
+Some localizations changed.
+Adjust the style of tooltip text in the NavMenu.
+
+### Added
+Adjust the AI's response to 100-400ms delay.
+
 ## [1.0.2] - 2024-10-31
 ### Fixed
-Localizations changed for all languages realted to tooltipa, and some others.
+Localizations changed for all languages realted to tooltips, and some others.
 
 ### Added
 - More keyboard navigatable elements/parts and some changes to UI behaviour when navigating.
