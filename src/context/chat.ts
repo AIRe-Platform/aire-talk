@@ -318,8 +318,8 @@ export default function useChat() {
 }
 
 async function streamResponse() {
-    // Generate a random delay between between 1000 ms and 500 ms
-    const randomDelay = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
+    // Generate a random delay between between 400 ms and 100 ms
+    const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
 
     setTimeout(() => {
         if (AireServices.AI) {
