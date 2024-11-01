@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { UIState } from "@/context/ui";
+import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 
 const props = defineProps<{
     label: string,
@@ -24,7 +25,7 @@ function formatTooltipKey(tooltip: string): string {
     <div class="nav-item" :class="{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }">
         <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
         </div>
-        <div class="tooltip">
+        <div class="tooltip" @mouseenter="adjustTooltipPosition($event, false, 'bottom')">
             <div class="nav-link">
                 {{ props.label }}
             </div>
