@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import i18n, { l } from "@/locales";
 import { router } from "@/router";
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { UIPanels, UIState } from "@/context/ui";
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
@@ -22,6 +22,7 @@ const login = useLogin();
 const chat = useChat();
 
 const isIconsMenu = ref(false);
+const navMenuRef = ref<HTMLElement | null>(null);
 
 const onOpen = async (e: Event) => {
     e.stopImmediatePropagation();
@@ -72,11 +73,33 @@ const navLogoClick = () => {
 }
 
 const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
+
+const focusOutListener = async (e: FocusEvent) => {
+    const relTarget = e.relatedTarget as Node;
+    const target = e.target as Element;
+    if (
+        !navMenuRef.value?.contains(relTarget) &&
+        !target.closest('.modal')
+    ) {
+        await closeBurgerMenu();
+        UIState.showMenu = false;
+        UIState.isNavMenuCompressed = false;
+    }
+};
+
+onMounted(() => navMenuRef.value?.addEventListener('focusout', focusOutListener));
+
+onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutListener));
 </script>
 
 <template>
-    <NavButton tabindex="0" role="button" @keypress.prevent.space.enter="onOpen" :open="UIState.showMenu" @click="onOpen"></NavButton>
-    <div class="nav-menu" :class="{
+    <NavButton id="nav-burger-button"
+        :tabindex="UIState.reminderModalRef ? -1 : 0"
+        role="button"
+        @keydown.prevent.space.enter="onOpen"
+        :open="UIState.showMenu"
+        @click="onOpen"></NavButton>
+    <div class="nav-menu" ref="navMenuRef" :class="{
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
@@ -84,7 +107,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
             <div class="nav-link"
                 :tabindex="navLinkTabindex"
-                @keypress.prevent.space.enter="navLogoClick"
+                @keydown.prevent.space.enter="navLogoClick"
                 role="link"
                 @click="navLogoClick">
                 <div class="nav-logo">
@@ -97,7 +120,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_chat_history)"
                     icon="chat-history-mobile"
-                    @keypress.prevent.space.enter="toggleChatHistoryMenu"
+                    @keydown.prevent.space.enter="toggleChatHistoryMenu"
                     @click="toggleChatHistoryMenu"
                     :active="UIState.panels.has(UIPanels.ChatHistory)"
                     aria-haspopup="true"
@@ -112,7 +135,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_chat)"
                     icon="new-chat-mobile"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/chat')"
+                    @keydown.prevent.space.enter="navigateTo('/chat')"
                     :title="$t(l.nav_chat)"
                     @click="navigateTo('/chat')"
                     :active="$route.matched.some((p) => p.name === 'Chat')"
@@ -122,7 +145,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_chat_new)"
                     icon="new-chat-mobile"
                     role="link"
-                    @keypress.prevent.space.enter="newChat"
+                    @keydown.prevent.space.enter="newChat"
                     @click="newChat"
                     :active="false"
                     :tooltip="l.nav_chat_new"/>
@@ -131,7 +154,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_catalogue)"
                     icon="catalogue-content-mobile margin-left"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/content-catalogue')"
+                    @keydown.prevent.space.enter="navigateTo('/content-catalogue')"
                     @click="navigateTo('/content-catalogue')"
                     :active="$route.matched.some((p) => p.name === 'Content-catalogue')"
                     :tooltip="l.nav_catalogue"/>
@@ -141,7 +164,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_login)"
                     icon="login"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/login')"
+                    @keydown.prevent.space.enter="navigateTo('/login')"
                     @click="navigateTo('/login')"
                     :active="$route.matched.some((p) => p.name === 'Login')"
                     :tooltip="l.nav_login"/>
@@ -150,7 +173,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_signup)"
                     icon="signup"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/signup')"
+                    @keydown.prevent.space.enter="navigateTo('/signup')"
                     @click="navigateTo('/signup')"
                     :active="$route.matched.some((p) => p.name === 'Signup')"
                     :tooltip="l.nav_signup"/>
@@ -159,14 +182,14 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_profile)"
                     icon="user-profile-mobile margin-left"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/profile')"
+                    @keydown.prevent.space.enter="navigateTo('/profile')"
                     @click="navigateTo('/profile')"
                     :active="$route.matched.some((p) => p.name === 'Profile')"
                     :tooltip="l.nav_profile"/>
                 <NavItem :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_preferences)"
                     icon="settings-mobile"
-                    @keypress.prevent.space.enter="toggleSettingsPanel"
+                    @keydown.prevent.space.enter="toggleSettingsPanel"
                     @click="toggleSettingsPanel"
                     :active="UIState.panels.has(UIPanels.Settings)"
                     aria-haspopup="true"
@@ -180,7 +203,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_about)"
                     icon="about"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/about')"
+                    @keydown.prevent.space.enter="navigateTo('/about')"
                     @click="navigateTo('/about')"
                     :active="$route.matched.some((p) => p.name === 'About')"
                     :tooltip="l.nav_about"/>
@@ -190,7 +213,7 @@ const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
                     :label="i18n.global.t(l.nav_main_menu)"
                     icon="main-menu-mobile"
                     role="link"
-                    @keypress.prevent.space.enter="navigateTo('/home')"
+                    @keydown.prevent.space.enter="navigateTo('/home')"
                     @click="navigateTo('/home')"
                     :active="$route.matched.some((p) => p.name === 'Home')"
                     :tooltip="l.nav_main_menu" />

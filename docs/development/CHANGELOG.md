@@ -7,32 +7,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.2] - 2024-10-31
+### Fixed
+Localizations changed for all languages realted to tooltipa, and some others.
+
+### Added
+- More keyboard navigatable elements/parts and some changes to UI behaviour when navigating.
+
+## [1.0.1] - 2024-10-27
+### Fixed
+- Minor UI alignment issues on the setttings panel for a layout smaller than a normal desktop 1920x1080p.
+
+### Added
+- created a new Popup menu to choose UI language for user.
+- Generate a random delay between between 1000ms and 500ms for bot to respond to make the bot more human.
+
 ## [1.0.0] - 2024-05-21
 ### Added
-- Initial release of the project.
-- Feature X: description of the feature.
-- User documentation for getting started.
-
-### Changed
-- Updated the API endpoint for resource Y.
-
-### Deprecated
-- Deprecated the old authentication method.
-
-### Removed
-- Removed legacy support for Z.
-
-### Fixed
-- Fixed bug in feature X that caused a crash on start.
-- Corrected typos in the user guide.
-
-### Security
-- Patched vulnerability in the authentication module.
-
-## [0.9.0] - 2024-04-15
-### Added
-- New configuration options for feature Y.
-
-### Fixed
-- Resolved performance issue in the data processing module.
+- Initial release of this changelog.
 

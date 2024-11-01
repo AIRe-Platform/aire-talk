@@ -40,7 +40,7 @@ export function createMessage(
     if (localize && content) {
         content = i18n.global.t(content);
     }
-        
+
     return {
         type: type,
         id: newMessageId(),
@@ -54,7 +54,7 @@ export function createMessage(
 }
 
 export async function createContentMessage(content: AireContent[]): Promise<ChatMessage> {
-        const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
+    const msg = createMessage(ChatMessageType.Content, "system", l.system_found_content, true, false);
 
     // Map the media IDs
     msg.media = content.map(x => x.id!);

@@ -17,6 +17,7 @@ import useLogin from '@/context/login';
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { l } from '@/locales';
 import { router } from './router';
+import LanguagePopup from "@/components/settings/LanguagePopup.vue";
 
 
 const login = useLogin();
@@ -24,10 +25,12 @@ const state = reactive<{
     showInactivityPopup: boolean
     showInactivityWarningPopup: boolean
     logoutCountdown: number
+    showLanguagePopup: boolean
 }>({
     showInactivityPopup: false,
     showInactivityWarningPopup: false,
     logoutCountdown: 0,
+    showLanguagePopup: false,
 });
 let logoutCountdownInterval: number | undefined;
 
@@ -70,6 +73,9 @@ onMounted(() => {
         (user) => {
             if (user && !import.meta.env.VITE_DEBUG_DISABLE_SESSION_TIMEOUT) {
                 startInactivityListener(onInactivityTimeout, setInactivityWarningPopupVisibility);
+                // Check if language has been selected
+                const hasSelectedLanguage = localStorage.getItem("hasSelectedLanguage") === "true";
+                state.showLanguagePopup = !hasSelectedLanguage;
             }
             else {
                 stopInactivityListener();
@@ -88,13 +94,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <DialogModal :active="state.showInactivityPopup" :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
+    <LanguagePopup v-if="state.showLanguagePopup" />
+    <DialogModal :active="state.showInactivityPopup"
+        :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>
     <DialogModal :active="state.showInactivityWarningPopup" :buttons="[]">
         {{ $t(l.logout_inactivity_warning_message, { duration: state.logoutCountdown }) }}
     </DialogModal>
-    <div id="main" v-if="AppState === 'loaded'" tabindex="0">
+    <div id="main" v-if="AppState === 'loaded'">
         <NavMenu />
         <main class="main-content">
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>

@@ -2,7 +2,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 import { createI18n } from 'vue-i18n';
 import en from './en';
 import fi from './fi';
@@ -22,11 +21,14 @@ export const supportedLocales: LanguageCode[] = [
     "en", "fi", "es", "vi", "id", "sw", "rw"
 ]
 
+const LANGUAGE_KEY = "locale";
+const DEFAULT_LANGUAGE_SELECTED = "hasSelectedLanguage";
+
 const i18n = initLocale();
 export default i18n;
 
 function initLocale() {
-    const storedLocale = localStorage.getItem("locale");
+    const storedLocale = localStorage.getItem(LANGUAGE_KEY);
     const defaultLocale: LanguageCode = "en";
 
     const loc = storedLocale ?? defaultLocale;
@@ -46,20 +48,19 @@ function initLocale() {
         },
         fallbackLocale: defaultLocale,
         availableLocales: supportedLocales,
-    })
+    });
 }
 
 export function setUILanguage(lang: LanguageCode) {
-    if (!supportedLocales.includes(lang))
-        return;
+    if (!supportedLocales.includes(lang)) return;
 
     document.documentElement.lang = lang;
 
-    // Is a ref in non-legacy mode
     const loc = i18n.global.locale as any;
     loc.value = lang;
 
-    localStorage.setItem("locale", lang);
+    localStorage.setItem(LANGUAGE_KEY, lang);
+    localStorage.setItem(DEFAULT_LANGUAGE_SELECTED, "true"); // Mark as language selected
 }
 
 export function getUILanguage() {

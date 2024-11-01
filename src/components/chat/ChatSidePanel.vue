@@ -8,11 +8,11 @@ import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
-import useChat, { ChatContext } from '@/context/chat';
+import useChat from '@/context/chat';
 import useQuestionnaire from '@/context/questionnaire';
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
-import { listChatKeywords } from '@/helpers/chatUtils';
+import { listChatKeywords, suggestContentWithKeywords, summarizeChat } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import useMobileLayout from '@/helpers/mobile';
 
@@ -27,18 +27,18 @@ const state = reactive<{
 });
 
 const props = defineProps<{ isOpen: boolean }> ();
+const chat = useChat();
 
 const emits = defineEmits<{
     close: []
 }>();
 
 const questionnaires = useQuestionnaire();
-const chatContext: ChatContext = useChat();
 
 const generateSummary = async () => {
     try {
         state.busy = true;
-        await chatContext.summarize()
+        await summarizeChat();
     } catch (error) {
         console.error('Error generating summary in ChatSummary:', error);
     } finally {
@@ -49,7 +49,7 @@ const generateSummary = async () => {
 const querySurveys = async () => {
     try {
         state.busy = true;
-        const keywords = listChatKeywords(chatContext.messages);
+        const keywords = listChatKeywords(chat.messages);
         const queried = await queryQuestionnaire(keywords);
         if (queried) {
             const questionnaire = createQuestionnaire(queried);
@@ -70,8 +70,8 @@ const askPersonalInformation = () => {
 }
 
 const makeSuggestions = () => {
-    const keywords = listChatKeywords(chatContext.messages);
-    chatContext.suggestContent(keywords);
+    const keywords = listChatKeywords(chat.messages);
+    suggestContentWithKeywords(keywords);
 }
 
 onMounted(() => {
@@ -104,7 +104,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                 <span class="tooltiptext">{{ $t(l.tooltip_summarize) }}</span>
             </button>
             <button class="chat-tool-button tooltip" @click="querySurveys" :tabindex="sidePanelTabindex"
-                v-if="listChatKeywords(chatContext.messages).length > 0 && !questionnaires.active">
+                v-if="listChatKeywords(chat.messages).length > 0 && !questionnaires.active">
                 <span class="chat-tool-button-text">{{ $t(l.tools_button_query_surveys) }}</span>
                 <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 <span class="tooltiptext">{{ $t(l.tooltip_query_surveys) }}</span>

@@ -7,13 +7,14 @@
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
-import { defineProps, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { computed, defineProps, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import { AireContent } from 'aire';
 import useChat from '@/context/chat';
 import useContent from '@/context/content';
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import { rateMessage } from '@/helpers/chatUtils';
 
 const props = defineProps<{
     parent: ChatMessage
@@ -22,7 +23,7 @@ const props = defineProps<{
 }>()
 
 const optionsMenuRef = ref<HTMLElement | null>(null);
-const clipboard = useClipboard()
+const clipboard = useClipboard();
 const chat = useChat();
 const contentContext = useContent();
 
@@ -66,7 +67,7 @@ const applyRating = () => {
         contentContext.vote(props.content.id, state.rating);
     }
     else
-        chat.rateMessage(props.parent.id, state.rating);
+        rateMessage(props.parent.id, state.rating);
 }
 
 
@@ -105,32 +106,42 @@ onMounted(() => {
     else {
         state.rating = props.parent.rating || 0;
     }
-})
+});
 
-watch(state, (val) => {
-    if (val.menuOpen) {
-        nextTick(() => {
-            optionsMenuRef.value?.addEventListener('focusout', (e: FocusEvent) => {
-                if(!optionsMenuRef.value?.contains(e.relatedTarget as Node)) {
-                    onToggleMenu(e);
-                }
-            });
-        })
+const focusOutListener = (e: FocusEvent) => {
+    if(!optionsMenuRef.value?.contains(e.relatedTarget as Node)) {
+        onToggleMenu(e);
     }
-})
+};
+
+onUnmounted(() => optionsMenuRef.value?.removeEventListener('focusout', focusOutListener));
+
+watch(() => state.menuOpen, (menuOpen) => {
+    if (menuOpen) {
+        nextTick(() => {
+            optionsMenuRef.value?.addEventListener('focusout', focusOutListener);
+        })
+    } else {
+        optionsMenuRef.value?.removeEventListener('focusout', focusOutListener);
+    }
+});
+
+const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
 </script>
 
 <template>
-    <DialogModal :active="state.confirmRevert" :buttons="[
-        { loc_key: l.button_accept, onClick: onConfirmRevert },
-        { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelRevert }
+    <DialogModal :active="state.confirmRevert"
+        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+        :buttons="[
+            { loc_key: l.button_accept, onClick: onConfirmRevert },
+            { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelRevert }
     ]">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
     <div class="chat-item-options">
         <div class="chat-item-options-button"
             tabindex="0"
-            @keypress.prevent.space.enter="onToggleMenu"
+            @keydown.prevent.space.enter="onToggleMenu"
             @click.stop="onToggleMenu"
             aria-haspopup="true"
             :aria-expanded="state.menuOpen"
@@ -149,8 +160,8 @@ watch(state, (val) => {
             v-on-click-outside="onToggleMenu">
             <div @click.stop="onThumbsUp"
                 role="button"
-                :tabindex="state.menuOpen ? 0 : -1"
-                @keypress.prevent.space.enter="onThumbsUp"
+                :tabindex="optionsMenuTabindex"
+                @keydown.prevent.space.enter="onThumbsUp"
                 class="chat-item-options-menu-button thumbs-up tooltip"
                 @mouseenter="adjustTooltipPosition($event, true)"
                 :class="{ 'is-selected': state.rating > 0 }">
@@ -159,8 +170,8 @@ watch(state, (val) => {
             </div>
             <div @click.stop="onThumbsDown"
                 role="button"
-                :tabindex="state.menuOpen ? 0 : -1"
-                @keypress.prevent.space.enter="onThumbsDown"
+                :tabindex="optionsMenuTabindex"
+                @keydown.prevent.space.enter="onThumbsDown"
                 class="chat-item-options-menu-button thumbs-down tooltip"
                 @mouseenter="adjustTooltipPosition($event, true)"
                 :class="{ 'is-selected': state.rating < 0 }">
@@ -170,8 +181,8 @@ watch(state, (val) => {
             <template v-if="!props.content">
                 <div @click.stop="onCopyClipboard"
                     role="button"
-                    :tabindex="state.menuOpen ? 0 : -1"
-                    @keypress.prevent.space.enter="onCopyClipboard"
+                    :tabindex="optionsMenuTabindex"
+                    @keydown.prevent.space.enter="onCopyClipboard"
                     class="chat-item-options-menu-button check tooltip"
                     @mouseenter="adjustTooltipPosition($event, false)"
                     :class="{ 'is-selected': state.copiedToClipboard }">
@@ -180,8 +191,8 @@ watch(state, (val) => {
                 </div>
                 <div @click.stop="onRevert"
                     role="button"
-                    :tabindex="state.menuOpen ? 0 : -1"
-                    @keypress.prevent.space.enter="onRevert"
+                    :tabindex="optionsMenuTabindex"
+                    @keydown.prevent.space.enter="onRevert"
                     class="chat-item-options-menu-button spin tooltip"
                     @mouseenter="adjustTooltipPosition($event, false)"
                     v-if="props.can_revert">

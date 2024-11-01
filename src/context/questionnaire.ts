@@ -12,12 +12,12 @@ import {
 import PersonalInfoController from "@/controllers/personalInfoController";
 import QuestionnaireController from "@/controllers/questionnaireController";
 import DefaultQuestionnaireController from "@/controllers/defaultQuestionnaireController";
-import ReminderController from "@/controllers/reminderController";
+import RecallController from "@/controllers/recallController";
 
 const controllers = new Map<QuestionnaireControlFlow, QuestionnaireController>([
     [ QuestionnaireControlFlow.Default, DefaultQuestionnaireController ],
     [ QuestionnaireControlFlow.PersonalInfo, PersonalInfoController],
-    [ QuestionnaireControlFlow.Reminder, ReminderController]
+    [ QuestionnaireControlFlow.RecallConversations, RecallController]
 ]);
 
 export class QuestionnaireContext {

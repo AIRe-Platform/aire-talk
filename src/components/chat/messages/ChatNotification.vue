@@ -8,9 +8,9 @@
 import { computed, defineProps } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import useChat from '@/context/chat';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import { removeKeyword } from '@/helpers/chatUtils';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -25,8 +25,6 @@ const content = computed(() => {
     }
     return props.message.content;
 });
-
-const chat = useChat();
 </script>
 
 <template>
@@ -37,8 +35,8 @@ const chat = useChat();
             @mouseenter="adjustTooltipPosition($event, false)"
             tabindex="0"
             role="button"
-            @keypress.prevent.space.enter="chat.removeKeyword(props.message.content, true)"
-            @click="chat.removeKeyword(props.message.content, true)">
+            @keydown.prevent.space.enter="removeKeyword(props.message.content, true)"
+            @click="removeKeyword(props.message.content, true)">
             <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
             <font-awesome-icon icon="fa-solid fa-xmark" />
         </div>

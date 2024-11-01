@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 
@@ -38,15 +38,19 @@ const onClickOutside = async (e: Event) => {
     }
 };
 
+const focusOutListener = async (e: FocusEvent) => {
+    const relTarget = e.relatedTarget as Node;
+    if (!settingsPanelRef.value?.contains(relTarget)) {
+        UIState.panels.delete(UIPanels.Settings);
+    }
+};
+
 onMounted(() => {
     refreshBurgerMenuButtonsRef();
-    settingsPanelRef.value?.addEventListener('focusout', (e) => {
-        if (!settingsPanelRef.value?.contains(e.relatedTarget as Node)) {
-            UIState.panels.delete(UIPanels.Settings);
-        }
-    });
+    settingsPanelRef.value?.addEventListener('focusout', focusOutListener);
 });
 
+onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusOutListener));
 </script>
 
 <template>
@@ -126,11 +130,21 @@ onMounted(() => {
     margin-left: 16rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
     .settings-panel {
         width: 65%;
-        margin-left: 4rem;
+        margin-left: 5rem;
         margin-bottom: 0rem;
+    }
+
+    .settings-panel-ref {
+        display: flex;
+    }
+
+    #settings-text-size {
+        width: -webkit-fill-available;
     }
 }
 </style>

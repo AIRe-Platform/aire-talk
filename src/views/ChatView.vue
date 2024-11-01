@@ -12,7 +12,7 @@ import useChat from "@/context/chat";
 import ChatItem from "@/components/chat/ChatItem.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSidePanel from "@/components/chat/ChatSidePanel.vue";
-import { createReminderQuestionnaire } from "@/controllers/reminderController";
+import { createRecallQuestionnaire } from "@/controllers/recallController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
 import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
@@ -87,7 +87,7 @@ onMounted(async () => {
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
     if (isNewChat) {
         useChatbot().makeBusy();
-        createReminderQuestionnaire()
+        createRecallQuestionnaire()
             .then((reminderQuestionnaire) => {
                 if (reminderQuestionnaire)
                     useQuestionnaire().startQuestionnaire(reminderQuestionnaire)

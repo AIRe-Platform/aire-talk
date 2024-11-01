@@ -96,7 +96,11 @@ const showContent = async (content: AireContent) => {
     <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <div class="icon close-window xmark-icon tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')"
+        <div class="icon close-window xmark-icon tooltip"
+            @mouseenter="adjustTooltipPosition($event, false, 'top')"
+            tabindex="0"
+            role="link"
+            @keydown.prevent.space.enter="navigateTo('/chat')"
             @click="navigateTo('/chat')">
             <span class="tooltiptext">{{
                 $t(l.tooltip_close) }}</span>

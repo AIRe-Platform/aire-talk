@@ -16,7 +16,6 @@ export enum LocalizationKey {
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
     system_reminder_set = "system_reminder_set",
-    summary_acceptation_question = "summary_acceptation_question",
 
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",
@@ -141,12 +140,15 @@ export enum LocalizationKey {
     topic_trouble_talking = "topic_trouble_talking",
 
     summary_title = "summary_title",
+    summary_acceptation_question = "summary_acceptation_question",
+
     suggestions_title = "suggestions_title",
+    suggestion_check_for_more = "suggestion_check_for_more",
+
     tools_title = "tools_title",
     tools_button_summarize = "tools_button_summarize",
     tools_button_query_surveys = "tools_button_query_surveys",
     tools_button_suggestions = "tools_button_suggestions",
-    suggestion_check_for_more = "suggestion_check_for_more",
 
     chat_history_loading = "chat_history_loading",
     chat_history_tokens = "chat_history_tokens",
@@ -159,15 +161,17 @@ export enum LocalizationKey {
 
     confirm_questionnaire_start = "confirm_questionnaire_start",
     confirm_questionnaire_completion = "confirm_questionnaire_completion",
+
     questionnaire = "questionnaire",
     questionnaire_start = "questionnaire_start",
     questionnaire_end = "questionnaire_end",
     questionnaire_explanation = "questionnaire_explanation",
+
     question_answer = "question_answer",
 
-    reminder_start_question = "reminder_start_question",
-    reminder_keyword_question = "reminder_keyword_question",
-    reminder_summary_question = "reminder_summary_question",
+    recall_start_question = "recall_start_question",
+    recall_keyword_question = "recall_keyword_question",
+    recall_summary_question = "recall_summary_question",
 
     button_accept = "button_accept",
     button_cancel = "button_cancel",
@@ -225,6 +229,8 @@ export enum LocalizationKey {
     tooltip_nav_about = "tooltip_nav_about",
     tooltip_menu_language = "tooltip_menu_language",
     tooltip_menu_ui_mode = "tooltip_menu_ui_mode",
+    
+    Language_default_message = "Language_default_message",
     
     en = "en",
     fi = "fi",

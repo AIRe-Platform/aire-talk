@@ -48,7 +48,11 @@ const ended = computed(() => {
         </div>
         <div class="chat-input-header">
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
-            <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0"
+            <div class="chat-content"
+                v-if="getChatContentIds(chat.messages).length > 0"
+                tabindex="0"
+                role="link"
+                @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
                 @click="() => router.push('/content-catalogue')">
                 <div class="icon chatbox-content-default tooltip" @mouseenter="adjustTooltipPosition($event, false)">
                     <span class="tooltiptext">{{ $t(l.tooltip_open_catalogue_content) }}</span>
@@ -58,7 +62,7 @@ const ended = computed(() => {
                 class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }"
                 role="button"
-                @keypress.prevent.space.enter="$emit('toggleOptions')"
+                @keydown.prevent.space.enter="$emit('toggleOptions')"
                 @click="$emit('toggleOptions')"
                 tabindex="0">
                 <div class="icon summary-switch-default tooltip"
