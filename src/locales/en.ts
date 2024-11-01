@@ -223,7 +223,7 @@ const en: Locale = {
     tooltip_reminder_back_to_chat: "To continue chating about this reminder.",
     tooltip_onboarding_button: "Talk about new topics.",
     tooltip_nav_home: "Go to home view.",
-    tooltip_nav_chat: "Go chat with bot.",
+    tooltip_nav_chat: "Chat with the bot.",
     tooltip_nav_chat_history: "Go to check old chats.",
     tooltip_nav_chat_new: "Start a new chat.",
     tooltip_nav_content_catalogue: "Check all content shown to you in the AIRe platform.",
