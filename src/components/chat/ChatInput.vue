@@ -13,6 +13,7 @@ import { getChatContentIds } from "@/helpers/contentUtils";
 import { conversationEnded } from "@/helpers/chatUtils";
 import { useSpeechRecognition } from "@vueuse/core";
 import { getUILanguage, l } from "@/locales";
+import useTTS from "@/context/tts";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -22,10 +23,10 @@ const props = defineProps<{
 const state = reactive<{
     input: string,
     speechTimeout?: number,
-    speechEnabled: boolean
+    speechEnabled: boolean,
 }>({
     input: "",
-    speechEnabled: false
+    speechEnabled: false,
 })
 
 const chat = useChat();
@@ -91,6 +92,7 @@ watch(speechRecognition.isListening, listening => {
 
 const listening = computed(() => (speechRecognition.isListening as Ref<boolean>).value);
 const speechRecognitionAvailable = computed(() => (speechRecognition.isSupported.value && speechRecognition.recognition))
+const tts = useTTS();
 
 const toggleListening = () => {
     if (state.speechTimeout)
@@ -134,6 +136,10 @@ const toggleListening = () => {
             <div class="chat-speech-button" @click="toggleListening" v-if="speechRecognitionAvailable">
                 <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="listening" />
                 <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+            </div>
+            <div class="chat-tts-button" @click="tts.toggle()" v-if="tts.supported()">
+                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.enabled" />
+                <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
             </div>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default tooltip"
@@ -225,7 +231,8 @@ const toggleListening = () => {
 
 .chat-options-button,
 .chat-send-button,
-.chat-speech-button {
+.chat-speech-button,
+.chat-tts-button {
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -234,6 +241,7 @@ const toggleListening = () => {
     transition: color .25s;
     padding: 0.2rem;
     color: var(--button-color);
+    width: 2rem;
 
     &:hover {
         color: var(--accent-primary-color);

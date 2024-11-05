@@ -8,11 +8,14 @@ import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 import VueMarkdown from 'vue-markdown-render';
+import useTTS from '@/context/tts';
 
 const props = defineProps<{
     message: ChatMessage;
     canRevert?: boolean;
 }>();
+
+const tts = useTTS();
 </script>
 
 <template>
@@ -30,6 +33,11 @@ const props = defineProps<{
             </span>
             <span class="chat-bubble-text">
                 <VueMarkdown :source="message.content" />
+            </span>
+            <span class="chat-bubble-buttons" v-if="props.message.role === 'assistant'">
+                <div class="chat-bubble-button" @click="tts.speak(props.message.content || '')" v-if="tts.supported()">
+                    <font-awesome-icon icon="fa-solid fa-volume-high" />
+                </div>
             </span>
         </div>
     </div>
@@ -74,6 +82,12 @@ const props = defineProps<{
     gap: 0.2rem;
 }
 
+.chat-bubble-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
 .chat-bubble-user-label {
     font-size: var(--font-medium);
     font-weight: bold;
@@ -85,6 +99,22 @@ const props = defineProps<{
 
 .chat-bubble-user .chat-bubble-user-label {
     color: var(--chat-user-label);
+}
+
+.chat-bubble-button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color .25s;
+    padding: 0.2rem;
+    color: var(--button-color);
+    width: 2rem;
+
+    &:hover {
+        color: var(--accent-primary-color);
+    }
 }
 
 .chat-bubble-user .chat-bubble-content {

@@ -37,6 +37,7 @@ import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } fro
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
 import { updateKeywordMetadata } from "./keywordUtils";
+import useTTS from "@/context/tts";
 
 const chat = useChat();
 
@@ -487,6 +488,9 @@ export async function handleEndEvent(e: AireChatbotEndEvent) {
         }
 
         chat.push(last, false, true);
+
+        if(last.content)
+            useTTS().speak(last.content);
     }
 
     if (endConversation || chat.state.red_flag_triggered) {
