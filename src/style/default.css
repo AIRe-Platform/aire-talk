@@ -270,6 +270,11 @@ button {
     font-size: var(--font-large);
 }
 
+
+p { 
+    margin: 0.2rem 0; 
+}
+
 .tooltip {
     position: relative;
     display: flex;

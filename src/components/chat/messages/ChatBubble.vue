@@ -7,6 +7,7 @@
 import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
+import VueMarkdown from 'vue-markdown-render';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -28,7 +29,7 @@ const props = defineProps<{
                 {{ (props.message.role === 'assistant') ? $t(message.sender) : message.sender }}
             </span>
             <span class="chat-bubble-text">
-                {{ message.content }}
+                <VueMarkdown :source="message.content" />
             </span>
         </div>
     </div>
@@ -70,6 +71,7 @@ const props = defineProps<{
     flex-direction: column;
     font-size: var(--font-medium);
     width: 100%;
+    gap: 0.2rem;
 }
 
 .chat-bubble-user-label {
@@ -87,10 +89,6 @@ const props = defineProps<{
 
 .chat-bubble-user .chat-bubble-content {
     align-items: flex-end;
-}
-
-.chat-bubble-text {
-    white-space: pre-line;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
