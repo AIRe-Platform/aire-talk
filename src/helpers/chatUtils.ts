@@ -90,7 +90,7 @@ export function getChatbotInputData(): AireChatbotInput {
             year_of_birth: chat.state.year_of_birth,
             occupation: chat.state.occupation,
             topic: chat.state.topic?.name,
-            language: locale
+            language: locale.value
         }
     };
 
@@ -377,7 +377,7 @@ export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
 
         const suitable = e.results.filter(x =>
             !alreadyAnswered.includes(x.id) &&
-            (!x.language || x.language.includes(lang)));
+            (!x.language || x.language.includes(lang.value)));
 
         const best = suitable.filter(x => !x.relevance || x.relevance > 0.75).sort((a, b) => {
             if (a.relevance && b.relevance)

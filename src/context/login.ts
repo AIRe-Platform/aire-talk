@@ -38,7 +38,7 @@ export class LoginContext {
                 code_challenge: randomHexString(32),
                 code_challenge_method: "S256",
                 redirect_uri: document.location.origin + "/auth/callback",
-                locale: getUILanguage(),
+                locale: getUILanguage().value,
                 theme: useTheme().style.includes("dark") ? "dark" : "light"
             };
 
@@ -135,7 +135,7 @@ export class LoginContext {
             const options: AireLogoutOptions = {
                 return_url: document.location.origin,
                 theme: useTheme().style.includes("dark") ? "dark" : "light",
-                locale: getUILanguage()
+                locale: getUILanguage().value
             };
 
             if(return_params) {

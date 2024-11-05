@@ -20,7 +20,7 @@ const content = computed(() => {
     const lang = getUILanguage();
     if (props.message.content) {
         if (props.message.type == ChatMessageType.Keyword) {
-            return getKeywordTranslation(props.message.content, lang) ?? props.message.content;
+            return getKeywordTranslation(props.message.content, lang.value) ?? props.message.content;
         }
     }
     return props.message.content;
