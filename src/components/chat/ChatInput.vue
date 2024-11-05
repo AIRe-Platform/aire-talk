@@ -4,19 +4,29 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { defineProps, defineEmits, computed, watch, reactive, Ref } from "vue";
 import { router } from "@/router";
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
-import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { conversationEnded } from "@/helpers/chatUtils";
+import { useSpeechRecognition } from "@vueuse/core";
+import { getUILanguage, l } from "@/locales";
 
 const props = defineProps<{
     optionsOpen: boolean,
     optionsVisible: boolean,
 }>()
+
+const state = reactive<{
+    input: string,
+    speechTimeout?: number,
+    speechEnabled: boolean
+}>({
+    input: "",
+    speechEnabled: false
+})
 
 const chat = useChat();
 const bot = useChatbot();
@@ -25,18 +35,70 @@ defineEmits<{
     toggleOptions: []
 }>()
 
-const textInput = ref("");
-
 function submit() {
-    const prompt = textInput.value.trim();
+    const prompt = state.input.trim();
     if (prompt.length > 0)
         chat.send(prompt);
-    textInput.value = "";
+    state.input = "";
 }
 
 const ended = computed(() => {
     return conversationEnded(chat.messages);
 })
+
+const speechRecognition = useSpeechRecognition({
+    lang: getUILanguage(),
+    continuous: false,
+    interimResults: false
+});
+
+// if (speechRecognition.recognition) {
+//     speechRecognition.recognition.onerror = (e) => {
+//         console.error(e);
+//     }
+// }
+
+watch(speechRecognition.result, () => {
+    console.log("Speech recognition result: ", speechRecognition.result)
+
+    if (bot.status === "writing" || !speechRecognition.isFinal)
+        return;
+
+    let result: string = speechRecognition.result.value;
+
+    if (state.input.length > 0) {
+        state.input += " ";
+        result = result.slice(0, 1).toLocaleLowerCase() + result.slice(1);
+    }
+
+    state.input += result;
+
+    if (state.speechTimeout)
+        clearTimeout(state.speechTimeout);
+
+    state.speechTimeout = setTimeout(() => {
+        submit();
+        state.speechTimeout = undefined;
+    }, 5000);
+})
+
+watch(speechRecognition.isListening, listening => {
+    if (!listening && state.speechEnabled)
+        speechRecognition.start();
+    else
+        console.log("Listening: ", listening)
+})
+
+const listening = computed(() => (speechRecognition.isListening as Ref<boolean>).value);
+const speechRecognitionAvailable = computed(() => (speechRecognition.isSupported.value && speechRecognition.recognition))
+
+const toggleListening = () => {
+    if (state.speechTimeout)
+        clearTimeout(state.speechTimeout);
+
+    state.speechEnabled = !state.speechEnabled;
+    speechRecognition.toggle(state.speechEnabled);
+}
 </script>
 
 <template v-if="props.visible">
@@ -48,23 +110,16 @@ const ended = computed(() => {
         </div>
         <div class="chat-input-header">
             <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
-            <div class="chat-content"
-                v-if="getChatContentIds(chat.messages).length > 0"
-                tabindex="0"
-                role="link"
+            <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0" role="link"
                 @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
                 @click="() => router.push('/content-catalogue')">
                 <div class="icon chatbox-content-default tooltip" @mouseenter="adjustTooltipPosition($event, false)">
                     <span class="tooltiptext">{{ $t(l.tooltip_open_catalogue_content) }}</span>
                 </div>
             </div>
-            <div v-if="props.optionsVisible"
-                class="chat-options-button"
-                :class="{ 'chat-options-button-active': props.optionsOpen }"
-                role="button"
-                @keydown.prevent.space.enter="$emit('toggleOptions')"
-                @click="$emit('toggleOptions')"
-                tabindex="0">
+            <div v-if="props.optionsVisible" class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
+                @keydown.prevent.space.enter="$emit('toggleOptions')" @click="$emit('toggleOptions')" tabindex="0">
                 <div class="icon summary-switch-default tooltip"
                     @mouseenter="adjustTooltipPosition($event, false, 'left-bottom')">
                     <span class="tooltiptext">{{ $t(l.tooltip_open_chat_side_panel) }}</span>
@@ -74,8 +129,12 @@ const ended = computed(() => {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
+                    :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
             </form>
+            <div class="chat-speech-button" @click="toggleListening" v-if="speechRecognitionAvailable">
+                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="listening" />
+                <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+            </div>
             <div class="chat-send-button" @click="submit">
                 <div class="chat-send-icon icon send-message-default tooltip"
                     @mouseenter="adjustTooltipPosition($event, false)">
@@ -104,6 +163,7 @@ const ended = computed(() => {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    align-items: center;
 }
 
 .chat-input-header {
@@ -136,7 +196,7 @@ const ended = computed(() => {
     margin-top: -4.6rem;
     overflow: hidden;
     position: absolute;
-    background-image: url(/src/assets/images/aire-bot.png);
+    background-image: url("@/assets/images/aire-bot.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -164,7 +224,8 @@ const ended = computed(() => {
 }
 
 .chat-options-button,
-.chat-send-button {
+.chat-send-button,
+.chat-speech-button {
     display: flex;
     flex-shrink: 0;
     align-items: center;
