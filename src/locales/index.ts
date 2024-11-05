@@ -13,6 +13,7 @@ import rw from './rw';
 
 import { LocalizationKey } from './keys';
 import { LanguageCode } from 'iso-639-1';
+import { computed } from 'vue';
 
 export const l = LocalizationKey;
 export type Locale = { [id in LocalizationKey]: string };
@@ -64,6 +65,8 @@ export function setUILanguage(lang: LanguageCode) {
 }
 
 export function getUILanguage() {
-    const loc = i18n.global.locale as any;
-    return loc.value as LanguageCode;
+    return computed(() => {
+        const loc = i18n.global.locale as any;
+        return loc.value as LanguageCode;
+    })
 }
