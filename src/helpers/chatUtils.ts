@@ -452,6 +452,7 @@ export async function handleReminderEvent(reminder: AireReminder) {
     chat.push(inst);
 }
 
+let newMessage = false;
 export async function handleMessageEvent(message: AireChatbotMessageEvent) {
     let last = chat.messages[chat.messages.length - 1];
     let firstMessage = false // start of the answer stream?
@@ -460,6 +461,7 @@ export async function handleMessageEvent(message: AireChatbotMessageEvent) {
         if (message && message.content.length > 0) {
             last = createAssistantMessage("");
             firstMessage = true
+            newMessage = true;
         }
         else {
             return;
@@ -475,23 +477,30 @@ export async function handleMessageEvent(message: AireChatbotMessageEvent) {
 
 export async function handleEndEvent(e: AireChatbotEndEvent) {
     let endConversation = false;
-    const last = chat.messages[chat.messages.length - 1];
 
-    if (last.role === "assistant") {
-        if (last.content?.includes(ChatMessageTag.END_OF_CONVERSATION_TAG)) {
-            last.content = last.content.replace(ChatMessageTag.END_OF_CONVERSATION_TAG, "").trim();
+    const message = chat.messages
+        .findLast(x =>
+            x.role === "assistant" &&
+            x.type === ChatMessageType.Default &&
+            x.content !== undefined)
+    const last = getLastMessage();
+
+    if (message && newMessage) {
+        if (message.content?.includes(ChatMessageTag.END_OF_CONVERSATION_TAG)) {
+            message.content = message.content.replace(ChatMessageTag.END_OF_CONVERSATION_TAG, "").trim();
             endConversation = true;
         }
-        if (last.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
-            last.content = last.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
-            endConversation = true;
+
+        if (message.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
+            message.content = message.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
             chat.state.red_flag_triggered = true;
         }
 
-        chat.push(last, false, true);
+        if (message.id === last?.id)
+            chat.push(last, false, true);
 
-        if(last.content && UISettings.ttsEnabled)
-            useTTS().speak(last.content);
+        if (UISettings.ttsEnabled)
+            useTTS().speak(message.content!);
     }
 
     if (endConversation || chat.state.red_flag_triggered) {
@@ -503,4 +512,6 @@ export async function handleEndEvent(e: AireChatbotEndEvent) {
                 chat.forceResponse();
         }
     }
+
+    newMessage = false;
 }
