@@ -76,7 +76,7 @@ export class ChatContext {
         useQuestionnaire().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
-        this.push(system_message);
+        this.push(system_message, true, false);
     }
 
     /** 
@@ -109,16 +109,16 @@ export class ChatContext {
      * Push a new message
      * @param message Message
      * @param create Set to false if you want to modify the last message
-     * @param final Set to false to delay triggering auto save
+     * @param auto_save Set to true to start automatic save timer
      */
-    public push(message: ChatMessage, create: boolean = true, final: boolean = true) {
+    public push(message: ChatMessage, create: boolean = true, auto_save: boolean = true) {
         if (create) {
             this.messages.push(message);
         } else {
             this.messages[this.messages.length - 1] = message;
         }
 
-        if (final) {
+        if (auto_save) {
             this.autoSave();
         }
 

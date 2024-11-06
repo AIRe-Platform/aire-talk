@@ -85,6 +85,7 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
 }
 
 const loadChat = async (id?: string) => {
+    useChatbot().makeBusy();
     if (id) {
         console.log("Loading chat", id)
         const open = await chat.open(id as string)
@@ -95,6 +96,7 @@ const loadChat = async (id?: string) => {
         if (chat.id)
             await chat.startNew();
     }
+    useChatbot().reportReady();
 }
 
 onBeforeRouteUpdate(async (loc) => await loadChat(loc.params.id as string | undefined));
