@@ -56,7 +56,7 @@ const onMouseLeave = (event: MouseEvent) => {
     border-radius: 6px;
     padding: 5px 10px;
     position: absolute;
-    z-index: 1;
+    z-index: 10;
     bottom: 125%;
     opacity: 0;
     transition: opacity 0.3s;

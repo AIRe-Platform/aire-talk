@@ -238,6 +238,7 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     right: -1rem;
     top: 1.2rem;
     gap: 0.2rem;
+    z-index: 3;
 }
 
 .is-selected {
