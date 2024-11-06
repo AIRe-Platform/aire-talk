@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.4] - 2024-11-05
+### Fixed
+- Introduce a delay to the chat response only if it would otherwise be instant.
+- The chat input is blocked until the response is ready.
 
 ## [1.0.3] - 2024-11-01
 ### Fixed

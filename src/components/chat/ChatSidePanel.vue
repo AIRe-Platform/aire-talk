@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
-import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import Tooltip from "@/components/common/Tooltip.vue";
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
 import useChat from '@/context/chat';
@@ -26,7 +26,7 @@ const state = reactive<{
     isMobile: false
 });
 
-const props = defineProps<{ isOpen: boolean }> ();
+const props = defineProps<{ isOpen: boolean }>();
 const chat = useChat();
 
 const emits = defineEmits<{
@@ -88,38 +88,41 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
             <div class="chat-tools-title">
                 {{ $t(l.tools_title) }}
             </div>
-            <div class="icon close-window xmark-icon tooltip"
-                v-if="state.isMobile"
-                @click.stop="emits('close')"
-                role="button"
-                :tabindex="sidePanelTabindex">
-                <span class="tooltiptext">{{ $t(l.tooltip_close) }}</span>
-            </div>
+            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
+                v-if="state.isMobile">
+                <div class="icon close-window xmark-icon" @click.stop="emits('close')" role="button"
+                    :tabindex="sidePanelTabindex">
+                </div>
+            </Tooltip>
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
-            <button class="chat-tool-button tooltip" @click="generateSummary" :tabindex="sidePanelTabindex">
-                <span class="chat-tool-button-text">{{ $t(l.tools_button_summarize) }}</span>
-                <div class="update-icon"></div>
-                <span class="tooltiptext">{{ $t(l.tooltip_summarize) }}</span>
-            </button>
-            <button class="chat-tool-button tooltip" @click="querySurveys" :tabindex="sidePanelTabindex"
+            <Tooltip :text="$t(l.tooltip_summarize)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <button class="chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
+                    <span class="chat-tool-button-text"> {{ $t(l.tools_button_summarize) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+            </Tooltip>
+            <Tooltip :text="$t(l.tooltip_query_surveys)" position="top" :useMaxContent="false" :adjustPosition="true"
                 v-if="listChatKeywords(chat.messages).length > 0 && !questionnaires.active">
-                <span class="chat-tool-button-text">{{ $t(l.tools_button_query_surveys) }}</span>
-                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                <span class="tooltiptext">{{ $t(l.tooltip_query_surveys) }}</span>
-            </button>
-            <button v-if="state.missingPersonalInfo" class="chat-tool-button tooltip" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
-                <span class="chat-tool-button-text">{{ $t(l.profile_question_button) }}</span>
-                <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
-                <span class="tooltiptext">{{ $t(l.tooltip_personal_information) }}</span>
-            </button>
-            <button class="chat-tool-button tooltip" @click="makeSuggestions" :tabindex="sidePanelTabindex"
-                @mouseenter="adjustTooltipPosition($event, false)">
-                <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
-                <font-awesome-icon icon="fa-solid fa-lightbulb" />
-                <span class="tooltiptext">{{ $t(l.tooltip_suggestions) }}</span>
-            </button>
+                <button class="chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
+                    <span class="chat-tool-button-text"> {{ $t(l.tools_button_query_surveys) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+            </Tooltip>
+            <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
+                :adjustPosition="true" v-if="state.missingPersonalInfo">
+                <button class="chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
+                    <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
+                </button>
+            </Tooltip>
+            <Tooltip :text="$t(l.tooltip_suggestions)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <button class="chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
+                    <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-lightbulb" />
+                </button>
+            </Tooltip>
         </div>
     </Panel>
 </template>

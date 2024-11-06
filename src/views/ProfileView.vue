@@ -15,6 +15,7 @@ import ProfilePasswordForm from "@/components/profile/ProfilePasswordForm.vue";
 import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -27,14 +28,12 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <div class="icon close-window xmark-icon tooltip"
-                 @click="navigateTo('/chat')"
-                 tabindex="0"
-                 role="link"
-                 @keydown.prevent.space.enter="navigateTo('/chat')">
-                <span class="tooltiptext">{{
-                    $t(l.tooltip_close) }}</span>
-            </div>
+            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
+                class="icon close-window xmark-icon">
+                <div class="tooltip-inside" @click="navigateTo('/chat')" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/chat')">
+                </div>
+            </Tooltip>
         </div>
         <div class="profile-header">
             <div class="profile-logo">
@@ -105,6 +104,11 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
     border-color: var(--accent-primary-color);
     width: 85%;
     padding-top: 2rem;
+}
+
+.tooltip-inside {
+    height: 2rem;
+    width: 2rem;
 }
 
 .section-separator {

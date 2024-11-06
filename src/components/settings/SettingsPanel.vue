@@ -8,6 +8,7 @@ import { l } from "@/locales";
 import { onMounted, onUnmounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+import Tooltip from "@/components/common/Tooltip.vue";
 
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
@@ -66,13 +67,13 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
             <Separator />
             <div class="settings-item">
                 <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
-                <div class="tooltip">
+                <Tooltip :text="$t(l.settings_ui_size)" position="top" :useMaxContent="false" :adjustPosition="true">
                     <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
                         <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
                         <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
                     </select>
-                    <span class="tooltiptext">{{ $t(l.tooltip_menu_language) }}</span>
-                </div>
+                </Tooltip>
+
             </div>
             <Separator />
             <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>

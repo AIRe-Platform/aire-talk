@@ -317,22 +317,35 @@ export default function useChat() {
     return context;
 }
 
+
 async function streamResponse() {
-    // Generate a random delay between between 400 ms and 100 ms
-    const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
+    const start = Date.now(); // Start time
 
-    setTimeout(() => {
-        if (AireServices.AI) {
-            useChatbot().makeBusy();
+    if (AireServices.AI) {
+        useChatbot().makeBusy(false);
+        const input = getChatbotInputData();
+        
+        // Measure the time taken to start the response
+        await AireServices.AI.stream(input, receiver, errorHandler);
+        
+        const responseTime = Date.now() - start; // Calculate response time
 
-            const input = getChatbotInputData()
-            AireServices.AI.stream(input, receiver, errorHandler);
+        // Only add delay if the response was quick (less than 200 ms)
+        if (responseTime < 200) {
+            useChatbot().makeBusy(false);
+            const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
+            await new Promise(resolve => setTimeout(resolve, randomDelay));
+            
+            useChatbot().reportReady();
+            console.debug(`Applied delay of ${randomDelay} ms.`);
         } else {
-            console.warn("AI service is unavailable");
+            console.debug(`No delay applied; response time was ${responseTime} ms.`);
         }
-        console.debug(`Delay of ${randomDelay} ms complete.`);
-    }, randomDelay);
+    } else {
+        console.warn("AI service is unavailable");
+    }
 }
+
 
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {

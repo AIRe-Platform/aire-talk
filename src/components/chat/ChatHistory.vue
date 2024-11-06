@@ -13,11 +13,11 @@ import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
-import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { ChatMessageType } from "@/models/chat";
+import Tooltip from "@/components/common/Tooltip.vue";
 
 interface ChatLogItem {
     id: string;
@@ -175,7 +175,7 @@ const onClickOutside = async (e: Event) => {
 
 <template>
     <div ref="chatHistoryPanelRef" class="chat-history-wrapper">
-        <DialogModal :active="state.confirmDelete" :buttons="[
+        <DialogModal :active="state.confirmDelete" :show-close-button="false" :buttons="[
             { loc_key: l.button_accept, onClick: onConfirmDelete },
             { loc_key: l.button_cancel, className: 'cancel-button', onClick: onCancelDelete }
         ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()">
@@ -186,16 +186,11 @@ const onClickOutside = async (e: Event) => {
                 <div class="chat-history-busy" v-if="state.busy">
                     <Spinner />
                 </div>
-                <div class="chat-history-item"
-                    v-for="item in state.items"
-                    v-bind:key="item.id"
+                <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
                     :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                     <div class="chat-history-item-row">
-                        <div class="chat-history-item-details"
-                            tabindex="0"
-                            role="button"
-                            @keydown.prevent.space.enter="onSelect(item.id)"
-                            @click="onSelect(item.id)">
+                        <div class="chat-history-item-details" tabindex="0" role="button"
+                            @keydown.prevent.space.enter="onSelect(item.id)" @click="onSelect(item.id)">
                             <div class="chat-history-item-date">
                                 {{ item.time.toLocaleString($i18n.locale) }}
                             </div>
@@ -206,17 +201,13 @@ const onClickOutside = async (e: Event) => {
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                             </div>
                         </div>
-                        <div class="chat-history-item-delete"
-                            tabindex="0"
-                            role="button"
+                        <div class="chat-history-item-delete" tabindex="0" role="button"
                             @keydown.prevent.space.enter="onDeleteChat(item.id, $event)"
-                            @click="onDeleteChat(item.id, $event)"
-                            :aria-label="$t(l.tooltip_delete_chat)"
-                        >
-                            <div class="icon delete-bin tooltip" @mouseenter="adjustTooltipPosition($event, false, 'top')">
-                                <span class="tooltiptext">{{
-                                    $t(l.tooltip_delete_chat) }}</span>
-                            </div>
+                            @click="onDeleteChat(item.id, $event)" :aria-label="$t(l.tooltip_delete_chat)">
+                            <Tooltip :text="$t(l.tooltip_delete_chat)" position="top" :useMaxContent="false"
+                                :adjustPosition="true">
+                                <div class="icon delete-bin"></div>
+                            </Tooltip>
                         </div>
                     </div>
                 </div>

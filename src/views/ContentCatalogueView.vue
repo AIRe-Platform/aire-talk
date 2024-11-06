@@ -10,7 +10,7 @@ import { router } from "@/router";
 import { onMounted, reactive } from "vue";
 import { AireContent, AireContentType } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
-import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import Tooltip from "@/components/common/Tooltip.vue";
 import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
@@ -96,15 +96,12 @@ const showContent = async (content: AireContent) => {
     <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <div class="icon close-window xmark-icon tooltip"
-            @mouseenter="adjustTooltipPosition($event, false, 'top')"
-            tabindex="0"
-            role="link"
-            @keydown.prevent.space.enter="navigateTo('/chat')"
-            @click="navigateTo('/chat')">
-            <span class="tooltiptext">{{
-                $t(l.tooltip_close) }}</span>
-        </div>
+        <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
+            class="icon close-window xmark-icon">
+            <div class="tooltip-inside" tabindex="0" role="link" @keydown.prevent.space.enter="navigateTo('/chat')"
+                @click="navigateTo('/chat')">
+            </div>
+        </Tooltip>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
                 <h3>{{ $t(l.nav_catalogue) }}</h3>
@@ -139,6 +136,12 @@ const showContent = async (content: AireContent) => {
     position: absolute;
     right: 1rem;
     top: 1rem;
+}
+
+.tooltip-inside {
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
 
 .content-catalogue-header {

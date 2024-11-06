@@ -7,10 +7,11 @@
 import { defineEmits, defineComponent, defineProps } from 'vue';
 import Panel from '@/components/common/Panel.vue'
 import { l } from '@/locales';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const props = defineProps<{
     active: boolean
-    showCloseButton?: boolean
+    showCloseButton?: boolean,
 }>();
 
 const emits = defineEmits<{
@@ -29,15 +30,13 @@ defineComponent({ name: "ModalComponent" })
         <div v-show="props.active" class="modal" @click.stop="close">
             <Transition name="modal-animation-panel">
                 <Panel class="modal-panel" @click.stop>
-                    <div class="icon close-window modal-close tooltip"
-                        @click.stop="close"
-                        tabindex="0"
-                        role="button"
-                        @keydown.prevent.space.enter="close"
-                        v-if="props.showCloseButton">
-                        <span class=" tooltiptext">{{
-                            $t(l.tooltip_close) }}</span>
-                    </div>
+                    <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
+                        class="icon close-window modal-close" v-if="props.showCloseButton">
+                        <div class="tooltip-inside" @click.stop="close" tabindex="0" role="button"
+                            @keydown.prevent.space.enter="close">
+                            <span></span>
+                        </div>
+                    </Tooltip>
                     <div class="modal-content">
                         <slot></slot>
                     </div>
@@ -62,6 +61,11 @@ defineComponent({ name: "ModalComponent" })
 
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
+}
+
+.tooltip-inside {
+    height: 2rem;
+    width: 2rem;
 }
 
 .modal-panel {
