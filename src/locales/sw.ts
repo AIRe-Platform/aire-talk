@@ -234,6 +234,12 @@ const sw: Locale = {
     tooltip_nav_about: "Nenda kwenye ukurasa wa 'Kuhusu Sisi'.",
     tooltip_menu_language: "Chagua lugha ya kiolesura cha mtumiaji.",
     tooltip_menu_ui_mode: "Badilisha mandhari ya kiolesura cha mtumiaji.",
+    tooltip_chat_speech_recognition_off: "Acha utambuzi wa usemi",
+    tooltip_chat_speech_recognition_on: "Anzisha utambuzi wa usemi",
+    tooltip_chat_tts_read_message: "Soma ujumbe",
+    tooltip_chat_tts_stop_reading: "Acha kusoma",
+    tooltip_chat_tts_read_new_messages_off: "Acha kusoma jumbe mpya",
+    tooltip_chat_tts_read_new_messages_on: "Soma jumbe mpya",
     
     Language_default_message: "Chagua lugha ya msingi ya kiolesura:",
 

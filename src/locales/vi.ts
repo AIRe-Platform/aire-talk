@@ -252,6 +252,12 @@ const vi: Locale = {
     tooltip_nav_about: "Đi đến trang 'Giới thiệu'.",
     tooltip_menu_language: "Chọn ngôn ngữ giao diện người dùng.",
     tooltip_menu_ui_mode: "Chuyển đổi giao diện màu giao diện người dùng.",
+    tooltip_chat_speech_recognition_off: "Dừng nhận dạng giọng nói",
+    tooltip_chat_speech_recognition_on: "Bắt đầu nhận dạng giọng nói",
+    tooltip_chat_tts_read_message: "Đọc tin nhắn",
+    tooltip_chat_tts_stop_reading: "Dừng đọc",
+    tooltip_chat_tts_read_new_messages_off: "Dừng đọc tin nhắn mới",
+    tooltip_chat_tts_read_new_messages_on: "Đọc tin nhắn mới",
     
     Language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
 

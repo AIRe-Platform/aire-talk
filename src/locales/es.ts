@@ -256,6 +256,12 @@ const es: Locale = {
     tooltip_nav_about: "Ir a sobre nosotros.",
     tooltip_menu_language: "Elija el idioma de IU.",
     tooltip_menu_ui_mode: "Cambiar la interfaz de color.",
+    tooltip_chat_speech_recognition_off: "Detener el reconocimiento de voz",
+    tooltip_chat_speech_recognition_on: "Iniciar el reconocimiento de voz",
+    tooltip_chat_tts_read_message: "Leer mensaje",
+    tooltip_chat_tts_stop_reading: "Dejar de leer",
+    tooltip_chat_tts_read_new_messages_off: "Dejar de leer mensajes nuevos",
+    tooltip_chat_tts_read_new_messages_on: "Leer mensajes nuevos",
     
     Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
 

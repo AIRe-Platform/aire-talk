@@ -3,20 +3,22 @@
     License, v. 2.0. If a copy of the MPL was not distributed with this
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
 -->
+
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
-import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import { defineProps, defineEmits, defineComponent } from 'vue';
+import { adjustTooltipPosition, TooltipPosition } from '@/helpers/tooltipUtils';
+defineComponent({ name: "TooltipComponent" })
 
 const props = defineProps<{
     text: string;
-    position?: 'top' | 'bottom' | 'left' | 'right' | 'left-bottom';
+    position?: TooltipPosition;
     useMaxContent?: boolean; // Control tooltip width
     adjustPosition?: boolean; // Whether to adjust position dynamically
 }>();
 
 const emit = defineEmits<{
-    (e: 'mouseenter', event: MouseEvent, position: string): void;
-    (e: 'mouseleave', event: MouseEvent): void;
+    'mouseenter': [MouseEvent, string],
+    'mouseleave': [MouseEvent]
 }>();
 
 const onMouseEnter = (event: MouseEvent) => {
@@ -58,6 +60,9 @@ const onMouseLeave = (event: MouseEvent) => {
     bottom: 125%;
     opacity: 0;
     transition: opacity 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tooltiptext::after {
@@ -81,9 +86,17 @@ const onMouseLeave = (event: MouseEvent) => {
     bottom: 125%;
 }
 
-.tooltiptext[data-avoid-crop-position="left"] {
-    right: 100%;
+.tooltiptext[data-avoid-crop-position="top-left"] {
+    right: 20%;
     left: auto;
+    transform: translateX(0);
+}
+
+.tooltiptext[data-avoid-crop-position="left"] {
+    right: calc(100% + 10px);
+    left: auto;
+    top: 0%;
+    bottom: 0%;
     transform: translateX(0);
 }
 
@@ -92,7 +105,7 @@ const onMouseLeave = (event: MouseEvent) => {
     transform: translateX(0);
 }
 
-.tooltiptext[data-avoid-crop-position="left-bottom"] {
+.tooltiptext[data-avoid-crop-position="bottom-left"] {
     right: 100%;
     left: auto;
     bottom: 10%;
@@ -118,7 +131,21 @@ const onMouseLeave = (event: MouseEvent) => {
     border-color: transparent transparent #555 transparent;
 }
 
-.tooltiptext[data-avoid-crop-position="left-bottom"]::after {
+.tooltiptext[data-avoid-crop-position="top-left"]::after {
+    top: 100%;
+    transform: rotate(0deg);
+    right: 8px;
+    left: calc(100% - 13px);
+}
+
+.tooltiptext[data-avoid-crop-position="left"]::after {
+    top: calc(50% - 5px);
+    transform: rotate(90deg);
+    border-color: transparent transparent #555 transparent;
+    left: 103%;
+}
+
+.tooltiptext[data-avoid-crop-position="bottom-left"]::after {
     top: 50%;
     transform: rotate(90deg);
     border-color: transparent transparent #555 transparent;

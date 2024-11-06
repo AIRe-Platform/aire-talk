@@ -56,7 +56,7 @@ export async function queryQuestionnaire(keywords: string[]): Promise<AireQuesti
         return;
     }
     const lang = getUILanguage();
-    const query = await AireServices.Memory.queryQuestionnaire(keywords, lang);
+    const query = await AireServices.Memory.queryQuestionnaire(keywords, lang.value);
 
     if (!query.data)
         return;

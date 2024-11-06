@@ -22,7 +22,7 @@ const contentKeyword = computed(() => {
     const lang = getUILanguage();
     return keywords.value.map(keyword => {
         // Get translation for each keyword
-        const translation = getKeywordTranslation(keyword, lang);
+        const translation = getKeywordTranslation(keyword, lang.value);
         return translation !== undefined ? translation : keyword;
     });
 });

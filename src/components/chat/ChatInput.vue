@@ -4,19 +4,31 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, computed } from "vue";
+import { defineProps, defineEmits, computed, reactive } from "vue";
 import { router } from "@/router";
 import Tooltip from "@/components/common/Tooltip.vue";
-import { l } from "@/locales";
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { conversationEnded } from "@/helpers/chatUtils";
+import useTTS from "@/helpers/textToSpeech";
+import { UISettings } from "@/context/ui";
+import useSTT from "@/helpers/speechToText";
+import { l } from "@/locales";
 
 const props = defineProps<{
     optionsOpen: boolean,
     optionsVisible: boolean,
 }>()
+
+const state = reactive<{
+    input: string,
+    speechTimeout?: number,
+    speechEnabled: boolean,
+}>({
+    input: "",
+    speechEnabled: false,
+})
 
 const chat = useChat();
 const bot = useChatbot();
@@ -25,18 +37,47 @@ defineEmits<{
     toggleOptions: []
 }>()
 
-const textInput = ref("");
-
 function submit() {
-    const prompt = textInput.value.trim();
+    const prompt = state.input.trim();
     if (prompt.length > 0)
         chat.send(prompt);
-    textInput.value = "";
+    state.input = "";
 }
 
 const ended = computed(() => {
     return conversationEnded(chat.messages);
 })
+
+const stt = useSTT();
+const sttCallback = (result: string) => {
+    if (state.input.length > 0) {
+        state.input += " ";
+        result = result.slice(0, 1).toLocaleLowerCase() + result.slice(1);
+    }
+    state.input += result;
+
+    if (state.speechTimeout)
+        clearTimeout(state.speechTimeout);
+
+    state.speechTimeout = setTimeout(() => {
+        submit();
+        state.speechTimeout = undefined;
+    }, 5000);
+}
+const toggleListening = () => {
+    if (state.speechTimeout)
+        clearTimeout(state.speechTimeout);
+
+    if (stt.isListening.value)
+        stt.stop();
+    else
+        stt.listen(sttCallback);
+}
+
+const tts = useTTS();
+const toggleTTS = () => {
+    UISettings.ttsEnabled = !UISettings.ttsEnabled;
+}
 </script>
 
 <template v-if="props.visible">
@@ -51,7 +92,7 @@ const ended = computed(() => {
             <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0" role="link"
                 @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
                 @click="() => router.push('/content-catalogue')">
-                <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left-bottom" :useMaxContent="true"
+                <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon chatbox-content-default">
                     </div>
@@ -60,7 +101,7 @@ const ended = computed(() => {
             <div v-if="props.optionsVisible" class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
                 @keydown.prevent.space.enter="$emit('toggleOptions')" @click="$emit('toggleOptions')" tabindex="0">
-                <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left-bottom" :useMaxContent="true"
+                <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon summary-switch-default"></div>
                 </Tooltip>
@@ -69,8 +110,30 @@ const ended = computed(() => {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :readonly="bot.status === 'writing'" v-model="textInput" aria-label="Message input for the bot" />
+                    :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
             </form>
+            <template v-if="stt.isSupported.value">
+                <Tooltip :text="stt.isListening.value
+                    ? $t(l.tooltip_chat_speech_recognition_off)
+                    : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <div class="chat-speech-button" @click="toggleListening">
+                        <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
+                        <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+                    </div>
+                </Tooltip>
+            </template>
+            <template v-if="tts.isSupported.value">
+                <Tooltip :text="UISettings.ttsEnabled
+                    ? $t(l.tooltip_chat_tts_read_new_messages_off)
+                    : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <div class="chat-tts-button" @click="toggleTTS">
+                        <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
+                        <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
+                    </div>
+                </Tooltip>
+            </template>
             <div class="chat-send-button" @click="submit">
                 <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
                     :adjustPosition="true">
@@ -100,6 +163,7 @@ const ended = computed(() => {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
+    align-items: center;
 }
 
 .chat-input-header {
@@ -132,7 +196,7 @@ const ended = computed(() => {
     margin-top: -4.6rem;
     overflow: hidden;
     position: absolute;
-    background-image: url(/src/assets/images/aire-bot.png);
+    background-image: url("@/assets/images/aire-bot.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -160,7 +224,9 @@ const ended = computed(() => {
 }
 
 .chat-options-button,
-.chat-send-button {
+.chat-send-button,
+.chat-speech-button,
+.chat-tts-button {
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -169,6 +235,7 @@ const ended = computed(() => {
     transition: color .25s;
     padding: 0.2rem;
     color: var(--button-color);
+    width: 2rem;
 
     &:hover {
         color: var(--accent-primary-color);

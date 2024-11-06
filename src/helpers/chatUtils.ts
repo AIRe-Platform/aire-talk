@@ -37,6 +37,8 @@ import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } fro
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
 import { updateKeywordMetadata } from "./keywordUtils";
+import useTTS from "./textToSpeech";
+import { UISettings } from "@/context/ui";
 
 const chat = useChat();
 
@@ -90,7 +92,7 @@ export function getChatbotInputData(): AireChatbotInput {
             year_of_birth: chat.state.year_of_birth,
             occupation: chat.state.occupation,
             topic: chat.state.topic?.name,
-            language: locale
+            language: locale.value
         }
     };
 
@@ -377,7 +379,7 @@ export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
 
         const suitable = e.results.filter(x =>
             !alreadyAnswered.includes(x.id) &&
-            (!x.language || x.language.includes(lang)));
+            (!x.language || x.language.includes(lang.value)));
 
         const best = suitable.filter(x => !x.relevance || x.relevance > 0.75).sort((a, b) => {
             if (a.relevance && b.relevance)
@@ -487,6 +489,9 @@ export async function handleEndEvent(e: AireChatbotEndEvent) {
         }
 
         chat.push(last, false, true);
+
+        if(last.content && UISettings.ttsEnabled)
+            useTTS().speak(last.content);
     }
 
     if (endConversation || chat.state.red_flag_triggered) {
