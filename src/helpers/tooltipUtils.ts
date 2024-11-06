@@ -2,6 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'bottom-left';
+
 /**
  * Adjusts the tooltip text position to avoid cropping by screen or parent borders.
  * @param event Mouse event in the element to show the tooltip
@@ -11,7 +13,7 @@
 export function adjustTooltipPosition(
   event: MouseEvent, 
   useMaxContent: boolean, 
-  avoidCropPosition?: 'top' | 'bottom' | 'left' | 'right' | 'left-bottom'
+  avoidCropPosition?: TooltipPosition
 ): void {
   const targetElement = event.target as HTMLElement;
   const tooltip = targetElement.querySelector('.tooltiptext') as HTMLElement;

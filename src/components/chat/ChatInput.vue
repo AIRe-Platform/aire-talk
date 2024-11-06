@@ -92,7 +92,7 @@ const toggleTTS = () => {
             <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0" role="link"
                 @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
                 @click="() => router.push('/content-catalogue')">
-                <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left-bottom" :useMaxContent="true"
+                <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon chatbox-content-default">
                     </div>
@@ -101,7 +101,7 @@ const toggleTTS = () => {
             <div v-if="props.optionsVisible" class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
                 @keydown.prevent.space.enter="$emit('toggleOptions')" @click="$emit('toggleOptions')" tabindex="0">
-                <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left-bottom" :useMaxContent="true"
+                <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon summary-switch-default"></div>
                 </Tooltip>
