@@ -123,6 +123,10 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </Tooltip>
+            <button class="chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
+                <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+            </button>
         </div>
     </Panel>
 </template>
@@ -188,6 +192,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-tools {
         width: unset;
+        margin-top: 5rem;
     }
 
     .tool-button {
