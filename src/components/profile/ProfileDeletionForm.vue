@@ -10,6 +10,7 @@ import { router } from '@/router';
 import { l } from '@/locales';
 import Spinner from "@/components/common/Spinner.vue";
 import useLogin from '@/context/login';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const login = useLogin();
 const state = reactive<{
@@ -70,11 +71,10 @@ const onDeleteAccount = (e: Event) => {
         <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
-                <div class="tooltip">
-                    <span class="tooltiptext">{{
-                        $t(l.tooltip_delete) }}</span>
+                <Tooltip :text="$t(l.tooltip_delete)" position="bottom" :useMaxContent="false" :adjustPosition="true">
                     <button type="submit">{{ $t(l.profile_button_delete) }}</button>
-                </div>
+                </Tooltip>
+
             </template>
             <Spinner v-if="state.busy" />
         </div>

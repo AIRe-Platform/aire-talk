@@ -19,8 +19,10 @@ const emit = defineEmits<{
 let observer: IntersectionObserver | undefined;
 
 const props = defineProps<{
-    buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>
-}>()
+    buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>;
+    showCloseButton?: boolean;
+}>();
+
 
 const emitSelect = (i: number) => {
     const button = props.buttons[i];
@@ -53,20 +55,18 @@ const switchButtonFocus = (next: boolean, index: number) => {
     const nextIndex = (index + (next ? 1 : -1) + buttons.length) % buttons.length;
     buttons[nextIndex].focus();
 }
+
 </script>
 
 <template>
-    <Modal :active="true">
+    <Modal :active="true" :show-close-button="props.showCloseButton">
         <div class="dialog-question">
             <slot></slot>
         </div>
         <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-            <button v-for="(btn, i) in props.buttons"
-                @click.stop="emitSelect(i)"
-                :key="`dialog-button-${i}`"
+            <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
                 @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
-                @keydown.prevent.shift.tab="switchButtonFocus(false, i)"
-                :class="btn.className">
+                @keydown.prevent.shift.tab="switchButtonFocus(false, i)" :class="btn.className">
                 {{ $t(btn.loc_key) }}
             </button>
         </div>

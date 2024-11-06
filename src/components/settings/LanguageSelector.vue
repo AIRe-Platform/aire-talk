@@ -6,6 +6,7 @@
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import ISO6391, { LanguageCode } from 'iso-639-1';
 import { defineEmits } from 'vue';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const emit = defineEmits(['languageSelected']);
 
@@ -22,14 +23,14 @@ const setLang = async (e: Event) => {
 <template>
     <div class="language-selector-panel">
         <label for="settings-language">{{ $t(l.settings_language) }}</label>
-        <div class="tooltip">
+        <Tooltip :text="$t(l.tooltip_menu_language)" position="top" :useMaxContent="false" :adjustPosition="true">
             <select id="settings-language" class="capitalize" @change="setLang" :value="$i18n.locale">
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">
                     {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
                 </option>
             </select>
-            <span class="tooltiptext">{{ $t(l.tooltip_menu_language) }}</span>
-        </div>
+        </Tooltip>
+
     </div>
 </template>
 

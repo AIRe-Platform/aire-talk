@@ -10,6 +10,7 @@ import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Switch from '@/components/common/Switch.vue';
 import Spinner from '@/components/common/Spinner.vue';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const login = useLogin();
 
@@ -56,14 +57,13 @@ const onSave = () => {
         <h3>{{ $t(l.profile_experiments_title) }}</h3>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
-                <div class="tooltip">
-                    <span class=" tooltiptext">{{ $t(l.tooltip_override) }}</span>
-                    <Switch class="experimental-item-toggle-switch"
-                        :is-on="state.overridePrompt"
-                        @change="toggleOverridePrefs"
-                        :colorized="true"
-                        @keydown.prevent.space.enter="toggleOverridePrefs" />
-                </div>
+                <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">
+                    <div>
+                        <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
+                            @change="toggleOverridePrefs" :colorized="true"
+                            @keydown.prevent.space.enter="toggleOverridePrefs" />
+                    </div>
+                </Tooltip>
                 <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
             </div>
             <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
@@ -75,10 +75,9 @@ const onSave = () => {
             <Spinner />
         </template>
         <template v-if="!state.busy">
-            <div class="tooltip">
-                <span class="tooltiptext">{{ $t(l.tooltip_save) }}</span>
-                <button class="" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
-            </div>
+            <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <button @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+            </Tooltip>
         </template>
     </div>
 </template>

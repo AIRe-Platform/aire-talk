@@ -7,6 +7,7 @@
 import useTheme from "@/context/theme";
 import Switch from "@/components/common/Switch.vue";
 import { l } from "@/locales";
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const theme = useTheme();
 
@@ -18,18 +19,23 @@ const onSwitchTheme = (dark: boolean) => {
 <template>
     <div class="theme-container">
         <p class="theme-switch-label"> {{ $t(l.switch_color_mode) }}</p>
-        <div class="theme-switch tooltip">
-            <font-awesome-icon icon="fa-solid fa-sun" />
-            <Switch :is-on="theme.style === 'theme-dark'"
-                @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
-                @change="onSwitchTheme" />
-            <font-awesome-icon icon="fa-solid fa-moon" />
-            <span class="tooltiptext">{{ $t(l.tooltip_menu_ui_mode) }}</span>
-        </div>
+        <Tooltip :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <div class="theme-switch">
+                <font-awesome-icon icon="fa-solid fa-sun" />
+                <Switch :is-on="theme.style === 'theme-dark'"
+                    @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
+                    @change="onSwitchTheme" />
+                <font-awesome-icon icon="fa-solid fa-moon" />
+            </div>
+        </Tooltip>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.switch {
+    width: 10rem;
+}
+
 .theme-container {
     display: flex;
     flex-direction: column;

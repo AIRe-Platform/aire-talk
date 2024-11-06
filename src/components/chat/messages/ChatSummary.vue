@@ -10,6 +10,7 @@ import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import { computed, defineProps } from 'vue';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const props = defineProps<{
     message: ChatMessage
@@ -47,14 +48,14 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <div class="chat-summary-keyword" v-for="(keyword, i) in contentKeyword"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <div class="chat-summary-keyword-delete tooltip"
-                    tabindex="0"
-                    role="button"
-                    @keydown.prevent.space.enter="removeKeyword(keywords[i], true)"
-                    @click="removeKeyword(keyword[i], true)">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                    <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <div class="chat-summary-keyword-delete" tabindex="0" role="button"
+                        @keydown.prevent.space.enter="removeKeyword(keywords[i], true)"
+                        @click="removeKeyword(keywords[i], true)">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                    </div>
+                </Tooltip>
             </div>
         </div>
         <div class="chat-summary-options" v-if="isLastMessage">
@@ -62,14 +63,18 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 {{ $t(l.summary_acceptation_question) }}
             </span>
             <span class="chat-summary-options-buttons">
-                <button @click="onAcceptSummary" class="tooltip">
-                    {{ $t(l.button_yes) }}
-                    <span class="tooltiptext">{{ $t(l.tooltip_accept_summary) }}</span>
-                </button>
-                <button @click="onRejectSummary" class="tooltip">
-                    {{ $t(l.button_no) }}
-                    <span class="tooltiptext">{{ $t(l.tooltip_reject_summary) }}</span>
-                </button>
+                <Tooltip :text="$t(l.tooltip_accept_summary)" position="top" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <button @click="onAcceptSummary" class="button-accept">
+                        {{ $t(l.button_yes) }}
+                    </button>
+                </Tooltip>
+                <Tooltip :text="$t(l.tooltip_reject_summary)" position="top" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <button @click="onRejectSummary" class="button-accept">
+                        {{ $t(l.button_no) }}
+                    </button>
+                </Tooltip>
             </span>
         </div>
     </div>

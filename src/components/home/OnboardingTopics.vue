@@ -11,6 +11,7 @@ import { Topic, initialTopics } from "@/models/topic";
 import { vOnClickOutside } from '@vueuse/components';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const isOpen = ref(false);
 const login = useLogin();
@@ -52,10 +53,12 @@ const buttonSelected = async (topic: Topic) => {
             </div>
         </div>
     </div>
-    <button class="onboarding-button tooltip" @click="onTogglePanel">
-        <img src="@/assets/images/aire-logo-512.png" class="onboarding-button-image" alt="Logo">
-        <span class="tooltiptext">{{ $t(l.tooltip_onboarding_button) }}</span>
-    </button>
+    <Tooltip :text="$t(l.tooltip_onboarding_button)" position="top" :useMaxContent="false" :adjustPosition="true">
+        <button class="onboarding-button" @click="onTogglePanel">
+            <img src="@/assets/images/aire-logo-512.png" class="onboarding-button-image" alt="Logo">
+        </button>
+    </Tooltip>
+
 </template>
 
 

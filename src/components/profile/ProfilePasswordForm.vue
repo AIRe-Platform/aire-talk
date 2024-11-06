@@ -9,6 +9,7 @@ import { AireServices } from 'aire';
 import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const state = reactive<{
     error?: string,
@@ -64,11 +65,10 @@ const onChangePassword = (e: Event) => {
         <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
-                <div class="tooltip">
-                    <span class="tooltiptext">{{
-                        $t(l.tooltip_save) }}</span>
+                <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
                     <button type="submit">{{ $t(l.profile_button_change_password) }}</button>
-                </div>
+                </Tooltip>
+
             </template>
             <Spinner v-if="state.busy" />
         </div>
