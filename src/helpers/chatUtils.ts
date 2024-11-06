@@ -37,7 +37,8 @@ import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } fro
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
 import { updateKeywordMetadata } from "./keywordUtils";
-import useTTS from "@/context/tts";
+import useTTS from "./textToSpeech";
+import { UISettings } from "@/context/ui";
 
 const chat = useChat();
 
@@ -489,7 +490,7 @@ export async function handleEndEvent(e: AireChatbotEndEvent) {
 
         chat.push(last, false, true);
 
-        if(last.content)
+        if(last.content && UISettings.ttsEnabled)
             useTTS().speak(last.content);
     }
 

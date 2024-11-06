@@ -4,16 +4,17 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, watch, reactive, Ref } from "vue";
+import { defineProps, defineEmits, computed, reactive } from "vue";
 import { router } from "@/router";
 import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
 import useChat from "@/context/chat";
 import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { conversationEnded } from "@/helpers/chatUtils";
-import { useSpeechRecognition } from "@vueuse/core";
-import { getUILanguage, l } from "@/locales";
-import useTTS from "@/context/tts";
+import useTTS from "@/helpers/textToSpeech";
+import { UISettings } from "@/context/ui";
+import useSTT from "@/helpers/speechToText";
+import { l } from "@/locales";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -47,31 +48,12 @@ const ended = computed(() => {
     return conversationEnded(chat.messages);
 })
 
-const speechRecognition = useSpeechRecognition({
-    lang: getUILanguage(),
-    continuous: false,
-    interimResults: false
-});
-
-// if (speechRecognition.recognition) {
-//     speechRecognition.recognition.onerror = (e) => {
-//         console.error(e);
-//     }
-// }
-
-watch(speechRecognition.result, () => {
-    console.log("Speech recognition result: ", speechRecognition.result)
-
-    if (bot.status === "writing" || !speechRecognition.isFinal)
-        return;
-
-    let result: string = speechRecognition.result.value;
-
+const stt = useSTT();
+const sttCallback = (result: string) => {
     if (state.input.length > 0) {
         state.input += " ";
         result = result.slice(0, 1).toLocaleLowerCase() + result.slice(1);
     }
-
     state.input += result;
 
     if (state.speechTimeout)
@@ -81,25 +63,20 @@ watch(speechRecognition.result, () => {
         submit();
         state.speechTimeout = undefined;
     }, 5000);
-})
-
-watch(speechRecognition.isListening, listening => {
-    if (!listening && state.speechEnabled)
-        speechRecognition.start();
-    else
-        console.log("Listening: ", listening)
-})
-
-const listening = computed(() => (speechRecognition.isListening as Ref<boolean>).value);
-const speechRecognitionAvailable = computed(() => (speechRecognition.isSupported.value && speechRecognition.recognition))
-const tts = useTTS();
-
+}
 const toggleListening = () => {
     if (state.speechTimeout)
         clearTimeout(state.speechTimeout);
 
-    state.speechEnabled = !state.speechEnabled;
-    speechRecognition.toggle(state.speechEnabled);
+    if(stt.isListening.value)
+        stt.stop();
+    else
+        stt.listen(sttCallback);
+}
+
+const tts = useTTS();
+const toggleTTS = () => {
+    UISettings.ttsEnabled = !UISettings.ttsEnabled;
 }
 </script>
 
@@ -133,12 +110,12 @@ const toggleListening = () => {
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
                     :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
             </form>
-            <div class="chat-speech-button" @click="toggleListening" v-if="speechRecognitionAvailable">
-                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="listening" />
+            <div class="chat-speech-button" @click="toggleListening" v-if="stt.isSupported.value">
+                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
                 <font-awesome-icon icon="fa-solid fa-microphone" v-else />
             </div>
-            <div class="chat-tts-button" @click="tts.toggle()" v-if="tts.supported()">
-                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.enabled" />
+            <div class="chat-tts-button" @click="toggleTTS" v-if="tts.isSupported.value">
+                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
                 <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
             </div>
             <div class="chat-send-button" @click="submit">

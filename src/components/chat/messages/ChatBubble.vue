@@ -8,7 +8,7 @@ import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 import VueMarkdown from 'vue-markdown-render';
-import useTTS from '@/context/tts';
+import useTTS from '@/helpers/textToSpeech';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -35,8 +35,10 @@ const tts = useTTS();
                 <VueMarkdown :source="message.content" />
             </span>
             <span class="chat-bubble-buttons" v-if="props.message.role === 'assistant'">
-                <div class="chat-bubble-button" @click="tts.speak(props.message.content || '')" v-if="tts.supported()">
-                    <font-awesome-icon icon="fa-solid fa-volume-high" />
+                <div class="chat-bubble-button" @click="tts.speak(props.message.content)"
+                    v-if="tts.isSupported && props.message.content">
+                    <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.isSpeaking.value" />
+                    <font-awesome-icon icon="fa-solid fa-volume-high" v-else/>
                 </div>
             </span>
         </div>

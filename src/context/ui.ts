@@ -17,6 +17,7 @@ export enum UIFontSize {
 
 export interface UISettingsOptions {
     fontSize: UIFontSize;
+    ttsEnabled: boolean;
 }
 
 export interface UIStateOptions {
@@ -43,8 +44,8 @@ export const UISettings = reactive<UISettingsOptions>(initSettings());
 
 function initSettings(): UISettingsOptions {
     const options: UISettingsOptions = {
-        fontSize: (localStorage.getItem("ui-font-size") ||
-            UIFontSize.Normal) as UIFontSize
+        fontSize: (localStorage.getItem("ui-font-size") || UIFontSize.Normal) as UIFontSize,
+        ttsEnabled: (localStorage.getItem("tts-enabled") === "true")
     };
     applyFontSize(options.fontSize);
     return options;
@@ -60,12 +61,12 @@ function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export async function refreshBurgerMenuButtonsRef(){
+export async function refreshBurgerMenuButtonsRef() {
     UIState.chatHistoryButtonRef = document.querySelector('.chat-history-nav-button') || null;
     UIState.settingsButtonRef = document.querySelector('.settings-nav-button') || null;
 }
 
-export async function closeBurgerMenu(){
+export async function closeBurgerMenu() {
     if (UIState.showMenu) {
         UIState.isClosingMenu = true;
         await sleep(500);
@@ -73,10 +74,12 @@ export async function closeBurgerMenu(){
     }
 }
 
-watch(
-    () => UISettings.fontSize,
-    (newValue, oldValue) => {
-        applyFontSize(newValue, oldValue);
+watch(UISettings,
+    (newSettings, oldSettings) => {
+        if (newSettings.fontSize != oldSettings.fontSize)
+            applyFontSize(newSettings.fontSize, oldSettings.fontSize);
+
+        localStorage.setItem("tts-enabled", newSettings.ttsEnabled ? "true" : "false")
     },
     { deep: true }
 );
