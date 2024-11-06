@@ -5,7 +5,7 @@
 
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { ChatMessage, ChatMessageGroup, ChatMessageType } from "@/models/chat";
 import useChat from "@/context/chat";
@@ -16,8 +16,11 @@ import { createRecallQuestionnaire } from "@/controllers/recallController";
 import useChatbot from "@/context/chatbot";
 import useQuestionnaire from "@/context/questionnaire";
 import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { router } from "@/router";
 
 const showSideBar = ref(false);
+const route = useRoute();
 const chat = useChat();
 
 const canRevert = (msg: ChatMessage) => {
@@ -81,9 +84,24 @@ const isDifferentGroup = (index: number, previousNonHiddenIndex: number) => {
     return false;
 }
 
-onMounted(async () => {
-    scrollChatToBottom()
+const loadChat = async (id?: string) => {
+    if (id) {
+        console.log("Loading chat", id)
+        const open = await chat.open(id as string)
+        if (!open)
+            router.replace({ name: "Chat" });
+    }
+    else {
+        if (chat.id)
+            await chat.startNew();
+    }
+}
 
+onBeforeRouteUpdate(async (loc) => await loadChat(loc.params.id as string | undefined));
+onMounted(async () => {
+    await loadChat(route.params.id as string | undefined);
+
+    scrollChatToBottom()
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
     if (isNewChat) {
         useChatbot().makeBusy();
@@ -95,6 +113,23 @@ onMounted(async () => {
             .finally(() => useChatbot().reportReady())
     }
 });
+
+watch(() => chat.id, (newId, oldId) => {
+    if (newId && !oldId) {
+        // Update route when new chat got saved
+        router.replace({
+            name: "Chat",
+            params: { id: newId }
+        })
+    }
+
+    if (!newId && oldId) {
+        // Update route when current chat deleted
+        router.replace({
+            name: "Chat"
+        })
+    }
+})
 </script>
 
 <template>

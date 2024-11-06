@@ -49,8 +49,7 @@ const getLastChatId = async () => {
 
 const openLastChat = async () => {
     const last = await getLastChatId();
-    if (await chat.open(last))
-        router.push("/chat");
+    router.push({ name: "Chat", params: { id: last } });
 }
 
 const navigateTo = (path: string) => {
@@ -81,24 +80,16 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="newChat()"
+                <div class="icon frontpage-button" tabindex="0" role="link" @keydown.prevent.space.enter="newChat()"
                     @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="openLastChat()"
-                    @click="openLastChat()"
+                <div class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="openLastChat()" @click="openLastChat()"
                     v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </div>
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="button"
+                <div class="icon frontpage-button" tabindex="0" role="button"
                     @keydown.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
                     @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
@@ -111,12 +102,11 @@ onMounted(async () => {
             </div>
         </div>
     </div>
-    <DialogModal :active="state.showConfirmLogout"
-        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+    <DialogModal :active="state.showConfirmLogout" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
         :buttons="[
-        { loc_key: l.button_accept, onClick: onConfirmLogout },
-        { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }
-    ]">
+            { loc_key: l.button_accept, onClick: onConfirmLogout },
+            { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }
+        ]">
         {{ $t(l.popup_confirm_logout) }}
     </DialogModal>
 </template>

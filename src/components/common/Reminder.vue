@@ -76,7 +76,10 @@ const returnToConversation = (id: string) => {
     openAndContinueChat(id)
         .then(result => {
             if (result)
-                router.push("/chat");
+                router.push({
+                    name: "Chat",
+                    params: { id: id }
+                });
         });
 }
 

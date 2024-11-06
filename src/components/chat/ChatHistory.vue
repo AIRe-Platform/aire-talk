@@ -91,9 +91,10 @@ const onSelect = async (id: string) => {
     if (isOpen(id))
         return;
 
-    const open = await chat.open(id);
-    if (open)
-        router.push("/chat");
+    router.push({
+        name: "Chat",
+        params: { id: id }
+    });
 
     UIState.panels.delete(UIPanels.ChatHistory);
     await closeBurgerMenu();
