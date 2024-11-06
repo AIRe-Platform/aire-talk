@@ -247,6 +247,12 @@ const rw: Locale = {
     tooltip_nav_about: "Jya kuri twe.",
     tooltip_menu_language: "Hitamo ururimi rw'akabuto k'inyandiko.",
     tooltip_menu_ui_mode: "Hindura uburyo bw'amabara ya UI.",
+    tooltip_chat_speech_recognition_off: "Hagarika kumenyekanisha imvugo",
+    tooltip_chat_speech_recognition_on: "Tangira kumenyekanisha imvugo",
+    tooltip_chat_tts_read_message: "Soma ubutumwa",
+    tooltip_chat_tts_stop_reading: "Reka gusoma",
+    tooltip_chat_tts_read_new_messages_off: "Reka gusoma ubutumwa bushya",
+    tooltip_chat_tts_read_new_messages_on: "Soma ubutumwa bushya",
     
     Language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
 

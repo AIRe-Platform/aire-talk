@@ -253,6 +253,12 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_nav_about: "Siirry tietoja meistä -sivulle.",
     tooltip_menu_language: "Valitse käyttöliittymän kieli.",
     tooltip_menu_ui_mode: "Vaihda käyttöliittymän väriteema.",
+    tooltip_chat_speech_recognition_off: "Pysäytä puheentunnistus",
+    tooltip_chat_speech_recognition_on: "Aloita puheentunnistus",
+    tooltip_chat_tts_read_message: "Lue viesti",
+    tooltip_chat_tts_stop_reading: "Lopeta lukeminen",
+    tooltip_chat_tts_read_new_messages_off: "Lopeta uusien viestien automaattinen lukeminen",
+    tooltip_chat_tts_read_new_messages_on: "Lue uudet viestit",
         
     Language_default_message: "Valitse käyttöliittymän oletuskieli:",
 

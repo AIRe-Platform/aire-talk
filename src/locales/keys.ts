@@ -229,6 +229,12 @@ export enum LocalizationKey {
     tooltip_nav_about = "tooltip_nav_about",
     tooltip_menu_language = "tooltip_menu_language",
     tooltip_menu_ui_mode = "tooltip_menu_ui_mode",
+    tooltip_chat_speech_recognition_off = "tooltip_chat_speech_recognition_off",
+    tooltip_chat_speech_recognition_on = "tooltip_chat_speech_recognition_on",
+    tooltip_chat_tts_read_message = "tooltip_chat_tts_read_message",
+    tooltip_chat_tts_stop_reading = "tooltip_chat_tts_stop_reading",
+    tooltip_chat_tts_read_new_messages_off = "tooltip_chat_tts_read_new_messages_off",
+    tooltip_chat_tts_read_new_messages_on = "tooltip_chat_tts_read_new_messages_on",
     
     Language_default_message = "Language_default_message",
     

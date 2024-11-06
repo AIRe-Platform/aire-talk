@@ -9,6 +9,8 @@ import { ChatMessage } from '@/models/chat';
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 import VueMarkdown from 'vue-markdown-render';
 import useTTS from '@/helpers/textToSpeech';
+import { l } from '@/locales';
+import Tooltip from '@/components/common/Tooltip.vue';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -16,6 +18,12 @@ const props = defineProps<{
 }>();
 
 const tts = useTTS();
+const onTTS = () => {
+    if (tts.isSpeaking.value)
+        tts.stop();
+    else
+        tts.speak(props.message.content || "");
+}
 </script>
 
 <template>
@@ -35,11 +43,15 @@ const tts = useTTS();
                 <VueMarkdown :source="message.content" />
             </span>
             <span class="chat-bubble-buttons" v-if="props.message.role === 'assistant'">
-                <div class="chat-bubble-button" @click="tts.speak(props.message.content)"
-                    v-if="tts.isSupported && props.message.content">
-                    <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.isSpeaking.value" />
-                    <font-awesome-icon icon="fa-solid fa-volume-high" v-else/>
-                </div>
+                <Tooltip :text="tts.isSpeaking.value
+                    ? $t(l.tooltip_chat_tts_stop_reading)
+                    : $t(l.tooltip_chat_tts_read_message)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true" v-if="tts.isSupported.value && props.message.content">
+                    <div class="chat-bubble-button" @click="onTTS">
+                        <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.isSpeaking.value" />
+                        <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
+                    </div>
+                </Tooltip>
             </span>
         </div>
     </div>

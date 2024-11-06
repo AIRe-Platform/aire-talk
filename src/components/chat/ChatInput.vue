@@ -112,14 +112,28 @@ const toggleTTS = () => {
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
                     :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
             </form>
-            <div class="chat-speech-button" @click="toggleListening" v-if="stt.isSupported.value">
-                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
-                <font-awesome-icon icon="fa-solid fa-microphone" v-else />
-            </div>
-            <div class="chat-tts-button" @click="toggleTTS" v-if="tts.isSupported.value">
-                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
-                <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
-            </div>
+            <template v-if="stt.isSupported.value">
+                <Tooltip :text="stt.isListening.value
+                    ? $t(l.tooltip_chat_speech_recognition_off)
+                    : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <div class="chat-speech-button" @click="toggleListening">
+                        <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
+                        <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+                    </div>
+                </Tooltip>
+            </template>
+            <template v-if="tts.isSupported.value">
+                <Tooltip :text="UISettings.ttsEnabled
+                    ? $t(l.tooltip_chat_tts_read_new_messages_off)
+                    : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <div class="chat-tts-button" @click="toggleTTS">
+                        <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
+                        <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
+                    </div>
+                </Tooltip>
+            </template>
             <div class="chat-send-button" @click="submit">
                 <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
                     :adjustPosition="true">

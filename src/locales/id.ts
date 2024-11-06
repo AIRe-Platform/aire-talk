@@ -253,6 +253,12 @@ const id: Locale = {
     tooltip_nav_about: "Pergi ke tentang kami.",
     tooltip_menu_language: "Pilih bahasa antarmuka pengguna.",
     tooltip_menu_ui_mode: "Ubah antarmuka warna UI.",
+    tooltip_chat_speech_recognition_off: "Hentikan pengenalan ucapan",
+    tooltip_chat_speech_recognition_on: "Mulai pengenalan ucapan",
+    tooltip_chat_tts_read_message: "Baca pesan",
+    tooltip_chat_tts_stop_reading: "Berhenti membaca",
+    tooltip_chat_tts_read_new_messages_off: "Berhenti membaca pesan baru",
+    tooltip_chat_tts_read_new_messages_on: "Baca pesan baru",
 
     Language_default_message: "Pilih bahasa default antarmuka:",
 

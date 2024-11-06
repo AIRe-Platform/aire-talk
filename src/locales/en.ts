@@ -237,6 +237,12 @@ const en: Locale = {
     tooltip_nav_about: "Go to about us.",
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
+    tooltip_chat_speech_recognition_off: "Stop speech recognition",
+    tooltip_chat_speech_recognition_on: "Start speech recognition",
+    tooltip_chat_tts_read_message: "Read message",
+    tooltip_chat_tts_stop_reading: "Stop reading",
+    tooltip_chat_tts_read_new_messages_off: "Stop reading new messages",
+    tooltip_chat_tts_read_new_messages_on: "Read new messages",
 
     Language_default_message: "Select UI Default Language:",
    
