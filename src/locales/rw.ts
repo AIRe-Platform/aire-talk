@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const rw: Locale = {
-    aire_bot: "AIRe chati",
+    aire_bot: "AIRe",
     aire_system: "Igenamiterere rya AIRe",
 
     footer: "Iterambere",

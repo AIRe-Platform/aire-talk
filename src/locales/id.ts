@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const id: Locale = {
-    aire_bot: "AIRe Bot",
+    aire_bot: "AIRe",
     aire_system: "Sistem AIRe",
 
     footer: "Pengembangan",
