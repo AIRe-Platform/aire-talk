@@ -231,7 +231,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_copy_message: "Kopioi tämä viesti leikepöydälle.",
     tooltip_message_copied: "Viesti kopioitu.",
     tooltip_revert_message: "Poista seuraavat viestit tästä.",
-    tooltip_remove_keyword: "Poista tämä avainsana.",
+    tooltip_remove_keyword: "Poista tämä teema.",
     tooltip_accept_summary: "Hyväksyn tämän yhteenvedon.",
     tooltip_reject_summary: "En hyväksy tätä yhteenvetoa.",
     tooltip_mark_reminder_read: "Ja poista tämä muistutus täältä.",

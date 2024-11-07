@@ -235,7 +235,7 @@ const es: Locale = {
     tooltip_copy_message: "Copia mensaje en el portapapeles.",
     tooltip_message_copied: "Mensaje copiado.",
     tooltip_revert_message: "Elimina los mensajes siguientes a este.",
-    tooltip_remove_keyword: "Elimina esta palabre clave.",
+    tooltip_remove_keyword: "Elimina este tema.",
     tooltip_accept_summary: "Acepto este resumen.",
     tooltip_reject_summary: "No acepto este resumen.",
     tooltip_mark_reminder_read: "Y elimina el recordatorio de aquí.",

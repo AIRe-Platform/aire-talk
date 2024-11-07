@@ -216,7 +216,7 @@ const en: Locale = {
     tooltip_copy_message: "Copy this message in the copyboard.",
     tooltip_message_copied: "Message copied.",
     tooltip_revert_message: "Remove the next messages from here.",
-    tooltip_remove_keyword: "Remove this keyword.",
+    tooltip_remove_keyword: "Remove this theme.",
     tooltip_accept_summary: "I accept this summary.",
     tooltip_reject_summary: "I do not accept this summary.",
     tooltip_mark_reminder_read: "And remove from here this reminder.",
