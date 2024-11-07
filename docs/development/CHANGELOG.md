@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.5] - 2024-11-07
+### Fixed
+- Some Finnish localisations changed.
+- Some buttons changed from Accept/Reject to Yes/no.
+- Tooltip has been refactor to a new Component.
+
 ## [1.0.4] - 2024-11-05
 ### Fixed
 - Introduce a delay to the chat response only if it would otherwise be instant.
