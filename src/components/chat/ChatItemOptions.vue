@@ -173,10 +173,9 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
                     </div>
                 </Tooltip>
                 <Tooltip :text="$t(l.tooltip_revert_message)" position="top" :useMaxContent="false"
-                    :adjustPosition="true">
+                    :adjustPosition="true" v-if="props.can_revert">
                     <div @click.stop="onRevert" role="button" :tabindex="optionsMenuTabindex"
-                        @keydown.prevent.space.enter="onRevert" class="chat-item-options-menu-button fa-arrows-spin"
-                        :class="{ 'is-selected': state.rating > 0 }">
+                        @keydown.prevent.space.enter="onRevert" class="chat-item-options-menu-button fa-arrows-spin">
                         <font-awesome-icon icon="fa-solid fa-arrows-spin" />
                     </div>
                 </Tooltip>
