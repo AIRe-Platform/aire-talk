@@ -152,7 +152,7 @@ const en: Locale = {
     summary_acceptation_question: "Is the summary correct?",
 
     suggestions_title: "Suggestions",
-    
+
     tools_title: "Tools",
     tools_button_summarize: "Summarize",
     tools_button_query_surveys: "Query surveys",
@@ -244,8 +244,21 @@ const en: Locale = {
     tooltip_chat_tts_read_new_messages_off: "Stop reading new messages",
     tooltip_chat_tts_read_new_messages_on: "Read new messages",
 
+    tutorial_home_welcome_message: "Welcome to AIRe! Would you like to take a quick tour on how to use the app?",
+    tutorial_chat_welcome_message: "On this page, you can chat with AIRe bot. Would you like a quick tour about chatting with the bot?",
+    tutorial_start_chat_message: "Click here to start a new chat with AIRe bot.",
+    tutorial_menu_message: "Click here to find your chat history, profile, settings, and more.",
+    tutorial_history_message: "Once you have chatted with AIRe, you can find your chat history here.",
+    tutorial_profile_message: "Here you can see and edit your profile information.",
+    tutorial_settings_message: "Here you can change the UI language, theme, and size.",
+    tutorial_input_message: "Let's start by typing 'Hello AIRe' in this input field and see what happens...",
+    tutorial_sidepanel_message: "Click here to open the side panel for additional chat tools.",
+    tutorial_next: "Next",
+    tutorial_skip: "Skip",
+    tutorial_done: "Done",
+
     Language_default_message: "Select UI Default Language:",
-   
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

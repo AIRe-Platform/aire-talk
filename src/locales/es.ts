@@ -64,7 +64,7 @@ const es: Locale = {
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
-    
+
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
@@ -157,7 +157,7 @@ const es: Locale = {
 
     onboarding_greetings: "¡Hola!",
     onboarding_question: "¿Le gustaría discutir sobre estos temas?",
-    
+
     topic_backpain: "Dolor de espalda",
     topic_neckpain: "Dolor de cuello",
     topic_sleep_apnea: "Apnea del sueño",
@@ -262,7 +262,20 @@ const es: Locale = {
     tooltip_chat_tts_stop_reading: "Dejar de leer",
     tooltip_chat_tts_read_new_messages_off: "Dejar de leer mensajes nuevos",
     tooltip_chat_tts_read_new_messages_on: "Leer mensajes nuevos",
-    
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
 
     en: "Inglés",

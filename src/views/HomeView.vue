@@ -15,6 +15,7 @@ import useTheme, { ThemeContext } from "@/context/theme";
 
 import DialogModal from "@/components/layout/DialogModal.vue";
 import ReminderComponent from "@/components/common/Reminder.vue";
+import { HomeTutorialState } from '@/context/tutorials';
 
 const login = useLogin();
 const chat = useChat();
@@ -80,7 +81,11 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button" tabindex="0" role="link" @keydown.prevent.space.enter="newChat()"
+                <div class="icon frontpage-button"
+                    :data-tutorial-state="HomeTutorialState.StartChat"
+                    tabindex="0"
+                    role="link"
+                    @keydown.prevent.space.enter="newChat()"
                     @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
@@ -96,7 +101,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="home-footer">
-                <p class="disclaimer">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
+                <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
                 <div class="chat-bot">
                 </div>
             </div>

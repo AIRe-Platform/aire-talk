@@ -63,7 +63,7 @@ const vi: Locale = {
     nav_main_menu: "Thực đơn chính",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
-    
+
     profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",
@@ -258,7 +258,20 @@ const vi: Locale = {
     tooltip_chat_tts_stop_reading: "Dừng đọc",
     tooltip_chat_tts_read_new_messages_off: "Dừng đọc tin nhắn mới",
     tooltip_chat_tts_read_new_messages_on: "Đọc tin nhắn mới",
-    
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
 
     en: "Tiếng Anh",

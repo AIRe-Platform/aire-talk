@@ -15,6 +15,7 @@ import useTTS from "@/helpers/textToSpeech";
 import { UISettings } from "@/context/ui";
 import useSTT from "@/helpers/speechToText";
 import { l } from "@/locales";
+import { ChatTutorialState } from "@/context/tutorials";
 
 const props = defineProps<{
     optionsOpen: boolean,
@@ -82,7 +83,7 @@ const toggleTTS = () => {
 
 <template v-if="props.visible">
     <div class="chat-input" v-if="!ended">
-        <div class="chat-bot" :class="{
+        <div class="chat-bot" :data-tutorial-state="ChatTutorialState.Welcome" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
         }">
@@ -100,6 +101,7 @@ const toggleTTS = () => {
             </div>
             <div v-if="props.optionsVisible" class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
+                :data-tutorial-state="ChatTutorialState.Sidepanel"
                 @keydown.prevent.space.enter="$emit('toggleOptions')" @click="$emit('toggleOptions')" tabindex="0">
                 <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
@@ -110,6 +112,7 @@ const toggleTTS = () => {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
+                    :data-tutorial-state="ChatTutorialState.Input"
                     :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
             </form>
             <template v-if="stt.isSupported.value">
