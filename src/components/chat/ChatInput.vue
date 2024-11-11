@@ -120,7 +120,7 @@ const toggleTTS = () => {
                     ? $t(l.tooltip_chat_speech_recognition_off)
                     : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-speech-button" @click="toggleListening">
+                    <div class="chat-speech-button" @click="toggleListening" @keydown.prevent.space.enter="toggleListening" tabindex="0">
                         <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
                         <font-awesome-icon icon="fa-solid fa-microphone" v-else />
                     </div>
@@ -131,7 +131,7 @@ const toggleTTS = () => {
                     ? $t(l.tooltip_chat_tts_read_new_messages_off)
                     : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-tts-button" @click="toggleTTS">
+                    <div class="chat-tts-button" @click="toggleTTS" @keydown.prevent.space.enter="toggleTTS" tabindex="0">
                         <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
                         <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
                     </div>
