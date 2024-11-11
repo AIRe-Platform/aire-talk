@@ -110,7 +110,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
     }">
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
-            <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav" v-if="!TutorialStates.nav.isDone()"/>
+            <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav" v-if="login.user && !TutorialStates.nav.isDone()"/>
             <div class="nav-link"
                 :tabindex="navLinkTabindex"
                 @keydown.prevent.space.enter="navLogoClick"

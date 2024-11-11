@@ -107,8 +107,8 @@ onMounted(() => {
     <div id="main" v-if="AppState === 'loaded'">
         <NavMenu />
         <main class="main-content">
-            <TutorialPopup :tutorial="TutorialStates.home" v-if="!TutorialStates.home.isDone()"/>
-            <TutorialPopup :tutorial="TutorialStates.chat" v-if="!TutorialStates.chat.isDone()"/>
+            <TutorialPopup :tutorial="TutorialStates.home" v-if="login.user && !TutorialStates.home.isDone()"/>
+            <TutorialPopup :tutorial="TutorialStates.chat" v-if="login.user && !TutorialStates.chat.isDone()"/>
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
         </main>
