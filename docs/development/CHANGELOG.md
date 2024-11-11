@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.6] - 2024-11-08
+### Added
+- Tutorial
+
 ## [1.0.5] - 2024-11-07
 ### Fixed
 - Some Finnish localisations changed.
