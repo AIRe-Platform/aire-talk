@@ -33,7 +33,7 @@ const onOpen = async (e: Event) => {
     if (!UIState.showMenu) {
         UIState.isNavMenuCompressed = false;
     }
-    if (TutorialStates.home.state === HomeTutorialState.Menu)
+    if (TutorialStates.home.isLastState())
         TutorialStates.home.skip();
 };
 

@@ -18,7 +18,7 @@ import useQuestionnaire from "@/context/questionnaire";
 import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { router } from "@/router";
-import { ChatTutorialState, TutorialStates } from "@/context/tutorials";
+import { TutorialStates } from "@/context/tutorials";
 
 const showSideBar = ref(false);
 const route = useRoute();
@@ -31,7 +31,7 @@ const canRevert = (msg: ChatMessage) => {
 
 const toggleSidebar = () => {
     showSideBar.value = !showSideBar.value;
-    if (TutorialStates.chat.state === ChatTutorialState.Sidepanel)
+    if (TutorialStates.chat.isLastState())
         TutorialStates.chat.skip();
     else
         TutorialStates.shouldUpdatePosition = true;
