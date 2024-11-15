@@ -44,9 +44,7 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
             </div>
-            <div :class="getIconClass(props.content.type)"
-                class="icon"
-                tabindex="0"
+            <div :class="getIconClass(props.content.type)" class="icon" tabindex="0"
                 @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
         </div>
         <div class="catalogue-item-media">
@@ -67,7 +65,6 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
                     <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>
             </div>
-
         </div>
 
         <div class="star-rating">
@@ -112,6 +109,7 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
     width: 100%;
     height: auto;
     flex-shrink: 1;
+    flex-direction: column;
 }
 
 .catalogue-item-description {
