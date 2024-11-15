@@ -101,6 +101,7 @@ onUnmounted(() => UIState.reminderModalRef = null);
         <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
             <div class="reminders-panel">
                 <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
+                    <!-- there are warnings here TODO check this out -->
                     <div class="reminder-date">
                         {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
                     </div>
