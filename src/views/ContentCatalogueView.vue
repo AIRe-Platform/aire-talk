@@ -23,6 +23,10 @@ const navigateTo = (path: string) => {
     router.push(path);
 }
 
+// Define a type that wraps AireContent with chatId
+export interface AireContentWithChatId extends AireContent {
+    chatId: string; // or the appropriate type for chatId, such as string
+}
 const contentContext = useContent();
 
 export type SortOption = 'newest' | 'oldest';
@@ -33,7 +37,7 @@ const state = reactive<{
     openContent?: AireContent,
     confirmDelete: boolean,
     selectedItem?: AireContent,
-    contentList: AireContent[],
+    contentList: AireContentWithChatId[],
     rankedContents: AireContent[],
     modalOpen: boolean,
     keywords: AireKeyword[],
@@ -55,8 +59,10 @@ const state = reactive<{
 });
 
 const filteredContents = computed(() => {
-    let result = state.contentList;
-
+    let result = state.contentList.map(item => {
+        const { chatId, ...content } = item; // Extract content, leaving out chatId
+        return content; // Return only the content part (AireContent)
+    });
     // Filter based on selected keywords
     if (state.selectedKeywords && state.selectedKeywords.length > 0) {
         const selectedValues = state.selectedKeywords.map(k => k.value);
@@ -134,24 +140,24 @@ const listContent = async () => {
         const item = await contentContext.get(contentId);
 
         if (item) {
-            item.chatId = chatId;
-
+            // item.chatId = chatId;
+            const wrappedItem: AireContentWithChatId = { ...item, chatId };
             if (uniqueContentMap.has(contentId)) {
                 const existingItem = uniqueContentMap.get(contentId);
 
                 // Compare modified timestamps, if both are defined, and keep the latest one
                 if (
-                    item.modified && existingItem.modified &&
-                    item.modified > existingItem.modified
+                    wrappedItem.modified && existingItem.modified &&
+                    wrappedItem.modified > existingItem.modified
                 ) {
-                    uniqueContentMap.set(contentId, item);
-                } else if (!existingItem.modified || (item.modified && !existingItem.modified)) {
-                    // If existingItem.modified is undefined, prefer item
-                    uniqueContentMap.set(contentId, item);
+                    uniqueContentMap.set(contentId, wrappedItem);
+                } else if (!existingItem.modified || (wrappedItem.modified && !existingItem.modified)) {
+                    // If existingItem.modified is undefined, prefer wrappedItem
+                    uniqueContentMap.set(contentId, wrappedItem);
                 }
             } else {
                 //no dupes
-                uniqueContentMap.set(contentId, item);
+                uniqueContentMap.set(contentId, wrappedItem);
             }
         }
     }
@@ -207,7 +213,14 @@ onMounted(async () => {
     state.busy = false;
     // Rank the content only if it's not empty
     if (state.contentList && state.contentList.length > 0) {
-        state.rankedContents = await rankSelectedContent(state.contentList);
+        // Extract only the content part (AireContent) from the wrapped items
+        const contentWithoutChatId = state.contentList.map(item => {
+            const { chatId, ...content } = item; // Extract content without chatId
+            return content; // Return only the content part
+        });
+
+        // Pass the extracted content to the ranking function
+        state.rankedContents = await rankSelectedContent(contentWithoutChatId);
     }
 });
 
@@ -215,7 +228,9 @@ onMounted(async () => {
 
 <template>
     <ContentModal :active="state.openContent !== undefined && state.modalOpen" v-if="state.openContent"
-        :content="state.openContent" :onClose="closeModal" />
+        :content="state.openContent"
+        :chatId="state.contentList?.find(content => content.id === state.openContent?.id)?.chatId"
+        :onClose="closeModal" />
     <div class="content-catalogue-view">
         <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
             class="icon close-window xmark-icon">
