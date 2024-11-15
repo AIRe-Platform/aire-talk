@@ -18,6 +18,7 @@ import useQuestionnaire from "@/context/questionnaire";
 import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { router } from "@/router";
+import { TutorialStates } from "@/context/tutorials";
 
 const showSideBar = ref(false);
 const route = useRoute();
@@ -30,6 +31,10 @@ const canRevert = (msg: ChatMessage) => {
 
 const toggleSidebar = () => {
     showSideBar.value = !showSideBar.value;
+    if (TutorialStates.chat.isLastState())
+        TutorialStates.chat.skip();
+    else
+        TutorialStates.shouldUpdatePosition = true;
 };
 
 // Group chat messages to groups 

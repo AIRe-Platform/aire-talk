@@ -264,7 +264,20 @@ content_modal_continue_to_chat: "Garuka kuganira",
     tooltip_chat_tts_stop_reading: "Reka gusoma",
     tooltip_chat_tts_read_new_messages_off: "Reka gusoma ubutumwa bushya",
     tooltip_chat_tts_read_new_messages_on: "Soma ubutumwa bushya",
-    
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
 
     en: "Icyongereza",

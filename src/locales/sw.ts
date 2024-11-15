@@ -64,7 +64,7 @@ const sw: Locale = {
     nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
-    
+
     profile_title: "Akaunti ya mtumiaji",
     profile_label_first_name: "Jina la kwanza",
     profile_label_last_name: "Jina la mwisho",
@@ -251,7 +251,20 @@ const sw: Locale = {
     tooltip_chat_tts_stop_reading: "Acha kusoma",
     tooltip_chat_tts_read_new_messages_off: "Acha kusoma jumbe mpya",
     tooltip_chat_tts_read_new_messages_on: "Soma jumbe mpya",
-    
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Chagua lugha ya msingi ya kiolesura:",
 
     en: "Kiingereza",

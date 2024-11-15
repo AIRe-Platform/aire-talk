@@ -16,7 +16,7 @@ const fi: Locale = {
         "Tervetuloa AIRe-palveluun! Aloita kuvailemalla tilannettasi tai tarvitsemaasi apua.",
     system_topic: "Olet valinnut aiheeksi: ",
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
-    system_end_of_conversation: "Keskustelu on päättynyt",    
+    system_end_of_conversation: "Keskustelu on päättynyt",
     system_end_of_conversation_options: "Miten haluat jatkaa?",
     system_reminder_set: "Luotiin muistutus '{subject}' ajankohdalle {time}.",
 
@@ -33,7 +33,7 @@ const fi: Locale = {
     start_footer:
         "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutumisen tarpeitasi ja opastaa sinut yksilöllisesti kuntoutuksen palveluiden ja sisällön pariin.",
     start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
-    
+
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
 
@@ -76,7 +76,7 @@ const fi: Locale = {
     profile_button_save: "Tallenna",
     profile_characters_max: 'Enintään {0} merkkiä.',
     profile_remaining: "jäljellä olevat merkit.",
-    
+
     profile_heading_connected_services: "Yhdistetyt palvelut",
     profile_empty_service_list: "Ei yhdistettyjä palveluita",
 
@@ -88,8 +88,8 @@ const fi: Locale = {
     profile_button_change_password: "Vaihda salasana",
 
     profile_heading_personal_data: "Henkilökohtaiset tiedot",
-    profile_description_personal_data: 
-        "Kaikki keräämämme yksilöivät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
+    profile_description_personal_data:
+        "Kaikki keräämämme yksilöivät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Tietosi ovat AIRe-palvelujen käytettävissä vain silloin, kun sinä käytät niitä. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
     profile_button_download_personal_data: "Lataa",
 
     profile_heading_delete_account: "Tilin poistaminen",
@@ -269,7 +269,20 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_chat_tts_stop_reading: "Lopeta lukeminen",
     tooltip_chat_tts_read_new_messages_off: "Lopeta uusien viestien automaattinen lukeminen",
     tooltip_chat_tts_read_new_messages_on: "Lue uudet viestit",
-        
+
+    tutorial_home_welcome_message: "Tervetuloa AIReen! Haluaisitko opastusta sovelluksen käytöstä?",
+    tutorial_chat_welcome_message: "Tällä sivulla voit keskustella AIRe-botin kanssa. Haluaisitko nopean opastuksen keskustelusta botin kanssa?",
+    tutorial_start_chat_message: "Klikkaa tästä aloittaaksesi uuden keskustelun AIRe-botin kanssa.",
+    tutorial_menu_message: "Klikkaa tästä löytääksesi keskusteluhistoriasi, profiilisi, asetukset ja paljon muuta.",
+    tutorial_history_message: "Kun olet keskustellut AIRe-botin kanssa, löydät keskusteluhistoriasi täältä.",
+    tutorial_profile_message: "Täältä voit nähdä ja muokata profiilitietojasi.",
+    tutorial_settings_message: "Täältä voit muuttaa käyttöliittymän kieltä, teemaa ja kokoa.",
+    tutorial_input_message: "Aloitetaan kirjoittamalla 'Hei AIRe' tähän kenttään ja katsotaan mitä tapahtuu...",
+    tutorial_sidepanel_message: "Klikkaa tästä avataksesi sivupaneelin lisäkeskustelutyökaluja varten.",
+    tutorial_next: "Seuraava",
+    tutorial_skip: "Ohita",
+    tutorial_done: "Valmis",
+
     Language_default_message: "Valitse käyttöliittymän oletuskieli:",
 
     en: "Englanti",
