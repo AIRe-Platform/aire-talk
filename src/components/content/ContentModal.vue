@@ -18,6 +18,7 @@ const props = defineProps<{
     active: boolean,
     parent?: ChatMessage,
     content?: AireContent,
+    chatId?: string,
     onClose: () => void
 }>()
 const state = reactive<{
@@ -110,8 +111,7 @@ onMounted(async () => {
                     </div>
                 </div>
                 <div class="message-options">
-                    <button class="button" v-if="props.content?.chatId"
-                        @click="returnToConversation(props.content?.chatId)">
+                    <button class="button" v-if="props.chatId" @click="returnToConversation(props.chatId)">
                         <span class="button-text"> {{ $t(l.content_modal_continue_to_chat) }} </span>
                         <font-awesome-icon icon="fa-solid fa-comment" />
                     </button>
