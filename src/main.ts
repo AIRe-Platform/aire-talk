@@ -31,6 +31,9 @@ import {
     faMicrophoneSlash,
     faVolumeHigh,
     faVolumeXmark,
+    faComment,
+    faSortDown,
+    faSortUp
 } from "@fortawesome/free-solid-svg-icons";
 import useLogin from "./context/login";
 
@@ -54,7 +57,10 @@ library.add(
     faMicrophone,
     faMicrophoneSlash,
     faVolumeHigh,
-    faVolumeXmark
+    faVolumeXmark,
+    faComment,
+    faSortDown,
+    faSortUp
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
