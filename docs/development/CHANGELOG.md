@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.7] - 2024-11-15
+### Added
+- Content modal: copyright, description, themes and a button to chat where it comes.
+- Content catalogue: a new filter, with all themes that user has found in all chats.
+
 ## [1.0.6] - 2024-11-08
 ### Added
 - Tutorial
