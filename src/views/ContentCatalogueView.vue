@@ -7,20 +7,25 @@
 <script setup lang="ts">
 import { l } from "@/locales";
 import { router } from "@/router";
-import { onMounted, reactive } from "vue";
-import { AireContent, AireContentType } from "aire";
+import { computed, onMounted, reactive } from "vue";
+import { AireContent, AireContentType, AireKeyword } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
 import Tooltip from "@/components/common/Tooltip.vue";
 import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
+import { getAllKeywordsFromHistory } from "@/helpers/keywordUtils";
+import KeywordFilter from "@/components/KeywordFilter.vue";
+import { Transition } from 'vue';
 
 const navigateTo = (path: string) => {
     router.push(path);
 }
 
 const contentContext = useContent();
+
+export type SortOption = 'newest' | 'oldest';
 
 const state = reactive<{
     busy: boolean,
@@ -30,46 +35,129 @@ const state = reactive<{
     selectedItem?: AireContent,
     contentList: AireContent[],
     rankedContents: AireContent[],
-    modalOpen: boolean
+    modalOpen: boolean,
+    keywords: AireKeyword[],
+    selectedKeywords: AireKeyword[],
+    timeSortOption: SortOption,
+    searchQuery: string,
+    showFilters: boolean
 }>({
     busy: false,
     confirmDelete: false,
     modalOpen: false,
     contentList: [],
-    rankedContents: []
+    rankedContents: [],
+    keywords: [],
+    selectedKeywords: [],
+    timeSortOption: 'newest',
+    searchQuery: '',
+    showFilters: false,
 });
+
+const filteredContents = computed(() => {
+    let result = state.contentList;
+
+    // Filter based on selected keywords
+    if (state.selectedKeywords && state.selectedKeywords.length > 0) {
+        const selectedValues = state.selectedKeywords.map(k => k.value);
+        result = result.filter(content =>
+            content.keywords && content.keywords.some(keyword => selectedValues.includes(keyword))
+        );
+    }
+
+    // Filter by search query in name, description and copyright from content
+
+    if (state.searchQuery.trim() !== '') {
+        const query = state.searchQuery.trim().toLowerCase();
+        result = result.filter(content =>
+            content.name?.toLowerCase().includes(query) ||
+            content.description?.toLowerCase().includes(query) ||
+            content.copyright?.toLowerCase().includes(query)
+        );
+    }
+    // Apply sorting by modified date
+    return sortContents(result);
+});
+
+// Handler function to update selected keywords
+const updateSelectedKeywords = (newSelected: AireKeyword[]) => {
+    state.selectedKeywords = newSelected;
+};
+
+const clearFilter = () => {
+    state.selectedKeywords = [];
+    state.searchQuery = '';
+};
 
 const toggleModal = () => {
     state.modalOpen = !state.modalOpen;
+};
+
+const toggleFilters = () => {
+    state.showFilters = !state.showFilters;
+    if (!state.showFilters)
+        clearFilter();
 };
 
 const closeModal = () => {
     state.openContent = undefined;
     toggleModal();
 };
-const listContent = async () => {
-    const ids = await getAllSuggestedContentFromHistory();
 
-    for (const x of ids) {
-        const item = await contentContext.get(x);
-        if (item) {
-            state.contentList.push(item);
-        }
+const sortContents = (contents: AireContent[]) => {
+    if (state.timeSortOption === 'newest') {
+        return [...contents].sort((a, b) => {
+            const dateA = a.modified ? new Date(a.modified).getTime() : 0;
+            const dateB = b.modified ? new Date(b.modified).getTime() : 0;
+            return dateB - dateA;
+        });
+    } else if (state.timeSortOption === 'oldest') {
+        return [...contents].sort((a, b) => {
+            const dateA = a.modified ? new Date(a.modified).getTime() : 0;
+            const dateB = b.modified ? new Date(b.modified).getTime() : 0;
+            return dateA - dateB;
+        });
     }
+    return contents; // If 'none', return unsorted
 };
 
-onMounted(async () => {
-    state.busy = true;
+const updateSearchQuery = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    state.searchQuery = target.value;
+};
 
-    await listContent();
+const listContent = async () => {
+    const ids = await getAllSuggestedContentFromHistory();
+    const uniqueContentMap = new Map<string, any>();
 
-    state.busy = false;
+    for (const { chatId, contentId } of ids) {
+        const item = await contentContext.get(contentId);
 
-    // Rank the content only if it's not empty
-    if (state.contentList && state.contentList.length > 0) {
-        state.rankedContents = await rankSelectedContent(state.contentList);
+        if (item) {
+            item.chatId = chatId;
+
+            if (uniqueContentMap.has(contentId)) {
+                const existingItem = uniqueContentMap.get(contentId);
+
+                // Compare modified timestamps, if both are defined, and keep the latest one
+                if (
+                    item.modified && existingItem.modified &&
+                    item.modified > existingItem.modified
+                ) {
+                    uniqueContentMap.set(contentId, item);
+                } else if (!existingItem.modified || (item.modified && !existingItem.modified)) {
+                    // If existingItem.modified is undefined, prefer item
+                    uniqueContentMap.set(contentId, item);
+                }
+            } else {
+                //no dupes
+                uniqueContentMap.set(contentId, item);
+            }
+        }
     }
-});
+
+    state.contentList = Array.from(uniqueContentMap.values());
+};
 
 const showContent = async (content: AireContent) => {
     state.openContent = content;
@@ -90,11 +178,44 @@ const showContent = async (content: AireContent) => {
     if (content.id)
         contentContext.addViewCount(content.id);
 };
+
+const beforeEnter = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.height = '0';
+    element.style.opacity = '0';
+};
+
+const enter = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+    element.style.height = `${element.scrollHeight}px`;
+    element.style.opacity = '1';
+};
+
+const leave = (el: Element) => {
+    const element = el as HTMLElement;
+    element.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+    element.style.height = '0';
+    element.style.opacity = '0';
+};
+
+onMounted(async () => {
+
+    state.busy = true;
+    await listContent();
+    state.keywords = await getAllKeywordsFromHistory();
+    state.busy = false;
+    // Rank the content only if it's not empty
+    if (state.contentList && state.contentList.length > 0) {
+        state.rankedContents = await rankSelectedContent(state.contentList);
+    }
+});
+
 </script>
 
 <template>
-    <ContentModal :active="state.openContent !== undefined && state.modalOpen" :content="state.openContent"
-        :onClose="closeModal" />
+    <ContentModal :active="state.openContent !== undefined && state.modalOpen" v-if="state.openContent"
+        :content="state.openContent" :onClose="closeModal" />
     <div class="content-catalogue-view">
         <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
             class="icon close-window xmark-icon">
@@ -108,17 +229,72 @@ const showContent = async (content: AireContent) => {
             </div>
         </div>
         <Spinner v-if="state.busy" />
-        <div class="content-catalogue-list">
-            <CatalogueItem v-for="item in state.rankedContents" v-bind:key="item.id" :content="item" @show="showContent"
-                :isFromSummary="false" />
-            <div v-if="state.rankedContents.length == 0">
-                <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
+        <div v-if="state.rankedContents.length == 0">
+            <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
+        </div>
+
+        <div class="content-catalogue-filter-row" v-if="!state.busy">
+            <div class="filter-header">
+                <button class="filter-button" @click="toggleFilters">
+                    {{ $t(l.content_catalogue_filters) }}
+                    <font-awesome-icon :icon="state.showFilters ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'" />
+                </button>
+                <div class="clear-filter" v-if="state.showFilters" @click="clearFilter">
+                    {{ $t(l.content_catalogue_clear_filter) }}
+                </div>
+            </div>
+            <Transition name="content-catalogue-filter" @before-enter="beforeEnter" @enter="enter" @leave="leave">
+                <div class="content-catalogue-filter-filters" v-if="state.showFilters">
+                    <div class="filter-by-query">
+                        <label class="label" for="search">{{ $t(l.content_catalogue_search_by) }}</label>
+                        <input v-model="state.searchQuery" id="search" type="text"
+                            :placeholder="$t(l.content_catalogue_query_placeholder)" @input="updateSearchQuery" />
+                    </div>
+                    <div class="filter-by-time">
+                        <label class="label" for="sortDropdown">{{ $t(l.content_catalogue_sort_by) }}</label>
+                        <select id="sortDropdown" v-model="state.timeSortOption">
+                            <option value="newest">{{ $t(l.content_catalogue_newest_filter) }}</option>
+                            <option value="oldest">{{ $t(l.content_catalogue_oldest_filter) }}</option>
+                        </select>
+                    </div>
+                    <div class="filter-by-keywords">
+                        <h2 class="label">{{ $t(l.content_modal_themes) }}</h2>
+                        <KeywordFilter :keywords="state.keywords" :selectedKeywords="state.selectedKeywords"
+                            @update:selectedKeywords="updateSelectedKeywords" />
+                    </div>
+                </div>
+            </Transition>
+        </div>
+        <div class="content-catalogue-content" v-if="!state.busy">
+            <div class="content-catalogue-list">
+                <CatalogueItem v-for="item in filteredContents" v-bind:key="item.id" :content="item" @show="showContent"
+                    :isFromSummary="false" />
             </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+#search {
+    padding: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+}
+
+
+.filter-by-time {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-by-keywords {
+    display: flex;
+    align-items: center;
+}
+
 .content-catalogue-view {
     display: flex;
     flex-direction: column;
@@ -130,6 +306,12 @@ const showContent = async (content: AireContent) => {
     border-color: var(--panel-border-color);
     position: relative;
     overflow: hidden;
+}
+
+.content-catalogue-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .xmark-icon {
@@ -152,6 +334,19 @@ const showContent = async (content: AireContent) => {
     border-bottom: 2px solid var(--accent-primary-color);
     width: 85%;
     padding-top: 2rem;
+}
+
+.label {
+    width: 5rem;
+}
+
+.content-catalogue-filter-button {
+    padding: 1rem;
+    width: 8rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .section-separator {
@@ -178,6 +373,77 @@ const showContent = async (content: AireContent) => {
     justify-content: center;
     padding: 1rem;
     overflow: auto;
+}
+
+button.selected {
+    background-color: var(--accent-primary-color);
+    border-color: transparent;
+    color: var(--background-color);
+    box-shadow: 0 0 5px var(--accent-primary-color);
+}
+
+button {
+    padding: 8px 12px;
+    margin: 4px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+
+.filter-header {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.filter-by-query {
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.clear-filter {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.content-catalogue-filter-row {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding: 1rem;
+    align-items: flex-start; // Align filters and button to the start for consistency
+    position: relative;
+}
+
+.content-catalogue-filter-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem;
+    background-color: var(--panel-menu-background-color);
+}
+
+.content-catalogue-filter-enter-active,
+.content-catalogue-filter-leave-active {
+    transition: height 0.5s ease, opacity 0.5s ease;
+}
+
+.content-catalogue-filter-enter,
+.content-catalogue-filter-leave-to {
+    height: 0;
+    opacity: 0;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
