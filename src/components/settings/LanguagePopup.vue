@@ -22,7 +22,7 @@ const closeModal = () => { state.isVisible = false; }
     <Modal :active="state.isVisible" :showCloseButton="true" @close="closeModal">
         <div class="popup-content">
             <h2>{{ $t(l.Language_default_message) }}</h2>
-            <LanguageSelector @languageSelected="state.isVisible = false" />
+            <LanguageSelector @languageSelected="state.isVisible = false" :blank-option="$t(l.tooltip_menu_language)"/>
         </div>
     </Modal>
 </template>
