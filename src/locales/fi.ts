@@ -207,6 +207,17 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_return_to_conversation: "Palaa keskusteluun",
 
     content_catalogue_empty: "Tämä on oma sisältökirjastosi, joka täydentyy AIRen ehdottamien sisältöjen perusteella.",
+    content_catalogue_filters: "suodattimet",
+    content_catalogue_clear_filter: "Tyhjennä suodatin",
+    content_catalogue_newest_filter: "Uusimmat ensin",
+    content_catalogue_oldest_filter: "Vanhimmat ensin",
+    content_catalogue_search_by: "Hae seuraavasti:",
+    content_catalogue_query_placeholder: "Kirjoita suodattaaksesi...",
+    content_catalogue_sort_by: "Järjestä:",
+
+    content_modal_continue_to_chat: "Palaa chattiin",
+    content_modal_description: "Kuvaus:",
+    content_modal_themes: "Teemat:",
 
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
     logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",

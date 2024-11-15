@@ -184,6 +184,17 @@ export enum LocalizationKey {
     button_return_to_conversation = "button_return_to_conversation",
 
     content_catalogue_empty = "content_catalogue_empty",
+    content_catalogue_filters = "content_catalogue_filters",
+    content_catalogue_clear_filter = "content_catalogue_clear_filter",
+    content_catalogue_newest_filter = "content_catalogue_newest_filter",
+    content_catalogue_oldest_filter = "content_catalogue_oldest_filter",
+    content_catalogue_search_by = "content_catalogue_search_by",
+    content_catalogue_query_placeholder = "content_catalogue_query_placeholder",
+    content_catalogue_sort_by = "content_catalogue_sort_by",
+    
+    content_modal_continue_to_chat = "content_modal_continue_to_chat",
+    content_modal_description = "content_modal_description",
+    content_modal_themes = "content_modal_themes",
 
     logout_inactivity_message = "logout_inactivity_message",
     logout_inactivity_warning_message = "logout_inactivity_warning_message",

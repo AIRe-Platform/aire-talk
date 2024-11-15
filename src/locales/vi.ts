@@ -207,6 +207,17 @@ const vi: Locale = {
     button_return_to_conversation: "Quay lại cuộc trò chuyện",
 
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
+    content_catalogue_filters: "bộ lọc",
+    content_catalogue_clear_filter: "Xóa bộ lọc",
+    content_catalogue_newest_filter: "Mới nhất trước",
+    content_catalogue_oldest_filter: "Cũ nhất trước",
+    content_catalogue_search_by: "Tìm kiếm theo:",
+    content_catalogue_query_placeholder: "Nhập để lọc...",
+    content_catalogue_sort_by: "Sắp xếp theo:",
+
+    content_modal_continue_to_chat: "Quay lại trò chuyện",
+    content_modal_description: "Mô tả:",
+    content_modal_themes: "Chủ đề:",
 
     logout_inactivity_message: "Bạn đã bị đăng xuất do không hoạt động.",
     logout_inactivity_warning_message: "Bạn sẽ bị đăng xuất sau {duration} giây do không hoạt động.",

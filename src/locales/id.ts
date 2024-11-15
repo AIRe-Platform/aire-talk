@@ -208,6 +208,17 @@ const id: Locale = {
     button_return_to_conversation: "Kembali ke percakapan",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
+    content_catalogue_filters: "filter",
+    content_catalogue_clear_filter: "Hapus filter",
+    content_catalogue_newest_filter: "Terbaru terlebih dahulu",
+    content_catalogue_oldest_filter: "Terlama terlebih dahulu",
+    content_catalogue_search_by: "Cari berdasarkan:",
+    content_catalogue_query_placeholder: "Ketik untuk memfilter...",
+    content_catalogue_sort_by: "Urutkan berdasarkan:",
+
+    content_modal_continue_to_chat: "Kembali ke obrolan",
+    content_modal_description: "Keterangan:",
+    content_modal_themes: "Tema:",
 
     logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
     logout_inactivity_warning_message: "Anda akan keluar dalam {duration} detik karena tidak aktif.",

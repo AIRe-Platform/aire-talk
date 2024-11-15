@@ -211,6 +211,17 @@ const es: Locale = {
     button_return_to_conversation: "Regresar a la conversación",
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
+    content_catalogue_filters: "filtros",
+    content_catalogue_clear_filter: "Borrar filtro",
+    content_catalogue_newest_filter: "Más recientes primero",
+    content_catalogue_oldest_filter: "Más antiguos primero",
+    content_catalogue_search_by: "Buscar por:",
+    content_catalogue_query_placeholder: "Escribe para filtrar...",
+    content_catalogue_sort_by: "Ordenar por:",
+    
+    content_modal_continue_to_chat: "Regresar al chat",
+    content_modal_description: "Descripción:",
+    content_modal_themes: "Temas:",
 
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
     logout_inactivity_warning_message: "Se cerrará su sesión en {duration} segundo(s) debido a inactividad.",

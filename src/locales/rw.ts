@@ -202,6 +202,17 @@ const rw: Locale = {
     button_return_to_conversation: "Garuka ku biganiro",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+    content_catalogue_filters: "ibipimo",
+    content_catalogue_clear_filter: "Sukura ibipimo",
+    content_catalogue_newest_filter: "Ibishya mbere",
+    content_catalogue_oldest_filter: "Ibya kera mbere",
+    content_catalogue_search_by: "Shakisha ukoresheje:",
+    content_catalogue_query_placeholder: "Andika ushakisha...",
+    content_catalogue_sort_by: "Tondeka ukoresheje:",
+
+content_modal_continue_to_chat: "Garuka kuganira",
+    content_modal_description: "Ibisobanuro:",
+    content_modal_themes: "Insanganyamatsiko:",
 
     logout_inactivity_message: "Winjiye hanze kubera kudakora.",
     logout_inactivity_warning_message: "Uzasohoka muri {igihe} isegonda (kabiri) kubera kudakora.",

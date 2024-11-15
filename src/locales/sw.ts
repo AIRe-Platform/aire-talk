@@ -189,6 +189,17 @@ const sw: Locale = {
     button_return_to_conversation: "Rudi kwenye mazungumzo",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
+    content_catalogue_filters: "vichujio",
+    content_catalogue_clear_filter: "Ondoa kichujio",
+    content_catalogue_newest_filter: "Vipya kwanza",
+    content_catalogue_oldest_filter: "Vya zamani kwanza",
+    content_catalogue_search_by: "Tafuta kwa:",
+    content_catalogue_query_placeholder: "Andika kuchuja...",
+    content_catalogue_sort_by: "Panga kwa:",
+
+    content_modal_continue_to_chat: "Rudi kwenye gumzo",
+    content_modal_description: "Maelezo:",
+    content_modal_themes: "Mandhari:",
 
     logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
     logout_inactivity_warning_message: "Utaondolewa katika akaunti baada ya sekunde {duration} kwa sababu ya kutokuwa na shughuli.",

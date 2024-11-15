@@ -192,6 +192,17 @@ const en: Locale = {
     button_return_to_conversation: "Return to conversation",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+    content_catalogue_filters: "filters",
+    content_catalogue_clear_filter: "Clear filter",
+    content_catalogue_newest_filter: "Newest First",
+    content_catalogue_oldest_filter: "Oldest First",
+    content_catalogue_search_by: "Search by:",
+    content_catalogue_query_placeholder: "Type to filter...",
+    content_catalogue_sort_by: "Sort by:",
+
+    content_modal_continue_to_chat: "Return to chat",
+    content_modal_description: "Description:",
+    content_modal_themes: "Themes:",
 
     logout_inactivity_message: "You have been logged out due to inactivity.",
     logout_inactivity_warning_message: "You will be logged out in {duration} second(s) due to inactivity.",
