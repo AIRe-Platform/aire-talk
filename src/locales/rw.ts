@@ -210,7 +210,7 @@ const rw: Locale = {
     content_catalogue_query_placeholder: "Andika ushakisha...",
     content_catalogue_sort_by: "Tondeka ukoresheje:",
 
-content_modal_continue_to_chat: "Garuka kuganira",
+    content_modal_continue_to_chat: "Garuka kuganira",
     content_modal_description: "Ibisobanuro:",
     content_modal_themes: "Insanganyamatsiko:",
 
