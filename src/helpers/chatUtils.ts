@@ -147,12 +147,13 @@ export function onRejectSummary() {
 }
 
 export async function suggestContentWithKeywords(keywords: string[]): Promise<number> {
-    if (chat.state.red_flag_triggered)
-        return 0;
+    
+    //in case it is a new chat and there is no id yet
+    await chat.save();
 
-    if (keywords.length == 0)
+    if (chat.state.red_flag_triggered || keywords.length === 0) {
         return 0;
-
+    }
     const q = keywords.sort().join(",");
     if (chat.state.content_queries?.includes(q))
         return 0; // No requeries with the same keys
