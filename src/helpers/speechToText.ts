@@ -12,11 +12,18 @@ export default function useSTT() {
         continuous: false
     });
 
+    let shouldStop = true;
+
     let callback = (_: string) => { };
     watch(recognition.result, () => {
         if (recognition.isFinal.value) {
             callback(recognition.result.value);
         }
+    })
+
+    watch(recognition.isListening, () => {
+        if (recognition.isListening.value === false && !shouldStop)
+            recognition.start();
     })
 
     return {
@@ -28,9 +35,11 @@ export default function useSTT() {
             if (recognition.isSupported.value) {
                 callback = cb;
                 recognition.start();
+                shouldStop = false;
             }
         },
         stop: () => {
+            shouldStop = true;
             recognition.stop();
         },
         isSupported: computed(() => {
