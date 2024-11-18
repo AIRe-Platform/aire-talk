@@ -63,7 +63,7 @@ const translatedKeywords = computed(() => {
 <style scoped>
 .keyword-selector {
     padding: 1rem;
-
+    overflow: none;
     border-radius: 8px;
 }
 
@@ -98,5 +98,13 @@ const translatedKeywords = computed(() => {
 .selected-keywords li {
     margin: 0.25rem 0;
     font-style: italic;
+}
+
+@media screen and (max-width: 715px) {
+    .keyword-selector {
+        padding: 1rem;
+        overflow: scroll;
+        border-radius: 8px;
+    }
 }
 </style>
