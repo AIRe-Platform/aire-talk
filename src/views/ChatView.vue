@@ -110,15 +110,6 @@ onMounted(async () => {
 
     scrollChatToBottom()
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
-    if (isNewChat) {
-        useChatbot().makeBusy();
-        createRecallQuestionnaire()
-            .then((reminderQuestionnaire) => {
-                if (reminderQuestionnaire)
-                    useQuestionnaire().startQuestionnaire(reminderQuestionnaire)
-            })
-            .finally(() => useChatbot().reportReady())
-    }
 });
 
 watch(() => chat.id, (newId, oldId) => {
