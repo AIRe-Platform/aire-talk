@@ -103,7 +103,7 @@ onUnmounted(() => UIState.reminderModalRef = null);
                 <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
                     <!-- there are warnings here TODO check this out -->
                     <div class="reminder-date">
-                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
+                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT, { locale: $i18n.locale }) }}
                     </div>
                     <div class="reminder-message">
                         {{ reminder.content?.message }}
@@ -164,6 +164,7 @@ onUnmounted(() => UIState.reminderModalRef = null);
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

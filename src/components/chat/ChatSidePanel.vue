@@ -123,10 +123,12 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </Tooltip>
-            <button class="chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
-                <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
-                <font-awesome-icon icon="fa-solid fa-xmark" />
-            </button>
+            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <button class="chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
+                    <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </button>
+            </Tooltip>
         </div>
     </Panel>
 </template>
@@ -167,14 +169,14 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
     align-items: stretch;
     justify-content: center;
     gap: 0.5rem;
+    width: 100%;
 }
 
 .chat-tool-button {
     display: flex;
-    justify-content: space-around;
-    cursor: pointer;
+    justify-content: space-between;
     align-items: center;
-    width: 160px;
+    width: 100%;
     height: 33px;
 }
 

@@ -304,6 +304,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .nav-spacer {

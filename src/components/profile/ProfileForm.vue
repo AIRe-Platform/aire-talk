@@ -286,10 +286,10 @@ const activateField = (id: string) => {
 
 .tooltip-unique-style {
     display: flex;
-    width: 100%;
     justify-content: center;
     padding: 1rem;
     margin-bottom: 1rem;
+    margin-inline: auto;
 }
 
 .form-buttons {

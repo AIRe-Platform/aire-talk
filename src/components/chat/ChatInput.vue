@@ -39,9 +39,13 @@ defineEmits<{
 }>()
 
 function submit() {
+    if (stt.isListening.value)
+        stt.stop();
+
     const prompt = state.input.trim();
     if (prompt.length > 0)
         chat.send(prompt);
+
     state.input = "";
 }
 
@@ -63,7 +67,7 @@ const sttCallback = (result: string) => {
     state.speechTimeout = setTimeout(() => {
         submit();
         state.speechTimeout = undefined;
-    }, 5000);
+    }, 8000);
 }
 const toggleListening = () => {
     if (state.speechTimeout)
@@ -101,8 +105,8 @@ const toggleTTS = () => {
             </div>
             <div v-if="props.optionsVisible" class="chat-options-button"
                 :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
-                :data-tutorial-state="ChatTutorialState.Sidepanel"
-                @keydown.prevent.space.enter="$emit('toggleOptions')" @click="$emit('toggleOptions')" tabindex="0">
+                :data-tutorial-state="ChatTutorialState.Sidepanel" @keydown.prevent.space.enter="$emit('toggleOptions')"
+                @click="$emit('toggleOptions')" tabindex="0">
                 <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon summary-switch-default"></div>
@@ -112,15 +116,16 @@ const toggleTTS = () => {
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
-                    :data-tutorial-state="ChatTutorialState.Input"
-                    :readonly="bot.status === 'writing'" v-model="state.input" aria-label="Message input for the bot" />
+                    :data-tutorial-state="ChatTutorialState.Input" :readonly="bot.status === 'writing'"
+                    v-model="state.input" aria-label="Message input for the bot" />
             </form>
             <template v-if="stt.isSupported.value">
                 <Tooltip :text="stt.isListening.value
                     ? $t(l.tooltip_chat_speech_recognition_off)
                     : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-speech-button" @click="toggleListening" @keydown.prevent.space.enter="toggleListening" tabindex="0">
+                    <div class="chat-speech-button" @click="toggleListening"
+                        @keydown.prevent.space.enter="toggleListening" tabindex="0">
                         <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
                         <font-awesome-icon icon="fa-solid fa-microphone" v-else />
                     </div>
@@ -131,7 +136,8 @@ const toggleTTS = () => {
                     ? $t(l.tooltip_chat_tts_read_new_messages_off)
                     : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-tts-button" @click="toggleTTS" @keydown.prevent.space.enter="toggleTTS" tabindex="0">
+                    <div class="chat-tts-button" @click="toggleTTS" @keydown.prevent.space.enter="toggleTTS"
+                        tabindex="0">
                         <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
                         <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
                     </div>

@@ -165,6 +165,7 @@ onMounted(async () => {
     text-align: center;
     color: var(--basic-text);
     margin-inline: 0.5rem;
+    margin-block-start: 1.5rem;
 }
 
 .quick-nav {
@@ -199,8 +200,7 @@ onMounted(async () => {
 }
 
 .disclaimer {
-    margin-left: 1rem;
-    margin-right: 3rem;
+    margin-inline: 3rem;
 }
 
 .chat-bot {
@@ -233,8 +233,7 @@ onMounted(async () => {
     }
 
     .disclaimer {
-        margin-left: 1rem;
-        margin-right: 1rem;
+        margin-inline: 2rem;
     }
 }
 

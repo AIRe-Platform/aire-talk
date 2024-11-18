@@ -46,28 +46,36 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
         <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
             <ProfileForm />
         </div>
-        <Separator />
         <template v-if="show_experiments">
+            <Separator />
             <div class="profile-section">
                 <ProfileExperiments />
             </div>
-            <Separator />
         </template>
-        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
-            <ProfileConnections />
-        </div>
-        <Separator />
-        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
-            <ProfilePasswordForm />
-        </div>
-        <Separator />
-        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileRead)">
-            <ProfilePersonalData />
-        </div>
-        <Separator />
-        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
-            <ProfileDeletionForm />
-        </div>
+        <template v-if="AireServices.ID?.hasScope(AireScope.ProfileConnect)">
+            <Separator />
+            <div class="profile-section">
+                <ProfileConnections />
+            </div>
+        </template>
+        <template v-if="AireServices.ID?.hasScope(AireScope.PasswordChange)">
+            <Separator />
+            <div class="profile-section">
+                <ProfilePasswordForm />
+            </div>
+        </template>
+        <template v-if="AireServices.ID?.hasScope(AireScope.ProfileRead)">
+            <Separator />
+            <div class="profile-section">
+                <ProfilePersonalData />
+            </div>
+        </template>
+        <template v-if="AireServices.ID?.hasScope(AireScope.ProfileDelete)">
+            <Separator />
+            <div class="profile-section">
+                <ProfileDeletionForm />
+            </div>
+        </template>
     </div>
 </template>
 
