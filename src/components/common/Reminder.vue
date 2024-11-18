@@ -164,6 +164,7 @@ onUnmounted(() => UIState.reminderModalRef = null);
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
