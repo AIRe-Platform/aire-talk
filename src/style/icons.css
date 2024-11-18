@@ -261,3 +261,25 @@
     width: 2rem;
     height: 2rem;
 }
+
+.catalogue-item-width-icon {
+    width: 7rem;
+    height: 5.5rem;
+}
+
+.content-modal-width-icon {
+    width: 14rem;
+    height: 11.5rem;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .catalogue-item-width-icon {
+        width: 7rem;
+        height: 5.5rem;
+    }
+    
+    .content-modal-width-icon {
+        width: 14rem;
+        height: 11.5rem;
+    }
+}
