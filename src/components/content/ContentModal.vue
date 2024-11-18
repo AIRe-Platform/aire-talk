@@ -34,6 +34,8 @@ const openUrl = (url?: string) => {
         window.open(url, '_blank');
 };
 
+
+
 watch(() => props.active, (active) => {
     if (active) {
         nextTick(() => switchFocus(true, contentModalRef.value));
@@ -73,32 +75,36 @@ onMounted(async () => {
                 <div class="message-body">
                     <p v-if="props.parent && props.parent.content">{{ props.parent.content }}</p>
                     <div class="message-media" v-if="props.content">
-                        <template v-if="props.content.type == AireContentType.Image">
-                            <img v-bind:src="props.content.url" />
-                        </template>
-                        <template v-if="props.content.type == AireContentType.Video">
-                            <video controls autoplay>
-                                <source v-bind:src="props.content.url" type="video/mp4">
-                            </video>
-                        </template>
+                        <div class="message-media-file">
+                            <template v-if="props.content.type == AireContentType.Image">
+                                <img v-bind:src="props.content.url" />
+                            </template>
+                            <template v-if="props.content.type == AireContentType.Video">
+                                <video controls autoplay>
+                                    <source v-bind:src="props.content.url" type="video/mp4">
+                                </video>
+                            </template>
+                            <div class="alpha" v-if="props.content.type == AireContentType.URL"
+                                v-on:click="openUrl(props.content.url)">
+                                <div class="icon content-url content-modal-width-icon"
+                                    v-if="!props.content.thumbnail_url"></div>
+                                <div v-else class="div-thumbnail">
+                                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
+                                </div>
+                            </div>
+                            <div class="alpha" v-if="props.content.type == AireContentType.Document"
+                                v-on:click="openUrl(props.content.url)">
+                                <div class="icon content-document content-modal-width-icon"
+                                    v-if="!props.content.thumbnail_url">
+                                </div>
+                                <div v-else class="div-thumbnail">
+                                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="copyright" v-if="props.content.copyright">
                             <p>{{ props.content.copyright }}</p>
                         </div>
-
-                        <!-- <button class="media-url" @click="openUrl(props.content?.url)"
-                            v-if="props.content.type == AireContentType.URL">
-                            <font-awesome-icon icon="fa-solid fa-link" />
-                            <span>
-                                <small>
-                                    <code>{{ props.content.url }}</code>
-                                </small>
-                            </span>
-                        </button>
-                        <button class="media-document" @click="openUrl(props.content?.url)"
-                            v-if="props.content.type == AireContentType.Document">
-                            <font-awesome-icon icon="fa-solid fa-file-invoice" />
-                            <span>{{ props.content.name }}</span>
-                        </button> -->
                     </div>
                     <div class="modal-content">
                         <p class="modal-title">{{ $t(l.content_modal_description) }} </p>
@@ -143,7 +149,9 @@ onMounted(async () => {
     justify-content: flex-end;
 }
 
-.modal-title {}
+.modal-title {
+    display: inline;
+}
 
 .modal-content {
     padding: 1rem;
@@ -156,6 +164,18 @@ onMounted(async () => {
     flex-direction: column;
     align-items: center;
     align-items: flex-start;
+}
+
+.message-media-file {
+    display: flex;
+    min-width: 20rem;
+    min-height: 10rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.alpha {
+    display: flex;
 }
 
 .message-header {
@@ -176,11 +196,12 @@ onMounted(async () => {
 
     display: flex;
     flex-direction: column;
+    padding: 0rem 2rem;
     align-items: center;
 
     img,
     video,
-    .content-document {
+    .content-documento {
         width: 100%;
         height: auto;
         max-width: 50rem;
@@ -240,6 +261,8 @@ onMounted(async () => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
+        width: 90%;
+        padding: 0rem;
 
         img,
         video,
@@ -247,6 +270,14 @@ onMounted(async () => {
             max-width: 20rem;
             max-height: 10rem;
         }
+    }
+
+    .message-media-file {
+
+        min-width: 16rem;
+        min-height: 7rem;
+        justify-content: flex-end;
+
     }
 }
 </style>

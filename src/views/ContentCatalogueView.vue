@@ -17,7 +17,7 @@ import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
 import { getAllKeywordsFromHistory } from "@/helpers/keywordUtils";
 import KeywordFilter from "@/components/KeywordFilter.vue";
-import { Transition } from 'vue';
+import useMobileLayout from "@/helpers/mobile";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -170,10 +170,13 @@ const showContent = async (content: AireContent) => {
     switch (content.type) {
         case AireContentType.Image:
         case AireContentType.Video:
+        case AireContentType.Document:
+        case AireContentType.URL:
             toggleModal();
             break;
         default:
             {
+                //To do nothing
                 const url = content.id ? await contentContext.getUrl(content.id) : content.url;
                 if (url) {
                     window.open(url, '_blank');
@@ -183,6 +186,10 @@ const showContent = async (content: AireContent) => {
 
     if (content.id)
         contentContext.addViewCount(content.id);
+};
+
+const showFilter = () => {
+    state.showFilters = false;
 };
 
 const beforeEnter = (el: Element) => {
@@ -210,6 +217,7 @@ onMounted(async () => {
     state.busy = true;
     await listContent();
     state.keywords = await getAllKeywordsFromHistory();
+
     state.busy = false;
     // Rank the content only if it's not empty
     if (state.contentList && state.contentList.length > 0) {
@@ -257,6 +265,8 @@ onMounted(async () => {
                 <div class="clear-filter" v-if="state.showFilters" @click="clearFilter">
                     {{ $t(l.content_catalogue_clear_filter) }}
                 </div>
+                <button v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">filter!</button>
+                <!-- todo create localization -->
             </div>
             <Transition name="content-catalogue-filter" @before-enter="beforeEnter" @enter="enter" @leave="leave">
                 <div class="content-catalogue-filter-filters" v-if="state.showFilters">
@@ -327,6 +337,7 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: auto;
 }
 
 .xmark-icon {
@@ -445,7 +456,6 @@ button {
     flex-direction: column;
     gap: 1rem;
     width: 100%;
-    overflow: hidden;
     padding: 1rem;
     background-color: var(--panel-menu-background-color);
 }
@@ -470,7 +480,29 @@ button {
 
 @media screen and (max-width: 715px) {
     .empty-catalogue {
-        margin-inline: 5vw;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .content-catalogue-filter {
+        display: block;
+    }
+
+    .content-catalogue-filter-filters {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .content-catalogue-filter-row {
+        width: 90%;
+    }
+
+    .filter-by-keywords {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* overflow: scroll; */
+        height: 20rem;
     }
 }
 </style>
