@@ -8,6 +8,7 @@ import { downloadObjectAsJson } from '@/helpers/download';
 import { l } from '@/locales';
 import { AireServices, AireStatus } from 'aire';
 import { reactive } from 'vue';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const state = reactive<{
     busy: boolean,
@@ -48,13 +49,12 @@ const onDownload = () => {
         <div class="profile-personal-data-error" v-if="state.error">
             {{ $t(state.error) }}
         </div>
-        <div class="tooltip">
-            <span class="tooltiptext">{{
-                $t(l.tooltip_download) }}</span>
+        <Tooltip :text="$t(l.tooltip_download)" position="top" :useMaxContent="false" :adjustPosition="true">
             <button class="profile-personal-data-button" @click="onDownload" :disabled="state.busy">
                 {{ $t(l.profile_button_download_personal_data) }}
             </button>
-        </div>
+        </Tooltip>
+
     </div>
 </template>
 

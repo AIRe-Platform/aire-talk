@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const vi: Locale = {
-    aire_bot: "AIRe bot",
+    aire_bot: "AIRe",
     aire_system: "Hệ thống AIRe",
 
     footer: "Phát triển",
@@ -63,7 +63,7 @@ const vi: Locale = {
     nav_main_menu: "Thực đơn chính",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
-    
+
     profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
     profile_label_last_name: "Họ",
@@ -207,6 +207,18 @@ const vi: Locale = {
     button_return_to_conversation: "Quay lại cuộc trò chuyện",
 
     content_catalogue_empty: "Tại đây, sau này bạn sẽ tìm thấy danh mục nội dung liên quan đến các cuộc hội thoại bạn sử dụng với AIRe Talk.",
+    content_catalogue_filters: "bộ lọc",
+    content_catalogue_clear_filter: "Xóa bộ lọc",
+    content_catalogue_newest_filter: "Mới nhất trước",
+    content_catalogue_oldest_filter: "Cũ nhất trước",
+    content_catalogue_search_by: "Tìm kiếm theo:",
+    content_catalogue_query_placeholder: "Nhập để lọc...",
+    content_catalogue_sort_by: "Sắp xếp theo:",
+    content_catalogue_apply_filter: "Áp dụng bộ lọc!",
+
+    content_modal_continue_to_chat: "Quay lại trò chuyện",
+    content_modal_description: "Mô tả:",
+    content_modal_themes: "Chủ đề:",
 
     logout_inactivity_message: "Bạn đã bị đăng xuất do không hoạt động.",
     logout_inactivity_warning_message: "Bạn sẽ bị đăng xuất sau {duration} giây do không hoạt động.",
@@ -252,7 +264,26 @@ const vi: Locale = {
     tooltip_nav_about: "Đi đến trang 'Giới thiệu'.",
     tooltip_menu_language: "Chọn ngôn ngữ giao diện người dùng.",
     tooltip_menu_ui_mode: "Chuyển đổi giao diện màu giao diện người dùng.",
-    
+    tooltip_chat_speech_recognition_off: "Dừng nhận dạng giọng nói",
+    tooltip_chat_speech_recognition_on: "Bắt đầu nhận dạng giọng nói",
+    tooltip_chat_tts_read_message: "Đọc tin nhắn",
+    tooltip_chat_tts_stop_reading: "Dừng đọc",
+    tooltip_chat_tts_read_new_messages_off: "Dừng đọc tin nhắn mới",
+    tooltip_chat_tts_read_new_messages_on: "Đọc tin nhắn mới",
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
 
     en: "Tiếng Anh",

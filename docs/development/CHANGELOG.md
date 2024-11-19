@@ -7,9 +7,37 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.7] - 2024-11-15
+### Added
+- Content modal: copyright, description, themes and a button to chat where it comes.
+- Content catalogue: a new filter, with all themes that user has found in all chats.
+
+## [1.0.6] - 2024-11-08
+### Added
+- Tutorial
+
+## [1.0.5] - 2024-11-07
+### Fixed
+- Some Finnish localisations changed.
+- Some buttons changed from Accept/Reject to Yes/no.
+- Tooltip has been refactor to a new Component.
+
+## [1.0.4] - 2024-11-05
+### Fixed
+- Introduce a delay to the chat response only if it would otherwise be instant.
+- The chat input is blocked until the response is ready.
+
+## [1.0.3] - 2024-11-01
+### Fixed
+Some localizations changed.
+Adjust the style of tooltip text in the NavMenu.
+
+### Added
+Adjust the AI's response to 100-400ms delay.
+
 ## [1.0.2] - 2024-10-31
 ### Fixed
-Localizations changed for all languages realted to tooltipa, and some others.
+Localizations changed for all languages realted to tooltips, and some others.
 
 ### Added
 - More keyboard navigatable elements/parts and some changes to UI behaviour when navigating.

@@ -76,7 +76,7 @@ export class ChatContext {
         useQuestionnaire().reset();
 
         const system_message = createSystemMessage(l.system_greeting);
-        this.push(system_message);
+        this.push(system_message, true, false);
     }
 
     /** 
@@ -109,16 +109,16 @@ export class ChatContext {
      * Push a new message
      * @param message Message
      * @param create Set to false if you want to modify the last message
-     * @param final Set to false to delay triggering auto save
+     * @param auto_save Set to true to start automatic save timer
      */
-    public push(message: ChatMessage, create: boolean = true, final: boolean = true) {
+    public push(message: ChatMessage, create: boolean = true, auto_save: boolean = true) {
         if (create) {
             this.messages.push(message);
         } else {
             this.messages[this.messages.length - 1] = message;
         }
 
-        if (final) {
+        if (auto_save) {
             this.autoSave();
         }
 
@@ -317,22 +317,35 @@ export default function useChat() {
     return context;
 }
 
+
 async function streamResponse() {
-    // Generate a random delay between between 400 ms and 100 ms
-    const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
+    const start = Date.now(); // Start time
 
-    setTimeout(() => {
-        if (AireServices.AI) {
-            useChatbot().makeBusy();
+    if (AireServices.AI) {
+        useChatbot().makeBusy(false);
+        const input = getChatbotInputData();
+        
+        // Measure the time taken to start the response
+        await AireServices.AI.stream(input, receiver, errorHandler);
+        
+        const responseTime = Date.now() - start; // Calculate response time
 
-            const input = getChatbotInputData()
-            AireServices.AI.stream(input, receiver, errorHandler);
+        // Only add delay if the response was quick (less than 200 ms)
+        if (responseTime < 200) {
+            useChatbot().makeBusy(false);
+            const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
+            await new Promise(resolve => setTimeout(resolve, randomDelay));
+            
+            useChatbot().reportReady();
+            console.debug(`Applied delay of ${randomDelay} ms.`);
         } else {
-            console.warn("AI service is unavailable");
+            console.debug(`No delay applied; response time was ${responseTime} ms.`);
         }
-        console.debug(`Delay of ${randomDelay} ms complete.`);
-    }, randomDelay);
+    } else {
+        console.warn("AI service is unavailable");
+    }
 }
+
 
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {

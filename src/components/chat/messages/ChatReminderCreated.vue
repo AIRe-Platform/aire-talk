@@ -59,7 +59,7 @@ onMounted(fetchReminder);
                     {
                         time: DateTime
                             .fromSeconds(props.message.reminder.trigger_timestamp)
-                            .toLocaleString(DateTime.DATETIME_SHORT),
+                            .toLocaleString(DateTime.DATETIME_SHORT, { locale: $i18n.locale }),
                         subject: props.message.reminder.content?.message
                     })
             }}

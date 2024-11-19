@@ -15,6 +15,7 @@ import { useChatCache } from '@/context/cache';
 import { switchFocus } from '@/helpers/keyboarNavigation';
 import { UIState } from '@/context/ui';
 import { openAndContinueChat } from '@/helpers/chatUtils';
+import Tooltip from "@/components/common/Tooltip.vue";
 
 defineComponent({ name: "EventComponent" });
 
@@ -75,7 +76,10 @@ const returnToConversation = (id: string) => {
     openAndContinueChat(id)
         .then(result => {
             if (result)
-                router.push("/chat");
+                router.push({
+                    name: "Chat",
+                    params: { id: id }
+                });
         });
 }
 
@@ -92,28 +96,31 @@ onUnmounted(() => UIState.reminderModalRef = null);
 </script>
 
 <template>
-    <div ref="reminderModalRef"
-        @keydown.prevent.tab.exact="switchFocus(true, reminderModalRef)"
+    <div ref="reminderModalRef" @keydown.prevent.tab.exact="switchFocus(true, reminderModalRef)"
         @keydown.prevent.shift.tab="switchFocus(false, reminderModalRef)">
         <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
             <div class="reminders-panel">
                 <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
+                    <!-- there are warnings here TODO check this out -->
                     <div class="reminder-date">
-                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT) }}
+                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT, { locale: $i18n.locale }) }}
                     </div>
                     <div class="reminder-message">
                         {{ reminder.content?.message }}
                     </div>
                     <div class="reminder-buttons">
-                        <button @click.stop="returnToConversation(reminder.chat_id!)" v-if="canContinue(reminder.chat_id)"
-                            class="tooltip">
-                            {{ $t(l.button_return_to_conversation) }}
-                            <span class="tooltiptext">{{ $t(l.tooltip_reminder_back_to_chat) }}</span>
-                        </button>
-                        <button @click.stop="markEventAsRead(i)" class="tooltip">
-                            {{ $t(l.button_mark_as_read) }}
-                            <span class="tooltiptext">{{ $t(l.tooltip_mark_reminder_read) }}</span>
-                        </button>
+                        <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom" :useMaxContent="false"
+                            :adjustPosition="true" v-if="canContinue(reminder.chat_id)">
+                            <button @click.stop="returnToConversation(reminder.chat_id!)">
+                                {{ $t(l.button_return_to_conversation) }}
+                            </button>
+                        </Tooltip>
+                        <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom" :useMaxContent="false"
+                            :adjustPosition="true">
+                            <button @click.stop="markEventAsRead(i)">
+                                {{ $t(l.button_mark_as_read) }}
+                            </button>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
@@ -157,6 +164,7 @@ onUnmounted(() => UIState.reminderModalRef = null);
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    gap: 1rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

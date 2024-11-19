@@ -26,7 +26,14 @@ import {
     faLink,
     faXmark,
     faFileInvoice,
-    faLightbulb
+    faLightbulb,
+    faMicrophone,
+    faMicrophoneSlash,
+    faVolumeHigh,
+    faVolumeXmark,
+    faComment,
+    faSortDown,
+    faSortUp
 } from "@fortawesome/free-solid-svg-icons";
 import useLogin from "./context/login";
 
@@ -46,7 +53,14 @@ library.add(
     faLink,
     faXmark,
     faFileInvoice,
-    faLightbulb
+    faLightbulb,
+    faMicrophone,
+    faMicrophoneSlash,
+    faVolumeHigh,
+    faVolumeXmark,
+    faComment,
+    faSortDown,
+    faSortUp
 );
 
 export const AppState = ref<"init" | "loaded" | "error">("init");

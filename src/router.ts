@@ -86,7 +86,7 @@ export const router = createRouter({
             },
         },
         {
-            path: "/chat",
+            path: "/chat/:id?",
             component: ChatView,
             name: "Chat",
             meta: {

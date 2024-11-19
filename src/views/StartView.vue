@@ -8,6 +8,7 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
+import LanguageSelector from '@/components/settings/LanguageSelector.vue';
 
 const navigateTo = (path: string) => {
     router.push(path)
@@ -40,6 +41,7 @@ const navigateTo = (path: string) => {
                     @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
                 </div>
+                <LanguageSelector />
             </div>
             <div class="start-footer">
                 <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>

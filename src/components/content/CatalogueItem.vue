@@ -44,9 +44,7 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
             <div v-if="props.content.modified">
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
             </div>
-            <div :class="getIconClass(props.content.type)"
-                class="icon"
-                tabindex="0"
+            <div :class="getIconClass(props.content.type)" class="icon" tabindex="0"
                 @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
         </div>
         <div class="catalogue-item-media">
@@ -56,20 +54,18 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
             <div v-if="props.content.type == AireContentType.URL">
-                <div class="icon content-url" v-if="!props.content.thumbnail_url"></div>
+                <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
                     <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>
             </div>
             <div v-if="props.content.type == AireContentType.Document">
-                <font-awesome-icon class="doc" icon="fa-solid fa-file-invoice" v-if="!props.content.thumbnail_url" />
+                <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
                     <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>
             </div>
-
         </div>
-
         <div class="star-rating">
             <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
         </div>
@@ -112,6 +108,7 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
     width: 100%;
     height: auto;
     flex-shrink: 1;
+    flex-direction: column;
 }
 
 .catalogue-item-description {

@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const en: Locale = {
-    aire_bot: "AIRe Bot",
+    aire_bot: "AIRe",
     aire_system: "AIRe System",
 
     footer: "Development",
@@ -152,7 +152,7 @@ const en: Locale = {
     summary_acceptation_question: "Is the summary correct?",
 
     suggestions_title: "Suggestions",
-    
+
     tools_title: "Tools",
     tools_button_summarize: "Summarize",
     tools_button_query_surveys: "Query surveys",
@@ -192,6 +192,18 @@ const en: Locale = {
     button_return_to_conversation: "Return to conversation",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+    content_catalogue_filters: "filters",
+    content_catalogue_clear_filter: "Clear filter",
+    content_catalogue_newest_filter: "Newest First",
+    content_catalogue_oldest_filter: "Oldest First",
+    content_catalogue_search_by: "Search by:",
+    content_catalogue_query_placeholder: "Type to filter...",
+    content_catalogue_sort_by: "Sort by:",
+    content_catalogue_apply_filter: "Apply filters!",
+
+    content_modal_continue_to_chat: "Return to chat",
+    content_modal_description: "Description:",
+    content_modal_themes: "Themes:",
 
     logout_inactivity_message: "You have been logged out due to inactivity.",
     logout_inactivity_warning_message: "You will be logged out in {duration} second(s) due to inactivity.",
@@ -216,7 +228,7 @@ const en: Locale = {
     tooltip_copy_message: "Copy this message in the copyboard.",
     tooltip_message_copied: "Message copied.",
     tooltip_revert_message: "Remove the next messages from here.",
-    tooltip_remove_keyword: "Remove this keyword.",
+    tooltip_remove_keyword: "Remove this theme.",
     tooltip_accept_summary: "I accept this summary.",
     tooltip_reject_summary: "I do not accept this summary.",
     tooltip_mark_reminder_read: "And remove from here this reminder.",
@@ -237,9 +249,28 @@ const en: Locale = {
     tooltip_nav_about: "Go to about us.",
     tooltip_menu_language: "Choose UI language.",
     tooltip_menu_ui_mode: "Switch UI color interface.",
+    tooltip_chat_speech_recognition_off: "Stop speech recognition",
+    tooltip_chat_speech_recognition_on: "Start speech recognition",
+    tooltip_chat_tts_read_message: "Read message",
+    tooltip_chat_tts_stop_reading: "Stop reading",
+    tooltip_chat_tts_read_new_messages_off: "Stop reading new messages",
+    tooltip_chat_tts_read_new_messages_on: "Read new messages",
+
+    tutorial_home_welcome_message: "Welcome to AIRe! Would you like to take a quick tour on how to use the app?",
+    tutorial_chat_welcome_message: "On this page, you can chat with AIRe bot. Would you like a quick tour about chatting with the bot?",
+    tutorial_start_chat_message: "Click here to start a new chat with AIRe bot.",
+    tutorial_menu_message: "Click here to find your chat history, profile, settings, and more.",
+    tutorial_history_message: "Once you have chatted with AIRe, you can find your chat history here.",
+    tutorial_profile_message: "Here you can see and edit your profile information.",
+    tutorial_settings_message: "Here you can change the UI language, theme, and size.",
+    tutorial_input_message: "Let's start by typing 'Hello AIRe' in this input field and see what happens...",
+    tutorial_sidepanel_message: "Click here to open the side panel for additional chat tools.",
+    tutorial_next: "Next",
+    tutorial_skip: "Skip",
+    tutorial_done: "Done",
 
     Language_default_message: "Select UI Default Language:",
-   
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

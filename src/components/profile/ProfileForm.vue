@@ -10,7 +10,7 @@ import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from '@/components/layout/DialogModal.vue';
-
+import Tooltip from "@/components/common/Tooltip.vue";
 
 const MAX_LENGTH_NAME = 50
 const MAX_LENGTH_BIO = 2000
@@ -89,11 +89,10 @@ const activateField = (id: string) => {
 </script>
 
 <template>
-    <DialogModal :active="state.show_confirmation_modal"
-        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+    <DialogModal :active="state.show_confirmation_modal" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
         :buttons="[
-        { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
-    ]">
+            { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
+        ]">
         {{ $t(l.popup_confirm_profile_updated) }}
     </DialogModal>
 
@@ -107,10 +106,10 @@ const activateField = (id: string) => {
                     <span class="max-length-message" v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit tooltip" @click.prevent="activateField('first-name')" :disabled="state.busy"><span
-                        class="tooltiptext">{{
-                            $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <span class="form-item baseline">
@@ -122,10 +121,10 @@ const activateField = (id: string) => {
                     <span class="max-length-message" v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <div class="icon edit tooltip" @click.prevent="activateField('last-name')" :disabled="state.busy">
-                    <span class="tooltiptext">{{
-                        $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <span class="form-item">
@@ -136,10 +135,10 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <div class="icon edit tooltip" @click.prevent="activateField('gender')" :disabled="state.busy"><span
-                        class="tooltiptext">{{
-                            $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <span class="form-item">
@@ -147,10 +146,10 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
                     placeholder="e.g., 1990" :readonly="state.busy" required />
-                <div class="icon edit tooltip" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
-                    <span class="tooltiptext">{{
-                        $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    <div class="icon edit" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <span class="form-item margin-top">
@@ -158,10 +157,10 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="state.busy" />
-                <div class="icon edit tooltip" @click.prevent="activateField('country')" :disabled="state.busy"><span
-                        class="tooltiptext">{{
-                            $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <span class="form-item-wide margin-top">
@@ -174,22 +173,25 @@ const activateField = (id: string) => {
                         remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
-                <div class="icon edit tooltip margin-left" @click.prevent="activateField('bio')" :disabled="state.busy">
-                    <span class="tooltiptext">{{
-                        $t(l.tooltip_edit) }}</span>
-                </div>
+                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="false"
+                    class="margin-left">
+                    <div class="icon edit" @click.prevent="activateField('bio')" :disabled="state.busy">
+                    </div>
+                </Tooltip>
             </div>
         </span>
         <div class="form-item error-message" v-if="state.error">
             {{ $t(state.error) }}
         </div>
-        <div class="form-buttons tooltip">
-            <span class="tooltiptext">{{
-                $t(l.tooltip_save) }}</span>
-            <template v-if="!state.busy">
-                <button type="submit">{{ $t(l.profile_button_save) }}</button>
-            </template>
-            <Spinner v-if="state.busy" />
+        <div class="tooltip-unique-style">
+            <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <div class="form-buttons">
+                    <template v-if="!state.busy">
+                        <button type="submit">{{ $t(l.profile_button_save) }}</button>
+                    </template>
+                    <Spinner v-if="state.busy" />
+                </div>
+            </Tooltip>
         </div>
     </form>
 </template>
@@ -282,6 +284,14 @@ const activateField = (id: string) => {
     }
 }
 
+.tooltip-unique-style {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    margin-inline: auto;
+}
+
 .form-buttons {
     display: flex;
     flex-direction: row;
@@ -341,6 +351,7 @@ const activateField = (id: string) => {
 }
 
 @media screen and (max-width: 576px) {
+
     .form-item-wide,
     .form-item {
         flex-direction: column;

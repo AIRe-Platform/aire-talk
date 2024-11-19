@@ -101,7 +101,6 @@ onMounted(async () => {
     align-self: center;
     max-width: 80%;
     background-color: var(--ia-chat-box-background);
-    overflow: auto;
 }
 
 .chat-content-suggestions-title {
@@ -120,10 +119,10 @@ onMounted(async () => {
 
 .chat-content-items {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     align-self: center;
     max-width: 100%;
-    /*  overflow-x: scroll; */
 }
 </style>

@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const sw: Locale = {
-    aire_bot: "AIRe Bot",
+    aire_bot: "AIRe",
     aire_system: "Sistem AIRe",
 
     footer: "Maendeleo",
@@ -64,7 +64,7 @@ const sw: Locale = {
     nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
-    
+
     profile_title: "Akaunti ya mtumiaji",
     profile_label_first_name: "Jina la kwanza",
     profile_label_last_name: "Jina la mwisho",
@@ -189,6 +189,18 @@ const sw: Locale = {
     button_return_to_conversation: "Rudi kwenye mazungumzo",
 
     content_catalogue_empty: "Hapa baadaye utapata orodha ya maudhui yanayohusiana na mazungumzo unayotumia na AIRe Talk.",
+    content_catalogue_filters: "vichujio",
+    content_catalogue_clear_filter: "Ondoa kichujio",
+    content_catalogue_newest_filter: "Vipya kwanza",
+    content_catalogue_oldest_filter: "Vya zamani kwanza",
+    content_catalogue_search_by: "Tafuta kwa:",
+    content_catalogue_query_placeholder: "Andika kuchuja...",
+    content_catalogue_sort_by: "Panga kwa:",
+    content_catalogue_apply_filter: "Tumia vichungi!",
+
+    content_modal_continue_to_chat: "Rudi kwenye gumzo",
+    content_modal_description: "Maelezo:",
+    content_modal_themes: "Mandhari:",
 
     logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
     logout_inactivity_warning_message: "Utaondolewa katika akaunti baada ya sekunde {duration} kwa sababu ya kutokuwa na shughuli.",
@@ -234,7 +246,26 @@ const sw: Locale = {
     tooltip_nav_about: "Nenda kwenye ukurasa wa 'Kuhusu Sisi'.",
     tooltip_menu_language: "Chagua lugha ya kiolesura cha mtumiaji.",
     tooltip_menu_ui_mode: "Badilisha mandhari ya kiolesura cha mtumiaji.",
-    
+    tooltip_chat_speech_recognition_off: "Acha utambuzi wa usemi",
+    tooltip_chat_speech_recognition_on: "Anzisha utambuzi wa usemi",
+    tooltip_chat_tts_read_message: "Soma ujumbe",
+    tooltip_chat_tts_stop_reading: "Acha kusoma",
+    tooltip_chat_tts_read_new_messages_off: "Acha kusoma jumbe mpya",
+    tooltip_chat_tts_read_new_messages_on: "Soma jumbe mpya",
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Chagua lugha ya msingi ya kiolesura:",
 
     en: "Kiingereza",

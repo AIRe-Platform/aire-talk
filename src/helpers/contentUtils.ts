@@ -22,16 +22,19 @@ export function getChatContentIds(messages: ChatMessage[]): string[] {
     return allUnique;
 }
 
-export async function getAllSuggestedContentFromHistory(): Promise<string[]> {
-    const content = new Set<string>();
+export async function getAllSuggestedContentFromHistory(): Promise<{ chatId: string; contentId: string }[]> {
+    const content: { chatId: string; contentId: string }[] = [];
 
     const chats = await getAllChats();
     for (const c of chats) {
         await useChat().load(c.id)
         const chat = useChatCache().get(c.id);
         if (chat !== undefined) {
-            getChatContentIds(chat.messages).forEach(id => {
-                content.add(id);
+            getChatContentIds(chat.messages).forEach(contentId => {
+                content.push({
+                    chatId: c.id,
+                    contentId: contentId
+                });
             })
         }
     }

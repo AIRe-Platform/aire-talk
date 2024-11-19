@@ -9,7 +9,7 @@ import { computed, defineProps } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
-import { adjustTooltipPosition } from '@/helpers/tooltipUtils';
+import Tooltip from "@/components/common/Tooltip.vue";
 import { removeKeyword } from '@/helpers/chatUtils';
 
 const props = defineProps<{
@@ -20,7 +20,7 @@ const content = computed(() => {
     const lang = getUILanguage();
     if (props.message.content) {
         if (props.message.type == ChatMessageType.Keyword) {
-            return getKeywordTranslation(props.message.content, lang) ?? props.message.content;
+            return getKeywordTranslation(props.message.content, lang.value) ?? props.message.content;
         }
     }
     return props.message.content;
@@ -31,15 +31,13 @@ const content = computed(() => {
     <div :id="props.message.id" class="chat-notification"
         v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
-        <div class="button-keyword-delete tooltip"
-            @mouseenter="adjustTooltipPosition($event, false)"
-            tabindex="0"
-            role="button"
-            @keydown.prevent.space.enter="removeKeyword(props.message.content, true)"
-            @click="removeKeyword(props.message.content, true)">
-            <span class="tooltiptext">{{ $t(l.tooltip_remove_keyword) }}</span>
-            <font-awesome-icon icon="fa-solid fa-xmark" />
-        </div>
+        <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <div class="button-keyword-delete" tabindex="0" role="button"
+                @keydown.prevent.space.enter="removeKeyword(props.message.content, true)"
+                @click="removeKeyword(props.message.content, true)">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
+            </div>
+        </Tooltip>
     </div>
 </template>
 

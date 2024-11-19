@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const rw: Locale = {
-    aire_bot: "AIRe chati",
+    aire_bot: "AIRe",
     aire_system: "Igenamiterere rya AIRe",
 
     footer: "Iterambere",
@@ -202,6 +202,18 @@ const rw: Locale = {
     button_return_to_conversation: "Garuka ku biganiro",
 
     content_catalogue_empty: "Here you can see content related to the conversations you will have with AIRe Talk.",
+    content_catalogue_filters: "ibipimo",
+    content_catalogue_clear_filter: "Sukura ibipimo",
+    content_catalogue_newest_filter: "Ibishya mbere",
+    content_catalogue_oldest_filter: "Ibya kera mbere",
+    content_catalogue_search_by: "Shakisha ukoresheje:",
+    content_catalogue_query_placeholder: "Andika ushakisha...",
+    content_catalogue_sort_by: "Tondeka ukoresheje:",
+    content_catalogue_apply_filter: "Koresha muyunguruzi!",
+
+    content_modal_continue_to_chat: "Garuka kuganira",
+    content_modal_description: "Ibisobanuro:",
+    content_modal_themes: "Insanganyamatsiko:",
 
     logout_inactivity_message: "Winjiye hanze kubera kudakora.",
     logout_inactivity_warning_message: "Uzasohoka muri {igihe} isegonda (kabiri) kubera kudakora.",
@@ -247,7 +259,26 @@ const rw: Locale = {
     tooltip_nav_about: "Jya kuri twe.",
     tooltip_menu_language: "Hitamo ururimi rw'akabuto k'inyandiko.",
     tooltip_menu_ui_mode: "Hindura uburyo bw'amabara ya UI.",
-    
+    tooltip_chat_speech_recognition_off: "Hagarika kumenyekanisha imvugo",
+    tooltip_chat_speech_recognition_on: "Tangira kumenyekanisha imvugo",
+    tooltip_chat_tts_read_message: "Soma ubutumwa",
+    tooltip_chat_tts_stop_reading: "Reka gusoma",
+    tooltip_chat_tts_read_new_messages_off: "Reka gusoma ubutumwa bushya",
+    tooltip_chat_tts_read_new_messages_on: "Soma ubutumwa bushya",
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
 
     en: "Icyongereza",

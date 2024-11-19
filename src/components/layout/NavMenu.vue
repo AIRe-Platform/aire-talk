@@ -17,6 +17,8 @@ import Panel from "@/components/common/Panel.vue";
 import NavItem from "@/components/layout/NavItem.vue";
 import NavButton from "@/components/layout/NavButton.vue";
 import { closeBurgerMenu } from "@/context/ui";
+import { HomeTutorialState, NavMenuTutorialState, TutorialStates } from "@/context/tutorials";
+import TutorialPopup from "../common/TutorialPopup.vue";
 
 const login = useLogin();
 const chat = useChat();
@@ -31,6 +33,8 @@ const onOpen = async (e: Event) => {
     if (!UIState.showMenu) {
         UIState.isNavMenuCompressed = false;
     }
+    if (TutorialStates.home.isLastState())
+        TutorialStates.home.skip();
 };
 
 const toggleChatHistoryMenu = () => {
@@ -79,7 +83,7 @@ const focusOutListener = async (e: FocusEvent) => {
     const target = e.target as Element;
     if (
         !navMenuRef.value?.contains(relTarget) &&
-        !target.closest('.modal')
+        !target.closest('.modal, .tutorial-buttons')
     ) {
         await closeBurgerMenu();
         UIState.showMenu = false;
@@ -94,6 +98,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 
 <template>
     <NavButton id="nav-burger-button"
+        :data-tutorial-state="HomeTutorialState.Menu"
         :tabindex="UIState.reminderModalRef ? -1 : 0"
         role="button"
         @keydown.prevent.space.enter="onOpen"
@@ -105,6 +110,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
     }">
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
+            <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav" v-if="login.user && !TutorialStates.nav.isDone()"/>
             <div class="nav-link"
                 :tabindex="navLinkTabindex"
                 @keydown.prevent.space.enter="navLogoClick"
@@ -117,6 +123,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
                 <Separator />
                 <NavItem v-if="login.user"
+                    :data-tutorial-state="NavMenuTutorialState.History"
                     :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_chat_history)"
                     icon="chat-history-mobile"
@@ -178,6 +185,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     :active="$route.matched.some((p) => p.name === 'Signup')"
                     :tooltip="l.nav_signup"/>
                 <NavItem v-if="login.user"
+                    :data-tutorial-state="NavMenuTutorialState.Profile"
                     :tabindex="navLinkTabindex"
                     :label="i18n.global.t(l.nav_profile)"
                     icon="user-profile-mobile margin-left"
@@ -187,6 +195,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     :active="$route.matched.some((p) => p.name === 'Profile')"
                     :tooltip="l.nav_profile"/>
                 <NavItem :tabindex="navLinkTabindex"
+                    :data-tutorial-state="NavMenuTutorialState.Settings"
                     :label="i18n.global.t(l.nav_preferences)"
                     icon="settings-mobile"
                     @keydown.prevent.space.enter="toggleSettingsPanel"
@@ -227,7 +236,6 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    overflow: hidden;
     z-index: 8;
     width: 0px;
     height: 100%;
@@ -296,6 +304,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .nav-spacer {

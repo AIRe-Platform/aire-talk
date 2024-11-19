@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const id: Locale = {
-    aire_bot: "AIRe Bot",
+    aire_bot: "AIRe",
     aire_system: "Sistem AIRe",
 
     footer: "Pengembangan",
@@ -208,6 +208,18 @@ const id: Locale = {
     button_return_to_conversation: "Kembali ke percakapan",
 
     content_catalogue_empty: "Di sini nantinya Anda akan menemukan katalog konten yang terkait dengan percakapan yang Anda gunakan dengan AIRe Talk.",
+    content_catalogue_filters: "filter",
+    content_catalogue_clear_filter: "Hapus filter",
+    content_catalogue_newest_filter: "Terbaru terlebih dahulu",
+    content_catalogue_oldest_filter: "Terlama terlebih dahulu",
+    content_catalogue_search_by: "Cari berdasarkan:",
+    content_catalogue_query_placeholder: "Ketik untuk memfilter...",
+    content_catalogue_sort_by: "Urutkan berdasarkan:",
+    content_catalogue_apply_filter: "Terapkan filter!",
+
+    content_modal_continue_to_chat: "Kembali ke obrolan",
+    content_modal_description: "Keterangan:",
+    content_modal_themes: "Tema:",
 
     logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
     logout_inactivity_warning_message: "Anda akan keluar dalam {duration} detik karena tidak aktif.",
@@ -253,6 +265,25 @@ const id: Locale = {
     tooltip_nav_about: "Pergi ke tentang kami.",
     tooltip_menu_language: "Pilih bahasa antarmuka pengguna.",
     tooltip_menu_ui_mode: "Ubah antarmuka warna UI.",
+    tooltip_chat_speech_recognition_off: "Hentikan pengenalan ucapan",
+    tooltip_chat_speech_recognition_on: "Mulai pengenalan ucapan",
+    tooltip_chat_tts_read_message: "Baca pesan",
+    tooltip_chat_tts_stop_reading: "Berhenti membaca",
+    tooltip_chat_tts_read_new_messages_off: "Berhenti membaca pesan baru",
+    tooltip_chat_tts_read_new_messages_on: "Baca pesan baru",
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
 
     Language_default_message: "Pilih bahasa default antarmuka:",
 

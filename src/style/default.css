@@ -270,91 +270,11 @@ button {
     font-size: var(--font-large);
 }
 
-.tooltip {
-    position: relative;
-    display: flex;
-    justify-content: center;
+
+p { 
+    margin: 0.2rem 0; 
 }
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: max-content;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 10px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-  
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
-
-.tooltip .tooltiptext[data-avoid-crop-position="top"] { 
-    bottom: auto;
-    top: 125%; /* Move tooltip above to avoid cropping */
-}
-
-.tooltip .tooltiptext[data-avoid-crop-position="bottom"] {
-    top: auto;
-    bottom: 125%; /* Move tooltip below to avoid cropping */
-}
-
-.tooltip .tooltiptext[data-avoid-crop-position="left"] {
-    right: 100%; /* Move tooltip to the left */
-    left: auto;
-    transform: translateX(0);
-}
-
-.tooltip .tooltiptext[data-avoid-crop-position="right"] {
-    left: 100%; /* Move tooltip to the right */
-    transform: translateX(0);
-}
-
-.tooltip .tooltiptext[data-avoid-crop-position="left-bottom"] {
-    right: 100%;
-    left: auto;
-    transform: translateX(0);
-    bottom: 10%;
-    top: auto;
-}
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-.tooltiptext:focus,
-.tooltiptext:active {
-    visibility: hidden;
-    opacity: 0;
-}
-
-/* Rotate the arrow when the tooltip is on top */
-.tooltip .tooltiptext[data-avoid-crop-position="top"]::after {
-    top: auto;
-    bottom: 100%;  /* Move arrow to bottom when on top */
-    transform: rotate(0deg); /* Rotate the arrow 180 degrees ??*/
-    border-color: transparent transparent #555 transparent; /* Invert the arrow's color */
-}
-
-/* Rotate the arrow when the tooltip is on top */
-.tooltip .tooltiptext[data-avoid-crop-position="left-bottom"]::after {
-    top: 50%;
-    transform: rotate(90deg); /* Rotate the arrow 180 degrees ??*/
-    border-color: transparent transparent #555 transparent; /* Invert the arrow's color */
-    left: 103%
-}
 
 /* Style the scrollbar */
 ::-webkit-scrollbar {

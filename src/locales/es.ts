@@ -6,7 +6,7 @@
 import { Locale } from ".";
 
 const es: Locale = {
-    aire_bot: "Bot AIRe",
+    aire_bot: "AIRe",
     aire_system: "Sistema AIRe",
 
     footer: "Desarollo",
@@ -64,7 +64,7 @@ const es: Locale = {
     nav_main_menu: "Menu",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
-    
+
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
     profile_label_last_name: "Apellido",
@@ -157,7 +157,7 @@ const es: Locale = {
 
     onboarding_greetings: "¡Hola!",
     onboarding_question: "¿Le gustaría discutir sobre estos temas?",
-    
+
     topic_backpain: "Dolor de espalda",
     topic_neckpain: "Dolor de cuello",
     topic_sleep_apnea: "Apnea del sueño",
@@ -211,6 +211,18 @@ const es: Locale = {
     button_return_to_conversation: "Regresar a la conversación",
 
     content_catalogue_empty: "Aquí podrás ver contenido relacionado con las conversaciones que que vayas teniendo con AIRe Talk.",
+    content_catalogue_filters: "filtros",
+    content_catalogue_clear_filter: "Borrar filtro",
+    content_catalogue_newest_filter: "Más recientes primero",
+    content_catalogue_oldest_filter: "Más antiguos primero",
+    content_catalogue_search_by: "Buscar por:",
+    content_catalogue_query_placeholder: "Escribe para filtrar...",
+    content_catalogue_sort_by: "Ordenar por:",
+    content_catalogue_apply_filter: "¡Aplicar filtro!",
+
+    content_modal_continue_to_chat: "Regresar al chat",
+    content_modal_description: "Descripción:",
+    content_modal_themes: "Temas:",
 
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
     logout_inactivity_warning_message: "Se cerrará su sesión en {duration} segundo(s) debido a inactividad.",
@@ -235,7 +247,7 @@ const es: Locale = {
     tooltip_copy_message: "Copia mensaje en el portapapeles.",
     tooltip_message_copied: "Mensaje copiado.",
     tooltip_revert_message: "Elimina los mensajes siguientes a este.",
-    tooltip_remove_keyword: "Elimina esta palabre clave.",
+    tooltip_remove_keyword: "Elimina este tema.",
     tooltip_accept_summary: "Acepto este resumen.",
     tooltip_reject_summary: "No acepto este resumen.",
     tooltip_mark_reminder_read: "Y elimina el recordatorio de aquí.",
@@ -256,7 +268,26 @@ const es: Locale = {
     tooltip_nav_about: "Ir a sobre nosotros.",
     tooltip_menu_language: "Elija el idioma de IU.",
     tooltip_menu_ui_mode: "Cambiar la interfaz de color.",
-    
+    tooltip_chat_speech_recognition_off: "Detener el reconocimiento de voz",
+    tooltip_chat_speech_recognition_on: "Iniciar el reconocimiento de voz",
+    tooltip_chat_tts_read_message: "Leer mensaje",
+    tooltip_chat_tts_stop_reading: "Dejar de leer",
+    tooltip_chat_tts_read_new_messages_off: "Dejar de leer mensajes nuevos",
+    tooltip_chat_tts_read_new_messages_on: "Leer mensajes nuevos",
+
+    tutorial_home_welcome_message: "tutorial_home_welcome_message",
+    tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
+    tutorial_start_chat_message: "tutorial_start_chat_message",
+    tutorial_menu_message: "tutorial_menu_message",
+    tutorial_history_message: "tutorial_history_message",
+    tutorial_profile_message: "tutorial_profile_message",
+    tutorial_settings_message: "tutorial_settings_message",
+    tutorial_input_message: "tutorial_input_message",
+    tutorial_sidepanel_message: "tutorial_sidepanel_message",
+    tutorial_next: "tutorial_next",
+    tutorial_skip: "tutorial_skip",
+    tutorial_done: "tutorial_done",
+
     Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
 
     en: "Inglés",
