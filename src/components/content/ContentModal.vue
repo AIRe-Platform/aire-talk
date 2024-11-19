@@ -94,7 +94,7 @@ onMounted(async () => {
                             </div>
                             <div class="alpha" v-if="props.content.type == AireContentType.Document"
                                 v-on:click="openUrl(props.content.url)">
-                                <div class="icon content-document content-modal-width-icon"
+                                <div class="icon content-document-icon content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url">
                                 </div>
                                 <div v-else class="div-thumbnail">
@@ -201,11 +201,12 @@ onMounted(async () => {
 
     img,
     video,
-    .content-documento {
+    .content-document {
         width: 100%;
         height: auto;
         max-width: 50rem;
         max-height: 25rem;
+        border-radius: 1rem;
     }
 
     .media-url {
@@ -261,14 +262,15 @@ onMounted(async () => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
-        width: 90%;
-        padding: 0rem;
+
+        padding: 1rem;
 
         img,
         video,
         .content-document {
             max-width: 20rem;
             max-height: 10rem;
+            border-radius: 1rem;
         }
     }
 
@@ -276,7 +278,7 @@ onMounted(async () => {
 
         min-width: 16rem;
         min-height: 7rem;
-        justify-content: flex-end;
+
 
     }
 }
