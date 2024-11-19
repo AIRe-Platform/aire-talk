@@ -216,7 +216,7 @@ watch(() => chat.id, (newId, oldId) => {
     overflow-y: auto;
     overflow-x: hidden;
     width: 0;
-    transition: width 0.25s;
+    transition: width 0.15s;
 }
 
 .chat-side-panels-open {
