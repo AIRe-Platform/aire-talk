@@ -196,6 +196,7 @@ const sw: Locale = {
     content_catalogue_search_by: "Tafuta kwa:",
     content_catalogue_query_placeholder: "Andika kuchuja...",
     content_catalogue_sort_by: "Panga kwa:",
+    content_catalogue_apply_filter: "Tumia vichungi!",
 
     content_modal_continue_to_chat: "Rudi kwenye gumzo",
     content_modal_description: "Maelezo:",

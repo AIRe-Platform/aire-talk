@@ -209,6 +209,7 @@ const rw: Locale = {
     content_catalogue_search_by: "Shakisha ukoresheje:",
     content_catalogue_query_placeholder: "Andika ushakisha...",
     content_catalogue_sort_by: "Tondeka ukoresheje:",
+    content_catalogue_apply_filter: "Koresha muyunguruzi!",
 
     content_modal_continue_to_chat: "Garuka kuganira",
     content_modal_description: "Ibisobanuro:",

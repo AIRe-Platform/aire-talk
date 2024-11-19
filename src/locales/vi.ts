@@ -214,6 +214,7 @@ const vi: Locale = {
     content_catalogue_search_by: "Tìm kiếm theo:",
     content_catalogue_query_placeholder: "Nhập để lọc...",
     content_catalogue_sort_by: "Sắp xếp theo:",
+    content_catalogue_apply_filter: "Áp dụng bộ lọc!",
 
     content_modal_continue_to_chat: "Quay lại trò chuyện",
     content_modal_description: "Mô tả:",

@@ -258,14 +258,18 @@ onMounted(async () => {
 
         <div class="content-catalogue-filter-row" v-if="!state.busy">
             <div class="filter-header">
-                <button class="filter-button" @click="toggleFilters">
-                    {{ $t(l.content_catalogue_filters) }}
-                    <font-awesome-icon :icon="state.showFilters ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'" />
-                </button>
-                <div class="clear-filter" v-if="state.showFilters" @click="clearFilter">
-                    {{ $t(l.content_catalogue_clear_filter) }}
+                <div class="filter-header-left">
+                    <button class="filter-button" @click="toggleFilters">
+                        {{ $t(l.content_catalogue_filters) }}
+                        <font-awesome-icon
+                            :icon="state.showFilters ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'" />
+                    </button>
+                    <div class="clear-filter" v-if="state.showFilters" @click="clearFilter">
+                        {{ $t(l.content_catalogue_clear_filter) }}
+                    </div>
                 </div>
-                <button v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">filter!</button>
+                <button v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
+                    $t(l.content_catalogue_apply_filter) }}</button>
                 <!-- todo create localization -->
             </div>
             <Transition name="content-catalogue-filter" @before-enter="beforeEnter" @enter="enter" @leave="leave">
@@ -422,6 +426,14 @@ button {
     gap: 1rem;
     align-items: center;
     justify-content: flex-start;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+}
+
+.filter-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .filter-by-query {
@@ -479,6 +491,10 @@ button {
 }
 
 @media screen and (max-width: 715px) {
+    .filter-header {
+        padding: 1rem 0rem;
+    }
+
     .empty-catalogue {
         padding: 1rem;
         text-align: center;

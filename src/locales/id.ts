@@ -215,6 +215,7 @@ const id: Locale = {
     content_catalogue_search_by: "Cari berdasarkan:",
     content_catalogue_query_placeholder: "Ketik untuk memfilter...",
     content_catalogue_sort_by: "Urutkan berdasarkan:",
+    content_catalogue_apply_filter: "Terapkan filter!",
 
     content_modal_continue_to_chat: "Kembali ke obrolan",
     content_modal_description: "Keterangan:",

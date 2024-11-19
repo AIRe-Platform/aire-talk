@@ -218,7 +218,8 @@ const es: Locale = {
     content_catalogue_search_by: "Buscar por:",
     content_catalogue_query_placeholder: "Escribe para filtrar...",
     content_catalogue_sort_by: "Ordenar por:",
-    
+    content_catalogue_apply_filter: "¡Aplicar filtro!",
+
     content_modal_continue_to_chat: "Regresar al chat",
     content_modal_description: "Descripción:",
     content_modal_themes: "Temas:",

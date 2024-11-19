@@ -191,6 +191,7 @@ export enum LocalizationKey {
     content_catalogue_search_by = "content_catalogue_search_by",
     content_catalogue_query_placeholder = "content_catalogue_query_placeholder",
     content_catalogue_sort_by = "content_catalogue_sort_by",
+    content_catalogue_apply_filter = "content_catalogue_apply_filter",
     
     content_modal_continue_to_chat = "content_modal_continue_to_chat",
     content_modal_description = "content_modal_description",

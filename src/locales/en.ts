@@ -199,6 +199,7 @@ const en: Locale = {
     content_catalogue_search_by: "Search by:",
     content_catalogue_query_placeholder: "Type to filter...",
     content_catalogue_sort_by: "Sort by:",
+    content_catalogue_apply_filter: "Apply filters!",
 
     content_modal_continue_to_chat: "Return to chat",
     content_modal_description: "Description:",

@@ -214,6 +214,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     content_catalogue_search_by: "Hae seuraavasti:",
     content_catalogue_query_placeholder: "Kirjoita suodattaaksesi...",
     content_catalogue_sort_by: "Järjestä:",
+    content_catalogue_apply_filter: "Suodata!",
 
     content_modal_continue_to_chat: "Palaa chattiin",
     content_modal_description: "Kuvaus:",
