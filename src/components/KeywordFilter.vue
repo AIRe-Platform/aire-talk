@@ -63,13 +63,14 @@ const translatedKeywords = computed(() => {
 <style scoped>
 .keyword-selector {
     padding: 1rem;
-    overflow: none;
+    overflow: auto;
     border-radius: 8px;
 }
 
 .keywords-list {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .keyword-button {
@@ -103,7 +104,6 @@ const translatedKeywords = computed(() => {
 @media screen and (max-width: 715px) {
     .keyword-selector {
         padding: 1rem;
-        overflow: scroll;
         border-radius: 8px;
     }
 }
