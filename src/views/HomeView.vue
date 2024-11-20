@@ -81,12 +81,8 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    :data-tutorial-state="HomeTutorialState.StartChat"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="newChat()"
-                    @click="newChat()">
+                <div class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" tabindex="0"
+                    role="link" @keydown.prevent.space.enter="newChat()" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </div>
                 <div class="icon frontpage-button" tabindex="0" role="link"
@@ -101,7 +97,8 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="home-footer">
-                <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
+                <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer)
+                    }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
                 <div class="chat-bot">
                 </div>
             </div>
@@ -245,6 +242,8 @@ onMounted(async () => {
 
     .home-header-title {
         justify-content: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
     }
 
     .aire-logo {
