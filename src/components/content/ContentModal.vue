@@ -34,13 +34,18 @@ const openUrl = (url?: string) => {
         window.open(url, '_blank');
 };
 
-
-
 watch(() => props.active, (active) => {
     if (active) {
         nextTick(() => switchFocus(true, contentModalRef.value));
     }
 });
+
+watch(
+    () => props.content?.keywords,
+    (newKeywords) => {
+        updateKeywords(newKeywords);
+    }
+);
 
 const returnToConversation = (id: string) => {
     openAndContinueChat(id)
@@ -52,13 +57,24 @@ const returnToConversation = (id: string) => {
                 });
         });
 }
+const updateKeywords = async (keywords: string[] | undefined) => {
+    if (!keywords || keywords.length === 0) return;
+
+    try {
+        const translatedKeywords = await updateKeywordMetadata(keywords);
+        // Resolve translations
+        state.translatedKeywords = await Promise.all(
+            translatedKeywords.map(async (keyword) => await getTranslation(keyword))
+        );
+    } catch (error) {
+        console.error("Error updating keywords:", error);
+    }
+};
 
 onMounted(async () => {
-    const translatedKeywords = await updateKeywordMetadata(props.content?.keywords);
-    // Use Promise.all to resolve the array of promises
-    state.translatedKeywords = await Promise.all(
-        translatedKeywords.map(async (keyword) => await getTranslation(keyword))
-    );
+    if (props.content?.keywords) {
+        updateKeywords(props.content.keywords);
+    }
 });
 
 </script>
