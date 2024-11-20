@@ -88,12 +88,6 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
             <div class="chat-tools-title">
                 {{ $t(l.tools_title) }}
             </div>
-            <!--  <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                v-if="state.isMobile">
-                <div class="icon close-window xmark-icon" @click.stop="emits('close')" role="button"
-                    :tabindex="sidePanelTabindex">
-                </div>
-            </Tooltip> -->
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
