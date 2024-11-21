@@ -350,7 +350,6 @@ async function streamResponse() {
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
-
     if (chat.state.red_flag_triggered)
         return;
 
@@ -365,7 +364,7 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "content-suggestions" && e.content_suggestions) {
-        await handleContentSuggestionsEvent(e.content_suggestions);
+        //await handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
