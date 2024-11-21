@@ -166,26 +166,16 @@ const listContent = async () => {
 };
 
 const showContent = async (content: AireContent) => {
-    state.openContent = content;
-    switch (content.type) {
-        case AireContentType.Image:
-        case AireContentType.Video:
-        case AireContentType.Document:
-        case AireContentType.URL:
-            toggleModal();
-            break;
-        default:
-            {
-                //To do nothing
-                const url = content.id ? await contentContext.getUrl(content.id) : content.url;
-                if (url) {
-                    window.open(url, '_blank');
-                }
-            }
-    }
 
-    if (content.id)
-        contentContext.addViewCount(content.id);
+    try {
+        state.openContent = content;
+        toggleModal();
+        if (content.id) {
+            await contentContext.addViewCount(content.id);
+        }
+    } catch (error) {
+        console.error('Error addViewCount in content in content catalogue view:', error);
+    }
 };
 
 const showFilter = () => {

@@ -26,8 +26,7 @@ export function createMessage(
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
-    hidden: boolean = false,
-    isNewSummary: boolean = false): ChatMessage {
+    hidden: boolean = false): ChatMessage {
 
     let sender = "";
     switch (role) {
@@ -93,8 +92,8 @@ export function createKeywordMessage(keyword: string) {
     return createMessage(ChatMessageType.Keyword, "assistant", keyword);
 }
 
-export function createSummaryMessage(summary: string, isNewSummary: boolean) {
-    return createMessage(ChatMessageType.Summary, "system", summary, false, false, isNewSummary);
+export function createSummaryMessage(summary: string) {
+    return createMessage(ChatMessageType.Summary, "system", summary, false, false);
 }
 
 export function createReminderCreatedMessage(reminder: AireReminder) {

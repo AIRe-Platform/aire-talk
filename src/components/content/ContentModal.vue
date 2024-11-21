@@ -34,13 +34,18 @@ const openUrl = (url?: string) => {
         window.open(url, '_blank');
 };
 
-
-
 watch(() => props.active, (active) => {
     if (active) {
         nextTick(() => switchFocus(true, contentModalRef.value));
     }
 });
+
+watch(
+    () => props.content?.keywords,
+    (newKeywords) => {
+        updateKeywords(newKeywords);
+    }
+);
 
 const returnToConversation = (id: string) => {
     openAndContinueChat(id)
@@ -52,13 +57,24 @@ const returnToConversation = (id: string) => {
                 });
         });
 }
+const updateKeywords = async (keywords: string[] | undefined) => {
+    if (!keywords || keywords.length === 0) return;
+
+    try {
+        const translatedKeywords = await updateKeywordMetadata(keywords);
+        // Resolve translations
+        state.translatedKeywords = await Promise.all(
+            translatedKeywords.map(async (keyword) => await getTranslation(keyword))
+        );
+    } catch (error) {
+        console.error("Error updating keywords:", error);
+    }
+};
 
 onMounted(async () => {
-    const translatedKeywords = await updateKeywordMetadata(props.content?.keywords);
-    // Use Promise.all to resolve the array of promises
-    state.translatedKeywords = await Promise.all(
-        translatedKeywords.map(async (keyword) => await getTranslation(keyword))
-    );
+    if (props.content?.keywords) {
+        updateKeywords(props.content.keywords);
+    }
 });
 
 </script>
@@ -94,7 +110,7 @@ onMounted(async () => {
                             </div>
                             <div class="alpha" v-if="props.content.type == AireContentType.Document"
                                 v-on:click="openUrl(props.content.url)">
-                                <div class="icon content-document content-modal-width-icon"
+                                <div class="icon content-document-icon content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url">
                                 </div>
                                 <div v-else class="div-thumbnail">
@@ -201,11 +217,12 @@ onMounted(async () => {
 
     img,
     video,
-    .content-documento {
+    .content-document {
         width: 100%;
         height: auto;
         max-width: 50rem;
         max-height: 25rem;
+        border-radius: 1rem;
     }
 
     .media-url {
@@ -261,14 +278,15 @@ onMounted(async () => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
-        width: 90%;
-        padding: 0rem;
+
+        padding: 1rem;
 
         img,
         video,
         .content-document {
             max-width: 20rem;
             max-height: 10rem;
+            border-radius: 1rem;
         }
     }
 
@@ -276,7 +294,7 @@ onMounted(async () => {
 
         min-width: 16rem;
         min-height: 7rem;
-        justify-content: flex-end;
+
 
     }
 }

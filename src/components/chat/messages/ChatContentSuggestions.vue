@@ -9,12 +9,12 @@ import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import ChatContent from '@/components/chat/ChatContent.vue';
 import ContentModal from '@/components/content/ContentModal.vue';
-import { AireContent, AireContentType } from 'aire';
+import { AireContent } from 'aire';
 import useContent from '@/context/content';
 import { fetchAndRankContents } from '@/helpers/contentUtils';
 
 const props = defineProps<{
-    message: ChatMessage
+    message: ChatMessage,
 }>();
 
 const state = reactive<{
@@ -26,37 +26,25 @@ const state = reactive<{
     rankedContents: []
 });
 
+
 const contentCtx = useContent();
 
-const toggleModal = () => {
+const toggleModal = (content?: AireContent) => {
+    state.openContent = content || state.openContent;
     state.modalOpen = !state.modalOpen;
 };
 
 const showContent = async (content: AireContent) => {
-    try {
-        state.openContent = content;
-        switch (content.type) {
-            case AireContentType.Image:
-            case AireContentType.Video:
-                toggleModal();
-                break;
-            default:
-                {
-                    const url = content.id
-                        ? await contentCtx.getUrl(content.id)
-                        : content.url;
 
-                    if (url) {
-                        window.open(url, '_blank');
-                    }
-                }
-        }
+    try {
+        state.openContent = { ...content };
+        toggleModal();
 
         if (content.id) {
             await contentCtx.addViewCount(content.id);
         }
     } catch (error) {
-        console.error('Error showing content in ChatBubble:', error);
+        console.error('Error addViewCount in content in ChatBubble:', error);
     }
 };
 

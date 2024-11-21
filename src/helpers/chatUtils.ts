@@ -235,7 +235,7 @@ export async function summarizeChat(): Promise<boolean> {
     return await AireServices.AI.generateSummary(input)
         .then((result) => {
             if (result.status == AireStatus.Success && result.data) {
-                const msg = createSummaryMessage(result.data, true);
+                const msg = createSummaryMessage(result.data);
                 chat.push(msg);
                 return true;
             } else {

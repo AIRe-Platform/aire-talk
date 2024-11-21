@@ -60,7 +60,8 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
                 </div>
             </div>
             <div v-if="props.content.type == AireContentType.Document">
-                <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
+                <div class="icon content-document-icon catalogue-item-width-icon" v-if="!props.content.thumbnail_url">
+                </div>
                 <div v-else class="div-thumbnail">
                     <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
                 </div>

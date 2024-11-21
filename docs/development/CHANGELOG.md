@@ -7,6 +7,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.0.8] - 2024-11-21
+### Fixed
+- When starting a new chat, it won't ask you to talk about previuos ones.
+- Filter button style and position fixed in the catalogue content.
+- Keywordfilter is now scrollable.
+- Removed redundant cancel button from the side chat panel.
+- Some fixed in small device layout in the home view.
+- The content panel now shows the themes always.
+- Suggestions now appear only after the summary is completed or when triggered by the button in the side panel.
+
+### Added
+- content modal now also opens whit urls and documents.
+-created a basic structure in the about view.
+
 ## [1.0.7] - 2024-11-15
 ### Added
 - Content modal: copyright, description, themes and a button to chat where it comes.
