@@ -7,25 +7,107 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { router } from '@/router';
+import { reactive } from 'vue';
 
 const navigateTo = (path: string) => {
     router.push(path)
 }
 
+const state = reactive<{
+    termsOpen: boolean,
+    privacyOpen: boolean,
+    authorsOpen: boolean,
+}>({
+    termsOpen: false,
+    privacyOpen: false,
+    authorsOpen: false,
+});
+
+const toggleTermsModal = () => {
+    resetModals();
+    state.termsOpen = true;
+};
+
+const togglePrivacyModal = () => {
+    resetModals();
+    state.privacyOpen = true;
+};
+
+const toggleAuthorsModal = () => {
+    resetModals();
+    state.authorsOpen = true;
+};
+
+const resetModals = () => {
+    state.termsOpen = false;
+    state.privacyOpen = false;
+    state.authorsOpen = false;
+}
+
+
 </script>
+
 
 <template>
     <div class="about-title">
         This is about page
+        <button v-on:click="toggleTermsModal"> Terms of use </button>
+        <button v-on:click="togglePrivacyModal"> Privacy policies</button>
+        <button v-on:click="toggleAuthorsModal"> Authors </button>
     </div>
 
     <div class="about-container">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+        <div class="about-subcontainer" v-if="state.termsOpen">
+
+            <div>
+                <h1>Terms of use</h1>
+            </div>
+
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est
+                laborum.
+            </div>
+        </div>
+        <div class="about-subcontainer" v-if="state.privacyOpen">
+            <div>
+                <h1>Privacy policies</h1>
+            </div>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea
+                commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim
+                id est
+                laborum.
+            </div>
+        </div>
+        <div class="about-subcontainer" v-if="state.authorsOpen">
+            <h1> Information about the authors</h1>
+            <div>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore
+                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea
+                commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                anim
+                id est
+                laborum.
+            </div>
+        </div>
     </div>
 </template>
 
@@ -40,10 +122,12 @@ const navigateTo = (path: string) => {
 .about-title {
     display: flex;
     font-size: larger;
-    padding: 2rem;
+    padding: 3rem;
     margin: auto;
-    width: 12%;
+    gap: 2rem;
+    width: 20%;
     height: 60%;
+    flex-direction: column;
 }
 
 .about-container {
@@ -60,6 +144,8 @@ const navigateTo = (path: string) => {
     justify-content: space-around;
     padding: 0rem 5rem;
 }
+
+.about-subcontainer {}
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
