@@ -202,14 +202,13 @@ const onClickOutside = async (e: Event) => {
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                             </div>
                         </div>
-                        <div class="chat-history-item-delete" tabindex="0" role="button"
-                            @keydown.prevent.space.enter="onDeleteChat(item.id, $event)"
+                        <button class="chat-history-item-delete" role="button"
                             @click="onDeleteChat(item.id, $event)" :aria-label="$t(l.tooltip_delete_chat)">
                             <Tooltip :text="$t(l.tooltip_delete_chat)" position="top" :useMaxContent="false"
                                 :adjustPosition="true">
                                 <div class="icon delete-bin"></div>
                             </Tooltip>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -294,6 +293,8 @@ const onClickOutside = async (e: Event) => {
     cursor: pointer;
     padding: 0.5rem;
     color: var(--delete-color);
+    border: none;
+    background-color: transparent;
     transition: color 0.25s;
 
     &:hover {

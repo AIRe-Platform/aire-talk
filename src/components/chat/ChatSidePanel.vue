@@ -92,33 +92,33 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
             <Tooltip :text="$t(l.tooltip_summarize)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_summarize) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_query_surveys)" position="top" :useMaxContent="false" :adjustPosition="true"
                 v-if="listChatKeywords(chat.messages).length > 0 && !questionnaires.active">
-                <button class="chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_query_surveys) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
                 :adjustPosition="true" v-if="state.missingPersonalInfo">
-                <button class="chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_suggestions)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </button>
@@ -196,7 +196,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
     }
 
     input[type=submit],
-    button {
+    .btn {
         &:hover {
             color: white;
             border-color: white;

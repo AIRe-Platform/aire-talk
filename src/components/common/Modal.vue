@@ -32,10 +32,9 @@ defineComponent({ name: "ModalComponent" })
                 <Panel class="modal-panel" @click.stop>
                     <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
                         class="icon close-window modal-close" v-if="props.showCloseButton">
-                        <div class="tooltip-inside" @click.stop="close" tabindex="0" role="button"
-                            @keydown.prevent.space.enter="close">
+                        <button class="tooltip-inside" @click.stop="close" type="button">
                             <span></span>
-                        </div>
+                        </button>
                     </Tooltip>
                     <div class="modal-content">
                         <slot></slot>
@@ -64,6 +63,8 @@ defineComponent({ name: "ModalComponent" })
 }
 
 .tooltip-inside {
+    border: none;
+    background-color: transparent;
     height: 2rem;
     width: 2rem;
 }

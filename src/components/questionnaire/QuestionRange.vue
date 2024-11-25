@@ -30,7 +30,7 @@ const onSubmitAnswer = (value: number) => {
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
             <template v-for="ans, id in range" :key="id">
-                <button @click="onSubmitAnswer(ans)" class="questionnaire-range-button"
+                <button @click="onSubmitAnswer(ans)" class="btn questionnaire-range-button"
                     :class="{ 'questionnaire-range-button-selected': props.answer == ans }" :disabled="props.readonly">
                     {{ ans }}
                 </button>

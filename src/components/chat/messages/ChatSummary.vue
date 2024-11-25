@@ -50,11 +50,10 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
                 <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-summary-keyword-delete" tabindex="0" role="button"
-                        @keydown.prevent.space.enter="removeKeyword(keywords[i], true)"
+                    <button class="chat-summary-keyword-delete" type="button"
                         @click="removeKeyword(keywords[i], true)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
-                    </div>
+                    </button>
                 </Tooltip>
             </div>
         </div>
@@ -65,13 +64,13 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <span class="chat-summary-options-buttons">
                 <Tooltip :text="$t(l.tooltip_accept_summary)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
-                    <button @click="onAcceptSummary" class="button-accept">
+                    <button @click="onAcceptSummary" class="btn button-accept">
                         {{ $t(l.button_yes) }}
                     </button>
                 </Tooltip>
                 <Tooltip :text="$t(l.tooltip_reject_summary)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
-                    <button @click="onRejectSummary" class="button-accept">
+                    <button @click="onRejectSummary" class="btn button-accept">
                         {{ $t(l.button_no) }}
                     </button>
                 </Tooltip>
@@ -154,6 +153,8 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
     width: 2rem;
     transition: color .2s;
     color: #B6465F;
+    border: none;
+    background-color: transparent;
     font-size: large;
 
     &:hover {

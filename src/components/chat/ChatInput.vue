@@ -103,15 +103,15 @@ const toggleTTS = () => {
                     </div>
                 </Tooltip>
             </div>
-            <div v-if="props.optionsVisible" class="chat-options-button"
-                :class="{ 'chat-options-button-active': props.optionsOpen }" role="button"
-                :data-tutorial-state="ChatTutorialState.Sidepanel" @keydown.prevent.space.enter="$emit('toggleOptions')"
-                @click="$emit('toggleOptions')" tabindex="0">
+            <button v-if="props.optionsVisible" class="chat-options-button"
+                :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
+                :data-tutorial-state="ChatTutorialState.Sidepanel"
+                @click="$emit('toggleOptions')">
                 <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="icon summary-switch-default"></div>
                 </Tooltip>
-            </div>
+            </button>
         </div>
         <div class="chat-text-input">
             <form class="chat-input-bar" @submit.prevent="submit">
@@ -124,11 +124,10 @@ const toggleTTS = () => {
                     ? $t(l.tooltip_chat_speech_recognition_off)
                     : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-speech-button" @click="toggleListening"
-                        @keydown.prevent.space.enter="toggleListening" tabindex="0">
+                    <button class="chat-speech-button" @click="toggleListening" type="button">
                         <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
                         <font-awesome-icon icon="fa-solid fa-microphone" v-else />
-                    </div>
+                    </button>
                 </Tooltip>
             </template>
             <template v-if="tts.isSupported.value">
@@ -136,20 +135,19 @@ const toggleTTS = () => {
                     ? $t(l.tooltip_chat_tts_read_new_messages_off)
                     : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true">
-                    <div class="chat-tts-button" @click="toggleTTS" @keydown.prevent.space.enter="toggleTTS"
-                        tabindex="0">
+                    <button class="chat-tts-button" @click="toggleTTS" type="button" >
                         <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
                         <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
-                    </div>
+                    </button>
                 </Tooltip>
             </template>
-            <div class="chat-send-button" @click="submit">
+            <button class="chat-send-button" @click="submit" type="button">
                 <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
                     :adjustPosition="true">
                     <div class="chat-send-icon icon send-message-default">
                     </div>
                 </Tooltip>
-            </div>
+            </button>
         </div>
     </div>
 </template>
@@ -245,6 +243,8 @@ const toggleTTS = () => {
     padding: 0.2rem;
     color: var(--button-color);
     width: 2rem;
+    border: none;
+    background-color: transparent;
 
     &:hover {
         color: var(--hover-text);

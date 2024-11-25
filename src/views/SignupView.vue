@@ -70,7 +70,7 @@ const goBack = () => {
                 v-model="fields.passwordConfirm" :readonly="busy" />
             <br />
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <button v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
+            <button class="btn" v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
             <div class="signup-busy" v-if="busy">
                 <Spinner />
             </div>

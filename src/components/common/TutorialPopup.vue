@@ -117,11 +117,11 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
         :style="[positionStyle, opacityStyle]">
         <span>{{ message }}</span>
         <div class="tutorial-buttons">
-            <button type="button" @click="props.tutorial.skip"
+            <button class="btn" type="button" @click="props.tutorial.skip"
                 :tabindex="props.tutorial.isVisible($route) ? 0 : -1">
                 {{ $t(props.tutorial.isLastState() ? l.tutorial_done : l.tutorial_skip) }}
             </button>
-            <button type="button"
+            <button class="btn" type="button"
                 :tabindex="props.tutorial.isVisible($route) ? 0 : -1"
                 v-show="!props.tutorial.isLastState()"
                 @click="props.tutorial.next">

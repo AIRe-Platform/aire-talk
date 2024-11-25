@@ -97,9 +97,16 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 </script>
 
 <template>
+<<<<<<< HEAD
     <NavButton id="nav-burger-button" :data-tutorial-state="HomeTutorialState.Menu"
         :tabindex="UIState.reminderModalRef ? -1 : 0" role="button" @keydown.prevent.space.enter="onOpen"
         :open="UIState.showMenu" @click="onOpen"></NavButton>
+=======
+    <NavButton id="nav-burger-button"
+        :data-tutorial-state="HomeTutorialState.Menu"
+        :open="UIState.showMenu"
+        @click="onOpen"></NavButton>
+>>>>>>> 899e5aa4c40a512874ec2fc85c91b3dc30416f63
     <div class="nav-menu" ref="navMenuRef" :class="{
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,

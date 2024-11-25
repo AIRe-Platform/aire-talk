@@ -56,10 +56,10 @@ const saveForm = (e: Event) => {
             <input id="occupation" type="text" required="true" autocomplete="off" @input="checkForm"
                 v-model="state.occupation">
             <div class="landing-form-buttons">
-                <button>
+                <button class="btn">
                     <RouterLink class="nav-link" to="/">{{ $t(l.button_back) }}</RouterLink>
                 </button>
-                <button :disabled="!state.completed" @click="saveForm">
+                <button class="btn" :disabled="!state.completed" @click="saveForm">
                     {{ $t(l.button_continue) }}
                 </button>
             </div>

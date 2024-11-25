@@ -50,7 +50,7 @@ const onDownload = () => {
             {{ $t(state.error) }}
         </div>
         <Tooltip :text="$t(l.tooltip_download)" position="top" :useMaxContent="false" :adjustPosition="true">
-            <button class="profile-personal-data-button" @click="onDownload" :disabled="state.busy">
+            <button class="btn profile-personal-data-button" @click="onDownload" :disabled="state.busy">
                 {{ $t(l.profile_button_download_personal_data) }}
             </button>
         </Tooltip>

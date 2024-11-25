@@ -76,7 +76,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 
             </div>
             <Separator />
-            <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
+            <button class="btn button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
         </div>
     </Panel>
 </template>

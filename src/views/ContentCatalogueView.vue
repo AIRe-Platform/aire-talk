@@ -249,7 +249,7 @@ onMounted(async () => {
         <div class="content-catalogue-filter-row" v-if="!state.busy">
             <div class="filter-header">
                 <div class="filter-header-left">
-                    <button class="filter-button" @click="toggleFilters">
+                    <button class="btn filter-button" @click="toggleFilters">
                         {{ $t(l.content_catalogue_filters) }}
                         <font-awesome-icon
                             :icon="state.showFilters ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'" />
@@ -258,7 +258,7 @@ onMounted(async () => {
                         {{ $t(l.content_catalogue_clear_filter) }}
                     </div>
                 </div>
-                <button v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
+                <button class="btn" v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
                     $t(l.content_catalogue_apply_filter) }}</button>
                 <!-- todo create localization -->
             </div>
@@ -395,14 +395,14 @@ onMounted(async () => {
     overflow: auto;
 }
 
-button.selected {
+.btn.selected {
     background-color: var(--accent-primary-color);
     border-color: transparent;
     color: var(--background-color);
     box-shadow: 0 0 5px var(--accent-primary-color);
 }
 
-button {
+.btn {
     padding: 8px 12px;
     margin: 4px;
     cursor: pointer;

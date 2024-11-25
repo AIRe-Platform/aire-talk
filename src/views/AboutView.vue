@@ -51,9 +51,9 @@ const resetModals = () => {
 <template>
     <div class="about-title">
         This is about page
-        <button v-on:click="toggleTermsModal"> Terms of use </button>
-        <button v-on:click="togglePrivacyModal"> Privacy policies</button>
-        <button v-on:click="toggleAuthorsModal"> Authors </button>
+        <button class="btn" v-on:click="toggleTermsModal"> Terms of use </button>
+        <button class="btn" v-on:click="togglePrivacyModal"> Privacy policies</button>
+        <button class="btn" v-on:click="toggleAuthorsModal"> Authors </button>
     </div>
 
     <div class="about-container">
