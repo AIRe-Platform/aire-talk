@@ -99,8 +99,6 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 <template>
     <NavButton id="nav-burger-button"
         :data-tutorial-state="HomeTutorialState.Menu"
-        :tabindex="UIState.reminderModalRef ? -1 : 0"
-        role="button"
         @keydown.prevent.space.enter="onOpen"
         :open="UIState.showMenu"
         @click="onOpen"></NavButton>

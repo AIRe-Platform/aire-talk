@@ -7,6 +7,7 @@
 import { defineProps } from 'vue';
 import { l } from '@/locales';
 import Tooltip from "@/components/common/Tooltip.vue";
+import { UIState } from "@/context/ui";
 
 const props = defineProps<{
     open: boolean
@@ -14,8 +15,11 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="nav-button" :class="{ 'nav-button-active': props.open }">
-        <div type="button" class="">
+    <button type="button"
+        class="nav-button"
+        :class="{ 'nav-button-active': props.open }"
+        :tabindex="UIState.reminderModalRef ? -1 : 0">
+        <div>
             <Tooltip class="nav-button-graphics" :text="$t(l.nav_main_menu)" position="top" :useMaxContent="false"
                 :adjustPosition="true">
                 <span class="button-bar button-bar--1"></span>
@@ -23,7 +27,7 @@ const props = defineProps<{
                 <span class="button-bar button-bar--3"></span>
             </Tooltip>
         </div>
-    </div>
+    </button>
 </template>
 
 <style lang="scss" scoped>
