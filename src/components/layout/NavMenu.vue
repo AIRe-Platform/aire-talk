@@ -99,7 +99,6 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 <template>
     <NavButton id="nav-burger-button"
         :data-tutorial-state="HomeTutorialState.Menu"
-        @keydown.prevent.space.enter="onOpen"
         :open="UIState.showMenu"
         @click="onOpen"></NavButton>
     <div class="nav-menu" ref="navMenuRef" :class="{
