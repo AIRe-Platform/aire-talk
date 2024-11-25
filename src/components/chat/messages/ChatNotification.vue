@@ -32,7 +32,7 @@ const content = computed(() => {
         v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
         <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
-            <button class="button-keyword-delete" type="button" role="button"
+            <button class="button-keyword-delete" type="button"
                 @keydown.prevent.space.enter="removeKeyword(props.message.content, true)"
                 @click="removeKeyword(props.message.content, true)">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
