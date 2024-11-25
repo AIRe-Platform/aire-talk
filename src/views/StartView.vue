@@ -27,18 +27,12 @@ const navigateTo = (path: string) => {
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/login')"
-                    @click="navigateTo('/login')">
+                <div class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/login')" @click="navigateTo('/login')">
                     {{ $t(l.nav_login) }}
                 </div>
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/signup')"
-                    @click="navigateTo('/signup')">
+                <div class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/signup')" @click="navigateTo('/signup')">
                     {{ $t(l.nav_signup) }}
                 </div>
                 <LanguageSelector />
@@ -82,6 +76,10 @@ const navigateTo = (path: string) => {
     &>* {
         margin-inline: 0.5rem;
     }
+}
+
+.frontpage-button:hover {
+    color: var(--hover-text);
 }
 
 .chat-bot {

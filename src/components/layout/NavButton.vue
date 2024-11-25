@@ -85,7 +85,7 @@ const props = defineProps<{
 }
 
 .nav-button:hover .button-bar {
-    background-color: var(--accent-primary-color);
+    background-color: var(--hover-text);
 }
 
 .button-bar--1 {

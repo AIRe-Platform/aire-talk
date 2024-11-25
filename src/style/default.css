@@ -77,6 +77,9 @@
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
+    --hover-text:  #E3FFFA;
+    --hover-button: #19547B;
+    --nav-item-hover: #176087;
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: lightgray;
@@ -129,6 +132,9 @@
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
+    --hover-text:  #E3FFFA;
+    --hover-button: #19547B;
+    --nav-item-hover: #E3FFFA;
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: darkgray;
@@ -169,7 +175,7 @@ a {
     transition: color 0.5s;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 
@@ -234,10 +240,10 @@ button {
     border: none;
 
     &:hover {
-        background-color: var(--accent-primary-color);
+        background-color: var(--hover-button);
         border-color: transparent;
         color: var(--background-color);
-        box-shadow: 0 0 5px var(--accent-primary-color);
+        box-shadow: 0 0 5px var(--hover-button);
     }
 
     &:active {

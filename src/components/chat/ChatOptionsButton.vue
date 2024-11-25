@@ -35,7 +35,7 @@ const props = defineProps<{
     cursor: pointer;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 

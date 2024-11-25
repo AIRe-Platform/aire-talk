@@ -43,11 +43,16 @@ function formatTooltipKey(tooltip: string): string {
     font-weight: bold;
     align-items: center;
     gap: 1rem;
+
+    &:hover {
+        color: var(--nav-item-hover);
+    }
 }
 
 .nav-item-active {
     background-color: var(--menu-active);
 }
+
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 

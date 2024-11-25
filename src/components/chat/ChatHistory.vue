@@ -297,7 +297,7 @@ const onClickOutside = async (e: Event) => {
     transition: color 0.25s;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 

@@ -215,7 +215,7 @@ onMounted(async () => {
 }
 
 .frontpage-button:hover {
-    color: var(--accent-primary-color);
+    color: var(--hover-text);
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

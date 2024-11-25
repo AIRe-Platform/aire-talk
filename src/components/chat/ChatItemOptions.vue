@@ -204,7 +204,7 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     transition: background-color 0.25s;
 
     &:hover {
-        background-color: var(--accent-primary-color);
+        background-color: var(--hover-text);
     }
 }
 

@@ -247,7 +247,7 @@ const toggleTTS = () => {
     width: 2rem;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 
