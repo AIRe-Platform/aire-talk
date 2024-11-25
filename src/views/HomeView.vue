@@ -71,10 +71,11 @@ onMounted(async () => {
             <div class="home-header">
                 <div class="home-header-title">
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
                     </div>
                     <div class="aire-logo" v-if="state.theme.style != 'theme-default'">
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg" alt="Logo" />
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
+                            alt="AIRe homepage logo in dark mode" />
                     </div>
                     <p class="header-text">{{ $t(l.start_first_paragraph) }}</p>
                 </div>

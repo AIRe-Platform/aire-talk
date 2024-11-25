@@ -97,134 +97,75 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 </script>
 
 <template>
-    <NavButton id="nav-burger-button"
-        :data-tutorial-state="HomeTutorialState.Menu"
-        :tabindex="UIState.reminderModalRef ? -1 : 0"
-        role="button"
-        @keydown.prevent.space.enter="onOpen"
-        :open="UIState.showMenu"
-        @click="onOpen"></NavButton>
+    <NavButton id="nav-burger-button" :data-tutorial-state="HomeTutorialState.Menu"
+        :tabindex="UIState.reminderModalRef ? -1 : 0" role="button" @keydown.prevent.space.enter="onOpen"
+        :open="UIState.showMenu" @click="onOpen"></NavButton>
     <div class="nav-menu" ref="navMenuRef" :class="{
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
     }">
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
-            <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav" v-if="login.user && !TutorialStates.nav.isDone()"/>
-            <div class="nav-link"
-                :tabindex="navLinkTabindex"
-                @keydown.prevent.space.enter="navLogoClick"
-                role="link"
+            <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
+                v-if="login.user && !TutorialStates.nav.isDone()" />
+            <div class="nav-link" :tabindex="navLinkTabindex" @keydown.prevent.space.enter="navLogoClick" role="link"
                 @click="navLogoClick">
                 <div class="nav-logo">
-                    <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe logo in the navigation menu" />
                 </div>
             </div>
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
                 <Separator />
-                <NavItem v-if="login.user"
-                    :data-tutorial-state="NavMenuTutorialState.History"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_chat_history)"
-                    icon="chat-history-mobile"
-                    @keydown.prevent.space.enter="toggleChatHistoryMenu"
-                    @click="toggleChatHistoryMenu"
-                    :active="UIState.panels.has(UIPanels.ChatHistory)"
-                    aria-haspopup="true"
-                    :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)"
-                    class="chat-history-nav-button"
+                <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.History"
+                    :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
+                    @keydown.prevent.space.enter="toggleChatHistoryMenu" @click="toggleChatHistoryMenu"
+                    :active="UIState.panels.has(UIPanels.ChatHistory)" aria-haspopup="true"
+                    :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)" class="chat-history-nav-button"
                     :tooltip="l.nav_chat_history" />
                 <div class="popout-panel" v-if="UIState.panels.has(UIPanels.ChatHistory)">
                     <ChatHistory />
                 </div>
-                <NavItem v-if="login.user"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_chat)"
-                    icon="new-chat-mobile"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/chat')"
-                    :title="$t(l.nav_chat)"
-                    @click="navigateTo('/chat')"
-                    :active="$route.matched.some((p) => p.name === 'Chat')"
-                    :tooltip="l.nav_chat"/>
-                <NavItem v-if="chat.id"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_chat_new)"
-                    icon="new-chat-mobile"
-                    role="link"
-                    @keydown.prevent.space.enter="newChat"
-                    @click="newChat"
-                    :active="false"
-                    :tooltip="l.nav_chat_new"/>
-                <NavItem v-if="login.user"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_catalogue)"
-                    icon="catalogue-content-mobile margin-left"
-                    role="link"
+                <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat)"
+                    icon="new-chat-mobile" role="link" @keydown.prevent.space.enter="navigateTo('/chat')"
+                    :title="$t(l.nav_chat)" @click="navigateTo('/chat')"
+                    :active="$route.matched.some((p) => p.name === 'Chat')" :tooltip="l.nav_chat" />
+                <NavItem v-if="chat.id" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_new)"
+                    icon="new-chat-mobile" role="link" @keydown.prevent.space.enter="newChat" @click="newChat"
+                    :active="false" :tooltip="l.nav_chat_new" />
+                <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_catalogue)"
+                    icon="catalogue-content-mobile margin-left" role="link"
                     @keydown.prevent.space.enter="navigateTo('/content-catalogue')"
                     @click="navigateTo('/content-catalogue')"
-                    :active="$route.matched.some((p) => p.name === 'Content-catalogue')"
-                    :tooltip="l.nav_catalogue"/>
+                    :active="$route.matched.some((p) => p.name === 'Content-catalogue')" :tooltip="l.nav_catalogue" />
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_login)"
-                    icon="login"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/login')"
-                    @click="navigateTo('/login')"
-                    :active="$route.matched.some((p) => p.name === 'Login')"
-                    :tooltip="l.nav_login"/>
-                <NavItem v-if="!login.user"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_signup)"
-                    icon="signup"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/signup')"
-                    @click="navigateTo('/signup')"
-                    :active="$route.matched.some((p) => p.name === 'Signup')"
-                    :tooltip="l.nav_signup"/>
-                <NavItem v-if="login.user"
-                    :data-tutorial-state="NavMenuTutorialState.Profile"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_profile)"
-                    icon="user-profile-mobile margin-left"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/profile')"
-                    @click="navigateTo('/profile')"
-                    :active="$route.matched.some((p) => p.name === 'Profile')"
-                    :tooltip="l.nav_profile"/>
-                <NavItem :tabindex="navLinkTabindex"
-                    :data-tutorial-state="NavMenuTutorialState.Settings"
-                    :label="i18n.global.t(l.nav_preferences)"
-                    icon="settings-mobile"
-                    @keydown.prevent.space.enter="toggleSettingsPanel"
-                    @click="toggleSettingsPanel"
-                    :active="UIState.panels.has(UIPanels.Settings)"
-                    aria-haspopup="true"
-                    :aria-expanded="UIState.panels.has(UIPanels.Settings)"
-                    class="settings-nav-button"
-                    :tooltip="l.nav_preferences"/>
+                <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_login)" icon="login"
+                    role="link" @keydown.prevent.space.enter="navigateTo('/login')" @click="navigateTo('/login')"
+                    :active="$route.matched.some((p) => p.name === 'Login')" :tooltip="l.nav_login" />
+                <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_signup)"
+                    icon="signup" role="link" @keydown.prevent.space.enter="navigateTo('/signup')"
+                    @click="navigateTo('/signup')" :active="$route.matched.some((p) => p.name === 'Signup')"
+                    :tooltip="l.nav_signup" />
+                <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.Profile"
+                    :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_profile)"
+                    icon="user-profile-mobile margin-left" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/profile')" @click="navigateTo('/profile')"
+                    :active="$route.matched.some((p) => p.name === 'Profile')" :tooltip="l.nav_profile" />
+                <NavItem :tabindex="navLinkTabindex" :data-tutorial-state="NavMenuTutorialState.Settings"
+                    :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile"
+                    @keydown.prevent.space.enter="toggleSettingsPanel" @click="toggleSettingsPanel"
+                    :active="UIState.panels.has(UIPanels.Settings)" aria-haspopup="true"
+                    :aria-expanded="UIState.panels.has(UIPanels.Settings)" class="settings-nav-button"
+                    :tooltip="l.nav_preferences" />
                 <div class="popout-panel" v-if="UIState.panels.has(UIPanels.Settings)">
                     <SettingsPanel />
                 </div>
-                <NavItem :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_about)"
-                    icon="about"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/about')"
-                    @click="navigateTo('/about')"
-                    :active="$route.matched.some((p) => p.name === 'About')"
-                    :tooltip="l.nav_about"/>
+                <NavItem :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_about)" icon="about" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/about')" @click="navigateTo('/about')"
+                    :active="$route.matched.some((p) => p.name === 'About')" :tooltip="l.nav_about" />
                 <Separator />
-                <NavItem v-if="login.user"
-                    :tabindex="navLinkTabindex"
-                    :label="i18n.global.t(l.nav_main_menu)"
-                    icon="main-menu-mobile"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/home')"
-                    @click="navigateTo('/home')"
-                    :active="$route.matched.some((p) => p.name === 'Home')"
+                <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_main_menu)"
+                    icon="main-menu-mobile" role="link" @keydown.prevent.space.enter="navigateTo('/home')"
+                    @click="navigateTo('/home')" :active="$route.matched.some((p) => p.name === 'Home')"
                     :tooltip="l.nav_main_menu" />
             </div>
         </Panel>
