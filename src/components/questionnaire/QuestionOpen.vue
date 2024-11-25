@@ -38,7 +38,7 @@ const onSubmitAnswer = () => {
                 :maxlength="props.options.max_len" v-if="!props.options?.multiline" :readonly="props.readonly" />
         </div>
         <div class="questionnaire-answer-actions" v-if="!props.readonly && edited(props.answer)">
-            <button class="questionnaire-confirm-button" @click="onSubmitAnswer()">
+            <button class="btn questionnaire-confirm-button" @click="onSubmitAnswer()">
                 {{ $t(l.button_accept) }}
             </button>
         </div>

@@ -222,7 +222,7 @@ input:read-only {
 }
 
 input[type="submit"],
-button {
+.btn {
     color: var(--button-text);
     background-color: var(--button-color);
     padding: 0.5rem 1rem;
@@ -334,7 +334,7 @@ p {
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    button, input {
+    .btn, input {
         font-size: var(--font-medium);
     }
 }

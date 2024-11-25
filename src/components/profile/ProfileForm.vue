@@ -187,7 +187,7 @@ const activateField = (id: string) => {
             <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
                 <div class="form-buttons">
                     <template v-if="!state.busy">
-                        <button type="submit">{{ $t(l.profile_button_save) }}</button>
+                        <button class="btn" type="submit">{{ $t(l.profile_button_save) }}</button>
                     </template>
                     <Spinner v-if="state.busy" />
                 </div>

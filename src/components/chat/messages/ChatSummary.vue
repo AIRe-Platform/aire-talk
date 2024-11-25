@@ -65,13 +65,13 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <span class="chat-summary-options-buttons">
                 <Tooltip :text="$t(l.tooltip_accept_summary)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
-                    <button @click="onAcceptSummary" class="button-accept">
+                    <button @click="onAcceptSummary" class="btn button-accept">
                         {{ $t(l.button_yes) }}
                     </button>
                 </Tooltip>
                 <Tooltip :text="$t(l.tooltip_reject_summary)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
-                    <button @click="onRejectSummary" class="button-accept">
+                    <button @click="onRejectSummary" class="btn button-accept">
                         {{ $t(l.button_no) }}
                     </button>
                 </Tooltip>

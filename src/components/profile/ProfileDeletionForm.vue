@@ -72,7 +72,7 @@ const onDeleteAccount = (e: Event) => {
         <div class="form-buttons">
             <template v-if="!state.busy">
                 <Tooltip :text="$t(l.tooltip_delete)" position="bottom" :useMaxContent="false" :adjustPosition="true">
-                    <button type="submit">{{ $t(l.profile_button_delete) }}</button>
+                    <button class="btn" type="submit">{{ $t(l.profile_button_delete) }}</button>
                 </Tooltip>
 
             </template>

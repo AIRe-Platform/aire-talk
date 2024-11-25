@@ -64,7 +64,7 @@ const switchButtonFocus = (next: boolean, index: number) => {
             <slot></slot>
         </div>
         <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-            <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
+            <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
                 @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
                 @keydown.prevent.shift.tab="switchButtonFocus(false, i)" :class="btn.className">
                 {{ $t(btn.loc_key) }}

@@ -52,7 +52,7 @@ const translatedKeywords = computed(() => {
     <div class="keyword-selector">
         <!-- Display keywords that can be clicked to select/deselect -->
         <div class="keywords-list">
-            <button v-for="keyword in translatedKeywords" :key="keyword.value"
+            <button class="btn" v-for="keyword in translatedKeywords" :key="keyword.value"
                 :class="['keyword-button', { selected: isSelected(keyword) }]" @click="toggleKeyword(keyword)">
                 {{ keyword.displayValue }}
             </button>

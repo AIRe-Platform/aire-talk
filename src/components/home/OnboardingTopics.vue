@@ -45,7 +45,7 @@ const buttonSelected = async (topic: Topic) => {
                 </div>
                 <div class="onboarding-topics-column-2">
                     <div class="onboarding-topics-buttons" v-for="topic in initialTopics" :key="topic.id">
-                        <button class="onboarding-topics-button" @click="buttonSelected(topic)">
+                        <button class="btn onboarding-topics-button" @click="buttonSelected(topic)">
                             {{ $t(topic.localization_key) }}
                         </button>
                     </div>
@@ -54,7 +54,7 @@ const buttonSelected = async (topic: Topic) => {
         </div>
     </div>
     <Tooltip :text="$t(l.tooltip_onboarding_button)" position="top" :useMaxContent="false" :adjustPosition="true">
-        <button class="onboarding-button" @click="onTogglePanel">
+        <button class="btn onboarding-button" @click="onTogglePanel">
             <img src="@/assets/images/aire-logo-512.png" class="onboarding-button-image" alt="Logo">
         </button>
     </Tooltip>

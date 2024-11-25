@@ -133,7 +133,7 @@ onMounted(async () => {
                     </div>
                 </div>
                 <div class="message-options">
-                    <button class="button" v-if="props.chatId" @click="returnToConversation(props.chatId)">
+                    <button class="btn button" v-if="props.chatId" @click="returnToConversation(props.chatId)">
                         <span class="button-text"> {{ $t(l.content_modal_continue_to_chat) }} </span>
                         <font-awesome-icon icon="fa-solid fa-comment" />
                     </button>

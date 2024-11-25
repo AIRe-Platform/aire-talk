@@ -76,7 +76,7 @@ const onSave = () => {
         </template>
         <template v-if="!state.busy">
             <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+                <button class="btn" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
             </Tooltip>
         </template>
     </div>

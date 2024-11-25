@@ -63,7 +63,7 @@ onMounted(handleCallback);
                     {{ state.error_message }}
                 </code>
             </div>
-            <button @click="onBackToHome">{{ $t(l.login_callback_button) }}</button>
+            <button class="btn" @click="onBackToHome">{{ $t(l.login_callback_button) }}</button>
         </div>
     </div>
 </template>
