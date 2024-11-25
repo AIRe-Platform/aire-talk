@@ -136,7 +136,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     icon="catalogue-content-mobile margin-left" role="link"
                     @keydown.prevent.space.enter="navigateTo('/content-catalogue')"
                     @click="navigateTo('/content-catalogue')"
-                    :active="$route.matched.some((p) => p.name === 'Content-catalogue')" :tooltip="l.nav_catalogue" />
+                    :active="$route.matched.some((p) => p.name === 'Content Catalogue')" :tooltip="l.nav_catalogue" />
                 <div class="nav-spacer"></div>
                 <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_login)" icon="login"
                     role="link" @keydown.prevent.space.enter="navigateTo('/login')" @click="navigateTo('/login')"
