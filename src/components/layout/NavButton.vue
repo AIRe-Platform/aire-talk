@@ -19,6 +19,7 @@ const props = defineProps<{
         class="nav-button"
         :class="{ 'nav-button-active': props.open }"
         :aria-expanded="props.open"
+        aria-haspopup="menu"
         :tabindex="UIState.reminderModalRef ? -1 : 0">
         <div>
             <Tooltip class="nav-button-graphics" :text="$t(l.nav_main_menu)" position="top" :useMaxContent="false"
