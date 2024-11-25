@@ -29,7 +29,6 @@ import {
     findLatestSummaryMessage,
     handleReminderEvent,
     handleKeywordEvent,
-    handleContentSuggestionsEvent,
     handleQuestionnaireEvent,
     handleEndEvent,
     handleMessageEvent,
@@ -53,6 +52,7 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
+        
     }
 
     /** Resets the chat state */
