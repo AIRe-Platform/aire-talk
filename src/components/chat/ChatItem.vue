@@ -14,6 +14,7 @@ import ChatNotification from './messages/ChatNotification.vue';
 import ChatEndConversation from './messages/ChatEndConversation.vue';
 import ChatEndConversationOptions from './messages/ChatEndConversationOptions.vue';
 import ChatReminderCreated from './messages/ChatReminderCreated.vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
     message: ChatMessage,
@@ -28,7 +29,22 @@ const isNotificationMessage = computed(() => {
             return false;
     }
 });
+// Access the i18n instance to translate content
+const { t } = useI18n();
 
+const localizedSystemGreetingMessage = computed(() => {
+    if (props.message.role === 'system') {
+        return t('system_greeting');
+    }
+    return props.message.content;
+});
+
+const localizedErrorAINotRespondingMessage = computed(() => {
+    if (props.message.role === 'system') {
+        return t('error_ai_not_responding');
+    }
+    return props.message.content;
+});
 </script>
 
 <template>
@@ -39,9 +55,10 @@ const isNotificationMessage = computed(() => {
     <ChatEndConversationOptions v-else-if="props.message.type == ChatMessageType.EndOfConversationOptions"
         :message="props.message" />
     <ChatReminderCreated v-else-if="props.message.type == ChatMessageType.ReminderCreated" :message="props.message" />
-    <ChatError v-else-if="props.message.type == ChatMessageType.Error" :message="props.message" />
-    <ChatBubble v-else-if="props.message.type == ChatMessageType.Default" :message="props.message"
-        :canRevert="props.canRevert" />
+    <ChatError v-else-if="props.message.type == ChatMessageType.Error"
+        :message="{ ...props.message, content: localizedErrorAINotRespondingMessage }" />
+    <ChatBubble v-else-if="props.message.type == ChatMessageType.Default"
+        :message="{ ...props.message, content: localizedSystemGreetingMessage }" :canRevert="props.canRevert" />
 </template>
 
 <style lang="scss" scoped></style>
