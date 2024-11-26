@@ -82,20 +82,19 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" tabindex="0"
-                    role="link" @keydown.prevent.space.enter="newChat()" @click="newChat()">
+                <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat"
+                    href="#" @keydown.space="newChat()" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
-                </div>
-                <div class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="openLastChat()" @click="openLastChat()"
+                </a>
+                <a class="icon frontpage-button"
+                    href="#" @keydown.space="openLastChat()" @click="openLastChat()"
                     v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
-                </div>
-                <div class="icon frontpage-button" tabindex="0" role="button"
-                    @keydown.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
+                </a>
+                <button class="icon frontpage-button"
                     @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
-                </div>
+                </button>
             </div>
             <div class="home-footer">
                 <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer)
@@ -212,6 +211,11 @@ onMounted(async () => {
     background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+button.frontpage-button {
+    border: none;
+    background-color: transparent;
 }
 
 .frontpage-button:hover {
