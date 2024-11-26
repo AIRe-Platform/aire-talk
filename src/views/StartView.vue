@@ -27,14 +27,16 @@ const navigateTo = (path: string) => {
                 <p>{{ $t(l.start_second_paragraph) }}</p>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="navigateTo('/login')" @click="navigateTo('/login')">
+                <a class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/login')" @click.prevent="navigateTo('/login')"
+                    href="/login">
                     {{ $t(l.nav_login) }}
-                </div>
-                <div class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="navigateTo('/signup')" @click="navigateTo('/signup')">
+                </a>
+                <a class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/signup')" @click.prevent="navigateTo('/signup')"
+                    href="/signup">
                     {{ $t(l.nav_signup) }}
-                </div>
+                </a>
                 <LanguageSelector />
             </div>
             <div class="start-footer">

@@ -13,6 +13,7 @@ const props = defineProps<{
     icon?: string,
     active: boolean,
     tooltip: string,
+    tabindex: number
 }>()
 
 // create the new key from the label, with lower case all and replacing spaces with _
@@ -22,7 +23,9 @@ function formatTooltipKey(tooltip: string): string {
 </script>
 
 <template>
-    <div class="nav-item" :class="{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }">
+    <a href="#" role="link" class="nav-item"
+        :class="['nav-item', { 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
+        :tabindex=props.tabindex @keydown.prevent.space.enter="$emit('click')" @click="$emit('click')">
         <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
         </div>
         <Tooltip :text=$t(formatTooltipKey(props.tooltip)) position="top" :useMaxContent="false" :adjustPosition="true">
@@ -30,7 +33,7 @@ function formatTooltipKey(tooltip: string): string {
                 {{ props.label }}
             </div>
         </Tooltip>
-    </div>
+    </a>
 </template>
 
 <style lang="scss" scoped>
