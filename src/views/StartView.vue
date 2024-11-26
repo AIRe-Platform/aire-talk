@@ -21,10 +21,10 @@ const navigateTo = (path: string) => {
         <div class="start-container">
             <div class="greeting">
                 <img src="@/assets/images/aire-bot.png" alt="AIRe chat bot logo" class="chat-bot">
-                <h1>{{ $t('start_greeting') }}</h1>
-                <p>{{ $t(l.start_first_paragraph) }}</p>
+                <h1>{{ $t(l.start_greeting) }}</h1>
+                <h2>{{ $t(l.start_first_paragraph) }}</h2>
                 <Separator />
-                <p>{{ $t(l.start_second_paragraph) }}</p>
+                <h3>{{ $t(l.start_second_paragraph) }}</h3>
             </div>
             <div class="quick-nav">
                 <a class="icon frontpage-button" tabindex="0" role="link"

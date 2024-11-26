@@ -34,6 +34,7 @@ const id: Locale = {
         "AIRe adalah solusi yang dibantu AI yang membantu Anda mengidentifikasi kebutuhan rehabilitasi Anda dan memandu Anda ke layanan rehabilitasi dan konten yang dipersonalisasi.",
     start_disclaimer: "AIRe bukan alat diagnosis medis.",
 
+    home_title: "home_title",
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
 
@@ -174,6 +175,7 @@ const id: Locale = {
 
     chat_history_loading: "Memuat...",
     chat_history_tokens: "{0} token",
+    chat_title: "chat_title",
     chat_input_title: "Apa yang ingin Anda tanyakan atau katakan?",
 
     popup_confirm_revert_message:

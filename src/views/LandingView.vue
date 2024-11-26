@@ -47,7 +47,7 @@ const saveForm = (e: Event) => {
 <template>
     <div id="landing-view">
         <form class="landing-form" @change="checkForm">
-            <h3 class="landing-form-line">{{ $t(l.landing_view_title) }} </h3>
+            <h1 class="landing-form-line">{{ $t(l.landing_view_title) }} </h1>
             <div class="landing-form-line">{{ $t(l.landing_view_text) }}</div>
             <label> {{ $t(l.profile_label_year_of_birth) }} </label>
             <input id="year_of_birth" type="number" required="true" min="0" autofocus autocomplete="off"

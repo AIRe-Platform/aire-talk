@@ -22,6 +22,7 @@ export enum LocalizationKey {
 
     notification_keyword = "notification_keyword",
 
+    home_title = "home_title",
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
 
@@ -152,6 +153,7 @@ export enum LocalizationKey {
 
     chat_history_loading = "chat_history_loading",
     chat_history_tokens = "chat_history_tokens",
+    chat_title = "chat_title",
     chat_input_title = "chat_input_title",
 
     popup_confirm_revert_message = "popup_confirm_revert_message",

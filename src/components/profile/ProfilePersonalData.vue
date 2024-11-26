@@ -42,7 +42,7 @@ const onDownload = () => {
 
 <template>
     <div class="profile-personal-data">
-        <h3 class="profile-personal-data-heading">{{ $t(l.profile_heading_personal_data) }}</h3>
+        <h2 class="profile-personal-data-heading">{{ $t(l.profile_heading_personal_data) }}</h2>
         <div class="profile-personal-data-description">
             {{ $t(l.profile_description_personal_data) }}
         </div>

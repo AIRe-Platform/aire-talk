@@ -34,6 +34,7 @@ const fi: Locale = {
         "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutumisen tarpeitasi ja opastaa sinut yksilöllisesti kuntoutuksen palveluiden ja sisällön pariin.",
     start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
 
+    home_title: "AIRe kotisivu",
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
 
@@ -174,6 +175,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     chat_history_loading: "Ladataan...",
     chat_history_tokens: "{0} tokenia",
+    chat_title: "AIRe keskustelu",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
 
     popup_confirm_revert_message:

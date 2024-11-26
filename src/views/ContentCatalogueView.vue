@@ -8,7 +8,7 @@
 import { l } from "@/locales";
 import { router } from "@/router";
 import { computed, onMounted, reactive } from "vue";
-import { AireContent, AireContentType, AireKeyword } from "aire";
+import { AireContent, AireKeyword } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
 import Tooltip from "@/components/common/Tooltip.vue";
 import useContent from "@/context/content";
@@ -60,6 +60,7 @@ const state = reactive<{
 
 const filteredContents = computed(() => {
     let result = state.contentList.map(item => {
+        // eslint-disable-next-line no-unused-vars
         const { chatId, ...content } = item; // Extract content, leaving out chatId
         return content; // Return only the content part (AireContent)
     });
@@ -213,6 +214,7 @@ onMounted(async () => {
     if (state.contentList && state.contentList.length > 0) {
         // Extract only the content part (AireContent) from the wrapped items
         const contentWithoutChatId = state.contentList.map(item => {
+            // eslint-disable-next-line no-unused-vars
             const { chatId, ...content } = item; // Extract content without chatId
             return content; // Return only the content part
         });
@@ -238,12 +240,12 @@ onMounted(async () => {
         </Tooltip>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
-                <h3>{{ $t(l.nav_catalogue) }}</h3>
+                <h1>{{ $t(l.nav_catalogue) }}</h1>
             </div>
         </div>
         <Spinner v-if="state.busy" />
         <div v-if="state.rankedContents.length == 0">
-            <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
+            <h2 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h2>
         </div>
 
         <div class="content-catalogue-filter-row" v-if="!state.busy">

@@ -34,6 +34,7 @@ const es: Locale = {
         "AIRe es una solución asistida por IA que le ayuda a identificar sus necesidades de rehabilitación y le guía hacia servicios y contenidos de rehabilitación personalizados.",
     start_disclaimer: "AIRe no es una herramienta de diagnóstico médico.",
 
+    home_title: "home_title",
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
 
@@ -177,6 +178,7 @@ const es: Locale = {
 
     chat_history_loading: "Cargando...",
     chat_history_tokens: "{0} fichas",
+    chat_title: "chat_title",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:

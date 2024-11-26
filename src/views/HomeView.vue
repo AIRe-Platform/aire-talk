@@ -69,6 +69,7 @@ onMounted(async () => {
     <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
+                <h1 class="visually-hidden">{{ $t(l.home_title) }}</h1>
                 <div class="home-header-title">
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
                         <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
@@ -77,7 +78,7 @@ onMounted(async () => {
                         <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
                             alt="AIRe homepage logo in dark mode" />
                     </div>
-                    <p class="header-text">{{ $t(l.start_first_paragraph) }}</p>
+                    <h2 class="header-text">{{ $t(l.start_first_paragraph) }}</h2>
                 </div>
             </div>
             <ReminderComponent />

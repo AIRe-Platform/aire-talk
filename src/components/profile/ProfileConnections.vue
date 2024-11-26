@@ -9,7 +9,7 @@ import { l } from '@/locales';
 
 <template>
     <div class="profile-connections">
-        <h3>{{ $t(l.profile_heading_connected_services) }}</h3>
+        <h2>{{ $t(l.profile_heading_connected_services) }}</h2>
         <div id="service-list">{{ $t(l.profile_empty_service_list) }}</div>
     </div>
 </template>

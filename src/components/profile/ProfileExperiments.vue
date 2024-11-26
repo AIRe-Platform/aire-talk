@@ -54,7 +54,7 @@ const onSave = () => {
 
 <template>
     <div class="profile-experiments">
-        <h3>{{ $t(l.profile_experiments_title) }}</h3>
+        <h2>{{ $t(l.profile_experiments_title) }}</h2>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
                 <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">

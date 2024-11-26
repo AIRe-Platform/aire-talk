@@ -34,6 +34,7 @@ const rw: Locale = {
         "AIRe ni urubuga rukoresha ubwenge buhimbano rugufasha kubona amakuru kuri serivisi z'ubuvuzi bwa rehabilitasiyo ndetse rukakugira inama z'uburyo wabona izo serivisi.",
     start_disclaimer: "AIRe ntabwo isuzuma cyangwa ngo isimbure muganga.",
 
+    home_title: "home_title",
     home_start_new_chat: "Tangira ikiganiro gishya",
     home_continue_chat: "Komereza ku kiganiro cyabanje",
 
@@ -168,6 +169,7 @@ const rw: Locale = {
 
     chat_history_loading: "Tegereza biri kuza",
     chat_history_tokens: "{0} Nta kintu cyaje",
+    chat_title: "chat_title",
     chat_input_title: "Ni iki ushaka kubaza cyangwa kuvuga?",
 
     popup_confirm_revert_message:

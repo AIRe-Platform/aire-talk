@@ -40,7 +40,7 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
                 <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
             </div>
             <div class="profile-header-text">
-                <h3>{{ $t(l.profile_title) }}</h3>
+                <h1>{{ $t(l.profile_title) }}</h1>
             </div>
         </div>
         <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">

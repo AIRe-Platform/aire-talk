@@ -57,7 +57,7 @@ const goBack = () => {
 <template>
     <div class="signup-view">
         <form class="form-content" @submit.prevent="onSignup">
-            <h2>{{ $t(l.signup_form_title) }}</h2>
+            <h1>{{ $t(l.signup_form_title) }}</h1>
             <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
             <input type="email" id="signup-email" required="true" autocomplete="email" v-model="fields.email"
                 :readonly="busy" />

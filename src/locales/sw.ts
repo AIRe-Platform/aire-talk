@@ -34,6 +34,7 @@ const sw: Locale = {
         "AIRe ni suluhisho linalosaidiwa na AI ambalo hukusaidia kutambua mahitaji yako ya urekebishaji na kukuongoza kwenye huduma na maudhui ya urekebishaji ya kibinafsi.",
     start_disclaimer: "AIRe si zana ya uchunguzi wa kimatibabu.",
 
+    home_title: "home_title",
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
 
@@ -159,6 +160,7 @@ const sw: Locale = {
 
     chat_history_loading: "Inapakia...",
     chat_history_tokens: "{0} vibambo",
+    chat_title: "chat_title",
     chat_input_title: "Ungependa kuuliza au kusema nini?",
 
     popup_confirm_revert_message: "Je, una uhakika unataka kurudisha mazungumzo kwa ujumbe huu?",

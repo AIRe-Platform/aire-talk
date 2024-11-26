@@ -77,7 +77,7 @@
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
-    --hover-text:  #E3FFFA;
+    --hover-text: #E3FFFA;
     --hover-button: #19547B;
     --nav-item-hover: #176087;
     --disabled-color: rgba(128, 128, 128, 0.2);
@@ -132,7 +132,7 @@
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
-    --hover-text:  #E3FFFA;
+    --hover-text: #E3FFFA;
     --hover-button: #19547B;
     --nav-item-hover: #E3FFFA;
     --disabled-color: rgba(128, 128, 128, 0.2);
@@ -277,32 +277,37 @@ input[type="submit"],
 }
 
 
-p { 
-    margin: 0.2rem 0; 
+p {
+    margin: 0.2rem 0;
 }
 
 
 /* Style the scrollbar */
 ::-webkit-scrollbar {
-    width: 3px; 
+    width: 3px;
 }
 
 /* Style the track (the background of the scrollbar) */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Light gray background */
+    /* Light gray background */
+    background: #f1f1f1;
 }
 
 /* Style the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-    background-color: #888; /* Darker gray */
-    border-radius: 10px; /* Rounded corners */
-   /*  border: 1px solid #f1f1f1;   Adds padding around the thumb */
+    /* Darker gray */
+    background-color: #888;
+    /* Rounded corners */
+    border-radius: 10px;
+    /*  border: 1px solid #f1f1f1;   Adds padding around the thumb */
 }
 
 /* Change the thumb color on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Even darker gray */
+    /* Even darker gray */
+    background: #555;
 }
+
 @keyframes fade-in-and-left {
     0% {
         opacity: 0;
@@ -339,8 +344,20 @@ p {
     animation: fade-out-and-right 0.4s;
 }
 
+.visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    .btn, input {
+
+    .btn,
+    input {
         font-size: var(--font-medium);
     }
 }

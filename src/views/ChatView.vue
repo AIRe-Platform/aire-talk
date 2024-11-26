@@ -12,13 +12,12 @@ import useChat from "@/context/chat";
 import ChatItem from "@/components/chat/ChatItem.vue";
 import ChatInput from "@/components/chat/ChatInput.vue";
 import ChatSidePanel from "@/components/chat/ChatSidePanel.vue";
-import { createRecallQuestionnaire } from "@/controllers/recallController";
 import useChatbot from "@/context/chatbot";
-import useQuestionnaire from "@/context/questionnaire";
 import ChatQuestionnaire from "@/components/chat/ChatQuestionnaire.vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { router } from "@/router";
 import { TutorialStates } from "@/context/tutorials";
+import { l } from "@/locales";
 
 const showSideBar = ref(false);
 const route = useRoute();
@@ -132,6 +131,7 @@ watch(() => chat.id, (newId, oldId) => {
 
 <template>
     <div class="chat-view">
+        <h1 class="visually-hidden">{{ $t(l.chat_title) }}</h1>
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
                 <ChatQuestionnaire v-if="messageGroup.isQuestionnaire" :group="messageGroup" />
