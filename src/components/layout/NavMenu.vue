@@ -107,12 +107,12 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
             <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
                 v-if="login.user && !TutorialStates.nav.isDone()" />
-            <div class="nav-link" :tabindex="navLinkTabindex" @keydown.prevent.space.enter="navLogoClick" role="link"
-                @click="navLogoClick">
+            <a href="#" class="nav-link" :tabindex="navLinkTabindex" @keydown.prevent.space.enter="navLogoClick"
+                role="link" @click="navLogoClick">
                 <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe logo in the navigation menu" />
                 </div>
-            </div>
+            </a>
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
                 <Separator />
                 <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.History"

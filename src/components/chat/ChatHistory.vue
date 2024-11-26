@@ -190,7 +190,7 @@ const onClickOutside = async (e: Event) => {
                 <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
                     :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                     <div class="chat-history-item-row">
-                        <div class="chat-history-item-details" tabindex="0" role="button"
+                        <a href="#" class="chat-history-item-details" tabindex="0" role="link"
                             @keydown.prevent.space.enter="onSelect(item.id)" @click="onSelect(item.id)">
                             <div class="chat-history-item-date">
                                 {{ item.time.toLocaleString($i18n.locale) }}
@@ -201,9 +201,9 @@ const onClickOutside = async (e: Event) => {
                             <div class="chat-history-token" v-if="getTokenCount(item.id)">
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                             </div>
-                        </div>
-                        <button class="chat-history-item-delete" role="button"
-                            @click="onDeleteChat(item.id, $event)" :aria-label="$t(l.tooltip_delete_chat)">
+                        </a>
+                        <button class="chat-history-item-delete" role="button" @click="onDeleteChat(item.id, $event)"
+                            :aria-label="$t(l.tooltip_delete_chat)">
                             <Tooltip :text="$t(l.tooltip_delete_chat)" position="top" :useMaxContent="false"
                                 :adjustPosition="true">
                                 <div class="icon delete-bin"></div>
