@@ -47,7 +47,7 @@ const onChangePassword = (e: Event) => {
 
 <template>
     <form class="password-form" @submit.prevent="onChangePassword">
-        <h3>{{ $t(l.profile_heading_password) }}</h3>
+        <h2>{{ $t(l.profile_heading_password) }}</h2>
         <input aria-hidden="true" tabindex="-1" hidden="true" type="text" id="username" autocomplete="off" />
         <div class="form-content">
             <span class="form-item">

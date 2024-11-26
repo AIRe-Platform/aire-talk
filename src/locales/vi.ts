@@ -33,6 +33,7 @@ const vi: Locale = {
         "AIRe là một giải pháp được AI hỗ trợ giúp bạn xác định nhu cầu phục hồi chức năng của mình và hướng dẫn bạn các nội dung và dịch vụ phục hồi chức năng được cá nhân hóa.",
     start_disclaimer: "AIRe không phải là một công cụ chẩn đoán y tế.",
 
+    home_title: "home_title",
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
 
@@ -172,6 +173,7 @@ const vi: Locale = {
 
     chat_history_loading: "Đang tải...",
     chat_history_tokens: "{0} token",
+    chat_title: "chat_title",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
 
     popup_confirm_revert_message:

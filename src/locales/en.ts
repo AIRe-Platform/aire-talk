@@ -25,6 +25,7 @@ const en: Locale = {
 
     notification_keyword: "Theme \"{keyword}\" recognized",
 
+    home_title: "AIRe homepage",
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
@@ -162,6 +163,7 @@ const en: Locale = {
 
     chat_history_loading: "Loading...",
     chat_history_tokens: "{0} tokens",
+    chat_title: "AIRe chat",
     chat_input_title: "What would you like to ask or tell?",
 
     popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",

@@ -55,7 +55,7 @@ onMounted(handleCallback);
     <div class="callback-view">
         <Spinner v-if="state.busy" />
         <div class="callback-error" v-if="state.error">
-            <div class="callback-error-message">{{ $t(l.login_callback_failure) }}</div>
+            <h1 class="callback-error-message">{{ $t(l.login_callback_failure) }}</h1>
             <div class="callback-error-description">
                 <code>
                     {{ $t(l.login_callback_error_description) }}<br />
@@ -85,6 +85,7 @@ onMounted(handleCallback);
 }
 
 .callback-error-message {
+    margin-bottom: 0;
     font-size: larger;
 }
 

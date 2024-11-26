@@ -32,7 +32,7 @@ onMounted(() => {
     <div class="login-view">
         <template v-if="state.busy">
             <Spinner />
-            <div class="login-message">{{ $t(l.login_redirect) }}</div>
+            <h1 class="login-message">{{ $t(l.login_redirect) }}</h1>
         </template>
         <div class="login-error" v-if="state.error">
             {{ $t(l.login_failure) }}

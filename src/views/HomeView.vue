@@ -69,6 +69,7 @@ onMounted(async () => {
     <div id="home-view" v-if="!state.isLoadingView">
         <div class="home-container">
             <div class="home-header">
+                <h1 class="visually-hidden">{{ $t(l.home_title) }}</h1>
                 <div class="home-header-title">
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
                         <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
@@ -77,25 +78,24 @@ onMounted(async () => {
                         <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
                             alt="AIRe homepage logo in dark mode" />
                     </div>
-                    <p class="header-text">{{ $t(l.start_first_paragraph) }}</p>
+                    <h2 class="header-text">{{ $t(l.start_first_paragraph) }}</h2>
                 </div>
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <div class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" tabindex="0"
-                    role="link" @keydown.prevent.space.enter="newChat()" @click="newChat()">
+                <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat"
+                    href="#" @keydown.space="newChat()" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
-                </div>
-                <div class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="openLastChat()" @click="openLastChat()"
+                </a>
+                <a class="icon frontpage-button"
+                    href="#" @keydown.space="openLastChat()" @click="openLastChat()"
                     v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
-                </div>
-                <div class="icon frontpage-button" tabindex="0" role="button"
-                    @keydown.prevent.space.enter="state.showConfirmLogout = !state.showConfirmLogout"
+                </a>
+                <button class="icon frontpage-button"
                     @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
-                </div>
+                </button>
             </div>
             <div class="home-footer">
                 <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer)
@@ -212,6 +212,11 @@ onMounted(async () => {
     background-image: url(/src/assets/images/aire-bot.png);
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+button.frontpage-button {
+    border: none;
+    background-color: transparent;
 }
 
 .frontpage-button:hover {

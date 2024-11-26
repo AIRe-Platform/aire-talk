@@ -10,7 +10,7 @@
 <template>
     <div id="not-found-view">
         <div class="panel">
-            <h2>{{ $t("not_found") }}</h2>
+            <h1>{{ $t("not_found") }}</h1>
         </div>
     </div>
 </template>
