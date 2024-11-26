@@ -6,34 +6,29 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import { UIState } from "@/context/ui";
-import Tooltip from "@/components/common/Tooltip.vue";
+import NavItemContent from './NavItemContent.vue';
 
 const props = defineProps<{
     label: string,
     icon?: string,
     active: boolean,
     tooltip: string,
-    tabindex: number
+    tabindex: number,
+    itemType: 'link' | 'button',
 }>()
-
-// create the new key from the label, with lower case all and replacing spaces with _
-function formatTooltipKey(tooltip: string): string {
-    return 'tooltip_' + tooltip;
-}
 </script>
 
 <template>
-    <a href="#" role="link" class="nav-item"
-        :class="['nav-item', { 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
-        :tabindex=props.tabindex @keydown.prevent.space.enter="$emit('click')" @click="$emit('click')">
-        <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
-        </div>
-        <Tooltip :text=$t(formatTooltipKey(props.tooltip)) position="top" :useMaxContent="false" :adjustPosition="true">
-            <div class="nav-link">
-                {{ props.label }}
-            </div>
-        </Tooltip>
+    <a v-if="props.itemType === 'link'" href="#" class="nav-item"
+        :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
+        :tabindex="props.tabindex" @click="$emit('click')" @keydown.space="$emit('click')">
+        <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
     </a>
+    <button v-else type="button" class="nav-item nav-btn"
+        :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
+        :tabindex="props.tabindex" @click="$emit('click')">
+        <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
+    </button>
 </template>
 
 <style lang="scss" scoped>
@@ -52,10 +47,18 @@ function formatTooltipKey(tooltip: string): string {
     }
 }
 
+.nav-btn {
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: inherit;
+    font-family: inherit;
+}
+
 .nav-item-active {
     background-color: var(--menu-active);
 }
-
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
@@ -70,12 +73,6 @@ function formatTooltipKey(tooltip: string): string {
     .short-nav-menu {
         padding: 0rem;
         margin: 1rem;
-    }
-
-    .short-nav-menu .nav-link {
-        display: none;
-        width: 0;
-        height: 0;
     }
 
     .nav-item-active {
