@@ -92,62 +92,70 @@ const toggleTTS = () => {
             'chat-bot-finish': bot.status === 'answered'
         }">
         </div>
-        <div class="chat-input-header">
-            <div class="chat-bot-text">{{ $t(l.chat_input_title) }}</div>
-            <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0" role="link"
-                @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
-                @click="() => router.push('/content-catalogue')">
-                <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
-                    :adjustPosition="true">
-                    <div class="icon chatbox-content-default">
-                    </div>
-                </Tooltip>
-            </div>
-            <button v-if="props.optionsVisible" class="chat-options-button"
-                :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
-                :data-tutorial-state="ChatTutorialState.Sidepanel"
-                @click="$emit('toggleOptions')">
-                <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
-                    :adjustPosition="true">
-                    <div class="icon summary-switch-default"></div>
-                </Tooltip>
-            </button>
-        </div>
-        <div class="chat-text-input">
+        <div class="chat-input-left">
+            <p class="chat-bot-text" role="text" aria-live="polite"
+                aria-label="Write here what would you like to ask or tell?" tabindex="0">
+                {{ $t(l.chat_input_title) }}
+            </p>
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
                     :data-tutorial-state="ChatTutorialState.Input" :readonly="bot.status === 'writing'"
                     v-model="state.input" aria-label="Message input for the bot" />
             </form>
-            <template v-if="stt.isSupported.value">
-                <Tooltip :text="stt.isListening.value
-                    ? $t(l.tooltip_chat_speech_recognition_off)
-                    : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
-                    :adjustPosition="true">
-                    <button class="chat-speech-button" @click="toggleListening" type="button">
-                        <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
-                        <font-awesome-icon icon="fa-solid fa-microphone" v-else />
-                    </button>
-                </Tooltip>
-            </template>
-            <template v-if="tts.isSupported.value">
-                <Tooltip :text="UISettings.ttsEnabled
-                    ? $t(l.tooltip_chat_tts_read_new_messages_off)
-                    : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
-                    :adjustPosition="true">
-                    <button class="chat-tts-button" @click="toggleTTS" type="button" >
-                        <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
-                        <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
-                    </button>
-                </Tooltip>
-            </template>
-            <button class="chat-send-button" @click="submit" type="button">
-                <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
-                    :adjustPosition="true">
-                    <div class="chat-send-icon icon send-message-default">
+        </div>
+        <div class="chat-text-right">
+            <div class="chat-tts">
+                <div class="chat-tts-top">
+                    <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
+                        role="link" @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
+                        @click="() => router.push('/content-catalogue')">
+                        <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
+                            :adjustPosition="true">
+                            <div class="icon chatbox-content-default"></div>
+                        </Tooltip>
                     </div>
-                </Tooltip>
-            </button>
+                </div>
+                <div class="chat-tts-buttom">
+                    <template v-if="stt.isSupported.value">
+                        <Tooltip :text="stt.isListening.value
+                            ? $t(l.tooltip_chat_speech_recognition_off)
+                            : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
+                            :adjustPosition="true">
+                            <button class="chat-speech-button" @click="toggleListening" type="button">
+                                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
+                                <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+                            </button>
+                        </Tooltip>
+                    </template>
+                    <template v-if="tts.isSupported.value">
+                        <Tooltip :text="UISettings.ttsEnabled
+                            ? $t(l.tooltip_chat_tts_read_new_messages_off)
+                            : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
+                            :adjustPosition="true">
+                            <button class="chat-tts-button" @click="toggleTTS" type="button">
+                                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
+                                <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
+                            </button>
+                        </Tooltip>
+                    </template>
+                </div>
+            </div>
+            <div class="chat-options">
+                <button v-if="props.optionsVisible" class="chat-options-button"
+                    :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
+                    :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')">
+                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
+                        :adjustPosition="true">
+                        <div class="icon summary-switch-default"></div>
+                    </Tooltip>
+                </button>
+                <button class="chat-send-button" @click="submit" type="button">
+                    <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
+                        :adjustPosition="true">
+                        <div class="chat-send-icon icon send-message-default"></div>
+                    </Tooltip>
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -155,8 +163,8 @@ const toggleTTS = () => {
 <style lang="scss" scoped>
 .chat-input {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    gap: 0.5rem;
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 0 5px var(--box-stroke);
     margin: 0 5px 0 5px;
@@ -166,18 +174,46 @@ const toggleTTS = () => {
     position: relative;
 }
 
-.chat-text-input {
+.chat-input-left {
     display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-.chat-input-header {
-    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     position: relative;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 91%;
+}
+
+.chat-text-right {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    width: 8%;
+    justify-content: space-between;
+}
+
+.chat-tts {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    height: 100%;
+}
+
+.chat-tts-top {
+    display: flex;
+    height: 50%;
+}
+
+.chat-tts-buttom {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    height: 50%;
+}
+
+.chat-options {
+    display: flex;
+    flex-direction: column;
 }
 
 .chat-input-bar {
@@ -188,6 +224,7 @@ const toggleTTS = () => {
     align-items: stretch;
     justify-content: center;
     height: 2rem;
+    width: 100%;
 }
 
 .chat-input-field {
