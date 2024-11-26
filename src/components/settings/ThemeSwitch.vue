@@ -15,21 +15,24 @@ const onSwitchTheme = (dark: boolean) => {
     theme.apply(dark ? "theme-dark" : 'theme-default');
 }
 </script>
-
 <template>
     <div class="theme-container">
-        <p class="theme-switch-label"> {{ $t(l.switch_color_mode) }}</p>
-        <Tooltip :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false" :adjustPosition="true">
-            <div class="theme-switch">
+        <p class="theme-switch-label">{{ $t(l.switch_color_mode) }}</p>
+        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false"
+            :adjustPosition="true">
+            <div class="theme-switch" role="switch" :aria-checked="theme.style === 'theme-dark'"
+                :aria-label="`Switch between light or dark User Interface mode. Current mode is ${theme.style === 'theme-dark' ? 'dark mode' : 'light mode'}. Switch to ${theme.style !== 'theme-dark' ? 'dark mode' : 'light mode'}`"
+                tabindex="0" @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
+                @click="onSwitchTheme(theme.style !== 'theme-dark')">
                 <font-awesome-icon icon="fa-solid fa-sun" />
-                <Switch :is-on="theme.style === 'theme-dark'"
-                    @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
-                    @change="onSwitchTheme" />
+                <Switch :is-on="theme.style === 'theme-dark'" />
                 <font-awesome-icon icon="fa-solid fa-moon" />
             </div>
         </Tooltip>
     </div>
 </template>
+
+
 
 <style lang="scss" scoped>
 .switch {
