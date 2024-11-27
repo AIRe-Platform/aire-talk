@@ -16,13 +16,25 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
+import { onMounted, reactive } from "vue";
+import useTheme, { ThemeContext } from "@/context/theme";
 
+const state = reactive<{
+    theme: ThemeContext,
+}>({
+    theme: new ThemeContext()
+});
 const navigateTo = (path: string) => {
     router.push(path);
 }
 
 const show_experiments = (AireServices.ID?.getScopes() || [])
     .findIndex(x => x.startsWith("experimental-")) > -1;
+
+onMounted(async () => {
+    state.theme = useTheme();
+
+})
 </script>
 
 <template>
@@ -37,7 +49,12 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
         </div>
         <div class="profile-header">
             <div class="profile-logo">
-                <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                <div class="image-logo" v-if="state.theme.style == 'theme-default'">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                </div>
+                <div class="image-logo" v-else>
+                    <img src="@/assets/images/aire-logo-letter-dark-mode.svg" alt="AIRe homepage logo in dark mode" />
+                </div>
             </div>
             <div class="profile-header-text">
                 <h1>{{ $t(l.profile_title) }}</h1>
@@ -80,6 +97,14 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
 </template>
 
 <style lang="scss" scoped>
+.profile-logo {
+    width: 12rem;
+}
+
+.image-logo {
+    width: inherit;
+}
+
 .profile-view {
     display: flex;
     /*     overflow: hidden;
