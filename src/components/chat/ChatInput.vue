@@ -93,10 +93,10 @@ const toggleTTS = () => {
         }">
         </div>
         <div class="chat-input-left">
-            <p class="chat-bot-text" role="text" aria-live="polite"
+            <label for="message-input" class="chat-bot-text" role="text" aria-live="polite"
                 aria-label="Write here what would you like to ask or tell?" tabindex="0">
                 {{ $t(l.chat_input_title) }}
-            </p>
+            </label>
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
                     :data-tutorial-state="ChatTutorialState.Input" :readonly="bot.status === 'writing'"
