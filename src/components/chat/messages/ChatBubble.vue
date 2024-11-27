@@ -36,9 +36,9 @@ const onTTS = () => {
         <ChatItemOptions :parent="props.message" :can_revert="props.canRevert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
-            <span class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
+            <h2 class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
                 {{ (props.message.role === 'assistant') ? $t(message.sender) : message.sender }}
-            </span>
+            </h2>
             <span class="chat-bubble-text">
                 <VueMarkdown :source="message.content" />
             </span>
@@ -105,6 +105,7 @@ const onTTS = () => {
 .chat-bubble-user-label {
     font-size: var(--font-medium);
     font-weight: bold;
+    margin-block-end: 0;
 }
 
 .chat-bubble-assistant .chat-bubble-user-label {

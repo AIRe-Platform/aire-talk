@@ -15,9 +15,9 @@ const props = defineProps<{
 
 <template>
     <div :id="props.message.id" class="chat-end-conversation" v-if="props.message.content">
-        <span class="chat-end-conversation-content">
+        <h2 class="chat-end-conversation-content">
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
-        </span>
+        </h2>
     </div>
 </template>
 
@@ -38,6 +38,8 @@ const props = defineProps<{
     display: flex;
     flex-direction: column;
     font-size: var(--font-medium);
+    color: var(--title-text);
     width: 100%;
+    margin-block-end: 0;
 }
 </style>

@@ -18,7 +18,7 @@ const props = defineProps<{
 <template>
     <div class="chat-group-questionnaire">
         <div class="chat-questionnaire-start">
-            <h3>{{ $t(l.questionnaire_start) }}</h3>
+            <h2>{{ $t(l.questionnaire_start) }}</h2>
             <div>{{ $t(l.questionnaire_explanation) }}</div>
         </div>
         <template v-for="msg in props.group.messages" v-bind:key="msg.id">
