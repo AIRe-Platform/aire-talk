@@ -122,8 +122,8 @@ const toggleTTS = () => {
                             : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                             :adjustPosition="true">
                             <button class="chat-speech-button" @click="toggleListening" type="button">
-                                <font-awesome-icon icon="fa-solid fa-microphone-slash" v-if="stt.isListening.value" />
-                                <font-awesome-icon icon="fa-solid fa-microphone" v-else />
+                                <div v-if="stt.isListening.value" class="icon voice-control-stop"></div>
+                                <div v-else class="icon voice-control"></div>
                             </button>
                         </Tooltip>
                     </template>
@@ -133,8 +133,9 @@ const toggleTTS = () => {
                             : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
                             :adjustPosition="true">
                             <button class="chat-tts-button" @click="toggleTTS" type="button">
-                                <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="UISettings.ttsEnabled" />
-                                <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
+                                <font-awesome-icon icon="fa-solid fa-volume-xmark" class="fa-volume-input"
+                                    v-if="UISettings.ttsEnabled" />
+                                <font-awesome-icon icon="fa-solid fa-volume-high" class="fa-volume-input" v-else />
                             </button>
                         </Tooltip>
                     </template>
@@ -300,6 +301,13 @@ const toggleTTS = () => {
 .chat-send-icon {
     width: 2rem;
     height: 2rem;
+}
+
+
+.fa-volume-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 0.3rem;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
