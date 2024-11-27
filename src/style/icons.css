@@ -142,6 +142,18 @@
     height: 2rem;
 }
 
+.icon.voice-control {
+    background-image: url("@/assets/icons/voice-control.svg");
+    width: 2rem;
+    height: 1.7rem;
+}
+
+.icon.voice-control-stop {
+    background-image: url("@/assets/icons/voice-control-stop.svg");
+    width: 2rem;
+    height: 1.7rem;
+}
+
 .theme-default .icon.tilt-mobile-default {
     background-image: url("@/assets/icons/tilt-mobile-default.svg");
 }
