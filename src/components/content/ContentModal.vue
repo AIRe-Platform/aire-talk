@@ -143,7 +143,7 @@ onMounted(async () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
     display: flex;
     margin-bottom: 1rem;
@@ -184,8 +184,6 @@ onMounted(async () => {
 
 .message-media-file {
     display: flex;
-    min-width: 20rem;
-    min-height: 10rem;
     align-items: center;
     justify-content: center;
 }
@@ -212,8 +210,8 @@ onMounted(async () => {
 
     display: flex;
     flex-direction: column;
-    padding: 0rem 2rem;
     align-items: center;
+    width: 100%;
 
     img,
     video,
@@ -278,9 +276,6 @@ onMounted(async () => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
-
-        padding: 1rem;
-
         img,
         video,
         .content-document {
@@ -288,14 +283,6 @@ onMounted(async () => {
             max-height: 10rem;
             border-radius: 1rem;
         }
-    }
-
-    .message-media-file {
-
-        min-width: 16rem;
-        min-height: 7rem;
-
-
     }
 }
 </style>
