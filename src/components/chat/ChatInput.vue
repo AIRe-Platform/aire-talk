@@ -310,22 +310,6 @@ const toggleTTS = () => {
     margin-bottom: 0.3rem;
 }
 
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-
-    .chat-options-button,
-    .chat-content {
-        position: relative;
-        right: -1rem;
-        top: -0.5rem;
-    }
-
-    .chat-bot {
-        height: 6rem;
-        top: 1rem;
-        right: 45%;
-    }
-}
-
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
@@ -336,10 +320,51 @@ const toggleTTS = () => {
         top: -0.7rem;
     }
 
+    .chat-send-button {
+        position: relative;
+        right: -1rem;
+        top: 0.2rem;
+    }
+
     .chat-bot {
         height: 4rem;
         top: 2rem;
         right: 36%;
     }
+
+    .chat-input-left {
+        width: 75%;
+    }
+
+    .chat-text-right {
+        width: 30%;
+    }
+
+    .chat-tts {
+        width: 50%;
+    }
+
+    .chat-tts-buttom {
+        gap: 0rem;
+    }
+
+    .chat-options {
+        width: 46%;
+    }
+}
+
+@media screen and (max-height: 400px) and (orientation: landscape) {
+    .chat-input-left {
+        width: 100%;
+    }
+
+    .chat-text-right {
+        width: 20%;
+    }
+
+    .chat-input-bar {
+        max-height: 2rem;
+    }
+
 }
 </style>
