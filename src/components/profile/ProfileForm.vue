@@ -107,7 +107,8 @@ const activateField = (id: string) => {
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('first-name')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>
@@ -122,7 +123,8 @@ const activateField = (id: string) => {
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('last-name')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>
@@ -136,7 +138,8 @@ const activateField = (id: string) => {
                     </option>
                 </select>
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('gender')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>
@@ -147,7 +150,8 @@ const activateField = (id: string) => {
                 <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
                     placeholder="e.g., 1990" :readonly="state.busy" required />
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('year_of_birth')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>
@@ -158,7 +162,8 @@ const activateField = (id: string) => {
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="state.busy" />
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('country')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>
@@ -175,7 +180,8 @@ const activateField = (id: string) => {
                 </div>
                 <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="false"
                     class="margin-left">
-                    <div class="icon edit" @click.prevent="activateField('bio')" :disabled="state.busy">
+                    <div class="icon edit" aria-label="Edit" @click.prevent="activateField('bio')"
+                        :disabled="state.busy">
                     </div>
                 </Tooltip>
             </div>

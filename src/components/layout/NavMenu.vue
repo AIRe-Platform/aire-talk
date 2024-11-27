@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import i18n, { l } from "@/locales";
 import { router } from "@/router";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import { UIPanels, UIState } from "@/context/ui";
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
@@ -19,9 +19,16 @@ import NavButton from "@/components/layout/NavButton.vue";
 import { closeBurgerMenu } from "@/context/ui";
 import { HomeTutorialState, NavMenuTutorialState, TutorialStates } from "@/context/tutorials";
 import TutorialPopup from "../common/TutorialPopup.vue";
+import useTheme, { ThemeContext } from "@/context/theme";
 
 const login = useLogin();
 const chat = useChat();
+
+const state = reactive<{
+    theme: ThemeContext,
+}>({
+    theme: new ThemeContext()
+});
 
 const isIconsMenu = ref(false);
 const navMenuRef = ref<HTMLElement | null>(null);
@@ -91,7 +98,11 @@ const focusOutListener = async (e: FocusEvent) => {
     }
 };
 
-onMounted(() => navMenuRef.value?.addEventListener('focusout', focusOutListener));
+onMounted(async () => {
+    navMenuRef.value?.addEventListener('focusout', focusOutListener);
+    state.theme = useTheme();
+
+});
 
 onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutListener));
 </script>
@@ -110,7 +121,13 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
             <a class="nav-link" href="#" :tabindex="navLinkTabindex" @click="navLogoClick"
                 @keydown.space="navLogoClick">
                 <div class="nav-logo">
-                    <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe logo in the navigation menu" />
+                    <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                    </div>
+                    <div class="aire-logo" v-else>
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
+                            alt="AIRe homepage logo in dark mode" />
+                    </div>
                 </div>
             </a>
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">

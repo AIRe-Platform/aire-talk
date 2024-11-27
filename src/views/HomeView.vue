@@ -74,7 +74,7 @@ onMounted(async () => {
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
                         <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
                     </div>
-                    <div class="aire-logo" v-if="state.theme.style != 'theme-default'">
+                    <div class="aire-logo" v-else>
                         <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
                             alt="AIRe homepage logo in dark mode" />
                     </div>
