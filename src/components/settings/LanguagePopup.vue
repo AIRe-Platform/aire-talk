@@ -27,11 +27,17 @@ const closeModal = () => { state.isVisible = false; }
     </Modal>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .popup-content {
     display: flex;
     flex-direction: column;
     padding: 2rem;
     gap: 3rem;
+}
+
+@media screen and (max-width: 320px) {
+    .popup-content {
+        padding-inline: 0;
+    }
 }
 </style>
