@@ -85,9 +85,9 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 <template>
     <Panel class="chat-tools">
         <div class="chat-tools-header" :class="{ 'is-mobile': state.isMobile }">
-            <div class="chat-tools-title">
+            <h2 class="chat-tools-title">
                 {{ $t(l.tools_title) }}
-            </div>
+            </h2>
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
@@ -155,6 +155,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 .chat-tools-title {
     display: flex;
     justify-content: center;
+    margin-block-end: 0;
 }
 
 .chat-tool-buttons {

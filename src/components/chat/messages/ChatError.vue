@@ -16,9 +16,9 @@ const props = defineProps<{
 
 <template>
     <div :id="props.message.id" class="chat-error" v-if="props.message.content">
-        <div class="chat-error-title">
+        <h2 class="chat-error-title">
             {{  $t(l.aire_system) }}
-        </div>
+        </h2>
         <div class="chat-error-content">
             {{  props.message.localize ?  $t(props.message.content) : props.message.content }}
         </div>
@@ -43,6 +43,7 @@ const props = defineProps<{
     font-size: var(--font-medium);
     font-weight: bold;
     align-self: center;
+    margin-block-end: 0;
 }
 
 .chat-error-content {

@@ -13,12 +13,12 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <div class="text-button" tabindex="0" @keydown.prevent.space.enter="emits('click')" @click="emits('click')">
+    <a class="text-button" href="#" @keydown.space="emits('click')" @click="emits('click')">
         <slot></slot>
-    </div>
+    </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .text-button {
     text-decoration: none;
     cursor: pointer;
@@ -29,6 +29,11 @@ const emits = defineEmits<{
 
     &:hover {
         color: var(--hover-text);
+    }
+
+    &:focus-visible {
+        outline: 2px solid;
+        outline-offset: 2px;
     }
 }
 </style>

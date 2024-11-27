@@ -57,9 +57,9 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
         <div ref="settingsPanelRef" class="settings-panel-ref">
-            <div class="settings-header">
+            <h2 class="settings-header">
                 {{ $t(l.settings_title) }}
-            </div>
+            </h2>
             <Separator />
             <LanguageSelector />
             <Separator />
@@ -110,6 +110,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-block-end: 0;
 }
 
 .capitalize {

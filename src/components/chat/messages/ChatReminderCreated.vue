@@ -65,14 +65,14 @@ onMounted(fetchReminder);
             }}
         </span>
         <span class="chat-reminder-buttons">
-            <div class="chat-reminder-button" v-if="showCancelButton" @click="cancelReminder">
+            <button class="chat-reminder-button" v-if="showCancelButton" @click="cancelReminder">
                 {{ $t(l.button_cancel) }}
-            </div>
+            </button>
         </span>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat-reminder-created {
     display: flex;
     flex-direction: column;
@@ -108,8 +108,13 @@ onMounted(fetchReminder);
 
 .chat-reminder-button {
     font-style: italic;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
     cursor: pointer;
     margin-top: 0.5rem;
+    border: none;
+    background-color: transparent;
 
     &:hover {
         color: var(--button-color);

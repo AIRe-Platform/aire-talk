@@ -86,7 +86,7 @@ onMounted(async () => {
             <div v-if="!props.parent" class="message-header-gap"></div>
             <div class="message-container" v-if="props.content">
                 <div class="header">
-                    <p>{{ props.content.name }}</p>
+                    <h2>{{ props.content.name }}</h2>
                 </div>
                 <div class="message-body">
                     <p v-if="props.parent && props.parent.content">{{ props.parent.content }}</p>
