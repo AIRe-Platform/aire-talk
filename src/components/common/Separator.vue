@@ -25,4 +25,10 @@ defineComponent({ name: "SeparatorComponent " });
     stroke-dasharray: 2, 15;
     align-self: stretch;
 }
+
+@media screen and (max-height: 400px) and (orientation: landscape) {
+    .separator {
+        margin: 0.2rem;
+    }
+}
 </style>

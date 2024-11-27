@@ -88,7 +88,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
     justify-content: center;
     align-items: stretch;
     align-self: flex-end;
-    margin: 1rem 0;
+    margin: 1rem 10px;
     z-index: 8;
     padding: 1rem 2rem;
     width: 12rem;
@@ -136,9 +136,11 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
     .settings-panel {
-        width: 65%;
+        width: 58%;
         margin-left: 5rem;
         margin-bottom: 0rem;
+        font-size: var(--font-small);
+
     }
 
     .settings-panel-ref {
@@ -147,6 +149,17 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 
     #settings-text-size {
         width: -webkit-fill-available;
+    }
+}
+
+@media screen and (max-height: 400px) and (orientation: landscape) {
+    .settings-panel {
+        margin-left: -15rem;
+        padding: 0.5rem 2rem;
+    }
+
+    .button-close {
+        margin-top: 0.5rem;
     }
 }
 </style>

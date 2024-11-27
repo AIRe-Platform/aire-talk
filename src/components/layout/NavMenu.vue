@@ -107,7 +107,8 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
             <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
                 v-if="login.user && !TutorialStates.nav.isDone()" />
-            <a class="nav-link" href="#" :tabindex="navLinkTabindex" @click="navLogoClick" @keydown.space="navLogoClick">
+            <a class="nav-link" href="#" :tabindex="navLinkTabindex" @click="navLogoClick"
+                @keydown.space="navLogoClick">
                 <div class="nav-logo">
                     <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe logo in the navigation menu" />
                 </div>
@@ -118,18 +119,17 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     @click="toggleChatHistoryMenu" :tabindex="navLinkTabindex" aria-haspopup="true"
                     :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)" class="nav-btn chat-history-nav-button"
                     :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
-                    :active="UIState.panels.has(UIPanels.ChatHistory)"
-                    :tooltip="l.nav_chat_history" item-type="button"/>
+                    :active="UIState.panels.has(UIPanels.ChatHistory)" :tooltip="l.nav_chat_history"
+                    item-type="button" />
                 <div class="popout-panel" v-if="UIState.panels.has(UIPanels.ChatHistory)">
                     <ChatHistory />
                 </div>
                 <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat)"
-                    icon="new-chat-mobile" item-type="link"
-                    :title="$t(l.nav_chat)" @click="navigateTo('/chat')"
+                    icon="new-chat-mobile" item-type="link" :title="$t(l.nav_chat)" @click="navigateTo('/chat')"
                     :active="$route.matched.some((p) => p.name === 'Chat')" :tooltip="l.nav_chat" />
                 <NavItem v-if="chat.id" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_new)"
-                    icon="new-chat-mobile" @keydown.prevent.space.enter="newChat" @click="newChat"
-                    :active="false" :tooltip="l.nav_chat_new" item-type="link" />
+                    icon="new-chat-mobile" @keydown.prevent.space.enter="newChat" @click="newChat" :active="false"
+                    :tooltip="l.nav_chat_new" item-type="link" />
                 <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_catalogue)"
                     icon="catalogue-content-mobile margin-left" item-type="link"
                     @click="navigateTo('/content-catalogue')"
@@ -139,31 +139,27 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     @click="navigateTo('/login')" item-type="link"
                     :active="$route.matched.some((p) => p.name === 'Login')" :tooltip="l.nav_login" />
                 <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_signup)"
-                    icon="signup" item-type="link"
-                    @click="navigateTo('/signup')" :active="$route.matched.some((p) => p.name === 'Signup')"
-                    :tooltip="l.nav_signup" />
+                    icon="signup" item-type="link" @click="navigateTo('/signup')"
+                    :active="$route.matched.some((p) => p.name === 'Signup')" :tooltip="l.nav_signup" />
                 <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.Profile"
                     :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_profile)"
-                    icon="user-profile-mobile margin-left" item-type="link"
-                    @click="navigateTo('/profile')"
+                    icon="user-profile-mobile margin-left" item-type="link" @click="navigateTo('/profile')"
                     :active="$route.matched.some((p) => p.name === 'Profile')" :tooltip="l.nav_profile" />
-                <NavItem @click="toggleSettingsPanel" class="nav-btn settings-nav-button"
-                    :tabindex="navLinkTabindex" :data-tutorial-state="NavMenuTutorialState.Settings"
-                    :label="i18n.global.t(l.nav_preferences)" icon="settings-mobile"
-                    :active="UIState.panels.has(UIPanels.Settings)" aria-haspopup="true"
-                    :aria-expanded="UIState.panels.has(UIPanels.Settings)"
-                    :tooltip="l.nav_preferences" item-type="button" />
+                <NavItem @click="toggleSettingsPanel" class="nav-btn settings-nav-button" :tabindex="navLinkTabindex"
+                    :data-tutorial-state="NavMenuTutorialState.Settings" :label="i18n.global.t(l.nav_preferences)"
+                    icon="settings-mobile" :active="UIState.panels.has(UIPanels.Settings)" aria-haspopup="true"
+                    :aria-expanded="UIState.panels.has(UIPanels.Settings)" :tooltip="l.nav_preferences"
+                    item-type="button" />
                 <div class="popout-panel" v-if="UIState.panels.has(UIPanels.Settings)">
                     <SettingsPanel />
                 </div>
-                <NavItem :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_about)" icon="about" 
+                <NavItem :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_about)" icon="about"
                     @click="navigateTo('/about')" item-type="link"
                     :active="$route.matched.some((p) => p.name === 'About')" :tooltip="l.nav_about" />
                 <Separator />
                 <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_main_menu)"
-                    icon="main-menu-mobile" item-type="link"
-                    @click="navigateTo('/home')" :active="$route.matched.some((p) => p.name === 'Home')"
-                    :tooltip="l.nav_main_menu" />
+                    icon="main-menu-mobile" item-type="link" @click="navigateTo('/home')"
+                    :active="$route.matched.some((p) => p.name === 'Home')" :tooltip="l.nav_main_menu" />
             </div>
         </Panel>
     </div>
