@@ -15,13 +15,8 @@ const props = defineProps<{
 </script>
 
 <template>
-    <button type="button"
-        class="nav-button"
-        :class="{ 'nav-button-active': props.open }"
-        :aria-expanded="props.open"
-        aria-haspopup="menu"
-        aria-label="Navigation menu toggle"
-        :tabindex="UIState.reminderModalRef ? -1 : 0">
+    <button type="button" class="nav-button" :class="{ 'nav-button-active': props.open }" :aria-expanded="props.open"
+        aria-haspopup="menu" aria-label="Navigation menu toggle" :tabindex="UIState.reminderModalRef ? -1 : 0">
         <div>
             <Tooltip class="nav-button-graphics" :text="$t(l.nav_main_menu)" position="top" :useMaxContent="false"
                 :adjustPosition="true">
@@ -143,7 +138,7 @@ const props = defineProps<{
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .nav-button {
-        padding: 0.5rem;
+        padding: 1.5rem;
         left: 0.5rem;
         top: 0.5rem;
         width: 2.2rem;
