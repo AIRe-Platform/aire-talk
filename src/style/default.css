@@ -56,6 +56,7 @@
     --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
     --button-text: #ffffff;
+    --error-text-color: #8D3548;
     --ia-chat-box-background: #ffffff;
     --user-chat-box-background: #f1f4f9;
     --dividers: #bcd0ce;
@@ -111,6 +112,7 @@
     --panel-border-color: rgba(55, 50, 80, 1);
     --background-color: #ffffff;
     --button-text: #ffffff;
+    --error-text-color: #ffffff;
     --ia-chat-box-background: #0d5c63;
     --user-chat-box-background: #144044;
     --dividers: #00b49d;
