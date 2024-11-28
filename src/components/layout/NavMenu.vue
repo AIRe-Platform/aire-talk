@@ -91,7 +91,7 @@ const focusOutListener = async (e: FocusEvent) => {
     if (
         !navMenuRef.value?.contains(relTarget) &&
         !target.closest('.modal, .tutorial-buttons') &&
-        relTarget.id !== 'nav-burger-button'
+        relTarget?.id !== 'nav-burger-button'
     ) {
         await closeBurgerMenu();
         UIState.showMenu = false;
