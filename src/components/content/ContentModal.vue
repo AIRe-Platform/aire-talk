@@ -82,64 +82,79 @@ onMounted(async () => {
 <template>
     <div ref="contentModalRef" @keydown.prevent.tab.exact="switchFocus(true, contentModalRef)"
         @keydown.prevent.shift.tab="switchFocus(false, contentModalRef)">
-        <Modal :active="active" @close="props.onClose" :showCloseButton="true">
+        <Modal :active="active" @close="props.onClose" :showCloseButton="true" role="dialog"
+            aria-labelledby="modal-title" aria-describedby="modal-description">
             <div v-if="!props.parent" class="message-header-gap"></div>
             <div class="message-container" v-if="props.content">
                 <div class="header">
-                    <h2>{{ props.content.name }}</h2>
+                    <h2 id="modal-title" tabindex="0">{{ props.content.name || 'Untitled Content' }}</h2>
                 </div>
                 <div class="message-body">
-                    <p v-if="props.parent && props.parent.content">{{ props.parent.content }}</p>
+                    <p v-if="props.parent && props.parent.content" id="modal-parent-content">{{ props.parent.content }}
+                    </p>
                     <div class="message-media" v-if="props.content">
                         <div class="message-media-file">
                             <template v-if="props.content.type == AireContentType.Image">
-                                <img v-bind:src="props.content.url" />
+                                <img v-bind:src="props.content.url" :alt="props.content.name || 'Image content'"
+                                    tabindex="0"
+                                    :aria-label="`Image content: ${props.content.name || 'Unnamed image'}`" />
                             </template>
                             <template v-if="props.content.type == AireContentType.Video">
-                                <video controls autoplay>
-                                    <source v-bind:src="props.content.url" type="video/mp4">
+                                <video controls autoplay aria-labelledby="modal-title" tabindex="0">
+                                    <source v-bind:src="props.content.url" type="video/mp4" />
+                                    <p>Your browser does not support the video tag. <a
+                                            :href="props.content.url">Download the video</a>.</p>
                                 </video>
                             </template>
-                            <div class="alpha" v-if="props.content.type == AireContentType.URL"
-                                v-on:click="openUrl(props.content.url)">
+                            <a href="#" v-if="props.content.type == AireContentType.URL"
+                                v-on:click="openUrl(props.content.url)"
+                                :aria-label="`Open URL: ${props.content.name || 'Untitled URL'}, opens in a new tab.`"
+                                role="button" aria-describedby="modal-description" tabindex="0">
                                 <div class="icon content-url content-modal-width-icon"
-                                    v-if="!props.content.thumbnail_url"></div>
-                                <div v-else class="div-thumbnail">
-                                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
-                                </div>
-                            </div>
-                            <div class="alpha" v-if="props.content.type == AireContentType.Document"
-                                v-on:click="openUrl(props.content.url)">
-                                <div class="icon content-document-icon content-modal-width-icon"
-                                    v-if="!props.content.thumbnail_url">
+                                    v-if="!props.content.thumbnail_url" :aria-hidden="true">
                                 </div>
                                 <div v-else class="div-thumbnail">
-                                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
+                                    <img class="thumbnail" :src="props.content.thumbnail_url"
+                                        :alt="props.content.thumbnail_file_name || 'Untitled URL thumbnail'" />
                                 </div>
-                            </div>
+                            </a>
+                            <a href="#" v-if="props.content.type == AireContentType.Document"
+                                @click.prevent="openUrl(props.content.url)"
+                                :aria-label="`Open Document: ${props.content.name || 'Untitled Document'}, opens in a new tab`"
+                                role="button" aria-describedby="modal-description" tabindex="0">
+                                <div class="icon content-document content-modal-width-icon"
+                                    v-if="!props.content.thumbnail_url" :aria-hidden="true">
+                                </div>
+                                <div v-else class="div-thumbnail">
+                                    <img class="thumbnail" :src="props.content.thumbnail_url"
+                                        :alt="props.content.thumbnail_file_name || 'Untitled document thumbnail'" />
+                                </div>
+                            </a>
                         </div>
                         <div class="copyright" v-if="props.content.copyright">
-                            <p>{{ props.content.copyright }}</p>
+                            <p tabindex="0">{{ props.content.copyright }}</p>
                         </div>
                     </div>
                     <div class="modal-content">
-                        <p class="modal-title">{{ $t(l.content_modal_description) }} </p>
-                        <p>{{ props.content.description }}</p>
+                        <h2 class="modal-title" id="modal-description" tabindex="0">{{ $t(l.content_modal_description)
+                            }}</h2>
+                        <p tabindex="0">{{ props.content.description || 'No description available' }}</p>
                     </div>
-
                     <div class="modal-content">
-                        <p class="modal-title">{{ $t(l.content_modal_themes) }}</p>
-                        <p v-if="state.translatedKeywords">{{ state.translatedKeywords.join(', ') }}</p>
+                        <h2 class="modal-title" id="modal-themes" tabindex="0">{{ $t(l.content_modal_themes) }}</h2>
+                        <p v-if="state.translatedKeywords" tabindex="0">{{ state.translatedKeywords.join(', ') }}</p>
                     </div>
                 </div>
                 <div class="message-options">
-                    <button class="btn button" v-if="props.chatId" @click="returnToConversation(props.chatId)">
-                        <span class="button-text"> {{ $t(l.content_modal_continue_to_chat) }} </span>
+                    <button class="btn button" v-if="props.chatId" @click="returnToConversation(props.chatId)"
+                        aria-label="{{ $t(l.content_modal_continue_to_chat) }}">
+                        <span class="button-text">{{ $t(l.content_modal_continue_to_chat) }}</span>
                         <font-awesome-icon icon="fa-solid fa-comment" />
                     </button>
                 </div>
             </div>
         </Modal>
+
     </div>
 </template>
 
@@ -186,10 +201,6 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.alpha {
-    display: flex;
 }
 
 .message-header {
@@ -276,6 +287,7 @@ onMounted(async () => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .message-media {
+
         img,
         video,
         .content-document {
