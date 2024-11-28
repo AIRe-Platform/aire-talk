@@ -3,11 +3,13 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import Modal from '../common/Modal.vue';
 import { l } from '@/locales';
+import { switchFocus } from '@/helpers/keyboarNavigation';
 
+const popupModalRef = ref<HTMLElement | null>(null);
 const state = reactive<{
     isVisible: boolean
 }>({
@@ -19,12 +21,15 @@ const closeModal = () => { state.isVisible = false; }
 </script>
 
 <template>
-    <Modal :active="state.isVisible" :showCloseButton="true" @close="closeModal">
-        <div class="popup-content">
-            <h2>{{ $t(l.Language_default_message) }}</h2>
-            <LanguageSelector @languageSelected="state.isVisible = false" :blank-option="$t(l.tooltip_menu_language)"/>
-        </div>
-    </Modal>
+    <div ref="popupModalRef" @keydown.prevent.tab.exact="switchFocus(true, popupModalRef)"
+        @keydown.prevent.shift.tab="switchFocus(false, popupModalRef)">
+        <Modal :active="state.isVisible" :showCloseButton="true" @close="closeModal">
+            <div class="popup-content">
+                <h2>{{ $t(l.Language_default_message) }}</h2>
+                <LanguageSelector @languageSelected="state.isVisible = false" :blank-option="$t(l.tooltip_menu_language)"/>
+            </div>
+        </Modal>
+    </div>
 </template>
 
 <style lang="scss" scoped>
