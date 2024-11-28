@@ -15,7 +15,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-error" v-if="props.message.content">
+    <div :id="props.message.id" class="chat-error" v-if="props.message.content" role="alert" aria-live="assertive">
         <h2 class="chat-error-title">
             {{ $t(l.aire_system) }}
         </h2>
