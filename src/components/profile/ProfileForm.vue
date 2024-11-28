@@ -81,6 +81,8 @@ const onSaveChanges = (e: Event) => {
             });
     }
 };
+
+const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length === MAX_LENGTH_BIO;
 </script>
 
 <template>
@@ -145,7 +147,9 @@ const onSaveChanges = (e: Event) => {
                 <div class="input-column">
                     <textarea id="bio" v-model="profile.bio" :readonly="state.busy"
                         :maxlength=MAX_LENGTH_BIO></textarea>
-                    <span> {{
+                    <span :class="{'char-limit-reached': bioMaxLengthReached()}"
+                        :role="bioMaxLengthReached() ? 'alert' : ''"
+                        :aria-live="bioMaxLengthReached() ? 'assertive' : 'off'">{{
                         remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
@@ -291,6 +295,11 @@ const onSaveChanges = (e: Event) => {
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     background-color: var(--error-color);
+}
+
+.char-limit-reached {
+    color: var(--error-color);
+    font-weight: bold;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
