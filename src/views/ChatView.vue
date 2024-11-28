@@ -5,7 +5,7 @@
 
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { ChatMessage, ChatMessageGroup, ChatMessageType } from "@/models/chat";
 import useChat from "@/context/chat";
@@ -20,6 +20,8 @@ import { TutorialStates } from "@/context/tutorials";
 import { l } from "@/locales";
 
 const showSideBar = ref(false);
+const isMobileView = ref(false);
+const chatViewRef = ref<HTMLElement | null>(null);
 const route = useRoute();
 const chat = useChat();
 
@@ -103,13 +105,21 @@ const loadChat = async (id?: string) => {
     useChatbot().reportReady();
 }
 
+function resizeHandler() {
+    isMobileView.value = window.matchMedia('(max-aspect-ratio: 1/1), (max-width: 920px)').matches;
+}
+
 onBeforeRouteUpdate(async (loc) => await loadChat(loc.params.id as string | undefined));
 onMounted(async () => {
     await loadChat(route.params.id as string | undefined);
 
     scrollChatToBottom()
     const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
+
+    resizeHandler();
+    window.addEventListener('resize', resizeHandler);
 });
+onUnmounted(() => window.removeEventListener('resize', resizeHandler));
 
 watch(() => chat.id, (newId, oldId) => {
     if (newId && !oldId) {
@@ -126,11 +136,24 @@ watch(() => chat.id, (newId, oldId) => {
             name: "Chat"
         })
     }
+});
+watch([showSideBar, isMobileView], ([sideBarShown, newIsMobile], [, oldIsMobile]) => {
+    if (!chatViewRef.value) return;
+
+    if (sideBarShown && newIsMobile) {
+        chatViewRef.value
+            .querySelectorAll<HTMLElement>('a, button, input, textarea, select, [tabindex]')
+            .forEach((el) => el.tabIndex = -1);
+    } else if (oldIsMobile) {
+        chatViewRef.value
+            .querySelectorAll<HTMLElement>('a, button, input, textarea, select, [tabindex]')
+            .forEach((el) => el.tabIndex = 0);
+    }
 })
 </script>
 
 <template>
-    <div class="chat-view">
+    <div class="chat-view" ref="chatViewRef">
         <h1 class="visually-hidden">{{ $t(l.chat_title) }}</h1>
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
