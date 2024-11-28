@@ -41,9 +41,10 @@ onMounted(async () => {
     <div class="profile-view">
         <div class="profile-content">
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                class="icon close-window xmark-icon">
-                <div class="tooltip-inside" @click="navigateTo('/chat')" tabindex="0" role="link"
+                class="xmark-icon">
+                <div class="tooltip-inside circle-icon" @click="navigateTo('/chat')" tabindex="0" role="link"
                     @keydown.prevent.space.enter="navigateTo('/chat')">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
             </Tooltip>
         </div>

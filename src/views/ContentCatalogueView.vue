@@ -232,10 +232,11 @@ onMounted(async () => {
         :chatId="state.contentList?.find(content => content.id === state.openContent?.id)?.chatId"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-            class="icon close-window xmark-icon">
-            <div class="tooltip-inside" tabindex="0" role="link" @keydown.prevent.space.enter="navigateTo('/chat')"
-                @click="navigateTo('/chat')">
+        <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
+            class="xmark-icon">
+            <div class="tooltip-inside circle-icon" @click="navigateTo('/chat')" tabindex="0" role="link"
+                @keydown.prevent.space.enter="navigateTo('/chat')">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
         </Tooltip>
         <div class="content-catalogue-header">
@@ -343,9 +344,8 @@ onMounted(async () => {
 }
 
 .tooltip-inside {
-    display: flex;
-    width: 100%;
-    height: 100%;
+    height: 2rem;
+    width: 2rem;
 }
 
 .content-catalogue-header {
