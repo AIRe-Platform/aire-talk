@@ -86,11 +86,12 @@ const navLogoClick = () => {
 const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
 
 const focusOutListener = async (e: FocusEvent) => {
-    const relTarget = e.relatedTarget as Node;
+    const relTarget = e.relatedTarget as Element;
     const target = e.target as Element;
     if (
         !navMenuRef.value?.contains(relTarget) &&
-        !target.closest('.modal, .tutorial-buttons')
+        !target.closest('.modal, .tutorial-buttons') &&
+        relTarget?.id !== 'nav-burger-button'
     ) {
         await closeBurgerMenu();
         UIState.showMenu = false;

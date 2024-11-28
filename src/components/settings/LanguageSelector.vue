@@ -20,7 +20,6 @@ const props = defineProps({
 const setLang = async (e: Event) => {
     const el = e.target as HTMLSelectElement;
     setUILanguage(el.value as LanguageCode);
-    el.blur();
 
     // Emit event to parent
     emit('languageSelected');

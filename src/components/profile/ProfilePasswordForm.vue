@@ -62,7 +62,9 @@ const onChangePassword = (e: Event) => {
             </span>
         </div>
         <div class="description">{{ $t(l.profile_description_password) }}</div>
-        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
+        <div class="error-message" v-if="state.error" role="alert" aria-live="assertive">
+            {{ $t(state.error) }}
+        </div>
         <div class="form-buttons">
             <template v-if="!state.busy">
                 <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">

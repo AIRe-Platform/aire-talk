@@ -30,12 +30,11 @@ defineComponent({ name: "ModalComponent" })
         <div v-show="props.active" class="modal" @click.stop="close">
             <Transition name="modal-animation-panel">
                 <Panel class="modal-panel" @click.stop>
-                    <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
+                    <Tooltip v-if="props.showCloseButton" :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
                         class="xmark-icon">
-                        <div class="tooltip-inside circle-icon" @click="close" tabindex="0" role="link"
-                            @keydown.prevent.space.enter="close">
+                        <button class="tooltip-inside circle-icon" @click="close">
                             <font-awesome-icon icon="fa-solid fa-xmark" />
-                        </div>
+                        </button>
                     </Tooltip>
                     <div class="modal-content">
                         <slot></slot>
