@@ -19,7 +19,6 @@ const settingsPanelRef = ref<HTMLElement | null>(null);
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     UISettings.fontSize = el.value as UIFontSize;
-    el.blur();
 }
 
 const onClickOutside = async (e: Event) => {
@@ -73,7 +72,6 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
                         <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
                     </select>
                 </Tooltip>
-
             </div>
             <Separator />
             <button class="btn button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
