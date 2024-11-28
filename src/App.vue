@@ -20,7 +20,7 @@ import { router } from './router';
 import LanguagePopup from "@/components/settings/LanguagePopup.vue";
 import TutorialPopup from './components/common/TutorialPopup.vue';
 import { TutorialStates } from './context/tutorials';
-
+import { tooltipState } from '@/context/tooltipState';
 
 const login = useLogin();
 const state = reactive<{
@@ -68,6 +68,11 @@ const setInactivityWarningPopupVisibility = (newState: boolean) => {
         clearInterval(logoutCountdownInterval);
     }
 }
+const closeAllTooltips = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+        tooltipState.isVisible = false;
+    }
+};
 
 onMounted(() => {
     const stopLoginWatch = watch(
@@ -84,10 +89,12 @@ onMounted(() => {
             }
         }
     );
+    document.addEventListener('keydown', closeAllTooltips);
 
     onUnmounted(() => {
         stopLoginWatch();
         stopInactivityListener();
+        document.removeEventListener('keydown', closeAllTooltips);
     });
 
     const search = new URLSearchParams(window.location.search);
@@ -107,8 +114,8 @@ onMounted(() => {
     <div id="main" v-if="AppState === 'loaded'">
         <NavMenu />
         <main class="main-content">
-            <TutorialPopup :tutorial="TutorialStates.home" v-if="login.user && !TutorialStates.home.isDone()"/>
-            <TutorialPopup :tutorial="TutorialStates.chat" v-if="login.user && !TutorialStates.chat.isDone()"/>
+            <TutorialPopup :tutorial="TutorialStates.home" v-if="login.user && !TutorialStates.home.isDone()" />
+            <TutorialPopup :tutorial="TutorialStates.chat" v-if="login.user && !TutorialStates.chat.isDone()" />
             <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
             <RouterView />
         </main>
