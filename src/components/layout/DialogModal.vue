@@ -14,11 +14,14 @@ const emit = defineEmits<{
     (e: 'select', index: number): void;
     // eslint-disable-next-line no-unused-vars
     (e: 'focusFirstButton', element: HTMLElement | null): void;
+    // Emits the 'active' event with a boolean value
+    (e: 'active', isActive: boolean): void;
 }>()
 
 let observer: IntersectionObserver | undefined;
 
 const props = defineProps<{
+    active: boolean,
     buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>;
     showCloseButton?: boolean;
 }>();
@@ -47,6 +50,10 @@ onMounted(() => {
     }
 });
 
+const handleClose = () => {
+    emit('active', false);
+};
+
 onUnmounted(() => observer?.disconnect());
 
 const switchButtonFocus = (next: boolean, index: number) => {
@@ -59,13 +66,13 @@ const switchButtonFocus = (next: boolean, index: number) => {
 </script>
 
 <template>
-    <Modal :active="true" :show-close-button="props.showCloseButton">
+    <Modal :active="props.active" :show-close-button="props.showCloseButton" @close="handleClose">
         <div class="dialog-question">
             <slot></slot>
         </div>
         <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-            <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
-                @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
+            <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)"
+                :key="`dialog-button-${i}`" @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
                 @keydown.prevent.shift.tab="switchButtonFocus(false, i)" :class="btn.className">
                 {{ $t(btn.loc_key) }}
             </button>

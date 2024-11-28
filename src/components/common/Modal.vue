@@ -30,11 +30,12 @@ defineComponent({ name: "ModalComponent" })
         <div v-show="props.active" class="modal" @click.stop="close">
             <Transition name="modal-animation-panel">
                 <Panel class="modal-panel" @click.stop>
-                    <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                        class="icon close-window modal-close" v-if="props.showCloseButton">
-                        <button class="tooltip-inside" @click.stop="close" type="button">
-                            <span></span>
-                        </button>
+                    <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
+                        class="xmark-icon">
+                        <div class="tooltip-inside circle-icon" @click="close" tabindex="0" role="link"
+                            @keydown.prevent.space.enter="close">
+                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                        </div>
                     </Tooltip>
                     <div class="modal-content">
                         <slot></slot>
@@ -62,9 +63,14 @@ defineComponent({ name: "ModalComponent" })
     backdrop-filter: blur(2px);
 }
 
+.xmark-icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-bottom: 0.5rem;
+}
+
 .tooltip-inside {
-    border: none;
-    background-color: transparent;
     height: 2rem;
     width: 2rem;
 }
@@ -88,6 +94,8 @@ defineComponent({ name: "ModalComponent" })
 .modal-content {
     overflow-x: auto;
     overflow-y: auto;
+    display: flex;
+    align-items: stretch;
 }
 
 .modal-animation-enter-active,

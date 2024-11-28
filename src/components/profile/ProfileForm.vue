@@ -84,8 +84,9 @@ const onSaveChanges = (e: Event) => {
 </script>
 
 <template>
-    <DialogModal :active="state.show_confirmation_modal" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
-        :buttons="[
+    <DialogModal :active="state.show_confirmation_modal"
+        @active="(isActive) => { state.show_confirmation_modal = isActive }"
+        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" :buttons="[
             { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
         ]">
         {{ $t(l.popup_confirm_profile_updated) }}
