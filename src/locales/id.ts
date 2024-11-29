@@ -289,7 +289,13 @@ const id: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Pilih bahasa default antarmuka:",
+    language_default_message: "Pilih bahasa default antarmuka:",
+
+    screen_recorder_bot_writing: "Bot sedang menulis jawaban.",
+    screen_recorder_bot_stop_writing: "Bot telah selesai menjawab.",
+    screen_recorder_loading: "Halaman sedang dimuat, harap tunggu.",
+    screen_recorder_stop_text_to_speech: "Berhenti teks ke suara.",
+    screen_recorder_play_text_to_speech: "Putar teks ke suara.",
 
     en: "Inggris",
     fi: "Finlandia",

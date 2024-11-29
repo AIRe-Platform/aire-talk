@@ -288,7 +288,13 @@ const vi: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
+    language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
+
+    screen_recorder_bot_writing: "Bot đang viết phản hồi.",
+    screen_recorder_bot_stop_writing: "Bot đã hoàn thành phản hồi.",
+    screen_recorder_loading: "Trang đang tải, vui lòng đợi.",
+    screen_recorder_stop_text_to_speech: "Dừng chuyển văn bản thành giọng nói.",
+    screen_recorder_play_text_to_speech: "Chạy chuyển văn bản thành giọng nói.",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

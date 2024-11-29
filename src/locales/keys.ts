@@ -265,7 +265,13 @@ export enum LocalizationKey {
     tutorial_skip = "tutorial_skip",
     tutorial_done = "tutorial_done",
 
-    Language_default_message = "Language_default_message",
+    language_default_message = "language_default_message",
+
+    screen_recorder_bot_writing = "screen_recorder_bot_writing",
+    screen_recorder_bot_stop_writing = "screen_recorder_bot_stop_writing",
+    screen_recorder_loading = "screen_recorder_loading",
+    screen_recorder_stop_text_to_speech = "screen_recorder_stop_text_to_speech",
+    screen_recorder_play_text_to_speech = "screen_recorder_play_text_to_speech",
 
     en = "en",
     fi = "fi",

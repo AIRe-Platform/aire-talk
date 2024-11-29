@@ -270,7 +270,13 @@ const sw: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Chagua lugha ya msingi ya kiolesura:",
+    language_default_message: "Chagua lugha ya msingi ya kiolesura:",
+
+    screen_recorder_bot_writing: "Roboti inaandika jibu.",
+    screen_recorder_bot_stop_writing: "Roboti imekamilisha kujibu.",
+    screen_recorder_loading: "Ukuranisha unasubiri, tafadhali subiri.",
+    screen_recorder_stop_text_to_speech: "Simamisha maandiko kwa sauti.",
+    screen_recorder_play_text_to_speech: "Cheza maandiko kwa sauti.",
 
     en: "Kiingereza",
     fi: "Kifini",

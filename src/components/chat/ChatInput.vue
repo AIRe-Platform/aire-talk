@@ -91,6 +91,16 @@ const toggleTTS = () => {
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
         }">
+            <div v-if="bot.status === 'writing'" aria-live="assertive" class="screen-readers-only" role="alert"
+                tabindex="-1" ref="statusAlert">
+                {{ $t(l.screen_recorder_bot_writing) }}
+            </div>
+
+            <div v-else-if="bot.status === 'answered'" aria-live="polite" class="screen-readers-only" role="alert"
+                tabindex="-1" ref="statusAlert">
+                {{ $t(l.screen_recorder_bot_stop_writing) }}
+            </div>
+
         </div>
         <div class="chat-input-left">
             <label for="message-input" class="chat-bot-text" role="text" aria-live="polite"

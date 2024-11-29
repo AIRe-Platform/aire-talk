@@ -288,7 +288,13 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tutorial_skip: "Ohita",
     tutorial_done: "Valmis",
 
-    Language_default_message: "Valitse käyttöliittymän oletuskieli:",
+    language_default_message: "Valitse käyttöliittymän oletuskieli:",
+
+    screen_recorder_bot_writing: "Botti kirjoittaa vastausta.",
+    screen_recorder_bot_stop_writing: "Botti on lopettanut vastaamisen.",
+    screen_recorder_loading: "Sivua ladataan, odota hetki.",
+    screen_recorder_stop_text_to_speech: "Pysäytä tekstistä puheeksi -toiminto.",
+    screen_recorder_play_text_to_speech: "Toista tekstistä puheeksi -toiminto.",
 
     en: "Englanti",
     fi: "Suomi",

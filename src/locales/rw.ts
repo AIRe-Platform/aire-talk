@@ -283,7 +283,13 @@ const rw: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
+    language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
+
+    screen_recorder_bot_writing: "Umukozi ari kwandika igisubizo.",
+    screen_recorder_bot_stop_writing: "Umukozi arangije gusubiza.",
+    screen_recorder_loading: "Urupapuro rurimo gupakirwa, nyabuneka tegereza.",
+    screen_recorder_stop_text_to_speech: "Hagarika guhindura inyandiko mu ijwi.",
+    screen_recorder_play_text_to_speech: "Tangira guhindura inyandiko mu ijwi.",
 
     en: "Icyongereza",
     fi: "Igifinilande",

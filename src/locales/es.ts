@@ -123,6 +123,7 @@ const es: Locale = {
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
+    profile_experiments_prompt: "Custom prompt",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
@@ -291,8 +292,14 @@ const es: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
+    language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
 
+    screen_recorder_bot_writing: "El bot está escribiendo una respuesta.",
+    screen_recorder_bot_stop_writing: "El bot ha terminado de responder.",
+    screen_recorder_loading: "La página se está cargando, por favor espera.",
+    screen_recorder_stop_text_to_speech: "Detener la conversión de texto a voz.",
+    screen_recorder_play_text_to_speech: "Reproducir la conversión de texto a voz.",
+    
     en: "Inglés",
     fi: "Finés",
     es: "Español",

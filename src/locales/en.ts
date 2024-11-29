@@ -273,7 +273,13 @@ const en: Locale = {
     tutorial_skip: "Skip",
     tutorial_done: "Done",
 
-    Language_default_message: "Select UI Default Language:",
+    language_default_message: "Select UI Default Language:",
+
+    screen_recorder_bot_writing: "The bot is writing a response.",
+    screen_recorder_bot_stop_writing: "The bot has finished responding.",
+    screen_recorder_loading: "Page is loading, please wait.",
+    screen_recorder_stop_text_to_speech: "Stop text to speech.",
+    screen_recorder_play_text_to_speech: "Play text to speech.",
 
     en: "English",
     fi: "Finnish",
