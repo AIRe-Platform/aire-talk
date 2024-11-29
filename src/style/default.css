@@ -370,6 +370,16 @@ p {
     width: 1px;
 }
 
+.notification-message {
+    position: absolute;
+    top: 0;
+    padding: 1rem 2rem;
+    margin-block-start: .5rem;
+    border: 1px solid;
+    border-radius: .5rem;
+    background-color: var(--highlight);
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
     .btn,
