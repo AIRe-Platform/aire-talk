@@ -138,7 +138,8 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     </DialogModal>
     <div class="chat-item-options">
         <button class="chat-item-options-button" type="button" @click.stop="onToggleMenu" aria-haspopup="true"
-            :aria-expanded="state.menuOpen" :class="{ 'is-content': props.content !== undefined }">
+            :aria-label="state.menuOpen ? 'Close message menu' : 'Open message menu'" :aria-expanded="state.menuOpen"
+            :class="{ 'is-content': props.content !== undefined }">
             <div v-if="state.menuOpen">
                 <div class="icon chat-option-desktop"></div>
             </div>
