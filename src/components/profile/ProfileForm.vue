@@ -295,18 +295,6 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
     font-weight: bold;
 }
 
-.screen-readers-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-    white-space: nowrap;
-}
-
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .profile-form {
         flex-direction: column;
