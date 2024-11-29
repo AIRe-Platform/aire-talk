@@ -53,7 +53,9 @@ const onDeleteAccount = (e: Event) => {
 <template>
     <form id="delete-form" @submit.prevent="onDeleteAccount">
         <h2>{{ $t(l.profile_heading_delete_account) }}</h2>
-        <div class="form-row description">{{ $t(l.profile_description_delete_account) }}</div>
+        <div class="form-row description" tabindex="0" id="delete-account-description">{{
+            $t(l.profile_description_delete_account) }}
+        </div>
         <div class="form-content">
             <span class="form-item">
                 <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
@@ -62,13 +64,16 @@ const onDeleteAccount = (e: Event) => {
             </span>
             <span class="form-toggle" @click.stop="">
                 <input id="keep_anonymized_data" type="checkbox" v-model="state.keepAnonymizedData"
-                    :disabled="state.busy" />
-                <label for="keep_anonymized_data" class="checkbox-label" @click.stop="">
+                    :disabled="state.busy"
+                    :aria-describedby="['delete-account-description', state.error ? 'delete-account-error' : undefined].filter(Boolean).join(' ')" />
+                <label for="keep_anonymized_data" tabindex="0" class="checkbox-label" @click.stop="">
                     {{ $t(l.profile_label_keep_anonymized_data) }}
                 </label>
             </span>
         </div>
-        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
+        <div class="error-message" v-if="state.error" id="delete-account-error" role="alert" aria-live="assertive"
+            tabindex="0">{{
+                $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
                 <Tooltip :text="$t(l.tooltip_delete)" position="bottom" :useMaxContent="false" :adjustPosition="true">
