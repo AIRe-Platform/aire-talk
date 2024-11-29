@@ -59,15 +59,18 @@ const onSave = () => {
             <div class="experimental-item-toggle">
                 <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">
                     <div>
-                        <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
+                        <Switch input-id="experimental-prompt-toggle" class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
                             @change="toggleOverridePrefs" :colorized="true"
                             @keydown.prevent.space.enter="toggleOverridePrefs" />
                     </div>
                 </Tooltip>
-                <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
+                <label for="experimental-prompt-toggle">{{ $t(l.profile_experiments_text) }}</label>
             </div>
-            <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
-                :readonly="!state.overridePrompt" aria-describedby="prompt-override-desc"></textarea>
+            <div class="experimental-prompt-wrapper">
+                <label for="custom-prompt">{{ $t(l.profile_experiments_prompt) }}</label>
+                <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
+                    :readonly="!state.overridePrompt" aria-describedby="prompt-override-desc"></textarea>
+            </div>
             <p id="prompt-override-desc">{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
                 $t(l.profile_experiments_description) }}</p>
         </div>
@@ -82,7 +85,7 @@ const onSave = () => {
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .profile-experiments {
     display: flex;
     flex-direction: column;
@@ -93,13 +96,6 @@ const onSave = () => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-    textarea {
-        max-width: 80%;
-        min-width: 80%;
-        min-height: 5rem;
-        align-self: center;
-    }
 }
 
 .experimental-item-toggle {
@@ -113,10 +109,40 @@ const onSave = () => {
     width: 2rem;
 }
 
+.experimental-prompt-wrapper {
+    margin-block-start: 0.5rem;
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+
+    label {
+        flex-basis: 10%;
+        font-size: var(--font-medium);
+    }
+
+    textarea {
+        min-height: 5rem;
+        flex-grow: 1;
+        resize: none;
+    }
+}
+
 .save-experiments-button-wrapper {
     height: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .experimental-prompt-wrapper>label {
+        flex-basis: 20%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .experimental-prompt-wrapper {
+        flex-direction: column;
+    }
 }
 </style>

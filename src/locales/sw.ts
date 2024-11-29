@@ -114,6 +114,7 @@ const sw: Locale = {
 
     profile_experiments_title: "Jaribio",
     profile_experiments_text: "Badilisha kitabu cha mazungumzo cha mfumo wa mazungumzo",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_add: "Ongeza",
     profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
     profile_experiments_apply: "Tumia mabadiliko",

@@ -119,6 +119,7 @@ const id: Locale = {
     profile_question_country: "Negara mana tempat tinggal Anda?",
 
     profile_experiments_title: "Eksperimen",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Timpa prompt sistem obrolan bot",
     profile_experiments_add: "Tambahkan",
     profile_experiments_description: "ke prompt Anda jika Anda ingin menyuntikkan ringkasan profil pengguna Anda.",

@@ -8,8 +8,9 @@ import { defineProps, defineEmits, defineComponent } from "vue";
 defineComponent({ name: "SwitchComponent" });
 
 const props = defineProps<{
-    isOn: boolean,
-    colorized?: boolean
+    isOn: boolean;
+    inputId: string;
+    colorized?: boolean;
 }>();
 
 defineEmits<{
@@ -20,6 +21,7 @@ defineEmits<{
 <template>
     <div class="switch" :class="{ 'switch-colored': props.isOn && $props.colorized }" role="switch" tabindex="0"
         :aria-checked="props.isOn" @click="$emit('change', !props.isOn)">
+        <input type="checkbox" :id="props.inputId" class="visually-hidden" :value="props.isOn" tabindex="-1">
         <div class="switch-handle" :class="{ 'switch-handle-on': props.isOn }"></div>
     </div>
 </template>
