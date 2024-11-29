@@ -25,6 +25,7 @@ const rw: Locale = {
 
     notification_keyword: "Insanganyamatsiko \"{keyword}\" yamenyekanye",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Murakaza neza ku rubuga rwa AIRe",
     start_first_paragraph:
         "Umufatanyabikorwa mu mikorere y'umubiri ndetse n'imibereho myiza.",

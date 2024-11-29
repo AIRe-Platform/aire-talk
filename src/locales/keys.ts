@@ -26,6 +26,7 @@ export enum LocalizationKey {
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
 
+    start_signup_success = "start_signup_success",
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",

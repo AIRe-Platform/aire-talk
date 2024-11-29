@@ -25,6 +25,7 @@ const sw: Locale = {
 
     notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Karibu kwenye jukwaa la AIRe",
     start_first_paragraph:
         "Mshirika kwa utendaji bora na ustawi",

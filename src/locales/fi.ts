@@ -25,6 +25,7 @@ const fi: Locale = {
 
     notification_keyword: "\"{keyword}\" teema tunnistettu",
 
+    start_signup_success: "Tilin luonti onnistui. Voit nyt kirjautua sisään.",
     start_greeting: "Tervetuloa AIRe-palveluun",
     start_first_paragraph:
         "Kumppanisi parempaan toimintakykyyn ja hyvinvointiin",

@@ -25,6 +25,7 @@ const vi: Locale = {
 
     notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Chào mừng đến với nền tảng AIRe",
     start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
     start_second_paragraph:

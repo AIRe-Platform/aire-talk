@@ -25,6 +25,7 @@ const id: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" dikenali",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Selamat datang di platform AIRe",
     start_first_paragraph:
         "Mitra untuk kinerja dan kesejahteraan yang lebih baik",

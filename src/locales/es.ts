@@ -25,6 +25,7 @@ const es: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",

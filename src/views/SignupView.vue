@@ -36,7 +36,7 @@ const onSignup = (e: Event) => {
     useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
-                router.replace("/")
+                router.push({ path: "/", query: { signup_success: "1" } });
             }
             else if (status == AireStatus.BadRequest) {
                 error.value = l.error_signup_bad_request;

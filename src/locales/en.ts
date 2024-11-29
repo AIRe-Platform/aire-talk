@@ -29,6 +29,7 @@ const en: Locale = {
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
+    start_signup_success: "Sign up successful. You can now log in.",
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph: "Partner for better functioning and wellbeing",
     start_second_paragraph: "Proceed by logging in or creating a new profile for yourself.",
