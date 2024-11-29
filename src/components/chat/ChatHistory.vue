@@ -179,7 +179,8 @@ const onClickOutside = async (e: Event) => {
         <DialogModal :active="state.confirmDelete" :show-close-button="false" :buttons="[
             { loc_key: l.button_yes, onClick: onConfirmDelete },
             { loc_key: l.button_no, className: 'cancel-button', onClick: onCancelDelete }
-        ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()">
+        ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+        question-id="confirm-remove-chat-dialog-modal">
             {{ $t(l.popup_confirm_remove_chat) }}
         </DialogModal>
         <div class="chat-history-panel" v-on-click-outside="onClickOutside">

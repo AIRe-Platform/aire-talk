@@ -87,6 +87,7 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
 
 <template>
     <DialogModal :active="state.show_confirmation_modal"
+        question-id="confirm-profile-update-dialog-modal"
         @active="(isActive) => { state.show_confirmation_modal = isActive }"
         @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" :buttons="[
             { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },

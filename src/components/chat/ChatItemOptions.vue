@@ -133,7 +133,7 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     <DialogModal :active="state.confirmRevert" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" :buttons="[
         { loc_key: l.button_yes, onClick: onConfirmRevert },
         { loc_key: l.button_no, className: 'cancel-button', onClick: onCancelRevert }
-    ]">
+    ]" question-id="confrirm-revert-dialog-modal">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
     <div class="chat-item-options">

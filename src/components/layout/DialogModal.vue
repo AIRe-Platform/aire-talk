@@ -24,6 +24,7 @@ const props = defineProps<{
     active: boolean;
     buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>;
     showCloseButton?: boolean;
+    questionId?: string;
 }>();
 
 
@@ -61,11 +62,12 @@ onUnmounted(() => observer?.disconnect());
     <div ref="dialogModalRef" @keydown.prevent.tab.exact="switchFocus(true, dialogModalRef)"
         @keydown.prevent.shift.tab="switchFocus(false, dialogModalRef)">
         <Modal :active="props.active" :show-close-button="props.showCloseButton" @close="handleClose">
-            <div class="dialog-question">
+            <div class="dialog-question" :id="props.questionId">
                 <slot></slot>
             </div>
             <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
                 <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
+                    :aria-describedby="props.questionId"
                     :class="btn.className">
                     {{ $t(btn.loc_key) }}
                 </button>
