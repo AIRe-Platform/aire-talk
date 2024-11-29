@@ -110,7 +110,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
 
 <template>
     <NavButton id="nav-burger-button" :data-tutorial-state="HomeTutorialState.Menu" :open="UIState.showMenu"
-        @click="onOpen" :aria-expanded="UIState.showMenu" aria-controls="main-menu" aria-label="Toggle main menu">
+        @click="onOpen">
     </NavButton>
     <div class="nav-menu" ref="navMenuRef" :class="{
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
