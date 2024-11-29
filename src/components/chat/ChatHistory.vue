@@ -8,7 +8,7 @@ import { l } from "@/locales";
 import { defineEmits, onMounted, onUnmounted, reactive, ref } from "vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIState, UIPanels } from "@/context/ui";
+import { UIState, UIPanels, UISettings } from "@/context/ui";
 import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
@@ -198,7 +198,7 @@ const onClickOutside = async (e: Event) => {
                             <div class="chat-history-item-preview">
                                 {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
                             </div>
-                            <div class="chat-history-token" v-if="getTokenCount(item.id)">
+                            <div class="chat-history-token" v-if="UISettings.tokensEnabled && getTokenCount(item.id)">
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                             </div>
                         </a>

@@ -25,6 +25,7 @@ const rw: Locale = {
 
     notification_keyword: "Insanganyamatsiko \"{keyword}\" yamenyekanye",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Murakaza neza ku rubuga rwa AIRe",
     start_first_paragraph:
         "Umufatanyabikorwa mu mikorere y'umubiri ndetse n'imibereho myiza.",
@@ -124,6 +125,9 @@ const rw: Locale = {
     profile_experiments_add: "Ongeraho",
     profile_experiments_description: "mu mabwiriza yawe niba ushaka gushyiraho ishusho ngufi y'umwirondoro wawe.",
     profile_experiments_apply: "Shyira mu bikorwa impinduka",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Igenamiterere",
     settings_language: "Ururimi rwimikoreshereze",

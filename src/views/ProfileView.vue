@@ -18,6 +18,7 @@ import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
 import { onMounted, reactive } from "vue";
 import useTheme, { ThemeContext } from "@/context/theme";
+import ProfileChatHistoryTokens from "@/components/profile/ProfileChatHistoryTokens.vue";
 
 const state = reactive<{
     theme: ThemeContext,
@@ -94,6 +95,10 @@ onMounted(async () => {
                 <ProfileDeletionForm />
             </div>
         </template>
+        <Separator />
+        <div class="profile-section">
+            <ProfileChatHistoryTokens />
+        </div>
     </div>
 </template>
 

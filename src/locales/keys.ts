@@ -26,6 +26,7 @@ export enum LocalizationKey {
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
 
+    start_signup_success = "start_signup_success",
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",
@@ -111,6 +112,9 @@ export enum LocalizationKey {
     profile_experiments_add = "profile_experiments_add",
     profile_experiments_description = "profile_experiments_description",
     profile_experiments_apply = "profile_experiments_apply",
+
+    profile_chat_history_tokens_heading = "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label = "profile_chat_history_tokens_label",
 
     settings_title = "settings_title",
     settings_language = "settings_language",

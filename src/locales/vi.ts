@@ -25,6 +25,7 @@ const vi: Locale = {
 
     notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Chào mừng đến với nền tảng AIRe",
     start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
     start_second_paragraph:
@@ -122,6 +123,9 @@ const vi: Locale = {
     profile_experiments_add: "Thêm vào",
     profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
     profile_experiments_apply: "Áp dụng các thay đổi",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",

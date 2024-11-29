@@ -25,6 +25,7 @@ const id: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" dikenali",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Selamat datang di platform AIRe",
     start_first_paragraph:
         "Mitra untuk kinerja dan kesejahteraan yang lebih baik",
@@ -124,6 +125,9 @@ const id: Locale = {
     profile_experiments_add: "Tambahkan",
     profile_experiments_description: "ke prompt Anda jika Anda ingin menyuntikkan ringkasan profil pengguna Anda.",
     profile_experiments_apply: "Terapkan perubahan",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Pengaturan",
     settings_language: "Bahasa antarmuka pengguna",

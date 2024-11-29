@@ -18,6 +18,7 @@ export enum UIFontSize {
 export interface UISettingsOptions {
     fontSize: UIFontSize;
     ttsEnabled: boolean;
+    tokensEnabled: boolean;
 }
 
 export interface UIStateOptions {
@@ -45,7 +46,8 @@ export const UISettings = reactive<UISettingsOptions>(initSettings());
 function initSettings(): UISettingsOptions {
     const options: UISettingsOptions = {
         fontSize: (localStorage.getItem("ui-font-size") || UIFontSize.Normal) as UIFontSize,
-        ttsEnabled: (localStorage.getItem("tts-enabled") === "true")
+        ttsEnabled: (localStorage.getItem("tts-enabled") === "true"),
+        tokensEnabled: (localStorage.getItem("tokens-enabled") === "true"),
     };
     applyFontSize(options.fontSize);
     return options;
@@ -79,7 +81,8 @@ watch(UISettings,
         if (newSettings.fontSize != oldSettings.fontSize)
             applyFontSize(newSettings.fontSize, oldSettings.fontSize);
 
-        localStorage.setItem("tts-enabled", newSettings.ttsEnabled ? "true" : "false")
+        localStorage.setItem("tts-enabled", newSettings.ttsEnabled ? "true" : "false");
+        localStorage.setItem("tokens-enabled", newSettings.tokensEnabled ? "true" : "false");
     },
     { deep: true }
 );

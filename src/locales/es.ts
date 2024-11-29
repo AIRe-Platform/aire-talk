@@ -25,6 +25,7 @@ const es: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
@@ -119,11 +120,15 @@ const es: Locale = {
     profile_question_country: "¿En qué país vives?",
 
     profile_experiments_title: "Experimentos",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Sobrescribe el sistema de chatbot",
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
     profile_experiments_prompt: "Custom prompt",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",

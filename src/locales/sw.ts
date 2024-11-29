@@ -25,6 +25,7 @@ const sw: Locale = {
 
     notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Karibu kwenye jukwaa la AIRe",
     start_first_paragraph:
         "Mshirika kwa utendaji bora na ustawi",
@@ -118,6 +119,9 @@ const sw: Locale = {
     profile_experiments_add: "Ongeza",
     profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
     profile_experiments_apply: "Tumia mabadiliko",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Mipangilio",
     settings_language: "Lugha ya kiolesura cha mtumiaji",

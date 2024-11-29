@@ -25,6 +25,7 @@ const fi: Locale = {
 
     notification_keyword: "\"{keyword}\" teema tunnistettu",
 
+    start_signup_success: "Tilin luonti onnistui. Voit nyt kirjautua sisään.",
     start_greeting: "Tervetuloa AIRe-palveluun",
     start_first_paragraph:
         "Kumppanisi parempaan toimintakykyyn ja hyvinvointiin",
@@ -123,6 +124,9 @@ const fi: Locale = {
     profile_experiments_add: "Lisää",
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
     profile_experiments_apply: "Ota oma kehote käyttöön",
+
+    profile_chat_history_tokens_heading: "Keskusteluhistoria tokenit",
+    profile_chat_history_tokens_label: "Näytä tokenit keskusteluhistoriassa",
 
     settings_title: "Asetukset",
     settings_language: "Kielivalinta",
