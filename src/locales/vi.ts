@@ -123,6 +123,9 @@ const vi: Locale = {
     profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
     profile_experiments_apply: "Áp dụng các thay đổi",
 
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
+
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",
     settings_ui_size: "Kích thước giao diện người dùng",

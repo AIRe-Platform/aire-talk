@@ -119,6 +119,9 @@ const sw: Locale = {
     profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
     profile_experiments_apply: "Tumia mabadiliko",
 
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
+
     settings_title: "Mipangilio",
     settings_language: "Lugha ya kiolesura cha mtumiaji",
     settings_ui_size: "Ukubwa wa kiolesura cha mtumiaji",

@@ -125,6 +125,9 @@ const es: Locale = {
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
 
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
+
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
     settings_ui_size: "Tamaño de la interfaz de usuario",

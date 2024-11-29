@@ -125,6 +125,9 @@ const rw: Locale = {
     profile_experiments_description: "mu mabwiriza yawe niba ushaka gushyiraho ishusho ngufi y'umwirondoro wawe.",
     profile_experiments_apply: "Shyira mu bikorwa impinduka",
 
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
+
     settings_title: "Igenamiterere",
     settings_language: "Ururimi rwimikoreshereze",
     settings_ui_size: "Ingano yimikoreshereze",

@@ -112,6 +112,9 @@ export enum LocalizationKey {
     profile_experiments_description = "profile_experiments_description",
     profile_experiments_apply = "profile_experiments_apply",
 
+    profile_chat_history_tokens_heading = "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label = "profile_chat_history_tokens_label",
+
     settings_title = "settings_title",
     settings_language = "settings_language",
     settings_ui_size = "settings_ui_size",

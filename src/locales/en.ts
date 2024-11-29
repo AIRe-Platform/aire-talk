@@ -115,6 +115,9 @@ const en: Locale = {
     profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
     profile_experiments_apply: "Apply changes",
 
+    profile_chat_history_tokens_heading: "Chat history tokens",
+    profile_chat_history_tokens_label: "Show tokens on chat history",
+
     settings_title: "Settings",
     settings_language: "User interface language",
     settings_ui_size: "User interface size",

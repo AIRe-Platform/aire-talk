@@ -124,6 +124,9 @@ const fi: Locale = {
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
     profile_experiments_apply: "Ota oma kehote käyttöön",
 
+    profile_chat_history_tokens_heading: "Keskusteluhistoria tokenit",
+    profile_chat_history_tokens_label: "Näytä tokenit keskusteluhistoriassa",
+
     settings_title: "Asetukset",
     settings_language: "Kielivalinta",
     settings_ui_size: "Näkymän koko",
