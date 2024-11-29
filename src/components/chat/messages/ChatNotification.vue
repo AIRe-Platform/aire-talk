@@ -51,6 +51,10 @@ const content = computed(() => {
     color: var(--title-text);
 }
 
+.fa-xmark {
+    color: var(--fa-xmark-theme);
+}
+
 .button-keyword-delete {
     display: flex;
     align-items: center;
