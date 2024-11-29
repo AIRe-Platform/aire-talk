@@ -121,7 +121,9 @@ const toggleTTS = () => {
                             ? $t(l.tooltip_chat_speech_recognition_off)
                             : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                             :adjustPosition="true">
-                            <button class="chat-speech-button" @click="toggleListening" type="button">
+                            <button class="chat-speech-button" @click="toggleListening" type="button" :aria-label="stt.isListening.value
+                                ? $t(l.tooltip_chat_speech_recognition_off)
+                                : $t(l.tooltip_chat_speech_recognition_on)">
                                 <div v-if="stt.isListening.value" class="icon voice-control-stop"></div>
                                 <div v-else class="icon voice-control"></div>
                             </button>
@@ -132,7 +134,9 @@ const toggleTTS = () => {
                             ? $t(l.tooltip_chat_tts_read_new_messages_off)
                             : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
                             :adjustPosition="true">
-                            <button class="chat-tts-button" @click="toggleTTS" type="button">
+                            <button class="chat-tts-button" @click="toggleTTS" type="button" :aria-label="UISettings.ttsEnabled
+                                ? $t(l.tooltip_chat_tts_read_new_messages_off)
+                                : $t(l.tooltip_chat_tts_read_new_messages_on)">
                                 <font-awesome-icon icon="fa-solid fa-volume-xmark" class="fa-volume-input"
                                     v-if="UISettings.ttsEnabled" />
                                 <font-awesome-icon icon="fa-solid fa-volume-high" class="fa-volume-input" v-else />
@@ -144,13 +148,15 @@ const toggleTTS = () => {
             <div class="chat-options">
                 <button v-if="props.optionsVisible" class="chat-options-button"
                     :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
-                    :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')">
+                    :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
+                        ? 'Close chat side panel'
+                        : 'Open chat side panel'">
                     <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
                         :adjustPosition="true">
                         <div class="icon summary-switch-default"></div>
                     </Tooltip>
                 </button>
-                <button class="chat-send-button" @click="submit" type="button">
+                <button class="chat-send-button" @click="submit" type="button" :aria-label=$t(l.tooltip_send_message)>
                     <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
                         :adjustPosition="true">
                         <div class="chat-send-icon icon send-message-default"></div>
