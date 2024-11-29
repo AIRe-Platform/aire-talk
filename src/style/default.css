@@ -99,6 +99,7 @@
     --summary-keyword-item-font-color: #176087;
     --suggestions-background: #F1F4F9;
     --chat-user-label: #0D5C63;
+    --fa-xmark: #242424;
 }
 
 :root.theme-dark {
@@ -156,6 +157,7 @@
     --summary-keyword-item-font-color: #2374AB;
     --suggestions-background: #176087;
     --chat-user-label: #D9F0FF;
+    --fa-xmark: #ffffff;
 }
 
 html {

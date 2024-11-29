@@ -35,8 +35,8 @@
 }
 
 .fa-xmark{
-    color: #b6465f;
-    transform: scale(1.5);
+    color: var(--fa-xmark);
+    transform: scale(0.8);
 }
 
 .circle-icon {
