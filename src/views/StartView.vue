@@ -178,10 +178,4 @@ onMounted(() => {
         height: 4rem !important;
     }
 }
-
-@media screen and (max-width: 450px) {
-    .notification-message {
-        top: 3.5rem;
-    }
-}
 </style>
