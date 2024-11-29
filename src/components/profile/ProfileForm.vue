@@ -280,19 +280,6 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
     justify-content: center;
 }
 
-.profile-edit-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 2rem;
-    height: 2rem;
-    border-radius: 1rem;
-
-    color: var(--text-color);
-    background-color: var(--chat-bubble-background-color);
-}
-
 .error-message {
     color: var(--background-color);
     font-size: var(--font-small);
@@ -300,6 +287,7 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     background-color: var(--error-color);
+    flex-basis: 100%;
 }
 
 .char-limit-reached {
@@ -329,7 +317,6 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
     .form-item-wide>.form-label {
         flex-basis: 20%;
     }
-
 
     .input-column {
         height: auto;
