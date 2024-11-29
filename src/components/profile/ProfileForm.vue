@@ -131,7 +131,12 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
             <label class="form-label" for="year_of_birth">{{ $t(l.profile_label_year_of_birth) }}</label>
             <div class="form-input">
                 <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
-                    placeholder="e.g., 1990" :readonly="state.busy" required />
+                    placeholder="e.g., 1990" :readonly="state.busy" required
+                    aria-describedby="year-of-birth-placeholder" />
+                <!-- Hidden element for screen readers -->
+                <span id="year-of-birth-placeholder" class="screen-readers-only">
+                    {{ $t(l.profile_placeholder_year_of_birth) }}
+                </span>
             </div>
         </span>
         <span class="form-item margin-top">
@@ -300,6 +305,18 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
 .char-limit-reached {
     color: var(--error-color);
     font-weight: bold;
+}
+
+.screen-readers-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

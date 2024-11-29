@@ -77,6 +77,7 @@ const sw: Locale = {
     profile_button_save: "Sasisha",
     profile_characters_max: '{0} wahusika zaidi.',
     profile_remaining: "wahusika waliobaki.",
+    profile_placeholder_year_of_birth: "Weka mwaka wa kuzaliwa katika umbizo la YYYY, kwa mfano 1990.",
 
     profile_heading_connected_services: "Huduma Zilizounganishwa",
     profile_empty_service_list: "Hakuna huduma zilizounganishwa",

@@ -77,6 +77,7 @@ const fi: Locale = {
     profile_button_save: "Tallenna",
     profile_characters_max: 'Enintään {0} merkkiä.',
     profile_remaining: "jäljellä olevat merkit.",
+    profile_placeholder_year_of_birth: "Syötä syntymävuosi muodossa YYYY, esimerkiksi 1990.",
 
     profile_heading_connected_services: "Yhdistetyt palvelut",
     profile_empty_service_list: "Ei yhdistettyjä palveluita",

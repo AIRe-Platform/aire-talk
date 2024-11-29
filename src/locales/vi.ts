@@ -75,6 +75,7 @@ const vi: Locale = {
     profile_label_bio: "Tiểu sử",
     profile_characters_max: '{0} ký tự tối đa.',
     profile_remaining: "ký tự còn lại.",
+    profile_placeholder_year_of_birth: "Nhập năm sinh theo định dạng YYYY, ví dụ 1990.",
 
     profile_button_save: "Lưu thay đổi",
 

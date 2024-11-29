@@ -77,6 +77,7 @@ const rw: Locale = {
     profile_button_save: "Ibishya",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
+    profile_placeholder_year_of_birth: "Injira umwaka wamavuko muburyo bwa YYYY, urugero 1990.",
 
     profile_heading_connected_services: "Serivisi zifite aho zihuriye cyangwa zifitanye isano",
     profile_empty_service_list: "Nta serivices zifite aho zihuriye",

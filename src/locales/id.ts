@@ -77,6 +77,7 @@ const id: Locale = {
     profile_button_save: "Perbarui",
     profile_characters_max: '{0} karakter paling banyak.',
     profile_remaining: "karakter yang tersisa.",
+    profile_placeholder_year_of_birth: "Masukkan tahun lahir dalam format YYYY, misalnya 1990.",
 
     profile_heading_connected_services: "Layanan Terhubung",
     profile_empty_service_list: "Tidak ada layanan terhubung",

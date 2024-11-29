@@ -74,6 +74,7 @@ const en: Locale = {
     profile_button_save: "Update",
     profile_characters_max: '{0} characters maximum.',
     profile_remaining: "remaining characters.",
+    profile_placeholder_year_of_birth: "Enter your year of birth in the format YYYY, for example 1990.",
 
     profile_heading_connected_services: "Connected Services",
     profile_empty_service_list: "No connected services",

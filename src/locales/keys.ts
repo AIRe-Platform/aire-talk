@@ -69,6 +69,7 @@ export enum LocalizationKey {
     profile_label_country = "profile_label_country",
     profile_label_bio = "profile_label_bio",
     profile_button_save = "profile_button_save",
+    profile_placeholder_year_of_birth = "profile_placeholder_year_of_birth",
 
     profile_heading_connected_services = "profile_heading_connected_services",
     profile_empty_service_list = "profile_empty_service_list",

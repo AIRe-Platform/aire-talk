@@ -77,6 +77,7 @@ const es: Locale = {
     profile_button_save: "Guardar",
     profile_characters_max: '{0} carácteres máximo.',
     profile_remaining: "carácteres restantes.",
+    profile_placeholder_year_of_birth: "Ingrese el año de nacimiento en formato AAAA, por ejemplo 1990.",
 
     profile_heading_connected_services: "Connectado",
     profile_empty_service_list: "No Conectado",
