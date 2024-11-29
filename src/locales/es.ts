@@ -119,6 +119,7 @@ const es: Locale = {
     profile_question_country: "¿En qué país vives?",
 
     profile_experiments_title: "Experimentos",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Sobrescribe el sistema de chatbot",
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
