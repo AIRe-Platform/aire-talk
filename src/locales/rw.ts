@@ -120,6 +120,7 @@ const rw: Locale = {
 
     profile_experiments_title: "Igerageza",
     profile_experiments_text: "Hindura amabwiriza ya sisitemu y'ikiganiro cy'ikoranabuhanga",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_add: "Ongeraho",
     profile_experiments_description: "mu mabwiriza yawe niba ushaka gushyiraho ishusho ngufi y'umwirondoro wawe.",
     profile_experiments_apply: "Shyira mu bikorwa impinduka",

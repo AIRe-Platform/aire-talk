@@ -17,7 +17,7 @@ const onSwitchTheme = (dark: boolean) => {
 </script>
 <template>
     <div class="theme-container">
-        <p class="theme-switch-label">{{ $t(l.switch_color_mode) }}</p>
+        <label for="theme-switch" class="theme-switch-label">{{ $t(l.switch_color_mode) }}</label>
         <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false"
             :adjustPosition="true">
             <div class="theme-switch" role="switch" :aria-checked="theme.style === 'theme-dark'" :aria-label="theme.style === 'theme-dark'
@@ -26,7 +26,7 @@ const onSwitchTheme = (dark: boolean) => {
                 @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
                 @click="onSwitchTheme(theme.style !== 'theme-dark')">
                 <font-awesome-icon icon="fa-solid fa-sun" />
-                <Switch :is-on="theme.style === 'theme-dark'" />
+                <Switch input-id="theme-switch" :is-on="theme.style === 'theme-dark'" />
                 <font-awesome-icon icon="fa-solid fa-moon" />
             </div>
         </Tooltip>

@@ -110,6 +110,7 @@ const en: Locale = {
 
     profile_experiments_title: "Experiments",
     profile_experiments_text: "Override chatbot system prompt",
+    profile_experiments_prompt: "Custom prompt",
     profile_experiments_add: "Add",
     profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
     profile_experiments_apply: "Apply changes",

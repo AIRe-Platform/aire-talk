@@ -118,7 +118,8 @@ const fi: Locale = {
     profile_question_country: "Missä maassa asut?",
 
     profile_experiments_title: "Oman kehotteen kokeilut (admin-käyttäjille)",
-    profile_experiments_text: "Ohita AIRen järjestelmäkehote",
+    profile_experiments_prompt: "Ohita AIRen järjestelmäkehote",
+    profile_experiments_text: "Oma kehote",
     profile_experiments_add: "Lisää",
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
     profile_experiments_apply: "Ota oma kehote käyttöön",

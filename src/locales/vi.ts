@@ -117,6 +117,7 @@ const vi: Locale = {
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
     profile_experiments_title: "Thí nghiệm",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Ghi đè lời nhắc hệ thống chatbot",
     profile_experiments_add: "Thêm vào",
     profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",

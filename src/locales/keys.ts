@@ -106,6 +106,7 @@ export enum LocalizationKey {
     profile_remaining = "profile_remaining",
 
     profile_experiments_title = "profile_experiments_title",
+    profile_experiments_prompt = "profile_experiments_prompt",
     profile_experiments_text = "profile_experiments_text",
     profile_experiments_add = "profile_experiments_add",
     profile_experiments_description = "profile_experiments_description",
