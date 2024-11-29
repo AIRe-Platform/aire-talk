@@ -47,7 +47,8 @@ const onTTS = () => {
                     ? $t(l.tooltip_chat_tts_stop_reading)
                     : $t(l.tooltip_chat_tts_read_message)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true" v-if="tts.isSupported.value && props.message.content">
-                    <button class="chat-bubble-button" @click="onTTS" type="button">
+                    <button class="chat-bubble-button" @click="onTTS" type="button"
+                        :aria-label="tts.isSpeaking.value ? $t(l.screen_recorder_stop_text_to_speech) : $t(l.screen_recorder_play_text_to_speech)">
                         <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.isSpeaking.value" />
                         <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
                     </button>
