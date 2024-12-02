@@ -75,7 +75,7 @@ const rw: Locale = {
     profile_label_language: "Ururimi",
     profile_label_country: "Igihugu",
     profile_label_bio: "Uwo uriwe",
-    profile_button_save: "Ibishya",
+    profile_button_save: "Kuvugurura umwirondoro",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
     profile_placeholder_year_of_birth: "Injira umwaka wamavuko muburyo bwa YYYY, urugero 1990.",
@@ -93,7 +93,7 @@ const rw: Locale = {
     profile_heading_personal_data: "Personal Data",
     profile_description_personal_data:
         "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
-    profile_button_download_personal_data: "Download",
+    profile_button_download_personal_data: "Pakua data ya kibinafsi",
 
     profile_heading_delete_account: "Siba Konti",
     profile_description_delete_account:

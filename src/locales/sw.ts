@@ -75,7 +75,7 @@ const sw: Locale = {
     profile_label_language: "Lugha",
     profile_label_country: "Nchi",
     profile_label_bio: "Wasifu",
-    profile_button_save: "Sasisha",
+    profile_button_save: "Sasisha wasifu",
     profile_characters_max: '{0} wahusika zaidi.',
     profile_remaining: "wahusika waliobaki.",
     profile_placeholder_year_of_birth: "Weka mwaka wa kuzaliwa katika umbizo la YYYY, kwa mfano 1990.",
@@ -92,7 +92,7 @@ const sw: Locale = {
     profile_heading_personal_data: "Data ya Kibinafsi",
     profile_description_personal_data:
         "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
-    profile_button_download_personal_data: "Pakua",
+    profile_button_download_personal_data: "Pakua data ya kibinafsi",
 
     profile_heading_delete_account: "Futa Akaunti",
     profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",

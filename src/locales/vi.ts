@@ -77,9 +77,7 @@ const vi: Locale = {
     profile_characters_max: '{0} ký tự tối đa.',
     profile_remaining: "ký tự còn lại.",
     profile_placeholder_year_of_birth: "Nhập năm sinh theo định dạng YYYY, ví dụ 1990.",
-
-    profile_button_save: "Lưu thay đổi",
-
+    profile_button_save: "Cập nhật hồ sơ",
     profile_heading_connected_services: "Dịch vụ được kết nối",
     profile_empty_service_list: "Không có dịch vụ được kết nối",
 
@@ -93,7 +91,7 @@ const vi: Locale = {
     profile_heading_personal_data: "Dữ liệu cá nhân",
     profile_description_personal_data:
         "Tất cả thông tin của bạn được mã hóa theo cách mà chỉ bạn mới có quyền truy cập. Các dịch vụ AIRe chỉ có thể sử dụng dữ liệu của bạn khi bạn đang sử dụng các dịch vụ. Tại đây, bạn có thể tải xuống tất cả dữ liệu của mình được lưu trong AIRe. Xin lưu ý rằng việc thu thập dữ liệu có thể mất một thời gian.",
-    profile_button_download_personal_data: "Tải xuống",
+    profile_button_download_personal_data: "Tải xuống dữ liệu cá nhân",
 
     profile_heading_delete_account: "Xóa tài khoản",
     profile_description_delete_account:

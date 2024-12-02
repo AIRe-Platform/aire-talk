@@ -72,7 +72,7 @@ const en: Locale = {
     profile_label_language: "Language",
     profile_label_country: "Country",
     profile_label_bio: "Bio",
-    profile_button_save: "Update",
+    profile_button_save: "Update profile",
     profile_characters_max: '{0} characters maximum.',
     profile_remaining: "remaining characters.",
     profile_placeholder_year_of_birth: "Enter your year of birth in the format YYYY, for example 1990.",
@@ -88,7 +88,7 @@ const en: Locale = {
 
     profile_heading_personal_data: "Personal Data",
     profile_description_personal_data: "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
-    profile_button_download_personal_data: "Download",
+    profile_button_download_personal_data: "Download personal data",
 
     profile_heading_delete_account: "Delete Account",
     profile_description_delete_account: "This deletes your account from AIRe platform. Confirm deletion by entering your password.",

@@ -75,7 +75,7 @@ const es: Locale = {
     profile_label_language: "Idioma",
     profile_label_country: "País",
     profile_label_bio: "Bio",
-    profile_button_save: "Guardar",
+    profile_button_save: "Actualizar perfil",
     profile_characters_max: '{0} carácteres máximo.',
     profile_remaining: "carácteres restantes.",
     profile_placeholder_year_of_birth: "Ingrese el año de nacimiento en formato AAAA, por ejemplo 1990.",
@@ -94,7 +94,7 @@ const es: Locale = {
     profile_heading_personal_data: "Datos personales",
     profile_description_personal_data:
         "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
-    profile_button_download_personal_data: "Descargar",
+    profile_button_download_personal_data: "Descargar datos personales",
 
     profile_heading_delete_account: "Borrar cuenta",
     profile_description_delete_account:

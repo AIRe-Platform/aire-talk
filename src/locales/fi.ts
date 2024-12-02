@@ -75,7 +75,7 @@ const fi: Locale = {
     profile_label_language: "Kieli",
     profile_label_country: "Maa",
     profile_label_bio: "Tietoja",
-    profile_button_save: "Tallenna",
+    profile_button_save: "Tallenna profiili",
     profile_characters_max: 'Enintään {0} merkkiä.',
     profile_remaining: "jäljellä olevat merkit.",
     profile_placeholder_year_of_birth: "Syötä syntymävuosi muodossa YYYY, esimerkiksi 1990.",
@@ -93,7 +93,7 @@ const fi: Locale = {
     profile_heading_personal_data: "Henkilökohtaiset tiedot",
     profile_description_personal_data:
         "Kaikki keräämämme yksilöivät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Tietosi ovat AIRe-palvelujen käytettävissä vain silloin, kun sinä käytät niitä. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
-    profile_button_download_personal_data: "Lataa",
+    profile_button_download_personal_data: "Lataa henkilötiedot",
 
     profile_heading_delete_account: "Tilin poistaminen",
     profile_description_delete_account:

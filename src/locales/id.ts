@@ -75,7 +75,7 @@ const id: Locale = {
     profile_label_language: "Bahasa Utama",
     profile_label_country: "Negara",
     profile_label_bio: "Bio",
-    profile_button_save: "Perbarui",
+    profile_button_save: "Perbarui profil",
     profile_characters_max: '{0} karakter paling banyak.',
     profile_remaining: "karakter yang tersisa.",
     profile_placeholder_year_of_birth: "Masukkan tahun lahir dalam format YYYY, misalnya 1990.",
@@ -93,7 +93,7 @@ const id: Locale = {
     profile_heading_personal_data: "Data Pribadi",
     profile_description_personal_data:
         "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
-    profile_button_download_personal_data: "Unduh",
+    profile_button_download_personal_data: "Unduh data pribadi",
 
     profile_heading_delete_account: "Hapus Akun",
     profile_description_delete_account:
