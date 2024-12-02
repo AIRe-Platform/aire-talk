@@ -13,7 +13,7 @@ import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
-import { showSpinner, hideSpinner } from '@/helpers/spinnerUtils';
+import { showSpinner, hideSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -50,7 +50,7 @@ const emit = defineEmits<{
 
 const refresh = () => {
     state.busy = true;
-    showSpinner();
+    showSpinner(SpinnerId.ChatHistory);
     getAllChats()
         .then(logs => {
             state.items = logs.map((x) => {
@@ -68,7 +68,7 @@ const refresh = () => {
             state.busy = false;
             hideSpinner();
             refreshBurgerMenuButtonsRef();
-        })
+        });
 };
 
 const focusOutListener = (e: FocusEvent) => {
@@ -205,7 +205,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
         <div class="chat-history-panel" v-on-click-outside="onClickOutside">
             <div class="chat-history-list">
                 <div class="chat-history-busy" v-if="state.busy">
-                    <Spinner />
+                    <Spinner :id="SpinnerId.ChatHistory" />
                 </div>
                 <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef" tabindex="-1">
                     {{ $t(l.chat_history_delete_success) }}

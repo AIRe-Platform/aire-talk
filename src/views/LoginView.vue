@@ -9,7 +9,7 @@ import { onMounted, reactive } from 'vue';
 import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
-import { hideSpinner, showSpinner } from '@/helpers/spinnerUtils';
+import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 const state = reactive<{
     busy: boolean,
@@ -22,18 +22,18 @@ const state = reactive<{
 });
 
 onMounted(() => {
-    showSpinner();
+    showSpinner(SpinnerId.LoginView);
     useLogin()
         .redirectToLogin()
         .then(ok => { state.error = !ok; })
-        .finally(() => { state.busy = false; hideSpinner(); })
+        .finally(() => { state.busy = false; hideSpinner(); });
 })
 </script>
 
 <template>
     <div class="login-view">
         <template v-if="state.busy">
-            <Spinner />
+            <Spinner :id="SpinnerId.LoginView" />
             <h1 class="login-message">{{ $t(l.login_redirect) }}</h1>
         </template>
         <div class="login-error" v-if="state.error">

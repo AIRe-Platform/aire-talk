@@ -12,7 +12,7 @@ import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";
-import { hideSpinner, showSpinner } from '@/helpers/spinnerUtils';
+import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -34,7 +34,7 @@ const onSignup = (e: Event) => {
     }
 
     busy.value = true;
-    showSpinner();
+    showSpinner(SpinnerId.SignUpView);
     useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
@@ -50,8 +50,9 @@ const onSignup = (e: Event) => {
         .finally(() => {
             busy.value = false;
             hideSpinner();
-        })
+        });
 }
+
 const goBack = () => {
     router.push("/");
 }
@@ -75,7 +76,7 @@ const goBack = () => {
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
             <button class="btn" v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
             <div class="signup-busy" v-if="busy">
-                <Spinner />
+                <Spinner :id="SpinnerId.SignUpView" />
             </div>
             <!-- add a back button -->
             <TextButton v-if="!busy" v-on:click="goBack" class="go-back">{{ $t(l.button_back) }}</TextButton>
