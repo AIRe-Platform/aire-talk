@@ -106,6 +106,7 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
+        question-id="confirm-logout-dialog-modal"
         :buttons="[
             { loc_key: l.button_accept, onClick: onConfirmLogout },
             { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }

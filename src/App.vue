@@ -105,6 +105,7 @@ onMounted(() => {
 <template>
     <LanguagePopup v-if="state.showLanguagePopup" />
     <DialogModal :active="state.showInactivityPopup"
+        question-id="logout-inactivity-dialog-modal"
         :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>

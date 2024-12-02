@@ -9,7 +9,7 @@ import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
 import LanguageSelector from '@/components/settings/LanguageSelector.vue';
-import { onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 
 const signUpSuccess = ref<boolean>(false);
 const signUpSuccessMessageRef = ref<HTMLElement | null>(null);
@@ -22,10 +22,12 @@ onMounted(() => {
     const search = new URLSearchParams(window.location.search);
     signUpSuccess.value = search.get("signup_success") === "1";
     if (signUpSuccess.value) {
-        signUpSuccessMessageRef.value?.focus();
-        setTimeout(() => {
-            signUpSuccess.value = false;
-        }, 5000);
+        nextTick(() => {
+            signUpSuccessMessageRef.value?.focus();
+            setTimeout(() => {
+                signUpSuccess.value = false;
+            }, 5000);
+        });
     }
 })
 </script>
@@ -35,7 +37,7 @@ onMounted(() => {
         <div class="start-container">
             <div v-if="signUpSuccess"
                 ref="signUpSuccessMessageRef"
-                class="signup-success-message"
+                class="notification-message"
                 aria-live="assertive"
                 role="alert"
                 tabindex="-1">
@@ -130,16 +132,6 @@ onMounted(() => {
     align-items: center;
 }
 
-.signup-success-message {
-    position: absolute;
-    top: 0;
-    padding: 1rem 2rem;
-    margin-block-start: .5rem;
-    border: 1px solid;
-    border-radius: .5rem;
-    background-color: var(--highlight);
-}
-
 .get-started {
     width: 15rem;
     height: 3rem;
@@ -184,12 +176,6 @@ onMounted(() => {
     .frontpage-button {
         width: 15rem !important;
         height: 4rem !important;
-    }
-}
-
-@media screen and (max-width: 450px) {
-    .signup-success-message {
-        top: 3.5rem;
     }
 }
 </style>
