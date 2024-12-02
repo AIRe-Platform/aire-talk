@@ -102,7 +102,6 @@ const focusOutListener = async (e: FocusEvent) => {
 onMounted(async () => {
     navMenuRef.value?.addEventListener('focusout', focusOutListener);
     state.theme = useTheme();
-
 });
 
 onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutListener));

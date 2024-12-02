@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, onMounted, onUnmounted, reactive, ref } from "vue";
+import { defineEmits, nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { router } from "@/router";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIState, UIPanels, UISettings } from "@/context/ui";
@@ -28,6 +28,7 @@ interface ChatLogItem {
 const chat = useChat();
 const cache = useChatCache();
 const chatHistoryPanelRef = ref<HTMLElement | null>(null);
+const deleteMessageRef = ref<HTMLElement | null>(null);
 
 const state = reactive<{
     busy: boolean,
@@ -35,10 +36,12 @@ const state = reactive<{
     confirmDelete: boolean,
     lastFocusedItem: HTMLElement | null
     items?: ChatLogItem[]
+    showChatDeletedMessage: boolean
 }>({
     busy: false,
     confirmDelete: false,
-    lastFocusedItem: null
+    lastFocusedItem: null,
+    showChatDeletedMessage: false,
 });
 
 const emit = defineEmits<{
@@ -120,6 +123,7 @@ const onConfirmDelete = () => {
             .finally(() => {
                 state.lastFocusedItem = null;
                 state.deleteId = undefined;
+                state.showChatDeletedMessage = true;
             });
     }
 };
@@ -175,6 +179,18 @@ const onClickOutside = async (e: Event) => {
         }
     }
 };
+
+watch(() => state.showChatDeletedMessage, (newVal) => {
+    if (newVal) {
+        nextTick(() => {
+            deleteMessageRef.value?.focus();
+            setTimeout(() => {
+                state.showChatDeletedMessage = false;
+                chatHistoryPanelRef.value?.querySelector('a')?.focus();
+            }, 5000);
+        })
+    }
+});
 </script>
 
 <template>
@@ -190,6 +206,9 @@ const onClickOutside = async (e: Event) => {
             <div class="chat-history-list">
                 <div class="chat-history-busy" v-if="state.busy">
                     <Spinner />
+                </div>
+                <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef" tabindex="-1">
+                    {{ $t(l.chat_history_delete_success) }}
                 </div>
                 <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
                     :class="{ 'restore-chat-item-open': isOpen(item.id) }">
@@ -226,6 +245,7 @@ const onClickOutside = async (e: Event) => {
 }
 
 .chat-history-panel {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -339,6 +359,12 @@ const onClickOutside = async (e: Event) => {
     cursor: pointer;
     position: absolute;
     right: -3rem;
+}
+
+.notification-message {
+    inset: .5rem 1rem auto 1rem;
+    z-index: 1;
+    text-align: center;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

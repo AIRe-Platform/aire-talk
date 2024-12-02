@@ -165,6 +165,7 @@ const sw: Locale = {
     tools_button_suggestions: "Mapendekezo",
 
     chat_history_loading: "Inapakia...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} vibambo",
     chat_title: "chat_title",
     chat_input_title: "Ungependa kuuliza au kusema nini?",

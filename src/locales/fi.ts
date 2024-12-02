@@ -180,6 +180,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tools_button_suggestions: "Sisältöehdotuksia",
 
     chat_history_loading: "Ladataan...",
+    chat_history_delete_success: "Keskustelun poisto onnistui.",
     chat_history_tokens: "{0} tokenia",
     chat_title: "AIRe keskustelu",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",

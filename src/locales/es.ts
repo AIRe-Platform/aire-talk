@@ -183,6 +183,7 @@ const es: Locale = {
     tools_button_suggestions: "Sugerencias",
 
     chat_history_loading: "Cargando...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} fichas",
     chat_title: "chat_title",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",

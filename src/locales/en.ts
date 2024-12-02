@@ -168,6 +168,7 @@ const en: Locale = {
     suggestion_check_for_more: "Check here for more",
 
     chat_history_loading: "Loading...",
+    chat_history_delete_success: "Chat removed successfully.",
     chat_history_tokens: "{0} tokens",
     chat_title: "AIRe chat",
     chat_input_title: "What would you like to ask or tell?",

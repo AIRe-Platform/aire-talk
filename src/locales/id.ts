@@ -180,6 +180,7 @@ const id: Locale = {
     tools_button_suggestions: "Saran",
 
     chat_history_loading: "Memuat...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} token",
     chat_title: "chat_title",
     chat_input_title: "Apa yang ingin Anda tanyakan atau katakan?",

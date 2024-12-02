@@ -158,6 +158,7 @@ export enum LocalizationKey {
     tools_button_suggestions = "tools_button_suggestions",
 
     chat_history_loading = "chat_history_loading",
+    chat_history_delete_success = "chat_history_delete_success",
     chat_history_tokens = "chat_history_tokens",
     chat_title = "chat_title",
     chat_input_title = "chat_input_title",

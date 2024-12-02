@@ -174,6 +174,7 @@ const rw: Locale = {
     tools_button_suggestions: "Ibyifuzo",
 
     chat_history_loading: "Tegereza biri kuza",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} Nta kintu cyaje",
     chat_title: "chat_title",
     chat_input_title: "Ni iki ushaka kubaza cyangwa kuvuga?",

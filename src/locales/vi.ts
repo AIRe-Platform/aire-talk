@@ -178,6 +178,7 @@ const vi: Locale = {
     tools_button_suggestions: "Gợi ý",
 
     chat_history_loading: "Đang tải...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} token",
     chat_title: "chat_title",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
