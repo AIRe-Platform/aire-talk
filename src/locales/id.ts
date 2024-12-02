@@ -63,7 +63,7 @@ const id: Locale = {
     nav_logout: "Keluar",
     nav_signup: "Daftar",
     nav_preferences: "Pengaturan",
-    nav_main_menu: "Menu utama",
+    nav_main_menu: "Halaman depan",
     nav_catalogue: "Katalog Konten",
     nav_about: "Tentang",
 

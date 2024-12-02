@@ -63,7 +63,7 @@ const fi: Locale = {
     nav_logout: "Kirjaudu ulos",
     nav_signup: "Luo tili",
     nav_preferences: "Asetukset",
-    nav_main_menu: "Päävalikko",
+    nav_main_menu: "Etusivu",
     nav_catalogue: "Oma sisältökirjasto",
     nav_about: "Tietoa AIRe-palvelusta",
 

@@ -63,7 +63,7 @@ const sw: Locale = {
     nav_logout: "Ondoka",
     nav_signup: "Jisajili",
     nav_preferences: "Mipangilio",
-    nav_main_menu: "Menyu kuu",
+    nav_main_menu: "Ukurasa wa mbele",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
 

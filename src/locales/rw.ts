@@ -63,7 +63,7 @@ const rw: Locale = {
     nav_logout: "Sohoka",
     nav_signup: "Kwiyandikisha",
     nav_preferences: "Igenamiterere",
-    nav_main_menu: "Ibikubiyemo nyamukuru",
+    nav_main_menu: "Urupapuro rwambere",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
     nav_about: "Hafi",
     

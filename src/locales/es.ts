@@ -63,7 +63,7 @@ const es: Locale = {
     nav_logout: "Salir",
     nav_signup: "Regístrate",
     nav_preferences: "Configuración",
-    nav_main_menu: "Menu",
+    nav_main_menu: "Principal",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
 
