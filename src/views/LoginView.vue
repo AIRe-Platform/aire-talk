@@ -9,6 +9,7 @@ import { onMounted, reactive } from 'vue';
 import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
+import { hideSpinner, showSpinner } from '@/helpers/spinnerUtils';
 
 const state = reactive<{
     busy: boolean,
@@ -21,10 +22,11 @@ const state = reactive<{
 });
 
 onMounted(() => {
+    showSpinner();
     useLogin()
         .redirectToLogin()
         .then(ok => { state.error = !ok; })
-        .finally(() => { state.busy = false; })
+        .finally(() => { state.busy = false; hideSpinner(); })
 })
 </script>
 

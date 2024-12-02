@@ -13,6 +13,7 @@ import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+import { showSpinner, hideSpinner } from '@/helpers/spinnerUtils';
 
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
@@ -46,6 +47,7 @@ const emit = defineEmits<{
 
 const refresh = () => {
     state.busy = true;
+    showSpinner();
     getAllChats()
         .then(logs => {
             state.items = logs.map((x) => {
@@ -61,6 +63,7 @@ const refresh = () => {
         })
         .finally(() => {
             state.busy = false;
+            hideSpinner();
             refreshBurgerMenuButtonsRef();
         })
 };

@@ -12,6 +12,7 @@ import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";
+import { hideSpinner, showSpinner } from '@/helpers/spinnerUtils';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -33,6 +34,7 @@ const onSignup = (e: Event) => {
     }
 
     busy.value = true;
+    showSpinner();
     useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
@@ -47,6 +49,7 @@ const onSignup = (e: Event) => {
         })
         .finally(() => {
             busy.value = false;
+            hideSpinner();
         })
 }
 const goBack = () => {

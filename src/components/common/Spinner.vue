@@ -4,13 +4,16 @@
  -->
 
 <script setup lang="ts">
-import { defineComponent } from 'vue';
-defineComponent({ name: "SpinnerComponent" });
+import { isSpinnerVisible, spinnerMessage } from '@/helpers/spinnerUtils';
 </script>
 
 <template>
-    <div class="spinner"></div>
+    <div v-if="isSpinnerVisible" class="spinner" role="status" aria-live="assertive" aria-busy="true" tabindex="0">
+        <span class="screen-readers-only" id="spinner-message">{{ spinnerMessage }}</span>
+    </div>
 </template>
+
+
 
 <style>
 .spinner {

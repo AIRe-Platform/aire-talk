@@ -11,6 +11,7 @@ import useLogin from '@/context/login';
 import Switch from '@/components/common/Switch.vue';
 import Spinner from '@/components/common/Spinner.vue';
 import Tooltip from "@/components/common/Tooltip.vue";
+import { hideSpinner, showSpinner } from '@/helpers/spinnerUtils';
 
 const login = useLogin();
 
@@ -39,6 +40,7 @@ const onSave = () => {
     }
 
     state.busy = true;
+    showSpinner();
     AireServices.ID.saveProfileData(profile)
         .then((res) => {
             if (res.data?.preferences && login.user) {
@@ -47,7 +49,8 @@ const onSave = () => {
             }
         })
         .finally(() => {
-            state.busy = false
+            state.busy = false;
+            hideSpinner();
         })
 }
 </script>
@@ -59,8 +62,8 @@ const onSave = () => {
             <div class="experimental-item-toggle">
                 <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">
                     <div>
-                        <Switch input-id="experimental-prompt-toggle" class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
-                            @change="toggleOverridePrefs" :colorized="true"
+                        <Switch input-id="experimental-prompt-toggle" class="experimental-item-toggle-switch"
+                            :is-on="state.overridePrompt" @change="toggleOverridePrefs" :colorized="true"
                             @keydown.prevent.space.enter="toggleOverridePrefs" />
                     </div>
                 </Tooltip>
