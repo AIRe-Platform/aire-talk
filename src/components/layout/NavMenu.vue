@@ -111,12 +111,12 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
     <NavButton id="nav-burger-button" :data-tutorial-state="HomeTutorialState.Menu" :open="UIState.showMenu"
         @click="onOpen">
     </NavButton>
-    <div class="nav-menu" ref="navMenuRef" :class="{
+    <nav class="nav-menu" ref="navMenuRef" :class="{
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
     }">
-        <Panel class="nav-menu-bar" tabindex="-1" role="navigation">
+        <Panel class="nav-menu-bar" tabindex="-1">
             <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
                 v-if="login.user && !TutorialStates.nav.isDone()" />
             <a class="nav-link" href="#" :tabindex="navLinkTabindex" @click="navLogoClick"
@@ -180,7 +180,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     :active="$route.matched.some((p) => p.name === 'Home')" :tooltip="l.nav_main_menu" />
             </div>
         </Panel>
-    </div>
+    </nav>
 </template>
 
 <style lang="scss" scoped>
