@@ -143,20 +143,20 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
             <div v-if="state.menuOpen">
                 <div class="icon chat-option-desktop"></div>
             </div>
-            <Tooltip v-else :text="$t(l.tooltip_message_options)" position="top" :useMaxContent="false"
+            <Tooltip v-else :text="$t(l.tooltip_message_options)" position="bottom" :useMaxContent="false"
                 :adjustPosition="true">
                 <div class="icon chat-option-desktop"></div>
             </Tooltip>
         </button>
         <div class="chat-item-options-menu" ref="optionsMenuRef" v-if="state.menuOpen"
             v-on-click-outside="onToggleMenu">
-            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="top" :useMaxContent="true" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="left" :useMaxContent="true" :adjustPosition="true">
                 <button @click.stop="onThumbsUp" type="button" :tabindex="optionsMenuTabindex" aria-label="thumbs-up"
                     class="chat-item-options-menu-button thumbs-up" :class="{ 'is-selected': state.rating > 0 }">
                     <font-awesome-icon icon="fa-solid fa-thumbs-up" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="top" :useMaxContent="true" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="left" :useMaxContent="true" :adjustPosition="true">
                 <button @click.stop="onThumbsDown" type="button" :tabindex="optionsMenuTabindex"
                     aria-label="thumbs-down" class="chat-item-options-menu-button thumbs-down"
                     :class="{ 'is-selected': state.rating < 0 }">
@@ -165,14 +165,14 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
             </Tooltip>
             <template v-if="!props.content">
                 <Tooltip :text="$t(state.copiedToClipboard ? l.tooltip_message_copied :
-                    l.tooltip_copy_message)" position="top" :useMaxContent="false" :adjustPosition="true">
+                    l.tooltip_copy_message)" position="left" :useMaxContent="true" :adjustPosition="true">
                     <button @click.stop="onCopyClipboard" type="button" :tabindex="optionsMenuTabindex"
                         :aria-label="state.copiedToClipboard ? 'Text is copied on clipboard' : 'Copy text to clipboard'"
                         class="chat-item-options-menu-button check" :class="{ 'is-selected': state.copiedToClipboard }">
                         <font-awesome-icon :icon="['fa-solid', state.copiedToClipboard ? 'fa-check' : 'fa-copy']" />
                     </button>
                 </Tooltip>
-                <Tooltip :text="$t(l.tooltip_revert_message)" position="top" :useMaxContent="false"
+                <Tooltip :text="$t(l.tooltip_revert_message)" position="left" :useMaxContent="true"
                     :adjustPosition="true" v-if="props.can_revert">
                     <button @click.stop="onRevert" type="button" :tabindex="optionsMenuTabindex"
                         aria-label="Revert conversation till this point"
