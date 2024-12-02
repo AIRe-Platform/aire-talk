@@ -161,7 +161,7 @@ const toggleTTS = () => {
                     :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
                         ? 'Close chat side panel'
                         : 'Open chat side panel'">
-                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left" :useMaxContent="true"
+                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="bottom" :useMaxContent="false"
                         :adjustPosition="true">
                         <div class="icon summary-switch-default"></div>
                     </Tooltip>
