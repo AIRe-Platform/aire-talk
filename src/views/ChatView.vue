@@ -119,7 +119,10 @@ onMounted(async () => {
     resizeHandler();
     window.addEventListener('resize', resizeHandler);
 });
-onUnmounted(() => window.removeEventListener('resize', resizeHandler));
+onUnmounted(() => {
+    window.removeEventListener('resize', resizeHandler);
+    chat.reset();
+});
 
 watch(() => chat.id, (newId, oldId) => {
     if (newId && !oldId) {

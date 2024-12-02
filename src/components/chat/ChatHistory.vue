@@ -94,8 +94,13 @@ const isOpen = (id: string) => {
 };
 
 const onSelect = async (id: string) => {
-    if (isOpen(id))
+    if (isOpen(id)) {
+        UIState.panels.delete(UIPanels.ChatHistory);
+        await closeBurgerMenu();
+        UIState.isNavMenuCompressed = false;
+        UIState.showMenu = false;
         return;
+    }
 
     router.push({
         name: "Chat",
