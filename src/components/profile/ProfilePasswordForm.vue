@@ -57,7 +57,7 @@ const onChangePassword = (e: Event) => {
             </span>
             <span class="form-item">
                 <label class="form-label" for="new_password">{{ $t(l.profile_label_new_password) }}</label>
-                <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password"
+                <input id="new_password" type="password" required="true" minlength="8" autocomplete="new-password"
                     v-model="state.newPassword" :readonly="state.busy"
                     aria-describedby="current-password-description" />
             </span>
