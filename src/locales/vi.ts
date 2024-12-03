@@ -333,6 +333,9 @@ const vi: Locale = {
     content_modal_untitled_document_thumbnail: "Ảnh thu nhỏ của tài liệu chưa có tên.",
     content_modal_no_description: "Không có mô tả nào.",
 
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",

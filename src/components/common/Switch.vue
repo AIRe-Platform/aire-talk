@@ -11,6 +11,7 @@ const props = defineProps<{
     isOn: boolean;
     inputId: string;
     colorized?: boolean;
+    describedby?: string;
 }>();
 
 defineEmits<{
@@ -19,9 +20,14 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="switch" :class="{ 'switch-colored': props.isOn && $props.colorized }" role="switch" tabindex="0"
-        :aria-checked="props.isOn" @click="$emit('change', !props.isOn)">
-        <input type="checkbox" :id="props.inputId" class="visually-hidden" :value="props.isOn" tabindex="-1">
+    <div class="switch" :class="{ 'switch-colored': props.isOn && $props.colorized }" @click="$emit('change', !props.isOn)">
+        <input type="checkbox"
+            class="visually-hidden"
+            role="switch"
+            :aria-describedby="props.describedby || ''"
+            :id="props.inputId"
+            :value="props.isOn"
+            :aria-checked="props.isOn">
         <div class="switch-handle" :class="{ 'switch-handle-on': props.isOn }"></div>
     </div>
 </template>
@@ -44,6 +50,10 @@ defineEmits<{
             background-color: var(--hover-button);
         }
     }
+}
+
+.switch:focus-within {
+    outline: 2px solid var(--button-color);
 }
 
 .switch-colored {

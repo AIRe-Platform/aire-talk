@@ -313,6 +313,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_revert_here: "Palauta keskustelu tähän pisteeseen.",
     screen_recorder_open_content: "Avaa sisältö.",
     screen_recorder_content_item: "Sisältöelementti.",
+
+    screen_recorder_theme_switch_dark: "Tumma teema valittu. Vaihda vaaleaan teemaan.",
+    screen_recorder_theme_switch_light: "Vaalea teema valittu. Vaihda tummaan teemaan.",
     screen_recorder_content_published: "Julkaistu sisältö.",
     screen_recorder_content_type: "Sisällön tyyppi:",
     screen_recorder_content_rated: "Arvosana:",

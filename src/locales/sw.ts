@@ -317,6 +317,9 @@ const sw: Locale = {
     content_modal_untitled_document_thumbnail: "Picha ndogo ya hati isiyo na jina.",
     content_modal_no_description: "Hakuna maelezo yanayopatikana.",
 
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
     en: "Kiingereza",
     fi: "Kifini",
     es: "Kihispania",

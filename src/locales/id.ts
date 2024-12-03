@@ -336,6 +336,9 @@ const id: Locale = {
     content_modal_untitled_document_thumbnail: "Thumbnail dokumen tanpa judul.",
     content_modal_no_description: "Tidak ada deskripsi yang tersedia.",
 
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",

@@ -312,6 +312,9 @@ export enum LocalizationKey {
     content_modal_untitled_document_thumbnail = "content_modal_untitled_document_thumbnail",
     content_modal_no_description = "content_modal_no_description",
 
+    screen_recorder_theme_switch_dark = "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light = "screen_recorder_theme_switch_light",
+
     en = "en",
     fi = "fi",
     es = "es",

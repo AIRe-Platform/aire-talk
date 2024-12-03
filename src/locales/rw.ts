@@ -308,6 +308,9 @@ const rw: Locale = {
     screen_recorder_revert_here: "Subiza ikiganiro kugeza kuri iki gipimo.",
     screen_recorder_open_content: "Fungura ibikubiyemo.",
     screen_recorder_content_item: "Ikintu cy'ibikubiyemo.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
     screen_recorder_content_published: "Ibirimo byasohotse.",
     screen_recorder_content_type: "Ubwoko bw'ibirimo:",
     screen_recorder_content_rated: "Igenzura:",
@@ -329,7 +332,7 @@ const rw: Locale = {
     content_modal_untitled_url_thumbnail: "Thumbnail ya URL itagira izina.",
     content_modal_untitled_document_thumbnail: "Thumbnail y'inyandiko itagira izina.",
     content_modal_no_description: "Nta bisobanuro bihari.",
-    
+
     en: "Icyongereza",
     fi: "Igifinilande",
     es: "Icyespanyoro",

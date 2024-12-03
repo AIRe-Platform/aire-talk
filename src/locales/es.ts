@@ -339,6 +339,9 @@ const es: Locale = {
     content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
     content_modal_no_description: "No hay descripción disponible.",
 
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
     en: "Inglés",
     fi: "Finés",
     es: "Español",

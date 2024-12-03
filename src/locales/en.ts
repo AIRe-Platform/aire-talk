@@ -319,6 +319,9 @@ const en: Locale = {
     content_modal_untitled_url_thumbnail: "Untitled URL thumbnail.",
     content_modal_untitled_document_thumbnail: "Untitled document thumbnail.",
     content_modal_no_description: "No description available.",
+
+    screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
+    screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
  
     en: "English",
     fi: "Finnish",
