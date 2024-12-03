@@ -261,6 +261,7 @@ const sw: Locale = {
     tooltip_chat_tts_stop_reading: "Acha kusoma",
     tooltip_chat_tts_read_new_messages_off: "Acha kusoma jumbe mpya",
     tooltip_chat_tts_read_new_messages_on: "Soma jumbe mpya",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",

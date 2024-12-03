@@ -274,6 +274,7 @@ const rw: Locale = {
     tooltip_chat_tts_stop_reading: "Reka gusoma",
     tooltip_chat_tts_read_new_messages_off: "Reka gusoma ubutumwa bushya",
     tooltip_chat_tts_read_new_messages_on: "Soma ubutumwa bushya",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",

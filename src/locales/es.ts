@@ -283,6 +283,7 @@ const es: Locale = {
     tooltip_chat_tts_stop_reading: "Dejar de leer",
     tooltip_chat_tts_read_new_messages_off: "Dejar de leer mensajes nuevos",
     tooltip_chat_tts_read_new_messages_on: "Leer mensajes nuevos",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",

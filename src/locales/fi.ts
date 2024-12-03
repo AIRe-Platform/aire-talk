@@ -279,6 +279,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_chat_tts_stop_reading: "Lopeta lukeminen",
     tooltip_chat_tts_read_new_messages_off: "Lopeta uusien viestien automaattinen lukeminen",
     tooltip_chat_tts_read_new_messages_on: "Lue uudet viestit",
+    tooltip_tokens: "Tokenit päällä/pois päältä",
 
     tutorial_home_welcome_message: "Tervetuloa AIReen! Haluaisitko opastusta sovelluksen käytöstä?",
     tutorial_chat_welcome_message: "Tällä sivulla voit keskustella AIRe-botin kanssa. Haluaisitko nopean opastuksen keskustelusta botin kanssa?",

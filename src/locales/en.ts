@@ -264,6 +264,7 @@ const en: Locale = {
     tooltip_chat_tts_stop_reading: "Stop reading",
     tooltip_chat_tts_read_new_messages_off: "Stop reading new messages",
     tooltip_chat_tts_read_new_messages_on: "Read new messages",
+    tooltip_tokens: "Tokens on/off",
 
     tutorial_home_welcome_message: "Welcome to AIRe! Would you like to take a quick tour on how to use the app?",
     tutorial_chat_welcome_message: "On this page, you can chat with AIRe bot. Would you like a quick tour about chatting with the bot?",

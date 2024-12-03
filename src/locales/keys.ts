@@ -256,6 +256,7 @@ export enum LocalizationKey {
     tooltip_chat_tts_stop_reading = "tooltip_chat_tts_stop_reading",
     tooltip_chat_tts_read_new_messages_off = "tooltip_chat_tts_read_new_messages_off",
     tooltip_chat_tts_read_new_messages_on = "tooltip_chat_tts_read_new_messages_on",
+    tooltip_tokens = "tooltip_tokens",
 
     tutorial_home_welcome_message = "tutorial_home_welcome_message",
     tutorial_chat_welcome_message = "tutorial_chat_welcome_message",

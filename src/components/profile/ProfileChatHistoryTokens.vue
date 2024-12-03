@@ -9,6 +9,7 @@ import { ref } from 'vue';
 import Switch from '../common/Switch.vue';
 import { UISettings } from '@/context/ui';
 import { l } from '@/locales';
+import Tooltip from '../common/Tooltip.vue';
 
 const showTokens = ref<boolean>(UISettings.tokensEnabled);
 
@@ -21,11 +22,13 @@ function toggleShowTokens() {
     <div>
         <h2>{{ $t(l.profile_chat_history_tokens_heading) }}</h2>
         <div class="token-switch-wrapper">
-            <Switch input-id="chat-history-token-toggle"
-                :is-on="showTokens"
-                @change="toggleShowTokens"
-                :colorized="true"
-                class="token-switch" />
+            <Tooltip :text="$t(l.tooltip_tokens)" position="top" :useMaxContent="false" :adjustPosition="false">
+                <Switch input-id="chat-history-token-toggle"
+                    :is-on="showTokens"
+                    @change="toggleShowTokens"
+                    :colorized="true"
+                    class="token-switch" />
+            </Tooltip>
             <label for="chat-history-token-toggle">{{ $t(l.profile_chat_history_tokens_label) }}</label>
         </div>
     </div>
@@ -35,8 +38,8 @@ function toggleShowTokens() {
     display: flex;
     align-items: center;
 
-    &>.token-switch {
-        flex-basis: 2rem;
+    & .token-switch {
+        width: 2rem;
         flex-grow: 0;
     }
 }
