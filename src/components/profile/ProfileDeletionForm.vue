@@ -59,7 +59,7 @@ const onDeleteAccount = (e: Event) => {
         <div class="form-content">
             <span class="form-item">
                 <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
-                <input class="profile-input" id="confirm_password" type="password" required="true" autocomplete="off"
+                <input class="profile-input" id="confirm_password" type="password" minlength="8" required="true" autocomplete="off"
                     v-model="state.confirmPassword" :readonly="state.busy" />
             </span>
             <span class="form-toggle" @click.stop="">
