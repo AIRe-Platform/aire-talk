@@ -97,37 +97,39 @@ onMounted(async () => {
                             <template v-if="props.content.type == AireContentType.Image">
                                 <img v-bind:src="props.content.url" :alt="props.content.name || 'Image content'"
                                     tabindex="0"
-                                    :aria-label="`Image content: ${props.content.name || 'Unnamed image'}`" />
+                                    :aria-label="`${$t(l.screen_recorder_image_content)} ${props.content.name || $t(l.screen_recorder_image_content_unnamed)}`" />
                             </template>
                             <template v-if="props.content.type == AireContentType.Video">
-                                <video controls autoplay aria-labelledby="modal-title" tabindex="0">
+                                <video controls autoplay aria-labelledby="modal-title" tabindex="0"
+                                    :aria-label="`${$t(l.screen_recorder_video_content)} ${props.content.name || $t(l.screen_recorder_video_content_unnamed)}`">
                                     <source v-bind:src="props.content.url" type="video/mp4" />
-                                    <p>Your browser does not support the video tag. <a
-                                            :href="props.content.url">Download the video</a>.</p>
+                                    <p>{{ $t(l.content_modal_browser_does_not_support_video_tag) }} <a
+                                            :href="props.content.url">Download the
+                                            video</a>.</p>
                                 </video>
                             </template>
                             <a href="#" v-if="props.content.type == AireContentType.URL"
                                 v-on:click="openUrl(props.content.url)"
-                                :aria-label="`Open URL: ${props.content.name || 'Untitled URL'}, opens in a new tab.`"
+                                :aria-label="`${$t(l.screen_recorder_open_url)} ${props.content.name || $t(l.screen_recorder_untitled_url)}, ${$t(l.screen_recorder_new_tab)}`"
                                 role="button" aria-describedby="modal-description" tabindex="0">
                                 <div class="icon content-url content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url" :aria-hidden="true">
                                 </div>
                                 <div v-else class="div-thumbnail">
                                     <img class="thumbnail" :src="props.content.thumbnail_url"
-                                        :alt="props.content.thumbnail_file_name || 'Untitled URL thumbnail'" />
+                                        :alt="props.content.thumbnail_file_name || $t(l.content_modal_untitled_url_thumbnail)" />
                                 </div>
                             </a>
                             <a href="#" v-if="props.content.type == AireContentType.Document"
                                 @click.prevent="openUrl(props.content.url)"
-                                :aria-label="`Open Document: ${props.content.name || 'Untitled Document'}, opens in a new tab`"
+                                :aria-label="`${$t(l.screen_recorder_open_document)} ${props.content.name || $t(l.screen_recorder_untitled_document)}, ${$t(l.screen_recorder_new_tab)}`"
                                 role="button" aria-describedby="modal-description" tabindex="0">
                                 <div class="icon content-document content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url" :aria-hidden="true">
                                 </div>
                                 <div v-else class="div-thumbnail">
                                     <img class="thumbnail" :src="props.content.thumbnail_url"
-                                        :alt="props.content.thumbnail_file_name || 'Untitled document thumbnail'" />
+                                        :alt="props.content.thumbnail_file_name || $t(l.content_modal_untitled_document_thumbnail)" />
                                 </div>
                             </a>
                         </div>
@@ -138,7 +140,7 @@ onMounted(async () => {
                     <div class="modal-content">
                         <h2 class="modal-title" id="modal-description" tabindex="0">{{ $t(l.content_modal_description)
                             }}</h2>
-                        <p tabindex="0">{{ props.content.description || 'No description available' }}</p>
+                        <p tabindex="0">{{ props.content.description || $t(l.content_modal_no_description) }}</p>
                     </div>
                     <div class="modal-content">
                         <h2 class="modal-title" id="modal-themes" tabindex="0">{{ $t(l.content_modal_themes) }}</h2>
@@ -147,7 +149,7 @@ onMounted(async () => {
                 </div>
                 <div class="message-options">
                     <button class="btn button" v-if="props.chatId" @click="returnToConversation(props.chatId)"
-                        aria-label="{{ $t(l.content_modal_continue_to_chat) }}">
+                        :aria-label=$t(l.content_modal_continue_to_chat)>
                         <span class="button-text">{{ $t(l.content_modal_continue_to_chat) }}</span>
                         <font-awesome-icon icon="fa-solid fa-comment" />
                     </button>

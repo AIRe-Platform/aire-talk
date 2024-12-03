@@ -46,27 +46,27 @@ const getIconClass = (type: AireContentType | undefined): string => {
         :aria-label="`${$t(l.screen_recorder_open_content)} ${props.content.name || $t(l.screen_recorder_content_item)}`">
 
         <div class="catalogue-item-header">
-            <div v-if="props.content.modified" role="button" tabindex="0"
-                :aria-label="`Open content: ${props.content.name || 'Content item'}`">
+            <div v-if="props.content.modified" role="text" tabindex="0"
+                :aria-label=$t(l.screen_recorder_content_published)>
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
             </div>
             <div :class="getIconClass(props.content.type)" class="icon" tabindex="0" role="button"
-                :aria-label="`Content type: ${props.content.type}`"
+                :aria-label="`${$t(l.screen_recorder_content_type)} ${props.content.type}`"
                 @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
         </div>
-        <div class="catalogue-item-media" :aria-labelledby="'media-label'">
-            <video muted class="video" v-if="props.content.type == AireContentType.Video" aria-labelledby="media-label">
+        <div class="catalogue-item-media" tabindex="0" :aria-label=$t(l.screen_recorder_content_media)>
+            <video muted class="video" v-if="props.content.type == AireContentType.Video">
                 <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
                     type="video/mp4">
             </video>
             <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
-            <div v-if="props.content.type == AireContentType.URL" aria-labelledby="media-label">
+            <div v-if="props.content.type == AireContentType.URL">
                 <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
                     <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the url" />
                 </div>
             </div>
-            <div v-if="props.content.type == AireContentType.Document" aria-labelledby="media-label">
+            <div v-if="props.content.type == AireContentType.Document">
                 <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"
                     aria-label="Document preview">
                 </div>
@@ -75,10 +75,11 @@ const getIconClass = (type: AireContentType | undefined): string => {
                 </div>
             </div>
         </div>
-        <div class="star-rating" :aria-label="`Rating: ${Math.floor(normalizedRating)} stars`">
-            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star" aria-hidden="true">⭐</span>
+        <div class="star-rating"
+            :aria-label="`${$t(l.screen_recorder_content_rated)}: ${Math.floor(normalizedRating)} ${$t(l.screen_recorder_content_stars)}`">
+            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star" tabindex="0">⭐</span>
         </div>
-        <div class="catalogue-item-description">
+        <div class="catalogue-item-description" tabindex="0" :aria-label=$t(l.screen_recorder_content_name)>
             <p id="media-label">{{ props.content.name }}</p>
         </div>
     </Panel>
