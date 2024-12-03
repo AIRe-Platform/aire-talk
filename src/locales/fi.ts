@@ -333,11 +333,13 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_new_tab: "Aukeaa uudessa välilehdessä.",
     screen_recorder_main_navigation_menu: "Vaihda päävalikko.",
 
+    content_modal_untitled: "Nimeämätön sisältö",
+    content_modal_download: "Lataa video",
     content_modal_browser_does_not_support_video_tag: "Selaimesi ei tue video-tunnistetta.",
     content_modal_untitled_url_thumbnail: "Nimetön URL-miniatyyri.",
     content_modal_untitled_document_thumbnail: "Nimetön asiakirjan miniatyyri.",
     content_modal_no_description: "Ei kuvausta saatavilla.",
-    
+
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",

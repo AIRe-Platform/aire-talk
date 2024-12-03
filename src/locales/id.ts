@@ -331,6 +331,8 @@ const id: Locale = {
     screen_recorder_new_tab: "Membuka di tab baru.",
     screen_recorder_main_navigation_menu: "Alihkan menu navigasi utama.",
 
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
     content_modal_browser_does_not_support_video_tag: "Peramban Anda tidak mendukung tag video.",
     content_modal_untitled_url_thumbnail: "Thumbnail URL tanpa judul.",
     content_modal_untitled_document_thumbnail: "Thumbnail dokumen tanpa judul.",

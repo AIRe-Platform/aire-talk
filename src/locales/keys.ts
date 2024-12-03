@@ -201,7 +201,7 @@ export enum LocalizationKey {
     content_catalogue_query_placeholder = "content_catalogue_query_placeholder",
     content_catalogue_sort_by = "content_catalogue_sort_by",
     content_catalogue_apply_filter = "content_catalogue_apply_filter",
-    
+
     content_modal_continue_to_chat = "content_modal_continue_to_chat",
     content_modal_description = "content_modal_description",
     content_modal_themes = "content_modal_themes",
@@ -306,7 +306,9 @@ export enum LocalizationKey {
     screen_recorder_untitled_document = "screen_recorder_untitled_document",
     screen_recorder_new_tab = "screen_recorder_new_tab",
     screen_recorder_main_navigation_menu = "screen_recorder_main_navigation_menu",
-    
+
+    content_modal_untitled = "content_modal_untitled",
+    content_modal_download = "content_modal_download",
     content_modal_browser_does_not_support_video_tag = "content_modal_browser_does_not_support_video_tag",
     content_modal_untitled_url_thumbnail = "content_modal_untitled_url_thumbnail",
     content_modal_untitled_document_thumbnail = "content_modal_untitled_document_thumbnail",

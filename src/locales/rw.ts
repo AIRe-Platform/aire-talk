@@ -66,7 +66,7 @@ const rw: Locale = {
     nav_main_menu: "Urupapuro rwambere",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
     nav_about: "Hafi",
-    
+
     profile_title: "Konti y'umukoresha",
     profile_label_first_name: "Izina rya mbere",
     profile_label_last_name: "Izina ry'umuryango",
@@ -328,6 +328,8 @@ const rw: Locale = {
     screen_recorder_new_tab: "Bifungura muri tab nshya.",
     screen_recorder_main_navigation_menu: "Hindura menyu nyamukuru yo kugendagenda.",
 
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
     content_modal_browser_does_not_support_video_tag: "Ubusanzwe bwawe ntabwo bubyara tag ya video.",
     content_modal_untitled_url_thumbnail: "Thumbnail ya URL itagira izina.",
     content_modal_untitled_document_thumbnail: "Thumbnail y'inyandiko itagira izina.",

@@ -312,6 +312,8 @@ const sw: Locale = {
     screen_recorder_new_tab: "Fungua kwenye tabu mpya.",
     screen_recorder_main_navigation_menu: "Badilisha menyu kuu ya urambazaji.",
 
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
     content_modal_browser_does_not_support_video_tag: "Vivinjari vyako havikubali lebo ya video.",
     content_modal_untitled_url_thumbnail: "Picha ndogo ya URL isiyo na jina.",
     content_modal_untitled_document_thumbnail: "Picha ndogo ya hati isiyo na jina.",

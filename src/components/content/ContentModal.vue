@@ -87,7 +87,7 @@ onMounted(async () => {
             <div v-if="!props.parent" class="message-header-gap"></div>
             <div class="message-container" v-if="props.content">
                 <div class="header">
-                    <h2 id="modal-title" tabindex="0">{{ props.content.name || 'Untitled Content' }}</h2>
+                    <h2 id="modal-title" tabindex="0">{{ props.content.name || $t(l.content_modal_untitled) }}</h2>
                 </div>
                 <div class="message-body">
                     <p v-if="props.parent && props.parent.content" id="modal-parent-content">{{ props.parent.content }}
@@ -95,7 +95,7 @@ onMounted(async () => {
                     <div class="message-media" v-if="props.content">
                         <div class="message-media-file">
                             <template v-if="props.content.type == AireContentType.Image">
-                                <img v-bind:src="props.content.url" :alt="props.content.name || 'Image content'"
+                                <img v-bind:src="props.content.url" :alt="props.content.name ||$t(l.screen_recorder_image_content_unnamed)"
                                     tabindex="0"
                                     :aria-label="`${$t(l.screen_recorder_image_content)} ${props.content.name || $t(l.screen_recorder_image_content_unnamed)}`" />
                             </template>
@@ -104,8 +104,7 @@ onMounted(async () => {
                                     :aria-label="`${$t(l.screen_recorder_video_content)} ${props.content.name || $t(l.screen_recorder_video_content_unnamed)}`">
                                     <source v-bind:src="props.content.url" type="video/mp4" />
                                     <p>{{ $t(l.content_modal_browser_does_not_support_video_tag) }} <a
-                                            :href="props.content.url">Download the
-                                            video</a>.</p>
+                                            :href="props.content.url">{{  $t(l.content_modal_download) }}</a>.</p>
                                 </video>
                             </template>
                             <a href="#" v-if="props.content.type == AireContentType.URL"

@@ -328,6 +328,8 @@ const vi: Locale = {
     screen_recorder_new_tab: "Mở trong tab mới.",
     screen_recorder_main_navigation_menu: "Chuyển đổi menu điều hướng chính.",
 
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
     content_modal_browser_does_not_support_video_tag: "Trình duyệt của bạn không hỗ trợ thẻ video.",
     content_modal_untitled_url_thumbnail: "Ảnh thu nhỏ của URL chưa có tên.",
     content_modal_untitled_document_thumbnail: "Ảnh thu nhỏ của tài liệu chưa có tên.",

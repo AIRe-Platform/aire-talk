@@ -315,6 +315,8 @@ const en: Locale = {
     screen_recorder_new_tab: "Opens in a new tab.",
     screen_recorder_main_navigation_menu: "Toggle main navigation menu.",
     
+    content_modal_untitled: "Untitled content",
+    content_modal_download: "Download the video",
     content_modal_browser_does_not_support_video_tag: "Your browser does not support the video tag.",
     content_modal_untitled_url_thumbnail: "Untitled URL thumbnail.",
     content_modal_untitled_document_thumbnail: "Untitled document thumbnail.",

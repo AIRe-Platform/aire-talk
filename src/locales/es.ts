@@ -334,6 +334,8 @@ const es: Locale = {
     screen_recorder_new_tab: "Se abre en una nueva pestaña.",
     screen_recorder_main_navigation_menu: "Alternar el menú de navegación principal.",
 
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
     content_modal_browser_does_not_support_video_tag: "Tu navegador no soporta la etiqueta de video.",
     content_modal_untitled_url_thumbnail: "Miniatura de URL sin título.",
     content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
