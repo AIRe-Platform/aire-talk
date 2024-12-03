@@ -59,7 +59,7 @@ const onChangePassword = (e: Event) => {
                 <label class="form-label" for="new_password">{{ $t(l.profile_label_new_password) }}</label>
                 <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password"
                     v-model="state.newPassword" :readonly="state.busy"
-                    :aria-describedby="['current-password-description', state.error ? 'current-password-error' : undefined].filter(Boolean).join(' ')" />
+                    aria-describedby="current-password-description" />
             </span>
         </div>
         <div class="description" id="current-password-description" tabindex="0">{{ $t(l.profile_description_password) }}
