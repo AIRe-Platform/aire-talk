@@ -153,7 +153,7 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
                 <div class="input-column">
                     <textarea id="bio" v-model="profile.bio" :readonly="state.busy" :maxlength=MAX_LENGTH_BIO
                         :aria-describedby="'bio-max-length-info'"></textarea>
-                    <span id="bio-max-length-info" :class="{ 'char-limit-reached': bioMaxLengthReached() }">{{
+                    <span id="bio-max-length-info" :class="{ 'char-limit-reached': bioMaxLengthReached() }" tabindex="0">{{
                             remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
