@@ -212,7 +212,8 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                 <div class="chat-history-busy" v-if="state.busy">
                     <Spinner :id="SpinnerId.ChatHistory" />
                 </div>
-                <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef" tabindex="-1">
+                <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef"
+                    tabindex="-1">
                     {{ $t(l.chat_history_delete_success) }}
                 </div>
                 <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"

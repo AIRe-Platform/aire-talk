@@ -7,6 +7,7 @@
 import Panel from '@/components/common/Panel.vue';
 import { defineProps, defineEmits, computed } from "vue";
 import { AireContentType, AireContent } from 'aire';
+import { l } from '@/locales';
 
 const props = defineProps<{
     content: AireContent,
@@ -42,7 +43,7 @@ const getIconClass = (type: AireContentType | undefined): string => {
 <template>
     <Panel class="catalogue-item" @click="emits('show', props.content)"
         :class="{ 'is-from-summarycontent': props.isFromSummary }" role="button" tabindex="0"
-        :aria-label="`Open content: ${props.content.name || 'Content item'}`">
+        :aria-label="`${$t(l.screen_recorder_open_content)} ${props.content.name || $t(l.screen_recorder_content_item)}`">
 
         <div class="catalogue-item-header">
             <div v-if="props.content.modified" role="button" tabindex="0"

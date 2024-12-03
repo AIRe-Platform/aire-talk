@@ -104,13 +104,13 @@ const toggleTTS = () => {
         </div>
         <div class="chat-input-left">
             <label for="message-input" class="chat-bot-text" role="text" aria-live="polite"
-                aria-label="Write here what would you like to ask or tell?" tabindex="0">
+                :aria-label="$t(l.chat_input_title)" tabindex="0">
                 {{ $t(l.chat_input_title) }}
             </label>
             <form class="chat-input-bar" @submit.prevent="submit">
                 <input id="message-input" class="chat-input-field" type="text" autofocus autocomplete="off"
                     :data-tutorial-state="ChatTutorialState.Input" :readonly="bot.status === 'writing'"
-                    v-model="state.input" aria-label="Message input for the bot" />
+                    v-model="state.input" :aria-label="$t(l.screen_recorder_chat_input_description)" />
             </form>
         </div>
         <div class="chat-text-right">
@@ -159,8 +159,8 @@ const toggleTTS = () => {
                 <button v-if="props.optionsVisible" class="chat-options-button"
                     :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
                     :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
-                        ? 'Close chat side panel'
-                        : 'Open chat side panel'">
+                        ? $t(l.screen_recorder_close_chat_side_panel)
+                        : $t(l.screen_recorder_open_chat_side_panel)">
                     <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="bottom" :useMaxContent="false"
                         :adjustPosition="true">
                         <div class="icon summary-switch-default"></div>
