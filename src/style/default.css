@@ -100,6 +100,9 @@
     --suggestions-background: #F1F4F9;
     --chat-user-label: #0D5C63;
     --fa-xmark-theme: #242424;
+    --tooltip-background-color:#ffffff;
+    --tooltip-text-color: #303030;
+    --tooltip-border-color: #A2B2CC;
 }
 
 :root.theme-dark {
@@ -158,6 +161,9 @@
     --suggestions-background: #176087;
     --chat-user-label: #D9F0FF;
     --fa-xmark-theme: #ffffff;
+    --tooltip-background-color:#242134;
+    --tooltip-text-color: #ffffff;
+    --tooltip-border-color: #A2B2CC;
 }
 
 html {
