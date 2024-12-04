@@ -15,12 +15,12 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-error" v-if="props.message.content">
-        <div class="chat-error-title">
-            {{  $t(l.aire_system) }}
-        </div>
+    <div :id="props.message.id" class="chat-error" v-if="props.message.content" role="alert" aria-live="assertive">
+        <h2 class="chat-error-title">
+            {{ $t(l.aire_system) }}
+        </h2>
         <div class="chat-error-content">
-            {{  props.message.localize ?  $t(props.message.content) : props.message.content }}
+            {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </div>
     </div>
 </template>
@@ -31,9 +31,9 @@ const props = defineProps<{
     line-height: 1.4rem;
     padding: 0.5rem 1rem;
     margin: 1rem 1.5rem;
-    border: 2px solid var(--error-color);
+    border: 3px solid var(--error-color);
     background-color: var(--ia-chat-box-background);
-    color: var(--error-color);
+    color: var(--error-text-color);
     border-radius: 1rem;
     align-self: center;
     max-width: 80%;
@@ -43,6 +43,7 @@ const props = defineProps<{
     font-size: var(--font-medium);
     font-weight: bold;
     align-self: center;
+    margin-block-end: 0;
 }
 
 .chat-error-content {

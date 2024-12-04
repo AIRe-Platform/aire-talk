@@ -16,31 +16,50 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
+import { onMounted, reactive } from "vue";
+import useTheme, { ThemeContext } from "@/context/theme";
+import ProfileChatHistoryTokens from "@/components/profile/ProfileChatHistoryTokens.vue";
 
+const state = reactive<{
+    theme: ThemeContext,
+}>({
+    theme: new ThemeContext()
+});
 const navigateTo = (path: string) => {
     router.push(path);
 }
 
 const show_experiments = (AireServices.ID?.getScopes() || [])
     .findIndex(x => x.startsWith("experimental-")) > -1;
+
+onMounted(async () => {
+    state.theme = useTheme();
+
+})
 </script>
 
 <template>
     <div class="profile-view">
         <div class="profile-content">
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                class="icon close-window xmark-icon">
-                <div class="tooltip-inside" @click="navigateTo('/chat')" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="navigateTo('/chat')">
-                </div>
+                class="xmark-icon">
+                <button class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
+                    tabindex="0" role="button" @keydown.prevent.space.enter="navigateTo('/chat')">
+                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                </button>
             </Tooltip>
         </div>
         <div class="profile-header">
             <div class="profile-logo">
-                <img src="@/assets/images/aire-logo-letter.svg" alt="Logo" />
+                <div class="image-logo" v-if="state.theme.style == 'theme-default'">
+                    <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                </div>
+                <div class="image-logo" v-else>
+                    <img src="@/assets/images/aire-logo-letter-dark-mode.svg" alt="AIRe homepage logo in dark mode" />
+                </div>
             </div>
             <div class="profile-header-text">
-                <h3>{{ $t(l.profile_title) }}</h3>
+                <h1>{{ $t(l.profile_title) }}</h1>
             </div>
         </div>
         <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
@@ -76,10 +95,22 @@ const show_experiments = (AireServices.ID?.getScopes() || [])
                 <ProfileDeletionForm />
             </div>
         </template>
+        <Separator />
+        <div class="profile-section">
+            <ProfileChatHistoryTokens />
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.profile-logo {
+    width: 12rem;
+}
+
+.image-logo {
+    width: inherit;
+}
+
 .profile-view {
     display: flex;
     /*     overflow: hidden;

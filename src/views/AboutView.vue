@@ -50,17 +50,17 @@ const resetModals = () => {
 
 <template>
     <div class="about-title">
-        This is about page
-        <button v-on:click="toggleTermsModal"> Terms of use </button>
-        <button v-on:click="togglePrivacyModal"> Privacy policies</button>
-        <button v-on:click="toggleAuthorsModal"> Authors </button>
+        <h1>This is about page</h1>
+        <button class="btn" v-on:click="toggleTermsModal"> Terms of use </button>
+        <button class="btn" v-on:click="togglePrivacyModal"> Privacy policies</button>
+        <button class="btn" v-on:click="toggleAuthorsModal"> Authors </button>
     </div>
 
     <div class="about-container">
         <div class="about-subcontainer" v-if="state.termsOpen">
 
             <div>
-                <h1>Terms of use</h1>
+                <h2>Terms of use</h2>
             </div>
 
             <div>
@@ -76,7 +76,7 @@ const resetModals = () => {
         </div>
         <div class="about-subcontainer" v-if="state.privacyOpen">
             <div>
-                <h1>Privacy policies</h1>
+                <h2>Privacy policies</h2>
             </div>
             <div>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -93,7 +93,7 @@ const resetModals = () => {
             </div>
         </div>
         <div class="about-subcontainer" v-if="state.authorsOpen">
-            <h1> Information about the authors</h1>
+            <h2> Information about the authors</h2>
             <div>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore

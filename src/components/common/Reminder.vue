@@ -111,13 +111,13 @@ onUnmounted(() => UIState.reminderModalRef = null);
                     <div class="reminder-buttons">
                         <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom" :useMaxContent="false"
                             :adjustPosition="true" v-if="canContinue(reminder.chat_id)">
-                            <button @click.stop="returnToConversation(reminder.chat_id!)">
+                            <button class="btn" @click.stop="returnToConversation(reminder.chat_id!)">
                                 {{ $t(l.button_return_to_conversation) }}
                             </button>
                         </Tooltip>
                         <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom" :useMaxContent="false"
                             :adjustPosition="true">
-                            <button @click.stop="markEventAsRead(i)">
+                            <button class="btn" @click.stop="markEventAsRead(i)">
                                 {{ $t(l.button_mark_as_read) }}
                             </button>
                         </Tooltip>

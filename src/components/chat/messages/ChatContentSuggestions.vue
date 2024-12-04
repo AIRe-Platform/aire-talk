@@ -63,9 +63,9 @@ onMounted(async () => {
 
 <template>
     <div class="chat-content-suggestions">
-        <span class="chat-content-suggestions-title">
+        <h2 class="chat-content-suggestions-title">
             {{ $t(l.suggestions_title) }}
-        </span>
+        </h2>
         <span class="chat-content-suggestions-text">
             {{ message.content }}
         </span>
@@ -96,6 +96,7 @@ onMounted(async () => {
     font-weight: bold;
     align-self: center;
     color: var(--title-text);
+    margin-block-end: 0;
 }
 
 .chat-content-suggestions-text {

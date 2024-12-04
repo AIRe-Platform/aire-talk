@@ -19,7 +19,6 @@ const settingsPanelRef = ref<HTMLElement | null>(null);
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
     UISettings.fontSize = el.value as UIFontSize;
-    el.blur();
 }
 
 const onClickOutside = async (e: Event) => {
@@ -57,9 +56,9 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
         <div ref="settingsPanelRef" class="settings-panel-ref">
-            <div class="settings-header">
+            <h2 class="settings-header">
                 {{ $t(l.settings_title) }}
-            </div>
+            </h2>
             <Separator />
             <LanguageSelector />
             <Separator />
@@ -73,10 +72,9 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
                         <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
                     </select>
                 </Tooltip>
-
             </div>
             <Separator />
-            <button class="button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
+            <button class="btn button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
         </div>
     </Panel>
 </template>
@@ -88,7 +86,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
     justify-content: center;
     align-items: stretch;
     align-self: flex-end;
-    margin: 1rem 0;
+    margin: 1rem 10px;
     z-index: 8;
     padding: 1rem 2rem;
     width: 12rem;
@@ -110,6 +108,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-block-end: 0;
 }
 
 .capitalize {
@@ -135,9 +134,11 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
     .settings-panel {
-        width: 65%;
+        width: 58%;
         margin-left: 5rem;
         margin-bottom: 0rem;
+        font-size: var(--font-small);
+
     }
 
     .settings-panel-ref {
@@ -146,6 +147,17 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
 
     #settings-text-size {
         width: -webkit-fill-available;
+    }
+}
+
+@media screen and (max-height: 400px) and (orientation: landscape) {
+    .settings-panel {
+        margin-left: -15rem;
+        padding: 0.5rem 2rem;
+    }
+
+    .button-close {
+        margin-top: 0.5rem;
     }
 }
 </style>

@@ -23,8 +23,8 @@ const chat = useChat();
             {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
         <span class="chat-end-conversation-options-buttons">
-            <button @click="continueConversation">{{ $t(l.conversation_option_continue) }}</button>
-            <button @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
+            <button class="btn" @click="continueConversation">{{ $t(l.conversation_option_continue) }}</button>
+            <button class="btn" @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
         </span>
     </div>
 </template>

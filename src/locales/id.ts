@@ -25,6 +25,7 @@ const id: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" dikenali",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Selamat datang di platform AIRe",
     start_first_paragraph:
         "Mitra untuk kinerja dan kesejahteraan yang lebih baik",
@@ -34,6 +35,7 @@ const id: Locale = {
         "AIRe adalah solusi yang dibantu AI yang membantu Anda mengidentifikasi kebutuhan rehabilitasi Anda dan memandu Anda ke layanan rehabilitasi dan konten yang dipersonalisasi.",
     start_disclaimer: "AIRe bukan alat diagnosis medis.",
 
+    home_title: "home_title",
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
 
@@ -61,7 +63,7 @@ const id: Locale = {
     nav_logout: "Keluar",
     nav_signup: "Daftar",
     nav_preferences: "Pengaturan",
-    nav_main_menu: "Menu utama",
+    nav_main_menu: "Halaman depan",
     nav_catalogue: "Katalog Konten",
     nav_about: "Tentang",
 
@@ -73,9 +75,10 @@ const id: Locale = {
     profile_label_language: "Bahasa Utama",
     profile_label_country: "Negara",
     profile_label_bio: "Bio",
-    profile_button_save: "Perbarui",
+    profile_button_save: "Perbarui profil",
     profile_characters_max: '{0} karakter paling banyak.',
     profile_remaining: "karakter yang tersisa.",
+    profile_placeholder_year_of_birth: "Masukkan tahun lahir dalam format YYYY, misalnya 1990.",
 
     profile_heading_connected_services: "Layanan Terhubung",
     profile_empty_service_list: "Tidak ada layanan terhubung",
@@ -90,7 +93,7 @@ const id: Locale = {
     profile_heading_personal_data: "Data Pribadi",
     profile_description_personal_data:
         "Semua informasi Anda dienkripsi sedemikian rupa sehingga hanya Anda yang dapat mengaksesnya. Layanan AIRe hanya dapat menggunakan data Anda saat Anda menggunakan layanan tersebut. Di sini, Anda dapat mengunduh semua data Anda yang tersimpan di AIRe. Harap perhatikan bahwa pengumpulan data mungkin memerlukan waktu.",
-    profile_button_download_personal_data: "Unduh",
+    profile_button_download_personal_data: "Unduh data pribadi",
 
     profile_heading_delete_account: "Hapus Akun",
     profile_description_delete_account:
@@ -117,10 +120,14 @@ const id: Locale = {
     profile_question_country: "Negara mana tempat tinggal Anda?",
 
     profile_experiments_title: "Eksperimen",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Timpa prompt sistem obrolan bot",
     profile_experiments_add: "Tambahkan",
     profile_experiments_description: "ke prompt Anda jika Anda ingin menyuntikkan ringkasan profil pengguna Anda.",
     profile_experiments_apply: "Terapkan perubahan",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Pengaturan",
     settings_language: "Bahasa antarmuka pengguna",
@@ -173,7 +180,9 @@ const id: Locale = {
     tools_button_suggestions: "Saran",
 
     chat_history_loading: "Memuat...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} token",
+    chat_title: "chat_title",
     chat_input_title: "Apa yang ingin Anda tanyakan atau katakan?",
 
     popup_confirm_revert_message:
@@ -271,6 +280,7 @@ const id: Locale = {
     tooltip_chat_tts_stop_reading: "Berhenti membaca",
     tooltip_chat_tts_read_new_messages_off: "Berhenti membaca pesan baru",
     tooltip_chat_tts_read_new_messages_on: "Baca pesan baru",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
@@ -285,7 +295,51 @@ const id: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Pilih bahasa default antarmuka:",
+    language_default_message: "Pilih bahasa default antarmuka:",
+
+    screen_recorder_bot_writing: "Bot sedang menulis jawaban.",
+    screen_recorder_bot_stop_writing: "Bot telah selesai menjawab.",
+    screen_recorder_loading: "Halaman sedang dimuat, harap tunggu.",
+    screen_recorder_stop_text_to_speech: "Berhenti teks ke suara.",
+    screen_recorder_play_text_to_speech: "Putar teks ke suara.",
+    screen_recorder_chat_input_description: "Tulis masukan pesan untuk bot.",
+    screen_recorder_open_chat_side_panel: "Buka panel samping obrolan.",
+    screen_recorder_close_chat_side_panel: "Tutup panel samping obrolan.",
+    screen_recorder_open_message_menu: "Buka menu pesan.",
+    screen_recorder_close_message_menu: "Tutup menu pesan.",
+    screen_recorder_thumbs_up: "Jempol ke atas.",
+    screen_recorder_thumbs_down: "Jempol ke bawah.",
+    screen_recorder_copy_text_clipboard: "Salin teks ke clipboard.",
+    screen_recorder_copied_text_clipboard: "Teks telah disalin ke clipboard.",
+    screen_recorder_revert_here: "Kembalikan percakapan ke titik ini.",
+    screen_recorder_open_content: "Buka konten.",
+    screen_recorder_content_item: "Item konten.",
+    screen_recorder_content_published: "Konten diterbitkan.",
+    screen_recorder_content_type: "Jenis konten:",
+    screen_recorder_content_rated: "Peringkat:",
+    screen_recorder_content_stars: "bintang.",
+    screen_recorder_content_media: "Media konten:",
+    screen_recorder_content_name: "Nama konten:",
+    screen_recorder_image_content: "Konten gambar:",
+    screen_recorder_image_content_unnamed: "Gambar tanpa nama.",
+    screen_recorder_video_content: "Konten video:",
+    screen_recorder_video_content_unnamed: "Video tanpa nama.",
+    screen_recorder_open_url: "Buka URL:",
+    screen_recorder_untitled_url: "URL tanpa judul.",
+    screen_recorder_open_document: "Buka dokumen:",
+    screen_recorder_untitled_document: "Dokumen tanpa judul.",
+    screen_recorder_new_tab: "Membuka di tab baru.",
+    screen_recorder_main_navigation_menu: "Alihkan menu navigasi utama.",
+
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Peramban Anda tidak mendukung tag video.",
+    content_modal_untitled_url_thumbnail: "Thumbnail URL tanpa judul.",
+    content_modal_untitled_document_thumbnail: "Thumbnail dokumen tanpa judul.",
+    content_modal_no_description: "Tidak ada deskripsi yang tersedia.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
 
     en: "Inggris",
     fi: "Finlandia",

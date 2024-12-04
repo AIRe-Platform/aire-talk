@@ -7,6 +7,8 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, defineComponent } from 'vue';
 import { adjustTooltipPosition, TooltipPosition } from '@/helpers/tooltipUtils';
+import { tooltipState } from '@/context/tooltipState';
+
 defineComponent({ name: "TooltipComponent" })
 
 const props = defineProps<{
@@ -21,7 +23,12 @@ const emit = defineEmits<{
     'mouseleave': [MouseEvent]
 }>();
 
+const resetVisibilityTooltips = () => {
+    tooltipState.isVisible = true;
+};
+
 const onMouseEnter = (event: MouseEvent) => {
+    resetVisibilityTooltips();
     if (props.adjustPosition) {
         adjustTooltipPosition(event, props.useMaxContent ?? false, props.position);
     }
@@ -36,7 +43,7 @@ const onMouseLeave = (event: MouseEvent) => {
 <template>
     <div class="tooltip-container" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
         <slot></slot>
-        <span class="tooltiptext" :class="props.position">{{ props.text }}</span>
+        <span v-if="tooltipState.isVisible" class="tooltiptext" :class="props.position">{{ props.text }}</span>
     </div>
 </template>
 

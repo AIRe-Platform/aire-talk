@@ -95,11 +95,6 @@ export const router = createRouter({
             },
         },
         {
-            path: "/landing",
-            component: LandingView,
-            name: "Landing",
-        },
-        {
             path: "/auth/callback",
             component: AuthorizationCallbackView,
             name: "AuthorizationCallback",

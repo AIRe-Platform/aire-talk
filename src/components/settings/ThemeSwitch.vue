@@ -15,21 +15,29 @@ const onSwitchTheme = (dark: boolean) => {
     theme.apply(dark ? "theme-dark" : 'theme-default');
 }
 </script>
-
 <template>
     <div class="theme-container">
-        <p class="theme-switch-label"> {{ $t(l.switch_color_mode) }}</p>
-        <Tooltip :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false" :adjustPosition="true">
+        <label for="theme-switch" class="theme-switch-label">{{ $t(l.switch_color_mode) }}</label>
+        <div id="theme-switch-info" hidden aria-hidden="true">
+            {{ theme.style === 'theme-dark'
+                ? $t(l.screen_recorder_theme_switch_dark)
+                : $t(l.screen_recorder_theme_switch_light) }}
+        </div>
+        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false"
+            :adjustPosition="true">
             <div class="theme-switch">
                 <font-awesome-icon icon="fa-solid fa-sun" />
-                <Switch :is-on="theme.style === 'theme-dark'"
-                    @keydown.prevent.space.enter="onSwitchTheme(theme.style !== 'theme-dark')"
-                    @change="onSwitchTheme" />
+                <Switch input-id="theme-switch"
+                    :is-on="theme.style === 'theme-dark'"
+                    describedby="theme-switch-info"
+                    @change="onSwitchTheme(theme.style !== 'theme-dark')" />
                 <font-awesome-icon icon="fa-solid fa-moon" />
             </div>
         </Tooltip>
     </div>
 </template>
+
+
 
 <style lang="scss" scoped>
 .switch {

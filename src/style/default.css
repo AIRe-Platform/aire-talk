@@ -56,6 +56,7 @@
     --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
     --button-text: #ffffff;
+    --error-text-color: #8D3548;
     --ia-chat-box-background: #ffffff;
     --user-chat-box-background: #f1f4f9;
     --dividers: #bcd0ce;
@@ -77,6 +78,9 @@
     --text-color: #2c3e50;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
+    --hover-text: #E3FFFA;
+    --hover-button: #19547B;
+    --nav-item-hover: #176087;
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: lightgray;
@@ -95,6 +99,7 @@
     --summary-keyword-item-font-color: #176087;
     --suggestions-background: #F1F4F9;
     --chat-user-label: #0D5C63;
+    --fa-xmark-theme: #242424;
 }
 
 :root.theme-dark {
@@ -108,6 +113,7 @@
     --panel-border-color: rgba(55, 50, 80, 1);
     --background-color: #ffffff;
     --button-text: #ffffff;
+    --error-text-color: #ffffff;
     --ia-chat-box-background: #0d5c63;
     --user-chat-box-background: #144044;
     --dividers: #00b49d;
@@ -129,6 +135,9 @@
     --text-color: #dedede;
     --accent-primary-color: rgb(0, 180, 157);
     --accent-secondary-color: rgb(255, 5, 110);
+    --hover-text: #E3FFFA;
+    --hover-button: #19547B;
+    --nav-item-hover: #E3FFFA;
     --disabled-color: rgba(128, 128, 128, 0.2);
     --shadow-color: gray;
     --border-color: darkgray;
@@ -148,6 +157,7 @@
     --summary-keyword-item-font-color: #2374AB;
     --suggestions-background: #176087;
     --chat-user-label: #D9F0FF;
+    --fa-xmark-theme: #ffffff;
 }
 
 html {
@@ -169,8 +179,20 @@ a {
     transition: color 0.5s;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
+}
+
+.screen-readers-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap;
 }
 
 h1,
@@ -222,7 +244,7 @@ input:read-only {
 }
 
 input[type="submit"],
-button {
+.btn {
     color: var(--button-text);
     background-color: var(--button-color);
     padding: 0.5rem 1rem;
@@ -234,10 +256,10 @@ button {
     border: none;
 
     &:hover {
-        background-color: var(--accent-primary-color);
+        background-color: var(--hover-button);
         border-color: transparent;
         color: var(--background-color);
-        box-shadow: 0 0 5px var(--accent-primary-color);
+        box-shadow: 0 0 5px var(--hover-button);
     }
 
     &:active {
@@ -271,32 +293,37 @@ button {
 }
 
 
-p { 
-    margin: 0.2rem 0; 
+p {
+    margin: 0.2rem 0;
 }
 
 
 /* Style the scrollbar */
 ::-webkit-scrollbar {
-    width: 3px; 
+    width: 3px;
 }
 
 /* Style the track (the background of the scrollbar) */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Light gray background */
+    /* Light gray background */
+    background: #f1f1f1;
 }
 
 /* Style the thumb (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-    background-color: #888; /* Darker gray */
-    border-radius: 10px; /* Rounded corners */
-   /*  border: 1px solid #f1f1f1;   Adds padding around the thumb */
+    /* Darker gray */
+    background-color: #888;
+    /* Rounded corners */
+    border-radius: 10px;
+    /*  border: 1px solid #f1f1f1;   Adds padding around the thumb */
 }
 
 /* Change the thumb color on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Even darker gray */
+    /* Even darker gray */
+    background: #555;
 }
+
 @keyframes fade-in-and-left {
     0% {
         opacity: 0;
@@ -333,8 +360,36 @@ p {
     animation: fade-out-and-right 0.4s;
 }
 
+.visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.notification-message {
+    position: absolute;
+    top: 0;
+    padding: 1rem 2rem;
+    margin-block-start: .5rem;
+    border: 1px solid;
+    border-radius: .5rem;
+    background-color: var(--highlight);
+}
+
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-    button, input {
+
+    .btn,
+    input {
         font-size: var(--font-medium);
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .notification-message {
+        top: 3.5rem;
     }
 }

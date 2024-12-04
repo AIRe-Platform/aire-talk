@@ -12,6 +12,7 @@ import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";
+import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -33,10 +34,11 @@ const onSignup = (e: Event) => {
     }
 
     busy.value = true;
+    showSpinner(SpinnerId.SignUpView);
     useLogin().signup(fields.email!, fields.password!)
         .then((status) => {
             if (status == AireStatus.Success) {
-                router.replace("/")
+                router.push({ path: "/", query: { signup_success: "1" } });
             }
             else if (status == AireStatus.BadRequest) {
                 error.value = l.error_signup_bad_request;
@@ -47,8 +49,10 @@ const onSignup = (e: Event) => {
         })
         .finally(() => {
             busy.value = false;
-        })
+            hideSpinner();
+        });
 }
+
 const goBack = () => {
     router.push("/");
 }
@@ -57,22 +61,22 @@ const goBack = () => {
 <template>
     <div class="signup-view">
         <form class="form-content" @submit.prevent="onSignup">
-            <h2>{{ $t(l.signup_form_title) }}</h2>
+            <h1>{{ $t(l.signup_form_title) }}</h1>
             <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
             <input type="email" id="signup-email" required="true" autocomplete="email" v-model="fields.email"
                 :readonly="busy" />
             <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
             <input type="password" id="signup-password" required="true" autocomplete="off" v-model="fields.password"
-                :readonly="busy" />
+                :readonly="busy" minlength="8" />
             <small id="password-instructions">{{ $t(l.signup_password_instructions) }}</small>
             <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"
-                v-model="fields.passwordConfirm" :readonly="busy" />
+                v-model="fields.passwordConfirm" :readonly="busy" minlength="8" />
             <br />
             <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <button v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
+            <button class="btn" v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
             <div class="signup-busy" v-if="busy">
-                <Spinner />
+                <Spinner :id="SpinnerId.SignUpView" />
             </div>
             <!-- add a back button -->
             <TextButton v-if="!busy" v-on:click="goBack" class="go-back">{{ $t(l.button_back) }}</TextButton>

@@ -25,9 +25,11 @@ const en: Locale = {
 
     notification_keyword: "Theme \"{keyword}\" recognized",
 
+    home_title: "AIRe homepage",
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
 
+    start_signup_success: "Sign up successful. You can now log in.",
     start_greeting: "Welcome to the AIRe platform",
     start_first_paragraph: "Partner for better functioning and wellbeing",
     start_second_paragraph: "Proceed by logging in or creating a new profile for yourself.",
@@ -58,7 +60,7 @@ const en: Locale = {
     nav_logout: "Logout",
     nav_signup: "Sign up",
     nav_preferences: "Settings",
-    nav_main_menu: "Main menu",
+    nav_main_menu: "Home",
     nav_catalogue: "Content Catalogue",
     nav_about: "About",
 
@@ -70,9 +72,10 @@ const en: Locale = {
     profile_label_language: "Language",
     profile_label_country: "Country",
     profile_label_bio: "Bio",
-    profile_button_save: "Update",
+    profile_button_save: "Update profile",
     profile_characters_max: '{0} characters maximum.',
     profile_remaining: "remaining characters.",
+    profile_placeholder_year_of_birth: "Enter your year of birth in the format YYYY, for example 1990.",
 
     profile_heading_connected_services: "Connected Services",
     profile_empty_service_list: "No connected services",
@@ -85,7 +88,7 @@ const en: Locale = {
 
     profile_heading_personal_data: "Personal Data",
     profile_description_personal_data: "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
-    profile_button_download_personal_data: "Download",
+    profile_button_download_personal_data: "Download personal data",
 
     profile_heading_delete_account: "Delete Account",
     profile_description_delete_account: "This deletes your account from AIRe platform. Confirm deletion by entering your password.",
@@ -108,9 +111,13 @@ const en: Locale = {
 
     profile_experiments_title: "Experiments",
     profile_experiments_text: "Override chatbot system prompt",
+    profile_experiments_prompt: "Custom prompt",
     profile_experiments_add: "Add",
     profile_experiments_description: "into your prompt if you wish to inject a summary of your user profile.",
     profile_experiments_apply: "Apply changes",
+
+    profile_chat_history_tokens_heading: "Chat history tokens",
+    profile_chat_history_tokens_label: "Show tokens on chat history",
 
     settings_title: "Settings",
     settings_language: "User interface language",
@@ -161,7 +168,9 @@ const en: Locale = {
     suggestion_check_for_more: "Check here for more",
 
     chat_history_loading: "Loading...",
+    chat_history_delete_success: "Chat removed successfully.",
     chat_history_tokens: "{0} tokens",
+    chat_title: "AIRe chat",
     chat_input_title: "What would you like to ask or tell?",
 
     popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",
@@ -255,6 +264,7 @@ const en: Locale = {
     tooltip_chat_tts_stop_reading: "Stop reading",
     tooltip_chat_tts_read_new_messages_off: "Stop reading new messages",
     tooltip_chat_tts_read_new_messages_on: "Read new messages",
+    tooltip_tokens: "Tokens on/off",
 
     tutorial_home_welcome_message: "Welcome to AIRe! Would you like to take a quick tour on how to use the app?",
     tutorial_chat_welcome_message: "On this page, you can chat with AIRe bot. Would you like a quick tour about chatting with the bot?",
@@ -269,8 +279,52 @@ const en: Locale = {
     tutorial_skip: "Skip",
     tutorial_done: "Done",
 
-    Language_default_message: "Select UI Default Language:",
+    language_default_message: "Select UI Default Language:",
 
+    screen_recorder_bot_writing: "The bot is writing a response.",
+    screen_recorder_bot_stop_writing: "The bot has finished responding.",
+    screen_recorder_loading: "Page is loading, please wait.",
+    screen_recorder_stop_text_to_speech: "Stop text to speech.",
+    screen_recorder_play_text_to_speech: "Play text to speech.",
+    screen_recorder_chat_input_description: "Write a message input for the bot.",
+    screen_recorder_open_chat_side_panel: "Open chat side panel.",
+    screen_recorder_close_chat_side_panel: "Close chat side panel.",
+    screen_recorder_open_message_menu: "Close message menu.",
+    screen_recorder_close_message_menu: "Close message menu.",
+    screen_recorder_thumbs_up: "Thumbs up.",
+    screen_recorder_thumbs_down: "Thumbs down.",
+    screen_recorder_copy_text_clipboard: "Copy the text to the clipboard.",
+    screen_recorder_copied_text_clipboard: "The text has been copied to the clipboard.",
+    screen_recorder_revert_here: "Revert the conversation back to this point.",
+    screen_recorder_open_content: "Open content.",
+    screen_recorder_content_item: "Content item.",
+    screen_recorder_content_published: "Published content.",
+    screen_recorder_content_type: "Content type:",
+    screen_recorder_content_rated: "Rating:",
+    screen_recorder_content_stars: "stars.",
+    screen_recorder_content_media: "Content media:",
+    screen_recorder_content_name: "Content name:",
+    screen_recorder_image_content: "Image content:",
+    screen_recorder_image_content_unnamed: "Unnamed image.",
+    screen_recorder_video_content: "Video content:",
+    screen_recorder_video_content_unnamed: "Unnamed video.",
+    screen_recorder_open_url: "Open URL:",
+    screen_recorder_untitled_url: "Untitled URL.",
+    screen_recorder_open_document: "Open document:",
+    screen_recorder_untitled_document: "Untitled document.",
+    screen_recorder_new_tab: "Opens in a new tab.",
+    screen_recorder_main_navigation_menu: "Toggle main navigation menu.",
+    
+    content_modal_untitled: "Untitled content",
+    content_modal_download: "Download the video",
+    content_modal_browser_does_not_support_video_tag: "Your browser does not support the video tag.",
+    content_modal_untitled_url_thumbnail: "Untitled URL thumbnail.",
+    content_modal_untitled_document_thumbnail: "Untitled document thumbnail.",
+    content_modal_no_description: "No description available.",
+
+    screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
+    screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
+ 
     en: "English",
     fi: "Finnish",
     es: "Spanish",

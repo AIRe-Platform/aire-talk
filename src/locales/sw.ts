@@ -25,6 +25,7 @@ const sw: Locale = {
 
     notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Karibu kwenye jukwaa la AIRe",
     start_first_paragraph:
         "Mshirika kwa utendaji bora na ustawi",
@@ -34,6 +35,7 @@ const sw: Locale = {
         "AIRe ni suluhisho linalosaidiwa na AI ambalo hukusaidia kutambua mahitaji yako ya urekebishaji na kukuongoza kwenye huduma na maudhui ya urekebishaji ya kibinafsi.",
     start_disclaimer: "AIRe si zana ya uchunguzi wa kimatibabu.",
 
+    home_title: "home_title",
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
 
@@ -61,7 +63,7 @@ const sw: Locale = {
     nav_logout: "Ondoka",
     nav_signup: "Jisajili",
     nav_preferences: "Mipangilio",
-    nav_main_menu: "Menyu kuu",
+    nav_main_menu: "Ukurasa wa mbele",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
 
@@ -73,9 +75,10 @@ const sw: Locale = {
     profile_label_language: "Lugha",
     profile_label_country: "Nchi",
     profile_label_bio: "Wasifu",
-    profile_button_save: "Sasisha",
+    profile_button_save: "Sasisha wasifu",
     profile_characters_max: '{0} wahusika zaidi.',
     profile_remaining: "wahusika waliobaki.",
+    profile_placeholder_year_of_birth: "Weka mwaka wa kuzaliwa katika umbizo la YYYY, kwa mfano 1990.",
 
     profile_heading_connected_services: "Huduma Zilizounganishwa",
     profile_empty_service_list: "Hakuna huduma zilizounganishwa",
@@ -89,7 +92,7 @@ const sw: Locale = {
     profile_heading_personal_data: "Data ya Kibinafsi",
     profile_description_personal_data:
         "Taarifa zako zote zimesimbwa kwa njia ambayo ni wewe tu unayeweza kuzifikia. Huduma za AIRe zinaweza kutumia data yako tu unapotumia huduma. Hapa, unaweza kupakua data zako zote zilizohifadhiwa katika AIRe. Tafadhali kumbuka kuwa kukusanya data kunaweza kuchukua muda.",
-    profile_button_download_personal_data: "Pakua",
+    profile_button_download_personal_data: "Pakua data ya kibinafsi",
 
     profile_heading_delete_account: "Futa Akaunti",
     profile_description_delete_account: "Hii itafuta akaunti yako kutoka kwenye jukwaa la AIRe. Thibitisha kwa kuingiza nenosiri lako.",
@@ -112,9 +115,13 @@ const sw: Locale = {
 
     profile_experiments_title: "Jaribio",
     profile_experiments_text: "Badilisha kitabu cha mazungumzo cha mfumo wa mazungumzo",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_add: "Ongeza",
     profile_experiments_description: "ndani ya mazungumzo yako ikiwa unataka kuingiza muhtasari wa wasifu wako.",
     profile_experiments_apply: "Tumia mabadiliko",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Mipangilio",
     settings_language: "Lugha ya kiolesura cha mtumiaji",
@@ -158,7 +165,9 @@ const sw: Locale = {
     tools_button_suggestions: "Mapendekezo",
 
     chat_history_loading: "Inapakia...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} vibambo",
+    chat_title: "chat_title",
     chat_input_title: "Ungependa kuuliza au kusema nini?",
 
     popup_confirm_revert_message: "Je, una uhakika unataka kurudisha mazungumzo kwa ujumbe huu?",
@@ -252,6 +261,7 @@ const sw: Locale = {
     tooltip_chat_tts_stop_reading: "Acha kusoma",
     tooltip_chat_tts_read_new_messages_off: "Acha kusoma jumbe mpya",
     tooltip_chat_tts_read_new_messages_on: "Soma jumbe mpya",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
@@ -266,7 +276,51 @@ const sw: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Chagua lugha ya msingi ya kiolesura:",
+    language_default_message: "Chagua lugha ya msingi ya kiolesura:",
+
+    screen_recorder_bot_writing: "Roboti inaandika jibu.",
+    screen_recorder_bot_stop_writing: "Roboti imekamilisha kujibu.",
+    screen_recorder_loading: "Ukuranisha unasubiri, tafadhali subiri.",
+    screen_recorder_stop_text_to_speech: "Simamisha maandiko kwa sauti.",
+    screen_recorder_play_text_to_speech: "Cheza maandiko kwa sauti.",
+    screen_recorder_chat_input_description: "Andika ingizo la ujumbe kwa roboti.",
+    screen_recorder_open_chat_side_panel: "Fungua kidirisha cha upande wa gumzo.",
+    screen_recorder_close_chat_side_panel: "Funga kidirisha cha upande wa gumzo.",
+    screen_recorder_open_message_menu: "Fungua menyu ya ujumbe.",
+    screen_recorder_close_message_menu: "Funga menyu ya ujumbe.",
+    screen_recorder_thumbs_up: "Kidole gumba juu.",
+    screen_recorder_thumbs_down: "Kidole gumba chini.",
+    screen_recorder_copy_text_clipboard: "Nakili maandiko kwenye clipboard.",
+    screen_recorder_copied_text_clipboard: "Maandiko yamekopi kwenye clipboard.",
+    screen_recorder_revert_here: "Rudisha mazungumzo hadi kwenye hatua hii.",
+    screen_recorder_open_content: "Fungua maudhui.",
+    screen_recorder_content_item: "Kipengele cha maudhui.",
+    screen_recorder_content_published: "Maudhui yaliyochapishwa.",
+    screen_recorder_content_type: "Aina ya maudhui:",
+    screen_recorder_content_rated: "Tathmini:",
+    screen_recorder_content_stars: "nyota.",
+    screen_recorder_content_media: "Vyombo vya maudhui:",
+    screen_recorder_content_name: "Jina la maudhui:",
+    screen_recorder_image_content: "Yaliyomo kwenye picha:",
+    screen_recorder_image_content_unnamed: "Picha isiyo na jina.",
+    screen_recorder_video_content: "Yaliyomo kwenye video:",
+    screen_recorder_video_content_unnamed: "Video isiyo na jina.",
+    screen_recorder_open_url: "Fungua URL:",
+    screen_recorder_untitled_url: "URL isiyo na jina.",
+    screen_recorder_open_document: "Fungua Hati:",
+    screen_recorder_untitled_document: "Hati isiyo na jina.",
+    screen_recorder_new_tab: "Fungua kwenye tabu mpya.",
+    screen_recorder_main_navigation_menu: "Badilisha menyu kuu ya urambazaji.",
+
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Vivinjari vyako havikubali lebo ya video.",
+    content_modal_untitled_url_thumbnail: "Picha ndogo ya URL isiyo na jina.",
+    content_modal_untitled_document_thumbnail: "Picha ndogo ya hati isiyo na jina.",
+    content_modal_no_description: "Hakuna maelezo yanayopatikana.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
 
     en: "Kiingereza",
     fi: "Kifini",

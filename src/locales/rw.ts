@@ -25,6 +25,7 @@ const rw: Locale = {
 
     notification_keyword: "Insanganyamatsiko \"{keyword}\" yamenyekanye",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Murakaza neza ku rubuga rwa AIRe",
     start_first_paragraph:
         "Umufatanyabikorwa mu mikorere y'umubiri ndetse n'imibereho myiza.",
@@ -34,6 +35,7 @@ const rw: Locale = {
         "AIRe ni urubuga rukoresha ubwenge buhimbano rugufasha kubona amakuru kuri serivisi z'ubuvuzi bwa rehabilitasiyo ndetse rukakugira inama z'uburyo wabona izo serivisi.",
     start_disclaimer: "AIRe ntabwo isuzuma cyangwa ngo isimbure muganga.",
 
+    home_title: "home_title",
     home_start_new_chat: "Tangira ikiganiro gishya",
     home_continue_chat: "Komereza ku kiganiro cyabanje",
 
@@ -61,10 +63,10 @@ const rw: Locale = {
     nav_logout: "Sohoka",
     nav_signup: "Kwiyandikisha",
     nav_preferences: "Igenamiterere",
-    nav_main_menu: "Ibikubiyemo nyamukuru",
+    nav_main_menu: "Urupapuro rwambere",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
     nav_about: "Hafi",
-    
+
     profile_title: "Konti y'umukoresha",
     profile_label_first_name: "Izina rya mbere",
     profile_label_last_name: "Izina ry'umuryango",
@@ -73,9 +75,10 @@ const rw: Locale = {
     profile_label_language: "Ururimi",
     profile_label_country: "Igihugu",
     profile_label_bio: "Uwo uriwe",
-    profile_button_save: "Ibishya",
+    profile_button_save: "Kuvugurura umwirondoro",
     profile_characters_max: 'Inyuguti ntizigomba kurenga {0}.',
     profile_remaining: "Inyuguti zisigaye.",
+    profile_placeholder_year_of_birth: "Injira umwaka wamavuko muburyo bwa YYYY, urugero 1990.",
 
     profile_heading_connected_services: "Serivisi zifite aho zihuriye cyangwa zifitanye isano",
     profile_empty_service_list: "Nta serivices zifite aho zihuriye",
@@ -90,7 +93,7 @@ const rw: Locale = {
     profile_heading_personal_data: "Personal Data",
     profile_description_personal_data:
         "All your information is encrypted in a way that only you have access to it. The AIRe services can use your data only when you are using the services. Here, you can download all of your data saved in AIRe. Please note that collecting the data may take a while.",
-    profile_button_download_personal_data: "Download",
+    profile_button_download_personal_data: "Pakua data ya kibinafsi",
 
     profile_heading_delete_account: "Siba Konti",
     profile_description_delete_account:
@@ -118,9 +121,13 @@ const rw: Locale = {
 
     profile_experiments_title: "Igerageza",
     profile_experiments_text: "Hindura amabwiriza ya sisitemu y'ikiganiro cy'ikoranabuhanga",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_add: "Ongeraho",
     profile_experiments_description: "mu mabwiriza yawe niba ushaka gushyiraho ishusho ngufi y'umwirondoro wawe.",
     profile_experiments_apply: "Shyira mu bikorwa impinduka",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Igenamiterere",
     settings_language: "Ururimi rwimikoreshereze",
@@ -167,7 +174,9 @@ const rw: Locale = {
     tools_button_suggestions: "Ibyifuzo",
 
     chat_history_loading: "Tegereza biri kuza",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} Nta kintu cyaje",
+    chat_title: "chat_title",
     chat_input_title: "Ni iki ushaka kubaza cyangwa kuvuga?",
 
     popup_confirm_revert_message:
@@ -265,6 +274,7 @@ const rw: Locale = {
     tooltip_chat_tts_stop_reading: "Reka gusoma",
     tooltip_chat_tts_read_new_messages_off: "Reka gusoma ubutumwa bushya",
     tooltip_chat_tts_read_new_messages_on: "Soma ubutumwa bushya",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
@@ -279,7 +289,51 @@ const rw: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
+    language_default_message: "Hitamo ururimi rwa default rw'igice cyawe:",
+
+    screen_recorder_bot_writing: "Umukozi ari kwandika igisubizo.",
+    screen_recorder_bot_stop_writing: "Umukozi arangije gusubiza.",
+    screen_recorder_loading: "Urupapuro rurimo gupakirwa, nyabuneka tegereza.",
+    screen_recorder_stop_text_to_speech: "Hagarika guhindura inyandiko mu ijwi.",
+    screen_recorder_play_text_to_speech: "Tangira guhindura inyandiko mu ijwi.",
+    screen_recorder_chat_input_description: "Andika ubutumwa bwinjiza kuri bot.",
+    screen_recorder_open_chat_side_panel: "Fungura umwanya wo kuganira.",
+    screen_recorder_close_chat_side_panel: "Funga umwanya wo kuganira.",
+    screen_recorder_open_message_menu: "Avaa viestivalikko.",
+    screen_recorder_close_message_menu: "Sulje viestivalikko.",
+    screen_recorder_thumbs_up: "Peukku ylös.",
+    screen_recorder_thumbs_down: "Peukku alas.",
+    screen_recorder_copy_text_clipboard: "Kopioi teksti leikepöydälle.",
+    screen_recorder_copied_text_clipboard: "Teksti on kopioitu leikepöydälle.",
+    screen_recorder_revert_here: "Subiza ikiganiro kugeza kuri iki gipimo.",
+    screen_recorder_open_content: "Fungura ibikubiyemo.",
+    screen_recorder_content_item: "Ikintu cy'ibikubiyemo.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+    screen_recorder_content_published: "Ibirimo byasohotse.",
+    screen_recorder_content_type: "Ubwoko bw'ibirimo:",
+    screen_recorder_content_rated: "Igenzura:",
+    screen_recorder_content_stars: "inyenyeri.",
+    screen_recorder_content_media: "Ibikoresho by'ib content:",
+    screen_recorder_content_name: "Izina ry'ib content:",
+    screen_recorder_image_content: "Ibikubiye mu ishusho:",
+    screen_recorder_image_content_unnamed: "Ishusho itagira izina.",
+    screen_recorder_video_content: "Ibikubiye mu video:",
+    screen_recorder_video_content_unnamed: "Video itagira izina.",
+    screen_recorder_open_url: "Fungura URL:",
+    screen_recorder_untitled_url: "URL itagira izina.",
+    screen_recorder_open_document: "Fungura inyandiko:",
+    screen_recorder_untitled_document: "Inyandiko itagira izina.",
+    screen_recorder_new_tab: "Bifungura muri tab nshya.",
+    screen_recorder_main_navigation_menu: "Hindura menyu nyamukuru yo kugendagenda.",
+
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Ubusanzwe bwawe ntabwo bubyara tag ya video.",
+    content_modal_untitled_url_thumbnail: "Thumbnail ya URL itagira izina.",
+    content_modal_untitled_document_thumbnail: "Thumbnail y'inyandiko itagira izina.",
+    content_modal_no_description: "Nta bisobanuro bihari.",
 
     en: "Icyongereza",
     fi: "Igifinilande",

@@ -22,9 +22,11 @@ export enum LocalizationKey {
 
     notification_keyword = "notification_keyword",
 
+    home_title = "home_title",
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
 
+    start_signup_success = "start_signup_success",
     start_greeting = "start_greeting",
     start_first_paragraph = "start_first_paragraph",
     start_second_paragraph = "start_second_paragraph",
@@ -68,6 +70,7 @@ export enum LocalizationKey {
     profile_label_country = "profile_label_country",
     profile_label_bio = "profile_label_bio",
     profile_button_save = "profile_button_save",
+    profile_placeholder_year_of_birth = "profile_placeholder_year_of_birth",
 
     profile_heading_connected_services = "profile_heading_connected_services",
     profile_empty_service_list = "profile_empty_service_list",
@@ -104,10 +107,14 @@ export enum LocalizationKey {
     profile_remaining = "profile_remaining",
 
     profile_experiments_title = "profile_experiments_title",
+    profile_experiments_prompt = "profile_experiments_prompt",
     profile_experiments_text = "profile_experiments_text",
     profile_experiments_add = "profile_experiments_add",
     profile_experiments_description = "profile_experiments_description",
     profile_experiments_apply = "profile_experiments_apply",
+
+    profile_chat_history_tokens_heading = "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label = "profile_chat_history_tokens_label",
 
     settings_title = "settings_title",
     settings_language = "settings_language",
@@ -151,7 +158,9 @@ export enum LocalizationKey {
     tools_button_suggestions = "tools_button_suggestions",
 
     chat_history_loading = "chat_history_loading",
+    chat_history_delete_success = "chat_history_delete_success",
     chat_history_tokens = "chat_history_tokens",
+    chat_title = "chat_title",
     chat_input_title = "chat_input_title",
 
     popup_confirm_revert_message = "popup_confirm_revert_message",
@@ -192,7 +201,7 @@ export enum LocalizationKey {
     content_catalogue_query_placeholder = "content_catalogue_query_placeholder",
     content_catalogue_sort_by = "content_catalogue_sort_by",
     content_catalogue_apply_filter = "content_catalogue_apply_filter",
-    
+
     content_modal_continue_to_chat = "content_modal_continue_to_chat",
     content_modal_description = "content_modal_description",
     content_modal_themes = "content_modal_themes",
@@ -247,6 +256,7 @@ export enum LocalizationKey {
     tooltip_chat_tts_stop_reading = "tooltip_chat_tts_stop_reading",
     tooltip_chat_tts_read_new_messages_off = "tooltip_chat_tts_read_new_messages_off",
     tooltip_chat_tts_read_new_messages_on = "tooltip_chat_tts_read_new_messages_on",
+    tooltip_tokens = "tooltip_tokens",
 
     tutorial_home_welcome_message = "tutorial_home_welcome_message",
     tutorial_chat_welcome_message = "tutorial_chat_welcome_message",
@@ -261,7 +271,51 @@ export enum LocalizationKey {
     tutorial_skip = "tutorial_skip",
     tutorial_done = "tutorial_done",
 
-    Language_default_message = "Language_default_message",
+    language_default_message = "language_default_message",
+
+    screen_recorder_bot_writing = "screen_recorder_bot_writing",
+    screen_recorder_bot_stop_writing = "screen_recorder_bot_stop_writing",
+    screen_recorder_loading = "screen_recorder_loading",
+    screen_recorder_stop_text_to_speech = "screen_recorder_stop_text_to_speech",
+    screen_recorder_play_text_to_speech = "screen_recorder_play_text_to_speech",
+    screen_recorder_chat_input_description = "screen_recorder_chat_input_description",
+    screen_recorder_open_chat_side_panel = "screen_recorder_open_chat_side_panel",
+    screen_recorder_close_chat_side_panel = "screen_recorder_close_chat_side_panel",
+    screen_recorder_open_message_menu = "screen_recorder_open_message_menu",
+    screen_recorder_close_message_menu = "screen_recorder_close_message_menu",
+    screen_recorder_thumbs_up = "screen_recorder_thumbs_up",
+    screen_recorder_thumbs_down = "screen_recorder_thumbs_down",
+    screen_recorder_copy_text_clipboard = "screen_recorder_copy_text_clipboard",
+    screen_recorder_copied_text_clipboard = "screen_recorder_copied_text_clipboard",
+    screen_recorder_revert_here = "screen_recorder_revert_here",
+    screen_recorder_open_content = "screen_recorder_open_content",
+    screen_recorder_content_item = "screen_recorder_content_item",
+    screen_recorder_content_published = "screen_recorder_content_published",
+    screen_recorder_content_type = "screen_recorder_content_type",
+    screen_recorder_content_rated = "screen_recorder_content_rated",
+    screen_recorder_content_stars = "screen_recorder_content_stars",
+    screen_recorder_content_media = "screen_recorder_content_media",
+    screen_recorder_content_name = "screen_recorder_content_name",
+    screen_recorder_image_content = "screen_recorder_image_content",
+    screen_recorder_image_content_unnamed = "screen_recorder_image_content_unnamed",
+    screen_recorder_video_content = "screen_recorder_video_content",
+    screen_recorder_video_content_unnamed = "screen_recorder_video_content_unnamed",
+    screen_recorder_open_url = "screen_recorder_open_url",
+    screen_recorder_untitled_url = "screen_recorder_untitled_url",
+    screen_recorder_open_document = "screen_recorder_open_document",
+    screen_recorder_untitled_document = "screen_recorder_untitled_document",
+    screen_recorder_new_tab = "screen_recorder_new_tab",
+    screen_recorder_main_navigation_menu = "screen_recorder_main_navigation_menu",
+
+    content_modal_untitled = "content_modal_untitled",
+    content_modal_download = "content_modal_download",
+    content_modal_browser_does_not_support_video_tag = "content_modal_browser_does_not_support_video_tag",
+    content_modal_untitled_url_thumbnail = "content_modal_untitled_url_thumbnail",
+    content_modal_untitled_document_thumbnail = "content_modal_untitled_document_thumbnail",
+    content_modal_no_description = "content_modal_no_description",
+
+    screen_recorder_theme_switch_dark = "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light = "screen_recorder_theme_switch_light",
 
     en = "en",
     fi = "fi",

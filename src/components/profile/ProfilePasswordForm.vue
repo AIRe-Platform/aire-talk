@@ -47,7 +47,7 @@ const onChangePassword = (e: Event) => {
 
 <template>
     <form class="password-form" @submit.prevent="onChangePassword">
-        <h3>{{ $t(l.profile_heading_password) }}</h3>
+        <h2>{{ $t(l.profile_heading_password) }}</h2>
         <input aria-hidden="true" tabindex="-1" hidden="true" type="text" id="username" autocomplete="off" />
         <div class="form-content">
             <span class="form-item">
@@ -57,16 +57,21 @@ const onChangePassword = (e: Event) => {
             </span>
             <span class="form-item">
                 <label class="form-label" for="new_password">{{ $t(l.profile_label_new_password) }}</label>
-                <input id="new_password" type="password" required="true" minlength="6" autocomplete="new-password"
-                    v-model="state.newPassword" :readonly="state.busy" />
+                <input id="new_password" type="password" required="true" minlength="8" autocomplete="new-password"
+                    v-model="state.newPassword" :readonly="state.busy"
+                    aria-describedby="current-password-description" />
             </span>
         </div>
-        <div class="description">{{ $t(l.profile_description_password) }}</div>
-        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
+        <div class="description" id="current-password-description" tabindex="0">{{ $t(l.profile_description_password) }}
+        </div>
+        <div class="error-message" tabindex="0" v-if="state.error" role="alert" aria-live="assertive"
+            id="current-password-error">
+            {{ $t(state.error) }}
+        </div>
         <div class="form-buttons">
             <template v-if="!state.busy">
                 <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <button type="submit">{{ $t(l.profile_button_change_password) }}</button>
+                    <button class="btn" type="submit">{{ $t(l.profile_button_change_password) }}</button>
                 </Tooltip>
 
             </template>

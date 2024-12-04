@@ -25,6 +25,7 @@ const es: Locale = {
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
     start_first_paragraph:
         "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
@@ -34,6 +35,7 @@ const es: Locale = {
         "AIRe es una solución asistida por IA que le ayuda a identificar sus necesidades de rehabilitación y le guía hacia servicios y contenidos de rehabilitación personalizados.",
     start_disclaimer: "AIRe no es una herramienta de diagnóstico médico.",
 
+    home_title: "home_title",
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
 
@@ -61,7 +63,7 @@ const es: Locale = {
     nav_logout: "Salir",
     nav_signup: "Regístrate",
     nav_preferences: "Configuración",
-    nav_main_menu: "Menu",
+    nav_main_menu: "Principal",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
 
@@ -73,9 +75,10 @@ const es: Locale = {
     profile_label_language: "Idioma",
     profile_label_country: "País",
     profile_label_bio: "Bio",
-    profile_button_save: "Guardar",
+    profile_button_save: "Actualizar perfil",
     profile_characters_max: '{0} carácteres máximo.',
     profile_remaining: "carácteres restantes.",
+    profile_placeholder_year_of_birth: "Ingrese el año de nacimiento en formato AAAA, por ejemplo 1990.",
 
     profile_heading_connected_services: "Connectado",
     profile_empty_service_list: "No Conectado",
@@ -91,7 +94,7 @@ const es: Locale = {
     profile_heading_personal_data: "Datos personales",
     profile_description_personal_data:
         "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
-    profile_button_download_personal_data: "Descargar",
+    profile_button_download_personal_data: "Descargar datos personales",
 
     profile_heading_delete_account: "Borrar cuenta",
     profile_description_delete_account:
@@ -121,6 +124,10 @@ const es: Locale = {
     profile_experiments_add: "Añade",
     profile_experiments_description: "en su mensaje si desea insertar un resumen de su perfil de usuario.",
     profile_experiments_apply: "Aplicar cambios",
+    profile_experiments_prompt: "Custom prompt",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Configuración",
     settings_language: "Idioma de la interfaz de usuario",
@@ -176,7 +183,9 @@ const es: Locale = {
     tools_button_suggestions: "Sugerencias",
 
     chat_history_loading: "Cargando...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} fichas",
+    chat_title: "chat_title",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
 
     popup_confirm_revert_message:
@@ -274,6 +283,7 @@ const es: Locale = {
     tooltip_chat_tts_stop_reading: "Dejar de leer",
     tooltip_chat_tts_read_new_messages_off: "Dejar de leer mensajes nuevos",
     tooltip_chat_tts_read_new_messages_on: "Leer mensajes nuevos",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
@@ -288,7 +298,51 @@ const es: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
+    language_default_message: "Seleccionar idioma predeterminado de la interfaz:",
+
+    screen_recorder_bot_writing: "El bot está escribiendo una respuesta.",
+    screen_recorder_bot_stop_writing: "El bot ha terminado de responder.",
+    screen_recorder_loading: "La página se está cargando, por favor espera.",
+    screen_recorder_stop_text_to_speech: "Detener la conversión de texto a voz.",
+    screen_recorder_play_text_to_speech: "Reproducir la conversión de texto a voz.",
+    screen_recorder_chat_input_description: "Escribe un mensaje de entrada para el bot.",
+    screen_recorder_open_chat_side_panel: "Abrir el panel lateral del chat.",
+    screen_recorder_close_chat_side_panel: "Cerrar el panel lateral del chat.",
+    screen_recorder_open_message_menu: "Abrir menú de mensajes.",
+    screen_recorder_close_message_menu: "Cerrar menú de mensajes.",
+    screen_recorder_thumbs_up: "Pulgar hacia arriba.",
+    screen_recorder_thumbs_down: "Pulgar hacia abajo.",
+    screen_recorder_copy_text_clipboard: "Copiar texto al portapapeles.",
+    screen_recorder_copied_text_clipboard: "El texto ha sido copiado al portapapeles.",
+    screen_recorder_revert_here: "Volver la conversación hasta este punto.",
+    screen_recorder_open_content: "Abrir contenido.",
+    screen_recorder_content_item: "Elemento de contenido.",
+    screen_recorder_content_published: "Contenido publicado.",
+    screen_recorder_content_type: "Tipo de contenido:",
+    screen_recorder_content_rated: "Valoración:",
+    screen_recorder_content_stars: "estrellas.",
+    screen_recorder_content_media: "Medio del contenido:",
+    screen_recorder_content_name: "Nombre del contentido:",
+    screen_recorder_image_content: "Contenido de imagen:",
+    screen_recorder_image_content_unnamed: "Imagen sin nombre.",
+    screen_recorder_video_content: "Contenido de video:",
+    screen_recorder_video_content_unnamed: "Video sin nombre.",
+    screen_recorder_open_url: "Abrir URL:",
+    screen_recorder_untitled_url: "URL sin título.",
+    screen_recorder_open_document: "Abrir documento:",
+    screen_recorder_untitled_document: "Documento sin título.",
+    screen_recorder_new_tab: "Se abre en una nueva pestaña.",
+    screen_recorder_main_navigation_menu: "Alternar el menú de navegación principal.",
+
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Tu navegador no soporta la etiqueta de video.",
+    content_modal_untitled_url_thumbnail: "Miniatura de URL sin título.",
+    content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
+    content_modal_no_description: "No hay descripción disponible.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
 
     en: "Inglés",
     fi: "Finés",

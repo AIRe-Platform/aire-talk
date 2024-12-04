@@ -82,15 +82,14 @@ const onSaveChanges = (e: Event) => {
     }
 };
 
-const activateField = (id: string) => {
-    const el = document.getElementById(id);
-    el?.focus()
-}
+const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length === MAX_LENGTH_BIO;
 </script>
 
 <template>
-    <DialogModal :active="state.show_confirmation_modal" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
-        :buttons="[
+    <DialogModal :active="state.show_confirmation_modal"
+        question-id="confirm-profile-update-dialog-modal"
+        @active="(isActive) => { state.show_confirmation_modal = isActive }"
+        @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" :buttons="[
             { loc_key: l.button_accept, onClick: () => { state.show_confirmation_modal = false; } },
         ]">
         {{ $t(l.popup_confirm_profile_updated) }}
@@ -106,10 +105,6 @@ const activateField = (id: string) => {
                     <span class="max-length-message" v-if="profile.first_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('first-name')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
             </div>
         </span>
         <span class="form-item baseline">
@@ -121,10 +116,6 @@ const activateField = (id: string) => {
                     <span class="max-length-message" v-if="profile.last_name?.length == MAX_LENGTH_NAME">{{
                         $t(l.profile_characters_max, [MAX_LENGTH_NAME]) }} </span>
                 </div>
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('last-name')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
             </div>
         </span>
         <span class="form-item">
@@ -135,21 +126,18 @@ const activateField = (id: string) => {
                         {{ $t(g.name) }}
                     </option>
                 </select>
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('gender')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
             </div>
         </span>
         <span class="form-item">
             <label class="form-label" for="year_of_birth">{{ $t(l.profile_label_year_of_birth) }}</label>
             <div class="form-input">
                 <input id="year_of_birth" type="number" v-model="profile.year_of_birth" :min="minYear" :max="maxYear"
-                    placeholder="e.g., 1990" :readonly="state.busy" required />
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('year_of_birth')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
+                    placeholder="e.g., 1990" :readonly="state.busy" required
+                    aria-describedby="year-of-birth-placeholder" />
+                <!-- Hidden element for screen readers -->
+                <span id="year-of-birth-placeholder" class="screen-readers-only">
+                    {{ $t(l.profile_placeholder_year_of_birth) }}
+                </span>
             </div>
         </span>
         <span class="form-item margin-top">
@@ -157,27 +145,18 @@ const activateField = (id: string) => {
             <div class="form-input">
                 <input id="country" type="text" v-model="profile.country" autocomplete="country-name"
                     :readonly="state.busy" />
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div class="icon edit" @click.prevent="activateField('country')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
             </div>
         </span>
         <span class="form-item-wide margin-top">
             <label class="form-label" for="bio">{{ $t(l.profile_label_bio) }}</label>
             <div class="form-input-textarea">
                 <div class="input-column">
-                    <textarea id="bio" v-model="profile.bio" :readonly="state.busy"
-                        :maxlength=MAX_LENGTH_BIO></textarea>
-                    <span> {{
-                        remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
+                    <textarea id="bio" v-model="profile.bio" :readonly="state.busy" :maxlength=MAX_LENGTH_BIO
+                        :aria-describedby="'bio-max-length-info'"></textarea>
+                    <span id="bio-max-length-info" :class="{ 'char-limit-reached': bioMaxLengthReached() }" tabindex="0">{{
+                            remainingCharacters(MAX_LENGTH_BIO, profile.bio?.length) }} / {{ MAX_LENGTH_BIO }} {{
                             $t(l.profile_remaining) }}</span>
                 </div>
-                <Tooltip :text="$t(l.tooltip_edit)" position="top" :useMaxContent="false" :adjustPosition="false"
-                    class="margin-left">
-                    <div class="icon edit" @click.prevent="activateField('bio')" :disabled="state.busy">
-                    </div>
-                </Tooltip>
             </div>
         </span>
         <div class="form-item error-message" v-if="state.error">
@@ -187,7 +166,7 @@ const activateField = (id: string) => {
             <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
                 <div class="form-buttons">
                     <template v-if="!state.busy">
-                        <button type="submit">{{ $t(l.profile_button_save) }}</button>
+                        <button class="btn" type="submit">{{ $t(l.profile_button_save) }}</button>
                     </template>
                     <Spinner v-if="state.busy" />
                 </div>
@@ -300,19 +279,6 @@ const activateField = (id: string) => {
     justify-content: center;
 }
 
-.profile-edit-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 2rem;
-    height: 2rem;
-    border-radius: 1rem;
-
-    color: var(--text-color);
-    background-color: var(--chat-bubble-background-color);
-}
-
 .error-message {
     color: var(--background-color);
     font-size: var(--font-small);
@@ -320,6 +286,12 @@ const activateField = (id: string) => {
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     background-color: var(--error-color);
+    flex-basis: 100%;
+}
+
+.char-limit-reached {
+    color: var(--error-color);
+    font-weight: bold;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
@@ -332,7 +304,6 @@ const activateField = (id: string) => {
     .form-item-wide>.form-label {
         flex-basis: 20%;
     }
-
 
     .input-column {
         height: auto;

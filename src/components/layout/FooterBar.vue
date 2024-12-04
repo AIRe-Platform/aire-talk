@@ -12,9 +12,9 @@ const version = {
 
 <template>
     <div id="footer-container">
-        <div class="footer">
+        <footer class="footer">
             <b>{{ $t("footer") }}{{ version.hash && ` - ${version.hash}` }}{{ version.tag && ` - ${version.tag}` }}</b>
-        </div>
+        </footer>
     </div>
 </template>
 

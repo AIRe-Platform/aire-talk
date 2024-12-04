@@ -9,38 +9,58 @@ import { l } from '@/locales';
 import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
 import LanguageSelector from '@/components/settings/LanguageSelector.vue';
+import { nextTick, onMounted, ref } from 'vue';
+
+const signUpSuccess = ref<boolean>(false);
+const signUpSuccessMessageRef = ref<HTMLElement | null>(null);
 
 const navigateTo = (path: string) => {
     router.push(path)
 }
 
+onMounted(() => {
+    const search = new URLSearchParams(window.location.search);
+    signUpSuccess.value = search.get("signup_success") === "1";
+    if (signUpSuccess.value) {
+        nextTick(() => {
+            signUpSuccessMessageRef.value?.focus();
+            setTimeout(() => {
+                signUpSuccess.value = false;
+            }, 5000);
+        });
+    }
+})
 </script>
 
 <template>
     <div id="start-view">
         <div class="start-container">
+            <div v-if="signUpSuccess"
+                ref="signUpSuccessMessageRef"
+                class="notification-message"
+                aria-live="assertive"
+                role="alert"
+                tabindex="-1">
+                {{ $t(l.start_signup_success) }}
+            </div>
             <div class="greeting">
                 <img src="@/assets/images/aire-bot.png" alt="AIRe chat bot logo" class="chat-bot">
-                <h1>{{ $t('start_greeting') }}</h1>
-                <p>{{ $t(l.start_first_paragraph) }}</p>
+                <h1>{{ $t(l.start_greeting) }}</h1>
+                <h2>{{ $t(l.start_first_paragraph) }}</h2>
                 <Separator />
-                <p>{{ $t(l.start_second_paragraph) }}</p>
+                <h3>{{ $t(l.start_second_paragraph) }}</h3>
             </div>
             <div class="quick-nav">
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/login')"
-                    @click="navigateTo('/login')">
+                <a class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/login')" @click.prevent="navigateTo('/login')"
+                    href="/login">
                     {{ $t(l.nav_login) }}
-                </div>
-                <div class="icon frontpage-button"
-                    tabindex="0"
-                    role="link"
-                    @keydown.prevent.space.enter="navigateTo('/signup')"
-                    @click="navigateTo('/signup')">
+                </a>
+                <a class="icon frontpage-button" tabindex="0" role="link"
+                    @keydown.prevent.space.enter="navigateTo('/signup')" @click.prevent="navigateTo('/signup')"
+                    href="/signup">
                     {{ $t(l.nav_signup) }}
-                </div>
+                </a>
                 <LanguageSelector />
             </div>
             <div class="start-footer">
@@ -82,6 +102,10 @@ const navigateTo = (path: string) => {
     &>* {
         margin-inline: 0.5rem;
     }
+}
+
+.frontpage-button:hover {
+    color: var(--hover-text);
 }
 
 .chat-bot {

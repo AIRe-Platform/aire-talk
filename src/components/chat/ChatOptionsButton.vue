@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
     <div class="options-button" :class="{ 'options-button-active': props.open }" v-if="props.open">
-        <div class="icon close-window"></div>
+        <font-awesome-icon icon="fa-solid fa-xmark" />
     </div>
 </template>
 
@@ -35,7 +35,7 @@ const props = defineProps<{
     cursor: pointer;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 

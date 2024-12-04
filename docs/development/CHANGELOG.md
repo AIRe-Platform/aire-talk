@@ -18,8 +18,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 - Suggestions now appear only after the summary is completed or when triggered by the button in the side panel.
 
 ### Added
-- content modal now also opens whit urls and documents.
--created a basic structure in the about view.
+- content modal now also opens with urls and documents.
+- Created a basic structure in the about view.
 
 ## [1.0.7] - 2024-11-15
 ### Added

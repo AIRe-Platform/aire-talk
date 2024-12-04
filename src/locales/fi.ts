@@ -25,6 +25,7 @@ const fi: Locale = {
 
     notification_keyword: "\"{keyword}\" teema tunnistettu",
 
+    start_signup_success: "Tilin luonti onnistui. Voit nyt kirjautua sisään.",
     start_greeting: "Tervetuloa AIRe-palveluun",
     start_first_paragraph:
         "Kumppanisi parempaan toimintakykyyn ja hyvinvointiin",
@@ -34,6 +35,7 @@ const fi: Locale = {
         "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutumisen tarpeitasi ja opastaa sinut yksilöllisesti kuntoutuksen palveluiden ja sisällön pariin.",
     start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
 
+    home_title: "AIRe kotisivu",
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
 
@@ -61,7 +63,7 @@ const fi: Locale = {
     nav_logout: "Kirjaudu ulos",
     nav_signup: "Luo tili",
     nav_preferences: "Asetukset",
-    nav_main_menu: "Päävalikko",
+    nav_main_menu: "Etusivu",
     nav_catalogue: "Oma sisältökirjasto",
     nav_about: "Tietoa AIRe-palvelusta",
 
@@ -73,9 +75,10 @@ const fi: Locale = {
     profile_label_language: "Kieli",
     profile_label_country: "Maa",
     profile_label_bio: "Tietoja",
-    profile_button_save: "Tallenna",
+    profile_button_save: "Tallenna profiili",
     profile_characters_max: 'Enintään {0} merkkiä.',
     profile_remaining: "jäljellä olevat merkit.",
+    profile_placeholder_year_of_birth: "Syötä syntymävuosi muodossa YYYY, esimerkiksi 1990.",
 
     profile_heading_connected_services: "Yhdistetyt palvelut",
     profile_empty_service_list: "Ei yhdistettyjä palveluita",
@@ -90,7 +93,7 @@ const fi: Locale = {
     profile_heading_personal_data: "Henkilökohtaiset tiedot",
     profile_description_personal_data:
         "Kaikki keräämämme yksilöivät tiedot ovat salattuja siten, että vain sinulla on pääsy niihin. Tietosi ovat AIRe-palvelujen käytettävissä vain silloin, kun sinä käytät niitä. Voit ladata kaikki tietosi tästä. Huomioithan, että tietojen keräämisessä voi kestää pieni hetki.",
-    profile_button_download_personal_data: "Lataa",
+    profile_button_download_personal_data: "Lataa henkilötiedot",
 
     profile_heading_delete_account: "Tilin poistaminen",
     profile_description_delete_account:
@@ -116,10 +119,14 @@ const fi: Locale = {
     profile_question_country: "Missä maassa asut?",
 
     profile_experiments_title: "Oman kehotteen kokeilut (admin-käyttäjille)",
-    profile_experiments_text: "Ohita AIRen järjestelmäkehote",
+    profile_experiments_prompt: "Ohita AIRen järjestelmäkehote",
+    profile_experiments_text: "Oma kehote",
     profile_experiments_add: "Lisää",
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
     profile_experiments_apply: "Ota oma kehote käyttöön",
+
+    profile_chat_history_tokens_heading: "Keskusteluhistoria tokenit",
+    profile_chat_history_tokens_label: "Näytä tokenit keskusteluhistoriassa",
 
     settings_title: "Asetukset",
     settings_language: "Kielivalinta",
@@ -173,7 +180,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tools_button_suggestions: "Sisältöehdotuksia",
 
     chat_history_loading: "Ladataan...",
+    chat_history_delete_success: "Keskustelun poisto onnistui.",
     chat_history_tokens: "{0} tokenia",
+    chat_title: "AIRe keskustelu",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
 
     popup_confirm_revert_message:
@@ -270,6 +279,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_chat_tts_stop_reading: "Lopeta lukeminen",
     tooltip_chat_tts_read_new_messages_off: "Lopeta uusien viestien automaattinen lukeminen",
     tooltip_chat_tts_read_new_messages_on: "Lue uudet viestit",
+    tooltip_tokens: "Tokenit päällä/pois päältä",
 
     tutorial_home_welcome_message: "Tervetuloa AIReen! Haluaisitko opastusta sovelluksen käytöstä?",
     tutorial_chat_welcome_message: "Tällä sivulla voit keskustella AIRe-botin kanssa. Haluaisitko nopean opastuksen keskustelusta botin kanssa?",
@@ -284,7 +294,51 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tutorial_skip: "Ohita",
     tutorial_done: "Valmis",
 
-    Language_default_message: "Valitse käyttöliittymän oletuskieli:",
+    language_default_message: "Valitse käyttöliittymän oletuskieli:",
+
+    screen_recorder_bot_writing: "Botti kirjoittaa vastausta.",
+    screen_recorder_bot_stop_writing: "Botti on lopettanut vastaamisen.",
+    screen_recorder_loading: "Sivua ladataan, odota hetki.",
+    screen_recorder_stop_text_to_speech: "Pysäytä tekstistä puheeksi -toiminto.",
+    screen_recorder_play_text_to_speech: "Toista tekstistä puheeksi -toiminto.",
+    screen_recorder_chat_input_description: "Andika ubutumwa bwinjiza kuri bot.",
+    screen_recorder_open_chat_side_panel: "Avaa chatin sivupaneeli.",
+    screen_recorder_close_chat_side_panel: "Sulje chatin sivupaneeli.",
+    screen_recorder_open_message_menu: "Avaa viestivalikko.",
+    screen_recorder_close_message_menu: "Sulje viestivalikko.",
+    screen_recorder_thumbs_up: "Peukku ylös.",
+    screen_recorder_thumbs_down: "Peukku alas.",
+    screen_recorder_copy_text_clipboard: "Kopioi teksti leikepöydälle.",
+    screen_recorder_copied_text_clipboard: "Teksti on kopioitu leikepöydälle.",
+    screen_recorder_revert_here: "Palauta keskustelu tähän pisteeseen.",
+    screen_recorder_open_content: "Avaa sisältö.",
+    screen_recorder_content_item: "Sisältöelementti.",
+
+    screen_recorder_theme_switch_dark: "Tumma teema valittu. Vaihda vaaleaan teemaan.",
+    screen_recorder_theme_switch_light: "Vaalea teema valittu. Vaihda tummaan teemaan.",
+    screen_recorder_content_published: "Julkaistu sisältö.",
+    screen_recorder_content_type: "Sisällön tyyppi:",
+    screen_recorder_content_rated: "Arvosana:",
+    screen_recorder_content_stars: "tähteä.",
+    screen_recorder_content_media: "Sisällön media:",
+    screen_recorder_content_name: "Sisällön nimi:",
+    screen_recorder_image_content: "Kuvasisältö:",
+    screen_recorder_image_content_unnamed: "Nimetön kuva.",
+    screen_recorder_video_content: "Videosisältö:",
+    screen_recorder_video_content_unnamed: "Nimetön video.",
+    screen_recorder_open_url: "Avaa URL:",
+    screen_recorder_untitled_url: "Nimetön URL.",
+    screen_recorder_open_document: "Avaa asiakirja:",
+    screen_recorder_untitled_document: "Nimetön asiakirja.",
+    screen_recorder_new_tab: "Aukeaa uudessa välilehdessä.",
+    screen_recorder_main_navigation_menu: "Vaihda päävalikko.",
+
+    content_modal_untitled: "Nimeämätön sisältö",
+    content_modal_download: "Lataa video",
+    content_modal_browser_does_not_support_video_tag: "Selaimesi ei tue video-tunnistetta.",
+    content_modal_untitled_url_thumbnail: "Nimetön URL-miniatyyri.",
+    content_modal_untitled_document_thumbnail: "Nimetön asiakirjan miniatyyri.",
+    content_modal_no_description: "Ei kuvausta saatavilla.",
 
     en: "Englanti",
     fi: "Suomi",

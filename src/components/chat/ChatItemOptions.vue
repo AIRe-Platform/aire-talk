@@ -133,51 +133,53 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     <DialogModal :active="state.confirmRevert" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" :buttons="[
         { loc_key: l.button_yes, onClick: onConfirmRevert },
         { loc_key: l.button_no, className: 'cancel-button', onClick: onCancelRevert }
-    ]">
+    ]" question-id="confrirm-revert-dialog-modal">
         {{ $t(l.popup_confirm_revert_message) }}
     </DialogModal>
     <div class="chat-item-options">
-        <div class="chat-item-options-button" tabindex="0" @keydown.prevent.space.enter="onToggleMenu"
-            @click.stop="onToggleMenu" aria-haspopup="true" :aria-expanded="state.menuOpen"
-            :class="{ 'is-content': props.content !== undefined }">
-            <div v-if="state.menuOpen" class="icon chat-option-desktop">
+        <button class="chat-item-options-button" type="button" @click.stop="onToggleMenu" aria-haspopup="true"
+            :aria-label="state.menuOpen ? $t(l.screen_recorder_close_message_menu) : $t(l.screen_recorder_open_message_menu)"
+            :aria-expanded="state.menuOpen" :class="{ 'is-content': props.content !== undefined }">
+            <div v-if="state.menuOpen">
+                <div class="icon chat-option-desktop"></div>
             </div>
-            <Tooltip :text="$t(l.tooltip_message_options)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <div v-if="!state.menuOpen" class="icon chat-option-desktop">
-                </div>
+            <Tooltip v-else :text="$t(l.tooltip_message_options)" position="bottom" :useMaxContent="false"
+                :adjustPosition="true">
+                <div class="icon chat-option-desktop"></div>
             </Tooltip>
-        </div>
+        </button>
         <div class="chat-item-options-menu" ref="optionsMenuRef" v-if="state.menuOpen"
             v-on-click-outside="onToggleMenu">
-            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="top" :useMaxContent="true" :adjustPosition="true">
-                <div @click.stop="onThumbsUp" role="button" :tabindex="optionsMenuTabindex"
-                    @keydown.prevent.space.enter="onThumbsUp" class="chat-item-options-menu-button thumbs-up"
+            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="left" :useMaxContent="true" :adjustPosition="true">
+                <button @click.stop="onThumbsUp" type="button" :tabindex="optionsMenuTabindex"
+                    :aria-label=$t(l.screen_recorder_thumbs_up) class="chat-item-options-menu-button thumbs-up"
                     :class="{ 'is-selected': state.rating > 0 }">
                     <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-                </div>
+                </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="top" :useMaxContent="true" :adjustPosition="true">
-                <div @click.stop="onThumbsDown" role="button" :tabindex="optionsMenuTabindex"
-                    @keydown.prevent.space.enter="onThumbsDown" class="chat-item-options-menu-button thumbs-down"
+            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="left" :useMaxContent="true" :adjustPosition="true">
+                <button @click.stop="onThumbsDown" type="button" :tabindex="optionsMenuTabindex"
+                    :aria-label=$t(l.screen_recorder_thumbs_down) class="chat-item-options-menu-button thumbs-down"
                     :class="{ 'is-selected': state.rating < 0 }">
                     <font-awesome-icon icon="fa-solid fa-thumbs-down" />
-                </div>
+                </button>
             </Tooltip>
             <template v-if="!props.content">
                 <Tooltip :text="$t(state.copiedToClipboard ? l.tooltip_message_copied :
-                    l.tooltip_copy_message)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <div @click.stop="onCopyClipboard" role="button" :tabindex="optionsMenuTabindex"
-                        @keydown.prevent.space.enter="onCopyClipboard" class="chat-item-options-menu-button check"
-                        :class="{ 'is-selected': state.copiedToClipboard }">
+                    l.tooltip_copy_message)" position="left" :useMaxContent="true" :adjustPosition="true">
+                    <button @click.stop="onCopyClipboard" type="button" :tabindex="optionsMenuTabindex"
+                        :aria-label="state.copiedToClipboard ? $t(l.screen_recorder_copied_text_clipboard) : $t(l.screen_recorder_copy_text_clipboard)"
+                        class="chat-item-options-menu-button check" :class="{ 'is-selected': state.copiedToClipboard }">
                         <font-awesome-icon :icon="['fa-solid', state.copiedToClipboard ? 'fa-check' : 'fa-copy']" />
-                    </div>
+                    </button>
                 </Tooltip>
-                <Tooltip :text="$t(l.tooltip_revert_message)" position="top" :useMaxContent="false"
+                <Tooltip :text="$t(l.tooltip_revert_message)" position="left" :useMaxContent="true"
                     :adjustPosition="true" v-if="props.can_revert">
-                    <div @click.stop="onRevert" role="button" :tabindex="optionsMenuTabindex"
-                        @keydown.prevent.space.enter="onRevert" class="chat-item-options-menu-button fa-arrows-spin">
+                    <button @click.stop="onRevert" type="button" :tabindex="optionsMenuTabindex"
+                        :aria-label=$t(l.screen_recorder_revert_here)
+                        class="chat-item-options-menu-button fa-arrows-spin">
                         <font-awesome-icon icon="fa-solid fa-arrows-spin" />
-                    </div>
+                    </button>
                 </Tooltip>
             </template>
         </div>
@@ -200,11 +202,13 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     justify-content: center;
     cursor: pointer;
     color: var(--chat-bubble-background-color);
+    border: none;
     border-radius: 0.6rem;
+    background-color: transparent;
     transition: background-color 0.25s;
 
     &:hover {
-        background-color: var(--accent-primary-color);
+        background-color: var(--hover-text);
     }
 }
 

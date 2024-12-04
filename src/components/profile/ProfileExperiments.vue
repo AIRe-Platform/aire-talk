@@ -11,6 +11,7 @@ import useLogin from '@/context/login';
 import Switch from '@/components/common/Switch.vue';
 import Spinner from '@/components/common/Spinner.vue';
 import Tooltip from "@/components/common/Tooltip.vue";
+import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 const login = useLogin();
 
@@ -39,6 +40,7 @@ const onSave = () => {
     }
 
     state.busy = true;
+    showSpinner(SpinnerId.ProfileExperiments);
     AireServices.ID.saveProfileData(profile)
         .then((res) => {
             if (res.data?.preferences && login.user) {
@@ -47,42 +49,43 @@ const onSave = () => {
             }
         })
         .finally(() => {
-            state.busy = false
-        })
+            state.busy = false;
+            hideSpinner();
+        });
 }
 </script>
 
 <template>
     <div class="profile-experiments">
-        <h3>{{ $t(l.profile_experiments_title) }}</h3>
+        <h2>{{ $t(l.profile_experiments_title) }}</h2>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
                 <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">
-                    <div>
-                        <Switch class="experimental-item-toggle-switch" :is-on="state.overridePrompt"
-                            @change="toggleOverridePrefs" :colorized="true"
-                            @keydown.prevent.space.enter="toggleOverridePrefs" />
-                    </div>
+                    <Switch input-id="experimental-prompt-toggle" class="experimental-item-toggle-switch"
+                        :is-on="state.overridePrompt" @change="toggleOverridePrefs" :colorized="true" />
                 </Tooltip>
-                <label for="custom-prompt">{{ $t(l.profile_experiments_text) }}</label>
+                <label for="experimental-prompt-toggle">{{ $t(l.profile_experiments_text) }}</label>
             </div>
-            <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
-                :readonly="!state.overridePrompt" aria-describedby="prompt-override-desc"></textarea>
+            <div class="experimental-prompt-wrapper">
+                <label for="custom-prompt">{{ $t(l.profile_experiments_prompt) }}</label>
+                <textarea id="custom-prompt" v-model="state.prefs.experimental_custom_prompt"
+                    :readonly="!state.overridePrompt" aria-describedby="prompt-override-desc"></textarea>
+            </div>
             <p id="prompt-override-desc">{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
                 $t(l.profile_experiments_description) }}</p>
         </div>
         <template v-if="state.busy">
-            <Spinner />
+            <Spinner :id="SpinnerId.ProfileExperiments" />
         </template>
         <template v-if="!state.busy">
             <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
+                <button class="btn" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
             </Tooltip>
         </template>
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .profile-experiments {
     display: flex;
     flex-direction: column;
@@ -93,13 +96,6 @@ const onSave = () => {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-    textarea {
-        max-width: 80%;
-        min-width: 80%;
-        min-height: 5rem;
-        align-self: center;
-    }
 }
 
 .experimental-item-toggle {
@@ -113,10 +109,40 @@ const onSave = () => {
     width: 2rem;
 }
 
+.experimental-prompt-wrapper {
+    margin-block-start: 0.5rem;
+    display: flex;
+    width: 100%;
+    gap: 0.5rem;
+
+    label {
+        flex-basis: 10%;
+        font-size: var(--font-medium);
+    }
+
+    textarea {
+        min-height: 5rem;
+        flex-grow: 1;
+        resize: none;
+    }
+}
+
 .save-experiments-button-wrapper {
     height: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .experimental-prompt-wrapper>label {
+        flex-basis: 20%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .experimental-prompt-wrapper {
+        flex-direction: column;
+    }
 }
 </style>

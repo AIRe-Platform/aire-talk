@@ -7,20 +7,24 @@
 import { computed, defineEmits, defineProps, onMounted, onUnmounted, ref } from 'vue';
 import Modal from '@/components/common/Modal.vue';
 import { LocalizationKey } from '@/locales/keys';
+import { switchFocus } from '@/helpers/keyboarNavigation';
 
 const buttonsRef = ref<HTMLElement | null>(null);
+const dialogModalRef = ref<HTMLElement | null>(null);
 const emit = defineEmits<{
-    // eslint-disable-next-line no-unused-vars
-    (e: 'select', index: number): void;
-    // eslint-disable-next-line no-unused-vars
-    (e: 'focusFirstButton', element: HTMLElement | null): void;
+    select: [index: number];
+    focusFirstButton: [element: HTMLElement | null]
+    // Emits the 'active' event with a boolean value
+    active: [isActive: boolean];
 }>()
 
 let observer: IntersectionObserver | undefined;
 
 const props = defineProps<{
+    active: boolean;
     buttons: Array<{ loc_key: LocalizationKey, className?: string, onClick?: () => void }>;
     showCloseButton?: boolean;
+    questionId?: string;
 }>();
 
 
@@ -47,30 +51,29 @@ onMounted(() => {
     }
 });
 
+const handleClose = () => {
+    emit('active', false);
+};
+
 onUnmounted(() => observer?.disconnect());
-
-const switchButtonFocus = (next: boolean, index: number) => {
-    const buttons = buttonsRef.value?.querySelectorAll('button');
-    if (!buttons) return;
-    const nextIndex = (index + (next ? 1 : -1) + buttons.length) % buttons.length;
-    buttons[nextIndex].focus();
-}
-
 </script>
 
 <template>
-    <Modal :active="true" :show-close-button="props.showCloseButton">
-        <div class="dialog-question">
-            <slot></slot>
-        </div>
-        <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-            <button v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
-                @keydown.prevent.tab.exact="switchButtonFocus(true, i)"
-                @keydown.prevent.shift.tab="switchButtonFocus(false, i)" :class="btn.className">
-                {{ $t(btn.loc_key) }}
-            </button>
-        </div>
-    </Modal>
+    <div ref="dialogModalRef" @keydown.prevent.tab.exact="switchFocus(true, dialogModalRef)"
+        @keydown.prevent.shift.tab="switchFocus(false, dialogModalRef)">
+        <Modal :active="props.active" :show-close-button="props.showCloseButton" @close="handleClose">
+            <div class="dialog-question" :id="props.questionId">
+                <slot></slot>
+            </div>
+            <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
+                <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
+                    :aria-describedby="props.questionId"
+                    :class="btn.className">
+                    {{ $t(btn.loc_key) }}
+                </button>
+            </div>
+        </Modal>
+    </div>
 </template>
 
 <style lang="scss" scoped>

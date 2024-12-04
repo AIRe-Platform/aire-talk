@@ -32,11 +32,10 @@ const content = computed(() => {
         v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
         <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
-            <div class="button-keyword-delete" tabindex="0" role="button"
-                @keydown.prevent.space.enter="removeKeyword(props.message.content, true)"
+            <button class="button-keyword-delete" type="button" :aria-label=$t(l.tooltip_remove_keyword)
                 @click="removeKeyword(props.message.content, true)">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
-            </div>
+            </button>
         </Tooltip>
     </div>
 </template>
@@ -52,6 +51,10 @@ const content = computed(() => {
     color: var(--title-text);
 }
 
+.fa-xmark {
+    color: var(--fa-xmark-theme);
+}
+
 .button-keyword-delete {
     display: flex;
     align-items: center;
@@ -59,7 +62,8 @@ const content = computed(() => {
     cursor: pointer;
     width: 2rem;
     transition: color .2s;
-    color: #B6465F;
+    border: none;
+    background-color: transparent;
     font-size: large;
 
     &:hover {

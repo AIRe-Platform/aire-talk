@@ -85,42 +85,46 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 <template>
     <Panel class="chat-tools">
         <div class="chat-tools-header" :class="{ 'is-mobile': state.isMobile }">
-            <div class="chat-tools-title">
+            <h2 class="chat-tools-title">
                 {{ $t(l.tools_title) }}
-            </div>
+            </h2>
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
             <Tooltip :text="$t(l.tooltip_summarize)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_summarize) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_query_surveys)" position="top" :useMaxContent="false" :adjustPosition="true"
                 v-if="listChatKeywords(chat.messages).length > 0 && !questionnaires.active">
-                <button class="chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_query_surveys) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
                 :adjustPosition="true" v-if="state.missingPersonalInfo">
-                <button class="chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_suggestions)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
+                <button class="btn chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true">
-                <button class="chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
+
+            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
+                class="xmark-icon">
+                <button class="btn chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
+                    <div class="tooltip-inside circle-icon" @click="emits('close')" tabindex="0" role="link">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                    </div>
                 </button>
             </Tooltip>
         </div>
@@ -140,6 +144,15 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
     gap: 1rem;
 }
 
+.circle-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.fa-xmark {
+    transform: scale(1.1);
+}
+
 .chat-tools-header {
     display: flex;
 
@@ -155,6 +168,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
 .chat-tools-title {
     display: flex;
     justify-content: center;
+    margin-block-end: 0;
 }
 
 .chat-tool-buttons {
@@ -196,7 +210,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
     }
 
     input[type=submit],
-    button {
+    .btn {
         &:hover {
             color: white;
             border-color: white;

@@ -52,27 +52,32 @@ const onDeleteAccount = (e: Event) => {
 
 <template>
     <form id="delete-form" @submit.prevent="onDeleteAccount">
-        <h3>{{ $t(l.profile_heading_delete_account) }}</h3>
-        <div class="form-row description">{{ $t(l.profile_description_delete_account) }}</div>
+        <h2>{{ $t(l.profile_heading_delete_account) }}</h2>
+        <div class="form-row description" tabindex="0" id="delete-account-description">{{
+            $t(l.profile_description_delete_account) }}
+        </div>
         <div class="form-content">
             <span class="form-item">
                 <label for="confirm_password">{{ $t(l.profile_label_password_confirm) }}</label>
-                <input class="profile-input" id="confirm_password" type="password" required="true" autocomplete="off"
+                <input class="profile-input" id="confirm_password" type="password" minlength="8" required="true" autocomplete="off"
                     v-model="state.confirmPassword" :readonly="state.busy" />
             </span>
             <span class="form-toggle" @click.stop="">
                 <input id="keep_anonymized_data" type="checkbox" v-model="state.keepAnonymizedData"
-                    :disabled="state.busy" />
-                <label for="keep_anonymized_data" class="checkbox-label" @click.stop="">
+                    :disabled="state.busy"
+                    :aria-describedby="['delete-account-description', state.error ? 'delete-account-error' : undefined].filter(Boolean).join(' ')" />
+                <label for="keep_anonymized_data" tabindex="0" class="checkbox-label" @click.stop="">
                     {{ $t(l.profile_label_keep_anonymized_data) }}
                 </label>
             </span>
         </div>
-        <div class="error-message" v-if="state.error">{{ $t(state.error) }}</div>
+        <div class="error-message" v-if="state.error" id="delete-account-error" role="alert" aria-live="assertive"
+            tabindex="0">{{
+                $t(state.error) }}</div>
         <div class="form-buttons">
             <template v-if="!state.busy">
                 <Tooltip :text="$t(l.tooltip_delete)" position="bottom" :useMaxContent="false" :adjustPosition="true">
-                    <button type="submit">{{ $t(l.profile_button_delete) }}</button>
+                    <button class="btn" type="submit">{{ $t(l.profile_button_delete) }}</button>
                 </Tooltip>
 
             </template>

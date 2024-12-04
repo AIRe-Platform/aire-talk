@@ -36,9 +36,9 @@ const onTTS = () => {
         <ChatItemOptions :parent="props.message" :can_revert="props.canRevert"
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
-            <span class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
+            <h2 class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
                 {{ (props.message.role === 'assistant') ? $t(message.sender) : message.sender }}
-            </span>
+            </h2>
             <span class="chat-bubble-text">
                 <VueMarkdown :source="message.content" />
             </span>
@@ -47,10 +47,11 @@ const onTTS = () => {
                     ? $t(l.tooltip_chat_tts_stop_reading)
                     : $t(l.tooltip_chat_tts_read_message)" position="top-left" :useMaxContent="true"
                     :adjustPosition="true" v-if="tts.isSupported.value && props.message.content">
-                    <div class="chat-bubble-button" @click="onTTS" @keydown.prevent.space.enter="onTTS" tabindex="0">
+                    <button class="chat-bubble-button" @click="onTTS" type="button"
+                        :aria-label="tts.isSpeaking.value ? $t(l.screen_recorder_stop_text_to_speech) : $t(l.screen_recorder_play_text_to_speech)">
                         <font-awesome-icon icon="fa-solid fa-volume-xmark" v-if="tts.isSpeaking.value" />
                         <font-awesome-icon icon="fa-solid fa-volume-high" v-else />
-                    </div>
+                    </button>
                 </Tooltip>
             </span>
         </div>
@@ -105,6 +106,7 @@ const onTTS = () => {
 .chat-bubble-user-label {
     font-size: var(--font-medium);
     font-weight: bold;
+    margin-block-end: 0;
 }
 
 .chat-bubble-assistant .chat-bubble-user-label {
@@ -124,10 +126,12 @@ const onTTS = () => {
     transition: color .25s;
     padding: 0.2rem;
     color: var(--button-color);
+    border: none;
+    background-color: transparent;
     width: 2rem;
 
     &:hover {
-        color: var(--accent-primary-color);
+        color: var(--hover-text);
     }
 }
 

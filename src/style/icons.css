@@ -34,6 +34,22 @@
     height: 1.5rem;
 }
 
+.fa-xmark{
+    color: #B6465F;
+    transform: scale(0.8);
+}
+
+.circle-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #F1F4F9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 .theme-default .icon.content-exercise {
     background-image: url("@/assets/icons/content-exercise-default.svg");
 }
@@ -50,7 +66,7 @@
     background-image: url("@/assets/icons/content-url-default.svg");
 }
 
-.icon.content-document-icon {
+.icon.content-document {
     background-image: url("@/assets/icons/content-document-default.svg");
 }
 
@@ -140,6 +156,18 @@
     background-image: url("@/assets/icons/settings-light-mobile.svg");
     width: 2rem;
     height: 2rem;
+}
+
+.icon.voice-control {
+    background-image: url("@/assets/icons/voice-control.svg");
+    width: 2rem;
+    height: 1.7rem;
+}
+
+.icon.voice-control-stop {
+    background-image: url("@/assets/icons/voice-control-stop.svg");
+    width: 2rem;
+    height: 1.7rem;
 }
 
 .theme-default .icon.tilt-mobile-default {

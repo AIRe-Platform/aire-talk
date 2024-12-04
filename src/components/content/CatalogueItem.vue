@@ -7,6 +7,7 @@
 import Panel from '@/components/common/Panel.vue';
 import { defineProps, defineEmits, computed } from "vue";
 import { AireContentType, AireContent } from 'aire';
+import { l } from '@/locales';
 
 const props = defineProps<{
     content: AireContent,
@@ -33,21 +34,27 @@ const emits = defineEmits<{
 
 const isAireContentType = (value: any): value is AireContentType => Object.values(AireContentType).includes(value);
 
-const getIconClass = (type: AireContentType | undefined): string => isAireContentType(type) ? `content-${type}` : '';
+const getIconClass = (type: AireContentType | undefined): string => {
+    const result = isAireContentType(type) ? `content-${type}` : '';
+    return result;
+};
 </script>
 
 <template>
     <Panel class="catalogue-item" @click="emits('show', props.content)"
-        :class="{ 'is-from-summarycontent': props.isFromSummary }">
+        :class="{ 'is-from-summarycontent': props.isFromSummary }" role="button" tabindex="0"
+        :aria-label="`${$t(l.screen_recorder_open_content)} ${props.content.name || $t(l.screen_recorder_content_item)}`">
 
         <div class="catalogue-item-header">
-            <div v-if="props.content.modified">
+            <div v-if="props.content.modified" role="text" tabindex="0"
+                :aria-label=$t(l.screen_recorder_content_published)>
                 {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
             </div>
-            <div :class="getIconClass(props.content.type)" class="icon" tabindex="0"
+            <div :class="getIconClass(props.content.type)" class="icon" tabindex="0" role="button"
+                :aria-label="`${$t(l.screen_recorder_content_type)} ${props.content.type}`"
                 @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
         </div>
-        <div class="catalogue-item-media">
+        <div class="catalogue-item-media" tabindex="0" :aria-label=$t(l.screen_recorder_content_media)>
             <video muted class="video" v-if="props.content.type == AireContentType.Video">
                 <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
                     type="video/mp4">
@@ -56,22 +63,24 @@ const getIconClass = (type: AireContentType | undefined): string => isAireConten
             <div v-if="props.content.type == AireContentType.URL">
                 <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the url" />
                 </div>
             </div>
             <div v-if="props.content.type == AireContentType.Document">
-                <div class="icon content-document-icon catalogue-item-width-icon" v-if="!props.content.thumbnail_url">
+                <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"
+                    aria-label="Document preview">
                 </div>
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the document" />
                 </div>
             </div>
         </div>
-        <div class="star-rating">
-            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
+        <div class="star-rating"
+            :aria-label="`${$t(l.screen_recorder_content_rated)}: ${Math.floor(normalizedRating)} ${$t(l.screen_recorder_content_stars)}`">
+            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star" tabindex="0">⭐</span>
         </div>
-        <div class="catalogue-item-description">
-            <p>{{ props.content.name }}</p>
+        <div class="catalogue-item-description" tabindex="0" :aria-label=$t(l.screen_recorder_content_name)>
+            <p id="media-label">{{ props.content.name }}</p>
         </div>
     </Panel>
 </template>

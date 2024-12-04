@@ -7,6 +7,7 @@
 import { defineProps } from 'vue';
 import { l } from '@/locales';
 import Tooltip from "@/components/common/Tooltip.vue";
+import { UIState } from "@/context/ui";
 
 const props = defineProps<{
     open: boolean
@@ -14,8 +15,10 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="nav-button" :class="{ 'nav-button-active': props.open }">
-        <div type="button" class="">
+    <button type="button" class="nav-button" :class="{ 'nav-button-active': props.open }" :aria-expanded="props.open"
+        aria-haspopup="menu" :aria-label=$t(l.screen_recorder_main_navigation_menu)
+        :tabindex="UIState.reminderModalRef ? -1 : 0">
+        <div>
             <Tooltip class="nav-button-graphics" :text="$t(l.nav_main_menu)" position="top" :useMaxContent="false"
                 :adjustPosition="true">
                 <span class="button-bar button-bar--1"></span>
@@ -23,7 +26,7 @@ const props = defineProps<{
                 <span class="button-bar button-bar--3"></span>
             </Tooltip>
         </div>
-    </div>
+    </button>
 </template>
 
 <style lang="scss" scoped>
@@ -85,7 +88,7 @@ const props = defineProps<{
 }
 
 .nav-button:hover .button-bar {
-    background-color: var(--accent-primary-color);
+    background-color: var(--hover-text);
 }
 
 .button-bar--1 {
@@ -136,7 +139,7 @@ const props = defineProps<{
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .nav-button {
-        padding: 0.5rem;
+        padding: 1.5rem;
         left: 0.5rem;
         top: 0.5rem;
         width: 2.2rem;

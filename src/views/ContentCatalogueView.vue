@@ -8,7 +8,7 @@
 import { l } from "@/locales";
 import { router } from "@/router";
 import { computed, onMounted, reactive } from "vue";
-import { AireContent, AireContentType, AireKeyword } from "aire";
+import { AireContent, AireKeyword } from "aire";
 import { getAllSuggestedContentFromHistory, rankSelectedContent } from "@/helpers/contentUtils";
 import Tooltip from "@/components/common/Tooltip.vue";
 import useContent from "@/context/content";
@@ -60,6 +60,7 @@ const state = reactive<{
 
 const filteredContents = computed(() => {
     let result = state.contentList.map(item => {
+        // eslint-disable-next-line no-unused-vars
         const { chatId, ...content } = item; // Extract content, leaving out chatId
         return content; // Return only the content part (AireContent)
     });
@@ -213,6 +214,7 @@ onMounted(async () => {
     if (state.contentList && state.contentList.length > 0) {
         // Extract only the content part (AireContent) from the wrapped items
         const contentWithoutChatId = state.contentList.map(item => {
+            // eslint-disable-next-line no-unused-vars
             const { chatId, ...content } = item; // Extract content without chatId
             return content; // Return only the content part
         });
@@ -230,26 +232,27 @@ onMounted(async () => {
         :chatId="state.contentList?.find(content => content.id === state.openContent?.id)?.chatId"
         :onClose="closeModal" />
     <div class="content-catalogue-view">
-        <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-            class="icon close-window xmark-icon">
-            <div class="tooltip-inside" tabindex="0" role="link" @keydown.prevent.space.enter="navigateTo('/chat')"
-                @click="navigateTo('/chat')">
+        <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
+            class="xmark-icon">
+            <div class="tooltip-inside circle-icon" @click="navigateTo('/chat')" tabindex="0" role="link"
+                @keydown.prevent.space.enter="navigateTo('/chat')">
+                <font-awesome-icon icon="fa-solid fa-xmark" />
             </div>
         </Tooltip>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
-                <h3>{{ $t(l.nav_catalogue) }}</h3>
+                <h1>{{ $t(l.nav_catalogue) }}</h1>
             </div>
         </div>
         <Spinner v-if="state.busy" />
         <div v-if="state.rankedContents.length == 0">
-            <h3 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h3>
+            <h2 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h2>
         </div>
 
         <div class="content-catalogue-filter-row" v-if="!state.busy">
             <div class="filter-header">
                 <div class="filter-header-left">
-                    <button class="filter-button" @click="toggleFilters">
+                    <button class="btn filter-button" @click="toggleFilters">
                         {{ $t(l.content_catalogue_filters) }}
                         <font-awesome-icon
                             :icon="state.showFilters ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'" />
@@ -258,7 +261,7 @@ onMounted(async () => {
                         {{ $t(l.content_catalogue_clear_filter) }}
                     </div>
                 </div>
-                <button v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
+                <button class="btn" v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
                     $t(l.content_catalogue_apply_filter) }}</button>
                 <!-- todo create localization -->
             </div>
@@ -341,9 +344,8 @@ onMounted(async () => {
 }
 
 .tooltip-inside {
-    display: flex;
-    width: 100%;
-    height: 100%;
+    height: 2rem;
+    width: 2rem;
 }
 
 .content-catalogue-header {
@@ -395,14 +397,14 @@ onMounted(async () => {
     overflow: auto;
 }
 
-button.selected {
+.btn.selected {
     background-color: var(--accent-primary-color);
     border-color: transparent;
     color: var(--background-color);
     box-shadow: 0 0 5px var(--accent-primary-color);
 }
 
-button {
+.btn {
     padding: 8px 12px;
     margin: 4px;
     cursor: pointer;

@@ -25,6 +25,7 @@ const vi: Locale = {
 
     notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 
+    start_signup_success: "start_signup_success",
     start_greeting: "Chào mừng đến với nền tảng AIRe",
     start_first_paragraph: "Ứng dụng AI số một của bạn về các nguồn mẹo y tế.",
     start_second_paragraph:
@@ -33,6 +34,7 @@ const vi: Locale = {
         "AIRe là một giải pháp được AI hỗ trợ giúp bạn xác định nhu cầu phục hồi chức năng của mình và hướng dẫn bạn các nội dung và dịch vụ phục hồi chức năng được cá nhân hóa.",
     start_disclaimer: "AIRe không phải là một công cụ chẩn đoán y tế.",
 
+    home_title: "home_title",
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
 
@@ -60,7 +62,7 @@ const vi: Locale = {
     nav_logout: "Đăng xuất",
     nav_signup: "Đăng ký",
     nav_preferences: "Cài đặt",
-    nav_main_menu: "Thực đơn chính",
+    nav_main_menu: "Ukurasa wa mbele",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
 
@@ -74,9 +76,8 @@ const vi: Locale = {
     profile_label_bio: "Tiểu sử",
     profile_characters_max: '{0} ký tự tối đa.',
     profile_remaining: "ký tự còn lại.",
-
-    profile_button_save: "Lưu thay đổi",
-
+    profile_placeholder_year_of_birth: "Nhập năm sinh theo định dạng YYYY, ví dụ 1990.",
+    profile_button_save: "Cập nhật hồ sơ",
     profile_heading_connected_services: "Dịch vụ được kết nối",
     profile_empty_service_list: "Không có dịch vụ được kết nối",
 
@@ -90,7 +91,7 @@ const vi: Locale = {
     profile_heading_personal_data: "Dữ liệu cá nhân",
     profile_description_personal_data:
         "Tất cả thông tin của bạn được mã hóa theo cách mà chỉ bạn mới có quyền truy cập. Các dịch vụ AIRe chỉ có thể sử dụng dữ liệu của bạn khi bạn đang sử dụng các dịch vụ. Tại đây, bạn có thể tải xuống tất cả dữ liệu của mình được lưu trong AIRe. Xin lưu ý rằng việc thu thập dữ liệu có thể mất một thời gian.",
-    profile_button_download_personal_data: "Tải xuống",
+    profile_button_download_personal_data: "Tải xuống dữ liệu cá nhân",
 
     profile_heading_delete_account: "Xóa tài khoản",
     profile_description_delete_account:
@@ -115,10 +116,14 @@ const vi: Locale = {
     profile_question_country: "Bạn sống ở quốc gia nào?",
 
     profile_experiments_title: "Thí nghiệm",
+    profile_experiments_prompt: "profile_experiments_prompt",
     profile_experiments_text: "Ghi đè lời nhắc hệ thống chatbot",
     profile_experiments_add: "Thêm vào",
     profile_experiments_description: "vào lời nhắc của bạn nếu bạn muốn đưa vào bản tóm tắt hồ sơ người dùng của mình.",
     profile_experiments_apply: "Áp dụng các thay đổi",
+
+    profile_chat_history_tokens_heading: "profile_chat_history_tokens_heading",
+    profile_chat_history_tokens_label: "profile_chat_history_tokens_label",
 
     settings_title: "Cài đặt",
     settings_language: "Ngôn ngữ giao diện người dùng",
@@ -171,7 +176,9 @@ const vi: Locale = {
     tools_button_suggestions: "Gợi ý",
 
     chat_history_loading: "Đang tải...",
+    chat_history_delete_success: "chat_history_delete_success",
     chat_history_tokens: "{0} token",
+    chat_title: "chat_title",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
 
     popup_confirm_revert_message:
@@ -270,6 +277,7 @@ const vi: Locale = {
     tooltip_chat_tts_stop_reading: "Dừng đọc",
     tooltip_chat_tts_read_new_messages_off: "Dừng đọc tin nhắn mới",
     tooltip_chat_tts_read_new_messages_on: "Đọc tin nhắn mới",
+    tooltip_tokens: "tooltip_tokens",
 
     tutorial_home_welcome_message: "tutorial_home_welcome_message",
     tutorial_chat_welcome_message: "tutorial_chat_welcome_message",
@@ -284,7 +292,51 @@ const vi: Locale = {
     tutorial_skip: "tutorial_skip",
     tutorial_done: "tutorial_done",
 
-    Language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
+    language_default_message: "Chọn ngôn ngữ mặc định của giao diện:",
+
+    screen_recorder_bot_writing: "Bot đang viết phản hồi.",
+    screen_recorder_bot_stop_writing: "Bot đã hoàn thành phản hồi.",
+    screen_recorder_loading: "Trang đang tải, vui lòng đợi.",
+    screen_recorder_stop_text_to_speech: "Dừng chuyển văn bản thành giọng nói.",
+    screen_recorder_play_text_to_speech: "Chạy chuyển văn bản thành giọng nói.",
+    screen_recorder_chat_input_description: "Viết tin nhắn đầu vào cho bot.",
+    screen_recorder_open_chat_side_panel: "Mở bảng điều khiển trò chuyện.",
+    screen_recorder_close_chat_side_panel: "Đóng bảng điều khiển trò chuyện.",
+    screen_recorder_open_message_menu: "Mở menu tin nhắn.",
+    screen_recorder_close_message_menu: "Đóng menu tin nhắn.",
+    screen_recorder_thumbs_up: "Ngón tay cái lên.",
+    screen_recorder_thumbs_down: "Ngón tay cái xuống.",
+    screen_recorder_copy_text_clipboard: "Sao chép văn bản vào clipboard.",
+    screen_recorder_copied_text_clipboard: "Văn bản đã được sao chép vào clipboard.",
+    screen_recorder_revert_here: "Quay lại cuộc trò chuyện đến điểm này.",
+    screen_recorder_open_content: "Mở nội dung.",
+    screen_recorder_content_item: "Mục nội dung.",
+    screen_recorder_content_published: "Nội dung đã được xuất bản.",
+    screen_recorder_content_type: "Loại nội dung:",
+    screen_recorder_content_rated: "Đánh giá:",
+    screen_recorder_content_stars: "sao.",
+    screen_recorder_content_media: "Phương tiện nội dung:",
+    screen_recorder_content_name: "Tên nội dung:",
+    screen_recorder_image_content: "Nội dung hình ảnh:",
+    screen_recorder_image_content_unnamed: "Hình ảnh chưa được đặt tên.",
+    screen_recorder_video_content: "Nội dung video:",
+    screen_recorder_video_content_unnamed: "Video chưa được đặt tên.",
+    screen_recorder_open_url: "Mở URL:",
+    screen_recorder_untitled_url: "URL chưa có tên.",
+    screen_recorder_open_document: "Mở Tài liệu:",
+    screen_recorder_untitled_document: "Tài liệu chưa có tên.",
+    screen_recorder_new_tab: "Mở trong tab mới.",
+    screen_recorder_main_navigation_menu: "Chuyển đổi menu điều hướng chính.",
+
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Trình duyệt của bạn không hỗ trợ thẻ video.",
+    content_modal_untitled_url_thumbnail: "Ảnh thu nhỏ của URL chưa có tên.",
+    content_modal_untitled_document_thumbnail: "Ảnh thu nhỏ của tài liệu chưa có tên.",
+    content_modal_no_description: "Không có mô tả nào.",
+
+    screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
+    screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
