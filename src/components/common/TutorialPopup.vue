@@ -5,7 +5,6 @@
 -->
 
 <script setup lang="ts">
-import useTheme from '@/context/theme';
 import {
     ITutorial,
     ChatTutorialState,
@@ -24,7 +23,6 @@ const props = defineProps<{
 }>();
 
 const route = useRoute();
-const { style } = useTheme();
 const i18n = useI18n();
 
 const popupRef = ref<HTMLElement | null>(null);
