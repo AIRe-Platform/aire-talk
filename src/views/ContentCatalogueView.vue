@@ -234,10 +234,12 @@ onMounted(async () => {
     <div class="content-catalogue-view">
         <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
             class="xmark-icon">
-            <div class="tooltip-inside circle-icon" @click="navigateTo('/chat')" tabindex="0" role="link"
-                @keydown.prevent.space.enter="navigateTo('/chat')">
+            <a class="tooltip-inside circle-icon"
+                @click="navigateTo('/chat')"
+                @keydown.space="navigateTo('/chat')"
+                :aria-label="$t(l.tooltip_close)" href="#">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
-            </div>
+            </a>
         </Tooltip>
         <div class="content-catalogue-header">
             <div class="content-catalogue-header-text">
