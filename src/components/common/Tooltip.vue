@@ -52,13 +52,13 @@ const onMouseLeave = (event: MouseEvent) => {
     position: relative;
     display: flex;
     justify-content: center;
+
 }
 
 .tooltiptext {
     visibility: hidden;
     width: max-content;
-    background-color: #555;
-    color: #fff;
+    color: var(--tooltip-text-color);
     text-align: center;
     border-radius: 6px;
     padding: 5px 10px;
@@ -70,6 +70,8 @@ const onMouseLeave = (event: MouseEvent) => {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--tooltip-background-color);
+    border: 1px solid var(--tooltip-border-color);
 }
 
 .tooltiptext::after {
@@ -80,8 +82,10 @@ const onMouseLeave = (event: MouseEvent) => {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #555 transparent transparent transparent;
+    border-color: var(--tooltip-border-color, var(--tooltip-background-color)) transparent transparent transparent;
 }
+
+
 
 .tooltiptext[data-avoid-crop-position="top"] {
     bottom: auto;
@@ -135,7 +139,7 @@ const onMouseLeave = (event: MouseEvent) => {
     top: auto;
     bottom: 100%;
     transform: rotate(0deg);
-    border-color: transparent transparent #555 transparent;
+    border-color: transparent transparent var(--tooltip-border-color) transparent;
 }
 
 .tooltiptext[data-avoid-crop-position="top-left"]::after {
@@ -148,14 +152,14 @@ const onMouseLeave = (event: MouseEvent) => {
 .tooltiptext[data-avoid-crop-position="left"]::after {
     top: calc(50% - 5px);
     transform: rotate(90deg);
-    border-color: transparent transparent #555 transparent;
+    border-color: transparent transparent var(--tooltip-border-color) transparent;
     left: 103%;
 }
 
 .tooltiptext[data-avoid-crop-position="bottom-left"]::after {
     top: 50%;
     transform: rotate(90deg);
-    border-color: transparent transparent #555 transparent;
+    border-color: transparent transparent var(--tooltip-border-color) transparent;
     left: 103%;
 }
 </style>

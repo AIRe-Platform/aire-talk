@@ -20,6 +20,7 @@ import { closeBurgerMenu } from "@/context/ui";
 import { HomeTutorialState, NavMenuTutorialState, TutorialStates } from "@/context/tutorials";
 import TutorialPopup from "../common/TutorialPopup.vue";
 import useTheme, { ThemeContext } from "@/context/theme";
+import { SpinnerId } from "@/helpers/spinnerUtils";
 
 const login = useLogin();
 const chat = useChat();
@@ -91,7 +92,8 @@ const focusOutListener = async (e: FocusEvent) => {
     if (
         !navMenuRef.value?.contains(relTarget) &&
         !target.closest('.modal, .tutorial-buttons') &&
-        relTarget?.id !== 'nav-burger-button'
+        relTarget?.id !== 'nav-burger-button' &&
+        target.id !== SpinnerId.ChatHistory
     ) {
         await closeBurgerMenu();
         UIState.showMenu = false;
@@ -115,7 +117,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
-    }">
+    }" :aria-hidden="!UIState.showMenu">
         <Panel class="nav-menu-bar" tabindex="-1">
             <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
                 v-if="login.user && !TutorialStates.nav.isDone()" />
