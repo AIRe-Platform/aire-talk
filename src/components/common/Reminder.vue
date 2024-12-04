@@ -46,6 +46,7 @@ const checkForEvents = () => {
             })
             .catch(err => {
                 console.error(err);
+                closeModal();
             })
             .finally(() => {
                 if (state.reminders.length !== 0) {

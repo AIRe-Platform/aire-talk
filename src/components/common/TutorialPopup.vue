@@ -5,7 +5,6 @@
 -->
 
 <script setup lang="ts">
-import useTheme from '@/context/theme';
 import {
     ITutorial,
     ChatTutorialState,
@@ -24,11 +23,9 @@ const props = defineProps<{
 }>();
 
 const route = useRoute();
-const { style } = useTheme();
 const i18n = useI18n();
 
 const popupRef = ref<HTMLElement | null>(null);
-const bgClass = ref<'bg-dark' | 'bg-light'>(style === 'theme-dark' ? 'bg-dark' : 'bg-light');
 
 function trySetPosition(): void {
     nextTick(() => {
@@ -82,9 +79,6 @@ watch(TutorialStates, (newState) => {
         setTimeout(trySetPosition, 250); // Same duration as the transition duration in `.chat-side-panel`.
     }
 });
-watch(() => style, (newStyle) => {
-    bgClass.value = newStyle === 'theme-dark' ? 'bg-dark' : 'bg-light';
-});
 
 onMounted(() => {
     props.tutorial.tryGetState();
@@ -113,7 +107,7 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
 <template>
     <div ref="popupRef"
         class="tutorial-pupup"
-        :class="[props.tutorial.trianglePosition, bgClass]"
+        :class="[props.tutorial.trianglePosition]"
         :style="[positionStyle, opacityStyle]">
         <span>{{ message }}</span>
         <div class="tutorial-buttons">
@@ -143,6 +137,7 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
     z-index: 8;
     box-shadow: 0 0 calc(var(--spacing) * 1.5) rgb(43, 43, 43);
     transition: opacity 350ms ease-in-out;
+    background-color: #fff;
 
     span {
         color: black;
@@ -200,14 +195,6 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
         clip-path: polygon(0 0, 0% 100%, 100% 50%);
         right: calc(var(--spacing) * -1);
         top: calc(75% - var(--spacing) / 2);
-    }
-
-    &.bg-dark {
-        background-color: #fff;
-    }
-
-    &.bg-light {
-        background-color: var(--panel-background-color);
     }
 }
 

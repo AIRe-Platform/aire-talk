@@ -76,7 +76,8 @@ const focusOutListener = (e: FocusEvent) => {
     const target = e.target as Element;
     if (
         !chatHistoryPanelRef.value?.contains(relTarget) &&
-        !target.closest('.modal')
+        !target.closest('.modal') &&
+        target.id !== SpinnerId.ChatHistory
     ) {
         UIState.panels.delete(UIPanels.ChatHistory);
     }
