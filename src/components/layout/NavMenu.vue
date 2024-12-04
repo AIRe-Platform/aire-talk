@@ -117,7 +117,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
         'nav-menu-open': UIState.showMenu && !UIState.isClosingMenu, 'short-nav-menu': UIState.isNavMenuCompressed,
         'close-nav-menu-compressed-with-icons': UIState.isClosingMenu && UIState.isNavMenuCompressed && isIconsMenu,
         'close-nav-menu-compressed': UIState.isClosingMenu && UIState.isNavMenuCompressed, 'close-menu-effect': UIState.isClosingMenu
-    }">
+    }" :aria-hidden="!UIState.showMenu">
         <Panel class="nav-menu-bar" tabindex="-1">
             <TutorialPopup class="neg-margin" :tutorial="TutorialStates.nav"
                 v-if="login.user && !TutorialStates.nav.isDone()" />
