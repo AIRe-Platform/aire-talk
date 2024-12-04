@@ -103,7 +103,7 @@ const toggleTTS = () => {
 
         </div>
         <div class="chat-input-left">
-            <label for="message-input" class="chat-bot-text" role="text" aria-live="polite"
+            <label for="message-input" class="chat-bot-text" aria-live="polite"
                 :aria-label="$t(l.chat_input_title)" tabindex="0">
                 {{ $t(l.chat_input_title) }}
             </label>
