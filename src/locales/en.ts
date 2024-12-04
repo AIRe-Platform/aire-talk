@@ -324,6 +324,7 @@ const en: Locale = {
 
     screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
     screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
+    screen_recorder_thumbnail: "Thumbnail for the content",
  
     en: "English",
     fi: "Finnish",

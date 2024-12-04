@@ -316,6 +316,7 @@ export enum LocalizationKey {
 
     screen_recorder_theme_switch_dark = "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light = "screen_recorder_theme_switch_light",
+    screen_recorder_thumbnail = "screen_recorder_thumbnail",
 
     en = "en",
     fi = "fi",

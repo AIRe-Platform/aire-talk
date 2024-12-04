@@ -8,6 +8,7 @@ import Panel from '@/components/common/Panel.vue';
 import { defineProps, defineEmits, computed } from "vue";
 import { AireContentType, AireContent } from 'aire';
 import { l } from '@/locales';
+import Tooltip from '../common/Tooltip.vue';
 
 const props = defineProps<{
     content: AireContent,
@@ -26,10 +27,8 @@ const normalizeRating = (rating: number, min: number = 1, max: number = 3): numb
 // Normalize the rating between 1 and 3 stars
 const normalizedRating = computed(() => normalizeRating(props.content.score || 0));
 
-
-const emits = defineEmits<{
-    show: [AireContent]
-    keydownShow: [AireContent]
+defineEmits<{
+    show: [AireContent];
 }>();
 
 const isAireContentType = (value: any): value is AireContentType => Object.values(AireContentType).includes(value);
@@ -41,47 +40,51 @@ const getIconClass = (type: AireContentType | undefined): string => {
 </script>
 
 <template>
-    <Panel class="catalogue-item" @click="emits('show', props.content)"
-        :class="{ 'is-from-summarycontent': props.isFromSummary }" role="button" tabindex="0"
-        :aria-label="`${$t(l.screen_recorder_open_content)} ${props.content.name || $t(l.screen_recorder_content_item)}`">
-
-        <div class="catalogue-item-header">
-            <div v-if="props.content.modified" role="text" tabindex="0"
-                :aria-label=$t(l.screen_recorder_content_published)>
-                {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
-            </div>
-            <div :class="getIconClass(props.content.type)" class="icon" tabindex="0" role="button"
-                :aria-label="`${$t(l.screen_recorder_content_type)} ${props.content.type}`"
-                @keydown.prevent.space.enter="emits('keydownShow', props.content)"></div>
-        </div>
-        <div class="catalogue-item-media" tabindex="0" :aria-label=$t(l.screen_recorder_content_media)>
-            <video muted class="video" v-if="props.content.type == AireContentType.Video">
-                <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
-                    type="video/mp4">
-            </video>
-            <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
-            <div v-if="props.content.type == AireContentType.URL">
-                <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
-                <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the url" />
+    <Panel >
+        <button type="button" @click="$emit('show', props.content)" class="catalogue-item no-style"
+            :class="{ 'is-from-summarycontent': props.isFromSummary }"
+            :aria-label="`${$t(l.screen_recorder_open_content)} ${props.content.name || $t(l.screen_recorder_content_item)}`">
+            <div class="catalogue-item-header">
+                <div v-if="props.content.modified" role="text" tabindex="0"
+                    :aria-label=$t(l.screen_recorder_content_published)>
+                    {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
                 </div>
+                <Tooltip :text="`${$t(l.screen_recorder_content_type)} ${props.content.type}`">
+                    <div :class="getIconClass(props.content.type)" class="icon" tabindex="0"
+                        :aria-label="`${$t(l.screen_recorder_content_type)} ${props.content.type}`"></div>
+                </Tooltip>
             </div>
-            <div v-if="props.content.type == AireContentType.Document">
-                <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"
-                    aria-label="Document preview">
-                </div>
-                <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the document" />
-                </div>
+            <div class="catalogue-item-media" tabindex="0" :aria-label=$t(l.screen_recorder_content_media)>
+                <video muted class="video" v-if="props.content.type == AireContentType.Video">
+                    <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
+                        type="video/mp4">
+                </video>
+                <img :src="props.content.url" class="image"
+                    :alt="props.content.name || $t(l.screen_recorder_image_content)"
+                    v-else-if="props.content.type == AireContentType.Image">
+                <template v-else-if="props.content.type == AireContentType.URL">
+                    <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
+                    <div v-else class="div-thumbnail">
+                        <img class="thumbnail" :src="props.content.thumbnail_url" :alt="$t(l.screen_recorder_thumbnail)" />
+                    </div>
+                </template>
+                <template v-else-if="props.content.type == AireContentType.Document">
+                    <div class="icon content-document catalogue-item-width-icon" v-if="!props.content.thumbnail_url"
+                        aria-label="Document preview">
+                    </div>
+                    <div v-else class="div-thumbnail">
+                        <img class="thumbnail" :src="props.content.thumbnail_url" :alt="$t(l.screen_recorder_thumbnail)" />
+                    </div>
+                </template>
             </div>
-        </div>
-        <div class="star-rating"
-            :aria-label="`${$t(l.screen_recorder_content_rated)}: ${Math.floor(normalizedRating)} ${$t(l.screen_recorder_content_stars)}`">
-            <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star" tabindex="0">⭐</span>
-        </div>
-        <div class="catalogue-item-description" tabindex="0" :aria-label=$t(l.screen_recorder_content_name)>
-            <p id="media-label">{{ props.content.name }}</p>
-        </div>
+            <div class="star-rating" tabindex="0"
+                :aria-label="`${$t(l.screen_recorder_content_rated)}: ${Math.floor(normalizedRating)} ${$t(l.screen_recorder_content_stars)}`">
+                <span v-for="star in Math.floor(normalizedRating)" :key="star" class="star">⭐</span>
+            </div>
+            <div class="catalogue-item-description" tabindex="0" :aria-label=$t(l.screen_recorder_content_name)>
+                <p id="media-label">{{ props.content.name }}</p>
+            </div>
+        </button>
     </Panel>
 </template>
 
@@ -168,5 +171,16 @@ const getIconClass = (type: AireContentType | undefined): string => {
     max-width: 10rem;
     border-radius: 1rem;
     max-height: 6rem;
+}
+
+.no-style {
+    border: none;
+    border-radius: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
 }
 </style>
