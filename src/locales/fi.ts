@@ -34,10 +34,13 @@ const fi: Locale = {
     start_footer:
         "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutumisen tarpeitasi ja opastaa sinut yksilöllisesti kuntoutuksen palveluiden ja sisällön pariin.",
     start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
+    start_view_alternative_image_logo: "AIRe chatbotin logo aloitusnäkymässä.",
 
     home_title: "AIRe kotisivu",
     home_start_new_chat: "Aloita uusi keskustelu",
     home_continue_chat: "Jatka edellistä keskustelua",
+    home_view_alternative_image_logo: "AIRe kotinäkymän logo-kuva.",
+    home_view_alternative_image_logo_dark_mode: "AIRe kotinäkymän logo-kuva pimeässä tilassa.",
 
     login_redirect: "Siirrytään kirjautumissivulle...",
     login_failure: "Kirjautuminen ei juuri nyt onnistu. Yritä myöhemmin uudelleen.",
@@ -66,6 +69,11 @@ const fi: Locale = {
     nav_main_menu: "Etusivu",
     nav_catalogue: "Oma sisältökirjasto",
     nav_about: "Tietoa AIRe-palvelusta",
+    nav_menu_alternative_image_logo: "AIRe navigointivalikon logo.",
+    nav_menu_alternative_image_logo_dark_mode: "AIRe navigointivalikon logo pimeässä tilassa.",
+    
+    profile_view_alternative_image_logo: "AIRe profiilin logo.",
+    profile_view_alternative_image_logo_dark_mode: "AIRe profiilin logo pimeässä tilassa.",
 
     profile_title: "Käyttäjätili",
     profile_label_first_name: "Etunimi",
@@ -184,6 +192,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     chat_history_tokens: "{0} tokenia",
     chat_title: "AIRe keskustelu",
     chat_input_title: "Mitä haluaisit kysyä tai kertoa?",
+    chat_input_alternative_image_logo_idle_state: "AIRe chatbot lepotilassa.",
+    chat_input_alternative_image_logo_thinking: "AIRe chatbot ajattelee.",
+    chat_input_alternative_image_logo_finish: "AIRe chatbot on lopettanut vastaamisen.",
 
     popup_confirm_revert_message:
         "Haluatko varmasti poistaa tämän viestin jälkeen käydyn keskustelun? ",
@@ -228,7 +239,13 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     content_modal_continue_to_chat: "Palaa chattiin",
     content_modal_description: "Kuvaus:",
     content_modal_themes: "Teemat:",
-
+    content_modal_untitled: "Nimeämätön sisältö",
+    content_modal_download: "Lataa video",
+    content_modal_browser_does_not_support_video_tag: "Selaimesi ei tue video-tunnistetta.",
+    content_modal_untitled_url_thumbnail: "Nimetön URL-miniatyyri.",
+    content_modal_untitled_document_thumbnail: "Nimetön asiakirjan miniatyyri.",
+    content_modal_no_description: "Ei kuvausta saatavilla.",
+    
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
     logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",
 
@@ -313,7 +330,6 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_revert_here: "Palauta keskustelu tähän pisteeseen.",
     screen_recorder_open_content: "Avaa sisältö.",
     screen_recorder_content_item: "Sisältöelementti.",
-
     screen_recorder_theme_switch_dark: "Tumma teema valittu. Vaihda vaaleaan teemaan.",
     screen_recorder_theme_switch_light: "Vaalea teema valittu. Vaihda tummaan teemaan.",
     screen_recorder_content_published: "Julkaistu sisältö.",
@@ -333,13 +349,12 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_new_tab: "Aukeaa uudessa välilehdessä.",
     screen_recorder_main_navigation_menu: "Vaihda päävalikko.",
 
-    content_modal_untitled: "Nimeämätön sisältö",
-    content_modal_download: "Lataa video",
-    content_modal_browser_does_not_support_video_tag: "Selaimesi ei tue video-tunnistetta.",
-    content_modal_untitled_url_thumbnail: "Nimetön URL-miniatyyri.",
-    content_modal_untitled_document_thumbnail: "Nimetön asiakirjan miniatyyri.",
-    content_modal_no_description: "Ei kuvausta saatavilla.",
+    catalogue_item_alternative_image: "Sisällön kuva.",
+    catalogue_item_alternative_url_thumbnail: "URL:n pikkukuva.",
+    catalogue_item_alternative_document_thumbnail: "Dokumentin pikkukuva.",
 
+    loading_indicator_alternative_image: "Latauskuva, joka näytetään sivun latautuessa.",
+    
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",

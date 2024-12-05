@@ -125,11 +125,12 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                 @keydown.space="navLogoClick">
                 <div class="nav-logo">
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg"
+                            :alt=$t(l.nav_menu_alternative_image_logo) />
                     </div>
                     <div class="aire-logo" v-else>
                         <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
-                            alt="AIRe homepage logo in dark mode" />
+                            :alt=$t(l.nav_menu_alternative_image_logo_dark_mode) />
                     </div>
                 </div>
             </a>

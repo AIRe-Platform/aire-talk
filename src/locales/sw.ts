@@ -34,10 +34,13 @@ const sw: Locale = {
     start_footer:
         "AIRe ni suluhisho linalosaidiwa na AI ambalo hukusaidia kutambua mahitaji yako ya urekebishaji na kukuongoza kwenye huduma na maudhui ya urekebishaji ya kibinafsi.",
     start_disclaimer: "AIRe si zana ya uchunguzi wa kimatibabu.",
+    start_view_alternative_image_logo: "Nembo ya chatbot ya AIRe kwa mtazamo wa mwanzo.",
 
     home_title: "home_title",
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
+    home_view_alternative_image_logo: "Picha ya nembo ya mtazamo wa nyumbani wa AIRe.",
+    home_view_alternative_image_logo_dark_mode: "Picha ya nembo ya mtazamo wa nyumbani wa AIRe kwa njia ya giza.",
 
     login_redirect: "Inaelekeza kwenye ukurasa wa kuingia...",
     login_failure: "Huduma ya kuingia haipatikani kwa sasa. Tafadhali jaribu tena baadaye.",
@@ -66,6 +69,11 @@ const sw: Locale = {
     nav_main_menu: "Ukurasa wa mbele",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
+    nav_menu_alternative_image_logo: "Nembo ya menyu ya urambazaji ya AIRe.",
+    nav_menu_alternative_image_logo_dark_mode: "Nembo ya menyu ya urambazaji ya AIRe kwa njia ya giza.",
+    
+    profile_view_alternative_image_logo: "Nembo ya wasifu ya AIRe.",
+    profile_view_alternative_image_logo_dark_mode: "Nembo ya wasifu ya AIRe kwa njia ya giza.",
 
     profile_title: "Akaunti ya mtumiaji",
     profile_label_first_name: "Jina la kwanza",
@@ -169,6 +177,9 @@ const sw: Locale = {
     chat_history_tokens: "{0} vibambo",
     chat_title: "chat_title",
     chat_input_title: "Ungependa kuuliza au kusema nini?",
+    chat_input_alternative_image_logo_idle_state: "Chatbot ya AIRe ikiwa katika hali ya kupumzika.",
+    chat_input_alternative_image_logo_thinking: "Chatbot ya AIRe inafikiria.",
+    chat_input_alternative_image_logo_finish: "Chatbot ya AIRe imemaliza kujibu.",
 
     popup_confirm_revert_message: "Je, una uhakika unataka kurudisha mazungumzo kwa ujumbe huu?",
     popup_confirm_remove_chat: "Je, una uhakika unataka kuondoa mazungumzo haya?",
@@ -210,6 +221,12 @@ const sw: Locale = {
     content_modal_continue_to_chat: "Rudi kwenye gumzo",
     content_modal_description: "Maelezo:",
     content_modal_themes: "Mandhari:",
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Vivinjari vyako havikubali lebo ya video.",
+    content_modal_untitled_url_thumbnail: "Picha ndogo ya URL isiyo na jina.",
+    content_modal_untitled_document_thumbnail: "Picha ndogo ya hati isiyo na jina.",
+    content_modal_no_description: "Hakuna maelezo yanayopatikana.",
 
     logout_inactivity_message: "Umetoka nje kwa sababu ya kutokuwa na shughuli.",
     logout_inactivity_warning_message: "Utaondolewa katika akaunti baada ya sekunde {duration} kwa sababu ya kutokuwa na shughuli.",
@@ -311,16 +328,14 @@ const sw: Locale = {
     screen_recorder_untitled_document: "Hati isiyo na jina.",
     screen_recorder_new_tab: "Fungua kwenye tabu mpya.",
     screen_recorder_main_navigation_menu: "Badilisha menyu kuu ya urambazaji.",
-
-    content_modal_untitled: "content_modal_untitled",
-    content_modal_download: "content_modal_download",
-    content_modal_browser_does_not_support_video_tag: "Vivinjari vyako havikubali lebo ya video.",
-    content_modal_untitled_url_thumbnail: "Picha ndogo ya URL isiyo na jina.",
-    content_modal_untitled_document_thumbnail: "Picha ndogo ya hati isiyo na jina.",
-    content_modal_no_description: "Hakuna maelezo yanayopatikana.",
-
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+    
+    catalogue_item_alternative_image: "Picha ya maudhui.",
+    catalogue_item_alternative_url_thumbnail: "Thumbail ya URL.",
+    catalogue_item_alternative_document_thumbnail: "Thumbail ya hati.",
+    
+    loading_indicator_alternative_image: "Picha ya upakiaji inayonyeshwa wakati ukurasa unapojazwa.",
 
     en: "Kiingereza",
     fi: "Kifini",

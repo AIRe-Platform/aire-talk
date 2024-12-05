@@ -59,11 +59,13 @@ const getIconClass = (type: AireContentType | undefined): string => {
                 <source v-if="props.content.id" :src="props.content.url + '#t=5'" :key="props.content.url"
                     type="video/mp4">
             </video>
-            <img :src="props.content.url" alt="" class="image" v-if="props.content.type == AireContentType.Image">
+            <img :src="props.content.url" :alt=$t(l.catalogue_item_alternative_image) class="image"
+                v-if="props.content.type == AireContentType.Image">
             <div v-if="props.content.type == AireContentType.URL">
                 <div class="icon content-url catalogue-item-width-icon" v-if="!props.content.thumbnail_url"></div>
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the url" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url"
+                        :alt=$t(l.catalogue_item_alternative_url_thumbnail) />
                 </div>
             </div>
             <div v-if="props.content.type == AireContentType.Document">
@@ -71,7 +73,8 @@ const getIconClass = (type: AireContentType | undefined): string => {
                     aria-label="Document preview">
                 </div>
                 <div v-else class="div-thumbnail">
-                    <img class="thumbnail" :src="props.content.thumbnail_url" alt="Thumbnail of the document" />
+                    <img class="thumbnail" :src="props.content.thumbnail_url"
+                        :alt=$t(l.catalogue_item_alternative_document_thumbnail) />
                 </div>
             </div>
         </div>

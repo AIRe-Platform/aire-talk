@@ -13,8 +13,7 @@ const es: Locale = {
     not_found: "Página no encontrada",
 
     system_topic: "Has seleccionado un tema: ",
-    system_greeting:
-        "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
+    system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
@@ -27,17 +26,17 @@ const es: Locale = {
 
     start_signup_success: "start_signup_success",
     start_greeting: "Bienvenid{'@'} a la plataforma AIRe",
-    start_first_paragraph:
-        "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
-    start_second_paragraph:
-        "Continúa iniciando sesión o creando un nuevo perfil para tí.",
-    start_footer:
-        "AIRe es una solución asistida por IA que le ayuda a identificar sus necesidades de rehabilitación y le guía hacia servicios y contenidos de rehabilitación personalizados.",
+    start_first_paragraph: "Tu aplicación número uno de IA para tu fuente de conocimiento y consejos médicos.",
+    start_second_paragraph: "Continúa iniciando sesión o creando un nuevo perfil para tí.",
+    start_footer: "AIRe es una solución asistida por IA que le ayuda a identificar sus necesidades de rehabilitación y le guía hacia servicios y contenidos de rehabilitación personalizados.",
     start_disclaimer: "AIRe no es una herramienta de diagnóstico médico.",
+    start_view_alternative_image_logo: "Logo del chatbot de AIRe para la vista de inicio.",
 
     home_title: "home_title",
     home_start_new_chat: "Iniciar un nuevo chat",
     home_continue_chat: "Continúa el chat anterior",
+    home_view_alternative_image_logo: "Imagen del logo de la vista de inicio de AIRe.",
+    home_view_alternative_image_logo_dark_mode: "Imagen del logo de la vista de inicio de AIRe en modo oscuro.",
 
     login_redirect: "Redireccionando a la página de inicio de sesión...",
     login_failure: "El servicio de inicio de sesión no está disponible en este momento. Inténtelo nuevamente más tarde.",
@@ -66,6 +65,11 @@ const es: Locale = {
     nav_main_menu: "Principal",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
+    nav_menu_alternative_image_logo: "Logo del menú de navegación de AIRe.",
+    nav_menu_alternative_image_logo_dark_mode: "Logo del menú de navegación de AIRe en modo oscuro.",
+    
+    profile_view_alternative_image_logo: "Logo del perfil de AIRe.",
+    profile_view_alternative_image_logo_dark_mode: "Logo del perfil de AIRe en modo oscuro.",
 
     profile_title: "Cuenta de usuario",
     profile_label_first_name: "Nombre",
@@ -84,24 +88,20 @@ const es: Locale = {
     profile_empty_service_list: "No Conectado",
 
     profile_heading_password: "Cambiar contraseña",
-    profile_description_password:
-        "La contraseña debe teber al menos 8 caracteres y contener al menos una mayúscula, una minúscula y un número.",
+    profile_description_password: "La contraseña debe teber al menos 8 caracteres y contener al menos una mayúscula, una minúscula y un número.",
 
     profile_label_current_password: "Contraseña actual",
     profile_label_new_password: "Nueva contraseña",
     profile_button_change_password: "Cambiar contraseña",
 
     profile_heading_personal_data: "Datos personales",
-    profile_description_personal_data:
-        "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
+    profile_description_personal_data: "Toda su información está encriptada de manera que solo usted tiene acceso a ella. Los servicios de AIRe pueden usar sus datos solo cuando usted los usa. Aquí puede descargar todos sus datos guardados en AIRe. Tenga en cuenta que la recopilación de datos puede demorar un tiempo.",
     profile_button_download_personal_data: "Descargar datos personales",
 
     profile_heading_delete_account: "Borrar cuenta",
-    profile_description_delete_account:
-        "Esto borra tu cuenta de la plataforma AIRe. Confirma que realmente quieres borrar tu cuenta.",
+    profile_description_delete_account: "Esto borra tu cuenta de la plataforma AIRe. Confirma que realmente quieres borrar tu cuenta.",
     profile_label_password_confirm: "Confirma tu contraseña.",
-    profile_label_keep_anonymized_data:
-        "Haz mis datos anónimos en lugar de borrarlos. Esto ayudaría a desarroyar la plataforma AIRe. Esto es completamente opcional.",
+    profile_label_keep_anonymized_data: "Haz mis datos anónimos en lugar de borrarlos. Esto ayudaría a desarroyar la plataforma AIRe. Esto es completamente opcional.",
     profile_button_delete: "Borrar cuenta",
 
     gender_male: "hombre",
@@ -109,10 +109,8 @@ const es: Locale = {
     gender_other: "otro",
 
     profile_question_button: "Completa tu perfil",
-    profile_question_confirm:
-        "¿Quieres responder algunas preguntas sobre tu información personal?",
-    profile_question_completion:
-        "Click listo si tu informacion es correcta. Luego mas adelante puedes modificar tu informacion en tu perfil.",
+    profile_question_confirm: "¿Quieres responder algunas preguntas sobre tu información personal?",
+    profile_question_completion: "Click listo si tu informacion es correcta. Luego mas adelante puedes modificar tu informacion en tu perfil.",
     profile_question_first_name: "¿Cuál es tu nombre?",
     profile_question_last_name: "¿Cuál es tu apellido?",
     profile_question_gender: "¿Qué género eres?",
@@ -147,20 +145,15 @@ const es: Locale = {
 
     La contraseña debe tener al menos 8 caracteres y debe contener como mínimo una letra mayúscula, una letra minúscula y un número.`,
 
-    error_signup_general:
-        "El registro ha fallado. Por favor, inténtelo de nuevo más tarde.",
+    error_signup_general: "El registro ha fallado. Por favor, inténtelo de nuevo más tarde.",
     error_profile_edit: "Error al guardar.",
-    error_profile_delete_account:
-        "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
-    error_profile_password:
-        "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
+    error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
+    error_profile_password: "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
 
     landing_view_title: "Bienvenido a la plataforma AIRe",
-    landing_view_text:
-        "Comencemos completando la siguiente información preliminar sobre usted.",
+    landing_view_text: "Comencemos completando la siguiente información preliminar sobre usted.",
     landing_label_age: "Tu edad",
-    landing_label_occupation:
-        "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
+    landing_label_occupation: "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
 
     onboarding_greetings: "¡Hola!",
     onboarding_question: "¿Le gustaría discutir sobre estos temas?",
@@ -187,22 +180,21 @@ const es: Locale = {
     chat_history_tokens: "{0} fichas",
     chat_title: "chat_title",
     chat_input_title: "¿Qué te gustaría preguntar o contar?",
-
-    popup_confirm_revert_message:
-        "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
+    chat_input_alternative_image_logo_idle_state: "Chatbot de AIRe en estado inactivo.",
+    chat_input_alternative_image_logo_thinking: "El chatbot de AIRe está pensando.",
+    chat_input_alternative_image_logo_finish: "El chatbot de AIRe ha terminado de responder.",
+    
+    popup_confirm_revert_message: "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
     popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
     popup_confirm_logout: "¿Estas seguro de que quieres salir?",
     popup_confirm_profile_updated: "Perfil actualizado.",
 
-    confirm_questionnaire_start:
-        '¿Le gustaría completar un cuestionario "{0}"?',
-    confirm_questionnaire_completion:
-        "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    confirm_questionnaire_start: '¿Le gustaría completar un cuestionario "{0}"?',
+    confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
     questionnaire: "Cuestionario",
     questionnaire_start: "Principio del cuestionario",
     questionnaire_end: "Final del cuestionario",
-    questionnaire_explanation:
-        "Las siguientes preguntas se están registrando para su análisis.",
+    questionnaire_explanation: "Las siguientes preguntas se están registrando para su análisis.",
     question_answer: "Tu respuesta",
 
     recall_start_question: "¿Quieres continuar alguna conversación anterior?",
@@ -232,7 +224,13 @@ const es: Locale = {
     content_modal_continue_to_chat: "Regresar al chat",
     content_modal_description: "Descripción:",
     content_modal_themes: "Temas:",
-
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Tu navegador no soporta la etiqueta de video.",
+    content_modal_untitled_url_thumbnail: "Miniatura de URL sin título.",
+    content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
+    content_modal_no_description: "No hay descripción disponible.",
+    
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
     logout_inactivity_warning_message: "Se cerrará su sesión en {duration} segundo(s) debido a inactividad.",
 
@@ -333,16 +331,14 @@ const es: Locale = {
     screen_recorder_untitled_document: "Documento sin título.",
     screen_recorder_new_tab: "Se abre en una nueva pestaña.",
     screen_recorder_main_navigation_menu: "Alternar el menú de navegación principal.",
-
-    content_modal_untitled: "content_modal_untitled",
-    content_modal_download: "content_modal_download",
-    content_modal_browser_does_not_support_video_tag: "Tu navegador no soporta la etiqueta de video.",
-    content_modal_untitled_url_thumbnail: "Miniatura de URL sin título.",
-    content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
-    content_modal_no_description: "No hay descripción disponible.",
-
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
+    catalogue_item_alternative_image: "Imagen del contenido.",
+    catalogue_item_alternative_url_thumbnail: "Miniatura de la URL.",
+    catalogue_item_alternative_document_thumbnail: "Miniatura del documento.",
+    
+    loading_indicator_alternative_image: "Imagen de carga mostrada mientras la página se carga.",
 
     en: "Inglés",
     fi: "Finés",
@@ -350,7 +346,7 @@ const es: Locale = {
     vi: "Vietnamita",
     id: "Indonesio",
     sw: "Swajili",
-    rw: "Kinyarwanda"
+    rw: "Kinyarwanda",
 };
 
 export default es;

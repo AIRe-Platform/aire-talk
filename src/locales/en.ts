@@ -28,6 +28,8 @@ const en: Locale = {
     home_title: "AIRe homepage",
     home_start_new_chat: "Start new chat",
     home_continue_chat: "Continue previous chat",
+    home_view_alternative_image_logo: "AIRe home view logo image.",
+    home_view_alternative_image_logo_dark_mode: "AIRe home view logo image for dark mode.",
 
     start_signup_success: "Sign up successful. You can now log in.",
     start_greeting: "Welcome to the AIRe platform",
@@ -35,7 +37,8 @@ const en: Locale = {
     start_second_paragraph: "Proceed by logging in or creating a new profile for yourself.",
     start_footer: "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
     start_disclaimer: "AIRe is not a medical diagnostic tool.",
-
+    start_view_alternative_image_logo: "AIRe chatbot logo for the start view.",
+ 
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
     login_callback_failure: "Login attempt failed.",
@@ -63,6 +66,11 @@ const en: Locale = {
     nav_main_menu: "Home",
     nav_catalogue: "Content Catalogue",
     nav_about: "About",
+    nav_menu_alternative_image_logo: "AIRe navigation menu logo.",
+    nav_menu_alternative_image_logo_dark_mode: "AIRe navigation menu logo for dark mode.",
+    
+    profile_view_alternative_image_logo: "AIRe profile logo.",
+    profile_view_alternative_image_logo_dark_mode: "AIRe profile logo for dark mode.",    
 
     profile_title: "User account",
     profile_label_first_name: "First Name",
@@ -172,6 +180,9 @@ const en: Locale = {
     chat_history_tokens: "{0} tokens",
     chat_title: "AIRe chat",
     chat_input_title: "What would you like to ask or tell?",
+    chat_input_alternative_image_logo_idle_state: "AIRe chatbot in idle state.",
+    chat_input_alternative_image_logo_thinking: "AIRe chatbot is thinking.",
+    chat_input_alternative_image_logo_finish: "AIRe chatbot has finished responding.",
 
     popup_confirm_revert_message: "Are you sure you want to revert the chat to this message?",
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
@@ -213,6 +224,12 @@ const en: Locale = {
     content_modal_continue_to_chat: "Return to chat",
     content_modal_description: "Description:",
     content_modal_themes: "Themes:",
+    content_modal_untitled: "Untitled content",
+    content_modal_download: "Download the video",
+    content_modal_browser_does_not_support_video_tag: "Your browser does not support the video tag.",
+    content_modal_untitled_url_thumbnail: "Untitled URL thumbnail.",
+    content_modal_untitled_document_thumbnail: "Untitled document thumbnail.",
+    content_modal_no_description: "No description available.",
 
     logout_inactivity_message: "You have been logged out due to inactivity.",
     logout_inactivity_warning_message: "You will be logged out in {duration} second(s) due to inactivity.",
@@ -314,17 +331,15 @@ const en: Locale = {
     screen_recorder_untitled_document: "Untitled document.",
     screen_recorder_new_tab: "Opens in a new tab.",
     screen_recorder_main_navigation_menu: "Toggle main navigation menu.",
-    
-    content_modal_untitled: "Untitled content",
-    content_modal_download: "Download the video",
-    content_modal_browser_does_not_support_video_tag: "Your browser does not support the video tag.",
-    content_modal_untitled_url_thumbnail: "Untitled URL thumbnail.",
-    content_modal_untitled_document_thumbnail: "Untitled document thumbnail.",
-    content_modal_no_description: "No description available.",
-
     screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
     screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
  
+    catalogue_item_alternative_image: "Image of the content.",
+    catalogue_item_alternative_url_thumbnail: "Thumbnail of the URL.",
+    catalogue_item_alternative_document_thumbnail: "Thumbnail of the document.",
+
+    loading_indicator_alternative_image: "Loading image displayed while the page loads.",
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

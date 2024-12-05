@@ -35,16 +35,12 @@ onMounted(() => {
 <template>
     <div id="start-view">
         <div class="start-container">
-            <div v-if="signUpSuccess"
-                ref="signUpSuccessMessageRef"
-                class="notification-message"
-                aria-live="assertive"
-                role="alert"
-                tabindex="-1">
+            <div v-if="signUpSuccess" ref="signUpSuccessMessageRef" class="notification-message" aria-live="assertive"
+                role="alert" tabindex="-1">
                 {{ $t(l.start_signup_success) }}
             </div>
             <div class="greeting">
-                <img src="@/assets/images/aire-bot.png" alt="AIRe chat bot logo" class="chat-bot">
+                <img src="@/assets/images/aire-bot.png" :alt=$t(l.start_view_alternative_image_logo) class="chat-bot">
                 <h1>{{ $t(l.start_greeting) }}</h1>
                 <h2>{{ $t(l.start_first_paragraph) }}</h2>
                 <Separator />

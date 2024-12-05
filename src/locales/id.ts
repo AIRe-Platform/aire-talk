@@ -34,10 +34,13 @@ const id: Locale = {
     start_footer:
         "AIRe adalah solusi yang dibantu AI yang membantu Anda mengidentifikasi kebutuhan rehabilitasi Anda dan memandu Anda ke layanan rehabilitasi dan konten yang dipersonalisasi.",
     start_disclaimer: "AIRe bukan alat diagnosis medis.",
+    start_view_alternative_image_logo: "Logo chatbot AIRe untuk tampilan awal.",
 
     home_title: "home_title",
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
+    home_view_alternative_image_logo: "Gambar logo tampilan beranda AIRe.",
+    home_view_alternative_image_logo_dark_mode: "Gambar logo tampilan beranda AIRe dalam mode gelap.",
 
     login_redirect: "Mengalihkan ke halaman login...",
     login_failure: "Layanan login tidak tersedia saat ini. Silakan coba lagi nanti.",
@@ -66,7 +69,12 @@ const id: Locale = {
     nav_main_menu: "Halaman depan",
     nav_catalogue: "Katalog Konten",
     nav_about: "Tentang",
-
+    nav_menu_alternative_image_logo: "Logo menu navigasi AIRe.",
+    nav_menu_alternative_image_logo_dark_mode: "Logo menu navigasi AIRe dalam mode gelap.",
+    
+    profile_view_alternative_image_logo: "Logo profil AIRe.",
+    profile_view_alternative_image_logo_dark_mode: "Logo profil AIRe dalam mode gelap.",
+    
     profile_title: "Akun pengguna",
     profile_label_first_name: "Nama Depan",
     profile_label_last_name: "Nama Belakang",
@@ -184,6 +192,9 @@ const id: Locale = {
     chat_history_tokens: "{0} token",
     chat_title: "chat_title",
     chat_input_title: "Apa yang ingin Anda tanyakan atau katakan?",
+    chat_input_alternative_image_logo_idle_state: "Chatbot AIRe dalam keadaan idle.",
+    chat_input_alternative_image_logo_thinking: "Chatbot AIRe sedang berpikir.",
+    chat_input_alternative_image_logo_finish: "Chatbot AIRe telah selesai merespons.",
 
     popup_confirm_revert_message:
         "Apakah Anda yakin ingin mengembalikan obrolan ke pesan ini?",
@@ -229,6 +240,12 @@ const id: Locale = {
     content_modal_continue_to_chat: "Kembali ke obrolan",
     content_modal_description: "Keterangan:",
     content_modal_themes: "Tema:",
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Peramban Anda tidak mendukung tag video.",
+    content_modal_untitled_url_thumbnail: "Thumbnail URL tanpa judul.",
+    content_modal_untitled_document_thumbnail: "Thumbnail dokumen tanpa judul.",
+    content_modal_no_description: "Tidak ada deskripsi yang tersedia.",
 
     logout_inactivity_message: "Anda telah keluar karena tidak aktif.",
     logout_inactivity_warning_message: "Anda akan keluar dalam {duration} detik karena tidak aktif.",
@@ -330,16 +347,14 @@ const id: Locale = {
     screen_recorder_untitled_document: "Dokumen tanpa judul.",
     screen_recorder_new_tab: "Membuka di tab baru.",
     screen_recorder_main_navigation_menu: "Alihkan menu navigasi utama.",
-
-    content_modal_untitled: "content_modal_untitled",
-    content_modal_download: "content_modal_download",
-    content_modal_browser_does_not_support_video_tag: "Peramban Anda tidak mendukung tag video.",
-    content_modal_untitled_url_thumbnail: "Thumbnail URL tanpa judul.",
-    content_modal_untitled_document_thumbnail: "Thumbnail dokumen tanpa judul.",
-    content_modal_no_description: "Tidak ada deskripsi yang tersedia.",
-
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
+    catalogue_item_alternative_image: "Gambar konten.",
+    catalogue_item_alternative_url_thumbnail: "Thumbnail URL.",
+    catalogue_item_alternative_document_thumbnail: "Thumbnail dokumen.",
+
+    loading_indicator_alternative_image: "Gambar pemuatan yang ditampilkan saat halaman dimuat.",
 
     en: "Inggris",
     fi: "Finlandia",

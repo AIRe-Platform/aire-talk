@@ -33,10 +33,13 @@ const vi: Locale = {
     start_footer:
         "AIRe là một giải pháp được AI hỗ trợ giúp bạn xác định nhu cầu phục hồi chức năng của mình và hướng dẫn bạn các nội dung và dịch vụ phục hồi chức năng được cá nhân hóa.",
     start_disclaimer: "AIRe không phải là một công cụ chẩn đoán y tế.",
+    start_view_alternative_image_logo: "Logo chatbot của AIRe cho giao diện bắt đầu.",
 
     home_title: "home_title",
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
+    home_view_alternative_image_logo: "Hình ảnh logo giao diện trang chủ của AIRe.",
+    home_view_alternative_image_logo_dark_mode: "Hình ảnh logo giao diện trang chủ của AIRe cho chế độ tối.",
 
     login_redirect: "Đang chuyển hướng đến trang đăng nhập...",
     login_failure: "Dịch vụ đăng nhập hiện không khả dụng. Vui lòng thử lại sau.",
@@ -65,6 +68,11 @@ const vi: Locale = {
     nav_main_menu: "Ukurasa wa mbele",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
+    nav_menu_alternative_image_logo: "Logo menu điều hướng của AIRe.",
+    nav_menu_alternative_image_logo_dark_mode: "Logo menu điều hướng của AIRe cho chế độ tối.",
+    
+    profile_view_alternative_image_logo: "Logo hồ sơ của AIRe.",
+    profile_view_alternative_image_logo_dark_mode: "Logo hồ sơ của AIRe cho chế độ tối.",
 
     profile_title: "Tài khoản người dùng",
     profile_label_first_name: "Tên đầu tiên",
@@ -180,6 +188,9 @@ const vi: Locale = {
     chat_history_tokens: "{0} token",
     chat_title: "chat_title",
     chat_input_title: "Bạn muốn hỏi hay kể điều gì?",
+    chat_input_alternative_image_logo_idle_state: "Chatbot AIRe trong trạng thái nhàn rỗi.",
+    chat_input_alternative_image_logo_thinking: "Chatbot AIRe đang suy nghĩ.",
+    chat_input_alternative_image_logo_finish: "Chatbot AIRe đã hoàn thành phản hồi.",
 
     popup_confirm_revert_message:
         "Bạn có chắc chắn muốn hoàn nguyên cuộc trò chuyện về tin nhắn này không?",
@@ -226,6 +237,12 @@ const vi: Locale = {
     content_modal_continue_to_chat: "Quay lại trò chuyện",
     content_modal_description: "Mô tả:",
     content_modal_themes: "Chủ đề:",
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Trình duyệt của bạn không hỗ trợ thẻ video.",
+    content_modal_untitled_url_thumbnail: "Ảnh thu nhỏ của URL chưa có tên.",
+    content_modal_untitled_document_thumbnail: "Ảnh thu nhỏ của tài liệu chưa có tên.",
+    content_modal_no_description: "Không có mô tả nào.",
 
     logout_inactivity_message: "Bạn đã bị đăng xuất do không hoạt động.",
     logout_inactivity_warning_message: "Bạn sẽ bị đăng xuất sau {duration} giây do không hoạt động.",
@@ -327,16 +344,14 @@ const vi: Locale = {
     screen_recorder_untitled_document: "Tài liệu chưa có tên.",
     screen_recorder_new_tab: "Mở trong tab mới.",
     screen_recorder_main_navigation_menu: "Chuyển đổi menu điều hướng chính.",
-
-    content_modal_untitled: "content_modal_untitled",
-    content_modal_download: "content_modal_download",
-    content_modal_browser_does_not_support_video_tag: "Trình duyệt của bạn không hỗ trợ thẻ video.",
-    content_modal_untitled_url_thumbnail: "Ảnh thu nhỏ của URL chưa có tên.",
-    content_modal_untitled_document_thumbnail: "Ảnh thu nhỏ của tài liệu chưa có tên.",
-    content_modal_no_description: "Không có mô tả nào.",
-
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+
+    catalogue_item_alternative_image: "Hình ảnh của nội dung.",
+    catalogue_item_alternative_url_thumbnail: "Hình thu nhỏ của URL.",
+    catalogue_item_alternative_document_thumbnail: "Hình thu nhỏ của tài liệu.",
+
+    loading_indicator_alternative_image: "Hình ảnh tải đang hiển thị khi trang được tải.",
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",

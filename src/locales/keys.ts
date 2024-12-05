@@ -25,6 +25,8 @@ export enum LocalizationKey {
     home_title = "home_title",
     home_start_new_chat = "home_start_new_chat",
     home_continue_chat = "home_continue_chat",
+    home_view_alternative_image_logo = "home_view_alternative_image_logo",
+    home_view_alternative_image_logo_dark_mode = "home_view_alternative_image_logo_dark_mode",
 
     start_signup_success = "start_signup_success",
     start_greeting = "start_greeting",
@@ -32,6 +34,7 @@ export enum LocalizationKey {
     start_second_paragraph = "start_second_paragraph",
     start_footer = "start_footer",
     start_disclaimer = "start_disclaimer",
+    start_view_alternative_image_logo = "start_view_alternative_image_logo",
 
     login_redirect = "login_redirect",
     login_failure = "login_failure",
@@ -60,6 +63,11 @@ export enum LocalizationKey {
     nav_main_menu = "nav_main_menu",
     nav_catalogue = "nav_catalogue",
     nav_about = "nav_about",
+    nav_menu_alternative_image_logo = "nav_menu_alternative_image_logo",
+    nav_menu_alternative_image_logo_dark_mode = "nav_menu_alternative_image_logo_dark_mode",
+
+    profile_view_alternative_image_logo = "profile_view_alternative_image_logo",
+    profile_view_alternative_image_logo_dark_mode = "profile_view_alternative_image_logo_dark_mode",
 
     profile_title = "profile_title",
     profile_label_first_name = "profile_label_first_name",
@@ -162,6 +170,9 @@ export enum LocalizationKey {
     chat_history_tokens = "chat_history_tokens",
     chat_title = "chat_title",
     chat_input_title = "chat_input_title",
+    chat_input_alternative_image_logo_idle_state = "chat_input_alternative_image_logo_idle_state",
+    chat_input_alternative_image_logo_thinking = "chat_input_alternative_image_logo_thinking",
+    chat_input_alternative_image_logo_finish = "chat_input_alternative_image_logo_finish",
 
     popup_confirm_revert_message = "popup_confirm_revert_message",
     popup_confirm_remove_chat = "popup_confirm_remove_chat",
@@ -205,6 +216,12 @@ export enum LocalizationKey {
     content_modal_continue_to_chat = "content_modal_continue_to_chat",
     content_modal_description = "content_modal_description",
     content_modal_themes = "content_modal_themes",
+    content_modal_untitled = "content_modal_untitled",
+    content_modal_download = "content_modal_download",
+    content_modal_browser_does_not_support_video_tag = "content_modal_browser_does_not_support_video_tag",
+    content_modal_untitled_url_thumbnail = "content_modal_untitled_url_thumbnail",
+    content_modal_untitled_document_thumbnail = "content_modal_untitled_document_thumbnail",
+    content_modal_no_description = "content_modal_no_description",
 
     logout_inactivity_message = "logout_inactivity_message",
     logout_inactivity_warning_message = "logout_inactivity_warning_message",
@@ -306,16 +323,14 @@ export enum LocalizationKey {
     screen_recorder_untitled_document = "screen_recorder_untitled_document",
     screen_recorder_new_tab = "screen_recorder_new_tab",
     screen_recorder_main_navigation_menu = "screen_recorder_main_navigation_menu",
-
-    content_modal_untitled = "content_modal_untitled",
-    content_modal_download = "content_modal_download",
-    content_modal_browser_does_not_support_video_tag = "content_modal_browser_does_not_support_video_tag",
-    content_modal_untitled_url_thumbnail = "content_modal_untitled_url_thumbnail",
-    content_modal_untitled_document_thumbnail = "content_modal_untitled_document_thumbnail",
-    content_modal_no_description = "content_modal_no_description",
-
     screen_recorder_theme_switch_dark = "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light = "screen_recorder_theme_switch_light",
+
+    catalogue_item_alternative_image = "catalogue_item_alternative_image",
+    catalogue_item_alternative_url_thumbnail = "catalogue_item_alternative_url_thumbnail",
+    catalogue_item_alternative_document_thumbnail = "catalogue_item_alternative_document_thumbnail",
+
+    loading_indicator_alternative_image = "loading_indicator_alternative_image",
 
     en = "en",
     fi = "fi",

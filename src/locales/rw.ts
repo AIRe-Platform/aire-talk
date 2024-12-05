@@ -34,10 +34,13 @@ const rw: Locale = {
     start_footer:
         "AIRe ni urubuga rukoresha ubwenge buhimbano rugufasha kubona amakuru kuri serivisi z'ubuvuzi bwa rehabilitasiyo ndetse rukakugira inama z'uburyo wabona izo serivisi.",
     start_disclaimer: "AIRe ntabwo isuzuma cyangwa ngo isimbure muganga.",
+    start_view_alternative_image_logo: "Ikirango cya chatbot AIRe ku ishusho y'itangiriro.",
 
     home_title: "home_title",
     home_start_new_chat: "Tangira ikiganiro gishya",
     home_continue_chat: "Komereza ku kiganiro cyabanje",
+    home_view_alternative_image_logo: "Isura y'ikirango cy'urupapuro rwa AIRe.",
+    home_view_alternative_image_logo_dark_mode: "Isura y'ikirango cy'urupapuro rwa AIRe mu buryo bwa mode y'umwijima.",
 
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
@@ -66,6 +69,11 @@ const rw: Locale = {
     nav_main_menu: "Urupapuro rwambere",
     nav_catalogue: "Imfashanyigisho y'ibikubiyemo",
     nav_about: "Hafi",
+    nav_menu_alternative_image_logo: "Ikirango cy'akarere ko gutembera ka AIRe.",
+    nav_menu_alternative_image_logo_dark_mode: "Ikirango cy'akarere ko gutembera ka AIRe mu buryo bwa mode y'umwijima.",
+    
+    profile_view_alternative_image_logo: "Ikirango cya profil ya AIRe.",
+    profile_view_alternative_image_logo_dark_mode: "Ikirango cya profil ya AIRe mu buryo bwa mode y'umwijima.",
 
     profile_title: "Konti y'umukoresha",
     profile_label_first_name: "Izina rya mbere",
@@ -178,6 +186,9 @@ const rw: Locale = {
     chat_history_tokens: "{0} Nta kintu cyaje",
     chat_title: "chat_title",
     chat_input_title: "Ni iki ushaka kubaza cyangwa kuvuga?",
+    chat_input_alternative_image_logo_idle_state: "Chatbot ya AIRe mu gihe idakora.",
+    chat_input_alternative_image_logo_thinking: "Chatbot ya AIRe iri gutekereza.",
+    chat_input_alternative_image_logo_finish: "Chatbot ya AIRe yararangije gusubiza.",
 
     popup_confirm_revert_message:
         "Urumva ushaka guhagarika cyangwa gusubira inyuma ukareka iyi chati, nyuma y'ubu butumwa?",
@@ -223,6 +234,12 @@ const rw: Locale = {
     content_modal_continue_to_chat: "Garuka kuganira",
     content_modal_description: "Ibisobanuro:",
     content_modal_themes: "Insanganyamatsiko:",
+    content_modal_untitled: "content_modal_untitled",
+    content_modal_download: "content_modal_download",
+    content_modal_browser_does_not_support_video_tag: "Ubusanzwe bwawe ntabwo bubyara tag ya video.",
+    content_modal_untitled_url_thumbnail: "Thumbnail ya URL itagira izina.",
+    content_modal_untitled_document_thumbnail: "Thumbnail y'inyandiko itagira izina.",
+    content_modal_no_description: "Nta bisobanuro bihari.",
 
     logout_inactivity_message: "Winjiye hanze kubera kudakora.",
     logout_inactivity_warning_message: "Uzasohoka muri {igihe} isegonda (kabiri) kubera kudakora.",
@@ -308,7 +325,6 @@ const rw: Locale = {
     screen_recorder_revert_here: "Subiza ikiganiro kugeza kuri iki gipimo.",
     screen_recorder_open_content: "Fungura ibikubiyemo.",
     screen_recorder_content_item: "Ikintu cy'ibikubiyemo.",
-
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
     screen_recorder_content_published: "Ibirimo byasohotse.",
@@ -328,12 +344,11 @@ const rw: Locale = {
     screen_recorder_new_tab: "Bifungura muri tab nshya.",
     screen_recorder_main_navigation_menu: "Hindura menyu nyamukuru yo kugendagenda.",
 
-    content_modal_untitled: "content_modal_untitled",
-    content_modal_download: "content_modal_download",
-    content_modal_browser_does_not_support_video_tag: "Ubusanzwe bwawe ntabwo bubyara tag ya video.",
-    content_modal_untitled_url_thumbnail: "Thumbnail ya URL itagira izina.",
-    content_modal_untitled_document_thumbnail: "Thumbnail y'inyandiko itagira izina.",
-    content_modal_no_description: "Nta bisobanuro bihari.",
+    catalogue_item_alternative_image: "Ifoto y'ibikubiye.",
+    catalogue_item_alternative_url_thumbnail: "Ifoto nto y'URL.",
+    catalogue_item_alternative_document_thumbnail: "Ifoto nto y'inyandiko.",
+
+    loading_indicator_alternative_image: "Ifoto yerekana ko ibintu biri gutangira mu gihe ipaji iri gupakurwa.",
 
     en: "Icyongereza",
     fi: "Igifinilande",

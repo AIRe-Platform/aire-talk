@@ -90,7 +90,15 @@ const toggleTTS = () => {
         <div class="chat-bot" :data-tutorial-state="ChatTutorialState.Welcome" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
-        }">
+        }"> <img v-if="bot.status === 'writing'" src="@/assets/images/aire-bot-thinking.gif"
+                :alt=$t(l.chat_input_alternative_alternative_image_logo_thinking) aria-hidden="true"
+                style="visibility: hidden; width: 0; height: 0;">
+            <img v-else-if="bot.status === 'answered'" src="@/assets/images/aire-bot-thinking-finish.png"
+                :alt=$t(l.chat_input_alternative_alternative_image_logo_finish) aria-hidden="true"
+                style="visibility: hidden; width: 0; height: 0;">
+            <img v-else src="@/assets/images/aire-bot.png"
+                :alt=$t(l.chat_input_alternative_alternative_image_logo_idle_state) aria-hidden="true"
+                style="visibility: hidden; width: 0; height: 0;">
             <div v-if="bot.status === 'writing'" aria-live="assertive" class="screen-readers-only" role="alert"
                 tabindex="-1" ref="statusAlert">
                 {{ $t(l.screen_recorder_bot_writing) }}
