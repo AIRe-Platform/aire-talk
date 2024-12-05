@@ -343,6 +343,7 @@ const rw: Locale = {
     screen_recorder_untitled_document: "Inyandiko itagira izina.",
     screen_recorder_new_tab: "Bifungura muri tab nshya.",
     screen_recorder_main_navigation_menu: "Hindura menyu nyamukuru yo kugendagenda.",
+    screen_recorder_thumbnail: "screen_recorder_thumbnail",
 
     catalogue_item_alternative_image: "Ifoto y'ibikubiye.",
     catalogue_item_alternative_url_thumbnail: "Ifoto nto y'URL.",

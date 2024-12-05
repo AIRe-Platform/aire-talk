@@ -349,6 +349,7 @@ const id: Locale = {
     screen_recorder_main_navigation_menu: "Alihkan menu navigasi utama.",
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+    screen_recorder_thumbnail: "screen_recorder_thumbnail",
 
     catalogue_item_alternative_image: "Gambar konten.",
     catalogue_item_alternative_url_thumbnail: "Thumbnail URL.",

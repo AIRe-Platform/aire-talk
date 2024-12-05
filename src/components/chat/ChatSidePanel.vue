@@ -122,7 +122,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                 class="xmark-icon">
                 <button class="btn chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
-                    <div class="tooltip-inside circle-icon" @click="emits('close')" tabindex="0" role="link">
+                    <div class="tooltip-inside circle-icon">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </div>
                 </button>

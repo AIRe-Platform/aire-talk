@@ -348,6 +348,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_untitled_document: "Nimetön asiakirja.",
     screen_recorder_new_tab: "Aukeaa uudessa välilehdessä.",
     screen_recorder_main_navigation_menu: "Vaihda päävalikko.",
+    screen_recorder_thumbnail: "Sisällön pikkukuva",
 
     catalogue_item_alternative_image: "Sisällön kuva.",
     catalogue_item_alternative_url_thumbnail: "URL:n pikkukuva.",

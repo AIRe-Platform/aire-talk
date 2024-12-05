@@ -333,6 +333,7 @@ const es: Locale = {
     screen_recorder_main_navigation_menu: "Alternar el menú de navegación principal.",
     screen_recorder_theme_switch_dark: "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light: "screen_recorder_theme_switch_light",
+    screen_recorder_thumbnail: "screen_recorder_thumbnail",
 
     catalogue_item_alternative_image: "Imagen del contenido.",
     catalogue_item_alternative_url_thumbnail: "Miniatura de la URL.",

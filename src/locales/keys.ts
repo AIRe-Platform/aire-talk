@@ -325,6 +325,7 @@ export enum LocalizationKey {
     screen_recorder_main_navigation_menu = "screen_recorder_main_navigation_menu",
     screen_recorder_theme_switch_dark = "screen_recorder_theme_switch_dark",
     screen_recorder_theme_switch_light = "screen_recorder_theme_switch_light",
+    screen_recorder_thumbnail = "screen_recorder_thumbnail",
 
     catalogue_item_alternative_image = "catalogue_item_alternative_image",
     catalogue_item_alternative_url_thumbnail = "catalogue_item_alternative_url_thumbnail",

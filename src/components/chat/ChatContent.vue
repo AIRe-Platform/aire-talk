@@ -32,14 +32,11 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="chat-content" v-if="state.content" @click.stop="emits('show', state.content!)">
+    <div class="chat-content" v-if="state.content">
         <div class="chat-content-options">
             <ChatItemOptions v-if="props.parent" :parent="props.parent" :can_revert="false" :content="state.content" />
         </div>
-        <CatalogueItem :content="props.content"
-            @show="props.content!"
-            @keydown-show="emits('show', props.content)"
-            :is-from-summary="true" />
+        <CatalogueItem :content="props.content" @show="emits('show', props.content)" :is-from-summary="true" />
     </div>
 </template>
 

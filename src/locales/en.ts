@@ -333,6 +333,7 @@ const en: Locale = {
     screen_recorder_main_navigation_menu: "Toggle main navigation menu.",
     screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
     screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
+    screen_recorder_thumbnail: "Thumbnail for the content",
  
     catalogue_item_alternative_image: "Image of the content.",
     catalogue_item_alternative_url_thumbnail: "Thumbnail of the URL.",
