@@ -147,17 +147,19 @@ watch([showSideBar, isMobileView], ([sideBarShown, newIsMobile], [, oldIsMobile]
         chatViewRef.value
             .querySelectorAll<HTMLElement>('a, button, input, textarea, select, [tabindex]')
             .forEach((el) => el.tabIndex = -1);
+        chatViewRef.value.ariaHidden = 'true';
     } else if (oldIsMobile) {
         chatViewRef.value
             .querySelectorAll<HTMLElement>('a, button, input, textarea, select, [tabindex]')
             .forEach((el) => el.tabIndex = 0);
+        chatViewRef.value.ariaHidden = 'false';
     }
 })
 </script>
 
 <template>
+    <h1 class="visually-hidden">{{ $t(l.chat_title) }}</h1>
     <div class="chat-view" ref="chatViewRef">
-        <h1 class="visually-hidden">{{ $t(l.chat_title) }}</h1>
         <div class="chat-view-container" id="chat-viewport">
             <template v-for="(messageGroup) in groupedMessages()" v-bind:key="messageGroup.id">
                 <ChatQuestionnaire v-if="messageGroup.isQuestionnaire" :group="messageGroup" />
