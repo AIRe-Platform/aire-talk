@@ -7,6 +7,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-12-05
+### Fixed
+- Welcome and error messages now display in the UI interface language.  
+- Refactored `div` elements into buttons, links, labels, etc., to improve screen reader accessibility.  
+- Fixed a bug in the navigation menu where the content catalog wouldn't set to active when opened.  
+- Made styling adjustments to hover effects and fixed contrast ratio issues for better accessibility.  
+- Updated heading-like text in HTML to proper headings and ensured a logical heading order.  
+- Changed the microphone icon for better clarity.  
+- Fixed minor styling issues on small devices.  
+- Resolved layout issues in landscape view on small devices.  
+- Removed edit buttons in the profile view.  
+- Improved contrast ratio for the Aire logo in the navigation menu in dark mode.  
+- Fixed a bug with the document icon in the content modal.  
+- Adjusted some localizations to make them more precise and descriptive.  
+
+### Added
+- Added ARIA attributes (`aria-label`, `aria-live`, `aria-hidden`, `aria-describedby`, `aria-labelledby`) and roles for better screen reader accessibility.  
+- Implemented accessible keyboard navigation.  
+- Enabled tooltips to be hidden using the `Esc` key.  
+- Added localizations for ARIA-label elements to enhance accessibility.  
+
 ## [1.0.8] - 2024-11-21
 ### Fixed
 - When starting a new chat, it won't ask you to talk about previuos ones.
