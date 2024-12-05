@@ -24,7 +24,7 @@ function formatTooltipKey(tooltip: string): string {
 <template>
     <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
     </div>
-    <Tooltip :text=$t(formatTooltipKey(props.tooltip)) position="top" :useMaxContent="false" :adjustPosition="true">
+    <Tooltip :text=$t(formatTooltipKey(props.tooltip)) position="bottom" :useMaxContent="false" :adjustPosition="false">
         <div class="nav-link">
             {{ props.label }}
         </div>
