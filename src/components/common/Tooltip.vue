@@ -74,18 +74,28 @@ const onMouseLeave = (event: MouseEvent) => {
     border: 1px solid var(--tooltip-border-color);
 }
 
+.tooltiptext::before,
 .tooltiptext::after {
     content: "";
     position: absolute;
-    top: 100%;
     left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
+    transform: translateX(-50%);
     border-style: solid;
-    border-color: var(--tooltip-border-color, var(--tooltip-background-color)) transparent transparent transparent;
 }
 
+.tooltiptext::before {
+    top: 100%;
+    border-width: 6px;
+    border-color: var(--tooltip-border-color) transparent transparent transparent;
+    z-index: 1;
+}
 
+.tooltiptext::after {
+    top: calc(100% - 1px);
+    border-width: 5px;
+    border-color: var(--tooltip-background-color) transparent transparent transparent;
+    z-index: 2;
+}
 
 .tooltiptext[data-avoid-crop-position="top"] {
     bottom: auto;
@@ -134,9 +144,17 @@ const onMouseLeave = (event: MouseEvent) => {
     opacity: 0;
 }
 
-/* Rotate the arrow for the tooltip's various positions */
 .tooltiptext[data-avoid-crop-position="top"]::after {
     top: auto;
+    left: auto;
+    bottom: 100%;
+    transform: rotate(0deg);
+    border-color: transparent transparent var(--tooltip-background-color) transparent;
+}
+
+.tooltiptext[data-avoid-crop-position="top"]::before {
+    top: auto;
+    left: auto;
     bottom: 100%;
     transform: rotate(0deg);
     border-color: transparent transparent var(--tooltip-border-color) transparent;
@@ -149,11 +167,24 @@ const onMouseLeave = (event: MouseEvent) => {
     left: calc(100% - 13px);
 }
 
+.tooltiptext[data-avoid-crop-position="top-left"]::before {
+    top: 100%;
+    transform: rotate(0deg);
+    left: calc(100% - 14px);
+}
+
 .tooltiptext[data-avoid-crop-position="left"]::after {
-    top: calc(50% - 5px);
+    top: calc(50% - 3px);
+    transform: rotate(90deg);
+    border-color: transparent transparent var(--tooltip-background-color) transparent;
+    left: 100%;
+}
+
+.tooltiptext[data-avoid-crop-position="left"]::before {
+    top: calc(50% - 4px);
     transform: rotate(90deg);
     border-color: transparent transparent var(--tooltip-border-color) transparent;
-    left: 103%;
+    left: 100%;
 }
 
 .tooltiptext[data-avoid-crop-position="bottom-left"]::after {
