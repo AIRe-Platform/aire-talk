@@ -43,11 +43,10 @@ onMounted(async () => {
         <div class="profile-content">
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
                 class="xmark-icon">
-                <button class="tooltip-inside circle-icon" @click="navigateTo('/chat')"
-                    :aria-label="$t(l.tooltip_close)" tabindex="0" role="button"
-                    @keydown.prevent.space.enter="navigateTo('/chat')">
+                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')"
+                    :aria-label="$t(l.tooltip_close)" href="#" @keydown.space="navigateTo('/chat')">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
-                </button>
+                </a>
             </Tooltip>
         </div>
         <div class="profile-header">

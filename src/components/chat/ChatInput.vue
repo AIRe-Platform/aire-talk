@@ -123,14 +123,14 @@ const toggleTTS = () => {
         <div class="chat-text-right">
             <div class="chat-tts">
                 <div class="chat-tts-top">
-                    <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
-                        role="link" @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
+                    <a class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
+                        href="#" @keydown.space="() => router.push('/content-catalogue')"
                         @click="() => router.push('/content-catalogue')">
                         <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
                             :adjustPosition="true">
                             <div class="icon chatbox-content-default"></div>
                         </Tooltip>
-                    </div>
+                    </a>
                 </div>
                 <div class="chat-tts-buttom">
                     <template v-if="stt.isSupported.value">
