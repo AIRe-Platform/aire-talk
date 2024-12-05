@@ -149,7 +149,7 @@ onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutList
                     icon="new-chat-mobile" item-type="link" :title="$t(l.nav_chat)" @click="navigateTo('/chat')"
                     :active="$route.matched.some((p) => p.name === 'Chat')" :tooltip="l.nav_chat" />
                 <NavItem v-if="chat.id" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_new)"
-                    icon="new-chat-mobile" @keydown.prevent.space.enter="newChat" @click="newChat" :active="false"
+                    icon="new-chat-mobile" @keydown.space="newChat" @click="newChat" :active="false"
                     :tooltip="l.nav_chat_new" item-type="link" />
                 <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_catalogue)"
                     icon="catalogue-content-mobile margin-left" item-type="link"
