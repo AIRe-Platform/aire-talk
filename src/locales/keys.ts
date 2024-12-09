@@ -333,6 +333,14 @@ export enum LocalizationKey {
 
     loading_indicator_alternative_image = "loading_indicator_alternative_image",
 
+    about_title = "about_title",
+    about_goodlife_logo_alt = "about_goodlife_logo_alt",
+    about_jamk_logo_alt = "about_jamk_logo_alt",
+    about_tou = "about_tou",
+    about_privacy_policies = "about_privacy_policies",
+    about_authors = "about_authors",
+    about_collaboration = "about_collaboration",
+
     en = "en",
     fi = "fi",
     es = "es",

@@ -357,6 +357,14 @@ const id: Locale = {
 
     loading_indicator_alternative_image: "Gambar pemuatan yang ditampilkan saat halaman dimuat.",
 
+    about_title: "about_title",
+    about_goodlife_logo_alt: "about_goodlife_logo_alt",
+    about_jamk_logo_alt: "about_jamk_logo_alt",
+    about_tou: "about_tou",
+    about_privacy_policies: "about_privacy_policies",
+    about_authors: "about_authors",
+    about_collaboration: "about_collaboration",
+
     en: "Inggris",
     fi: "Finlandia",
     es: "Spanyol",

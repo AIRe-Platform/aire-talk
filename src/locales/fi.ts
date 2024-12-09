@@ -71,7 +71,7 @@ const fi: Locale = {
     nav_about: "Tietoa AIRe-palvelusta",
     nav_menu_alternative_image_logo: "AIRe navigointivalikon logo.",
     nav_menu_alternative_image_logo_dark_mode: "AIRe navigointivalikon logo pimeässä tilassa.",
-    
+
     profile_view_alternative_image_logo: "AIRe profiilin logo.",
     profile_view_alternative_image_logo_dark_mode: "AIRe profiilin logo pimeässä tilassa.",
 
@@ -245,7 +245,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     content_modal_untitled_url_thumbnail: "Nimetön URL-miniatyyri.",
     content_modal_untitled_document_thumbnail: "Nimetön asiakirjan miniatyyri.",
     content_modal_no_description: "Ei kuvausta saatavilla.",
-    
+
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
     logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",
 
@@ -355,7 +355,15 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     catalogue_item_alternative_document_thumbnail: "Dokumentin pikkukuva.",
 
     loading_indicator_alternative_image: "Latauskuva, joka näytetään sivun latautuessa.",
-    
+
+    about_title: "Tietoa AIRe-palvelusta",
+    about_goodlife_logo_alt: "Goodlife Technology logo",
+    about_jamk_logo_alt: "Jyväskylän ammattikorkeakoulun logo",
+    about_tou: "Käyttöehdot",
+    about_privacy_policies: "Tietosuojakäytännöt",
+    about_authors: "Tekijät",
+    about_collaboration: "Tehty yhteistyössä",
+
     en: "Englanti",
     fi: "Suomi",
     es: "Espanja",

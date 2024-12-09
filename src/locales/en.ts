@@ -341,6 +341,14 @@ const en: Locale = {
 
     loading_indicator_alternative_image: "Loading image displayed while the page loads.",
 
+    about_title: "About AIRe",
+    about_goodlife_logo_alt: "Goodlife Technology logo",
+    about_jamk_logo_alt: "Jamk University of Applied Sciences logo",
+    about_tou: "Terms of use",
+    about_privacy_policies: "Privacy policies",
+    about_authors: "Authors",
+    about_collaboration: "Made in collaboration with",
+
     en: "English",
     fi: "Finnish",
     es: "Spanish",

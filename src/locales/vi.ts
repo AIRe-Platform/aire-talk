@@ -354,6 +354,14 @@ const vi: Locale = {
 
     loading_indicator_alternative_image: "Hình ảnh tải đang hiển thị khi trang được tải.",
 
+    about_title: "about_title",
+    about_goodlife_logo_alt: "about_goodlife_logo_alt",
+    about_jamk_logo_alt: "about_jamk_logo_alt",
+    about_tou: "about_tou",
+    about_privacy_policies: "about_privacy_policies",
+    about_authors: "about_authors",
+    about_collaboration: "about_collaboration",
+
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
     es: "Người Tây Ban Nha",
