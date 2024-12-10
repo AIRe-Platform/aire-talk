@@ -385,6 +385,13 @@ export enum LocalizationKey {
     feedback_answer_neutral = "feedback_answer_neutral",
     feedback_answer_like_it = "feedback_answer_like_it",
     feedback_answer_like_it_very_much = "feedback_answer_like_it_very_much",
+    about_title = "about_title",
+    about_goodlife_logo_alt = "about_goodlife_logo_alt",
+    about_jamk_logo_alt = "about_jamk_logo_alt",
+    about_tou = "about_tou",
+    about_privacy_policies = "about_privacy_policies",
+    about_authors = "about_authors",
+    about_collaboration = "about_collaboration",
 
     en = "en",
     fi = "fi",

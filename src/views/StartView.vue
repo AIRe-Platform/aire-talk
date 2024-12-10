@@ -48,12 +48,12 @@ onMounted(() => {
             </div>
             <div class="quick-nav">
                 <a class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="navigateTo('/login')" @click.prevent="navigateTo('/login')"
+                    @keydown.space="navigateTo('/login')" @click.prevent="navigateTo('/login')"
                     href="/login">
                     {{ $t(l.nav_login) }}
                 </a>
                 <a class="icon frontpage-button" tabindex="0" role="link"
-                    @keydown.prevent.space.enter="navigateTo('/signup')" @click.prevent="navigateTo('/signup')"
+                    @keydown.space="navigateTo('/signup')" @click.prevent="navigateTo('/signup')"
                     href="/signup">
                     {{ $t(l.nav_signup) }}
                 </a>

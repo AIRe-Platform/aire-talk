@@ -341,6 +341,14 @@ const es: Locale = {
     
     loading_indicator_alternative_image: "Imagen de carga mostrada mientras la página se carga.",
 
+    about_title: "about_title",
+    about_goodlife_logo_alt: "about_goodlife_logo_alt",
+    about_jamk_logo_alt: "about_jamk_logo_alt",
+    about_tou: "about_tou",
+    about_privacy_policies: "about_privacy_policies",
+    about_authors: "about_authors",
+    about_collaboration: "about_collaboration",
+
     en: "Inglés",
     fi: "Finés",
     es: "Español",

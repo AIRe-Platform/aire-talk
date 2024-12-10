@@ -221,7 +221,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                     :class="{ 'restore-chat-item-open': isOpen(item.id) }">
                     <div class="chat-history-item-row">
                         <a href="#" class="chat-history-item-details" tabindex="0" role="link"
-                            @keydown.prevent.space.enter="onSelect(item.id)" @click="onSelect(item.id)">
+                            @keydown.space="onSelect(item.id)" @click="onSelect(item.id)">
                             <div class="chat-history-item-date">
                                 {{ item.time.toLocaleString($i18n.locale) }}
                             </div>

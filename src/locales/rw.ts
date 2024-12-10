@@ -351,6 +351,14 @@ const rw: Locale = {
 
     loading_indicator_alternative_image: "Ifoto yerekana ko ibintu biri gutangira mu gihe ipaji iri gupakurwa.",
 
+    about_title: "about_title",
+    about_goodlife_logo_alt: "about_goodlife_logo_alt",
+    about_jamk_logo_alt: "about_jamk_logo_alt",
+    about_tou: "about_tou",
+    about_privacy_policies: "about_privacy_policies",
+    about_authors: "about_authors",
+    about_collaboration: "about_collaboration",
+
     en: "Icyongereza",
     fi: "Igifinilande",
     es: "Icyespanyoro",

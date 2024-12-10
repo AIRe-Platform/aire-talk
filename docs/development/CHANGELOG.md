@@ -21,12 +21,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 - Improved contrast ratio for the Aire logo in the navigation menu in dark mode.  
 - Fixed a bug with the document icon in the content modal.  
 - Adjusted some localizations to make them more precise and descriptive.  
+- Ensured that focus (tabbing) is trapped within each modal.
+- Ensured that elements not in view can not be focussed.
+- Improved interractions in nav menu, e.g. settings panel doens't close on selecting language.
+- Improved accessibility of switch component.
 
 ### Added
 - Added ARIA attributes (`aria-label`, `aria-live`, `aria-hidden`, `aria-describedby`, `aria-labelledby`) and roles for better screen reader accessibility.  
 - Implemented accessible keyboard navigation.  
 - Enabled tooltips to be hidden using the `Esc` key.  
 - Added localizations for ARIA-label elements to enhance accessibility.  
+- Notification for when creating an account and deleting a chat.
+- Landmarks (nav, main, footer)
 
 ## [1.0.8] - 2024-11-21
 ### Fixed
