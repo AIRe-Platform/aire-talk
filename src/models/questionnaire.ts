@@ -9,7 +9,8 @@ export enum QuestionnaireControlFlow
 {
     Default = "default",
     PersonalInfo = "personal_info",
-    RecallConversations = "recall_conversations"
+    RecallConversations = "recall_conversations",
+    Feedback = "feedback"
 }
 
 export interface Questionnaire {
