@@ -35,6 +35,7 @@ import {
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { createPersonalFeedbackInformationQuestions, createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
 
 export class ChatContext {
     id?: string;
@@ -90,6 +91,18 @@ export class ChatContext {
             const topic_name = i18n.global.t(topic.localization_key);
             const msg = createSystemMessage(`${topic_msg}${topic_name}`, false);
             this.push(msg);
+        }
+    }
+
+    /** 
+     *
+     */
+    public async giveFeedback() {
+      
+        const personalInfoQuestionnaire = createPersonalFeedbackQuestionnaire();
+        if (personalInfoQuestionnaire){
+            const questionnaires = useQuestionnaire();
+            questionnaires.startQuestionnaire(personalInfoQuestionnaire);
         }
     }
 
