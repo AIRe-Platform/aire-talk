@@ -189,8 +189,8 @@ export enum ContentEventName {
 }
 
 export enum ContentEventAction {
-    ModalOpen = "modal_opened",
-    LinkOpen = "link_opened",
+    ModalOpen = "modal opened",
+    LinkOpen = "link opened",
 }
 
 export class ContentEvent extends StatisticsEventBase {
