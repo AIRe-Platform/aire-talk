@@ -258,7 +258,7 @@ const toggleTTS = () => {
 
 .chat-bot {
     width: 6rem;
-    top: 2rem;
+    top: 1.6rem;
     right: 45%;
     height: 6rem;
     margin-top: -4.6rem;
