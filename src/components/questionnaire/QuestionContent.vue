@@ -22,26 +22,31 @@ const answers = ref<string[]>(props.answer || []);
 const isUnanswered = (ans: any) => (ans === undefined);
 
 const onClickOption = (answer: string) => {
-    if (props.options?.multiselect) {
-        if (answers.value.includes(answer))
-            answers.value = answers.value.filter(x => x !== answer)
-        else
-            answers.value.push(answer)
-    }
-    else {
-        answers.value = [answer]
-        onSubmitAnswer();
+    if (!props.readonly) {
+        if (props.options?.multiselect) {
+            if (answers.value.includes(answer))
+                answers.value = answers.value.filter(x => x !== answer)
+            else
+                answers.value.push(answer)
+        }
+        else {
+            answers.value = [answer]
+            onSubmitAnswer();
+        }
     }
 }
 
 const onSubmitAnswer = () => {
-    const questionnaire = useQuestionnaire();
-    if (props.message.question) {
-        if (props.options?.multiselect)
-            questionnaire.submitAnswer(props.message.question.question_id, answers.value);
-        else
-            questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
+    if (!props.readonly) {
+        const questionnaire = useQuestionnaire();
+        if (props.message.question) {
+            if (props.options?.multiselect)
+                questionnaire.submitAnswer(props.message.question.question_id, answers.value);
+            else
+                questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
+        }
     }
+
 }
 
 </script>
@@ -49,10 +54,10 @@ const onSubmitAnswer = () => {
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <div v-for="content in props.options?.contents || []" :key="content.id">
+            <div v-for="content in props.options?.contents || []" :key="content.id"
+                :class="{ 'disabled': props.readonly }">
                 <ChatContent :content="content" :contentId="content.id ?? ''" @click=onClickOption(content.id!)
-                    :class="{ 'questionnaire-answer-button-selected': answers.includes(content.id!) }"
-                    :disabled="props.readonly" />
+                    :class="{ 'questionnaire-answer-button-selected': answers.includes(content.id!), 'disabled2': props.readonly }" />
             </div>
             <div class="questionnaire-answer-actions" v-if="props.options?.multiselect && isUnanswered(props.answer)">
                 <button class="btn questionnaire-confirm-button" @click="onSubmitAnswer()">
@@ -69,6 +74,16 @@ const onSubmitAnswer = () => {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
+}
+
+.disabled2 {
+    pointer-events: none;
+    background-color: var(--button-inactive);
+    border: solid 1px var(--accent-primary-color);
+}
+
+.disabled {
+    cursor: not-allowed;
 }
 
 .questionnaire-answer-options {
