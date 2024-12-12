@@ -77,6 +77,7 @@ export class ChatStatsEvent extends StatisticsEventBase {
 export class ResponseTimeEvent extends StatisticsEventBase {
     constructor(
         public response_time_ms: number,
+        public token_count: number | undefined,
         public chat_id: string | undefined,
         public user_id: string | undefined,
         public session_id: string | undefined,
@@ -198,8 +199,8 @@ export enum ContentEventName {
 }
 
 export enum ContentEventAction {
-    ModalOpen = "modal_opened",
-    LinkOpen = "link_opened",
+    ModalOpen = "modal opened",
+    LinkOpen = "link opened",
 }
 
 export class ContentEvent extends StatisticsEventBase {

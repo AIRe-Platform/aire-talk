@@ -333,6 +333,7 @@ export default function useChat() {
 
 async function streamResponse() {
     const statistics = useStatistics();
+    const chat = useChat();
     const start = Date.now(); // Start time
 
     if (AireServices.AI) {
@@ -343,9 +344,16 @@ async function streamResponse() {
         await AireServices.AI.stream(input, receiver, errorHandler);
 
         const responseTime = Date.now() - start; // Calculate response time
+
+        let log;
+        if (chat.id) {
+            log = useChatCache().get(chat.id);
+        }
+        const tokenCount = log?.stats?.token_count;
         statistics.sendEvent(new ResponseTimeEvent(
             responseTime,
-            useChat().id,
+            tokenCount,
+            chat.id,
             useLogin().user?.uuid,
             statistics.session?.id
         ));
@@ -365,7 +373,6 @@ async function streamResponse() {
         console.warn("AI service is unavailable");
     }
 }
-
 
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {
