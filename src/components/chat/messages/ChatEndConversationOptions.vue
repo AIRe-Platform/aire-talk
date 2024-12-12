@@ -25,7 +25,8 @@ const chat = useChat();
         <span class="chat-end-conversation-options-buttons">
             <button class="btn" @click="continueConversation()">{{ $t(l.conversation_option_continue) }}</button>
             <button class="btn" @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
-            <button class="btn" @click="chat.giveFeedback()"> {{ $t(l.conversation_option_give_feedback) }}</button>
+            <button class="btn" v-if="!chat.is_feedback_given" @click="chat.giveFeedback()"> {{
+                $t(l.conversation_option_give_feedback) }}</button>
         </span>
     </div>
 </template>

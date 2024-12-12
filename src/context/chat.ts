@@ -44,6 +44,7 @@ export class ChatContext {
     autosave_timer?: number;
     modified: boolean;
     forced_response: boolean;
+    is_feedback_given: boolean;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -55,6 +56,7 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
+        this.is_feedback_given = false;
     }
 
     /** Resets the chat state */
@@ -76,6 +78,7 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         useQuestionnaire().reset();
+        this.is_feedback_given = false;
 
         const system_message = createSystemMessage(l.system_greeting);
         this.push(system_message, true, false);
@@ -104,6 +107,7 @@ export class ChatContext {
         if (personalInfoQuestionnaire){
             const questionnaires = useQuestionnaire();
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
+            this.is_feedback_given = true;
         }
     }
 
