@@ -393,6 +393,7 @@ const en: Locale = {
     feedback_answer_neutral: "I'm neutral",
     feedback_answer_like_it: "I like it",
     feedback_answer_like_it_very_much: "I like it very much",
+    
     about_title: "About AIRe",
     about_goodlife_logo_alt: "Goodlife Technology logo",
     about_jamk_logo_alt: "Jamk University of Applied Sciences logo",
