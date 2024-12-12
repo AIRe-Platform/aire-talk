@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { getUILanguage } from "@/locales";
-import { AireQuestionnaireAnswer, AireStatisticsEvent } from "aire";
+import { AireQuestionnaireAnswer, AireSettings, AireStatisticsEvent } from "aire";
 import { DateTime } from "luxon";
 
 // Flexible base class for statistics data, derive your own classes from this
@@ -21,14 +21,15 @@ export class StatisticsEventBase implements AireStatisticsEvent {
         this.client_id = import.meta.env.VITE_AIRE_CLIENT_ID;
         this.client_ver = import.meta.env.VITE_COMMIT_HASH;
         this.ui_language = getUILanguage().value;
+        this.instance_id = AireSettings.PlatformName;
     }
 }
 
 export class SessionStatsEvent extends StatisticsEventBase {
     duration_minutes: number;
 
-    constructor() {
-        super("session");
+    constructor(public user_id: string | undefined) {
+        super(`${EventPrefix.Session}duration_minutes`);
         this.duration_minutes = 0;
     }
 }
@@ -74,11 +75,13 @@ export class ChatStatsEvent extends StatisticsEventBase {
 }
 
 export class ResponseTimeEvent extends StatisticsEventBase {
-    response_time_ms: number;
-
-    constructor(response_time_ms: number) {
-        super("response-time");
-        this.response_time_ms = response_time_ms;
+    constructor(
+        public response_time_ms: number,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+    ) {
+        super(`${EventPrefix.Chat}response_time`);
     }
 }
 
@@ -108,5 +111,110 @@ export class SurveyResultsEvent extends StatisticsEventBase {
             if (!this[x])
                 this[x] = data[x];
         })
+    }
+}
+
+enum EventPrefix {
+    Chat = "chat.",
+    Configuration = "configuration.",
+    Content = "content.",
+    Reminder = "reminder.",
+    Session = "session.",
+}
+
+export enum SessionEventName {
+    Start = "start",
+    End = "end",
+    ActiveDuration = "active_duration",
+}
+
+export class SessionEvent extends StatisticsEventBase {
+    constructor(
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        eventName: SessionEventName
+    ) {
+        super(`${EventPrefix.Session}${eventName}`);
+    }
+}
+
+export enum ConfigurationEventName {
+    ProfileUpdate = "user_profile_updated",
+    LanguageSelected = "language_selected",
+}
+
+export class ConfigurationEvent extends StatisticsEventBase {
+    constructor(
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        eventName: ConfigurationEventName
+    ) {
+        super(`${EventPrefix.Configuration}${eventName}`);
+    }
+}
+
+export enum ReminderEventName {
+    Added = "added",
+    Removed = "removed",
+    ContinueConversation = "continue_conversation",
+}
+
+export class ReminderEvent extends StatisticsEventBase {
+    constructor(
+        public reminder_topic: string | undefined,
+        public reminder_timestamp: number,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        eventName: ReminderEventName
+    ) {
+        super(`${EventPrefix.Reminder}${eventName}`);
+    }
+}
+
+export enum ChatThemeEventName {
+    ThemeAdded = "theme_added",
+    ThemeRemoved = "theme_removed",
+    ThemeConfirmed = "theme_confirmed",
+}
+
+export class ChatThemeEvent extends StatisticsEventBase {
+    constructor(
+        public theme_name: string,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        eventName: ChatThemeEventName
+    ) {
+        super(`${EventPrefix.Chat}${eventName}`);
+    }
+}
+
+export enum ContentEventName {
+    Showed = "showed",
+    Opened = "opened",
+    Liked = "liked",
+    Disliked = "disliked",
+}
+
+export enum ContentEventAction {
+    ModalOpen = "modal_opened",
+    LinkOpen = "link_opened",
+}
+
+export class ContentEvent extends StatisticsEventBase {
+    constructor(
+        public content_id: string | undefined,
+        public content_name: string | undefined,
+        public theme_names: string,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        eventName: ContentEventName,
+        action?: ContentEventAction
+    ) {
+        super(`${EventPrefix.Content}${eventName}`);
+        if (action)
+            this.action = action;
     }
 }

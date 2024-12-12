@@ -9,10 +9,14 @@ import { defineProps, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { AireContent, AireContentType } from 'aire';
 import Modal from "@/components/common/Modal.vue";
 import { switchFocus } from '@/helpers/keyboarNavigation';
-import { openAndContinueChat } from '@/helpers/chatUtils';
+import { listChatKeywords, openAndContinueChat } from '@/helpers/chatUtils';
 import { router } from '@/router';
 import { l } from '@/locales';
 import { getTranslation, updateKeywordMetadata } from '@/helpers/keywordUtils';
+import useStatistics from '@/context/statistics';
+import useChat from '@/context/chat';
+import useLogin from '@/context/login';
+import { ContentEvent, ContentEventAction, ContentEventName } from '@/models/statistics';
 
 const props = defineProps<{
     active: boolean,
@@ -28,10 +32,24 @@ const state = reactive<{
     translatedKeywords: []
 });
 const contentModalRef = ref<HTMLElement | null>(null);
+const statistics = useStatistics();
+const chat = useChat();
+const login = useLogin();
 
 const openUrl = (url?: string) => {
-    if (url)
+    if (url) {
+        statistics.sendEvent(new ContentEvent(
+            props.content?.id,
+            props.content?.name,
+            listChatKeywords(chat.messages).join(','),
+            chat.id,
+            login.user?.uuid,
+            statistics.session?.id,
+            ContentEventName.Opened,
+            ContentEventAction.LinkOpen,
+        ))
         window.open(url, '_blank');
+    }
 };
 
 watch(() => props.active, (active) => {
@@ -100,7 +118,7 @@ onMounted(async () => {
                                     :aria-label="`${$t(l.screen_recorder_image_content)} ${props.content.name || $t(l.screen_recorder_image_content_unnamed)}`" />
                             </template>
                             <template v-if="props.content.type == AireContentType.Video">
-                                <video controls autoplay aria-labelledby="modal-title" tabindex="0"
+                                <video controls autoplay aria-labelledby="modal-title"
                                     :aria-label="`${$t(l.screen_recorder_video_content)} ${props.content.name || $t(l.screen_recorder_video_content_unnamed)}`">
                                     <source v-bind:src="props.content.url" type="video/mp4" />
                                     <p>{{ $t(l.content_modal_browser_does_not_support_video_tag) }} <a
@@ -108,9 +126,9 @@ onMounted(async () => {
                                 </video>
                             </template>
                             <a href="#" v-if="props.content.type == AireContentType.URL"
-                                v-on:click="openUrl(props.content.url)"
+                                @click="openUrl(props.content.url)" @keydown.space="openUrl(props.content.url)"
                                 :aria-label="`${$t(l.screen_recorder_open_url)} ${props.content.name || $t(l.screen_recorder_untitled_url)}, ${$t(l.screen_recorder_new_tab)}`"
-                                role="button" aria-describedby="modal-description" tabindex="0">
+                                aria-describedby="modal-description">
                                 <div class="icon content-url content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url" :aria-hidden="true">
                                 </div>
@@ -120,9 +138,9 @@ onMounted(async () => {
                                 </div>
                             </a>
                             <a href="#" v-if="props.content.type == AireContentType.Document"
-                                @click.prevent="openUrl(props.content.url)"
+                                @click="openUrl(props.content.url)" @keydown.space="openUrl(props.content.url)"
                                 :aria-label="`${$t(l.screen_recorder_open_document)} ${props.content.name || $t(l.screen_recorder_untitled_document)}, ${$t(l.screen_recorder_new_tab)}`"
-                                role="button" aria-describedby="modal-description" tabindex="0">
+                                aria-describedby="modal-description">
                                 <div class="icon content-document content-modal-width-icon"
                                     v-if="!props.content.thumbnail_url" :aria-hidden="true">
                                 </div>
@@ -228,11 +246,15 @@ onMounted(async () => {
     img,
     video,
     .content-document {
-        width: 100%;
-        height: auto;
         max-width: 50rem;
         max-height: 25rem;
         border-radius: 1rem;
+    }
+
+    img,
+    video {
+        width: 100%;
+        height: auto;
     }
 
     .media-url {
@@ -295,6 +317,9 @@ onMounted(async () => {
             max-width: 20rem;
             max-height: 10rem;
             border-radius: 1rem;
+        }
+        .content-document {
+            background-position: center;
         }
     }
 }

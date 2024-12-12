@@ -16,6 +16,9 @@ import { switchFocus } from '@/helpers/keyboarNavigation';
 import { UIState } from '@/context/ui';
 import { openAndContinueChat } from '@/helpers/chatUtils';
 import Tooltip from "@/components/common/Tooltip.vue";
+import useStatistics from '@/context/statistics';
+import { ReminderEvent, ReminderEventName } from '@/models/statistics';
+import useLogin from '@/context/login';
 
 defineComponent({ name: "EventComponent" });
 
@@ -27,6 +30,8 @@ const state = reactive<{
     visible: true,
 });
 const reminderModalRef = ref<HTMLElement | null>(null);
+const statistics = useStatistics();
+const login = useLogin();
 
 const checkForEvents = () => {
     if (AireServices.Memory) {
@@ -65,6 +70,14 @@ const canContinue = (chat_id?: string) => {
 const markEventAsRead = (index: number) => {
     const reminder = state.reminders.splice(index, 1); // remove from list immediately
     if (AireServices.Memory && reminder[0]) {
+        statistics.sendEvent(new ReminderEvent(
+            reminder[0].content?.message,
+            reminder[0].trigger_timestamp,
+            reminder[0].chat_id,
+            login.user?.uuid,
+            statistics.session?.id,
+            ReminderEventName.Removed
+        ));
         reminder[0].read_timestamp = DateTime.utc().toUnixInteger();
         AireServices.Memory.editReminder(reminder[0])
             .catch(err => {
@@ -73,13 +86,21 @@ const markEventAsRead = (index: number) => {
     }
 }
 
-const returnToConversation = (id: string) => {
-    openAndContinueChat(id)
+const returnToConversation = (reminder: AireReminder) => {
+    statistics.sendEvent(new ReminderEvent(
+        reminder.content?.message,
+        reminder.trigger_timestamp,
+        reminder.chat_id,
+        login.user?.uuid,
+        statistics.session?.id,
+        ReminderEventName.ContinueConversation
+    ));
+    openAndContinueChat(reminder.chat_id!)
         .then(result => {
             if (result)
                 router.push({
                     name: "Chat",
-                    params: { id: id }
+                    params: { id: reminder.chat_id }
                 });
         });
 }
@@ -112,13 +133,13 @@ onUnmounted(() => UIState.reminderModalRef = null);
                     <div class="reminder-buttons">
                         <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom" :useMaxContent="false"
                             :adjustPosition="true" v-if="canContinue(reminder.chat_id)">
-                            <button class="btn" @click.stop="returnToConversation(reminder.chat_id!)">
+                            <button type="button" class="btn" @click.stop="returnToConversation(reminder)">
                                 {{ $t(l.button_return_to_conversation) }}
                             </button>
                         </Tooltip>
                         <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom" :useMaxContent="false"
                             :adjustPosition="true">
-                            <button class="btn" @click.stop="markEventAsRead(i)">
+                            <button type="button" class="btn" @click.stop="markEventAsRead(i)">
                                 {{ $t(l.button_mark_as_read) }}
                             </button>
                         </Tooltip>
