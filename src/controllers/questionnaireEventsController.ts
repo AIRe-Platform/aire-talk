@@ -27,8 +27,6 @@ import { ChatMessageType } from "@/models/chat";
 import { onAcceptSummary } from "@/helpers/chatUtils";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import useContent from "@/context/content";
-import { AireContentWithChatId } from "@/views/ContentCatalogueView.vue";
-
 
 const PersonalFeedbackController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -94,8 +92,8 @@ const PersonalFeedbackController: QuestionnaireController = {
 
 export default PersonalFeedbackController;
 
-export function createPersonalFeedbackQuestionnaire(): Questionnaire | undefined {
-    const fields = createPersonalFeedbackInformationQuestions();
+export async function createPersonalFeedbackQuestionnaire(): Promise<Questionnaire | undefined> {
+    const fields = await createPersonalFeedbackInformationQuestions();
     if (fields.length < 1) {
         console.warn("Feedback information already available");
         return;
@@ -128,13 +126,10 @@ async function saveFeedbackPersonalInformation() {
     const themes: string[] = [];
     chat.messages.forEach( message => {
         if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
-            themes.push(message.content!); // Add the theme if it's not already in the array
+            themes.push(message.content!);
         }
     });
-    const themesString: string = themes.join(','); // Convert the array to a single string separated by commas
-    getChatContentIds( chat.messages);
-    console.log("themes?", themes);
-    console.log("themesString?", themesString);
+    const themesString: string = themes.join(',');
 
     answers.forEach( a => {
         useStatistics().sendEvent(new FeedbackEvent(
@@ -152,11 +147,11 @@ async function saveFeedbackPersonalInformation() {
     `;
     const message = createInstructionMessage(instructions);
     chat.push(message);
-    chat.forceResponse();
+
     onAcceptSummary();
 }
 
-export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
+export async function createPersonalFeedbackInformationQuestions(): Promise<AireQuestion[]> {
     const questions = Array<AireQuestion>();
 
     questions.push({
@@ -249,7 +244,7 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
         } as AireQuestionOptionCheckbox
     });
 
-    const contentObjects = getContents();
+    const contentObjects = await getContents();
 
     questions.push({
         id: "most_useful_content",
@@ -259,8 +254,7 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
         required: true,
         options: {
             multiselect: false,
-            values: 
-                contentObjects
+            contents: contentObjects
         } as AireQuestionOptionContent
     });
    
@@ -430,48 +424,21 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
     return questions;
 }
 
-
 export async function getContents(): Promise<AireContent[]> {
-
     const chat = useChat();
-
     const content_ids = getChatContentIds(chat.messages);
-        
-    console.log("content_ids?", content_ids);
-    
+
     const contentContext = useContent();
-    
-    const uniqueContentMap = new Map<string, any>();
-    
-    for (const  contentId of content_ids) {
+    const uniqueContentMap = new Map<string, AireContent>();
+
+    for (const contentId of content_ids) {
         const item = await contentContext.get(contentId);
-    
         if (item) {
-            // item.chatId = chatId;
-            const wrappedItem: AireContentWithChatId = { ...item, chatId: chat.id! };
-            if (uniqueContentMap.has(contentId)) {
-                const existingItem = uniqueContentMap.get(contentId);
-    
-                // Compare modified timestamps, if both are defined, and keep the latest one
-                if (
-                    wrappedItem.modified && existingItem.modified &&
-                    wrappedItem.modified > existingItem.modified
-                ) {
-                    uniqueContentMap.set(contentId, wrappedItem);
-                } else if (!existingItem.modified || (wrappedItem.modified && !existingItem.modified)) {
-                    // If existingItem.modified is undefined, prefer wrappedItem
-                    uniqueContentMap.set(contentId, wrappedItem);
-                }
-            } else {
-                //no dupes
-                uniqueContentMap.set(contentId, wrappedItem);
-            }
+            uniqueContentMap.set(contentId, item);  
         }
     }
-    
-    const   contentObjects = Array.from(uniqueContentMap.values());
-    
-    console.log("all content?", contentObjects);
-    
+
+    const contentObjects = Array.from(uniqueContentMap.values());
+
     return contentObjects;
 }

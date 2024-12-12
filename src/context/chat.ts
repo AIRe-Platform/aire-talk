@@ -35,7 +35,7 @@ import {
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-import { createPersonalFeedbackInformationQuestions, createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
+import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 
@@ -96,11 +96,11 @@ export class ChatContext {
     }
 
     /** 
-     *
+     * Start the questionnaire to save into events 
      */
     public async giveFeedback() {
       
-        const personalInfoQuestionnaire = createPersonalFeedbackQuestionnaire();
+        const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
         if (personalInfoQuestionnaire){
             const questionnaires = useQuestionnaire();
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
