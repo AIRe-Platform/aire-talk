@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { getUILanguage } from "@/locales";
-import { AireStatisticsEvent } from "aire";
+import { AireQuestionnaireAnswer, AireStatisticsEvent } from "aire";
 import { DateTime } from "luxon";
 
 // Flexible base class for statistics data, derive your own classes from this
@@ -83,12 +83,21 @@ export class ResponseTimeEvent extends StatisticsEventBase {
 }
 
 export class FeedbackEvent extends StatisticsEventBase {
-    constructor(data: { [key: string]: any }) {
+    session_id?: string;
+    user_id?: string;
+    instance_id?: string;
+    chat_id?: string;
+    themes?:  string;
+    answer?: any;
+    question?: string;
+
+    constructor(chat_id: string | undefined, user_id: string, answer: any, question: string, themes: string) {
         super("feedback");
-        Object.keys(data).forEach(x => {
-            if (!this[x])
-                this[x] = data[x];
-        })
+        this.chat_id = chat_id;
+        this.user_id = user_id;
+        this.answer = answer;
+        this.question = question;
+        this.themes = themes;
     }
 }
 

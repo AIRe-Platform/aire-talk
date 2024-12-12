@@ -4,8 +4,10 @@
 
 
 import {
+    AireContent,
     AireQuestion,
     AireQuestionOptionCheckbox,
+    AireQuestionOptionContent,
     AireQuestionOptionNumber,
     AireQuestionOptionOpen,
     AireQuestionOptionType,
@@ -21,6 +23,11 @@ import QuestionnaireController from "./questionnaireController";
 import useStatistics from "@/context/statistics";
 import { FeedbackEvent } from "@/models/statistics";
 import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
+import { ChatMessageType } from "@/models/chat";
+import { onAcceptSummary } from "@/helpers/chatUtils";
+import { getChatContentIds } from "@/helpers/contentUtils";
+import useContent from "@/context/content";
+import { AireContentWithChatId } from "@/views/ContentCatalogueView.vue";
 
 
 const PersonalFeedbackController: QuestionnaireController = {
@@ -114,18 +121,39 @@ async function saveFeedbackPersonalInformation() {
 
     answers.forEach(x => { info[x.question_id] = x.answer; });
 
-    useStatistics().sendEvent(new FeedbackEvent(
-        answers
-    ));
-
-    //go back to normal
     const chat = useChat();
+
+    const user = useLogin();
+    
+    const themes: string[] = [];
+    chat.messages.forEach( message => {
+        if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
+            themes.push(message.content!); // Add the theme if it's not already in the array
+        }
+    });
+    const themesString: string = themes.join(','); // Convert the array to a single string separated by commas
+    getChatContentIds( chat.messages);
+    console.log("themes?", themes);
+    console.log("themesString?", themesString);
+
+    answers.forEach( a => {
+        useStatistics().sendEvent(new FeedbackEvent(
+                chat.id,
+                user.user!.uuid,
+                a.answer,
+                a.question,
+                themesString
+            ));
+    });
+
+    //go back to normal?? ask Tommi
     const instructions = `
         [The user filled a feedback questionnaire. Thank user for this feedback and tell how it will helps you and other people in the future.]
     `;
     const message = createInstructionMessage(instructions);
     chat.push(message);
     chat.forceResponse();
+    onAcceptSummary();
 }
 
 export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
@@ -149,7 +177,7 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
         } as AireQuestionOptionCheckbox
     });
 
-    questions.push({
+     questions.push({
         id: "target_setting",
         prompt: "",
         question: i18n.global.t(l.feedback_question_target_setting),
@@ -221,27 +249,21 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
         } as AireQuestionOptionCheckbox
     });
 
-    /*
-    This one is quite hard to do, we can skip it at this point!
+    const contentObjects = getContents();
 
     questions.push({
         id: "most_useful_content",
         prompt: "",
         question: i18n.global.t(l.feedback_question_most_useful_content),
-        type: AireQuestionOptionType.Checkbox,
+        type: AireQuestionOptionType.Content,
         required: true,
         options: {
             multiselect: false,
-            values: [
-                i18n.global.t(l.feedback_answer_not_at_all),
-                i18n.global.t(l.feedback_answer_a_litle),
-                i18n.global.t(l.feedback_answer_somewhat),
-                i18n.global.t(l.feedback_answer_quite_well),
-                i18n.global.t(l.feedback_answer_very_well)
-            ]
-        } as AireQuestionOptionCheckbox
+            values: 
+                contentObjects
+        } as AireQuestionOptionContent
     });
-    */
+   
 
     questions.push({
         id: "usage",
@@ -406,4 +428,50 @@ export function createPersonalFeedbackInformationQuestions(): AireQuestion[] {
     });
 
     return questions;
+}
+
+
+export async function getContents(): Promise<AireContent[]> {
+
+    const chat = useChat();
+
+    const content_ids = getChatContentIds(chat.messages);
+        
+    console.log("content_ids?", content_ids);
+    
+    const contentContext = useContent();
+    
+    const uniqueContentMap = new Map<string, any>();
+    
+    for (const  contentId of content_ids) {
+        const item = await contentContext.get(contentId);
+    
+        if (item) {
+            // item.chatId = chatId;
+            const wrappedItem: AireContentWithChatId = { ...item, chatId: chat.id! };
+            if (uniqueContentMap.has(contentId)) {
+                const existingItem = uniqueContentMap.get(contentId);
+    
+                // Compare modified timestamps, if both are defined, and keep the latest one
+                if (
+                    wrappedItem.modified && existingItem.modified &&
+                    wrappedItem.modified > existingItem.modified
+                ) {
+                    uniqueContentMap.set(contentId, wrappedItem);
+                } else if (!existingItem.modified || (wrappedItem.modified && !existingItem.modified)) {
+                    // If existingItem.modified is undefined, prefer wrappedItem
+                    uniqueContentMap.set(contentId, wrappedItem);
+                }
+            } else {
+                //no dupes
+                uniqueContentMap.set(contentId, wrappedItem);
+            }
+        }
+    }
+    
+    const   contentObjects = Array.from(uniqueContentMap.values());
+    
+    console.log("all content?", contentObjects);
+    
+    return contentObjects;
 }

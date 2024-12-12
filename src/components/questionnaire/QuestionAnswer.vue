@@ -6,7 +6,9 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 import {
+    AireContent,
     AireQuestionOptionCheckbox,
+    AireQuestionOptionContent,
     AireQuestionOptionNumber,
     AireQuestionOptionOpen,
     AireQuestionOptionRange,
@@ -19,6 +21,7 @@ import QuestionNumber from "@/components/questionnaire/QuestionNumber.vue";
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import useQuestionnaire from '@/context/questionnaire';
+import QuestionContent from './QuestionContent.vue';
 
 const questionnaire = useQuestionnaire();
 const props = defineProps<{ message: ChatMessage }>()
@@ -51,6 +54,9 @@ const isReadonly = (active_id: string | undefined, msg: ChatMessage) => {
         <QuestionNumber v-if="props.message.question.type == AireQuestionOptionType.Number" :message="props.message"
             :options="(props.message.question.options as AireQuestionOptionNumber)"
             :answer="props.message.question.answer" :readonly="isReadonly(questionnaire.active?.id, props.message)" />
+        <QuestionContent v-if="props.message.question.type == AireQuestionOptionType.Content" :message="props.message"
+            :options="(props.message.question.options as AireContent[])" :answer="props.message.question.answer"
+            :readonly="isReadonly(questionnaire.active?.id, props.message)" />
     </div>
 </template>
 
