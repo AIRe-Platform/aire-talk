@@ -119,9 +119,11 @@ async function saveFeedbackPersonalInformation() {
 
     answers.forEach(x => { info[x.question_id] = x.answer; });
 
-    const chat = useChat();
+    const chat = await useChat();
 
-    const user = useLogin();
+    const statistics = useStatistics();
+
+    const user = await useLogin();
     
     const themes: string[] = [];
     chat.messages.forEach( message => {
@@ -132,16 +134,17 @@ async function saveFeedbackPersonalInformation() {
     const themesString: string = themes.join(',');
 
     answers.forEach( a => {
-        useStatistics().sendEvent(new FeedbackEvent(
+        statistics.sendEvent(new FeedbackEvent(
+                a.question_id,
                 chat.id,
-                user.user!.uuid,
+                user.user?.uuid,
                 a.answer,
                 a.question,
+                statistics.session?.id,
                 themesString
             ));
     });
 
-    //go back to normal?? ask Tommi
     const instructions = `
         [The user filled a feedback questionnaire. Thank user for this feedback and tell how it will helps you and other people in the future.]
     `;
@@ -246,18 +249,19 @@ export async function createPersonalFeedbackInformationQuestions(): Promise<Aire
 
     const contentObjects = await getContents();
 
-    questions.push({
-        id: "most_useful_content",
-        prompt: "",
-        question: i18n.global.t(l.feedback_question_most_useful_content),
-        type: AireQuestionOptionType.Content,
-        required: true,
-        options: {
-            multiselect: false,
-            contents: contentObjects
-        } as AireQuestionOptionContent
-    });
-   
+    if(contentObjects.length){
+        questions.push({
+            id: "most_useful_content",
+            prompt: "",
+            question: i18n.global.t(l.feedback_question_most_useful_content),
+            type: AireQuestionOptionType.Content,
+            required: true,
+            options: {
+                multiselect: false,
+                contents: contentObjects
+            } as AireQuestionOptionContent
+        });
+    }
 
     questions.push({
         id: "usage",

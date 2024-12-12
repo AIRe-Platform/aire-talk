@@ -87,20 +87,21 @@ export class ResponseTimeEvent extends StatisticsEventBase {
 }
 
 export class FeedbackEvent extends StatisticsEventBase {
-    session_id?: string;
     user_id?: string;
     instance_id?: string;
     chat_id?: string;
     themes?:  string;
     answer?: any;
     question?: string;
+    session_id?: string;
 
-    constructor(chat_id: string | undefined, user_id: string, answer: any, question: string, themes: string) {
-        super("feedback");
+    constructor(name: string, chat_id: string | undefined, user_id: string | undefined, answer: any, question: string, session_id: string | undefined, themes: string) {
+        super("feedback." + name);
         this.chat_id = chat_id;
         this.user_id = user_id;
         this.answer = answer;
         this.question = question;
+        this.session_id = session_id;
         this.themes = themes;
     }
 }
