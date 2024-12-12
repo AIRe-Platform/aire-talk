@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { getUILanguage } from "@/locales";
-import { AireQuestionnaireAnswer, AireSettings, AireStatisticsEvent } from "aire";
+import { AireSettings, AireStatisticsEvent } from "aire";
 import { DateTime } from "luxon";
 
 // Flexible base class for statistics data, derive your own classes from this
