@@ -39,8 +39,13 @@ import { DateTime } from "luxon";
 import { updateKeywordMetadata } from "./keywordUtils";
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
+import useStatistics from "@/context/statistics";
+import { ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
+import useLogin from "@/context/login";
 
+const statistics = useStatistics();
 const chat = useChat();
+const login = useLogin();
 
 /**
  * Function that gets all the chats the user has save in the database order from newest to oldest.
@@ -125,7 +130,15 @@ export function getLastMessage(): ChatMessage | undefined {
 }
 
 export async function onAcceptSummary() {
-    await suggestContentWithKeywords(listChatKeywords(chat.messages));
+    const keywords = listChatKeywords(chat.messages)
+    keywords.forEach((kw) => statistics.sendEvent(new ChatThemeEvent(
+        kw,
+        chat.id,
+        login.user?.uuid,
+        statistics.session?.id,
+        ChatThemeEventName.ThemeConfirmed,
+    )))
+    await suggestContentWithKeywords(keywords);
 
     const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
     chat.push(end);
@@ -147,7 +160,6 @@ export function onRejectSummary() {
 }
 
 export async function suggestContentWithKeywords(keywords: string[]): Promise<number> {
-    
     //in case it is a new chat and there is no id yet
     await chat.save();
 
@@ -179,6 +191,7 @@ export async function showContentSuggestions(content: AireContent[]) {
     const msg = await createContentMessage(content);
     chat.push(msg);
 
+    const keywords = listChatKeywords(chat.messages).join(',');
     content.forEach(x => {
         if (!x.name && !x.description)
             return;
@@ -188,6 +201,16 @@ export async function showContentSuggestions(content: AireContent[]) {
             inst = `\nTitle: ${x.name}`;
         if (x.description)
             inst = `\nDescription: ${x.description}`;
+
+        statistics.sendEvent(new ContentEvent(
+            x.id,
+            x.name,
+            keywords,
+            chat.id,
+            login.user?.uuid,
+            statistics.session?.id,
+            ContentEventName.Showed
+        ));
 
         const msg = createInstructionMessage(inst);
         chat.push(msg);
@@ -329,6 +352,14 @@ export function pushKeyword(keyword: AireKeyword) {
     const notification = createKeywordMessage(keyword.value);
     chat.push(notification);
 
+    statistics.sendEvent(new ChatThemeEvent(
+        keyword.value,
+        chat.id,
+        login.user?.uuid,
+        statistics.session?.id,
+        ChatThemeEventName.ThemeAdded
+    ));
+
     // Create hidden prompt injection
     const prompt = keyword.prompt ?? `The system has identified a topic: ${keyword.value}`
     const promptMessage = createInstructionMessage(prompt);
@@ -353,6 +384,14 @@ export function removeKeyword(keyword: string, blacklist: boolean = false) {
         }
         chat.messages.splice(i, 1);
     }
+
+    statistics.sendEvent(new ChatThemeEvent(
+        keyword,
+        chat.id,
+        login.user?.uuid,
+        statistics.session?.id,
+        ChatThemeEventName.ThemeRemoved
+    ))
 
     if (blacklist) {
         chat.state.keyword_blacklist ??= [];
@@ -446,6 +485,14 @@ export async function handleContentSuggestionsEvent(e: AireContentEvent) {
 export async function handleReminderEvent(reminder: AireReminder) {
     console.debug("Handling reminder event", reminder);
 
+    statistics.sendEvent(new ReminderEvent(
+        reminder.content?.message,
+        reminder.trigger_timestamp,
+        reminder.chat_id,
+        login.user?.uuid,
+        statistics.session?.id,
+        ReminderEventName.Added
+    ));
     const msg = createReminderCreatedMessage(reminder);
     chat.push(msg);
 

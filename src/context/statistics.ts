@@ -4,15 +4,16 @@
 
 import { SessionStatsEvent, StatisticsEventBase } from "@/models/statistics";
 import { AireServices, AireStatisticsEvent, AireStatus } from "aire";
+import { DateTime } from "luxon";
 import { reactive } from "vue";
 
-const SESSION_UPDATE_INTERVAL = 5 * 60 * 1000;
+const SESSION_UPDATE_INTERVAL = 60 * 1000;
 
 export class StatisticsContext {
     session?: SessionStatsEvent;
 
-    public async startSession(auto_update: boolean = true) {
-        this.session = new SessionStatsEvent();
+    public async startSession(user_id: string | undefined, auto_update: boolean = true) {
+        this.session = new SessionStatsEvent(user_id);
 
         await this.sendEvent(this.session)
             .then(event => {
@@ -28,12 +29,12 @@ export class StatisticsContext {
         if (!this.session)
             return;
 
-        this.session.duration_minutes = this.session.ts.diffNow().as("minutes");
+        this.session.duration_minutes = DateTime.utc().diff(this.session.ts).as("minutes");
 
         await this.updateEvent(this.session);
 
         if (schedule_next_update)
-            setTimeout(this.updateSession, SESSION_UPDATE_INTERVAL);
+            setTimeout(() => this.updateSession(schedule_next_update), SESSION_UPDATE_INTERVAL);
     }
 
     public async sendEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
