@@ -135,6 +135,10 @@ const onTTS = () => {
     }
 }
 
+.theme-dark .chat-bubble-button {
+    color: #FFF;
+}
+
 .chat-bubble-user .chat-bubble-content {
     align-items: flex-end;
 }

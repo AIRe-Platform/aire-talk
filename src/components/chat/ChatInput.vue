@@ -312,6 +312,10 @@ const toggleTTS = () => {
     }
 }
 
+.theme-dark .chat-tts-button {
+    color: #FFF;
+}
+
 .chat-options-button-active {
     color: var(--accent-primary-color);
 }
