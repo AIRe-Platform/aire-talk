@@ -360,22 +360,6 @@ export async function createPersonalFeedbackInformationQuestions(): Promise<Aire
             ]
         } as AireQuestionOptionCheckbox
     });
-    
-    /**
-     This is too broad to be multiple-choice questions, so it should have an open text field,
-    which is error prone and can have different spellings. We will skip this for now!
-    
-    Country
-     */
-
-
-    /**
-     We will skip this for now! We will need a better question for this.
-    Asuinpaikka
-    (Taajama/Kaupunki/Haja-asutusalue)
-    Place of residence
-
-    */
 
     questions.push({
         id: "platform_rating",
@@ -387,7 +371,7 @@ export async function createPersonalFeedbackInformationQuestions(): Promise<Aire
             multiselect: false,
             description: i18n.global.t(l.feedback_question_platform_rating_description),
             values: [
-                "1","2","3","4","5"
+                1,2,3,4,5
             ]
         } as AireQuestionOptionCheckbox
     });
@@ -400,12 +384,9 @@ export async function createPersonalFeedbackInformationQuestions(): Promise<Aire
         required: true,
         options: {
             multiselect: false,
+            description: i18n.global.t(l.feedback_question_todays_experience_description),
             values: [
-                i18n.global.t(l.feedback_answer_not_at_all),
-                i18n.global.t(l.feedback_answer_a_litle),
-                i18n.global.t(l.feedback_answer_somewhat),
-                i18n.global.t(l.feedback_answer_quite_well),
-                i18n.global.t(l.feedback_answer_very_well)
+                "1","2","3","4","5"
             ]
         } as AireQuestionOptionCheckbox
     });
