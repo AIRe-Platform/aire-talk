@@ -17,22 +17,29 @@ const props = defineProps<{
     readonly?: boolean;
 }>();
 
-const answers = ref<string[]>(props.answer || []);
+const answers = ref<(string | number)[]>([]);
+
 const isUnanswered = (ans: any) => (ans === undefined);
 
-const onClickOption = (answer: string) => {
+const onClickOption = (answer: string | number) => {
+    const normalizedAnswer = normalizeAnswer(answer);
+
     if (props.options.multiselect) {
-        if (answers.value.includes(answer))
-            answers.value = answers.value.filter(x => x !== answer)
-        else
-            answers.value.push(answer)
-    }
-    else {
-        answers.value = [answer]
+        if (answers.value.includes(normalizedAnswer)) {
+            answers.value = answers.value.filter(x => x !== normalizedAnswer);
+        } else {
+            answers.value.push(normalizedAnswer);
+        }
+    } else {
+        answers.value = [normalizedAnswer];
         onSubmitAnswer();
     }
-}
+};
 
+const normalizeAnswer = (value: string | number): string | number => {
+    // Convert all values to string for consistent comparison
+    return typeof value === "number" ? String(value) : value;
+};
 const onSubmitAnswer = () => {
     const questionnaire = useQuestionnaire();
     if (props.message.question) {
@@ -42,7 +49,6 @@ const onSubmitAnswer = () => {
             questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
     }
 }
-
 </script>
 
 <template>
@@ -53,7 +59,7 @@ const onSubmitAnswer = () => {
         <div class="questionnaire-answer-options" v-if="props.options.values">
             <template v-for="ans, id in props.options.values" :key="id">
                 <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
-                    :class="{ 'questionnaire-answer-button-selected': answers.includes(ans) }">
+                    :class="{ 'questionnaire-answer-button-selected': (props.answer?.includes?.(normalizeAnswer(ans)) || false) }">
                     {{ ans }}
                 </button>
             </template>
