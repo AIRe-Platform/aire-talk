@@ -50,7 +50,7 @@ const PersonalFeedbackController: QuestionnaireController = {
         const context = useQuestionnaire();
         const chat = useChat();
 
-        if(question.question_id === "personal_feedback_start") {
+        if(question.question_id === "feedback_personal_start") {
             if (answer.includes(i18n.global.t(l.button_yes))) {
                 context.nextQuestion();
             }
@@ -58,11 +58,12 @@ const PersonalFeedbackController: QuestionnaireController = {
                 context.reset();
             }
         }
-        else if (question.question_id === "personal_feedback_end") {
+        else if (question.question_id === "feedback_personal_end") {
             saveFeedbackPersonalInformation()
                 .then(() => {
                     context.reset();
                 })
+            chat.feedbackQuestionnaireIsCompleted();
         }
         else {
             question.answer = answer;
@@ -76,7 +77,7 @@ const PersonalFeedbackController: QuestionnaireController = {
     },
     onComplete: (self: Questionnaire) => {
         const q: AireQuestion = {
-            id: "personal_feedback_end",
+            id: "feedback_personal_end",
             question: i18n.global.t(l.feedback_question_completed),
             type: AireQuestionOptionType.Checkbox,
             required: true,
