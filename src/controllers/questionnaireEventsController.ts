@@ -384,12 +384,9 @@ export async function createPersonalFeedbackInformationQuestions(): Promise<Aire
         required: true,
         options: {
             multiselect: false,
+            description: i18n.global.t(l.feedback_question_platform_rating_description),
             values: [
-                i18n.global.t(l.feedback_answer_do_not_like),
-                i18n.global.t(l.feedback_answer_dislike),
-                i18n.global.t(l.feedback_answer_neutral),
-                i18n.global.t(l.feedback_answer_like_it),
-                i18n.global.t(l.feedback_answer_like_it_very_much)
+                "1","2","3","4","5"
             ]
         } as AireQuestionOptionCheckbox
     });

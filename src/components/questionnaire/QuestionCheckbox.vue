@@ -47,6 +47,9 @@ const onSubmitAnswer = () => {
 
 <template>
     <div class="questionnaire-answer">
+        <p v-if="props.options.description">
+            {{ props.options.description }}
+        </p>
         <div class="questionnaire-answer-options" v-if="props.options.values">
             <template v-for="ans, id in props.options.values" :key="id">
                 <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"

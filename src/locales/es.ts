@@ -364,6 +364,7 @@ const es: Locale = {
     feedback_question_can_get_support: "Are there people around you who can support you?",
     feedback_question_gender: "Gender:",
     feedback_question_platform_rating: "Please rate the AIRe platform.",
+    feedback_question_platform_rating_description: "(Selection: 1= I don't like it, 5= I like it very much)",
     feedback_question_todays_experience: "How much did AIRe help you today?",
     feedback_question_open_feedback: "Open feedback",
 
