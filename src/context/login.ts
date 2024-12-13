@@ -10,6 +10,10 @@ import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
 import { getUILanguage } from "@/locales";
 import useTheme from "./theme";
+import useStatistics from "./statistics";
+import { ConfigurationEventName, ConfigurationEvent, SessionEventName, SessionEvent } from "@/models/statistics";
+
+const statistics = useStatistics();
 
 interface LoginAuthState {
     state: string;
@@ -86,8 +90,14 @@ export class LoginContext {
             if (response.status == AireStatus.Success) {
                 const userResponse = await AireServices.ID.getUser();
                 if (userResponse.status == AireStatus.Success) {
-                    this.user = userResponse.data
-                    this.saveSession()
+                    this.user = userResponse.data;
+                    this.saveSession();
+                    await statistics.startSession(this.user?.uuid);
+                    statistics.sendEvent(new SessionEvent(
+                        this.user?.uuid,
+                        statistics.session?.id,
+                        SessionEventName.Start
+                    ));
 
                     useChat().reset(false, true);
                     return { ok: true };
@@ -127,6 +137,13 @@ export class LoginContext {
     public async logout(return_params?: string) {
         await useChat().reset(false, true);
         useContent().reset();
+        statistics.sendEvent(new SessionEvent(
+            this.user?.uuid,
+            statistics.session?.id,
+            SessionEventName.End
+        )).finally(() => {
+            statistics.session = undefined;
+        });
 
         this.user = undefined;
         localStorage.removeItem("aire_session_token");
@@ -138,7 +155,7 @@ export class LoginContext {
                 locale: getUILanguage().value
             };
 
-            if(return_params) {
+            if (return_params) {
                 const p = new URLSearchParams(return_params);
                 options.return_url += "?" + p.toString();
             }
@@ -153,13 +170,18 @@ export class LoginContext {
 
     public async saveProfile(user: AireUser): Promise<AireUser | undefined> {
         if (AireServices.ID) {
-            const result = await AireServices.ID.saveProfileData(user)
+            const result = await AireServices.ID.saveProfileData(user);
             if (result.status == AireStatus.Success) {
-                this.user = result.data
+                this.user = result.data;
+                statistics.sendEvent(new ConfigurationEvent(
+                    this.user?.uuid,
+                    statistics.session?.id,
+                    ConfigurationEventName.ProfileUpdate
+                ));
             }
-            return result.data
+            return result.data;
         }
-        return undefined
+        return undefined;
     }
 
     public async changePassword(current_password: string, new_password: string): Promise<boolean> {
@@ -184,6 +206,12 @@ export class LoginContext {
                 if (userResponse.status == AireStatus.Success) {
                     this.user = userResponse.data;
                     this.saveSession()
+                    await statistics.startSession(this.user?.uuid);
+                    statistics.sendEvent(new SessionEvent(
+                        this.user?.uuid,
+                        statistics.session?.id,
+                        SessionEventName.Start
+                    ));
 
                     await useChat().reset(false, true);
                     return true;

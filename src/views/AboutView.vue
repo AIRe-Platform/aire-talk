@@ -6,12 +6,7 @@
 
 <script setup lang="ts">
 import { l } from '@/locales';
-import { router } from '@/router';
 import { reactive } from 'vue';
-
-const navigateTo = (path: string) => {
-    router.push(path)
-}
 
 const state = reactive<{
     termsOpen: boolean,
@@ -43,124 +38,186 @@ const resetModals = () => {
     state.privacyOpen = false;
     state.authorsOpen = false;
 }
-
-
 </script>
 
 
 <template>
-    <div class="about-title">
-        <h1>This is about page</h1>
-        <button class="btn" v-on:click="toggleTermsModal"> Terms of use </button>
-        <button class="btn" v-on:click="togglePrivacyModal"> Privacy policies</button>
-        <button class="btn" v-on:click="toggleAuthorsModal"> Authors </button>
-    </div>
-
-    <div class="about-container">
-        <div class="about-subcontainer" v-if="state.termsOpen">
-
-            <div>
-                <h2>Terms of use</h2>
+    <div class="about-view">
+        <div class="about-menu">
+            <h1>{{ $t(l.about_title) }}</h1>
+            <div class="btn-container">
+                <button type="button" class="btn" @click="toggleTermsModal">{{ $t(l.about_tou) }}</button>
+                <button type="button" class="btn" @click="togglePrivacyModal">{{ $t(l.about_privacy_policies) }}</button>
+                <button type="button" class="btn" @click="toggleAuthorsModal">{{ $t(l.about_authors) }}</button>
             </div>
-
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                id est
-                laborum.
+            <div class="collab-container">
+                <h2>{{ $t(l.about_collaboration) }}</h2>
+                <div class="images-container">
+                    <a href="https://www.goodlife.technology" target="_blank">
+                        <img src="@/assets/images/GoodLife_Logo_white -2023.png" :alt="$t(l.about_goodlife_logo_alt)">
+                    </a>
+                    <a href="https://www.jamk.fi/fi" target="_blank">
+                        <img src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png" :alt="$t(l.about_jamk_logo_alt)">
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="about-subcontainer" v-if="state.privacyOpen">
-            <div>
-                <h2>Privacy policies</h2>
+        <div class="about-container" tabindex="0">
+            <div class="about-subcontainer" v-if="state.termsOpen">
+                <h2>{{ $t(l.about_tou) }}</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                    id est
+                    laborum.
+                </p>
             </div>
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim
-                id est
-                laborum.
+            <div class="about-subcontainer" v-else-if="state.privacyOpen">
+                <h2>{{ $t(l.about_privacy_policies) }}</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea
+                    commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </p>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde eveniet delectus nobis dolor optio repellat laboriosam vitae suscipit, autem est consectetur, sapiente sit. Alias delectus ea necessitatibus neque modi ratione!</p>
+                <p>Laborum, veniam. Dolores in nobis dolorum iusto voluptates ipsam nesciunt dolorem ullam assumenda pariatur velit minus, enim, temporibus consequuntur a tenetur nostrum vel soluta magni necessitatibus magnam! Ea, perferendis tempore.</p>
+                <p>Optio harum obcaecati facilis eos laborum fuga voluptates, quasi ipsam officia reprehenderit, dicta laudantium necessitatibus architecto unde accusantium. Voluptates hic, repellendus reiciendis culpa magnam fuga modi? Iste ducimus cumque quis.</p>
+                <p>Corporis voluptates quaerat, sequi ullam aut enim! Delectus impedit inventore doloribus similique, dignissimos fuga laboriosam aperiam quisquam nobis ut fugiat repudiandae rem, totam molestias quaerat sequi id ad et autem?</p>
+                <p>Suscipit ex sint qui doloribus cum minus obcaecati itaque. Corrupti hic voluptas officiis animi perferendis dolorum cumque nemo natus eveniet non sed ex nulla fuga omnis nobis sequi, molestias nihil?</p>
             </div>
-        </div>
-        <div class="about-subcontainer" v-if="state.authorsOpen">
-            <h2> Information about the authors</h2>
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                ea
-                commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim
-                id est
-                laborum.
+            <div class="about-subcontainer" v-else-if="state.authorsOpen">
+                <h2>{{ $t(l.about_authors) }}</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                    incididunt ut labore et dolore
+                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea
+                    commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla
+                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim
+                    id est
+                    laborum.
+                </p>
             </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
-#about-view {
+.about-view {
+    display: flex;
     width: 100%;
     height: 100%;
-    background-image: url("@/assets/images/aire-bg-texture-3.png");
-
 }
 
-.about-title {
+.about-menu {
     display: flex;
-    font-size: larger;
-    padding: 3rem;
-    margin: auto;
-    gap: 2rem;
-    width: 20%;
-    height: 60%;
     flex-direction: column;
+    flex-shrink: 0;
+    font-size: larger;
+    padding-inline: 3rem;
+    margin-block-start: 10rem;
+    width: 20%;
+
+    &>.btn-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        margin-block-start: 2rem;
+    }
 }
 
 .about-container {
-    margin: auto;
-    width: 33%;
-    height: 100%;
-    background-color: #E3FFFA;
-    border-left: 2px solid #A0BCB8;
-    border-right: 2px solid #A0BCB8;
+    background-color: #47425E;
+    border-left: 2px solid #2374AB;
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     align-items: center;
-    color: black;
-    justify-content: space-around;
-    padding: 0rem 5rem;
+    overflow-y: auto;
 }
 
-.about-subcontainer {}
+.about-subcontainer {
+    background-color: #FFF;
+    color: black;
+    width: 50%;
+    flex-grow: 1;
+    padding: 2rem;
+    margin-block: 2rem;
+}
+
+.images-container {
+    display: flex;
+
+    a,
+    img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.collab-container {
+    margin-block-start: auto;
+}
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+    .about-view {
+        flex-direction: column;
+    }
 
-    #about-view {
-        background-size: cover;
+    .about-menu {
+        margin-block-start: 0.5rem;
+        height: auto;
+        width: auto;
+        padding: 0;
+
+        &>h1 {
+            text-align: end;
+            margin-block-start: 0.5rem;
+            margin-inline-end: 0.5rem;
+        }
+
+        &>.btn-container {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-block-start: 1.5rem;
+            margin-inline: 0.5rem;
+
+            &>.btn {
+                flex: 1 1 5rem;
+            }
+        }
     }
 
     .about-container {
         font-size: var(--font-small);
-        width: 100%;
-        height: 100%;
-        background-color: unset;
         border-left: unset;
-        border-right: unset;
+        border-top: 2px solid #2374AB;
+        margin-block-start: 0.5rem;
     }
 
+    .about-subcontainer {
+        width: auto;
+        margin-inline: 1rem;
+    }
+
+    .collab-container {
+        display: none;
+    }
 }
 </style>

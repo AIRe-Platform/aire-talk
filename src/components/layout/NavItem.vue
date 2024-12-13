@@ -19,12 +19,12 @@ const props = defineProps<{
 </script>
 
 <template>
-    <a v-if="props.itemType === 'link'" href="#" class="nav-item"
+    <a v-if="props.itemType === 'link'" href="#" class="nav-item" :aria-hidden="UIState.isNavMenuCompressed"
         :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
         :tabindex="props.tabindex" @click="$emit('click')" @keydown.space="$emit('click')">
         <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
     </a>
-    <button v-else type="button" class="nav-item nav-btn"
+    <button v-else type="button" class="nav-item nav-btn" :aria-hidden="UIState.isNavMenuCompressed"
         :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
         :tabindex="props.tabindex" @click="$emit('click')">
         <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />

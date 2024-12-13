@@ -90,7 +90,14 @@ const toggleTTS = () => {
         <div class="chat-bot" :data-tutorial-state="ChatTutorialState.Welcome" :class="{
             'chat-bot-busy': bot.status === 'writing',
             'chat-bot-finish': bot.status === 'answered'
-        }">
+        }"> <img v-if="bot.status === 'writing'" src="@/assets/images/aire-bot-thinking.gif"
+                :alt=$t(l.chat_input_alternative_image_logo_thinking) aria-hidden="true"
+                style="visibility: hidden; width: 0; height: 0;">
+            <img v-else-if="bot.status === 'answered'" src="@/assets/images/aire-bot-thinking-finish.png"
+                :alt=$t(l.chat_input_alternative_image_logo_finish) aria-hidden="true"
+                style="visibility: hidden; width: 0; height: 0;">
+            <img v-else src="@/assets/images/aire-bot.png" :alt=$t(l.chat_input_alternative_image_logo_idle_state)
+                aria-hidden="true" style="visibility: hidden; width: 0; height: 0;">
             <div v-if="bot.status === 'writing'" aria-live="assertive" class="screen-readers-only" role="alert"
                 tabindex="-1" ref="statusAlert">
                 {{ $t(l.screen_recorder_bot_writing) }}
@@ -103,8 +110,8 @@ const toggleTTS = () => {
 
         </div>
         <div class="chat-input-left">
-            <label for="message-input" class="chat-bot-text" role="text" aria-live="polite"
-                :aria-label="$t(l.chat_input_title)" tabindex="0">
+            <label for="message-input" class="chat-bot-text" aria-live="polite" :aria-label="$t(l.chat_input_title)"
+                tabindex="0">
                 {{ $t(l.chat_input_title) }}
             </label>
             <form class="chat-input-bar" @submit.prevent="submit">
@@ -116,14 +123,14 @@ const toggleTTS = () => {
         <div class="chat-text-right">
             <div class="chat-tts">
                 <div class="chat-tts-top">
-                    <div class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
-                        role="link" @keydown.prevent.space.enter="() => router.push('/content-catalogue')"
+                    <a class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
+                        href="#" @keydown.space="() => router.push('/content-catalogue')"
                         @click="() => router.push('/content-catalogue')">
                         <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
                             :adjustPosition="true">
                             <div class="icon chatbox-content-default"></div>
                         </Tooltip>
-                    </div>
+                    </a>
                 </div>
                 <div class="chat-tts-buttom">
                     <template v-if="stt.isSupported.value">
@@ -251,7 +258,7 @@ const toggleTTS = () => {
 
 .chat-bot {
     width: 6rem;
-    top: 2rem;
+    top: 1.6rem;
     right: 45%;
     height: 6rem;
     margin-top: -4.6rem;
@@ -303,6 +310,10 @@ const toggleTTS = () => {
     &:hover {
         color: var(--hover-text);
     }
+}
+
+.theme-dark .chat-tts-button {
+    color: #FFF;
 }
 
 .chat-options-button-active {

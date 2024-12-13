@@ -51,6 +51,7 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="true"
                     :adjustPosition="true">
                     <button class="chat-summary-keyword-delete" type="button"
+                        :aria-label="$t(l.tooltip_remove_keyword)"
                         @click="removeKeyword(keywords[i], true)">
                         <font-awesome-icon icon="fa-solid fa-xmark" />
                     </button>

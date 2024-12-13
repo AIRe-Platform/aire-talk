@@ -14,7 +14,10 @@ import useChat from '@/context/chat';
 import useContent from '@/context/content';
 import DialogModal from "@/components/layout/DialogModal.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
-import { rateMessage } from '@/helpers/chatUtils';
+import { listChatKeywords, rateMessage } from '@/helpers/chatUtils';
+import useStatistics from '@/context/statistics';
+import { ContentEvent, ContentEventName } from '@/models/statistics';
+import useLogin from '@/context/login';
 
 const props = defineProps<{
     parent: ChatMessage
@@ -26,6 +29,8 @@ const optionsMenuRef = ref<HTMLElement | null>(null);
 const clipboard = useClipboard();
 const chat = useChat();
 const contentContext = useContent();
+const statistics = useStatistics();
+const login = useLogin();
 
 const state = reactive<{
     menuOpen: boolean,
@@ -65,6 +70,17 @@ const onThumbsDown = () => {
 const applyRating = () => {
     if (props.content?.id) {
         contentContext.vote(props.content.id, state.rating);
+        if (state.rating !== 0) {
+            statistics.sendEvent(new ContentEvent(
+                props.content.id,
+                props.content.name,
+                listChatKeywords(chat.messages).join(','),
+                chat.id,
+                login.user?.uuid,
+                statistics.session?.id,
+                state.rating === 1 ? ContentEventName.Liked : ContentEventName.Disliked
+            ));
+        }
     }
     else
         rateMessage(props.parent.id, state.rating);

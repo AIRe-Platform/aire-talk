@@ -35,12 +35,16 @@ import {
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
+import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
+import useStatistics from "./statistics";
+import { ResponseTimeEvent } from "@/models/statistics";
 
 export class ChatContext {
     id?: string;
     autosave_timer?: number;
     modified: boolean;
     forced_response: boolean;
+    is_feedback_given: boolean;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -52,7 +56,7 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
-        
+        this.is_feedback_given = false;
     }
 
     /** Resets the chat state */
@@ -74,6 +78,7 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         useQuestionnaire().reset();
+        this.is_feedback_given = false;
 
         const system_message = createSystemMessage(l.system_greeting);
         this.push(system_message, true, false);
@@ -93,6 +98,24 @@ export class ChatContext {
         }
     }
 
+    /** 
+     * Start the questionnaire to save into events 
+     */
+    public async giveFeedback() {
+      
+        const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
+        const questionnaires = useQuestionnaire();
+
+        if (personalInfoQuestionnaire){
+            questionnaires.startQuestionnaire(personalInfoQuestionnaire);
+        }
+    }
+
+    public feedbackQuestionnaireIsCompleted(){
+        //check when reload page
+        this.is_feedback_given = true;
+    }
+
     /**
      * Add new user message and wait response from the chatbot
      * @param message Message content
@@ -100,7 +123,7 @@ export class ChatContext {
     public send(message: string) {
         const msg = createUserMessage(message);
         this.push(msg);
-        
+
         this.forced_response = false;
         streamResponse();
     }
@@ -130,9 +153,9 @@ export class ChatContext {
      * @param id Message ID to revert to
      */
     public revertTo(message_id: string, reset_questionnaire: boolean = true) {
-        const index = context.messages.findIndex(x => x.id === message_id);
+        const index = this.messages.findIndex(x => x.id === message_id);
         if (index > -1) {
-            context.messages = context.messages.slice(0, index + 1)
+            this.messages = this.messages.slice(0, index + 1)
             if (reset_questionnaire)
                 useQuestionnaire().reset();
             this.autoSave();
@@ -170,7 +193,7 @@ export class ChatContext {
      * Forces the chat bot to respond
      */
     public forceResponse() {
-        if(!this.forced_response) {
+        if (!this.forced_response) {
             this.forced_response = true;
             streamResponse();
         }
@@ -191,7 +214,7 @@ export class ChatContext {
      * Save the modifications of the current chat
      */
     public async save() {
-        const hasUserMessages = context.messages.filter(x => x.role === "user").length > 0;
+        const hasUserMessages = this.messages.filter(x => x.role === "user").length > 0;
 
         if (!useLogin().user || !this.modified || !hasUserMessages)
             return;
@@ -210,7 +233,7 @@ export class ChatContext {
 
             const cache = useChatCache();
 
-            await AireServices.Memory.saveChat(chatLog, context.id)
+            await AireServices.Memory.saveChat(chatLog, this.id)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
                         cache.set(result.data.id, {
@@ -219,8 +242,8 @@ export class ChatContext {
                             stats: this.stats
                         });
 
-                        context.id = result.data.id;
-                        context.modified = false;
+                        this.id = result.data.id;
+                        this.modified = false;
                         console.debug("Chat saved");
                     }
                 })
@@ -262,7 +285,7 @@ export class ChatContext {
     }
 
     public async delete(chat_id: string) {
-        if (chat_id == context.id)
+        if (chat_id == this.id)
             await this.reset(true, false)
 
         if (AireServices.Memory) {
@@ -317,25 +340,33 @@ export default function useChat() {
     return context;
 }
 
-
 async function streamResponse() {
+    const statistics = useStatistics();
+    const chat = useChat();
     const start = Date.now(); // Start time
 
     if (AireServices.AI) {
         useChatbot().makeBusy(false);
         const input = getChatbotInputData();
-        
+
         // Measure the time taken to start the response
         await AireServices.AI.stream(input, receiver, errorHandler);
-        
+
         const responseTime = Date.now() - start; // Calculate response time
+
+        statistics.sendEvent(new ResponseTimeEvent(
+            responseTime,
+            chat.id,
+            useLogin().user?.uuid,
+            statistics.session?.id
+        ));
 
         // Only add delay if the response was quick (less than 200 ms)
         if (responseTime < 200) {
             useChatbot().makeBusy(false);
             const randomDelay = Math.floor(Math.random() * (400 - 100 + 1)) + 100;
             await new Promise(resolve => setTimeout(resolve, randomDelay));
-            
+
             useChatbot().reportReady();
             console.debug(`Applied delay of ${randomDelay} ms.`);
         } else {
@@ -345,7 +376,6 @@ async function streamResponse() {
         console.warn("AI service is unavailable");
     }
 }
-
 
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {

@@ -72,28 +72,27 @@ onMounted(async () => {
                 <h1 class="visually-hidden">{{ $t(l.home_title) }}</h1>
                 <div class="home-header-title">
                     <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg"
+                            :alt=$t(l.nav_menu_alternative_image_logo) />
                     </div>
                     <div class="aire-logo" v-else>
                         <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
-                            alt="AIRe homepage logo in dark mode" />
+                            :alt=$t(l.nav_menu_alternative_image_logo_dark_mode) />
                     </div>
                     <h2 class="header-text">{{ $t(l.start_first_paragraph) }}</h2>
                 </div>
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat"
-                    href="#" @keydown.space="newChat()" @click="newChat()">
+                <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" href="#"
+                    @keydown.space="newChat()" @click="newChat()">
                     {{ $t(l.home_start_new_chat) }}
                 </a>
-                <a class="icon frontpage-button"
-                    href="#" @keydown.space="openLastChat()" @click="openLastChat()"
+                <a class="icon frontpage-button" href="#" @keydown.space="openLastChat()" @click="openLastChat()"
                     v-if="state.showLastChatButton">
                     {{ $t(l.home_continue_chat) }}
                 </a>
-                <button class="icon frontpage-button"
-                    @click="state.showConfirmLogout = !state.showConfirmLogout">
+                <button class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
                     {{ $t(l.nav_logout) }}
                 </button>
             </div>
@@ -106,8 +105,7 @@ onMounted(async () => {
         </div>
     </div>
     <DialogModal :active="state.showConfirmLogout" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
-        question-id="confirm-logout-dialog-modal"
-        :buttons="[
+        question-id="confirm-logout-dialog-modal" :buttons="[
             { loc_key: l.button_accept, onClick: onConfirmLogout },
             { loc_key: l.button_cancel, className: 'cancel-button', onClick: () => { state.showConfirmLogout = false; } }
         ]">

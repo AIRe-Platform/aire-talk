@@ -5,14 +5,15 @@
 
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
-import { AireQuestionOptionCheckbox } from 'aire';
+import { AireQuestionOptionContent } from 'aire';
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import useQuestionnaire from '@/context/questionnaire';
+import ChatContent from '@/components/chat/ChatContent.vue';
 
 const props = defineProps<{
     message: ChatMessage;
-    options: AireQuestionOptionCheckbox;
+    options?: AireQuestionOptionContent,
     answer?: any;
     readonly?: boolean;
 }>();
@@ -21,47 +22,48 @@ const answers = ref<string[]>(props.answer || []);
 const isUnanswered = (ans: any) => (ans === undefined);
 
 const onClickOption = (answer: string) => {
-    if (props.options.multiselect) {
-        if (answers.value.includes(answer))
-            answers.value = answers.value.filter(x => x !== answer)
-        else
-            answers.value.push(answer)
-    }
-    else {
-        answers.value = [answer]
-        onSubmitAnswer();
+    if (!props.readonly) {
+        if (props.options?.multiselect) {
+            if (answers.value.includes(answer))
+                answers.value = answers.value.filter(x => x !== answer)
+            else
+                answers.value.push(answer)
+        }
+        else {
+            answers.value = [answer]
+            onSubmitAnswer();
+        }
     }
 }
 
 const onSubmitAnswer = () => {
-    const questionnaire = useQuestionnaire();
-    if (props.message.question) {
-        if (props.options.multiselect)
-            questionnaire.submitAnswer(props.message.question.question_id, answers.value);
-        else
-            questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
+    if (!props.readonly) {
+        const questionnaire = useQuestionnaire();
+        if (props.message.question) {
+            if (props.options?.multiselect)
+                questionnaire.submitAnswer(props.message.question.question_id, answers.value);
+            else
+                questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
+        }
     }
+
 }
 
 </script>
 
 <template>
     <div class="questionnaire-answer">
-        <p v-if="props.options.description">
-            {{ props.options.description }}
-        </p>
-        <div class="questionnaire-answer-options" v-if="props.options.values">
-            <template v-for="ans, id in props.options.values" :key="id">
-                <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
-                    :class="{ 'questionnaire-answer-button-selected': answers.includes(ans) }">
-                    {{ ans }}
+        <div class="questionnaire-answer-options">
+            <div v-for="content in props.options?.contents || []" :key="content.id"
+                :class="{ 'disabled': props.readonly }">
+                <ChatContent :content="content" :contentId="content.id ?? ''" @click=onClickOption(content.id!)
+                    :class="{ 'questionnaire-answer-button-selected': answers.includes(content.id!), 'disabled2': props.readonly }" />
+            </div>
+            <div class="questionnaire-answer-actions" v-if="props.options?.multiselect && isUnanswered(props.answer)">
+                <button class="btn questionnaire-confirm-button" @click="onSubmitAnswer()">
+                    {{ $t(l.button_continue) }}
                 </button>
-            </template>
-        </div>
-        <div class="questionnaire-answer-actions" v-if="props.options.multiselect && isUnanswered(props.answer)">
-            <button class="btn questionnaire-confirm-button" @click="onSubmitAnswer()">
-                {{ $t(l.button_continue) }}
-            </button>
+            </div>
         </div>
     </div>
 </template>
@@ -72,6 +74,24 @@ const onSubmitAnswer = () => {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
+}
+
+.chat-content {
+    padding-top: 0rem;
+}
+
+.panel {
+    background-color: red;
+}
+
+.disabled2 {
+    pointer-events: none;
+    background-color: var(--button-inactive);
+    border: solid 1px var(--accent-primary-color);
+}
+
+.disabled {
+    cursor: not-allowed;
 }
 
 .questionnaire-answer-options {

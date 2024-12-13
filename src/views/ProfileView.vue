@@ -43,19 +43,20 @@ onMounted(async () => {
         <div class="profile-content">
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
                 class="xmark-icon">
-                <button class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
-                    tabindex="0" role="button" @keydown.prevent.space.enter="navigateTo('/chat')">
+                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')"
+                    :aria-label="$t(l.tooltip_close)" href="#" @keydown.space="navigateTo('/chat')">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
-                </button>
+                </a>
             </Tooltip>
         </div>
         <div class="profile-header">
             <div class="profile-logo">
                 <div class="image-logo" v-if="state.theme.style == 'theme-default'">
-                    <img src="@/assets/images/aire-logo-letter.svg" alt="AIRe homepage logo" />
+                    <img src="@/assets/images/aire-logo-letter.svg" :alt=$t(l.profile_view_alternative_image_logo) />
                 </div>
                 <div class="image-logo" v-else>
-                    <img src="@/assets/images/aire-logo-letter-dark-mode.svg" alt="AIRe homepage logo in dark mode" />
+                    <img src="@/assets/images/aire-logo-letter-dark-mode.svg"
+                        :alt=$t(l.profile_view_alternative_image_logo_dark_mode) />
                 </div>
             </div>
             <div class="profile-header-text">

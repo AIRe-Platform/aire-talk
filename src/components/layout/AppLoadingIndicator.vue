@@ -4,11 +4,13 @@
  -->
 
 <script setup lang="ts">
+import { l } from '@/locales';
 </script>
 
 <template>
     <div class="app-loading-indicator">
-        <img class="app-loading-animation" src="@/assets/images/aire-splash-anim.gif" alt="Logo" />
+        <img class="app-loading-animation" src="@/assets/images/aire-splash-anim.gif"
+            :alt=$t(l.loading_indicator_alternative_image) />
     </div>
 </template>
 
