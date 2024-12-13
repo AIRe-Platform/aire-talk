@@ -5,7 +5,8 @@
 
 
 <script setup lang="ts">
-import { l } from '@/locales';
+import useTheme from '@/context/theme';
+import { getUILanguage, l } from '@/locales';
 import { reactive } from 'vue';
 
 const state = reactive<{
@@ -17,6 +18,9 @@ const state = reactive<{
     privacyOpen: false,
     authorsOpen: false,
 });
+
+const theme = useTheme();
+
 
 const toggleTermsModal = () => {
     resetModals();
@@ -57,7 +61,10 @@ const resetModals = () => {
                         <img src="@/assets/images/GoodLife_Logo_white -2023.png" :alt="$t(l.about_goodlife_logo_alt)">
                     </a>
                     <a href="https://www.jamk.fi/fi" target="_blank">
-                        <img src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png" :alt="$t(l.about_jamk_logo_alt)">
+                        <img v-if="theme.style === 'theme-dark' && getUILanguage().value === 'fi'" src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png" :alt="$t(l.about_jamk_logo_alt)">
+                        <img v-else-if="theme.style === 'theme-dark' && getUILanguage().value !== 'fi'" src="@/assets/images/jamk_tunnus_valkoinen_nimella_englanti.png" :alt="$t(l.about_jamk_logo_alt)">
+                        <img v-else-if="theme.style === 'theme-default' && getUILanguage().value === 'fi'" src="@/assets/images/jamk_tunnus_sininen_nimella_suomi.png" :alt="$t(l.about_jamk_logo_alt)">
+                        <img v-else src="@/assets/images/jamk_tunnus_sininen_nimella_englanti.png" :alt="$t(l.about_jamk_logo_alt)">
                     </a>
                 </div>
             </div>

@@ -38,16 +38,18 @@ const login = useLogin();
 
 const openUrl = (url?: string) => {
     if (url) {
-        statistics.sendEvent(new ContentEvent(
-            props.content?.id,
-            props.content?.name,
-            listChatKeywords(chat.messages).join(','),
-            chat.id,
-            login.user?.uuid,
-            statistics.session?.id,
-            ContentEventName.Opened,
-            ContentEventAction.LinkOpen,
-        ))
+        if (!props.chatId) {
+            statistics.sendEvent(new ContentEvent(
+                props.content?.id,
+                props.content?.name,
+                listChatKeywords(chat.messages).join(','),
+                chat.id,
+                login.user?.uuid,
+                statistics.session?.id,
+                ContentEventName.Opened,
+                ContentEventAction.LinkOpen,
+            ));
+        }
         window.open(url, '_blank');
     }
 };
