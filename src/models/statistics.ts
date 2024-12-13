@@ -228,6 +228,6 @@ export class ChatSummaryAcceptEvent extends StatisticsEventBase {
         public user_id: string | undefined,
         public session_id: string | undefined,
     ) {
-        super("chat.summary_accept");
+        super(`${EventPrefix.Chat}summary_accept`);
     }
 }
