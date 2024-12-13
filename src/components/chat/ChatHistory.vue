@@ -80,6 +80,8 @@ const focusOutListener = (e: FocusEvent) => {
         target.id !== SpinnerId.ChatHistory
     ) {
         UIState.panels.delete(UIPanels.ChatHistory);
+        if (UIState.isNavMenuCompressed)
+            UIState.isNavMenuCompressed = false;
     }
 };
 

@@ -42,6 +42,8 @@ const focusOutListener = async (e: FocusEvent) => {
     const relTarget = e.relatedTarget as Node;
     if (!settingsPanelRef.value?.contains(relTarget)) {
         UIState.panels.delete(UIPanels.Settings);
+        if (UIState.isNavMenuCompressed)
+            UIState.isNavMenuCompressed = false;
     }
 };
 
