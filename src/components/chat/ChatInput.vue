@@ -340,34 +340,8 @@ const toggleTTS = () => {
 
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
-
-    .chat-options-button,
-    .chat-content {
-        position: relative;
-        right: -1rem;
-        top: -0.7rem;
-    }
-
-    .chat-send-button {
-        position: relative;
-        right: -1rem;
-        top: 0.2rem;
-    }
-
     .chat-bot {
         height: 4rem;
-    }
-
-    .chat-tts {
-        width: 50%;
-    }
-
-    .chat-tts-buttom {
-        gap: 0rem;
-    }
-
-    .chat-options {
-        width: 46%;
     }
 }
 
