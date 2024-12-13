@@ -40,8 +40,9 @@ import { updateKeywordMetadata } from "./keywordUtils";
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
 import useStatistics from "@/context/statistics";
-import { ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
+import { ChatSummaryAcceptEvent, ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
 import useLogin from "@/context/login";
+import { useChatCache } from "@/context/cache";
 
 const statistics = useStatistics();
 const chat = useChat();
@@ -145,6 +146,19 @@ export async function onAcceptSummary() {
 
     const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
     chat.push(options);
+
+    let log;
+    if (chat.id) {
+        log = useChatCache().get(chat.id);
+    }
+    const tokenCount = log?.stats?.token_count;
+    statistics.sendEvent(new ChatSummaryAcceptEvent(
+        tokenCount,
+        keywords.join(','),
+        chat.id,
+        login.user?.uuid,
+        statistics.session?.id
+    ));
 }
 
 export function onRejectSummary() {

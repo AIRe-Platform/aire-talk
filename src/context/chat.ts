@@ -354,14 +354,8 @@ async function streamResponse() {
 
         const responseTime = Date.now() - start; // Calculate response time
 
-        let log;
-        if (chat.id) {
-            log = useChatCache().get(chat.id);
-        }
-        const tokenCount = log?.stats?.token_count;
         statistics.sendEvent(new ResponseTimeEvent(
             responseTime,
-            tokenCount,
             chat.id,
             useLogin().user?.uuid,
             statistics.session?.id
