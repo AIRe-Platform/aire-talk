@@ -104,11 +104,16 @@ export class ChatContext {
     public async giveFeedback() {
       
         const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
+        const questionnaires = useQuestionnaire();
+
         if (personalInfoQuestionnaire){
-            const questionnaires = useQuestionnaire();
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-            this.is_feedback_given = true;
         }
+    }
+
+    public feedbackQuestionnaireIsCompleted(){
+        //check when reload page
+        this.is_feedback_given = true;
     }
 
     /**
