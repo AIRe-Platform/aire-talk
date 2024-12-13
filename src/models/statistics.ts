@@ -77,7 +77,6 @@ export class ChatStatsEvent extends StatisticsEventBase {
 export class ResponseTimeEvent extends StatisticsEventBase {
     constructor(
         public response_time_ms: number,
-        public token_count: number | undefined,
         public chat_id: string | undefined,
         public user_id: string | undefined,
         public session_id: string | undefined,
@@ -218,5 +217,17 @@ export class ContentEvent extends StatisticsEventBase {
         super(`${EventPrefix.Content}${eventName}`);
         if (action)
             this.action = action;
+    }
+}
+
+export class ChatSummaryAcceptEvent extends StatisticsEventBase {
+    constructor(
+        public token_count: number | undefined,
+        public theme_names: string,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+    ) {
+        super("chat.summary_accept");
     }
 }
