@@ -76,6 +76,14 @@ const onSubmitAnswer = () => {
     gap: 1rem;
 }
 
+.chat-content {
+    padding-top: 0rem;
+}
+
+.panel {
+    background-color: red;
+}
+
 .disabled2 {
     pointer-events: none;
     background-color: var(--button-inactive);
