@@ -243,11 +243,17 @@ export async function openAndContinueChat(id: string): Promise<boolean> {
     if (conversationEnded(chat.messages))
         continueConversation();
 
+    const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
+
     let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
 
-    const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
-    if (timeDiff.isValid)
+    if (timeDiff.isValid) {
+        // Skip additional instructions and force response if the conversation is still fresh
+        if (timeDiff.as('minutes') < 15)
+            return true;
+
         instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
+    }
 
     const inst = createInstructionMessage(instruction);
     chat.push(inst);
