@@ -38,6 +38,7 @@ import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
+import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
 
 export class ChatContext {
     id?: string;
@@ -102,13 +103,23 @@ export class ChatContext {
      * Start the questionnaire to save into events 
      */
     public async giveFeedback() {
-      
-        const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
+    
         const questionnaires = useQuestionnaire();
+
+        const queried = await queryFeedbackQuestionnaire();
+
+        if (queried) {
+            const questionnaire = createQuestionnaire(queried);
+            if (questionnaire)
+                questionnaires.startQuestionnaire(questionnaire);
+        }
+       
+        //First feedback questionnary: 
+        /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
 
         if (personalInfoQuestionnaire){
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-        }
+        } */ 
     }
 
     public feedbackQuestionnaireIsCompleted(){
