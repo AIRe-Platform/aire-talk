@@ -252,7 +252,12 @@ export async function openAndContinueChat(id: string): Promise<boolean> {
         if (timeDiff.as('minutes') < 15)
             return true;
 
-        instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
+        if (timeDiff.as('days') > 1)
+            instruction += ` It has been ${Math.round(timeDiff.as('days'))} days since you last talked to them.`
+        else if (timeDiff.as('hours') > 2)
+            instruction += ` It has been ${Math.round(timeDiff.as('hours'))} hours since you last talked to them.`
+        else
+            instruction += ` It has been ${Math.round(timeDiff.as('minutes'))} minutes since you last talked to them.`
     }
 
     const inst = createInstructionMessage(instruction);
