@@ -227,6 +227,7 @@ export class ChatSummaryAcceptEvent extends StatisticsEventBase {
         public chat_id: string | undefined,
         public user_id: string | undefined,
         public session_id: string | undefined,
+        public summary: string | undefined,
     ) {
         super(`${EventPrefix.Chat}summary_accept`);
     }
