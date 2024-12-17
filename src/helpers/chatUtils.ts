@@ -98,7 +98,8 @@ export function getChatbotInputData(): AireChatbotInput {
             year_of_birth: chat.state.year_of_birth,
             occupation: chat.state.occupation,
             topic: chat.state.topic?.name,
-            language: locale.value
+            language: locale.value,
+            keywords: listChatKeywords(chat.messages)
         }
     };
 
@@ -435,7 +436,15 @@ export async function handleKeywordEvent(e: AireTalkKeywords) {
     if (newKeywords.length > 0) {
         console.debug("Handling keyword event", e);
         (await updateKeywordMetadata(newKeywords)).forEach(k => pushKeyword(k));
+
+        const inst = createInstructionMessage("New themes detected: " + newKeywords.join(", "));
+        chat.push(inst);
     }
+    else {
+        const inst = createInstructionMessage("No new themes detected. Continue with the conversation.");
+        chat.push(inst);
+    }
+
 }
 
 export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
