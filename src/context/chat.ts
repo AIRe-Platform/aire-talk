@@ -45,6 +45,7 @@ export class ChatContext {
     modified: boolean;
     forced_response: boolean;
     is_feedback_given: boolean;
+    response_received: boolean;
 
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
@@ -57,6 +58,7 @@ export class ChatContext {
         this.state = {};
         this.forced_response = false;
         this.is_feedback_given = false;
+        this.response_received = false;
     }
 
     /** Resets the chat state */
@@ -79,6 +81,7 @@ export class ChatContext {
         this.state = {};
         useQuestionnaire().reset();
         this.is_feedback_given = false;
+        this.response_received = false;
 
         const system_message = createSystemMessage(l.system_greeting);
         this.push(system_message, true, false);
@@ -102,16 +105,16 @@ export class ChatContext {
      * Start the questionnaire to save into events 
      */
     public async giveFeedback() {
-      
+
         const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
         const questionnaires = useQuestionnaire();
 
-        if (personalInfoQuestionnaire){
+        if (personalInfoQuestionnaire) {
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
         }
     }
 
-    public feedbackQuestionnaireIsCompleted(){
+    public feedbackQuestionnaireIsCompleted() {
         //check when reload page
         this.is_feedback_given = true;
     }
@@ -125,6 +128,7 @@ export class ChatContext {
         this.push(msg);
 
         this.forced_response = false;
+        this.response_received = false;
         streamResponse();
     }
 
@@ -409,12 +413,16 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === "message" && e.message) {
+        chat.response_received = true;
         await handleMessageEvent(e.message);
     }
 
     if (e.type === "end" && e.end) {
         await handleEndEvent(e.end);
         useChatbot().reportReady();
+
+        if (!chat.response_received)
+            chat.forceResponse();
     }
 }
 
