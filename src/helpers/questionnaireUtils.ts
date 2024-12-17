@@ -64,6 +64,24 @@ export async function queryQuestionnaire(keywords: string[]): Promise<AireQuesti
     return query.data;
 }
 
+/**
+ * Query feedback questionnaire
+ */
+export async function queryFeedbackQuestionnaire(): Promise<AireQuestionnaire | undefined> {
+
+    if (!AireServices.Memory) {
+        console.error("Memory service is not available");
+        return;
+    }
+    const lang = getUILanguage();
+    const query = await AireServices.Memory.queryFeedbackQuestionnaire(lang.value);
+
+    if (!query.data)
+        return;
+
+    return query.data;
+}
+
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {
     const questions = questionnaire.content.flatMap(x => {
         let match_content = x.keywords === undefined || x.keywords.length < 1;
