@@ -165,7 +165,6 @@ export function onRejectSummary() {
     const instruction = `
         The user rejected the summary. 
         Ask what is wrong with it and how the user would like to have it modified.
-        After that, you should end the conversation with ${ChatMessageTag.END_OF_CONVERSATION_TAG} to create a new summary.
     `;
 
     const inst = createInstructionMessage(instruction);
@@ -283,8 +282,12 @@ export async function summarizeChat(): Promise<boolean> {
     return await AireServices.AI.generateSummary(input)
         .then((result) => {
             if (result.status == AireStatus.Success && result.data) {
+                const inst = createInstructionMessage(`Generated summary: ${result.data}`);
+                chat.push(inst);
+
                 const msg = createSummaryMessage(result.data);
                 chat.push(msg);
+
                 return true;
             } else {
                 throw Error(result.status.toString());
