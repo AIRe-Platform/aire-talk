@@ -11,8 +11,12 @@ import { checkAnswerForRedFlag, triggerRedFlag } from "@/helpers/questionnaireFl
 import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
 import i18n, { l } from "@/locales";
 import { Questionnaire } from "@/models/questionnaire";
-import { AireQuestion, AireQuestionOptionCheckbox, AireQuestionOptionType, AireQuestionnaireAnswer, AireQuestionnaireResults, AireServices, AireStatus } from "aire";
+import { AireQuestion, AireQuestionOption, AireQuestionOptionCheckbox, AireQuestionOptionType, AireQuestionnaireAnswer, AireQuestionnaireResults, AireServices, AireStatus } from "aire";
 import QuestionnaireController from "./questionnaireController";
+import useStatistics from "@/context/statistics";
+import useLogin from "@/context/login";
+import { FeedbackEvent } from "@/models/statistics";
+import { ChatMessageType } from "@/models/chat";
 
 const DefaultQuestionnaireController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -36,9 +40,11 @@ const DefaultQuestionnaireController: QuestionnaireController = {
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
         const chat = useChat();
+        const statistics = useStatistics();
+        const user = useLogin();
 
         if (question.question_id === `${self.id}_start`) {
-            if (answer.includes(i18n.global.t(l.button_accept)))
+            if (answer.includes(i18n.global.t(l.button_yes)))
                 context.nextQuestion();
             else
                 context.reset();
@@ -52,12 +58,60 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         else {
             question.answer = answer;
 
-            chat.autoSave();
+            
+            const themes: string[] = [];
+            chat.messages.forEach( message => {
+                if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
+                    themes.push(message.content!);
+                }
+            });
+            const themesString: string = themes.join(',');
+            let answerIndex = null;
+            //crear el evento aqui con el id y el numero??
+            console.log("question: ", question);
+            console.log("answer: ",  question.answer);
+            console.log("question.question_id: ", question.question_id);
+            console.log("chat.id: ", chat.id);
+            console.log("user.user?.uuid: ", user.user?.uuid);
+            console.log("question.answer: ", question.answer);
+            console.log("question.question: ", question.question);
+            console.log("statistics.session?.id: ", statistics.session?.id);
+            console.log("themesString: ", themesString);
+
+            if (isAireQuestionOptionCheckbox(question.options)) {
+                const answerToCompare = question.answer as string | number;
+
+                // Ensure that the answer is part of the values array (which should be an array of strings or numbers)
+                answerIndex = question.options.values.indexOf(answerToCompare);
+
+                if (answerIndex === -1) {
+                    console.error("Answer not found in options.values");
+                    answerIndex = question.answer;
+                }
+            }else{
+                answerIndex = question.answer;
+            }
+            
+            console.log("answerIndex: ", answerIndex);
+
+
+            statistics.sendEvent(new FeedbackEvent(
+                    question.question_id,
+                    chat.id,
+                    user.user?.uuid,
+                    answerIndex,
+                    question.question,
+                    statistics.session?.id,
+                    themesString
+                ));
 
             if (checkAnswerForRedFlag(question))
                 triggerRedFlag();
 
             const hasNext = context.nextQuestion();
+
+            chat.autoSave();
+
             if (!hasNext) {
                 context.endQuestionnaire();
             }
@@ -117,6 +171,11 @@ async function digest(questionnaire_id: string) {
     chat.push(msg);
     chat.forceResponse();
     bot.reportReady();
+}
+
+// Type guard to check if options are of type AireQuestionOptionCheckbox
+function isAireQuestionOptionCheckbox(options: AireQuestionOption | undefined): options is AireQuestionOptionCheckbox {
+    return (options as AireQuestionOptionCheckbox)?.values !== undefined;
 }
 
 async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {
