@@ -153,12 +153,15 @@ export async function onAcceptSummary() {
         log = useChatCache().get(chat.id);
     }
     const tokenCount = log?.stats?.token_count;
+    const summary = findLatestSummaryMessage(chat.messages)?.content
+    
     statistics.sendEvent(new ChatSummaryAcceptEvent(
         tokenCount,
         keywords.join(','),
         chat.id,
         login.user?.uuid,
-        statistics.session?.id
+        statistics.session?.id,
+        summary
     ));
 }
 
