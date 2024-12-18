@@ -159,8 +159,8 @@ onMounted(() => {
     flex-direction: row;
     flex-grow: 1;
     overflow: auto;
-    background-color: var(--background-color);
-    background-image: var(--back-ground-texture);
+    background-color: var(--page-background);
+    //background-image: var(--back-ground-texture);
     background-size: cover;
     position: relative;
 }

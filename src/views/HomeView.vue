@@ -117,7 +117,8 @@ onMounted(async () => {
 #home-view {
     width: 100%;
     height: 100%;
-    background-image: var(--back-ground-texture);
+    background-color: var(--page-background);
+    //background-image: var(--back-ground-texture);
     color: var(--footer-text);
     background-size: cover;
 }

@@ -55,6 +55,7 @@
     --panel-border-color: rgba(200, 218, 215, 1);
     --panel-menu-background-color: #ffffff;
     --background-color: #ffffff;
+    --page-background: #f0f8f7;
     --button-text: #ffffff;
     --error-text-color: #8D3548;
     --ia-chat-box-background: #ffffff;
@@ -115,6 +116,7 @@
     --panel-menu-background-color: #47425e;
     --panel-border-color: rgba(55, 50, 80, 1);
     --background-color: #ffffff;
+    --page-background: #383250;
     --button-text: #ffffff;
     --error-text-color: #ffffff;
     --ia-chat-box-background: #0d5c63;
