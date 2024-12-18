@@ -82,7 +82,7 @@ const onSubmitAnswer = () => {
 
 .questionnaire-answer-options {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
