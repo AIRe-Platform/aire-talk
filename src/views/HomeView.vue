@@ -136,7 +136,11 @@ onMounted(async () => {
     display: flex;
     align-items: center;
     flex-direction: column;
-    flex-shrink: 0;
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin-top: 5rem;
+    max-height: 20dvh;
+    max-width: 90dvw;
     font-weight: bold;
 }
 
@@ -146,15 +150,19 @@ onMounted(async () => {
     align-items: center;
     justify-content: center;
     height: 100%;
-    padding-top: 5rem;
 }
 
 .aire-logo {
-    width: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: auto;
 }
 
 .image-logo {
-    width: inherit;
+    height: 100%;
+    max-width: 90dvw;
 }
 
 .header-text {
@@ -170,6 +178,8 @@ onMounted(async () => {
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    flex-grow: 1;
     margin: 2rem 0;
     gap: 2rem;
     width: 100%;
@@ -230,10 +240,6 @@ button.frontpage-button {
         right: 1rem;
     }
 
-    .aire-logo {
-        width: 16rem;
-    }
-
     .disclaimer {
         margin-inline: 2rem;
     }
@@ -241,14 +247,15 @@ button.frontpage-button {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 576px)) {
     .home-header {
-        background-size: cover;
-        padding-top: 5rem;
+        margin-top: 5rem;
+        flex-shrink: 0;
+        flex-grow: 0;
+        max-height: unset;
     }
 
     .home-header-title {
-        justify-content: flex-start;
-        padding-top: 2rem;
-        padding-bottom: 3rem;
+        height: inherit;
+        margin-bottom: 1rem;
     }
 
     .aire-logo {
