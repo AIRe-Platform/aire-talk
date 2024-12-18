@@ -18,6 +18,7 @@ import ContentModal from "@/components/content/ContentModal.vue";
 import { getAllKeywordsFromHistory } from "@/helpers/keywordUtils";
 import KeywordFilter from "@/components/KeywordFilter.vue";
 import useMobileLayout from "@/helpers/mobile";
+import Panel from "@/components/common/Panel.vue";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -234,9 +235,7 @@ onMounted(async () => {
     <div class="content-catalogue-view">
         <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
             class="xmark-icon">
-            <a class="tooltip-inside circle-icon"
-                @click="navigateTo('/chat')"
-                @keydown.space="navigateTo('/chat')"
+            <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')" @keydown.space="navigateTo('/chat')"
                 :aria-label="$t(l.tooltip_close)" href="#">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </a>
@@ -247,10 +246,6 @@ onMounted(async () => {
             </div>
         </div>
         <Spinner v-if="state.busy" />
-        <div v-if="state.rankedContents.length == 0">
-            <h2 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h2>
-        </div>
-
         <div class="content-catalogue-filter-row" v-if="!state.busy">
             <div class="filter-header">
                 <div class="filter-header-left">
@@ -263,12 +258,12 @@ onMounted(async () => {
                         {{ $t(l.content_catalogue_clear_filter) }}
                     </div>
                 </div>
-                <button class="btn" v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">{{
-                    $t(l.content_catalogue_apply_filter) }}</button>
-                <!-- todo create localization -->
+                <button class="btn" v-if="useMobileLayout && state.showFilters" v-on:click="showFilter()">
+                    {{ $t(l.content_catalogue_apply_filter) }}
+                </button>
             </div>
             <Transition name="content-catalogue-filter" @before-enter="beforeEnter" @enter="enter" @leave="leave">
-                <div class="content-catalogue-filter-filters" v-if="state.showFilters">
+                <Panel class="content-catalogue-filter-filters" v-if="state.showFilters">
                     <div class="filter-by-query">
                         <label class="label" for="search">{{ $t(l.content_catalogue_search_by) }}</label>
                         <input v-model="state.searchQuery" id="search" type="text"
@@ -286,10 +281,13 @@ onMounted(async () => {
                         <KeywordFilter :keywords="state.keywords" :selectedKeywords="state.selectedKeywords"
                             @update:selectedKeywords="updateSelectedKeywords" />
                     </div>
-                </div>
+                </Panel>
             </Transition>
         </div>
         <div class="content-catalogue-content" v-if="!state.busy">
+            <div v-if="state.rankedContents.length == 0">
+                <h2 class="empty-catalogue">{{ $t(l.content_catalogue_empty) }}</h2>
+            </div>
             <div class="content-catalogue-list">
                 <CatalogueItem v-for="item in filteredContents" v-bind:key="item.id" :content="item" @show="showContent"
                     :isFromSummary="false" />
