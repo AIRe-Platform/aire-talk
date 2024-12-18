@@ -43,7 +43,7 @@ const en: Locale = {
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
     login_callback_failure: "Login attempt failed.",
-    login_callback_error_description: "Details:",
+    login_callback_error_description: "Details",
     login_callback_button: "Back to home page",
 
     signup_form_title: "Create account",

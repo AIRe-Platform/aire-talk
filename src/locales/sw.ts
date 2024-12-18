@@ -46,7 +46,7 @@ const sw: Locale = {
     login_redirect: "Inaelekeza kwenye ukurasa wa kuingia...",
     login_failure: "Huduma ya kuingia haipatikani kwa sasa. Tafadhali jaribu tena baadaye.",
     login_callback_failure: "Jaribio la kuingia limeshindwa.",
-    login_callback_error_description: "Maelezo:",
+    login_callback_error_description: "Maelezo",
     login_callback_button: "Rudi kwenye ukurasa wa nyumbani",
 
     signup_form_title: "Tengeneza akaunti",

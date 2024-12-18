@@ -42,7 +42,7 @@ const es: Locale = {
     login_redirect: "Redireccionando a la página de inicio de sesión...",
     login_failure: "El servicio de inicio de sesión no está disponible en este momento. Inténtelo nuevamente más tarde.",
     login_callback_failure: "Intento de inicio de sesión fallido.",
-    login_callback_error_description: "Detalles:",
+    login_callback_error_description: "Detalles",
     login_callback_button: "Volver a la página de inicio",
 
     signup_form_title: "Crear una cuenta",

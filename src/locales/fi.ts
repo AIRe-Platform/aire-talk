@@ -46,7 +46,7 @@ const fi: Locale = {
     login_redirect: "Siirrytään kirjautumissivulle...",
     login_failure: "Kirjautuminen ei juuri nyt onnistu. Yritä myöhemmin uudelleen.",
     login_callback_failure: "Kirjautuminen epäonnistui",
-    login_callback_error_description: "Lisätiedot:",
+    login_callback_error_description: "Lisätiedot",
     login_callback_button: "Takaisin etusivulle",
 
     signup_form_title: "Luo tili",

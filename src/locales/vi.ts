@@ -45,7 +45,7 @@ const vi: Locale = {
     login_redirect: "Đang chuyển hướng đến trang đăng nhập...",
     login_failure: "Dịch vụ đăng nhập hiện không khả dụng. Vui lòng thử lại sau.",
     login_callback_failure: "Không đăng nhập được.",
-    login_callback_error_description: "Chi tiết:",
+    login_callback_error_description: "Chi tiết",
     login_callback_button: "Quay lại trang chủ",
 
     signup_label_email: "E-mail",
