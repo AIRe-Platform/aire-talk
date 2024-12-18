@@ -42,7 +42,8 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const chat = useChat();
         const statistics = useStatistics();
         const user = useLogin();
-
+        let questionFeedbackId: string = "feedback.";
+        
         if (question.question_id === `${self.id}_start`) {
             if (answer.includes(i18n.global.t(l.button_yes)))
                 context.nextQuestion();
@@ -57,8 +58,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         }
         else {
             question.answer = answer;
-
-            
+    
             const themes: string[] = [];
             chat.messages.forEach( message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
@@ -67,16 +67,6 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             });
             const themesString: string = themes.join(',');
             let answerIndex = null;
-            //crear el evento aqui con el id y el numero??
-            console.log("question: ", question);
-            console.log("answer: ",  question.answer);
-            console.log("question.question_id: ", question.question_id);
-            console.log("chat.id: ", chat.id);
-            console.log("user.user?.uuid: ", user.user?.uuid);
-            console.log("question.answer: ", question.answer);
-            console.log("question.question: ", question.question);
-            console.log("statistics.session?.id: ", statistics.session?.id);
-            console.log("themesString: ", themesString);
 
             if (isAireQuestionOptionCheckbox(question.options)) {
                 const answerToCompare = question.answer as string | number;
@@ -85,18 +75,14 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 answerIndex = question.options.values.indexOf(answerToCompare);
 
                 if (answerIndex === -1) {
-                    console.error("Answer not found in options.values");
                     answerIndex = question.answer;
                 }
             }else{
                 answerIndex = question.answer;
             }
             
-            console.log("answerIndex: ", answerIndex);
-
-
             statistics.sendEvent(new FeedbackEvent(
-                    question.question_id,
+                    questionFeedbackId + question.question_id,
                     chat.id,
                     user.user?.uuid,
                     answerIndex,

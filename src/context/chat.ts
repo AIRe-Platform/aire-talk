@@ -35,7 +35,7 @@ import {
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
+//first feedback questionnaire: import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
@@ -117,7 +117,7 @@ export class ChatContext {
                 questionnaires.startQuestionnaire(questionnaire);
         }
        
-        //First feedback questionnary: 
+        //First feedback questionnary is still here: 
         /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
 
         if (personalInfoQuestionnaire){
@@ -126,7 +126,6 @@ export class ChatContext {
     }
 
     public feedbackQuestionnaireIsCompleted() {
-        //check when reload page
         this.is_feedback_given = true;
     }
 
