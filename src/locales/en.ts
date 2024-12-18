@@ -43,7 +43,7 @@ const en: Locale = {
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
     login_callback_failure: "Login attempt failed.",
-    login_callback_error_description: "Details:",
+    login_callback_error_description: "Details",
     login_callback_button: "Back to home page",
 
     signup_form_title: "Create account",
@@ -307,7 +307,7 @@ const en: Locale = {
     screen_recorder_chat_input_description: "Write a message input for the bot.",
     screen_recorder_open_chat_side_panel: "Open chat side panel.",
     screen_recorder_close_chat_side_panel: "Close chat side panel.",
-    screen_recorder_open_message_menu: "Close message menu.",
+    screen_recorder_open_message_menu: "Open message menu.",
     screen_recorder_close_message_menu: "Close message menu.",
     screen_recorder_thumbs_up: "Thumbs up.",
     screen_recorder_thumbs_down: "Thumbs down.",
@@ -342,6 +342,14 @@ const en: Locale = {
 
     loading_indicator_alternative_image: "Loading image displayed while the page loads.",
 
+    about_title: "About AIRe",
+    about_goodlife_logo_alt: "Goodlife Technology logo",
+    about_jamk_logo_alt: "Jamk University of Applied Sciences logo",
+    about_tou: "Terms of use",
+    about_privacy_policies: "Privacy policies",
+    about_authors: "Authors",
+    about_collaboration: "Made in collaboration with",
+
     feedback_question_confirm: "Do you want to give as a feedback?",
     feedback_question_completed: "Click continue if you answers are correct. Thank you.",
     feedback_question_need_identification: "How successful has AIRe been in identifying the need?",
@@ -357,9 +365,9 @@ const en: Locale = {
     feedback_question_can_get_support: "Are there people around you who can support you?",
     feedback_question_gender: "Gender:",
     feedback_question_platform_rating: "Please rate the AIRe platform.",
-    feedback_question_platform_rating_description: "(Selection: 1= I don't like it, 5= I like it very much)",
+    feedback_question_platform_rating_description: "(Selection: 1 = I don't like it, 5 = I like it very much)",
     feedback_question_todays_experience: "How much did AIRe help you today?",
-    feedback_question_todays_experience_description: "(Selection: 1= Not at all, 5= Very much) ",
+    feedback_question_todays_experience_description: "(Selection: 1 = Not at all, 5 = Very much)",
     feedback_question_open_feedback: "Open feedback",
     
     feedback_answer_very_litle: "Very litle",
@@ -395,14 +403,6 @@ const en: Locale = {
     feedback_answer_neutral: "I'm neutral",
     feedback_answer_like_it: "I like it",
     feedback_answer_like_it_very_much: "I like it very much",
-    
-    about_title: "About AIRe",
-    about_goodlife_logo_alt: "Goodlife Technology logo",
-    about_jamk_logo_alt: "Jamk University of Applied Sciences logo",
-    about_tou: "Terms of use",
-    about_privacy_policies: "Privacy policies",
-    about_authors: "Authors",
-    about_collaboration: "Made in collaboration with",
 
     en: "English",
     fi: "Finnish",
