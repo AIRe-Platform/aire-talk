@@ -23,10 +23,11 @@ const closeModal = () => { state.isVisible = false; }
 <template>
     <div ref="popupModalRef" @keydown.prevent.tab.exact="switchFocus(true, popupModalRef)"
         @keydown.prevent.shift.tab="switchFocus(false, popupModalRef)">
-        <Modal :active="state.isVisible" :showCloseButton="true" @close="closeModal">
+        <Modal :active="state.isVisible" :showCloseButton="false">
             <div class="popup-content">
                 <h2>{{ $t(l.language_default_message) }}</h2>
-                <LanguageSelector @languageSelected="state.isVisible = false" :blank-option="$t(l.tooltip_menu_language)"/>
+                <LanguageSelector :hide-label="true"/>
+                <button class="btn" @click="closeModal">{{ $t(l.button_continue) }}</button>
             </div>
         </Modal>
     </div>
@@ -36,8 +37,8 @@ const closeModal = () => { state.isVisible = false; }
 .popup-content {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-    gap: 3rem;
+    padding: 1.6rem;
+    gap: 1.6rem;
 }
 
 @media screen and (max-width: 320px) {

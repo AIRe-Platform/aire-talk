@@ -15,7 +15,7 @@ import { LOGOUT_WARNING_START, startInactivityListener, stopInactivityListener }
 import { onMounted, onUnmounted, reactive, watch } from 'vue';
 import useLogin from '@/context/login';
 import DialogModal from "@/components/layout/DialogModal.vue";
-import { l } from '@/locales';
+import { hasSelectedLanguage, l } from '@/locales';
 import { router } from './router';
 import LanguagePopup from "@/components/settings/LanguagePopup.vue";
 import TutorialPopup from './components/common/TutorialPopup.vue';
@@ -80,9 +80,6 @@ onMounted(() => {
         (user) => {
             if (user && !import.meta.env.VITE_DEBUG_DISABLE_SESSION_TIMEOUT) {
                 startInactivityListener(onInactivityTimeout, setInactivityWarningPopupVisibility);
-                // Check if language has been selected
-                const hasSelectedLanguage = localStorage.getItem("hasSelectedLanguage") === "true";
-                state.showLanguagePopup = !hasSelectedLanguage;
             }
             else {
                 stopInactivityListener();
@@ -97,15 +94,16 @@ onMounted(() => {
         document.removeEventListener('keydown', closeAllTooltips);
     });
 
+    const langSelected = hasSelectedLanguage();
+    state.showLanguagePopup = !langSelected;
+
     const search = new URLSearchParams(window.location.search);
     state.showInactivityPopup = search.get("inactivity") == "1";
 });
 </script>
 
 <template>
-    <LanguagePopup v-if="state.showLanguagePopup" />
-    <DialogModal :active="state.showInactivityPopup"
-        question-id="logout-inactivity-dialog-modal"
+    <DialogModal :active="state.showInactivityPopup" question-id="logout-inactivity-dialog-modal"
         :buttons="[{ loc_key: l.button_accept, onClick: closeInactivityPopup }]">
         {{ $t(l.logout_inactivity_message) }}
     </DialogModal>
@@ -113,6 +111,7 @@ onMounted(() => {
         {{ $t(l.logout_inactivity_warning_message, { duration: state.logoutCountdown }) }}
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'">
+        <LanguagePopup v-if="state.showLanguagePopup" />
         <NavMenu />
         <main class="main-content">
             <TutorialPopup :tutorial="TutorialStates.home" v-if="login.user && !TutorialStates.home.isDone()" />
