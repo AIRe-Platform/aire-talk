@@ -128,7 +128,7 @@ const fi: Locale = {
     profile_question_country: "Missä maassa asut?",
 
     profile_experiments_title: "Oman kehotteen kokeilut (admin-käyttäjille)",
-    profile_experiments_prompt: "Ohita AIRen järjestelmäkehote",
+    profile_experiments_prompt: "Mukautettu järjestelmäkehote",
     profile_experiments_text: "Oma kehote",
     profile_experiments_add: "Lisää",
     profile_experiments_description: "kehotteeseen, jos haluat lisätä yhteenvedon käyttäjäprofiilistasi.",
@@ -319,7 +319,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     screen_recorder_loading: "Sivua ladataan, odota hetki.",
     screen_recorder_stop_text_to_speech: "Pysäytä tekstistä puheeksi -toiminto.",
     screen_recorder_play_text_to_speech: "Toista tekstistä puheeksi -toiminto.",
-    screen_recorder_chat_input_description: "Andika ubutumwa bwinjiza kuri bot.",
+    screen_recorder_chat_input_description: "Syötä viestin sisältö.",
     screen_recorder_open_chat_side_panel: "Avaa chatin sivupaneeli.",
     screen_recorder_close_chat_side_panel: "Sulje chatin sivupaneeli.",
     screen_recorder_open_message_menu: "Avaa viestivalikko.",
@@ -380,8 +380,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     feedback_question_can_get_support: "Onko ympärilläsi ihmisiä, jotka voivat tukea sinua?",
     feedback_question_gender: "Sukupuoli",
     feedback_question_platform_rating: "Anna arvosana AIRe alustalle.",
-    feedback_question_platform_rating_description: "(Selection: 1= En tykkää, 5= Tykkään todella paljon)",
+    feedback_question_platform_rating_description: "(Valinta: 1 = En tykkää, 5 = Tykkään todella paljon)",
     feedback_question_todays_experience: "Kuinka paljon AIRe auttoi sinua tänään?",
+    feedback_question_todays_experience_description: "(Valinta: 1 = Ei yhtään, 5 = Todella paljon)",
     feedback_question_open_feedback: "Avoin palaute",
 
     feedback_answer_very_litle: "Erittäin vähän",
@@ -401,7 +402,6 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     feedback_answer_student: "Opiskelija",
     feedback_answer_retired: "Eläkeläinen",
     feedback_answer_other: "Muu",
-    
     feedback_answer_1_9: "1 - 9",
     feedback_answer_10_19: "10 - 19",
     feedback_answer_20_29: "20 - 29",
