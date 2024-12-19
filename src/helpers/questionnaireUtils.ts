@@ -29,7 +29,7 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
     const questions = getRelevantQuestions(model, keywords);
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
-
+    const isFeedback = model.is_feedback;
     if (unanswered.length === 0)
         return;
 
@@ -39,7 +39,8 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
         queue: unanswered,
         answers: [],
         controller_type: QuestionnaireControlFlow.Default,
-        completed: false
+        completed: false,
+        is_feedback: isFeedback
     };
 }
 

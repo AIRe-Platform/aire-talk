@@ -35,7 +35,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             } as AireQuestionOptionCheckbox
         }
 
-        return createQuestionnaireMessage(self.id + "_start", q);
+        return createQuestionnaireMessage(self.id + "_start", q, self.is_feedback!);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
@@ -58,7 +58,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         }
         else {
             question.answer = answer;
-    
+            question.is_feedback = true;
             const themes: string[] = [];
             chat.messages.forEach( message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
@@ -116,7 +116,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             } as AireQuestionOptionCheckbox,
         }
 
-        return createQuestionnaireMessage(self.id + "_end", q);
+        return createQuestionnaireMessage(self.id + "_end", q, self.is_feedback!);
     },
 }
 
