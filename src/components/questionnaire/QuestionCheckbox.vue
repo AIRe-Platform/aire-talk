@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { computed, defineProps, ref, watch } from 'vue';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
@@ -35,7 +35,14 @@ const onClickOption = (answer: string | number) => {
         onSubmitAnswer();
     }
 };
+const isFeedback = computed(() => !!props.message.question?.is_feedback);
 
+watch(
+    () => props.message.question?.is_feedback,
+    (newVal) => {
+        console.log("is_feedback updated:", newVal);
+    }
+);
 const normalizeAnswer = (value: string | number): string | number => {
     // Convert all values to string for consistent comparison
     return typeof value === "number" ? String(value) : value;
@@ -49,6 +56,8 @@ const onSubmitAnswer = () => {
             questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
     }
 }
+console.log("props.message", props.message)
+console.log("is_feedback?", props.message.question?.is_feedback)
 </script>
 
 <template>
@@ -56,10 +65,14 @@ const onSubmitAnswer = () => {
         <p v-if="props.options.description">
             {{ props.options.description }}
         </p>
-        <div class="questionnaire-answer-options" v-if="props.options.values">
+        <div class="questionnaire-answer-options" v-if="props.options.values" :class="{
+            'questionnaire-answer-options-feedback': isFeedback,
+        }">
             <template v-for="ans, id in props.options.values" :key="id">
                 <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
-                    :class="{ 'questionnaire-answer-button-selected': (props.answer?.includes?.(normalizeAnswer(ans)) || false) }">
+                    :class="{
+                        'questionnaire-answer-button-selected': (props.answer?.includes?.(normalizeAnswer(ans)) || false),
+                    }">
                     {{ ans }}
                 </button>
             </template>
@@ -75,18 +88,24 @@ const onSubmitAnswer = () => {
 <style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
     gap: 1rem;
+    justify-content: center;
 }
 
 .questionnaire-answer-options {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+.questionnaire-answer-options-feedback {
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .questionnaire-answer-actions {
