@@ -107,7 +107,7 @@ export function createControlFlowMessage(type: ChatMessageType, message_loc_key?
     return createMessage(type, "system", message_loc_key, hasMessage, !hasMessage);
 }
 
-export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion): ChatMessage {
+export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion, is_feedback: boolean): ChatMessage {
     const msg = createMessage(ChatMessageType.Questionnaire, "assistant");
     const item: AireQuestionnaireAnswer = {
         questionnaire_id: questionnaire_id,
@@ -115,7 +115,8 @@ export function createQuestionnaireMessage(questionnaire_id: string, question: A
         type: question.type,
         question: question.question,
         prompt: question.prompt,
-        options: question.options
+        options: question.options,
+        is_feedback: is_feedback
     }
     msg.question = item;
     return msg;

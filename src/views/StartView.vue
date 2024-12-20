@@ -57,7 +57,7 @@ onMounted(() => {
                     href="/signup">
                     {{ $t(l.nav_signup) }}
                 </a>
-                <LanguageSelector />
+                <LanguageSelector :hide-label="true"/>
             </div>
             <div class="start-footer">
                 <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>

@@ -46,18 +46,15 @@ const onSubmitAnswer = () => {
                 questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
         }
     }
-
 }
-
 </script>
 
 <template>
     <div class="questionnaire-answer">
         <div class="questionnaire-answer-options">
-            <div v-for="content in props.options?.contents || []" :key="content.id"
-                :class="{ 'disabled': props.readonly }">
+            <div v-for="content in props.options?.contents || []" :key="content.id">
                 <ChatContent :content="content" :contentId="content.id ?? ''" @click=onClickOption(content.id!)
-                    :class="{ 'questionnaire-answer-button-selected': answers.includes(content.id!), 'disabled2': props.readonly }" />
+                    :class="{ 'questionnaire-answer-button-selected': answers.includes(content.id!), 'disabled': props.readonly, 'opacity': !answers.includes(content.id!) && props.readonly }" />
             </div>
             <div class="questionnaire-answer-actions" v-if="props.options?.multiselect && isUnanswered(props.answer)">
                 <button class="btn questionnaire-confirm-button" @click="onSubmitAnswer()">
@@ -80,18 +77,14 @@ const onSubmitAnswer = () => {
     padding-top: 0rem;
 }
 
-.panel {
-    background-color: red;
-}
-
-.disabled2 {
-    pointer-events: none;
-    background-color: var(--button-inactive);
-    border: solid 1px var(--accent-primary-color);
+.opacity {
+    opacity: 0.5;
 }
 
 .disabled {
-    cursor: not-allowed;
+    pointer-events: none;
+    background-color: var(--button-inactive);
+    border: solid 1px var(--accent-primary-color);
 }
 
 .questionnaire-answer-options {

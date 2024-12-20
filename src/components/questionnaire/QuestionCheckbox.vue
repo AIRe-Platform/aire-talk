@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { computed, defineProps, ref } from 'vue';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
@@ -17,22 +17,30 @@ const props = defineProps<{
     readonly?: boolean;
 }>();
 
-const answers = ref<string[]>(props.answer || []);
+const answers = ref<(string | number)[]>([]);
+
 const isUnanswered = (ans: any) => (ans === undefined);
 
-const onClickOption = (answer: string) => {
+const onClickOption = (answer: string | number) => {
+    const normalizedAnswer = normalizeAnswer(answer);
+
     if (props.options.multiselect) {
-        if (answers.value.includes(answer))
-            answers.value = answers.value.filter(x => x !== answer)
-        else
-            answers.value.push(answer)
-    }
-    else {
-        answers.value = [answer]
+        if (answers.value.includes(normalizedAnswer)) {
+            answers.value = answers.value.filter(x => x !== normalizedAnswer);
+        } else {
+            answers.value.push(normalizedAnswer);
+        }
+    } else {
+        answers.value = [normalizedAnswer];
         onSubmitAnswer();
     }
-}
+};
+const isFeedback = computed(() => !!props.message.question?.is_feedback);
 
+const normalizeAnswer = (value: string | number): string | number => {
+    // Convert all values to string for consistent comparison
+    return typeof value === "number" ? String(value) : value;
+};
 const onSubmitAnswer = () => {
     const questionnaire = useQuestionnaire();
     if (props.message.question) {
@@ -42,7 +50,6 @@ const onSubmitAnswer = () => {
             questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
     }
 }
-
 </script>
 
 <template>
@@ -50,10 +57,14 @@ const onSubmitAnswer = () => {
         <p v-if="props.options.description">
             {{ props.options.description }}
         </p>
-        <div class="questionnaire-answer-options" v-if="props.options.values">
+        <div class="questionnaire-answer-options" v-if="props.options.values" :class="{
+            'questionnaire-answer-options-feedback': isFeedback,
+        }">
             <template v-for="ans, id in props.options.values" :key="id">
                 <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
-                    :class="{ 'questionnaire-answer-button-selected': answers.includes(ans) }">
+                    :class="{
+                        'questionnaire-answer-button-selected': (props.answer?.includes?.(normalizeAnswer(ans)) || false),
+                    }">
                     {{ ans }}
                 </button>
             </template>
@@ -69,9 +80,10 @@ const onSubmitAnswer = () => {
 <style lang="scss" scoped>
 .questionnaire-answer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
     gap: 1rem;
+    justify-content: center;
 }
 
 .questionnaire-answer-options {
@@ -81,6 +93,11 @@ const onSubmitAnswer = () => {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+.questionnaire-answer-options-feedback {
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .questionnaire-answer-actions {

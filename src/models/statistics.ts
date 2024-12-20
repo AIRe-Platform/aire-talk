@@ -95,7 +95,7 @@ export class FeedbackEvent extends StatisticsEventBase {
     session_id?: string;
 
     constructor(name: string, chat_id: string | undefined, user_id: string | undefined, answer: any, question: string, session_id: string | undefined, themes: string) {
-        super("feedback." + name);
+        super(name);
         this.chat_id = chat_id;
         this.user_id = user_id;
         this.answer = answer;
@@ -227,6 +227,7 @@ export class ChatSummaryAcceptEvent extends StatisticsEventBase {
         public chat_id: string | undefined,
         public user_id: string | undefined,
         public session_id: string | undefined,
+        public summary: string | undefined,
     ) {
         super(`${EventPrefix.Chat}summary_accept`);
     }

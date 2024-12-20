@@ -98,7 +98,8 @@ export function getChatbotInputData(): AireChatbotInput {
             year_of_birth: chat.state.year_of_birth,
             occupation: chat.state.occupation,
             topic: chat.state.topic?.name,
-            language: locale.value
+            language: locale.value,
+            keywords: listChatKeywords(chat.messages)
         }
     };
 
@@ -152,12 +153,15 @@ export async function onAcceptSummary() {
         log = useChatCache().get(chat.id);
     }
     const tokenCount = log?.stats?.token_count;
+    const summary = findLatestSummaryMessage(chat.messages)?.content;
+
     statistics.sendEvent(new ChatSummaryAcceptEvent(
         tokenCount,
         keywords.join(','),
         chat.id,
         login.user?.uuid,
-        statistics.session?.id
+        statistics.session?.id,
+        summary
     ));
 }
 
@@ -165,7 +169,6 @@ export function onRejectSummary() {
     const instruction = `
         The user rejected the summary. 
         Ask what is wrong with it and how the user would like to have it modified.
-        After that, you should end the conversation with ${ChatMessageTag.END_OF_CONVERSATION_TAG} to create a new summary.
     `;
 
     const inst = createInstructionMessage(instruction);
@@ -236,6 +239,9 @@ export async function openAndContinueChat(id: string): Promise<boolean> {
     if (!loaded)
         return false;
 
+    if (chat.id === id)
+        return true;
+
     const last = getLastMessage();
     if (!last)
         return false;
@@ -243,11 +249,22 @@ export async function openAndContinueChat(id: string): Promise<boolean> {
     if (conversationEnded(chat.messages))
         continueConversation();
 
+    const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
+
     let instruction = "The user has returned to the conversation. Ask about their progress and aim to motivate them.";
 
-    const timeDiff = DateTime.utc().diff(DateTime.fromMillis(last.timestamp!));
-    if (timeDiff.isValid)
-        instruction += ` It has been ${timeDiff.days} days since you last talked to them.`
+    if (timeDiff.isValid) {
+        // Skip additional instructions and force response if the conversation is still fresh
+        if (timeDiff.as('minutes') < 15)
+            return true;
+
+        if (timeDiff.as('days') > 1)
+            instruction += ` It has been ${Math.round(timeDiff.as('days'))} days since you last talked to them.`
+        else if (timeDiff.as('hours') > 2)
+            instruction += ` It has been ${Math.round(timeDiff.as('hours'))} hours since you last talked to them.`
+        else
+            instruction += ` It has been ${Math.round(timeDiff.as('minutes'))} minutes since you last talked to them.`
+    }
 
     const inst = createInstructionMessage(instruction);
     chat.push(inst);
@@ -272,8 +289,12 @@ export async function summarizeChat(): Promise<boolean> {
     return await AireServices.AI.generateSummary(input)
         .then((result) => {
             if (result.status == AireStatus.Success && result.data) {
+                const inst = createInstructionMessage(`Generated summary: ${result.data}`);
+                chat.push(inst);
+
                 const msg = createSummaryMessage(result.data);
                 chat.push(msg);
+
                 return true;
             } else {
                 throw Error(result.status.toString());
@@ -421,7 +442,15 @@ export async function handleKeywordEvent(e: AireTalkKeywords) {
     if (newKeywords.length > 0) {
         console.debug("Handling keyword event", e);
         (await updateKeywordMetadata(newKeywords)).forEach(k => pushKeyword(k));
+
+        const inst = createInstructionMessage("New themes detected: " + newKeywords.join(", "));
+        chat.push(inst);
     }
+    else {
+        const inst = createInstructionMessage("No new themes detected. Continue with the conversation.");
+        chat.push(inst);
+    }
+
 }
 
 export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {

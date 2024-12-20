@@ -29,7 +29,7 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
     const questions = getRelevantQuestions(model, keywords);
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
-
+    const isFeedback = model.is_feedback;
     if (unanswered.length === 0)
         return;
 
@@ -39,7 +39,8 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
         queue: unanswered,
         answers: [],
         controller_type: QuestionnaireControlFlow.Default,
-        completed: false
+        completed: false,
+        is_feedback: isFeedback
     };
 }
 
@@ -57,6 +58,24 @@ export async function queryQuestionnaire(keywords: string[]): Promise<AireQuesti
     }
     const lang = getUILanguage();
     const query = await AireServices.Memory.queryQuestionnaire(keywords, lang.value);
+
+    if (!query.data)
+        return;
+
+    return query.data;
+}
+
+/**
+ * Query feedback questionnaire
+ */
+export async function queryFeedbackQuestionnaire(): Promise<AireQuestionnaire | undefined> {
+
+    if (!AireServices.Memory) {
+        console.error("Memory service is not available");
+        return;
+    }
+    const lang = getUILanguage();
+    const query = await AireServices.Memory.queryFeedbackQuestionnaire(lang.value);
 
     if (!query.data)
         return;

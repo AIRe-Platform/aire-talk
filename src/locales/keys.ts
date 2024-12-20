@@ -351,6 +351,7 @@ export enum LocalizationKey {
     feedback_question_platform_rating = "feedback_question_platform_rating",
     feedback_question_platform_rating_description = "feedback_question_platform_rating_description",
     feedback_question_todays_experience = "feedback_question_todays_experience",
+    feedback_question_todays_experience_description = "feedback_question_todays_experience_description",
     feedback_question_open_feedback = "feedback_question_open_feedback",
     
     feedback_answer_very_litle = "feedback_answer_very_litle",

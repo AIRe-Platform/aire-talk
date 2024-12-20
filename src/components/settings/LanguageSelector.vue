@@ -5,17 +5,15 @@
 <script setup lang="ts">
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import ISO6391, { LanguageCode } from 'iso-639-1';
-import { computed, defineEmits } from 'vue';
+import { defineEmits, defineProps } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 
 const emit = defineEmits(['languageSelected']);
-// eslint-disable-next-line no-undef
-const props = defineProps({
-    blankOption: {
-        type: [String, Boolean],
-        default: false,
-    },
-});
+
+const props = defineProps<{
+    blank?: string,
+    hideLabel?: boolean
+}>();
 
 const setLang = async (e: Event) => {
     const el = e.target as HTMLSelectElement;
@@ -25,18 +23,14 @@ const setLang = async (e: Event) => {
     emit('languageSelected');
 };
 
-// Even an empty string to blankOption means it's shown.
-const hasBlankOption = computed(() => typeof props.blankOption === 'string' ? true : props.blankOption);
 </script>
 
 <template>
     <div class="language-selector-panel">
-        <label for="settings-language">{{ $t(l.settings_language) }}</label>
+        <label for="settings-language" v-if="!props.hideLabel">{{ $t(l.settings_language) }}</label>
         <Tooltip :text="$t(l.tooltip_menu_language)" position="top" :useMaxContent="false" :adjustPosition="true">
-            <select id="settings-language" class="capitalize" @change="setLang" :value="!hasBlankOption ? $i18n.locale : ''">
-                <option v-if="hasBlankOption" value="" disabled hidden>
-                    {{ typeof props.blankOption === 'string' ? props.blankOption : "" }}
-                </option>
+            <select id="settings-language" class="capitalize" @change="setLang" :value="!props.blank ? $i18n.locale : ''">
+                <option v-if="props.blank" value="" disabled hidden> {{ props.blank }} </option>
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">
                     {{ $t(lang) }} ({{ ISO6391.getName(lang) }})
                 </option>

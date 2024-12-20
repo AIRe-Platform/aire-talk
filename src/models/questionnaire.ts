@@ -20,4 +20,5 @@ export interface Questionnaire {
     answers: Array<AireQuestionnaireAnswer>;
     controller_type: QuestionnaireControlFlow;
     completed: boolean;
+    is_feedback?: boolean;
 }

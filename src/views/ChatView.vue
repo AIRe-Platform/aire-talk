@@ -18,6 +18,7 @@ import { onBeforeRouteUpdate, useRoute } from "vue-router";
 import { router } from "@/router";
 import { TutorialStates } from "@/context/tutorials";
 import { l } from "@/locales";
+import { openAndContinueChat } from "@/helpers/chatUtils";
 
 const showSideBar = ref(false);
 const isMobileView = ref(false);
@@ -94,7 +95,7 @@ const loadChat = async (id?: string) => {
     useChatbot().makeBusy();
     if (id) {
         console.log("Loading chat", id)
-        const open = await chat.open(id as string)
+        const open = await openAndContinueChat(id as string)
         if (!open)
             router.replace({ name: "Chat" });
     }
@@ -114,7 +115,7 @@ onMounted(async () => {
     await loadChat(route.params.id as string | undefined);
 
     scrollChatToBottom()
-    const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
+    //const isNewChat = chat.messages.filter(x => x.role === "user").length === 0;
 
     resizeHandler();
     window.addEventListener('resize', resizeHandler);

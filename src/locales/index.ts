@@ -70,3 +70,7 @@ export function getUILanguage() {
         return loc.value as LanguageCode;
     })
 }
+
+export function hasSelectedLanguage() {
+    return localStorage.getItem(DEFAULT_LANGUAGE_SELECTED) === "true";
+}

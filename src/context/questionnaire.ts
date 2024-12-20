@@ -58,6 +58,9 @@ export class QuestionnaireContext {
         }
 
         this.active = questionnaire;
+        
+        this.active.is_feedback = questionnaire.is_feedback;
+
         const msg = this.controller?.onStart(questionnaire);
         const chat = useChat();
         chat.push(msg);
@@ -65,8 +68,11 @@ export class QuestionnaireContext {
 
     public restoreState(questionnaire: Questionnaire) {
         this.controller = controllers.get(questionnaire.controller_type);
-        if(this.controller)
+        if(this.controller){
             this.active = questionnaire;
+            this.active.is_feedback = questionnaire.is_feedback;
+        }
+            
         else
             console.error("Unsupported questionnaire controller type");
     }
@@ -80,7 +86,7 @@ export class QuestionnaireContext {
             return false;
 
         const chat = useChat();
-        const msg = createQuestionnaireMessage(this.active.id, next);
+        const msg = createQuestionnaireMessage(this.active.id, next, this.active.is_feedback!);
         chat.push(msg);
         return true;
     }
