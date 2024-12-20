@@ -7,6 +7,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-12-20
+### Fixed
+- About page is finished and fully content.
+- Change TTS buttons to white in dark mode.
+- Change voice-control icons.
+- Change NavMenu to only show one active nav item.
+- Minor change to ChatInput responsiveness.
+- Minor changes to accessibility attributes.
+- Change ChatInput buttons to have stable positioning.
+- Fix and adjust instruction prompt when continuing conversation.
+- Language selection refactoring and tidy-up.
+- Minor appearance tweaks to content catalogue.
+- Home view scaling tweaks.
+- Replace background texture with solid color.
+- Fix issue where unsaved, yet concluded, conversation was immediately continued after the save.
+- New localizations suggested by Yamk.
+
+### Added
+- Questionnaire feedbacks are created.
+- Events are created.
+- Forward current keywords to chatbot. Inform chatbot about detected keywords.
+
 ## [1.1.0] - 2024-12-05
 ### Fixed
 - Welcome and error messages now display in the UI interface language.  
