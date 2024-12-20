@@ -215,7 +215,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     recall_start_question: "Haluatko jatkaa jotain aiempaa keskustelua?",
     recall_keyword_question: "Haluatko jatkaa keskustelua joistakin seuraavista aiheista?",
-    recall_summary_question: "Onko tämä vielä ajankohtainen aihe, josta keskustelua haluat jatkaa?",
+    recall_summary_question: "Haluatko jatkaa keskustelua vielä tästä aiheesta?",
 
     button_accept: "Hyväksy",
     button_cancel: "Peruuta",
