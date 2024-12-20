@@ -154,7 +154,7 @@ export async function onAcceptSummary() {
     }
     const tokenCount = log?.stats?.token_count;
     const summary = findLatestSummaryMessage(chat.messages)?.content;
-    
+
     statistics.sendEvent(new ChatSummaryAcceptEvent(
         tokenCount,
         keywords.join(','),
@@ -238,6 +238,9 @@ export async function openAndContinueChat(id: string): Promise<boolean> {
     const loaded = await chat.open(id);
     if (!loaded)
         return false;
+
+    if (chat.id === id)
+        return true;
 
     const last = getLastMessage();
     if (!last)
