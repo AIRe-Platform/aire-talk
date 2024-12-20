@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { computed, defineProps, ref, watch } from 'vue';
+import { computed, defineProps, ref } from 'vue';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
@@ -37,12 +37,6 @@ const onClickOption = (answer: string | number) => {
 };
 const isFeedback = computed(() => !!props.message.question?.is_feedback);
 
-watch(
-    () => props.message.question?.is_feedback,
-    (newVal) => {
-        console.log("is_feedback updated:", newVal);
-    }
-);
 const normalizeAnswer = (value: string | number): string | number => {
     // Convert all values to string for consistent comparison
     return typeof value === "number" ? String(value) : value;
@@ -56,8 +50,6 @@ const onSubmitAnswer = () => {
             questionnaire.submitAnswer(props.message.question.question_id, answers.value.values().next().value);
     }
 }
-console.log("props.message", props.message)
-console.log("is_feedback?", props.message.question?.is_feedback)
 </script>
 
 <template>
