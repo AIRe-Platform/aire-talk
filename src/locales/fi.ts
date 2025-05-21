@@ -248,7 +248,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     content_modal_no_description: "Ei kuvausta saatavilla.",
 
     logout_inactivity_message: "Sinut on kirjattu ulos passiivisuuden vuoksi.",
-    logout_inactivity_warning_message: "Passiivisuuden vouksi sinut kirjaudutaan ulos {duration} sekunnin kuluttua.",
+    logout_inactivity_warning_message: "Sinut kirjataan ulos passiivisuuden takia {duration} sekunnin kuluttua.",
 
     tooltip_edit: "Muokkaa",
     tooltip_delete: "Poista tilisi.",
