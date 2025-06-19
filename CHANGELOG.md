@@ -4,6 +4,7 @@
 - Hid development version footer bar
 - Translation fixes
 - Fix UI size setting not taking effect
+- Populate About page with ToS and Privacy Policy
 
 ## 2024-12-20
 ### Fixed
