@@ -3,6 +3,7 @@
 ## 2025-06-19
 - Hid development version footer bar
 - Translation fixes
+- Fix UI size setting not taking effect
 
 ## 2024-12-20
 ### Fixed

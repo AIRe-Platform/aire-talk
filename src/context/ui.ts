@@ -53,12 +53,10 @@ function initSettings(): UISettingsOptions {
     return options;
 }
 
-function applyFontSize(newSize: UIFontSize, oldSize?: UIFontSize) {
-    if (oldSize) {
-        document.documentElement.classList.remove(oldSize);
-        localStorage.setItem("ui-font-size", newSize);
-    }
-    document.documentElement.classList.add(newSize);
+function applyFontSize(size: UIFontSize) {
+    document.documentElement.classList.remove(UIFontSize.Large, UIFontSize.Normal);
+    document.documentElement.classList.add(size);
+    localStorage.setItem("ui-font-size", size);
 }
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -77,10 +75,8 @@ export async function closeBurgerMenu() {
 }
 
 watch(UISettings,
-    (newSettings, oldSettings) => {
-        if (newSettings.fontSize != oldSettings.fontSize)
-            applyFontSize(newSettings.fontSize, oldSettings.fontSize);
-
+    (newSettings, _) => {
+        applyFontSize(newSettings.fontSize);
         localStorage.setItem("tts-enabled", newSettings.ttsEnabled ? "true" : "false");
         localStorage.setItem("tokens-enabled", newSettings.tokensEnabled ? "true" : "false");
     },
