@@ -44,26 +44,29 @@ const resetModals = () => {
             <div class="btn-container">
                 <button type="button" class="btn" @click="toggleTermsModal">{{ $t(l.about_tou) }}</button>
                 <button type="button" class="btn" @click="togglePrivacyModal">{{ $t(l.about_privacy_policies)
-                    }}</button>
+                }}</button>
             </div>
             <div class="collab-container">
                 <h2>{{ $t(l.about_collaboration) }}</h2>
                 <div class="images-container">
                     <a href="https://www.goodlife.technology" target="_blank">
-                        <img src="@/assets/images/GoodLife_Logo_white -2023.png" :alt="$t(l.about_goodlife_logo_alt)">
+                        <img id="goodlife-logo" src="@/assets/images/GoodLife_Logo_white -2023.png"
+                            :alt="$t(l.about_goodlife_logo_alt)">
                     </a>
                     <a href="https://www.jamk.fi/fi" target="_blank">
-                        <img v-if="theme.style === 'theme-dark' && lang === 'fi'"
-                            src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png"
-                            :alt="$t(l.about_jamk_logo_alt)">
-                        <img v-else-if="theme.style === 'theme-dark' && lang !== 'fi'"
-                            src="@/assets/images/jamk_tunnus_valkoinen_nimella_englanti.png"
-                            :alt="$t(l.about_jamk_logo_alt)">
-                        <img v-else-if="theme.style === 'theme-default' && lang === 'fi'"
-                            src="@/assets/images/jamk_tunnus_sininen_nimella_suomi.png"
-                            :alt="$t(l.about_jamk_logo_alt)">
-                        <img v-else src="@/assets/images/jamk_tunnus_sininen_nimella_englanti.png"
-                            :alt="$t(l.about_jamk_logo_alt)">
+                        <template v-if="theme.style === 'theme-dark'">
+                            <img v-if="lang === 'fi'" src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png"
+                                :alt="$t(l.about_jamk_logo_alt)">
+                            <img v-else src="@/assets/images/jamk_tunnus_valkoinen_nimella_englanti.png"
+                                :alt="$t(l.about_jamk_logo_alt)">
+                        </template>
+                        <template v-else>
+                            <img v-if="lang === 'fi'" src="@/assets/images/jamk_tunnus_sininen_nimella_suomi.png"
+                                :alt="$t(l.about_jamk_logo_alt)">
+                            <img v-else src="@/assets/images/jamk_tunnus_sininen_nimella_englanti.png"
+                                :alt="$t(l.about_jamk_logo_alt)">
+                        </template>
+
                     </a>
                 </div>
             </div>
@@ -107,7 +110,8 @@ const resetModals = () => {
                         40101 Jyväskylä
                     </p>
                     <p>
-                        Ehtoja koskevat kysymykset pyydämme osoittamaan: <a href="mailto:tietosuoja@jamk.fi">tietosuoja@jamk.fi</a>. Palvelussa asiointi
+                        Ehtoja koskevat kysymykset pyydämme osoittamaan:
+                        <a href="mailto:tietosuoja@jamk.fi">tietosuoja@jamk.fi</a>. Palvelussa asiointi
                         tapahtuu Käyttäjän valitsemalla, Palvelussa kulloinkin saatavilla olevalla kielivalinnalla
                         (tällä hetkellä suomi, englanti, espanja, swahili, vietnam, indonesia sekä ruandan kieli).
                     </p>
@@ -511,8 +515,8 @@ const resetModals = () => {
 }
 
 .about-container {
-    background-color: #47425E;
-    border-left: 2px solid #2374AB;
+    background-color: var(--page-background);
+    border-left: 2px solid var(--panel-border-color);
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -523,7 +527,7 @@ const resetModals = () => {
 .about-subcontainer {
     background-color: #FFF;
     color: black;
-    width: 50%;
+    width: 80%;
     flex-grow: 1;
     padding: 2rem;
     margin-block: 2rem;
@@ -552,6 +556,13 @@ const resetModals = () => {
         margin-bottom: 1rem;
     }
 }
+
+.theme-default {
+    #goodlife-logo {
+        background-color: var(--button-color);
+    }
+}
+
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .about-view {
@@ -586,7 +597,7 @@ const resetModals = () => {
     .about-container {
         font-size: var(--font-small);
         border-left: unset;
-        border-top: 2px solid #2374AB;
+        border-top: 2px solid var(--panel-border-color);
         margin-block-start: 0.5rem;
     }
 

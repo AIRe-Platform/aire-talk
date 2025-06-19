@@ -5,6 +5,7 @@
 - Translation fixes
 - Fix UI size setting not taking effect
 - Populate About page with ToS and Privacy Policy
+- About page theming fixes
 
 ## 2024-12-20
 ### Fixed
