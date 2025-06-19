@@ -20,7 +20,7 @@ const version = {
 
 <style lang="scss" scoped>
 #footer-container {
-    display: flex;
+    display: none;
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;

@@ -9,7 +9,7 @@ const fi: Locale = {
     aire_bot: "AIRe",
     aire_system: "AIRe-järjestelmä",
 
-    footer: "Kehitysversio",
+    footer: "Versio",
     not_found: "Sivua ei löytynyt",
 
     system_greeting:

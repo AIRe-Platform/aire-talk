@@ -9,7 +9,7 @@ const en: Locale = {
     aire_bot: "AIRe",
     aire_system: "AIRe System",
 
-    footer: "Development",
+    footer: "Versio",
     not_found: "Page not found",
 
     system_greeting:
