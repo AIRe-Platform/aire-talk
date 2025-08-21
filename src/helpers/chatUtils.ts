@@ -445,6 +445,8 @@ export async function handleKeywordEvent(e: AireTalkKeywords) {
 
         const inst = createInstructionMessage("New themes detected: " + newKeywords.join(", "));
         chat.push(inst);
+        
+        queryQuestionnaires(newKeywords);
     }
     else {
         const inst = createInstructionMessage("No new themes detected. Continue with the conversation.");
