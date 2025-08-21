@@ -42,7 +42,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const chat = useChat();
         const statistics = useStatistics();
         const user = useLogin();
-        let questionFeedbackId: string = "feedback.";
+        const questionFeedbackId: string = "feedback.";
         
         if (question.question_id === `${self.id}_start`) {
             if (answer.includes(i18n.global.t(l.button_yes)))
