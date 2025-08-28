@@ -63,7 +63,7 @@ const onSubmitAnswer = () => {
             <template v-for="ans, id in props.options.values" :key="id">
                 <button class="btn questionnaire-answer-button" @click="onClickOption(ans)" :disabled="props.readonly"
                     :class="{
-                        'questionnaire-answer-button-selected': (props.answer?.includes?.(normalizeAnswer(ans)) || false),
+                        'questionnaire-answer-button-selected': (answers.includes?.(normalizeAnswer(ans)) || false),
                     }">
                     {{ ans }}
                 </button>

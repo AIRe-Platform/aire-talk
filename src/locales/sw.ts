@@ -9,7 +9,7 @@ const sw: Locale = {
     aire_bot: "AIRe",
     aire_system: "Sistem AIRe",
 
-    footer: "Maendeleo",
+    footer: "Toleo",
     not_found: "Ukurasa haujapatikana",
 
     system_greeting:

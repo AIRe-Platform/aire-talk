@@ -9,7 +9,7 @@ const vi: Locale = {
     aire_bot: "AIRe",
     aire_system: "Hệ thống AIRe",
 
-    footer: "Phát triển",
+    footer: "Phiên bản",
     not_found: "Không tìm thấy trang",
 
     system_greeting:

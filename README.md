@@ -1,20 +1,3 @@
-## TODO: Refactor this document to have an structure like this:
-## Table of Contents
-1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Usage](#usage)
-4. [Configuration](#configuration)
-5. [Contributing](#contributing)
-6. [API Reference](#api-reference)
-7. [Testing](#testing)
-8. [Deployment](#deployment)
-9. [Roadmap](#roadmap)
-10. [FAQ](#faq)
-11. [Troubleshooting](#troubleshooting)
-12. [License](#license)
-13. [Acknowledgments](#acknowledgments)
-14. [Contact](#contact)
-
 # AIRe Talk
 
 This is the source code for AIRe Talk web app.
@@ -80,9 +63,33 @@ VS Code: Use Vue Language Features plugin as your formatting tool to automatical
 - No empty CSS classes.
 - Use Vue's Composition API.
 
-### Environment Values
+## Environment Values
 
 - `VITE_COMMIT_HASH` Adds commit hash into the page footer
 - `VITE_COMMIT_TAG` Adds tag into the page footer
 - `VITE_AIRE_SERVICES_ENDPOINT` URL to the AIRe Services API endpoints.
 - `VITE_AIRE_CLIENT_ID` Client identifier GUID (registered in AIRe ID).
+
+## Manual Deployment to Azure Static Web Apps
+
+Create `.env.production` file:
+
+```sh
+VITE_COMMIT_TAG="production"
+VITE_AIRE_SERVICES_ENDPOINT="https://url-to-production-services/api"
+VITE_AIRE_CLIENT_ID=production-client-id
+```
+
+Build the project using `npm run build`.
+
+Install Static Web Apps CLI if you don't have it:
+
+```sh
+npm install -g @azure/static-web-apps-cli
+```
+
+Deploy the app using Static Web Apps CLI:
+
+```sh
+swa deploy ./dist --app-name $YOUR_APP_NAME --env Production
+```

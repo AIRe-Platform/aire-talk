@@ -9,7 +9,7 @@ const id: Locale = {
     aire_bot: "AIRe",
     aire_system: "Sistem AIRe",
 
-    footer: "Pengembangan",
+    footer: "Versi",
     not_found: "Halaman tidak ditemukan",
 
     system_greeting:
