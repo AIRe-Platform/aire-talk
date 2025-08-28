@@ -1,13 +1,13 @@
-## TODO: Create and keep it update with notable changes, enhancements, bug fixes, and other updates between releases. Here’s a guide on how to create and maintain an effective changelog. Like this:
-## Changelog
+# Changelog
 
-All notable changes to this project will be documented in this file.
+## 2025-06-19
+- Hid development version footer bar
+- Translation fixes
+- Fix UI size setting not taking effect
+- Populate About page with ToS and Privacy Policy
+- About page theming fixes
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/), and this project adheres to [Semantic Versioning](http://semver.org/).
-
-## [Unreleased]
-
-## [1.2.0] - 2024-12-20
+## 2024-12-20
 ### Fixed
 - Completed and finalized content for the About page.
 - Updated TTS buttons to display in white in dark mode.
@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 - Created a new event system to support dynamic features.
 - Forwarded current keywords to the chatbot, enabling keyword detection and notification.
 
-## [1.1.0] - 2024-12-05
+## 2024-12-05
 ### Fixed
 - Welcome and error messages now display in the UI interface language.  
 - Refactored `div` elements into buttons, links, labels, etc., to improve screen reader accessibility.  
@@ -56,7 +56,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 - Notification for when creating an account and deleting a chat.
 - Landmarks (nav, main, footer)
 
-## [1.0.8] - 2024-11-21
+## 2024-11-21
 ### Fixed
 - When starting a new chat, it won't ask you to talk about previuos ones.
 - Filter button style and position fixed in the catalogue content.
@@ -70,27 +70,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/), and this 
 - content modal now also opens with urls and documents.
 - Created a basic structure in the about view.
 
-## [1.0.7] - 2024-11-15
+## 2024-11-15
 ### Added
 - Content modal: copyright, description, themes and a button to chat where it comes.
 - Content catalogue: a new filter, with all themes that user has found in all chats.
 
-## [1.0.6] - 2024-11-08
+## 2024-11-08
 ### Added
 - Tutorial
 
-## [1.0.5] - 2024-11-07
+## 2024-11-07
 ### Fixed
 - Some Finnish localisations changed.
 - Some buttons changed from Accept/Reject to Yes/no.
 - Tooltip has been refactor to a new Component.
 
-## [1.0.4] - 2024-11-05
+## 2024-11-05
 ### Fixed
 - Introduce a delay to the chat response only if it would otherwise be instant.
 - The chat input is blocked until the response is ready.
 
-## [1.0.3] - 2024-11-01
+## 2024-11-01
 ### Fixed
 Some localizations changed.
 Adjust the style of tooltip text in the NavMenu.
@@ -98,14 +98,14 @@ Adjust the style of tooltip text in the NavMenu.
 ### Added
 Adjust the AI's response to 100-400ms delay.
 
-## [1.0.2] - 2024-10-31
+## 2024-10-31
 ### Fixed
 Localizations changed for all languages realted to tooltips, and some others.
 
 ### Added
 - More keyboard navigatable elements/parts and some changes to UI behaviour when navigating.
 
-## [1.0.1] - 2024-10-27
+## 2024-10-27
 ### Fixed
 - Minor UI alignment issues on the setttings panel for a layout smaller than a normal desktop 1920x1080p.
 
@@ -113,7 +113,7 @@ Localizations changed for all languages realted to tooltips, and some others.
 - created a new Popup menu to choose UI language for user.
 - Generate a random delay between between 1000ms and 500ms for bot to respond to make the bot more human.
 
-## [1.0.0] - 2024-05-21
+## 2024-05-21
 ### Added
 - Initial release of this changelog.
 

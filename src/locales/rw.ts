@@ -9,7 +9,7 @@ const rw: Locale = {
     aire_bot: "AIRe",
     aire_system: "Igenamiterere rya AIRe",
 
-    footer: "Iterambere",
+    footer: "Inyandiko",
     not_found: "Ibyo musabye ntibibashije kuboneka",
 
     system_greeting:
