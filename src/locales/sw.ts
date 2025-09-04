@@ -14,7 +14,6 @@ const sw: Locale = {
 
     system_greeting:
         "Karibu kwenye AIRe Talk! Anza kwa kueleza ni msaada gani unahitaji au una dalili gani.",
-    system_topic: "Umechagua mada: ",
     system_found_content: "Nimepata maudhui ambayo yanaweza kukuvutia. Angalia!",
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
@@ -149,19 +148,6 @@ const sw: Locale = {
     error_profile_delete_account: "Imeshindwa kufuta akaunti. Jaribu tena baadaye.",
     error_profile_password: "Imeshindwa kubadilisha nenosiri. Angalia kwamba nenosiri uliloweka ni sahihi na kwamba nenosiri jipya linakidhi mahitaji.",
 
-    landing_view_title: "Karibu kwenye jukwaa la AIRe!",
-    landing_view_text: "Tuanze kwa kujaza taarifa za awali kuhusu wewe mwenyewe.",
-    landing_label_age: "Umri wako",
-    landing_label_occupation: "Shughuli yako ya sasa na ya zamani (Tumia commas kuwatenganisha shughuli)",
-
-    onboarding_greetings: "Habari!",
-    onboarding_question: "Je, ungependa kujadili juu ya mada hizi?",
-    topic_backpain: "Maumivu ya mgongo",
-    topic_neckpain: "Maumivu ya shingo",
-    topic_sleep_apnea: "Apnea ya kulala",
-    topic_increased_weight: "Kuongezeka kwa uzito",
-    topic_trouble_talking: "Shida ya kuzungumza",
-
     summary_title: "Maelezo",
     summary_acceptation_question: "Je, muhtasari ni sahihi?",
 
@@ -257,7 +243,6 @@ const sw: Locale = {
     tooltip_reject_summary: "Sikubali muhtasari huu.",
     tooltip_mark_reminder_read: "Na ondoa kikumbusho hiki kutoka hapa.",
     tooltip_reminder_back_to_chat: "Endelea kuzungumza kuhusu kikumbusho hiki.",
-    tooltip_onboarding_button: "Zungumza kuhusu mada mpya.",
     tooltip_nav_home: "Nenda kwenye mwonekano wa mwanzo.",
     tooltip_nav_chat: "Zungumza na roboti.",
     tooltip_nav_chat_history: "Angalia gumzo za zamani.",

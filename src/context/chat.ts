@@ -5,7 +5,6 @@
 
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
-import { Topic } from "@/models/topic";
 import {
     AireServices,
     AireTalkEvent,
@@ -91,22 +90,15 @@ export class ChatContext {
     /** 
      * Reset current chat with a new one
      */
-    public async startNew(topic?: Topic) {
+    public async startNew() {
         await this.reset(false, false);
-        if (topic) {
-            this.state.topic = topic;
-            const topic_msg = i18n.global.t(l.system_topic);
-            const topic_name = i18n.global.t(topic.localization_key);
-            const msg = createSystemMessage(`${topic_msg}${topic_name}`, false);
-            this.push(msg);
-        }
     }
 
     /** 
      * Start the questionnaire to save into events 
      */
     public async giveFeedback() {
-    
+
         const questionnaires = useQuestionnaire();
 
         const queried = await queryFeedbackQuestionnaire();

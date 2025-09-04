@@ -14,7 +14,6 @@ const id: Locale = {
 
     system_greeting:
         "Selamat datang di AIRe Talk! Mulailah dengan menjelaskan bantuan apa yang Anda butuhkan atau gejala apa yang Anda miliki.",
-    system_topic: "Anda telah memilih topik: ",
     system_found_content: "Saya menemukan beberapa konten yang mungkin menarik bagi Anda. Lihatlah!",
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
@@ -162,21 +161,6 @@ const id: Locale = {
     error_profile_password:
         "Gagal mengubah kata sandi. Periksa bahwa kata sandi yang Anda masukkan benar dan bahwa kata sandi baru memenuhi persyaratan.",
 
-    landing_view_title: "Selamat datang di platform AIRe!",
-    landing_view_text:
-        "Mari mulai dengan mengisi informasi awal tentang diri Anda.",
-    landing_label_age: "Usia Anda",
-    landing_label_occupation:
-        "Pekerjaan saat ini dan sebelumnya (Gunakan koma untuk memisahkan pekerjaan)",
-
-    onboarding_greetings: "Halo!",
-    onboarding_question: "Apakah Anda ingin membahas topik-topik ini?",
-    topic_backpain: "Nyeri punggung",
-    topic_neckpain: "Nyeri leher",
-    topic_sleep_apnea: "Apnea tidur",
-    topic_increased_weight: "Kenaikan berat badan",
-    topic_trouble_talking: "Kesulitan berbicara",
-
     summary_title: "Ringkasan",
     summary_acceptation_question: "Apakah ringkasannya benar?",
 
@@ -276,7 +260,6 @@ const id: Locale = {
     tooltip_reject_summary: "Saya tidak menerima ringkasan ini.",
     tooltip_mark_reminder_read: "Dan hapus pengingat ini dari sini.",
     tooltip_reminder_back_to_chat: "Lanjutkan obrolan tentang pengingat ini.",
-    tooltip_onboarding_button: "Bicarakan topik baru.",
     tooltip_nav_home: "Pergi ke tampilan utama.",
     tooltip_nav_chat: "Ajak obrol bot.",
     tooltip_nav_chat_history: "Lihat obrolan lama.",
