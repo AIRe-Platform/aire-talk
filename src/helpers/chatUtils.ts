@@ -18,8 +18,7 @@ import {
     AireQuestionnaireEvent,
     AireReminder,
     AireServices,
-    AireStatus,
-    AireTalkKeywords
+    AireStatus
 } from "aire";
 import {
     createAssistantMessage,
@@ -36,13 +35,14 @@ import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
 import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } from "./questionnaireUtils";
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
-import { updateKeywordMetadata } from "./keywordUtils";
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
 import useStatistics from "@/context/statistics";
 import { ChatSummaryAcceptEvent, ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
 import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
+import { updateKeywordMetadata } from "./keywordUtils";
+import { AireDocumentSearchEvent } from "submodules/aire-typescript-sdk/src/models/document";
 
 const statistics = useStatistics();
 const chat = useChat();
@@ -96,17 +96,22 @@ export function getChatbotInputData(): AireChatbotInput {
         chat: messages,
         context: {
             language: locale.value,
-            keywords: listChatKeywords(chat.messages)
+            themes: chat.state.themes,
+            documents: chat.state.documents,
         }
     };
 
     return input;
 }
 
-export function listChatKeywords(messages: ChatMessage[]) {
+export function findChatKeywords(messages: ChatMessage[]): string[] {
     return messages
         .filter(x => x.type == ChatMessageType.Keyword && x.content)
-        .map(x => x.content!);
+        .map(x => x.content!)
+}
+
+export function listChatKeywords(): string[] {
+    return (chat.state.themes ?? []).map(x => x.value);
 }
 
 export function conversationEnded(messages: ChatMessage[]) {
@@ -129,7 +134,7 @@ export function getLastMessage(): ChatMessage | undefined {
 }
 
 export async function onAcceptSummary() {
-    const keywords = listChatKeywords(chat.messages)
+    const keywords = listChatKeywords()
     keywords.forEach((kw) => statistics.sendEvent(new ChatThemeEvent(
         kw,
         chat.id,
@@ -205,7 +210,7 @@ export async function showContentSuggestions(content: AireContent[]) {
     const msg = await createContentMessage(content);
     chat.push(msg);
 
-    const keywords = listChatKeywords(chat.messages).join(',');
+    const keywords = listChatKeywords().join(',');
     content.forEach(x => {
         if (!x.name && !x.description)
             return;
@@ -381,6 +386,25 @@ export function pushKeyword(keyword: AireKeyword) {
     if (chat.state.keyword_blacklist?.includes(keyword.value))
         return;
 
+    if (!chat.state.themes)
+        chat.state.themes = [];
+    chat.state.themes.push(keyword);
+
+    if (keyword.document) {
+        if (!chat.state.documents)
+            chat.state.documents = [];
+
+        if (chat.state.documents.findIndex(x => x.source === keyword.document) < 0) {
+            if (AireServices.Memory) {
+                AireServices.Memory.getDocumentWithId(keyword.document)
+                    .then(res => {
+                        if (res.data)
+                            chat.state.documents?.push(res.data)
+                    })
+            }
+        }
+    }
+
     const notification = createKeywordMessage(keyword.value);
     chat.push(notification);
 
@@ -404,9 +428,13 @@ export function pushKeyword(keyword: AireKeyword) {
  * @param blacklist Set true to prevent keyword from coming back
  */
 export function removeKeyword(keyword: string, blacklist: boolean = false) {
-    const i = chat.messages
-        .findIndex(x => x.type == ChatMessageType.Keyword && x.content == keyword);
+    if (chat.state.themes) {
+        const i = chat.state.themes.findIndex(x => x.value === keyword);
+        if (i > -1)
+            chat.state.themes.splice(i, 1);
+    }
 
+    const i = chat.messages.findIndex(x => x.type == ChatMessageType.Keyword && x.content == keyword);
     if (i > -1) {
         if (chat.messages.length < i + 1) {
             // Check if the next message is an instruction
@@ -431,25 +459,26 @@ export function removeKeyword(keyword: string, blacklist: boolean = false) {
     }
 }
 
-export async function handleKeywordEvent(e: AireTalkKeywords) {
+export async function handleKeywordEvent(e: AireKeyword[]) {
 
-    const currentKeywords = listChatKeywords(chat.messages);
-    const newKeywords = e.filter(x => !currentKeywords.includes(x));
+    const currentKeywords = listChatKeywords();
+    const newKeywords = e.filter(x => !currentKeywords.includes(x.value));
+    const oldKeywords = currentKeywords.filter(x => e.findIndex(k => k.value === x) < 0)
 
     if (newKeywords.length > 0) {
         console.debug("Handling keyword event", e);
-        (await updateKeywordMetadata(newKeywords)).forEach(k => pushKeyword(k));
 
-        const inst = createInstructionMessage("New themes detected: " + newKeywords.join(", "));
-        chat.push(inst);
-        
-        queryQuestionnaires(newKeywords);
+        const keywords = await updateKeywordMetadata(newKeywords.map(x => x.value));
+        keywords.forEach(pushKeyword);
+
+        queryQuestionnaires(keywords.map(x => x.value));
     }
     else {
         const inst = createInstructionMessage("No new themes detected. Continue with the conversation.");
         chat.push(inst);
     }
 
+    oldKeywords.forEach(x => removeKeyword(x, false));
 }
 
 export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
@@ -540,6 +569,26 @@ export async function handleReminderEvent(reminder: AireReminder) {
 
     const inst = createInstructionMessage("A reminder was set successfully.")
     chat.push(inst);
+}
+
+export async function handleDocumentResultsEvent(e: AireDocumentSearchEvent) {
+    console.debug("Handling document results event", e);
+
+    const inst = e.results.length > 0 ? `
+        Search with "${e.search}" found the following hits:
+        ${e.results.map(x => `
+        <
+            Document: ${x.metadata.title || x.metadata.source}
+            URL: ${x.metadata.url || "<not available>"}
+            Relevance: ${x.relevance || "<N/A>"}
+            Content:
+            ${x.content}
+        >
+        `)}
+    ` : `No search results with "${e.search}".`;
+
+    const msg = createInstructionMessage(inst);
+    chat.push(msg);
 }
 
 let newMessage = false;

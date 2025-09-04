@@ -72,12 +72,11 @@ export async function getAllKeywordsFromHistory(): Promise<AireKeyword[]> {
         loadedChats.forEach(chatLog => {
             if (!chatLog) return;
 
-            const keywords = listChatKeywords(chatLog.messages);
+            const keywords = listChatKeywords();
             keywords.forEach(keyword => foundKeywords.add(keyword));
         });
 
         const KeywordsMetadata = await updateKeywordMetadata(Array.from(foundKeywords));
-
         return KeywordsMetadata;
 
     } catch (error) {
@@ -97,7 +96,7 @@ export async function translateKeywords(keywords: AireKeyword[]): Promise<string
     );
 }
 
-export async function getTranslation(keyword: { value: string; translations?: Array<{ value: string; languageID: string }>}): Promise<string> {
+export async function getTranslation(keyword: { value: string; translations?: Array<{ value: string; languageID: string }> }): Promise<string> {
     const langID = await getUILanguage().value;
     const translation = keyword.translations?.find(t => t.languageID === langID);
     return translation ? translation.value : keyword.value;

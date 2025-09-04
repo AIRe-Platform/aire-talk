@@ -11,7 +11,6 @@ import LoginView from "./views/LoginView.vue";
 import SignupView from "./views/SignupView.vue";
 import ProfileView from "./views/ProfileView.vue";
 import ChatView from "./views/ChatView.vue";
-import LandingView from "./views/LandingView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
 import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
 import { nextTick } from "vue";

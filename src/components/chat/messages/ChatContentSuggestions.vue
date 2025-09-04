@@ -51,7 +51,7 @@ const showContent = async (content: AireContent) => {
             statistics.sendEvent(new ContentEvent(
                 content.id,
                 content.name,
-                listChatKeywords(chat.messages).join(','),
+                listChatKeywords().join(','),
                 chat.id,
                 login.user?.uuid,
                 statistics.session?.id,
