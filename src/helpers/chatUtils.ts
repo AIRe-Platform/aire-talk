@@ -573,10 +573,7 @@ export async function handleDocumentResultsEvent(e: AireDocumentSearchEvent) {
         ${e.results.map(x => `
         <
             Document: ${x.metadata.title || x.metadata.source}
-            URL: ${x.metadata.url || "<not available>"}
-            Relevance: ${x.relevance || "<N/A>"}
-            Content:
-            ${x.content}
+            Content:  ${x.content}
         >
         `)}
     ` : `No search results with "${e.search}".`;
