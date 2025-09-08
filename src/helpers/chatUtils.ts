@@ -85,7 +85,11 @@ export function getChatbotInputData(): AireChatbotInput {
     const locale = getUILanguage();
 
     const messages = chat.messages
-        .filter(x => x.role === "assistant" || x.role === "user" || x.type == ChatMessageType.Instruction)
+        .filter(x => 
+            x.role === "assistant" || 
+            x.role === "user" || 
+            x.type == ChatMessageType.Instruction || 
+            x.type == ChatMessageType.Keyword)
         .map(x => {
             const m: AireChatMessage = x;
             return m;
@@ -106,8 +110,8 @@ export function getChatbotInputData(): AireChatbotInput {
 
 export function findChatKeywords(messages: ChatMessage[]): string[] {
     return messages
-        .filter(x => x.type == ChatMessageType.Keyword && x.content)
-        .map(x => x.content!)
+        .filter(x => x.type == ChatMessageType.Keyword && (x.theme || x.content))
+        .map(x => (x.theme || x.content)!)
 }
 
 export function listChatKeywords(): string[] {
@@ -405,7 +409,7 @@ export function pushKeyword(keyword: AireKeyword) {
         }
     }
 
-    const notification = createKeywordMessage(keyword.value);
+    const notification = createKeywordMessage(keyword);
     chat.push(notification);
 
     statistics.sendEvent(new ChatThemeEvent(
@@ -414,13 +418,7 @@ export function pushKeyword(keyword: AireKeyword) {
         login.user?.uuid,
         statistics.session?.id,
         ChatThemeEventName.ThemeAdded
-    ));
-
-    // Create hidden prompt injection
-    const prompt = keyword.prompt ?? `The system has identified a topic: ${keyword.value}`
-    const promptMessage = createInstructionMessage(prompt);
-    chat.push(promptMessage);
-}
+    ));}
 
 /**
  * Finds keyword notification message and its injected prompt
@@ -472,10 +470,6 @@ export async function handleKeywordEvent(e: AireKeyword[]) {
         keywords.forEach(pushKeyword);
 
         queryQuestionnaires(keywords.map(x => x.value));
-    }
-    else {
-        const inst = createInstructionMessage("No new themes detected. Continue with the conversation.");
-        chat.push(inst);
     }
 
     oldKeywords.forEach(x => removeKeyword(x, false));
