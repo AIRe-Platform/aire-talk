@@ -162,7 +162,12 @@ export class ChatContext {
     public revertTo(message_id: string, reset_questionnaire: boolean = true) {
         const index = this.messages.findIndex(x => x.id === message_id);
         if (index > -1) {
-            this.messages = this.messages.slice(0, index + 1)
+            const reverted = this.messages.splice(index + 1);
+            const revertedKeywords = findChatKeywords(reverted);
+
+            if (this.state.themes)
+                this.state.themes = this.state.themes.filter(x => !revertedKeywords.includes(x.value));
+
             if (reset_questionnaire)
                 useQuestionnaire().reset();
             this.autoSave();
