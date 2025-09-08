@@ -5,7 +5,6 @@
 
 import { scrollChatToBottom } from "@/helpers/scrollToMessage";
 import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
-import { Topic } from "@/models/topic";
 import {
     AireServices,
     AireTalkEvent,
@@ -22,7 +21,7 @@ import {
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
 import useQuestionnaire from "./questionnaire";
-import i18n, { l } from "@/locales";
+import { l } from "@/locales";
 import {
     getChatbotInputData,
     listChatKeywords,
@@ -32,10 +31,11 @@ import {
     handleQuestionnaireEvent,
     handleEndEvent,
     handleMessageEvent,
+    findChatKeywords,
+    handleDocumentResultsEvent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
-//first feedback questionnaire: import { createPersonalFeedbackQuestionnaire } from "@/controllers/questionnaireEventsController";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
@@ -91,22 +91,15 @@ export class ChatContext {
     /** 
      * Reset current chat with a new one
      */
-    public async startNew(topic?: Topic) {
+    public async startNew() {
         await this.reset(false, false);
-        if (topic) {
-            this.state.topic = topic;
-            const topic_msg = i18n.global.t(l.system_topic);
-            const topic_name = i18n.global.t(topic.localization_key);
-            const msg = createSystemMessage(`${topic_msg}${topic_name}`, false);
-            this.push(msg);
-        }
     }
 
     /** 
      * Start the questionnaire to save into events 
      */
     public async giveFeedback() {
-    
+
         const questionnaires = useQuestionnaire();
 
         const queried = await queryFeedbackQuestionnaire();
@@ -116,13 +109,13 @@ export class ChatContext {
             if (questionnaire)
                 questionnaires.startQuestionnaire(questionnaire);
         }
-       
+
         //First feedback questionnary is still here: 
         /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
 
         if (personalInfoQuestionnaire){
             questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-        } */ 
+        } */
     }
 
     public feedbackQuestionnaireIsCompleted() {
@@ -169,7 +162,12 @@ export class ChatContext {
     public revertTo(message_id: string, reset_questionnaire: boolean = true) {
         const index = this.messages.findIndex(x => x.id === message_id);
         if (index > -1) {
-            this.messages = this.messages.slice(0, index + 1)
+            const reverted = this.messages.splice(index + 1);
+            const revertedKeywords = findChatKeywords(reverted);
+
+            if (this.state.themes)
+                this.state.themes = this.state.themes.filter(x => !revertedKeywords.includes(x.value));
+
             if (reset_questionnaire)
                 useQuestionnaire().reset();
             this.autoSave();
@@ -292,7 +290,7 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        updateKeywordMetadata(listChatKeywords(this.messages));
+        updateKeywordMetadata(listChatKeywords());
 
         scrollChatToBottom();
         return true;
@@ -332,9 +330,15 @@ export class ChatContext {
 
             const chatlog = result.data;
             const state = (chatlog.state || {}) as ChatState;
+            const messages = chatlog.messages.map(mapMessage);
+
+            // Old chat logs do not have themes in the state object,
+            // one has to look for the keywords in the messages
+            if (!state.themes)
+                state.themes = await updateKeywordMetadata(findChatKeywords(messages))
 
             cache.set(chat_id, {
-                messages: chatlog.messages.map(mapMessage),
+                messages: messages,
                 state: state,
                 stats: (chatlog.stats || {}) as ChatStats
             })
@@ -419,6 +423,11 @@ async function receiver(e: AireTalkEvent) {
 
     if (e.type === "reminder" && e.reminder) {
         await handleReminderEvent(e.reminder);
+        return;
+    }
+
+    if (e.type === "document-results" && e.document_results) {
+        await handleDocumentResultsEvent(e.document_results);
         return;
     }
 

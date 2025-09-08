@@ -11,7 +11,6 @@ export enum LocalizationKey {
     not_found = "not_found",
 
     system_greeting = "system_greeting",
-    system_topic = "system_topic",
     system_found_content = "system_found_content",
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
@@ -142,19 +141,6 @@ export enum LocalizationKey {
     error_profile_delete_account = "error_profile_delete_account",
     error_profile_change_password = "error_profile_password",
 
-    landing_view_title = "landing_view_title",
-    landing_view_text = "landing_view_text",
-    landing_label_age = "landing_label_age",
-    landing_label_occupation = "landing_label_occupation",
-
-    onboarding_greetings = "onboarding_greetings",
-    onboarding_question = "onboarding_question",
-    topic_backpain = "topic_backpain",
-    topic_neckpain = "topic_neckpain",
-    topic_sleep_apnea = "topic_sleep_apnea",
-    topic_increased_weight = "topic_increased_weight",
-    topic_trouble_talking = "topic_trouble_talking",
-
     summary_title = "summary_title",
     summary_acceptation_question = "summary_acceptation_question",
 
@@ -252,7 +238,6 @@ export enum LocalizationKey {
     tooltip_reject_summary = "tooltip_reject_summary",
     tooltip_mark_reminder_read = "tooltip_mark_reminder_read",
     tooltip_reminder_back_to_chat = "tooltip_reminder_back_to_chat",
-    tooltip_onboarding_button = "tooltip_onboarding_button",
     tooltip_nav_home = "tooltip_nav_home",
     tooltip_nav_chat = "tooltip_nav_chat",
     tooltip_nav_chat_history = "tooltip_nav_chat_history",

@@ -14,7 +14,6 @@ const en: Locale = {
 
     system_greeting:
         "Welcome to AIRe! Start by describing your situation or the help you need.",
-    system_topic: "You have selected a topic: ",
     system_found_content: "I found some content that may interest you. Take a look!",
     system_end_of_conversation: "The conversation has ended",
     system_end_of_conversation_options: "What would you like to do?",
@@ -145,20 +144,6 @@ const en: Locale = {
     error_profile_delete_account: "Failed to delete the account. Try again later.",
     error_profile_password: "Failed to change password. Check that the password you entered is correct and that the new password meets the requirements.",
 
-    landing_view_title: "Welcome to AIRe!",
-    landing_view_text: "Let's begin by filling the following preliminary information about yourself.",
-    landing_label_age: "Year of birth",
-    landing_label_occupation: "Your current and past occupations (Use commas to separate the occupations)",
-
-    onboarding_greetings: "Hello!",
-    onboarding_question: "Would you like to discuss about these topics?",
-
-    topic_backpain: "Back pain",
-    topic_neckpain: "Neck pain",
-    topic_sleep_apnea: "Sleep apnea",
-    topic_increased_weight: "Increased weight",
-    topic_trouble_talking: "Difficulties with speaking",
-
     summary_title: "Summary",
     summary_acceptation_question: "Is the summary correct?",
 
@@ -255,7 +240,6 @@ const en: Locale = {
     tooltip_reject_summary: "I do not accept this summary.",
     tooltip_mark_reminder_read: "And remove from here this reminder.",
     tooltip_reminder_back_to_chat: "To continue chating about this reminder.",
-    tooltip_onboarding_button: "Talk about new topics.",
     tooltip_nav_home: "Go to home view.",
     tooltip_nav_chat: "Chat with the bot.",
     tooltip_nav_chat_history: "Go to check old chats.",

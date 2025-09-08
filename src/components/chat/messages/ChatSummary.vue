@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import useChat from '@/context/chat';
 import { getLastMessage, listChatKeywords, onAcceptSummary, onRejectSummary, removeKeyword } from '@/helpers/chatUtils';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
@@ -16,8 +15,6 @@ const props = defineProps<{
     message: ChatMessage
 }>();
 
-const chat = useChat();
-
 const contentKeyword = computed(() => {
     const lang = getUILanguage();
     return keywords.value.map(keyword => {
@@ -27,12 +24,7 @@ const contentKeyword = computed(() => {
     });
 });
 
-const getKeywords = (messages: ChatMessage[], until_message_id: string) => {
-    const i = messages.findIndex(x => x.id === until_message_id);
-    return listChatKeywords(messages.slice(0, i));
-};
-
-const keywords = computed(() => getKeywords(chat.messages, props.message.id));
+const keywords = computed(() => listChatKeywords());
 const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
 </script>
 

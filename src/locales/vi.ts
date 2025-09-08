@@ -14,7 +14,6 @@ const vi: Locale = {
 
     system_greeting:
         "Chào mừng đến với AIRe Talk! Bắt đầu bằng cách mô tả những trợ giúp bạn cần hoặc những triệu chứng bạn có.",
-    system_topic: "Bạn đã chọn chủ đề: ",
     system_found_content: "Tôi tìm thấy một số nội dung có thể bạn quan tâm. Hãy nhìn xem!",
     system_end_of_conversation: "Cuộc trò chuyện đã kết thúc",
     system_end_of_conversation_options: "Bạn muốn làm gì?",
@@ -158,21 +157,6 @@ const vi: Locale = {
     error_profile_password:
         "Không thể thay đổi mật khẩu. Kiểm tra xem mật khẩu bạn đã nhập có đúng không và mật khẩu mới có đáp ứng yêu cầu hay không.",
 
-    landing_view_title: "Chào mừng đến với AIRe platform",
-    landing_view_text:
-        "Hãy bắt đầu bằng cách điền những thông tin sơ bộ sau đây về bản thân bạn.",
-    landing_label_age: "Tuổi của bạn",
-    landing_label_occupation:
-        "Nghề nghiệp hiện tại và quá khứ của bạn. (Dùng dấu phẩy để phân cách các nghề nghiệp)",
-
-    onboarding_greetings: "Xin chào",
-    onboarding_question: "Bạn có muốn thảo luận về những chủ đề này?",
-    topic_backpain: "Đau lưng",
-    topic_neckpain: "Đau cổ",
-    topic_sleep_apnea: "Chứng ngưng thở lúc ngủ",
-    topic_increased_weight: "Tăng cân",
-    topic_trouble_talking: "Khó nói chuyện",
-
     summary_title: "Bản tóm tắt",
     summary_acceptation_question: "Tóm tắt có đúng không?",
 
@@ -273,7 +257,6 @@ const vi: Locale = {
     tooltip_reject_summary: "Tôi không chấp nhận bản tóm tắt này.",
     tooltip_mark_reminder_read: "Và xóa lời nhắc này từ đây.",
     tooltip_reminder_back_to_chat: "Tiếp tục trò chuyện về lời nhắc này.",
-    tooltip_onboarding_button: "Nói về các chủ đề mới.",
     tooltip_nav_home: "Đi đến trang chính.",
     tooltip_nav_chat: "Trò chuyện với bot.",
     tooltip_nav_chat_history: "Kiểm tra các cuộc trò chuyện cũ.",

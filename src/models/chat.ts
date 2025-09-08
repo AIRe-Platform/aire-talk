@@ -3,9 +3,9 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireChatMessage } from "aire";
-import { Topic } from "./topic";
+import { AireChatMessage, AireKeyword } from "aire";
 import { Questionnaire } from "./questionnaire";
+import { AireDocumentMetadata } from "submodules/aire-typescript-sdk/src/models/document";
 
 export enum ChatMessageType {
     // Default message style
@@ -65,9 +65,8 @@ export interface ChatState {
     questionnaire_queries?: string[];
     content_queries?: string[];
     red_flag_triggered?: boolean;
-    year_of_birth?: number;
-    occupation?: string;
-    topic?: Topic;
+    themes?: AireKeyword[];
+    documents?: AireDocumentMetadata[];
 }
 
 export interface ChatMessageGroup {

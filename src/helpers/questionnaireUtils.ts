@@ -24,8 +24,7 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
     if (!model.id)
         return undefined;
 
-    const chat = useChat();
-    const keywords = listChatKeywords(chat.messages);
+    const keywords = listChatKeywords();
     const questions = getRelevantQuestions(model, keywords);
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);

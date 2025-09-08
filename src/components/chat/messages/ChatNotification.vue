@@ -16,24 +16,24 @@ const props = defineProps<{
     message: ChatMessage;
 }>();
 
+const keyword = computed(() => (props.message.theme || props.message.content)!)
+
 const content = computed(() => {
     const lang = getUILanguage();
-    if (props.message.content) {
-        if (props.message.type == ChatMessageType.Keyword) {
-            return getKeywordTranslation(props.message.content, lang.value) ?? props.message.content;
-        }
+    if (props.message.type == ChatMessageType.Keyword) {
+        return getKeywordTranslation(keyword.value, lang.value);
     }
-    return props.message.content;
+    return keyword.value;
 });
 </script>
 
 <template>
     <div :id="props.message.id" class="chat-notification"
-        v-if="props.message.type == ChatMessageType.Keyword && props.message.content">
+        v-if="props.message.type == ChatMessageType.Keyword && content">
         {{ $t(l.notification_keyword, { keyword: content }) }}
         <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
             <button class="button-keyword-delete" type="button" :aria-label=$t(l.tooltip_remove_keyword)
-                @click="removeKeyword(props.message.content, true)">
+                @click="removeKeyword(keyword, true)">
                 <font-awesome-icon icon="fa-solid fa-xmark" />
             </button>
         </Tooltip>

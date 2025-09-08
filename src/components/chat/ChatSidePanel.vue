@@ -8,7 +8,6 @@ import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
-import useChat from '@/context/chat';
 import useQuestionnaire from '@/context/questionnaire';
 import Spinner from '@/components/common/Spinner.vue';
 import Panel from '@/components/common/Panel.vue';
@@ -27,7 +26,6 @@ const state = reactive<{
 });
 
 const props = defineProps<{ isOpen: boolean }>();
-const chat = useChat();
 
 const emits = defineEmits<{
     close: []
@@ -49,7 +47,7 @@ const generateSummary = async () => {
 const querySurveys = async () => {
     try {
         state.busy = true;
-        const keywords = listChatKeywords(chat.messages);
+        const keywords = listChatKeywords();
         const queried = await queryQuestionnaire(keywords);
         if (queried) {
             const questionnaire = createQuestionnaire(queried);
@@ -70,7 +68,7 @@ const askPersonalInformation = () => {
 }
 
 const makeSuggestions = () => {
-    const keywords = listChatKeywords(chat.messages);
+    const keywords = listChatKeywords();
     suggestContentWithKeywords(keywords);
 }
 
@@ -98,7 +96,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_query_surveys)" position="top" :useMaxContent="false" :adjustPosition="true"
-                v-if="listChatKeywords(chat.messages).length > 0 && !questionnaires.active">
+                v-if="listChatKeywords().length > 0 && !questionnaires.active">
                 <button class="btn chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_query_surveys) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
