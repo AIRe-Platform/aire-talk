@@ -36,7 +36,7 @@ const RecallController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("recall", q);
+        return createQuestionnaireMessage("recall", q, false);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
@@ -101,7 +101,7 @@ const RecallController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("recall", q);
+        return createQuestionnaireMessage("recall", q, false);
     }
 }
 
@@ -119,7 +119,7 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
         if (!chatLog)
             return;
 
-        const keywords = listChatKeywords(chatLog.messages);
+        const keywords = listChatKeywords();
         keywords.forEach(x => {
             if (!foundKeywords.includes(x))
                 foundKeywords.push(x);
@@ -133,7 +133,7 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
     if (foundKeywords.length > 0) {
         questions.push({
             id: "recall-keywords",
-            prompt: "[User would like to talk about these keyword topics: ",
+            prompt: "[User would like to talk about these themes: ",
             question: i18n.global.t(l.recall_keyword_question),
             type: AireQuestionOptionType.Checkbox,
             required: true,

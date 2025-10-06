@@ -42,7 +42,7 @@ const openUrl = (url?: string) => {
             statistics.sendEvent(new ContentEvent(
                 props.content?.id,
                 props.content?.name,
-                listChatKeywords(chat.messages).join(','),
+                listChatKeywords().join(','),
                 chat.id,
                 login.user?.uuid,
                 statistics.session?.id,

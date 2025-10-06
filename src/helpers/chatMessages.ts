@@ -7,7 +7,7 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireReminder } from "aire";
+import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireReminder, AireKeyword } from "aire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -88,8 +88,22 @@ export function createInstructionMessage(instructions: string): ChatMessage {
     return createMessage(ChatMessageType.Instruction, "system", `[INST]${instructions}[/INST]`, false, true);
 }
 
-export function createKeywordMessage(keyword: string) {
-    return createMessage(ChatMessageType.Keyword, "assistant", keyword);
+export function createKeywordMessage(keyword: AireKeyword): ChatMessage {
+    let prompt = `[INST]The system has identified a topic: ${keyword.value}`
+    if (keyword.prompt)
+        prompt += `
+        ${keyword.prompt}
+    `
+    if (keyword.document)
+        prompt += `
+        Document attached to this topic: '${keyword.document}'
+        Use document search to find information in the document
+    `
+    prompt += "[/INST]"
+
+    const msg = createMessage(ChatMessageType.Keyword, "system", prompt);
+    msg.theme = keyword.value;
+    return msg;
 }
 
 export function createSummaryMessage(summary: string) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2025-09-03
+- EN localization of ToS and Privacy Policy
+- Show localized ToS & Privacy Policy if available, else show EN versions
+
 ## 2025-06-19
 - Hid development version footer bar
 - Translation fixes

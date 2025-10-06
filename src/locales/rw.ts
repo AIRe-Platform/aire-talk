@@ -14,7 +14,6 @@ const rw: Locale = {
 
     system_greeting:
         "Murakaza neza ku rubuga rwa AIRe. Tangira utubwira, icyo wifuza ko tugufasha cyangwa ibimenyetso by'uburwayi bwawe.",
-    system_topic: "Wahisemo ingingo:",
     system_found_content: "Hari amakuru ashobora kugira icyo agufasha. Reba ayo makuru witonze.",
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
@@ -155,20 +154,6 @@ const rw: Locale = {
         "Gusiba konte ntabwo byemeye. Ongera ugerageze nyuma",
     error_profile_password:
         "Guhindura ijambo ry'ibanga ntabwo byakunze. Reba neza ko ijambo ryibanga winjije ariryo kandi ko ijambo ryibanga rishya ryujuje ibisabwa.",
-    landing_view_title: "Murakaza neza ku rubuga rwa AIRe!",
-    landing_view_text:
-        "Reka dutangire twuzuza amakuru y'ibanze akwerekeyeho",
-    landing_label_age: "Imyaka yawe",
-    landing_label_occupation:
-        "Akazi ukora uyu munsu ndetse ni ako wakoraga mbere  (Koresha akitso kugirango ubitandukanye)",
-
-    onboarding_greetings: "Muraho neza",
-    onboarding_question: "Urashaka kuganira kuri izi ngingo?",
-    topic_backpain: "Kubabara umugongo",
-    topic_neckpain: "Kubabara mu ijosi",
-    topic_sleep_apnea: "Kubura ibitotsi",
-    topic_increased_weight: "Kongera ibiro",
-    topic_trouble_talking: "Ibibazo byo kunanirwa kuvuga",
 
     summary_title: "Incamake",
     summary_acceptation_question: "Incamake nukuri?",
@@ -269,7 +254,6 @@ const rw: Locale = {
     tooltip_reject_summary: "Sinemera iyi ncamake.",
     tooltip_mark_reminder_read: "Kandi ubikureho hano uyu mwibutsa.",
     tooltip_reminder_back_to_chat: "Komeza kuganira kuri uyu mwibutsa.",
-    tooltip_onboarding_button: "Vuga ku ngingo nshya.",
     tooltip_nav_home: "Gana ahabanza.",
     tooltip_nav_chat: "Jya kuganira n'ubutumwa bwikora.",
     tooltip_nav_chat_history: "Sura ibiganiro byashize.",

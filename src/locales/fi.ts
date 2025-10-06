@@ -14,7 +14,6 @@ const fi: Locale = {
 
     system_greeting:
         "Tervetuloa AIRe-palveluun! Aloita kuvailemalla tilannettasi tai tarvitsemaasi apua.",
-    system_topic: "Olet valinnut aiheeksi: ",
     system_found_content: "Löysin sisältöä, joka saattaa kiinnostaa sinua!",
     system_end_of_conversation: "Keskustelu on päättynyt",
     system_end_of_conversation_options: "Miten haluat jatkaa?",
@@ -161,22 +160,6 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     error_profile_password:
         "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset.",
 
-    landing_view_title: "Tervetuloa AIRe-palveluun!",
-    landing_view_text:
-        "Aloita täyttämällä seuraavat taustatiedot itsestäsi.",
-    landing_label_age: "Syntymävuosi",
-    landing_label_occupation:
-        "Nykyinen ja aiemmat ammattisi (Voit erottaa ammatit pilkulla)",
-
-    onboarding_greetings: "Hei!",
-    onboarding_question: "Haluaisitko keskustella esimerkiksi näistä aiheista?",
-
-    topic_backpain: "Selkäkipu",
-    topic_neckpain: "Niskakipu",
-    topic_sleep_apnea: "Uniapnea",
-    topic_increased_weight: "Painonnousu",
-    topic_trouble_talking: "Puhevaikeudet",
-
     summary_title: "Yhteenveto",
     summary_acceptation_question: "Onko tiivistelmä oikein?",
 
@@ -275,7 +258,6 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_reject_summary: "En hyväksy tätä yhteenvetoa.",
     tooltip_mark_reminder_read: "Ja poista tämä muistutus täältä.",
     tooltip_reminder_back_to_chat: "Jatka keskustelua tästä muistutuksesta.",
-    tooltip_onboarding_button: "Keskustele uusista aiheista.",
     tooltip_nav_home: "Siirry kotinäkymään.",
     tooltip_nav_chat: "Keskustele botin kanssa.",
     tooltip_nav_chat_history: "Tarkastele vanhoja keskusteluja.",

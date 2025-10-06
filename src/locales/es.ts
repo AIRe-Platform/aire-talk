@@ -12,7 +12,6 @@ const es: Locale = {
     footer: "Versión",
     not_found: "Página no encontrada",
 
-    system_topic: "Has seleccionado un tema: ",
     system_greeting: "¡Bienvenido a AIRe Talk! Empiza por describir qué tipo de ayuda necesitas o cuáles son los síntomas que tienes.",
     system_found_content: "Encontré contenido que puede interesarte. ¡Echar un vistazo!",
     system_end_of_conversation: "La conversación ha finalizado",
@@ -151,20 +150,6 @@ const es: Locale = {
     error_profile_delete_account: "Error al borrar la cuenta. Por favor, inténtelo más tarde.",
     error_profile_password: "Error al cambiar la contraseña. Compruebe que la contraseña que has introducido es correcta y que la nueva contraseña cumple con los requisitos.",
 
-    landing_view_title: "Bienvenido a la plataforma AIRe",
-    landing_view_text: "Comencemos completando la siguiente información preliminar sobre usted.",
-    landing_label_age: "Tu edad",
-    landing_label_occupation: "Tus ocupaciones actuales y pasadas. (Utilice comas para separar las ocupaciones)",
-
-    onboarding_greetings: "¡Hola!",
-    onboarding_question: "¿Le gustaría discutir sobre estos temas?",
-
-    topic_backpain: "Dolor de espalda",
-    topic_neckpain: "Dolor de cuello",
-    topic_sleep_apnea: "Apnea del sueño",
-    topic_increased_weight: "Aumento de peso",
-    topic_trouble_talking: "Problemas para hablar",
-
     summary_title: "Resumen",
     summary_acceptation_question: "¿Es correcto el resumen?",
 
@@ -260,7 +245,6 @@ const es: Locale = {
     tooltip_reject_summary: "No acepto este resumen.",
     tooltip_mark_reminder_read: "Y elimina el recordatorio de aquí.",
     tooltip_reminder_back_to_chat: "Ir al chat de este recordatorio.",
-    tooltip_onboarding_button: "Buscar nuevos temas.",
     tooltip_nav_home: "Ir a la vista principal.",
     tooltip_nav_chat: "Ir a chatear con el bot.",
     tooltip_nav_chat_history: "Ir a revisar chats antiguos.",
