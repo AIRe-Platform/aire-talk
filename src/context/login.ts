@@ -3,7 +3,15 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireServices, AireUser, AireStatus, AireErrorResult, AireLoginOptions, AireAuthCodeLoginOptions, AireLogoutOptions } from "aire";
+import {
+    AireServices,
+    AireUser,
+    AireStatus,
+    AireErrorResult,
+    AireLoginOptions,
+    AireAuthCodeLoginOptions,
+    AireLogoutOptions
+} from "aire";
 import { reactive, watch } from "vue";
 import useChat from "./chat";
 import useContent from "./content";
@@ -11,7 +19,12 @@ import { randomHexString, SHA256 } from "@/helpers/crypto";
 import { getUILanguage } from "@/locales";
 import useTheme from "./theme";
 import useStatistics from "./statistics";
-import { ConfigurationEventName, ConfigurationEvent, SessionEventName, SessionEvent } from "@/models/statistics";
+import {
+    ConfigurationEventName,
+    ConfigurationEvent,
+    SessionEventName,
+    SessionEvent
+} from "@/models/statistics";
 
 const statistics = useStatistics();
 
@@ -43,7 +56,7 @@ export class LoginContext {
                 code_challenge_method: "S256",
                 redirect_uri: document.location.origin + "/auth/callback",
                 locale: getUILanguage().value,
-                theme: useTheme().style.includes("dark") ? "dark" : "light"
+                theme: useTheme().style.includes("dark") ? "dark" : "light",
             };
 
             this.auth_state = {
@@ -82,7 +95,7 @@ export class LoginContext {
                 code: code,
                 code_verifier: this.auth_state.code_verifier,
                 state: this.auth_state.state,
-                redirect_uri: document.location.origin + "/auth/callback"
+                redirect_uri: document.location.origin + "/auth/callback",
             };
 
             const response = await AireServices.ID.loginWithCode(options);

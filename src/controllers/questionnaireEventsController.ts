@@ -2,7 +2,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 import {
     AireContent,
     AireQuestion,
@@ -44,7 +43,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("feedback_personal", q);
+        return createQuestionnaireMessage("feedback_personal", q, true);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any)  =>  {
         const context = useQuestionnaire();
@@ -87,7 +86,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("feedback_personal", q);
+        return createQuestionnaireMessage("feedback_personal", q, true);
     }
 }
 

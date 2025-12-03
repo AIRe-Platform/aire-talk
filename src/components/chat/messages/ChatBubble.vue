@@ -39,7 +39,7 @@ const onTTS = () => {
             <h2 class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
                 {{ (props.message.role === 'assistant') ? $t(message.sender) : message.sender }}
             </h2>
-            <span class="chat-bubble-text">
+            <span class="chat-bubble-text" v-if="message.content">
                 <VueMarkdown :source="message.content" />
             </span>
             <span class="chat-bubble-buttons" v-if="props.message.role === 'assistant'">

@@ -15,6 +15,7 @@ const props = defineProps<{
 
 // Emit function to send changes to parent
 const emit = defineEmits<{
+    // eslint-disable-next-line no-unused-vars
     (e: 'update:selectedKeywords', selected: AireKeyword[]): void; // Emit event when selection changes
 }>();
 

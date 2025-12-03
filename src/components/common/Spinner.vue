@@ -5,6 +5,8 @@
 
 <script setup lang="ts">
 import { isSpinnerVisible, spinnerMessage } from '@/helpers/spinnerUtils';
+import { defineComponent } from 'vue';
+defineComponent({ name: "SpinnerComponent" });
 </script>
 
 <template>
