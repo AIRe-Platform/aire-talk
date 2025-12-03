@@ -66,9 +66,10 @@ VS Code: Use Vue Language Features plugin as your formatting tool to automatical
 ## Environment Values
 
 - `VITE_COMMIT_HASH` Adds commit hash into the page footer
-- `VITE_COMMIT_TAG` Adds tag into the page footer
+- `VITE_COMMIT_TAG` Adds tag into the page footer, e.g., deployment date
 - `VITE_AIRE_SERVICES_ENDPOINT` URL to the AIRe Services API endpoints.
 - `VITE_AIRE_CLIENT_ID` Client identifier GUID (registered in AIRe ID).
+- `VITE_AIRE_PLATFORM` Identifier of the service platform configuration.
 
 ## Manual Deployment to Azure Static Web Apps
 
@@ -76,8 +77,10 @@ Create `.env.production` file:
 
 ```sh
 VITE_COMMIT_TAG="production"
+VITE_COMMIT_HASH="1234567"
 VITE_AIRE_SERVICES_ENDPOINT="https://url-to-production-services/api"
-VITE_AIRE_CLIENT_ID=production-client-id
+VITE_AIRE_CLIENT_ID="production-client-id"
+VITE_AIRE_PlATFORM="product-platform"
 ```
 
 Build the project using `npm run build`.

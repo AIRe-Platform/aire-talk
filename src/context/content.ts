@@ -3,9 +3,10 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireServices, AireStatus, AireContent, AireContentType } from "aire";
+import { AireStatus, AireContent, AireContentType } from "aire";
 import { reactive } from "vue";
 import { useContentCache } from "./cache";
+import useAireMemory from "./memory";
 
 export class ContentContext {
     private ratings: Map<string, number>;
@@ -25,12 +26,13 @@ export class ContentContext {
      * @returns List of found content, sorted first by rating and then by modification date
      */
     public async search(keywords: string[], max_items: number | undefined): Promise<AireContent[]> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
+        const memory = useAireMemory().agentMemory();
+        if (!memory) {
+            console.warn("Memory service is unavailable for this agent");
             return [];
         }
 
-        return await AireServices.Memory.searchContent(keywords)
+        return await memory.searchContent(keywords)
             .then((result) => {
                 if (!result.data) {
                     throw Error(result.status.toString())
@@ -74,12 +76,13 @@ export class ContentContext {
      * @param vote > 0 for an upvote, < 0 for a downvote, 0 to undo vote
      */
     public async vote(content_id: string, vote: number): Promise<boolean> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
+        const memory = useAireMemory().agentMemory();
+        if (!memory) {
+            console.warn("Memory service is unavailable for this agent");
             return false;
         }
 
-        return await AireServices.Memory.postContentRating(content_id, vote)
+        return await memory.postContentRating(content_id, vote)
             .then((result) => {
                 if (result.status !== AireStatus.Success) {
                     throw Error(result.status.toString());
@@ -95,8 +98,10 @@ export class ContentContext {
 
     public async get(content_id: string): Promise<AireContent | undefined> {
         const cache = useContentCache();
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+        const memory = useAireMemory().agentMemory();
+
+        if (!memory) {
+            console.warn("Memory service is not available for this agent");
             return;
         }
     
@@ -131,7 +136,7 @@ export class ContentContext {
         }
     
         // Fetch fresh content if cached data is invalid or missing
-        return await AireServices.Memory.getContentWithId(content_id)
+        return await memory.getContentWithId(content_id)
             .then((result) => {
                 if (result.data) {
                     // Update the cache with fresh data
@@ -153,12 +158,13 @@ export class ContentContext {
         if (vote)
             return vote;
 
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+        const memory = useAireMemory().agentMemory();
+        if (!memory) {
+            console.warn("Memory service is not available for this agent");
             return 0;
         }
 
-        return await AireServices.Memory.getContentRating(content_id)
+        return await memory.getContentRating(content_id)
             .then((result) => {
                 if (result.data) {
                     return result.data.vote;
@@ -179,12 +185,13 @@ export class ContentContext {
     }
 
     public async addViewCount(content_id: string) {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+        const memory = useAireMemory().agentMemory();
+        if (!memory) {
+            console.warn("Memory service is not available for this agent");
             return;
         }
 
-        await AireServices.Memory.postContentView(content_id)
+        await memory.postContentView(content_id)
             .then((result) => {
                 if (result.data) {
                     const cache = useContentCache();

@@ -38,11 +38,21 @@ import { DateTime } from "luxon";
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
 import useStatistics from "@/context/statistics";
-import { ChatSummaryAcceptEvent, ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
+import {
+    ChatSummaryAcceptEvent,
+    ChatThemeEvent,
+    ChatThemeEventName,
+    ContentEvent,
+    ContentEventName,
+    ReminderEvent,
+    ReminderEventName
+} from "@/models/statistics";
 import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
 import { updateKeywordMetadata } from "./keywordUtils";
 import { AireDocumentSearchEvent } from "submodules/aire-typescript-sdk/src/models/document";
+import AireAgent from "submodules/aire-typescript-sdk/src/models/agent";
+import useAireMemory from "@/context/memory";
 
 const statistics = useStatistics();
 const chat = useChat();
@@ -53,8 +63,9 @@ const login = useLogin();
  * @returns array of chats format id: string, date: string
  */
 export async function getAllChats(): Promise<AireChatMetadata[]> {
-    if (AireServices.Memory) {
-        const result = await AireServices.Memory.getChatlogs()
+    const memory = useAireMemory().defaultMemory();
+    if (memory) {
+        const result = await memory.getChatlogs()
         if (result.data) {
             return result.data.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
@@ -85,10 +96,10 @@ export function getChatbotInputData(): AireChatbotInput {
     const locale = getUILanguage();
 
     const messages = chat.messages
-        .filter(x => 
-            x.role === "assistant" || 
-            x.role === "user" || 
-            x.type == ChatMessageType.Instruction || 
+        .filter(x =>
+            x.role === "assistant" ||
+            x.role === "user" ||
+            x.type == ChatMessageType.Instruction ||
             x.type == ChatMessageType.Keyword)
         .map(x => {
             const m: AireChatMessage = x;
@@ -102,7 +113,8 @@ export function getChatbotInputData(): AireChatbotInput {
             language: locale.value,
             themes: chat.state.themes,
             documents: chat.state.documents,
-        }
+        },
+        agent: chat.state.agent
     };
 
     return input;
@@ -399,8 +411,9 @@ export function pushKeyword(keyword: AireKeyword) {
             chat.state.documents = [];
 
         if (chat.state.documents.findIndex(x => x.source === keyword.document) < 0) {
-            if (AireServices.Memory) {
-                AireServices.Memory.getDocumentWithId(keyword.document)
+            const memory = useAireMemory().agentMemory();
+            if (memory) {
+                memory.getDocumentWithId(keyword.document)
                     .then(res => {
                         if (res.data)
                             chat.state.documents?.push(res.data)
@@ -418,7 +431,8 @@ export function pushKeyword(keyword: AireKeyword) {
         login.user?.uuid,
         statistics.session?.id,
         ChatThemeEventName.ThemeAdded
-    ));}
+    ));
+}
 
 /**
  * Finds keyword notification message and its injected prompt
@@ -493,8 +507,10 @@ export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
                 return 0;
         }).pop();
 
-        if (best && AireServices.Memory) {
-            const result = await AireServices.Memory.getQuestionnaire(best.id);
+        const memory = useAireMemory().agentMemory();
+
+        if (best && memory) {
+            const result = await memory.getQuestionnaire(best.id);
             if (result.status === AireStatus.Success && result.data) {
                 const q = createQuestionnaire(result.data);
                 if (q) {
@@ -644,4 +660,16 @@ export async function handleEndEvent(e: AireChatbotEndEvent) {
     }
 
     newMessage = false;
+}
+
+export function getCurrentAgent(): AireAgent | undefined {
+    const chat = useChat();
+    if (chat.state.agent)
+        return AireServices.Agents?.find(x => x.name == chat.state.agent);
+    else
+        return getDefaultAgent();
+}
+
+export function getDefaultAgent(): AireAgent | undefined {
+    return AireServices.Agents?.at(0);
 }

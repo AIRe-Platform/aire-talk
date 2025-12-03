@@ -33,12 +33,14 @@ import {
     handleMessageEvent,
     findChatKeywords,
     handleDocumentResultsEvent,
+    getDefaultAgent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
+import useAireMemory from "./memory";
 
 export class ChatContext {
     id?: string;
@@ -79,7 +81,9 @@ export class ChatContext {
         this.messages = [];
         this.modified = false;
         this.stats = {};
-        this.state = {};
+        this.state = {
+            agent: getDefaultAgent()?.name
+        };
         useQuestionnaire().reset();
         this.is_feedback_given = false;
         this.response_received = false;
@@ -232,8 +236,9 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
+        const memory = useAireMemory().defaultMemory();
 
-        if (AireServices.Memory) {
+        if (memory) {
             this.state.summary = findLatestSummaryMessage(this.messages)?.content;
             this.state.questionnaire = questionnaire.active;
 
@@ -245,7 +250,7 @@ export class ChatContext {
 
             const cache = useChatCache();
 
-            await AireServices.Memory.saveChat(chatLog, this.id)
+            await memory.saveChat(chatLog, this.id)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
                         cache.set(result.data.id, {
@@ -300,8 +305,10 @@ export class ChatContext {
         if (chat_id == this.id)
             await this.reset(true, false)
 
-        if (AireServices.Memory) {
-            await AireServices.Memory.deleteChat(chat_id)
+        const memory = useAireMemory().defaultMemory();
+
+        if (memory) {
+            await memory.deleteChat(chat_id)
                 .then((status) => {
                     if (status === AireStatus.Success) {
                         console.log("Chat deleted", chat_id);
@@ -323,8 +330,9 @@ export class ChatContext {
             return true;
         }
 
-        if (AireServices.Memory) {
-            const result = await AireServices.Memory.getChat(chat_id);
+        const memory = useAireMemory().defaultMemory();
+        if (memory) {
+            const result = await memory.getChat(chat_id);
             if (result.status != AireStatus.Success || !result.data)
                 return false;
 
@@ -335,7 +343,7 @@ export class ChatContext {
             // Old chat logs do not have themes in the state object,
             // one has to look for the keywords in the messages
             if (!state.themes)
-                state.themes = await updateKeywordMetadata(findChatKeywords(messages))
+                state.themes = await updateKeywordMetadata(findChatKeywords(messages), state.agent)
 
             cache.set(chat_id, {
                 messages: messages,

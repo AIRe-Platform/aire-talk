@@ -3,16 +3,18 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { useChatCache, useKeywordCache } from "@/context/cache";
-import { AireChatMetadata, AireKeyword, AireServices, AireStatus } from "aire";
+import { AireChatMetadata, AireKeyword, AireStatus } from "aire";
 import { LanguageCode } from "iso-639-1";
 import { getAllChats, listChatKeywords } from "./chatUtils";
 import useChat from "@/context/chat";
 import { getUILanguage } from "@/locales";
+import useAireMemory from "@/context/memory";
 
+export async function updateKeywordMetadata(keywords?: string[], agent?: string): Promise<AireKeyword[]> {
+    const memory = useAireMemory().agentOrDefaultMemory(agent);
 
-export async function updateKeywordMetadata(keywords?: string[]): Promise<AireKeyword[]> {
-    if (!AireServices.Memory) {
-        console.warn("Memory service is unavailable");
+    if (!memory) {
+        console.warn("Memory service is unavailable for this agent");
         return [];
     }
 
@@ -24,7 +26,7 @@ export async function updateKeywordMetadata(keywords?: string[]): Promise<AireKe
     const results = new Array<AireKeyword>();
 
     for (let i = 0; i < keywords.length; i++) {
-        await AireServices.Memory?.getKeyword(keywords[i])
+        await memory.getKeyword(keywords[i])
             .then(result => {
                 if (result.status == AireStatus.Success && result.data) {
                     cache.set(result.data.value, result.data);

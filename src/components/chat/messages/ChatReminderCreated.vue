@@ -9,7 +9,7 @@ import { computed, defineProps, onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { DateTime } from 'luxon';
 import { l } from '@/locales';
-import { AireServices, AireStatus } from 'aire';
+import useReminders from '@/context/reminders';
 
 const props = defineProps<{
     message: ChatMessage
@@ -23,12 +23,13 @@ const state = reactive<{
     cancelled: false
 });
 
+const reminders = useReminders();
 
 const cancelReminder = () => {
-    if (!props.message.reminder?.id || !AireServices.Memory || state.cancelled)
+    if (!props.message.reminder?.id || state.cancelled)
         return;
     state.busy = true; // Leave busy
-    AireServices.Memory.deleteReminder(props.message.reminder.id)
+    reminders.deleteReminder(props.message.reminder.id)
         .then(() => state.cancelled = true);
 }
 
@@ -36,12 +37,12 @@ const showCancelButton = computed(() =>
     props.message.reminder?.id && !state.busy && !state.cancelled);
 
 const fetchReminder = () => {
-    if (!props.message.reminder?.id || !AireServices.Memory)
+    if (!props.message.reminder?.id)
         return;
     state.busy = true;
-    AireServices.Memory.getReminder(props.message.reminder.id)
+    reminders.getReminder(props.message.reminder.id)
         .then(res => {
-            state.cancelled = (res.status === AireStatus.NotFound);
+            state.cancelled = (res === undefined);
         })
         .finally(() => state.busy = false)
 }

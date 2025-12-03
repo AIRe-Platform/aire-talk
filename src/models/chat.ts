@@ -67,6 +67,7 @@ export interface ChatState {
     red_flag_triggered?: boolean;
     themes?: AireKeyword[];
     documents?: AireDocumentMetadata[];
+    agent?: string;
 }
 
 export interface ChatMessageGroup {

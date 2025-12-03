@@ -11,12 +11,22 @@ import { checkAnswerForRedFlag, triggerRedFlag } from "@/helpers/questionnaireFl
 import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
 import i18n, { l } from "@/locales";
 import { Questionnaire } from "@/models/questionnaire";
-import { AireQuestion, AireQuestionOption, AireQuestionOptionCheckbox, AireQuestionOptionType, AireQuestionnaireAnswer, AireQuestionnaireResults, AireServices, AireStatus } from "aire";
+import {
+    AireQuestion,
+    AireQuestionOption,
+    AireQuestionOptionCheckbox,
+    AireQuestionOptionType,
+    AireQuestionnaireAnswer,
+    AireQuestionnaireResults,
+    AireServices,
+    AireStatus
+} from "aire";
 import QuestionnaireController from "./questionnaireController";
 import useStatistics from "@/context/statistics";
 import useLogin from "@/context/login";
 import { FeedbackEvent } from "@/models/statistics";
 import { ChatMessageType } from "@/models/chat";
+import useAireMemory from "@/context/memory";
 
 const DefaultQuestionnaireController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -43,7 +53,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const statistics = useStatistics();
         const user = useLogin();
         const questionFeedbackId: string = "feedback.";
-        
+
         if (question.question_id === `${self.id}_start`) {
             if (answer.includes(i18n.global.t(l.button_yes)))
                 context.nextQuestion();
@@ -60,7 +70,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             question.answer = answer;
             question.is_feedback = true;
             const themes: string[] = [];
-            chat.messages.forEach( message => {
+            chat.messages.forEach(message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
                     themes.push(message.content!);
                 }
@@ -77,19 +87,19 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 if (answerIndex === -1) {
                     answerIndex = question.answer;
                 }
-            }else{
+            } else {
                 answerIndex = question.answer;
             }
-            
+
             statistics.sendEvent(new FeedbackEvent(
-                    questionFeedbackId + question.question_id,
-                    chat.id,
-                    user.user?.uuid,
-                    answerIndex,
-                    question.question,
-                    statistics.session?.id,
-                    themesString
-                ));
+                questionFeedbackId + question.question_id,
+                chat.id,
+                user.user?.uuid,
+                answerIndex,
+                question.question,
+                statistics.session?.id,
+                themesString
+            ));
 
             if (checkAnswerForRedFlag(question))
                 triggerRedFlag();
@@ -186,12 +196,13 @@ async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): P
 }
 
 async function saveResults(results: AireQuestionnaireResults): Promise<boolean> {
-    if (!AireServices.Memory) {
-        console.warn("Memory module is not available for saving");
+    const memory = useAireMemory().agentMemory();
+    if (!memory) {
+        console.warn("Memory module is not available for this agent");
         return false;
     }
 
-    return await AireServices.Memory.saveQuestionnaireResults(results)
+    return await memory.saveQuestionnaireResults(results)
         .then((result) => {
             if (result.status === AireStatus.Success) {
                 return true;

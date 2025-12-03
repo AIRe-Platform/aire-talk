@@ -71,7 +71,8 @@ async function initApp() {
 
     return await aireInit({
         api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
-        client_id: import.meta.env.VITE_AIRE_CLIENT_ID
+        client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
+        config_id: import.meta.env.VITE_AIRE_PLATFORM
     })
         .then(async (result) => {
             if (result) {
