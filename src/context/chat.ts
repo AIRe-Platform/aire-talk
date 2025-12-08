@@ -10,6 +10,7 @@ import {
     AireTalkEvent,
     AireChatLog,
     AireStatus,
+    AireEventType,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -409,42 +410,47 @@ async function receiver(e: AireTalkEvent) {
     if (chat.state.red_flag_triggered)
         return;
 
-    if (e.type === "keywords" && e.keywords) {
+    if (e.type === AireEventType.Keywords && e.keywords) {
         await handleKeywordEvent(e.keywords);
         return;
     }
 
-    if (e.type === "questionnaire" && e.questionnaire) {
+    if (e.type === AireEventType.Questionnaire && e.questionnaire) {
         await handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
-    if (e.type === "content-suggestions" && e.content_suggestions) {
+    if (e.type === AireEventType.ContentSuggestions && e.content_suggestions) {
         //await handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
-    if (e.type === "token-count") {
+    if (e.type === AireEventType.TokenCount) {
         chat.stats.token_count = e.tokenCount
         return;
     }
 
-    if (e.type === "reminder" && e.reminder) {
+    if (e.type === AireEventType.Reminder && e.reminder) {
         await handleReminderEvent(e.reminder);
         return;
     }
 
-    if (e.type === "document-results" && e.document_results) {
+    if (e.type === AireEventType.DocumentResults && e.document_results) {
         await handleDocumentResultsEvent(e.document_results);
         return;
     }
 
-    if (e.type === "message" && e.message) {
+    if (e.type === AireEventType.AgentSwitch && e.agent) {
+        chat.state.agent = e.agent;
+        return;
+    }
+
+    if (e.type === AireEventType.Message && e.message) {
         chat.response_received = true;
         await handleMessageEvent(e.message);
     }
 
-    if (e.type === "end" && e.end) {
+    if (e.type === AireEventType.End && e.end) {
         await handleEndEvent(e.end);
         useChatbot().reportReady();
 
