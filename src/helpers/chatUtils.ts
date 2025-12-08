@@ -6,15 +6,17 @@ import useChat from "@/context/chat";
 import { getUILanguage, l } from "@/locales";
 import { ChatMessage, ChatMessageTag, ChatMessageType } from "@/models/chat";
 import {
+    AireAgent,
     AireChatMessage,
     AireChatMetadata,
     AireChatStats,
-    AireChatbotEndEvent,
     AireChatbotInput,
-    AireChatbotMessageEvent,
     AireContent,
     AireContentEvent,
+    AireDocumentResultsEvent,
+    AireEndEvent,
     AireKeyword,
+    AireMessageEvent,
     AireQuestionnaireEvent,
     AireReminder,
     AireServices,
@@ -50,8 +52,6 @@ import {
 import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
 import { updateKeywordMetadata } from "./keywordUtils";
-import { AireDocumentSearchEvent } from "submodules/aire-typescript-sdk/src/models/document";
-import AireAgent from "submodules/aire-typescript-sdk/src/models/agent";
 import useAireMemory from "@/context/memory";
 
 const statistics = useStatistics();
@@ -581,7 +581,7 @@ export async function handleReminderEvent(reminder: AireReminder) {
     chat.push(inst);
 }
 
-export async function handleDocumentResultsEvent(e: AireDocumentSearchEvent) {
+export async function handleDocumentResultsEvent(e: AireDocumentResultsEvent) {
     console.debug("Handling document results event", e);
 
     const inst = e.results.length > 0 ? `
@@ -599,7 +599,7 @@ export async function handleDocumentResultsEvent(e: AireDocumentSearchEvent) {
 }
 
 let newMessage = false;
-export async function handleMessageEvent(message: AireChatbotMessageEvent) {
+export async function handleMessageEvent(message: AireMessageEvent) {
     let last = chat.messages[chat.messages.length - 1];
     let firstMessage = false // start of the answer stream?
 
@@ -621,7 +621,7 @@ export async function handleMessageEvent(message: AireChatbotMessageEvent) {
     chat.push(last, firstMessage, false);
 }
 
-export async function handleEndEvent(e: AireChatbotEndEvent) {
+export async function handleEndEvent(e: AireEndEvent) {
     let endConversation = false;
 
     const message = chat.messages
