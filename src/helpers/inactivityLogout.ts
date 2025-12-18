@@ -34,7 +34,7 @@ export const startInactivityListener = (logoutCallback: () => void, warningCallb
         return; // Prevent re-adding event listeners
 
     if (logoutTimerStart === undefined) {
-        const timeout = AireServices?.Settings?.inactivityDuration;
+        const timeout = AireServices?.Settings?.inactivity_duration;
         if (!timeout)
             throw new Error("Inactivity duration has not been configured");
 
