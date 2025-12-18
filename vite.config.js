@@ -33,5 +33,8 @@ function manualChunks(id) {
     if (id.includes('aire-typescript-sdk'))
         return 'aire';
 
+    if (id.includes('locales'))
+        return 'locales';
+
     return null;
 }
