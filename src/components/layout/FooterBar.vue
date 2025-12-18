@@ -8,11 +8,13 @@ const version = {
     hash: import.meta.env.VITE_COMMIT_HASH,
     tag: import.meta.env.VITE_COMMIT_TAG
 }
+
+const isDevel = import.meta.env.VITE_AIRE_ENVIRONMENT === 'development';
 </script>
 
 <template>
     <div id="footer-container">
-        <footer class="footer">
+        <footer :class="{ 'footer': true, 'devel': isDevel }">
             <b>{{ $t("footer") }}{{ version.hash && ` - ${version.hash}` }}{{ version.tag && ` - ${version.tag}` }}</b>
         </footer>
     </div>
@@ -34,6 +36,12 @@ const version = {
 .footer {
     display: flex;
     justify-content: space-evenly;
+    flex-grow: 1;
+}
+
+.devel {
+    background-color: yellow;
+    color: black;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
