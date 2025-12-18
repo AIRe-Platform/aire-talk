@@ -5,7 +5,6 @@
 <script setup lang="ts">
 import { supportedLocales, setUILanguage, l } from "@/locales";
 import ISO6391, { LanguageCode } from 'iso-639-1';
-import { defineEmits, defineProps } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 
 const emit = defineEmits(['languageSelected']);

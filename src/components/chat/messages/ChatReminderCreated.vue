@@ -3,9 +3,8 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 
-
 <script setup lang="ts">
-import { computed, defineProps, onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { DateTime } from 'luxon';
 import { l } from '@/locales';

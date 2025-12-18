@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 import VueMarkdown from 'vue-markdown-render';

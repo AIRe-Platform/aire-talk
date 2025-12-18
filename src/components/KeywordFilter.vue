@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { getUILanguage } from '@/locales';
 import { AireKeyword } from 'aire';
-import { defineProps, defineEmits, computed } from 'vue';
+import { computed } from 'vue';
 
 // Define the props interface
 const props = defineProps<{

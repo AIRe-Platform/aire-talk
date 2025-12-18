@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, reactive } from "vue";
+import { computed, reactive } from "vue";
 import { router } from "@/router";
 import Tooltip from "@/components/common/Tooltip.vue";
 import useChat from "@/context/chat";

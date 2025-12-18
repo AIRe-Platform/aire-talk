@@ -5,9 +5,9 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { defineEmits, nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
-import { router } from "@/router";
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
+import { router } from "@/router";
 import { UIState, UIPanels, UISettings } from "@/context/ui";
 import useChat from "@/context/chat";
 import { getAllChats } from "@/helpers/chatUtils";

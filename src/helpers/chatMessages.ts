@@ -7,7 +7,15 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireReminder, AireKeyword } from "aire";
+import {
+    AireChatMessage,
+    AireChatRole,
+    AireQuestionnaireAnswer,
+    AireContent,
+    AireQuestion,
+    AireReminder,
+    AireKeyword
+} from "aire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"

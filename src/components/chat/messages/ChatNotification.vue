@@ -3,9 +3,8 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 
-
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';

@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import useChat from '@/context/chat';

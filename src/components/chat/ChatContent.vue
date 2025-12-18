@@ -7,7 +7,7 @@
 import useContent from '@/context/content';
 import { ChatMessage } from '@/models/chat';
 import { AireContent } from 'aire';
-import { defineProps, defineEmits, reactive, onMounted } from 'vue';
+import { reactive, onMounted } from 'vue';
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ChatItemOptions from '@/components/chat/ChatItemOptions.vue';
 

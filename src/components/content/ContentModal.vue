@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { AireContent, AireContentType } from 'aire';
 import Modal from "@/components/common/Modal.vue";
 import { switchFocus } from '@/helpers/keyboarNavigation';

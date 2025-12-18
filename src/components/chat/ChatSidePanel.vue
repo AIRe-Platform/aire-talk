@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';

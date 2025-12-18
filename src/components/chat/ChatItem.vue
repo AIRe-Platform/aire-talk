@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import ChatContentSuggestions from './messages/ChatContentSuggestions.vue';
 import ChatSummary from './messages/ChatSummary.vue';
 import ChatError from './messages/ChatError.vue';
