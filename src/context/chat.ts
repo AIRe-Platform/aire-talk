@@ -27,13 +27,7 @@ import {
     getChatbotInputData,
     listChatKeywords,
     findLatestSummaryMessage,
-    handleReminderEvent,
-    handleKeywordEvent,
-    handleQuestionnaireEvent,
-    handleEndEvent,
-    handleMessageEvent,
     findChatKeywords,
-    handleDocumentResultsEvent,
     getDefaultAgent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
@@ -42,6 +36,7 @@ import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
 import useAireMemory from "./memory";
+import ChatEvents from "@/helpers/chatEventHandler";
 
 export class ChatContext {
     id?: string;
@@ -411,47 +406,47 @@ async function receiver(e: AireTalkEvent) {
         return;
 
     if (e.type === AireEventType.Keywords && e.keywords) {
-        await handleKeywordEvent(e.keywords);
+        await ChatEvents.handleKeywordEvent(e.keywords);
         return;
     }
 
     if (e.type === AireEventType.Questionnaire && e.questionnaire) {
-        await handleQuestionnaireEvent(e.questionnaire);
+        await ChatEvents.handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
     if (e.type === AireEventType.ContentSuggestions && e.content_suggestions) {
-        //await handleContentSuggestionsEvent(e.content_suggestions);
+        //await ChatEvents.handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
-    if (e.type === AireEventType.TokenCount) {
-        chat.stats.token_count = e.tokenCount
+    if (e.type === AireEventType.Stats && e.stats) {
+        await ChatEvents.handleStatsEvent(e.stats);
         return;
     }
 
     if (e.type === AireEventType.Reminder && e.reminder) {
-        await handleReminderEvent(e.reminder);
+        await ChatEvents.handleReminderEvent(e.reminder);
         return;
     }
 
     if (e.type === AireEventType.DocumentResults && e.document_results) {
-        await handleDocumentResultsEvent(e.document_results);
+        await ChatEvents.handleDocumentResultsEvent(e.document_results);
         return;
     }
 
-    if (e.type === AireEventType.AgentSwitch && e.agent) {
-        chat.state.agent = e.agent;
+    if (e.type === AireEventType.AgentSwitch && e.agent_switch) {
+        await ChatEvents.handleAgentSwitchEvent(e.agent_switch)
         return;
     }
 
     if (e.type === AireEventType.Message && e.message) {
         chat.response_received = true;
-        await handleMessageEvent(e.message);
+        await ChatEvents.handleMessageEvent(e.message);
     }
 
     if (e.type === AireEventType.End && e.end) {
-        await handleEndEvent(e.end);
+        await ChatEvents.handleEndEvent(e.end);
         useChatbot().reportReady();
 
         if (!chat.response_received)
