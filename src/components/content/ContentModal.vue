@@ -8,7 +8,7 @@ import { ChatMessage } from '@/models/chat';
 import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { AireContent, AireContentType } from 'aire';
 import Modal from "@/components/common/Modal.vue";
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 import { listChatKeywords, openAndContinueChat } from '@/helpers/chatUtils';
 import { router } from '@/router';
 import { l } from '@/locales';

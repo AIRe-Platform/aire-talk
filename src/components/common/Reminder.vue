@@ -12,7 +12,7 @@ import { DateTime } from 'luxon';
 import useChat from '@/context/chat';
 import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 import { UIState } from '@/context/ui';
 import { openAndContinueChat } from '@/helpers/chatUtils';
 import Tooltip from "@/components/common/Tooltip.vue";

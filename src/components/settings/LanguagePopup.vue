@@ -7,7 +7,7 @@ import { reactive, ref } from 'vue';
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import Modal from '../common/Modal.vue';
 import { l } from '@/locales';
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 
 const popupModalRef = ref<HTMLElement | null>(null);
 const state = reactive<{

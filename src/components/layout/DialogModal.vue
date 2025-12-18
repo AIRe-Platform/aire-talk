@@ -7,7 +7,7 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import Modal from '@/components/common/Modal.vue';
 import { LocalizationKey } from '@/locales/keys';
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 
 const buttonsRef = ref<HTMLElement | null>(null);
 const dialogModalRef = ref<HTMLElement | null>(null);
