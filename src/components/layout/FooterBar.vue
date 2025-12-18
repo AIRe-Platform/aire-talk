@@ -25,7 +25,7 @@ const isDevel = import.meta.env.VITE_AIRE_ENVIRONMENT === 'development';
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     height: 1rem;
     font-size: var(--font-small);
@@ -35,6 +35,7 @@ const isDevel = import.meta.env.VITE_AIRE_ENVIRONMENT === 'development';
 .footer {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
     flex-grow: 1;
 }
 
