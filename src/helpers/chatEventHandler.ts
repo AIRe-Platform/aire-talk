@@ -7,7 +7,7 @@ import useQuestionnaire from "@/context/questionnaire";
 import { ChatMessageTag, ChatMessageType } from "@/models/chat";
 import {
     AireAgentSwitchEvent, AireContentEvent, AireDocumentResultsEvent, AireEndEvent,
-    AireKeywordEvent, AireMessageEvent, AireQuestionnaireEvent, AireReminder, AireReminderEvent, AireStatsEvent, AireStatus
+    AireKeywordEvent, AireMessageEvent, AireQuestionnaireEvent, AireReminderEvent, AireStatsEvent, AireStatus
 } from "aire";
 import {
     getLastMessage, listChatKeywords, onEndConversation, pushKeyword, queryQuestionnaires,
@@ -143,7 +143,6 @@ class ChatEventHandler {
         const login = useLogin();
 
         statistics.sendEvent(new ReminderEvent(
-            e.reminder.content?.message,
             e.reminder.trigger_timestamp,
             e.reminder.chat_id,
             login.user?.uuid,

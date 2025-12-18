@@ -162,7 +162,6 @@ export enum ReminderEventName {
 
 export class ReminderEvent extends StatisticsEventBase {
     constructor(
-        public reminder_topic: string | undefined,
         public reminder_timestamp: number,
         public chat_id: string | undefined,
         public user_id: string | undefined,
