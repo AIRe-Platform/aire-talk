@@ -36,21 +36,17 @@ export function createMessage(
     localize: boolean = false,
     hidden: boolean = false,
     agent: string | undefined = undefined): ChatMessage {
-
-    let content = message;
-    if (localize && content) {
-        content = i18n.global.t(content);
-    }
-
     return {
         type: type,
         id: newMessageId(),
         sender: getSenderName(role),
         role: role,
-        content: content,
+        content: message,
         rating: 0,
         timestamp: Date.now(),
-        hidden: hidden
+        hidden: hidden,
+        localize: localize,
+        agent: agent,
     }
 }
 
