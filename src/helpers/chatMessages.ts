@@ -34,14 +34,8 @@ export function createMessage(
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
-    hidden: boolean = false): ChatMessage {
-
-    let sender = "";
-    switch (role) {
-        case "assistant": sender = BOT_NAME; break;
-        case "system": sender = SYSTEM_NAME; break;
-        case "user": sender = getUserName(); break;
-    }
+    hidden: boolean = false,
+    agent: string | undefined = undefined): ChatMessage {
 
     let content = message;
     if (localize && content) {
@@ -51,7 +45,7 @@ export function createMessage(
     return {
         type: type,
         id: newMessageId(),
-        sender: sender,
+        sender: getSenderName(role),
         role: role,
         content: content,
         rating: 0,

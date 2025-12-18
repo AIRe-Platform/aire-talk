@@ -443,6 +443,7 @@ async function receiver(e: AireTalkEvent) {
     if (e.type === AireEventType.Message && e.message) {
         chat.response_received = true;
         await ChatEvents.handleMessageEvent(e.message);
+        return;
     }
 
     if (e.type === AireEventType.End && e.end) {

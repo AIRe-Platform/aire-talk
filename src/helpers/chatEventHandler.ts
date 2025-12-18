@@ -16,7 +16,8 @@ import {
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
 import {
-    createAssistantMessage, createInstructionMessage, createReminderCreatedMessage
+    createAssistantMessage, createInstructionMessage, createReminderCreatedMessage,
+    createSystemMessage
 } from "./chatMessages";
 import useStatistics from "@/context/statistics";
 import useLogin from "@/context/login";
@@ -24,7 +25,7 @@ import { ReminderEvent, ReminderEventName } from "@/models/statistics";
 import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
 import { createQuestionnaire, getChatQuestionnairesIds } from "./questionnaireUtils";
 import useAireMemory from "@/context/memory";
-import { getUILanguage } from "@/locales";
+import { getUILanguage, l } from "@/locales";
 import { updateKeywordMetadata } from "./keywordUtils";
 
 class ChatEventHandler {
@@ -200,9 +201,16 @@ class ChatEventHandler {
     }
 
     public async handleAgentSwitchEvent(e: AireAgentSwitchEvent) {
+        console.debug("Handling agent switch event", e);
+
         const chat = useChat();
         chat.state.agent = e.agent;
-        // TODO: Add system message to notify user of the switch
+
+        const system = createSystemMessage(l.system_switched_agent)
+        chat.push(system);
+
+        const inst = createInstructionMessage("A user has been forwarded to you from another agent. Greet them.")
+        chat.push(inst);
     }
 
     public async handleEndEvent(e: AireEndEvent) {

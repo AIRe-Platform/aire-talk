@@ -18,6 +18,7 @@ const id: Locale = {
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
     system_reminder_set: "Pengingat baru '{subject}' pada {time} telah dibuat.",
+    system_switched_agent: "Anda telah dialihkan ke agen lain.",
 
     conversation_option_continue: "Lanjutkan percakapan",
     conversation_option_new_chat: "Mulai percakapan baru",
