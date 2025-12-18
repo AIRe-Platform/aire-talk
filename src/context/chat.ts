@@ -137,6 +137,10 @@ export class ChatContext {
             if (this.state.themes)
                 this.state.themes = this.state.themes.filter(x => !revertedKeywords.includes(x.value));
 
+            const lastAssistantMessage = this.messages.findLast(x => x.role === 'assistant');
+            if (lastAssistantMessage)
+                this.state.agent = lastAssistantMessage.agent;
+
             if (reset_questionnaire)
                 useQuestionnaire().reset();
             this.autoSave();

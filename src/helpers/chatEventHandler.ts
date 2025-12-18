@@ -184,7 +184,7 @@ class ChatEventHandler {
 
         if (last.role !== "assistant") {
             if (message && message.content.length > 0) {
-                last = createAssistantMessage("");
+                last = createAssistantMessage("", chat.state.agent);
                 firstMessage = true
                 this.newMessage = true;
             }

@@ -78,8 +78,8 @@ export function createErrorMessage(message_loc_key: string): ChatMessage {
     return createMessage(ChatMessageType.Error, "system", message_loc_key, true);
 }
 
-export function createAssistantMessage(message: string): ChatMessage {
-    return createMessage(ChatMessageType.Default, "assistant", message)
+export function createAssistantMessage(message: string, agent?: string): ChatMessage {
+    return createMessage(ChatMessageType.Default, "assistant", message, false, false, agent);
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {
