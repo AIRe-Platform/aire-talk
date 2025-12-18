@@ -33,8 +33,8 @@ const isNotificationMessage = computed(() => {
 const { t } = useI18n();
 
 const localizedSystemGreetingMessage = computed(() => {
-    if (props.message.role === 'system') {
-        return t('system_greeting');
+    if (props.message.role === 'system' && props.message.content) {
+        return t(props.message.content);
     }
     return props.message.content;
 });
