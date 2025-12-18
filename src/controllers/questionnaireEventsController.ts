@@ -26,6 +26,7 @@ import { ChatMessageType } from "@/models/chat";
 import { onAcceptSummary } from "@/helpers/chatUtils";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import useContent from "@/context/content";
+import useFeedback from "@/context/feedback";
 
 const PersonalFeedbackController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -62,7 +63,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 .then(() => {
                     context.reset();
                 })
-            chat.feedbackQuestionnaireIsCompleted();
+            useFeedback().complete();
         }
         else {
             question.answer = answer;

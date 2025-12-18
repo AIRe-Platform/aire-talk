@@ -34,7 +34,6 @@ import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
-import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
 import useAireMemory from "./memory";
 import ChatEvents from "@/helpers/chatEventHandler";
 
@@ -43,7 +42,6 @@ export class ChatContext {
     autosave_timer?: number;
     modified: boolean;
     forced_response: boolean;
-    is_feedback_given: boolean;
     response_received: boolean;
 
     public messages: Array<ChatMessage>;
@@ -56,7 +54,6 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
-        this.is_feedback_given = false;
         this.response_received = false;
     }
 
@@ -81,7 +78,6 @@ export class ChatContext {
             agent: getDefaultAgent()?.name
         };
         useQuestionnaire().reset();
-        this.is_feedback_given = false;
         this.response_received = false;
 
         const system_message = createSystemMessage(l.system_greeting);
@@ -93,33 +89,6 @@ export class ChatContext {
      */
     public async startNew() {
         await this.reset(false, false);
-    }
-
-    /** 
-     * Start the questionnaire to save into events 
-     */
-    public async giveFeedback() {
-
-        const questionnaires = useQuestionnaire();
-
-        const queried = await queryFeedbackQuestionnaire();
-
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
-            if (questionnaire)
-                questionnaires.startQuestionnaire(questionnaire);
-        }
-
-        //First feedback questionnary is still here: 
-        /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
-
-        if (personalInfoQuestionnaire){
-            questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-        } */
-    }
-
-    public feedbackQuestionnaireIsCompleted() {
-        this.is_feedback_given = true;
     }
 
     /**
