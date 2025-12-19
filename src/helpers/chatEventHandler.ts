@@ -36,13 +36,14 @@ class ChatEventHandler {
     }
 
     public async handleKeywordEvent(e: AireKeywordEvent) {
+        console.debug("Handling keyword event", e);
 
         const currentKeywords = listChatKeywords();
         const newKeywords = e.themes.filter(x => !currentKeywords.includes(x.value));
         const oldKeywords = currentKeywords.filter(x => e.themes.findIndex(k => k.value === x) < 0)
 
         if (newKeywords.length > 0) {
-            console.debug("Handling keyword event", e);
+            console.debug("Received new themes", newKeywords);
 
             const keywords = await updateKeywordMetadata(newKeywords.map(x => x.value));
             keywords.forEach(pushKeyword);
@@ -132,6 +133,7 @@ class ChatEventHandler {
     }
 
     public async handleStatsEvent(stats: AireStatsEvent) {
+        console.debug("Handling stats event", stats);
         const chat = useChat();
         chat.stats.token_count = stats.token_count;
     }
@@ -214,6 +216,8 @@ class ChatEventHandler {
     }
 
     public async handleEndEvent(e: AireEndEvent) {
+        console.debug("Received message end");
+
         const chat = useChat();
         const tts = useTTS();
 
