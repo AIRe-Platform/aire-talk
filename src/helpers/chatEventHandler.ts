@@ -211,7 +211,10 @@ class ChatEventHandler {
         const system = createSystemMessage(l.system_switched_agent)
         chat.push(system);
 
-        const inst = createInstructionMessage("A user has been forwarded to you from another agent. Greet them.")
+        const inst = createInstructionMessage(`
+            A user has been forwarded to you from another agent. 
+            Greet them and carry on with the conversation normally.
+        `)
         chat.push(inst);
     }
 
