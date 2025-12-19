@@ -10,19 +10,39 @@ import VueMarkdown from 'vue-markdown-render';
 import useTTS from '@/helpers/textToSpeech';
 import { l } from '@/locales';
 import Tooltip from '@/components/common/Tooltip.vue';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { getAgentLocalized } from '@/helpers/agentUtils';
 
 const props = defineProps<{
     message: ChatMessage;
     canRevert?: boolean;
 }>();
 
+const i18n = useI18n();
 const tts = useTTS();
+
 const onTTS = () => {
     if (tts.isSpeaking.value)
         tts.stop();
     else
         tts.speak(props.message.content || "");
 }
+
+const sender = computed(() => {
+    if (props.message.role === 'assistant') {
+        if (props.message.agent) {
+            const label = getAgentLocalized(props.message.agent, i18n.locale.value);
+            if (label)
+                return label;
+        }
+
+        return i18n.t(props.message.sender);
+    }
+    else {
+        return props.message.sender;
+    }
+});
 </script>
 
 <template>
@@ -36,7 +56,7 @@ const onTTS = () => {
             v-if="props.message.role === 'assistant'" />
         <div class="chat-bubble-content">
             <h2 class="chat-bubble-user-label" v-if="props.message.role !== 'system'">
-                {{ (props.message.role === 'assistant') ? $t(message.sender) : message.sender }}
+                {{ sender }}
             </h2>
             <span class="chat-bubble-text" v-if="message.content">
                 <VueMarkdown :source="message.content" />
