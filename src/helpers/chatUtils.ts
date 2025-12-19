@@ -26,7 +26,7 @@ import {
 import useChatbot from "@/context/chatbot";
 import useContent from "@/context/content";
 import { getChatContentIds } from "./contentUtils";
-import { createQuestionnaire, queryQuestionnaire } from "./questionnaireUtils";
+import { createQuestionnaire, queryQuestionnaire, queryQuestionnairesForKeyword } from "./questionnaireUtils";
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
 import useStatistics from "@/context/statistics";
@@ -312,7 +312,7 @@ export async function summarizeChat(): Promise<boolean> {
         .finally(() => useChatbot().reportReady())
 }
 
-export async function queryQuestionnaires(keywords: string[]): Promise<boolean> {
+export async function queryAndStartQuestionnaire(keywords: string[]): Promise<boolean> {
     if (keywords.length > 0) {
         const q = keywords.sort().join(",");
         if (chat.state.questionnaire_queries?.includes(q))
@@ -335,6 +335,23 @@ export async function queryQuestionnaires(keywords: string[]): Promise<boolean> 
             .finally(() => useChatbot().reportReady())
     }
     return false;
+}
+
+export async function queryAndStartQuestionnaireWithKeyword(keyword: string): Promise<boolean> {
+    useChatbot().makeBusy();
+    return await queryQuestionnairesForKeyword(keyword)
+        .then(questionnaires => {
+            const questionnaire = questionnaires?.at(0);
+            if (questionnaire) {
+                const q = createQuestionnaire(questionnaire);
+                if (q) {
+                    useQuestionnaire().startQuestionnaire(q);
+                    return true;
+                }
+            }
+            return false;
+        })
+        .finally(() => useChatbot().reportReady())
 }
 
 /**

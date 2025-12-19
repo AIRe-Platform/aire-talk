@@ -10,8 +10,8 @@ import {
     AireKeywordEvent, AireMessageEvent, AireQuestionnaireEvent, AireReminderEvent, AireStatsEvent, AireStatus
 } from "aire";
 import {
-    getLastMessage, listChatKeywords, onEndConversation, pushKeyword, queryQuestionnaires,
-    removeKeyword, showContentSuggestions
+    getLastMessage, listChatKeywords, onEndConversation, pushKeyword,
+    queryAndStartQuestionnaireWithKeyword, removeKeyword, showContentSuggestions
 } from "./chatUtils";
 import useTTS from "./textToSpeech";
 import { UISettings } from "@/context/ui";
@@ -48,7 +48,14 @@ class ChatEventHandler {
             const keywords = await updateKeywordMetadata(newKeywords.map(x => x.value));
             keywords.forEach(pushKeyword);
 
-            queryQuestionnaires(keywords.map(x => x.value));
+            //queryAndStartQuestionnaire(keywords.map(x => x.value));
+
+            for (const k in newKeywords) {
+                const keyword = newKeywords[k];
+                const started = await queryAndStartQuestionnaireWithKeyword(keyword.value);
+                if (started)
+                    break;
+            }
         }
 
         oldKeywords.forEach(x => removeKeyword(x, false));

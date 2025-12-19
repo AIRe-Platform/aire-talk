@@ -63,6 +63,21 @@ export async function queryQuestionnaire(keywords: string[]): Promise<AireQuesti
     return query.data;
 }
 
+export async function queryQuestionnairesForKeyword(keyword: string): Promise<AireQuestionnaire[] | undefined> {
+    const memory = useAireMemory().agentMemory();
+    if (!memory) {
+        console.warn("Memory service is not available for this agent");
+        return;
+    }
+    const lang = getUILanguage();
+    const query = await memory.getQuestionnairesWithKeyword(keyword, lang.value);
+
+    if (!query.data)
+        return;
+
+    return query.data;
+}
+
 /**
  * Query feedback questionnaire
  */
