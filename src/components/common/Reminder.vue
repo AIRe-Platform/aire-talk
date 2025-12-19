@@ -7,18 +7,19 @@
 import { l } from '@/locales';
 import Modal from '@/components/common/Modal.vue';
 import { onMounted, reactive, defineComponent, ref, onUnmounted } from 'vue';
-import { AireReminder, AireServices, AireStatus } from 'aire';
+import { AireReminder } from 'aire';
 import { DateTime } from 'luxon';
 import useChat from '@/context/chat';
 import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 import { UIState } from '@/context/ui';
 import { openAndContinueChat } from '@/helpers/chatUtils';
 import Tooltip from "@/components/common/Tooltip.vue";
 import useStatistics from '@/context/statistics';
 import { ReminderEvent, ReminderEventName } from '@/models/statistics';
 import useLogin from '@/context/login';
+import useReminders from '@/context/reminders';
 
 defineComponent({ name: "EventComponent" });
 
@@ -32,33 +33,30 @@ const state = reactive<{
 const reminderModalRef = ref<HTMLElement | null>(null);
 const statistics = useStatistics();
 const login = useLogin();
+const reminders = useReminders();
 
 const checkForEvents = () => {
-    if (AireServices.Memory) {
-        AireServices.Memory.getReminders(true)
-            .then(res => {
-                let now = DateTime.utc().toUnixInteger();
-                if (res.status === AireStatus.Success && res.data) {
-                    state.reminders = res.data.filter(event => {
-                        if (event.trigger_timestamp < now && !event.read_timestamp) {
-                            if (event.chat_id) {
-                                useChat().load(event.chat_id); // Preload
-                            }
-                            return event;
-                        }
-                    });
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                closeModal();
-            })
-            .finally(() => {
-                if (state.reminders.length !== 0) {
-                    UIState.reminderModalRef = reminderModalRef.value;
+    reminders.getReminders(true)
+        .then(res => {
+            let now = DateTime.utc().toUnixInteger();
+            state.reminders = res.filter(event => {
+                if (event.trigger_timestamp < now && !event.read_timestamp) {
+                    if (event.chat_id) {
+                        useChat().load(event.chat_id); // Preload
+                    }
+                    return event;
                 }
             });
-    }
+        })
+        .catch(err => {
+            console.error(err);
+            closeModal();
+        })
+        .finally(() => {
+            if (state.reminders.length !== 0) {
+                UIState.reminderModalRef = reminderModalRef.value;
+            }
+        });
 }
 
 const canContinue = (chat_id?: string) => {
@@ -69,7 +67,7 @@ const canContinue = (chat_id?: string) => {
 
 const markEventAsRead = (index: number) => {
     const reminder = state.reminders.splice(index, 1); // remove from list immediately
-    if (AireServices.Memory && reminder[0]) {
+    if (reminder[0]) {
         statistics.sendEvent(new ReminderEvent(
             reminder[0].content?.message,
             reminder[0].trigger_timestamp,
@@ -79,7 +77,7 @@ const markEventAsRead = (index: number) => {
             ReminderEventName.Removed
         ));
         reminder[0].read_timestamp = DateTime.utc().toUnixInteger();
-        AireServices.Memory.editReminder(reminder[0])
+        reminders.editReminder(reminder[0])
             .catch(err => {
                 console.error(err);
             })
@@ -125,7 +123,9 @@ onUnmounted(() => UIState.reminderModalRef = null);
                 <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
                     <!-- there are warnings here TODO check this out -->
                     <div class="reminder-date">
-                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT, { locale: $i18n.locale }) }}
+                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT, {
+                            locale: $i18n.locale
+                        }) }}
                     </div>
                     <div class="reminder-message">
                         {{ reminder.content?.message }}

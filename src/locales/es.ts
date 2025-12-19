@@ -17,6 +17,7 @@ const es: Locale = {
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
     system_reminder_set: "Se creó un nuevo recordatorio '{subject}' a las {time}.",
+    system_switched_agent: "Ha sido redirigido a un agente diferente.",
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",

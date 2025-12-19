@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { AireQuestionOptionCheckbox } from 'aire';
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';

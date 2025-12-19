@@ -5,7 +5,7 @@
 -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { adjustTooltipPosition, TooltipPosition } from '@/helpers/tooltipUtils';
 import { tooltipState } from '@/context/tooltipState';
 

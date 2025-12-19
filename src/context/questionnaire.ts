@@ -6,9 +6,7 @@
 import { reactive } from "vue";
 import useChat from "./chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
-import {
-    createQuestionnaireMessage
-} from "@/helpers/chatMessages";
+import { createQuestionnaireMessage } from "@/helpers/chatMessages";
 import PersonalInfoController from "@/controllers/personalInfoController";
 import QuestionnaireController from "@/controllers/questionnaireController";
 import DefaultQuestionnaireController from "@/controllers/defaultQuestionnaireController";
@@ -16,10 +14,10 @@ import RecallController from "@/controllers/recallController";
 import PersonalFeedbackController from "@/controllers/questionnaireEventsController";
 
 const controllers = new Map<QuestionnaireControlFlow, QuestionnaireController>([
-    [ QuestionnaireControlFlow.Default, DefaultQuestionnaireController ],
-    [ QuestionnaireControlFlow.PersonalInfo, PersonalInfoController],
-    [ QuestionnaireControlFlow.Feedback, PersonalFeedbackController],
-    [ QuestionnaireControlFlow.RecallConversations, RecallController]
+    [QuestionnaireControlFlow.Default, DefaultQuestionnaireController],
+    [QuestionnaireControlFlow.PersonalInfo, PersonalInfoController],
+    [QuestionnaireControlFlow.Feedback, PersonalFeedbackController],
+    [QuestionnaireControlFlow.RecallConversations, RecallController]
 ]);
 
 export class QuestionnaireContext {
@@ -29,10 +27,10 @@ export class QuestionnaireContext {
     constructor() { }
 
     public reset() {
-        if(this.active && !this.active.completed) {
+        if (this.active && !this.active.completed) {
             const chat = useChat();
             const last_message = chat.messages.findLast(x => x.question == undefined);
-            if(last_message) {
+            if (last_message) {
                 chat.revertTo(last_message.id, false);
             }
         }
@@ -58,7 +56,7 @@ export class QuestionnaireContext {
         }
 
         this.active = questionnaire;
-        
+
         this.active.is_feedback = questionnaire.is_feedback;
 
         const msg = this.controller?.onStart(questionnaire);
@@ -68,11 +66,11 @@ export class QuestionnaireContext {
 
     public restoreState(questionnaire: Questionnaire) {
         this.controller = controllers.get(questionnaire.controller_type);
-        if(this.controller){
+        if (this.controller) {
             this.active = questionnaire;
             this.active.is_feedback = questionnaire.is_feedback;
         }
-            
+
         else
             console.error("Unsupported questionnaire controller type");
     }
@@ -112,8 +110,7 @@ export class QuestionnaireContext {
             return;
         }
 
-        if(!this.active.completed)
-        {
+        if (!this.active.completed) {
             this.active.completed = true;
             const chat = useChat();
             const msg = this.controller!.onComplete(this.active);

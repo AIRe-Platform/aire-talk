@@ -58,7 +58,7 @@ export const router = createRouter({
             },
         },
         {
-            path: "/login",
+            path: "/login/:platform?",
             component: LoginView,
             name: "Login",
             meta: {
@@ -67,7 +67,7 @@ export const router = createRouter({
             },
         },
         {
-            path: "/signup",
+            path: "/signup/:platform?",
             component: SignupView,
             name: "Signup",
             meta: {

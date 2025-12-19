@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import ChatContentSuggestions from './messages/ChatContentSuggestions.vue';
 import ChatSummary from './messages/ChatSummary.vue';
 import ChatError from './messages/ChatError.vue';
@@ -33,8 +33,8 @@ const isNotificationMessage = computed(() => {
 const { t } = useI18n();
 
 const localizedSystemGreetingMessage = computed(() => {
-    if (props.message.role === 'system') {
-        return t('system_greeting');
+    if (props.message.role === 'system' && props.message.content) {
+        return t(props.message.content);
     }
     return props.message.content;
 });

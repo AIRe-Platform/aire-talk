@@ -3,9 +3,7 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 
-
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 
 const props = defineProps<{

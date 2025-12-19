@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { AireQuestionOptionRange } from 'aire';
 import { ChatMessage } from '@/models/chat';
 import useQuestionnaire from '@/context/questionnaire';

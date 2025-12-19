@@ -3,9 +3,10 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireKeyword, AireServices, AireStatus } from "aire";
+import { AireKeyword, AireStatus } from "aire";
 import { reactive } from "vue";
 import { LanguageCode } from "iso-639-1";
+import useAireMemory from "./memory";
 
 export class KeywordsContext {
     public metadata: Array<AireKeyword>;
@@ -15,8 +16,9 @@ export class KeywordsContext {
     }
 
     public async updateMetadata(keywords?: string[]): Promise<AireKeyword[]> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
+        const memory = useAireMemory().agentMemory();
+        if (!memory) {
+            console.warn("Memory service is unavailable for this agent");
             return [];
         }
 
@@ -27,9 +29,9 @@ export class KeywordsContext {
         const newKeywords = keywords.filter(x => this.metadata.findIndex(k => k.value == x) < 0);
         const results = new Array<AireKeyword>();
 
-        for(let i = 0; i < newKeywords.length; i++) {
+        for (let i = 0; i < newKeywords.length; i++) {
             const keyword = newKeywords[i];
-            await AireServices.Memory?.getKeyword(keyword)
+            await memory.getKeyword(keyword)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
                         this.metadata.push(result.data);
@@ -60,15 +62,17 @@ export class KeywordsContext {
             .map(x => this.metadata.find(k => k.value == x))
             .filter(x => x !== undefined);
     }
-    
+
     public async getKeywords(search?: string): Promise<AireKeyword[] | undefined> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+        const memory = useAireMemory().agentMemory();
+
+        if (!memory) {
+            console.warn("Memory service is not available for this agent");
             return undefined;
         }
-    
+
         // Call the queryKeywords method
-        return await AireServices.Memory.queryKeywords(search)
+        return await memory.queryKeywords(search)
             .then((result) => {
                 if (result.status === AireStatus.Success && result.data) {
                     // Assuming you have some caching mechanism or need to return the result

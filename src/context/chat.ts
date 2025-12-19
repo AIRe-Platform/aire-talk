@@ -10,6 +10,7 @@ import {
     AireTalkEvent,
     AireChatLog,
     AireStatus,
+    AireEventType,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -26,26 +27,21 @@ import {
     getChatbotInputData,
     listChatKeywords,
     findLatestSummaryMessage,
-    handleReminderEvent,
-    handleKeywordEvent,
-    handleQuestionnaireEvent,
-    handleEndEvent,
-    handleMessageEvent,
     findChatKeywords,
-    handleDocumentResultsEvent,
+    getDefaultAgent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
 import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
-import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
+import useAireMemory from "./memory";
+import ChatEvents from "@/helpers/chatEventHandler";
 
 export class ChatContext {
     id?: string;
     autosave_timer?: number;
     modified: boolean;
     forced_response: boolean;
-    is_feedback_given: boolean;
     response_received: boolean;
 
     public messages: Array<ChatMessage>;
@@ -58,7 +54,6 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
-        this.is_feedback_given = false;
         this.response_received = false;
     }
 
@@ -79,9 +74,10 @@ export class ChatContext {
         this.messages = [];
         this.modified = false;
         this.stats = {};
-        this.state = {};
+        this.state = {
+            agent: getDefaultAgent()?.name
+        };
         useQuestionnaire().reset();
-        this.is_feedback_given = false;
         this.response_received = false;
 
         const system_message = createSystemMessage(l.system_greeting);
@@ -93,33 +89,6 @@ export class ChatContext {
      */
     public async startNew() {
         await this.reset(false, false);
-    }
-
-    /** 
-     * Start the questionnaire to save into events 
-     */
-    public async giveFeedback() {
-
-        const questionnaires = useQuestionnaire();
-
-        const queried = await queryFeedbackQuestionnaire();
-
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
-            if (questionnaire)
-                questionnaires.startQuestionnaire(questionnaire);
-        }
-
-        //First feedback questionnary is still here: 
-        /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
-
-        if (personalInfoQuestionnaire){
-            questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-        } */
-    }
-
-    public feedbackQuestionnaireIsCompleted() {
-        this.is_feedback_given = true;
     }
 
     /**
@@ -167,6 +136,10 @@ export class ChatContext {
 
             if (this.state.themes)
                 this.state.themes = this.state.themes.filter(x => !revertedKeywords.includes(x.value));
+
+            const lastAssistantMessage = this.messages.findLast(x => x.role === 'assistant');
+            if (lastAssistantMessage)
+                this.state.agent = lastAssistantMessage.agent;
 
             if (reset_questionnaire)
                 useQuestionnaire().reset();
@@ -232,8 +205,9 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
+        const memory = useAireMemory().defaultMemory();
 
-        if (AireServices.Memory) {
+        if (memory) {
             this.state.summary = findLatestSummaryMessage(this.messages)?.content;
             this.state.questionnaire = questionnaire.active;
 
@@ -245,7 +219,7 @@ export class ChatContext {
 
             const cache = useChatCache();
 
-            await AireServices.Memory.saveChat(chatLog, this.id)
+            await memory.saveChat(chatLog, this.id)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
                         cache.set(result.data.id, {
@@ -300,8 +274,10 @@ export class ChatContext {
         if (chat_id == this.id)
             await this.reset(true, false)
 
-        if (AireServices.Memory) {
-            await AireServices.Memory.deleteChat(chat_id)
+        const memory = useAireMemory().defaultMemory();
+
+        if (memory) {
+            await memory.deleteChat(chat_id)
                 .then((status) => {
                     if (status === AireStatus.Success) {
                         console.log("Chat deleted", chat_id);
@@ -323,8 +299,9 @@ export class ChatContext {
             return true;
         }
 
-        if (AireServices.Memory) {
-            const result = await AireServices.Memory.getChat(chat_id);
+        const memory = useAireMemory().defaultMemory();
+        if (memory) {
+            const result = await memory.getChat(chat_id);
             if (result.status != AireStatus.Success || !result.data)
                 return false;
 
@@ -335,7 +312,7 @@ export class ChatContext {
             // Old chat logs do not have themes in the state object,
             // one has to look for the keywords in the messages
             if (!state.themes)
-                state.themes = await updateKeywordMetadata(findChatKeywords(messages))
+                state.themes = await updateKeywordMetadata(findChatKeywords(messages), state.agent)
 
             cache.set(chat_id, {
                 messages: messages,
@@ -401,43 +378,49 @@ async function receiver(e: AireTalkEvent) {
     if (chat.state.red_flag_triggered)
         return;
 
-    if (e.type === "keywords" && e.keywords) {
-        await handleKeywordEvent(e.keywords);
+    if (e.type === AireEventType.Keywords && e.keywords) {
+        await ChatEvents.handleKeywordEvent(e.keywords);
         return;
     }
 
-    if (e.type === "questionnaire" && e.questionnaire) {
-        await handleQuestionnaireEvent(e.questionnaire);
+    if (e.type === AireEventType.Questionnaire && e.questionnaire) {
+        await ChatEvents.handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
-    if (e.type === "content-suggestions" && e.content_suggestions) {
-        //await handleContentSuggestionsEvent(e.content_suggestions);
+    if (e.type === AireEventType.ContentSuggestions && e.content_suggestions) {
+        //await ChatEvents.handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
-    if (e.type === "token-count") {
-        chat.stats.token_count = e.tokenCount
+    if (e.type === AireEventType.Stats && e.stats) {
+        await ChatEvents.handleStatsEvent(e.stats);
         return;
     }
 
-    if (e.type === "reminder" && e.reminder) {
-        await handleReminderEvent(e.reminder);
+    if (e.type === AireEventType.Reminder && e.reminder) {
+        await ChatEvents.handleReminderEvent(e.reminder);
         return;
     }
 
-    if (e.type === "document-results" && e.document_results) {
-        await handleDocumentResultsEvent(e.document_results);
+    if (e.type === AireEventType.DocumentResults && e.document_results) {
+        await ChatEvents.handleDocumentResultsEvent(e.document_results);
         return;
     }
 
-    if (e.type === "message" && e.message) {
+    if (e.type === AireEventType.AgentSwitch && e.agent_switch) {
+        await ChatEvents.handleAgentSwitchEvent(e.agent_switch)
+        return;
+    }
+
+    if (e.type === AireEventType.Message && e.message) {
         chat.response_received = true;
-        await handleMessageEvent(e.message);
+        await ChatEvents.handleMessageEvent(e.message);
+        return;
     }
 
-    if (e.type === "end" && e.end) {
-        await handleEndEvent(e.end);
+    if (e.type === AireEventType.End && e.end) {
+        await ChatEvents.handleEndEvent(e.end);
         useChatbot().reportReady();
 
         if (!chat.response_received)

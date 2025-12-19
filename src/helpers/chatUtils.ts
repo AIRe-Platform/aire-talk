@@ -4,45 +4,42 @@
 
 import useChat from "@/context/chat";
 import { getUILanguage, l } from "@/locales";
-import { ChatMessage, ChatMessageTag, ChatMessageType } from "@/models/chat";
+import { ChatMessage, ChatMessageType } from "@/models/chat";
 import {
+    AireAgent,
     AireChatMessage,
     AireChatMetadata,
     AireChatStats,
-    AireChatbotEndEvent,
     AireChatbotInput,
-    AireChatbotMessageEvent,
     AireContent,
-    AireContentEvent,
     AireKeyword,
-    AireQuestionnaireEvent,
-    AireReminder,
     AireServices,
     AireStatus
 } from "aire";
 import {
-    createAssistantMessage,
     createContentMessage,
     createControlFlowMessage,
     createInstructionMessage,
     createKeywordMessage,
-    createReminderCreatedMessage,
     createSummaryMessage
 } from "./chatMessages";
 import useChatbot from "@/context/chatbot";
 import useContent from "@/context/content";
-import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
-import { createQuestionnaire, getChatQuestionnairesIds, queryQuestionnaire } from "./questionnaireUtils";
+import { getChatContentIds } from "./contentUtils";
+import { createQuestionnaire, queryQuestionnaire, queryQuestionnairesForKeyword } from "./questionnaireUtils";
 import useQuestionnaire from "@/context/questionnaire";
 import { DateTime } from "luxon";
-import useTTS from "./textToSpeech";
-import { UISettings } from "@/context/ui";
 import useStatistics from "@/context/statistics";
-import { ChatSummaryAcceptEvent, ChatThemeEvent, ChatThemeEventName, ContentEvent, ContentEventName, ReminderEvent, ReminderEventName } from "@/models/statistics";
+import {
+    ChatSummaryAcceptEvent,
+    ChatThemeEvent,
+    ChatThemeEventName,
+    ContentEvent,
+    ContentEventName,
+} from "@/models/statistics";
 import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
-import { updateKeywordMetadata } from "./keywordUtils";
-import { AireDocumentSearchEvent } from "submodules/aire-typescript-sdk/src/models/document";
+import useAireMemory from "@/context/memory";
 
 const statistics = useStatistics();
 const chat = useChat();
@@ -53,8 +50,9 @@ const login = useLogin();
  * @returns array of chats format id: string, date: string
  */
 export async function getAllChats(): Promise<AireChatMetadata[]> {
-    if (AireServices.Memory) {
-        const result = await AireServices.Memory.getChatlogs()
+    const memory = useAireMemory().defaultMemory();
+    if (memory) {
+        const result = await memory.getChatlogs()
         if (result.data) {
             return result.data.sort((b, a) => {
                 return Date.parse(a.time) - Date.parse(b.time)
@@ -85,10 +83,10 @@ export function getChatbotInputData(): AireChatbotInput {
     const locale = getUILanguage();
 
     const messages = chat.messages
-        .filter(x => 
-            x.role === "assistant" || 
-            x.role === "user" || 
-            x.type == ChatMessageType.Instruction || 
+        .filter(x =>
+            x.role === "assistant" ||
+            x.role === "user" ||
+            x.type == ChatMessageType.Instruction ||
             x.type == ChatMessageType.Keyword)
         .map(x => {
             const m: AireChatMessage = x;
@@ -102,7 +100,8 @@ export function getChatbotInputData(): AireChatbotInput {
             language: locale.value,
             themes: chat.state.themes,
             documents: chat.state.documents,
-        }
+        },
+        agent: chat.state.agent
     };
 
     return input;
@@ -313,7 +312,7 @@ export async function summarizeChat(): Promise<boolean> {
         .finally(() => useChatbot().reportReady())
 }
 
-export async function queryQuestionnaires(keywords: string[]): Promise<boolean> {
+export async function queryAndStartQuestionnaire(keywords: string[]): Promise<boolean> {
     if (keywords.length > 0) {
         const q = keywords.sort().join(",");
         if (chat.state.questionnaire_queries?.includes(q))
@@ -336,6 +335,23 @@ export async function queryQuestionnaires(keywords: string[]): Promise<boolean> 
             .finally(() => useChatbot().reportReady())
     }
     return false;
+}
+
+export async function queryAndStartQuestionnaireWithKeyword(keyword: string): Promise<boolean> {
+    useChatbot().makeBusy();
+    return await queryQuestionnairesForKeyword(keyword)
+        .then(questionnaires => {
+            const questionnaire = questionnaires?.at(0);
+            if (questionnaire) {
+                const q = createQuestionnaire(questionnaire);
+                if (q) {
+                    useQuestionnaire().startQuestionnaire(q);
+                    return true;
+                }
+            }
+            return false;
+        })
+        .finally(() => useChatbot().reportReady())
 }
 
 /**
@@ -399,8 +415,9 @@ export function pushKeyword(keyword: AireKeyword) {
             chat.state.documents = [];
 
         if (chat.state.documents.findIndex(x => x.source === keyword.document) < 0) {
-            if (AireServices.Memory) {
-                AireServices.Memory.getDocumentWithId(keyword.document)
+            const memory = useAireMemory().agentMemory();
+            if (memory) {
+                memory.getDocumentWithId(keyword.document)
                     .then(res => {
                         if (res.data)
                             chat.state.documents?.push(res.data)
@@ -418,7 +435,8 @@ export function pushKeyword(keyword: AireKeyword) {
         login.user?.uuid,
         statistics.session?.id,
         ChatThemeEventName.ThemeAdded
-    ));}
+    ));
+}
 
 /**
  * Finds keyword notification message and its injected prompt
@@ -457,191 +475,14 @@ export function removeKeyword(keyword: string, blacklist: boolean = false) {
     }
 }
 
-export async function handleKeywordEvent(e: AireKeyword[]) {
-
-    const currentKeywords = listChatKeywords();
-    const newKeywords = e.filter(x => !currentKeywords.includes(x.value));
-    const oldKeywords = currentKeywords.filter(x => e.findIndex(k => k.value === x) < 0)
-
-    if (newKeywords.length > 0) {
-        console.debug("Handling keyword event", e);
-
-        const keywords = await updateKeywordMetadata(newKeywords.map(x => x.value));
-        keywords.forEach(pushKeyword);
-
-        queryQuestionnaires(keywords.map(x => x.value));
-    }
-
-    oldKeywords.forEach(x => removeKeyword(x, false));
+export function getCurrentAgent(): AireAgent | undefined {
+    const chat = useChat();
+    if (chat.state.agent)
+        return AireServices.Agents?.find(x => x.name == chat.state.agent);
+    else
+        return getDefaultAgent();
 }
 
-export async function handleQuestionnaireEvent(e: AireQuestionnaireEvent) {
-    console.debug("Handling questionnaire event", e);
-
-    if (e.results.length > 0) {
-        const alreadyAnswered = getChatQuestionnairesIds();
-        const lang = getUILanguage();
-
-        const suitable = e.results.filter(x =>
-            !alreadyAnswered.includes(x.id) &&
-            (!x.language || x.language.includes(lang.value)));
-
-        const best = suitable.filter(x => !x.relevance || x.relevance > 0.75).sort((a, b) => {
-            if (a.relevance && b.relevance)
-                return a.relevance - b.relevance
-            else
-                return 0;
-        }).pop();
-
-        if (best && AireServices.Memory) {
-            const result = await AireServices.Memory.getQuestionnaire(best.id);
-            if (result.status === AireStatus.Success && result.data) {
-                const q = createQuestionnaire(result.data);
-                if (q) {
-                    useQuestionnaire().startQuestionnaire(q);
-                    return;
-                }
-            }
-        }
-    }
-
-    const inst = `
-        Questionnaire query "${e.search}" did not find suitable questionnaires.
-        Carry on with the conversation normally.
-    `
-    const msg = createInstructionMessage(inst);
-    chat.push(msg);
-}
-
-export async function handleContentSuggestionsEvent(e: AireContentEvent) {
-    console.debug("Handling content suggestion event", e);
-
-    if (e.results.length > 0) {
-        const currentContent = getChatContentIds(chat.messages);
-
-        const suggestions = e.results
-            .filter(x => !currentContent.includes(x.id) && (!x.relevance || x.relevance > 0.75))
-            .map(x => x.id);
-
-        if (suggestions.length > 0) {
-            const content = await fetchAndRankContents(suggestions);
-            if (content.length > 0) {
-                await showContentSuggestions(content);
-
-                const inst = `
-                    You found ${content.length} content suggestions.
-                    Summarize the results briefly.
-                `
-                const msg = createInstructionMessage(inst);
-                chat.push(msg);
-                return;
-            }
-        }
-    }
-
-    const inst = `
-        Did not find any content suggestions with the query "${e.search}".
-        Carry on with the conversation normally.
-    `
-    const msg = createInstructionMessage(inst);
-    chat.push(msg);
-}
-
-export async function handleReminderEvent(reminder: AireReminder) {
-    console.debug("Handling reminder event", reminder);
-
-    statistics.sendEvent(new ReminderEvent(
-        reminder.content?.message,
-        reminder.trigger_timestamp,
-        reminder.chat_id,
-        login.user?.uuid,
-        statistics.session?.id,
-        ReminderEventName.Added
-    ));
-    const msg = createReminderCreatedMessage(reminder);
-    chat.push(msg);
-
-    const inst = createInstructionMessage("A reminder was set successfully.")
-    chat.push(inst);
-}
-
-export async function handleDocumentResultsEvent(e: AireDocumentSearchEvent) {
-    console.debug("Handling document results event", e);
-
-    const inst = e.results.length > 0 ? `
-        Search with "${e.search}" found the following hits:
-        ${e.results.map(x => `
-        <
-            Document: ${x.metadata.title || x.metadata.source}
-            Content:  ${x.content}
-        >
-        `)}
-    ` : `No search results with "${e.search}".`;
-
-    const msg = createInstructionMessage(inst);
-    chat.push(msg);
-}
-
-let newMessage = false;
-export async function handleMessageEvent(message: AireChatbotMessageEvent) {
-    let last = chat.messages[chat.messages.length - 1];
-    let firstMessage = false // start of the answer stream?
-
-    if (last.role !== "assistant") {
-        if (message && message.content.length > 0) {
-            last = createAssistantMessage("");
-            firstMessage = true
-            newMessage = true;
-        }
-        else {
-            return;
-        }
-    }
-
-    if (message) {
-        last.content += message.content;
-    }
-
-    chat.push(last, firstMessage, false);
-}
-
-export async function handleEndEvent(e: AireChatbotEndEvent) {
-    let endConversation = false;
-
-    const message = chat.messages
-        .findLast(x =>
-            x.role === "assistant" &&
-            x.type === ChatMessageType.Default &&
-            x.content !== undefined)
-    const last = getLastMessage();
-
-    if (message && newMessage) {
-        if (message.content?.includes(ChatMessageTag.END_OF_CONVERSATION_TAG)) {
-            message.content = message.content.replace(ChatMessageTag.END_OF_CONVERSATION_TAG, "").trim();
-            endConversation = true;
-        }
-
-        if (message.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
-            message.content = message.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
-            chat.state.red_flag_triggered = true;
-        }
-
-        if (message.id === last?.id)
-            chat.push(last, false, true);
-
-        if (UISettings.ttsEnabled)
-            useTTS().speak(message.content!);
-    }
-
-    if (endConversation || chat.state.red_flag_triggered) {
-        await onEndConversation();
-    }
-    else {
-        if (!e.received_message) {
-            if (!useQuestionnaire().active)
-                chat.forceResponse();
-        }
-    }
-
-    newMessage = false;
+export function getDefaultAgent(): AireAgent | undefined {
+    return AireServices.Agents?.at(0);
 }

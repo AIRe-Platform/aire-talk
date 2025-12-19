@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { UIState } from "@/context/ui";
 import NavItemContent from './NavItemContent.vue';
 

@@ -18,6 +18,7 @@ const sw: Locale = {
     system_end_of_conversation: "Mazungumzo yamekwisha",
     system_end_of_conversation_options: "Ungependa kufanya nini?",
     system_reminder_set: "Kikumbusho kipya '{subject}' saa {time} kiliundwa.",
+    system_switched_agent: "Umeelekezwa kwa wakala tofauti.",
 
     conversation_option_continue: "Endelea na mazungumzo",
     conversation_option_new_chat: "Anzisha mazungumzo mapya",

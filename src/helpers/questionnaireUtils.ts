@@ -2,18 +2,17 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 import {
     AireQuestion,
     AireQuestionnaire,
-    AireQuestionnaireAnswer,
-    AireServices,
+    AireQuestionnaireAnswer
 } from "aire";
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
 import { listChatKeywords } from "./chatUtils";
 import { ChatMessageType } from "@/models/chat";
+import useAireMemory from "@/context/memory";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -50,13 +49,28 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
 export async function queryQuestionnaire(keywords: string[]): Promise<AireQuestionnaire | undefined> {
     if (keywords.length < 1)
         return;
-
-    if (!AireServices.Memory) {
-        console.error("Memory service is not available");
+    const memory = useAireMemory().agentMemory();
+    if (!memory) {
+        console.warn("Memory service is not available for this agent");
         return;
     }
     const lang = getUILanguage();
-    const query = await AireServices.Memory.queryQuestionnaire(keywords, lang.value);
+    const query = await memory.queryQuestionnaire(keywords, lang.value);
+
+    if (!query.data)
+        return;
+
+    return query.data;
+}
+
+export async function queryQuestionnairesForKeyword(keyword: string): Promise<AireQuestionnaire[] | undefined> {
+    const memory = useAireMemory().agentMemory();
+    if (!memory) {
+        console.warn("Memory service is not available for this agent");
+        return;
+    }
+    const lang = getUILanguage();
+    const query = await memory.getQuestionnairesWithKeyword(keyword, lang.value);
 
     if (!query.data)
         return;
@@ -68,13 +82,13 @@ export async function queryQuestionnaire(keywords: string[]): Promise<AireQuesti
  * Query feedback questionnaire
  */
 export async function queryFeedbackQuestionnaire(): Promise<AireQuestionnaire | undefined> {
-
-    if (!AireServices.Memory) {
-        console.error("Memory service is not available");
+    const memory = useAireMemory().agentMemory();
+    if (!memory) {
+        console.warn("Memory service is not available for this agent");
         return;
     }
     const lang = getUILanguage();
-    const query = await AireServices.Memory.queryFeedbackQuestionnaire(lang.value);
+    const query = await memory.queryFeedbackQuestionnaire(lang.value);
 
     if (!query.data)
         return;

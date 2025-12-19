@@ -18,6 +18,7 @@ const en: Locale = {
     system_end_of_conversation: "The conversation has ended",
     system_end_of_conversation_options: "What would you like to do?",
     system_reminder_set: "A new reminder '{subject}' at {time} was created.",
+    system_switched_agent: "You've been redirected to a different agent.",
 
     conversation_option_continue: "Continue conversation",
     conversation_option_new_chat: "Start a new conversation",

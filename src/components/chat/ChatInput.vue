@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, reactive } from "vue";
+import { computed, reactive } from "vue";
 import { router } from "@/router";
 import Tooltip from "@/components/common/Tooltip.vue";
 import useChat from "@/context/chat";
@@ -120,65 +120,71 @@ const toggleTTS = () => {
                     v-model="state.input" :aria-label="$t(l.screen_recorder_chat_input_description)" />
             </form>
         </div>
-        <div class="chat-text-right">
-            <div class="chat-tts">
-                <div class="chat-tts-top">
-                    <a class="chat-content" v-if="getChatContentIds(chat.messages).length > 0" tabindex="0"
-                        href="#" @keydown.space="() => router.push('/content-catalogue')"
-                        @click="() => router.push('/content-catalogue')">
-                        <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left" :useMaxContent="true"
-                            :adjustPosition="true">
+        <div class="chat-input-right">
+            <div class="chat-input-right-top">
+                <template v-if="getChatContentIds(chat.messages).length > 0">
+                    <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="top-left" :useMaxContent="true"
+                        :adjustPosition="true">
+                        <button class="chat-input-button" @keydown.space="() => router.push('/content-catalogue')"
+                            @click="() => router.push('/content-catalogue')">
                             <div class="icon chatbox-content-default"></div>
-                        </Tooltip>
-                    </a>
-                </div>
-                <div class="chat-tts-buttom">
-                    <template v-if="stt.isSupported.value">
-                        <Tooltip :text="stt.isListening.value
-                            ? $t(l.tooltip_chat_speech_recognition_off)
-                            : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
-                            :adjustPosition="true">
-                            <button class="chat-speech-button" @click="toggleListening" type="button" :aria-label="stt.isListening.value
-                                ? $t(l.tooltip_chat_speech_recognition_off)
-                                : $t(l.tooltip_chat_speech_recognition_on)">
-                                <div v-if="stt.isListening.value" class="icon voice-control-stop"></div>
-                                <div v-else class="icon voice-control"></div>
-                            </button>
-                        </Tooltip>
-                    </template>
-                    <template v-if="tts.isSupported.value">
-                        <Tooltip :text="UISettings.ttsEnabled
+                        </button>
+                    </Tooltip>
+                </template>
+                <template v-if="tts.isSupported.value">
+                    <Tooltip :text="UISettings.ttsEnabled
+                        ? $t(l.tooltip_chat_tts_read_new_messages_off)
+                        : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
+                        :adjustPosition="true">
+                        <button class="chat-input-button" @click="toggleTTS" type="button" :aria-label="UISettings.ttsEnabled
                             ? $t(l.tooltip_chat_tts_read_new_messages_off)
-                            : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
-                            :adjustPosition="true">
-                            <button class="chat-tts-button" @click="toggleTTS" type="button" :aria-label="UISettings.ttsEnabled
-                                ? $t(l.tooltip_chat_tts_read_new_messages_off)
-                                : $t(l.tooltip_chat_tts_read_new_messages_on)">
+                            : $t(l.tooltip_chat_tts_read_new_messages_on)">
+                            <div class="icon-background">
                                 <font-awesome-icon icon="fa-solid fa-volume-xmark" class="fa-volume-input"
                                     v-if="UISettings.ttsEnabled" />
                                 <font-awesome-icon icon="fa-solid fa-volume-high" class="fa-volume-input" v-else />
-                            </button>
-                        </Tooltip>
-                    </template>
-                </div>
+                            </div>
+                        </button>
+                    </Tooltip>
+                </template>
+                <template v-if="props.optionsVisible">
+                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="top-left" :useMaxContent="false"
+                        :adjustPosition="true">
+                        <button class="chat-input-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
+                            type="button" :data-tutorial-state="ChatTutorialState.Sidepanel"
+                            @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
+                                ? $t(l.screen_recorder_close_chat_side_panel)
+                                : $t(l.screen_recorder_open_chat_side_panel)">
+                            <div class="icon summary-switch-default"></div>
+                        </button>
+                    </Tooltip>
+                </template>
             </div>
-            <div class="chat-options">
-                <button v-if="props.optionsVisible" class="chat-options-button"
-                    :class="{ 'chat-options-button-active': props.optionsOpen }" type="button"
-                    :data-tutorial-state="ChatTutorialState.Sidepanel" @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
-                        ? $t(l.screen_recorder_close_chat_side_panel)
-                        : $t(l.screen_recorder_open_chat_side_panel)">
-                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="bottom" :useMaxContent="false"
+            <div class="chat-input-right-bottom">
+                <template v-if="stt.isSupported.value">
+                    <Tooltip :text="stt.isListening.value
+                        ? $t(l.tooltip_chat_speech_recognition_off)
+                        : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
                         :adjustPosition="true">
-                        <div class="icon summary-switch-default"></div>
+                        <button class="chat-input-button" @click="toggleListening" type="button" :aria-label="stt.isListening.value
+                            ? $t(l.tooltip_chat_speech_recognition_off)
+                            : $t(l.tooltip_chat_speech_recognition_on)">
+                            <div v-if="stt.isListening.value" class="icon-background recording">
+                                <div class="icon speech-to-text"></div>
+                            </div>
+                            <div v-else class="icon-background">
+                                <div class="icon speech-to-text"></div>
+                            </div>
+                        </button>
                     </Tooltip>
-                </button>
-                <button class="chat-send-button" @click="submit" type="button" :aria-label=$t(l.tooltip_send_message)>
-                    <Tooltip :text="$t(l.tooltip_send_message)" position="bottom" :useMaxContent="true"
-                        :adjustPosition="true">
-                        <div class="chat-send-icon icon send-message-default"></div>
-                    </Tooltip>
-                </button>
+                </template>
+                <Tooltip :text="$t(l.tooltip_send_message)" position="top-left" :useMaxContent="true"
+                    :adjustPosition="true">
+                    <button class="chat-input-button" @click="submit" type="button"
+                        :aria-label=$t(l.tooltip_send_message)>
+                        <div class="icon send-message-default"></div>
+                    </button>
+                </Tooltip>
             </div>
         </div>
     </div>
@@ -192,7 +198,6 @@ const toggleTTS = () => {
     border-radius: 1rem 1rem 0 0;
     box-shadow: 0 0 5px var(--box-stroke);
     margin: 0 5px 0 5px;
-    padding: 1rem;
     background-color: var(--panel-background-color);
     z-index: 2;
     position: relative;
@@ -206,37 +211,31 @@ const toggleTTS = () => {
     position: relative;
     align-items: flex-start;
     gap: 1rem;
+    padding: 1rem;
+    padding-right: 0;
 }
 
-.chat-text-right {
+.chat-input-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: 0.2rem;
+}
+
+.chat-input-right-top {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
-.chat-tts {
+.chat-input-right-bottom {
     display: flex;
-    flex-direction: column;
-    width: 70%;
-    height: 100%;
-}
-
-.chat-tts-top {
-    display: flex;
-    height: 50%;
-}
-
-.chat-tts-buttom {
-    display: flex;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    height: 50%;
-}
-
-.chat-options {
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
 }
 
 .chat-input-bar {
@@ -283,37 +282,50 @@ const toggleTTS = () => {
     border-radius: 0.5rem;
 }
 
-.chat-content {
-    margin-left: auto;
-}
+.chat-input-button {
+    margin: 0;
+    padding: 0;
+    width: 48px;
+    height: 48px;
 
-.chat-content .icon {
-    width: 2rem;
-    height: 2rem;
-}
-
-.chat-options-button,
-.chat-send-button,
-.chat-speech-button,
-.chat-tts-button {
     display: flex;
-    flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: color .25s;
-    padding: 0.2rem;
-    color: var(--button-color);
-    width: 2rem;
-    border: none;
+    border: 0;
     background-color: transparent;
 
-    &:hover {
-        color: var(--hover-text);
+    .icon {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+    }
+
+    .icon-background {
+        width: 38px;
+        height: 38px;
+        margin-bottom: 4px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--button-color);
+        border-radius: 50%;
+        overflow: hidden;
+
+        svg,
+        .speech-to-text {
+            width: 75%;
+            height: 75%;
+            margin: 0;
+        }
+    }
+
+    .recording {
+        background-color: var(--accent-primary-color);
     }
 }
 
-.theme-dark .chat-tts-button {
+.theme-dark .icon-background svg {
     color: #FFF;
 }
 
@@ -350,7 +362,7 @@ const toggleTTS = () => {
         width: 100%;
     }
 
-    .chat-text-right {
+    .chat-input-right {
         width: 20%;
     }
 

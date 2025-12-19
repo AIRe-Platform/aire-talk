@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import { ChatMessageGroup } from '@/models/chat';
-import { defineProps } from 'vue';
 import QuestionAnswer from '@/components/questionnaire/QuestionAnswer.vue';
 import QuestionItem from '@/components/questionnaire/QuestionItem.vue';
 

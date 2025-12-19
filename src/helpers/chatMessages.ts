@@ -7,7 +7,15 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import i18n, { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
-import { AireChatMessage, AireChatRole, AireQuestionnaireAnswer, AireContent, AireQuestion, AireReminder, AireKeyword } from "aire";
+import {
+    AireChatMessage,
+    AireChatRole,
+    AireQuestionnaireAnswer,
+    AireContent,
+    AireQuestion,
+    AireReminder,
+    AireKeyword
+} from "aire";
 
 const BOT_NAME = "aire_bot"
 const SYSTEM_NAME = "aire_system"
@@ -26,29 +34,19 @@ export function createMessage(
     role: AireChatRole,
     message: string | undefined = undefined,
     localize: boolean = false,
-    hidden: boolean = false): ChatMessage {
-
-    let sender = "";
-    switch (role) {
-        case "assistant": sender = BOT_NAME; break;
-        case "system": sender = SYSTEM_NAME; break;
-        case "user": sender = getUserName(); break;
-    }
-
-    let content = message;
-    if (localize && content) {
-        content = i18n.global.t(content);
-    }
-
+    hidden: boolean = false,
+    agent: string | undefined = undefined): ChatMessage {
     return {
         type: type,
         id: newMessageId(),
-        sender: sender,
+        sender: getSenderName(role),
         role: role,
-        content: content,
+        content: message,
         rating: 0,
         timestamp: Date.now(),
-        hidden: hidden
+        hidden: hidden,
+        localize: localize,
+        agent: agent,
     }
 }
 
@@ -80,8 +78,8 @@ export function createErrorMessage(message_loc_key: string): ChatMessage {
     return createMessage(ChatMessageType.Error, "system", message_loc_key, true);
 }
 
-export function createAssistantMessage(message: string): ChatMessage {
-    return createMessage(ChatMessageType.Default, "assistant", message)
+export function createAssistantMessage(message: string, agent?: string): ChatMessage {
+    return createMessage(ChatMessageType.Default, "assistant", message, false, false, agent);
 }
 
 export function createInstructionMessage(instructions: string): ChatMessage {

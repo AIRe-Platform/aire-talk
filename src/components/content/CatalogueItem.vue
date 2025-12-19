@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import Panel from '@/components/common/Panel.vue';
-import { defineProps, defineEmits, computed } from "vue";
+import { computed } from "vue";
 import { AireContentType, AireContent } from 'aire';
 import { l } from '@/locales';
 import Tooltip from '../common/Tooltip.vue';

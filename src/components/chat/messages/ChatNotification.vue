@@ -3,9 +3,8 @@
  file, You can obtain one at https://mozilla.org/MPL/2.0/.
  -->
 
-
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
@@ -21,15 +20,20 @@ const keyword = computed(() => (props.message.theme || props.message.content)!)
 const content = computed(() => {
     const lang = getUILanguage();
     if (props.message.type == ChatMessageType.Keyword) {
-        return getKeywordTranslation(keyword.value, lang.value);
+        const native = getKeywordTranslation(keyword.value, lang.value);
+        if (native)
+            return native;
+
+        const english = getKeywordTranslation(keyword.value, "en");
+        if (english)
+            return english;
     }
     return keyword.value;
 });
 </script>
 
 <template>
-    <div :id="props.message.id" class="chat-notification"
-        v-if="props.message.type == ChatMessageType.Keyword && content">
+    <div :id="props.message.id" class="chat-notification" v-if="props.message.type == ChatMessageType.Keyword">
         {{ $t(l.notification_keyword, { keyword: content }) }}
         <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
             <button class="button-keyword-delete" type="button" :aria-label=$t(l.tooltip_remove_keyword)

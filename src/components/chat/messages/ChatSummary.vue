@@ -8,7 +8,7 @@ import { getLastMessage, listChatKeywords, onAcceptSummary, onRejectSummary, rem
 import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 
 const props = defineProps<{

@@ -18,6 +18,7 @@ const rw: Locale = {
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
     system_reminder_set: "Kwibutsa gushya '{subject}' mugihe {time}.",
+    system_switched_agent: "Woherejwe ku wundi mukozi.",
 
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",

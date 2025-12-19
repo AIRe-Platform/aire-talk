@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import ChatContent from '@/components/chat/ChatContent.vue';
