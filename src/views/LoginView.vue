@@ -10,6 +10,9 @@ import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
+import { useRoute } from 'vue-router';
+import { AireServices } from 'aire';
+import usePlatform from '@/context/platform';
 
 const state = reactive<{
     busy: boolean,
@@ -21,8 +24,18 @@ const state = reactive<{
     error: false
 });
 
-onMounted(() => {
+const route = useRoute();
+const platform = usePlatform();
+
+onMounted(async () => {
     showSpinner(SpinnerId.LoginView);
+
+    if (route.params.platform) {
+        const plat = route.params.platform as string;
+        if (plat !== platform.current())
+            await platform.switch(plat);
+    }
+
     useLogin()
         .redirectToLogin()
         .then(ok => { state.error = !ok; })

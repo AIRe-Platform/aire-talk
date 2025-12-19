@@ -7,7 +7,7 @@ import { createApp, ref } from "vue";
 import { router } from "./router";
 import App from "./App.vue";
 import i18n from "./locales";
-import { AireStatus, aireInit, aireSetResponseCallback } from "aire";
+import { AireStatus, aireSetResponseCallback } from "aire";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -36,6 +36,7 @@ import {
     faSortUp
 } from "@fortawesome/free-solid-svg-icons";
 import useLogin from "./context/login";
+import usePlatform from "./context/platform";
 
 library.add(
     faThumbsDown,
@@ -65,28 +66,23 @@ library.add(
 
 export const AppState = ref<"init" | "loaded" | "error">("init");
 
-async function initApp() {
+
+async function initApp(): Promise<boolean> {
     if (AppState.value !== "init")
         return true;
 
-    return await aireInit({
-        api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
-        client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
-        config_id: import.meta.env.VITE_AIRE_PLATFORM
-    })
+    const result = await usePlatform().init()
         .then(async (result) => {
-            if (result) {
-                await useLogin()
-                    .restoreSession()
-                    .catch(() => console.log("Failed to restore session"));
-                return true;
-            }
-            return false;
+            await useLogin().restoreSession();
+            return result;
         })
         .catch((reason) => {
             console.error(reason);
             return false;
         });
+
+    AppState.value = result ? "loaded" : "error";
+    return result;
 }
 
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
@@ -107,7 +103,8 @@ aireSetResponseCallback(() => {
     router.replace("/login");
 }, AireStatus.LoginRequired);
 
-export async function initWithRetry() {
+
+export async function initWithRetry(): Promise<boolean> {
     let init_counter = 0;
     const MAX_INIT_RETRIES = 5;
     const delay = (ms: number) => {
@@ -119,7 +116,7 @@ export async function initWithRetry() {
 
         if (await initApp()) {
             AppState.value = "loaded";
-            return;
+            return true;
         }
 
         if (init_counter <= MAX_INIT_RETRIES) {
@@ -131,4 +128,6 @@ export async function initWithRetry() {
             AppState.value = "error";
         }
     }
+
+    return false;
 }

@@ -5,14 +5,16 @@
 
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { AireStatus } from 'aire';
+import { aireInit, AireServices, AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";
 import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
+import { useRoute } from 'vue-router';
+import usePlatform from '@/context/platform';
 
 const busy = ref(false);
 const error = ref<string>();
@@ -21,6 +23,9 @@ const fields = reactive<{
     password?: string,
     passwordConfirm?: string
 }>({});
+
+const route = useRoute();
+const platform = usePlatform();
 
 const onSignup = (e: Event) => {
     const form = e.target as HTMLFormElement
@@ -56,6 +61,14 @@ const onSignup = (e: Event) => {
 const goBack = () => {
     router.push("/");
 }
+
+onMounted(async () => {
+    if (route.params.platform) {
+        const plat = route.params.platform as string;
+        if (plat !== platform.current())
+            await platform.switch(plat);
+    }
+})
 </script>
 
 <template>
