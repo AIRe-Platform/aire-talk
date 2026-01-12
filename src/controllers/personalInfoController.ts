@@ -100,7 +100,8 @@ export function createPersonalInfoQuestionnaire(): Questionnaire | undefined {
         queue: fields,
         answers: [],
         controller_type: QuestionnaireControlFlow.PersonalInfo,
-        completed: false
+        completed: false,
+        memory: ""
     };
 
     return questionnaire;

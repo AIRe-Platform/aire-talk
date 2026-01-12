@@ -21,4 +21,5 @@ export interface Questionnaire {
     controller_type: QuestionnaireControlFlow;
     completed: boolean;
     is_feedback?: boolean;
+    memory: string;
 }

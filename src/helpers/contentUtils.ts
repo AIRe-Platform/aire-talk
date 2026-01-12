@@ -70,20 +70,16 @@ export async function rankSelectedContent(selectedContents: AireContent[]): Prom
 }
 
 // Function to fetch content and rank it
-export async function fetchAndRankContents(media: string[]): Promise<AireContent[]> {
-    const contents: AireContent[] = [];
-    const contentCtx = useContent();
-
-    for (const content of media) {
-        const fetchedContent = await contentCtx.get(content);
-        if (fetchedContent) {
-            contents.push(fetchedContent);
-        }
+export async function fetchAndRankContents(contents: string[]): Promise<AireContent[]> {
+    const results: AireContent[] = [];
+    for (const content_id of contents) {
+        const fetchedContent = await useContent().get(content_id);
+        if (fetchedContent)
+            results.push(fetchedContent);
     }
 
-    if (contents.length > 0) {
-        return await rankSelectedContent(contents);
-    }
+    if (results.length > 0)
+        return await rankSelectedContent(results);
 
     return [];
 }

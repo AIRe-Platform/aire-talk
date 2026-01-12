@@ -40,6 +40,7 @@ import {
 import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
 import useAireMemory from "@/context/memory";
+import useKeywords from "@/context/keywords";
 
 const statistics = useStatistics();
 const chat = useChat();
@@ -50,7 +51,7 @@ const login = useLogin();
  * @returns array of chats format id: string, date: string
  */
 export async function getAllChats(): Promise<AireChatMetadata[]> {
-    const memory = useAireMemory().defaultMemory();
+    const memory = useAireMemory().platformDefault();
     if (memory) {
         const result = await memory.getChatlogs()
         if (result.data) {
@@ -62,6 +63,21 @@ export async function getAllChats(): Promise<AireChatMetadata[]> {
         console.error("Memory service is not available")
     }
     return []
+}
+
+/**
+ * Load all chats and cache chat resources
+ */
+export async function loadAllChats() {
+    const all = await getAllChats();
+    const loaders = all.map(async (x) => {
+        if (await useChat().load(x.id))
+            return useChatCache().get(x.id);
+        else
+            return undefined;
+    })
+
+    await Promise.all(loaders);
 }
 
 /**
@@ -114,7 +130,10 @@ export function findChatKeywords(messages: ChatMessage[]): string[] {
 }
 
 export function listChatKeywords(): string[] {
-    return (chat.state.themes ?? []).map(x => x.value);
+    if (chat.state.themes)
+        return (chat.state.themes ?? []).map(x => x.value);
+    else
+        return findChatKeywords(chat.messages);
 }
 
 export function conversationEnded(messages: ChatMessage[]) {
@@ -320,14 +339,21 @@ export async function queryAndStartQuestionnaire(keywords: string[]): Promise<bo
 
         useChatbot().makeBusy();
         return await queryQuestionnaire(keywords)
-            .then(questionnaire => {
-                chat.state.questionnaire_queries ??= [];
-                chat.state.questionnaire_queries.push(q);
-                if (questionnaire) {
-                    const q = createQuestionnaire(questionnaire);
-                    if (q) {
-                        useQuestionnaire().startQuestionnaire(q);
-                        return true;
+            .then(results => {
+                for (const result of results) {
+                    const memory = useAireMemory().get(result.source);
+                    if (!memory)
+                        continue;
+
+                    chat.state.questionnaire_queries ??= [];
+                    chat.state.questionnaire_queries.push(q);
+
+                    if (result.result) {
+                        const q = createQuestionnaire(result.result, memory);
+                        if (q) {
+                            useQuestionnaire().startQuestionnaire(q);
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -340,10 +366,15 @@ export async function queryAndStartQuestionnaire(keywords: string[]): Promise<bo
 export async function queryAndStartQuestionnaireWithKeyword(keyword: string): Promise<boolean> {
     useChatbot().makeBusy();
     return await queryQuestionnairesForKeyword(keyword)
-        .then(questionnaires => {
-            const questionnaire = questionnaires?.at(0);
-            if (questionnaire) {
-                const q = createQuestionnaire(questionnaire);
+        .then(results => {
+            const valid = results?.filter(x => x.results.length > 0);
+            for (const result of valid) {
+                const memory = useAireMemory().get(result.source);
+                const questionnaire = result.results.at(0);
+                if (!memory || !questionnaire)
+                    continue;
+
+                const q = createQuestionnaire(questionnaire, memory);
                 if (q) {
                     useQuestionnaire().startQuestionnaire(q);
                     return true;
@@ -415,13 +446,16 @@ export function pushKeyword(keyword: AireKeyword) {
             chat.state.documents = [];
 
         if (chat.state.documents.findIndex(x => x.source === keyword.document) < 0) {
-            const memory = useAireMemory().agentMemory();
-            if (memory) {
-                memory.getDocumentWithId(keyword.document)
-                    .then(res => {
-                        if (res.data)
-                            chat.state.documents?.push(res.data)
-                    })
+            const origin = useKeywords().getOrigin(keyword.value)
+            if (origin) {
+                const memory = useAireMemory().get(origin);
+                if (memory) {
+                    memory.getDocumentWithId(keyword.document)
+                        .then(res => {
+                            if (res.data)
+                                chat.state.documents?.push(res.data)
+                        })
+                }
             }
         }
     }

@@ -5,6 +5,7 @@
 import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
 import useQuestionnaire from "./questionnaire";
 import { reactive } from "vue";
+import useAireMemory from "./memory";
 
 
 export class FeedbackContext {
@@ -14,13 +15,15 @@ export class FeedbackContext {
      * Start the questionnaire to save into events 
      */
     public async beginQuestionnaire() {
-
         const questionnaires = useQuestionnaire();
+        const query = await queryFeedbackQuestionnaire();
 
-        const queried = await queryFeedbackQuestionnaire();
+        for (const queried of query) {
+            const memory = useAireMemory().get(queried.source);
+            if (!memory)
+                continue;
 
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
+            const questionnaire = createQuestionnaire(queried.result, memory);
             if (questionnaire)
                 questionnaires.startQuestionnaire(questionnaire);
         }

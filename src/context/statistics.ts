@@ -39,7 +39,7 @@ export class StatisticsContext {
     }
 
     public async sendEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
-        const memory = useAireMemory().defaultMemory();
+        const memory = useAireMemory().platformDefault();
         return await memory?.postStatisticsEvent(event)
             .then(result => {
                 if (result.status == AireStatus.Success && result.data) {
@@ -60,7 +60,7 @@ export class StatisticsContext {
     public async updateEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
         if (!event.id)
             return undefined;
-        const memory = useAireMemory().defaultMemory();
+        const memory = useAireMemory().platformDefault();
 
         return await memory?.updateStatisticsEvent(event)
             .then(result => {
