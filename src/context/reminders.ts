@@ -5,9 +5,10 @@
 import { reactive } from "vue";
 import { AireReminder, AireServices, AireStatus } from "aire";
 import useAireMemory from "./memory";
+import { useReminderCache } from "./cache";
 
 export class ReminderContext {
-    reminderSourceCache: { [key: string]: string } = {};
+    private cache = useReminderCache();
 
     public async getReminders(active_only: boolean): Promise<AireReminder[]> {
         const reminders = Array<AireReminder>();
@@ -16,8 +17,10 @@ export class ReminderContext {
                 .then(x => {
                     if (x.data) {
                         x.data.forEach(item => {
-                            this.reminderSourceCache[item.id!] = memory.id
-                            reminders.push(item)
+                            if (item.id) {
+                                this.cache.set(item.id, { origin: memory.id, reminder: item });
+                                reminders.push(item)
+                            }
                         })
                     }
                 })
@@ -27,15 +30,20 @@ export class ReminderContext {
     }
 
     public async getReminder(id: string): Promise<AireReminder | undefined> {
-        const memory = useAireMemory().agentMemory();
-        return await memory?.getReminder(id).then(res => res.data);
+        const source = this.cache.get(id)?.origin;
+        const sources = source ? [useAireMemory().get(source)] : useAireMemory().all();
+        for (const memory of sources) {
+            const reminder = await memory?.getReminder(id).then(res => res.data);
+            if (reminder)
+                return reminder;
+        }
     }
 
     public async editReminder(reminder: AireReminder): Promise<AireReminder | undefined> {
         if (reminder.id) {
-            const source = this.reminderSourceCache[reminder.id];
+            const source = this.cache.get(reminder.id)?.origin;
             if (source) {
-                const memory = useAireMemory().getMemory(source);
+                const memory = useAireMemory().get(source);
                 return await memory?.editReminder(reminder).then(res => res.data);
             }
         }
@@ -43,16 +51,16 @@ export class ReminderContext {
     }
 
     public async deleteReminder(id: string): Promise<boolean> {
-        const source = this.reminderSourceCache[id];
+        const source = this.cache.get(id)?.origin;
         if (source) {
-            const memory = useAireMemory().getMemory(source);
+            const memory = useAireMemory().get(source);
             return await memory?.deleteReminder(id).then(res => res === AireStatus.Success) ?? false;
         }
         return false;
     }
 }
 
-const context: ReminderContext = reactive(new ReminderContext());
+const context = reactive(new ReminderContext());
 
 export default function useReminders() {
     return context;

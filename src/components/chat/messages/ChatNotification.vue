@@ -7,9 +7,9 @@
 import { computed } from 'vue';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage, ChatMessageType } from '@/models/chat';
-import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import Tooltip from "@/components/common/Tooltip.vue";
 import { removeKeyword } from '@/helpers/chatUtils';
+import useKeywords from '@/context/keywords';
 
 const props = defineProps<{
     message: ChatMessage;
@@ -20,11 +20,11 @@ const keyword = computed(() => (props.message.theme || props.message.content)!)
 const content = computed(() => {
     const lang = getUILanguage();
     if (props.message.type == ChatMessageType.Keyword) {
-        const native = getKeywordTranslation(keyword.value, lang.value);
+        const native = useKeywords().getTranslation(keyword.value, lang.value);
         if (native)
             return native;
 
-        const english = getKeywordTranslation(keyword.value, "en");
+        const english = useKeywords().getTranslation(keyword.value, "en");
         if (english)
             return english;
     }

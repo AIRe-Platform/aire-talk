@@ -8,7 +8,7 @@
 import { onMounted, reactive, ref } from 'vue';
 import { l } from '@/locales';
 import { router } from '@/router';
-import { aireInit, AireServices, AireStatus } from 'aire';
+import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";

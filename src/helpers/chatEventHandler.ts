@@ -26,7 +26,7 @@ import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
 import { createQuestionnaire, getChatQuestionnairesIds } from "./questionnaireUtils";
 import useAireMemory from "@/context/memory";
 import { getUILanguage, l } from "@/locales";
-import { updateKeywordMetadata } from "./keywordUtils";
+import useKeywords from "@/context/keywords";
 
 class ChatEventHandler {
     private newMessage = false;
@@ -45,7 +45,7 @@ class ChatEventHandler {
         if (newKeywords.length > 0) {
             console.debug("Received new themes", newKeywords);
 
-            const keywords = await updateKeywordMetadata(newKeywords.map(x => x.value));
+            const keywords = await useKeywords().updateMetadata(newKeywords.map(x => x.value));
             keywords.forEach(pushKeyword);
 
             //queryAndStartQuestionnaire(keywords.map(x => x.value));
@@ -65,7 +65,7 @@ class ChatEventHandler {
         console.debug("Handling questionnaire event", e);
 
         const chat = useChat();
-        const memory = useAireMemory().agentMemory();
+        const sources = useAireMemory().agent();
         const questionnaire = useQuestionnaire();
 
         if (e.results.length > 0) {
@@ -83,22 +83,24 @@ class ChatEventHandler {
                     return 0;
             }).pop();
 
-            if (best && memory) {
-                const result = await memory.getQuestionnaire(best.id);
-                if (result.status === AireStatus.Success && result.data) {
-                    const q = createQuestionnaire(result.data);
-                    if (q) {
-                        questionnaire.startQuestionnaire(q);
-                        return;
+            if (best) {
+                for (const memory of sources) {
+                    const result = await memory.getQuestionnaire(best.id);
+                    if (result.status === AireStatus.Success && result.data) {
+                        const q = createQuestionnaire(result.data, memory);
+                        if (q) {
+                            questionnaire.startQuestionnaire(q);
+                            return;
+                        }
                     }
                 }
             }
         }
 
         const inst = `
-        Questionnaire query "${e.search}" did not find suitable questionnaires.
-        Carry on with the conversation normally.
-    `
+            Questionnaire query "${e.search}" did not find suitable questionnaires.
+            Carry on with the conversation normally.
+        `
         const msg = createInstructionMessage(inst);
         chat.push(msg);
     }
@@ -121,9 +123,9 @@ class ChatEventHandler {
                     await showContentSuggestions(content);
 
                     const inst = `
-                    You found ${content.length} content suggestions.
-                    Summarize the results briefly.
-                `
+                        You found ${content.length} content suggestions.
+                        Summarize the results briefly.
+                    `
                     const msg = createInstructionMessage(inst);
                     chat.push(msg);
                     return;

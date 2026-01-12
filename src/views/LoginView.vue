@@ -11,7 +11,6 @@ import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 import { useRoute } from 'vue-router';
-import { AireServices } from 'aire';
 import usePlatform from '@/context/platform';
 
 const state = reactive<{

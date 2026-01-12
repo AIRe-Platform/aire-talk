@@ -5,11 +5,11 @@
 
 <script setup lang="ts">
 import { getLastMessage, listChatKeywords, onAcceptSummary, onRejectSummary, removeKeyword } from '@/helpers/chatUtils';
-import { getKeywordTranslation } from '@/helpers/keywordUtils';
 import { getUILanguage, l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import { computed } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
+import useKeywords from '@/context/keywords';
 
 const props = defineProps<{
     message: ChatMessage
@@ -19,7 +19,7 @@ const contentKeyword = computed(() => {
     const lang = getUILanguage();
     return keywords.value.map(keyword => {
         // Get translation for each keyword
-        const translation = getKeywordTranslation(keyword, lang.value);
+        const translation = useKeywords().getTranslation(keyword, lang.value);
         return translation !== undefined ? translation : keyword;
     });
 });

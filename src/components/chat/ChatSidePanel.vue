@@ -14,6 +14,7 @@ import Panel from '@/components/common/Panel.vue';
 import { listChatKeywords, suggestContentWithKeywords, summarizeChat } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import useMobileLayout from '@/helpers/mobile';
+import useAireMemory from '@/context/memory';
 
 const state = reactive<{
     busy: boolean,
@@ -49,10 +50,16 @@ const querySurveys = async () => {
         state.busy = true;
         const keywords = listChatKeywords();
         const queried = await queryQuestionnaire(keywords);
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
-            if (questionnaire)
+        for (const result of queried) {
+            const memory = useAireMemory().get(result.source);
+            if (!memory)
+                continue;
+
+            const questionnaire = createQuestionnaire(result.result, memory);
+            if (questionnaire) {
                 questionnaires.startQuestionnaire(questionnaire);
+                break;
+            }
         }
     } catch (error) {
         console.error('Error querySurveys in ChatSummary:', error);

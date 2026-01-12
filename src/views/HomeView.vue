@@ -12,7 +12,6 @@ import { getAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 import useTheme, { ThemeContext } from "@/context/theme";
-
 import DialogModal from "@/components/layout/DialogModal.vue";
 import ReminderComponent from "@/components/common/Reminder.vue";
 import { HomeTutorialState } from '@/context/tutorials';

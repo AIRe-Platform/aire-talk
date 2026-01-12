@@ -167,7 +167,8 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
         queue: questions,
         answers: [],
         controller_type: QuestionnaireControlFlow.RecallConversations,
-        completed: false
+        completed: false,
+        memory: "",
     };
 
     if (foundKeywords.length > 0 || foundSummaries.length > 0)

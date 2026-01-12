@@ -8,31 +8,26 @@ import { AireMemory, AireModuleAccess, AireModuleType, AireServices } from "aire
 import useLogin from "./login";
 
 export class MemoryContext {
-    public agentMemory(agent_name?: string): AireMemory | undefined {
+    public get(id: string): AireMemory | undefined {
+        return AireServices.Memories?.find(x => x.id === id);
+    }
+
+    public platformDefault(): AireMemory | undefined {
+        return AireServices.Memories?.at(0);
+    }
+
+    public agent(agent_name?: string): AireMemory[] {
         const chat = useChat();
         agent_name ??= chat.state.agent;
 
         if (agent_name) {
             const agent = AireServices.Agents?.find(x => x.name === agent_name);
-            const agentMemory = agent?.memories.at(0);
-            if (agentMemory) {
-                return AireServices.Memories?.find(x => x.id === agentMemory);
-            }
+            return agent?.memories
+                .map(x => AireServices.Memories?.find(y => x === y.id))
+                .filter(x => x !== undefined) || [];
         }
 
-        return undefined;
-    }
-
-    public defaultMemory(): AireMemory | undefined {
-        return AireServices.Memories?.at(0);
-    }
-
-    public agentOrDefaultMemory(agent_name?: string): AireMemory | undefined {
-        return this.agentMemory(agent_name) ?? this.defaultMemory();
-    }
-
-    public getMemory(id: string): AireMemory | undefined {
-        return AireServices.Memories?.find(x => x.id === id);
+        return [];
     }
 
     public externalUserConnected(): AireMemory[] {
@@ -66,11 +61,24 @@ export class MemoryContext {
         return [
             ... this.externalUserConnected(),
             ... this.externalPublic()
-        ]
+        ];
     }
 
-    public aggregate<T>(services: AireMemory[], func: (memory: AireMemory) => T[]): T[] {
-        return services.map(x => func(x)).flatMap(x => x);
+    public internal(): AireMemory[] {
+        return AireServices.Memories || [];
+    }
+
+    public all(): AireMemory[] {
+        return [
+            ... this.internal(),
+            ... this.external()
+        ];
+    }
+
+    public async aggregate<T>(services: AireMemory[], func: (memory: AireMemory) => Promise<T[]>): Promise<T[]> {
+        const tasks = services.map(async mem => await func(mem));
+        const completed = await Promise.all(tasks);
+        return completed.flatMap(x => x);
     }
 }
 

@@ -3,6 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import {
+    AireMemory,
     AireQuestion,
     AireQuestionnaire,
     AireQuestionnaireAnswer
@@ -19,7 +20,7 @@ import useAireMemory from "@/context/memory";
  * @param model Questionnaire model
  * @returns Object representing questionnaire state
  */
-export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | undefined {
+export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory): Questionnaire | undefined {
     if (!model.id)
         return undefined;
 
@@ -38,7 +39,8 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
         answers: [],
         controller_type: QuestionnaireControlFlow.Default,
         completed: false,
-        is_feedback: isFeedback
+        is_feedback: isFeedback,
+        memory: source.id
     };
 }
 
@@ -46,54 +48,50 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
  * Query questionnaires with current keywords and 
  * prompt user to start the questionnaire (if a questionnaire was found)
  */
-export async function queryQuestionnaire(keywords: string[]): Promise<AireQuestionnaire | undefined> {
+export async function queryQuestionnaire(keywords: string[]): Promise<{ source: string, result: AireQuestionnaire }[]> {
     if (keywords.length < 1)
-        return;
-    const memory = useAireMemory().agentMemory();
-    if (!memory) {
-        console.warn("Memory service is not available for this agent");
-        return;
-    }
-    const lang = getUILanguage();
-    const query = await memory.queryQuestionnaire(keywords, lang.value);
+        return [];
 
-    if (!query.data)
-        return;
+    const sources = useAireMemory().agent();
 
-    return query.data;
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.queryQuestionnaire(keywords, lang.value);
+
+        if (!query.data)
+            return [];
+
+        return [{ source: memory.id, result: query.data }];
+    });
 }
 
-export async function queryQuestionnairesForKeyword(keyword: string): Promise<AireQuestionnaire[] | undefined> {
-    const memory = useAireMemory().agentMemory();
-    if (!memory) {
-        console.warn("Memory service is not available for this agent");
-        return;
-    }
-    const lang = getUILanguage();
-    const query = await memory.getQuestionnairesWithKeyword(keyword, lang.value);
+export async function queryQuestionnairesForKeyword(keyword: string): Promise<{ source: string, results: AireQuestionnaire[] }[]> {
+    const sources = useAireMemory().agent();
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.getQuestionnairesWithKeyword(keyword, lang.value);
 
-    if (!query.data)
-        return;
+        if (!query.data)
+            return [];
 
-    return query.data;
+        return [{ source: memory.id, results: query.data }];
+    });
 }
 
 /**
  * Query feedback questionnaire
  */
-export async function queryFeedbackQuestionnaire(): Promise<AireQuestionnaire | undefined> {
-    const memory = useAireMemory().agentMemory();
-    if (!memory) {
-        console.warn("Memory service is not available for this agent");
-        return;
-    }
-    const lang = getUILanguage();
-    const query = await memory.queryFeedbackQuestionnaire(lang.value);
+export async function queryFeedbackQuestionnaire(): Promise<{ source: string, result: AireQuestionnaire }[]> {
+    const sources = useAireMemory().agent();
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.queryFeedbackQuestionnaire(lang.value);
 
-    if (!query.data)
-        return;
+        if (!query.data)
+            return [];
 
-    return query.data;
+        return [{ source: memory.id, result: query.data }];
+    })
 }
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {

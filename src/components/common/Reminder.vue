@@ -69,7 +69,6 @@ const markEventAsRead = (index: number) => {
     const reminder = state.reminders.splice(index, 1); // remove from list immediately
     if (reminder[0]) {
         statistics.sendEvent(new ReminderEvent(
-            reminder[0].content?.message,
             reminder[0].trigger_timestamp,
             reminder[0].chat_id,
             login.user?.uuid,
@@ -86,7 +85,6 @@ const markEventAsRead = (index: number) => {
 
 const returnToConversation = (reminder: AireReminder) => {
     statistics.sendEvent(new ReminderEvent(
-        reminder.content?.message,
         reminder.trigger_timestamp,
         reminder.chat_id,
         login.user?.uuid,

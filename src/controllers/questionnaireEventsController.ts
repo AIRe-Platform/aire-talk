@@ -106,25 +106,22 @@ export async function createPersonalFeedbackQuestionnaire(): Promise<Questionnai
         queue: fields,
         answers: [],
         controller_type: QuestionnaireControlFlow.Feedback,
-        completed: false
+        completed: false,
+        memory: "",
     };
 
     return questionnaire;
 }
 
 async function saveFeedbackPersonalInformation() {
-
     const answers = getAnsweredQuestions("feedback_personal");
-
     const info: Record<string, string> = {}
 
     answers.forEach(x => { info[x.question_id] = x.answer; });
 
-    const chat = await useChat();
-
+    const chat = useChat();
     const statistics = useStatistics();
-
-    const user = await useLogin();
+    const user = useLogin();
     
     const themes: string[] = [];
     chat.messages.forEach( message => {

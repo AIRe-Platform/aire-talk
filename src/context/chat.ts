@@ -31,11 +31,11 @@ import {
     getDefaultAgent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
-import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
 import useAireMemory from "./memory";
 import ChatEvents from "@/helpers/chatEventHandler";
+import useKeywords from "./keywords";
 
 export class ChatContext {
     id?: string;
@@ -205,7 +205,7 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
-        const memory = useAireMemory().defaultMemory();
+        const memory = useAireMemory().platformDefault();
 
         if (memory) {
             this.state.summary = findLatestSummaryMessage(this.messages)?.content;
@@ -264,7 +264,7 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        updateKeywordMetadata(listChatKeywords());
+        useKeywords().updateMetadata(listChatKeywords());
 
         scrollChatToBottom();
         return true;
@@ -274,7 +274,7 @@ export class ChatContext {
         if (chat_id == this.id)
             await this.reset(true, false)
 
-        const memory = useAireMemory().defaultMemory();
+        const memory = useAireMemory().platformDefault();
 
         if (memory) {
             await memory.deleteChat(chat_id)
@@ -294,12 +294,13 @@ export class ChatContext {
 
     public async load(chat_id: string, force: boolean = false): Promise<boolean> {
         const cache = useChatCache();
+        const keywords = useKeywords();
 
         if (chat_id in cache && !force) {
             return true;
         }
 
-        const memory = useAireMemory().defaultMemory();
+        const memory = useAireMemory().platformDefault();
         if (memory) {
             const result = await memory.getChat(chat_id);
             if (result.status != AireStatus.Success || !result.data)
@@ -309,10 +310,7 @@ export class ChatContext {
             const state = (chatlog.state || {}) as ChatState;
             const messages = chatlog.messages.map(mapMessage);
 
-            // Old chat logs do not have themes in the state object,
-            // one has to look for the keywords in the messages
-            if (!state.themes)
-                state.themes = await updateKeywordMetadata(findChatKeywords(messages), state.agent)
+            state.themes = await keywords.updateMetadata(listChatKeywords());
 
             cache.set(chat_id, {
                 messages: messages,

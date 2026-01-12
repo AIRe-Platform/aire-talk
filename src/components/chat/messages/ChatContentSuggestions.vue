@@ -58,7 +58,7 @@ const showContent = async (content: AireContent) => {
                 ContentEventName.Opened,
                 ContentEventAction.ModalOpen
             ));
-            await contentCtx.addViewCount(content.id);
+            await contentCtx.addViewCount(content);
         }
     } catch (error) {
         console.error('Error addViewCount in content in ChatBubble:', error);

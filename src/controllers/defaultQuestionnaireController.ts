@@ -12,6 +12,7 @@ import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
 import i18n, { l } from "@/locales";
 import { Questionnaire } from "@/models/questionnaire";
 import {
+    AireMemory,
     AireQuestion,
     AireQuestionOption,
     AireQuestionOptionCheckbox,
@@ -61,7 +62,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 context.reset();
         }
         else if (question.question_id === `${self.id}_end`) {
-            digest(self.id)
+            digest(self.id, self.memory)
                 .then(() => {
                     context.reset();
                 })
@@ -132,7 +133,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
 
 export default DefaultQuestionnaireController;
 
-async function digest(questionnaire_id: string) {
+async function digest(questionnaire_id: string, source: string) {
     const chat = useChat();
     const bot = useChatbot();
     const answers = getAnsweredQuestions(questionnaire_id);
@@ -147,11 +148,14 @@ async function digest(questionnaire_id: string) {
         return;
     }
 
-    if (!await saveResults(results)) {
-        const err = createErrorMessage(l.error_generic);
-        chat.push(err);
-        bot.reportReady();
-        return;
+    const memory = useAireMemory().get(source);
+    if (memory) {
+        if (!await saveResults(results, memory)) {
+            const err = createErrorMessage(l.error_generic);
+            chat.push(err);
+            bot.reportReady();
+            return;
+        }
     }
 
     let message = "";
@@ -195,13 +199,7 @@ async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): P
         })
 }
 
-async function saveResults(results: AireQuestionnaireResults): Promise<boolean> {
-    const memory = useAireMemory().agentMemory();
-    if (!memory) {
-        console.warn("Memory module is not available for this agent");
-        return false;
-    }
-
+async function saveResults(results: AireQuestionnaireResults, memory: AireMemory): Promise<boolean> {
     return await memory.saveQuestionnaireResults(results)
         .then((result) => {
             if (result.status === AireStatus.Success) {
