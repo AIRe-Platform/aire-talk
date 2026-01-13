@@ -54,19 +54,23 @@ export async function loadAllChats(): Promise<AireChatMetadata[]> {
     if (!memory)
         throw Error("Memory service is not available");
 
-    const chatlogs = await memory.getChatlogs()
-        .then(result => {
-            if (result.data) {
-                return result.data.sort((b, a) => (a.time.valueOf() - b.time.valueOf()));
-            }
-        });
-
+    let chatlogs = await memory.getChatlogs().then(result => result.data);
     if (!chatlogs)
         return [];
 
-    const load_tasks = chatlogs.map(x => useChat().load(x));
+    // Sort by date, newest first
+    chatlogs = chatlogs.sort((b, a) => (+DateTime.fromISO(a.time) - +DateTime.fromISO(b.time)));
+
+    // Check which logs has not been fetched or are out of date
+    const refresh = chatlogs.filter(x => {
+        const cached = useChatCache().get(x.id);
+        return cached ? (+DateTime.fromISO(cached.metadata.time) < +DateTime.fromISO(x.time)) : true;
+    })
+
+    // Fetch chats in parallel
+    const load_tasks = refresh.map(x => useChat().load(x.id));
     await Promise.all(load_tasks);
-    
+
     return chatlogs;
 }
 
@@ -124,10 +128,12 @@ export function listKeywordsFromChat(chat_id: string): string[] {
     if (!chat)
         return [];
 
-    if (chat.state.themes)
-        return (chat.state.themes ?? []).map(x => x.value);
-    else
+    if (chat.state?.themes)
+        return (chat.state?.themes ?? []).map(x => x.value);
+    else if (chat.messages)
         return findChatKeywords(chat.messages);
+    else
+        return [];
 }
 
 export function listChatKeywords(): string[] {
@@ -446,7 +452,7 @@ export function pushKeyword(keyword: AireKeyword) {
         if (!chat.state.documents)
             chat.state.documents = [];
 
-        for (const doc in keyword.documents) {
+        for (const doc of keyword.documents) {
             if (chat.state.documents.findIndex(x => x.source === doc) < 0) {
                 const origin = useKeywords().getOrigin(keyword.value)
                 if (origin) {

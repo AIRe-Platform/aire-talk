@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
-import { AireContent, AireKeyword, AireReminder } from "aire";
+import { AireChatMetadata, AireContent, AireKeyword, AireReminder } from "aire";
 import { reactive } from "vue";
 
 export interface ContentCacheItem {
@@ -12,10 +12,10 @@ export interface ContentCacheItem {
 }
 
 export interface ChatCacheItem {
-    time: Date;
-    messages: ChatMessage[];
-    state: ChatState;
-    stats: ChatStats;
+    metadata: AireChatMetadata;
+    messages?: ChatMessage[];
+    state?: ChatState;
+    stats?: ChatStats;
 }
 
 export interface KeywordCacheItem {
