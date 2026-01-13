@@ -210,8 +210,7 @@ const toggleTTS = () => {
     justify-content: space-between;
     position: relative;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
+    padding: 0.5rem;
     padding-right: 0;
 }
 
@@ -219,7 +218,8 @@ const toggleTTS = () => {
     display: flex;
     flex-direction: column;
     justify-content: end;
-    padding: 0.2rem;
+    padding: 0.5rem;
+    padding-left: 0;
 }
 
 .chat-input-right-top {
@@ -251,8 +251,11 @@ const toggleTTS = () => {
 
 .chat-input-field {
     flex-grow: 1;
+    display: block;
     width: calc(100% - 1.25rem);
     color: black;
+    line-height: 2em;
+    max-height: 2em;
 }
 
 .chat-bot {
@@ -279,7 +282,11 @@ const toggleTTS = () => {
 }
 
 .chat-bot-text {
-    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 0.5rem;
 }
 
 .chat-input-button {
