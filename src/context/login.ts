@@ -25,6 +25,7 @@ import {
     SessionEventName,
     SessionEvent
 } from "@/models/statistics";
+import { useCache } from "./cache";
 
 const statistics = useStatistics();
 
@@ -149,7 +150,10 @@ export class LoginContext {
 
     public async logout(return_params?: string) {
         await useChat().reset(false, true);
+
         useContent().reset();
+        useCache().reset();
+
         statistics.sendEvent(new SessionEvent(
             this.user?.uuid,
             statistics.session?.id,

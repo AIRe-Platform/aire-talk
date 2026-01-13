@@ -10,7 +10,7 @@ import { vOnClickOutside } from "@vueuse/components";
 import { router } from "@/router";
 import { UIState, UIPanels, UISettings } from "@/context/ui";
 import useChat from "@/context/chat";
-import { getAllChats } from "@/helpers/chatUtils";
+import { loadAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 import { showSpinner, hideSpinner, SpinnerId } from '@/helpers/spinnerUtils';
@@ -51,16 +51,10 @@ const emit = defineEmits<{
 const refresh = () => {
     state.busy = true;
     showSpinner(SpinnerId.ChatHistory);
-    getAllChats()
+    loadAllChats()
         .then(logs => {
             state.items = logs.map((x) => {
-                chat.load(x.id);
-
-                let item: ChatLogItem = {
-                    id: x.id,
-                    time: new Date(x.time),
-                };
-
+                let item: ChatLogItem = { id: x.id, time: new Date(x.time), };
                 return item;
             });
         })

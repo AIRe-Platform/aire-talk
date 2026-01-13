@@ -5,8 +5,6 @@
 
 import { useChatCache } from "@/context/cache";
 import { ChatMessage } from "@/models/chat";
-import { getAllChats } from "./chatUtils";
-import useChat from "@/context/chat";
 import { AireContent } from "aire";
 import useContent from "@/context/content";
 
@@ -25,18 +23,18 @@ export function getChatContentIds(messages: ChatMessage[]): string[] {
 export async function getAllSuggestedContentFromHistory(): Promise<{ chatId: string; contentId: string }[]> {
     const content: { chatId: string; contentId: string }[] = [];
 
-    const chats = await getAllChats();
-    for (const c of chats) {
-        await useChat().load(c.id)
-        const chat = useChatCache().get(c.id);
-        if (chat !== undefined) {
-            getChatContentIds(chat.messages).forEach(contentId => {
-                content.push({
-                    chatId: c.id,
-                    contentId: contentId
-                });
-            })
-        }
+    const cache = useChatCache();
+    for (const id in cache) {
+        const chat = cache.get(id);
+        if (!chat)
+            continue;
+
+        getChatContentIds(chat.messages).forEach(contentId => {
+            content.push({
+                chatId: id,
+                contentId: contentId
+            });
+        })
     }
 
     return [...content];

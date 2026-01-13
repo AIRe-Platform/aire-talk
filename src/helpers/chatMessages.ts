@@ -5,7 +5,7 @@
 
 import useContent from "@/context/content";
 import useLogin from "@/context/login";
-import i18n, { l } from "@/locales";
+import { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
 import {
     AireChatMessage,
@@ -92,9 +92,9 @@ export function createKeywordMessage(keyword: AireKeyword): ChatMessage {
         prompt += `
         ${keyword.prompt}
     `
-    if (keyword.document)
+    for (const doc of keyword.documents ?? [])
         prompt += `
-        Document attached to this topic: '${keyword.document}'
+        Document attached to this topic: '${doc}'
         Use document search to find information in the document
     `
     prompt += "[/INST]"

@@ -12,6 +12,7 @@ export interface ContentCacheItem {
 }
 
 export interface ChatCacheItem {
+    time: Date;
     messages: ChatMessage[];
     state: ChatState;
     stats: ChatStats;

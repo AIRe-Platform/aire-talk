@@ -11,6 +11,7 @@ import {
     AireChatLog,
     AireStatus,
     AireEventType,
+    AireChatMetadata,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -36,6 +37,7 @@ import { ResponseTimeEvent } from "@/models/statistics";
 import useAireMemory from "./memory";
 import ChatEvents from "@/helpers/chatEventHandler";
 import useKeywords from "./keywords";
+import { DateTime } from "luxon";
 
 export class ChatContext {
     id?: string;
@@ -223,6 +225,7 @@ export class ChatContext {
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
                         cache.set(result.data.id, {
+                            time: new Date(),
                             messages: this.messages,
                             state: this.state,
                             stats: this.stats
@@ -242,16 +245,12 @@ export class ChatContext {
         if (this.id === chat_id)
             return true;
 
-        await this.reset(false, false);
-
-        const loaded = await this.load(chat_id);
-        if (!loaded)
-            return false;
-
         const cached = useChatCache().get(chat_id);
         if (!cached) {
             return false;
         }
+
+        await this.reset(false, false);
 
         this.id = chat_id;
         this.messages = cached.messages;
@@ -264,7 +263,9 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        useKeywords().updateMetadata(listChatKeywords());
+        const themes = listChatKeywords();
+        const themeMeta = await useKeywords().updateMetadata(themes);
+        this.state.themes = themeMeta;
 
         scrollChatToBottom();
         return true;
@@ -292,17 +293,16 @@ export class ChatContext {
         cache.delete(chat_id);
     }
 
-    public async load(chat_id: string, force: boolean = false): Promise<boolean> {
+    public async load(chat: AireChatMetadata): Promise<boolean> {
         const cache = useChatCache();
-        const keywords = useKeywords();
+        const cached = cache.get(chat.id);
 
-        if (chat_id in cache && !force) {
+        if (cached && chat.time >= cached.time)
             return true;
-        }
 
         const memory = useAireMemory().platformDefault();
         if (memory) {
-            const result = await memory.getChat(chat_id);
+            const result = await memory.getChat(chat.id);
             if (result.status != AireStatus.Success || !result.data)
                 return false;
 
@@ -310,9 +310,8 @@ export class ChatContext {
             const state = (chatlog.state || {}) as ChatState;
             const messages = chatlog.messages.map(mapMessage);
 
-            state.themes = await keywords.updateMetadata(listChatKeywords());
-
-            cache.set(chat_id, {
+            cache.set(chat.id, {
+                time: chat.time,
                 messages: messages,
                 state: state,
                 stats: (chatlog.stats || {}) as ChatStats
