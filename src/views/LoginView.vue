@@ -32,7 +32,7 @@ onMounted(async () => {
     if (route.params.platform) {
         const plat = route.params.platform as string;
         if (plat !== platform.current())
-            await platform.switch(plat);
+            return await platform.switch(plat);
     }
 
     useLogin()

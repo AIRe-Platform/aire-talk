@@ -44,7 +44,7 @@ export class LoginContext {
     public auth_state?: LoginAuthState;
 
     constructor() {
-        const auth_state_data = window.localStorage.getItem("aire_auth_state");
+        const auth_state_data = window.sessionStorage.getItem("aire_auth_state");
         if (auth_state_data)
             this.auth_state = JSON.parse(auth_state_data);
     }
@@ -60,11 +60,12 @@ export class LoginContext {
                 theme: useTheme().style.includes("dark") ? "dark" : "light",
             };
 
-            this.auth_state = {
-                state: options.state!,
+            const state = {
+                state: options.state,
                 code_verifier: await SHA256(options.code_challenge!)
             };
-            window.localStorage.setItem("aire_auth_state", JSON.stringify(this.auth_state));
+
+            window.sessionStorage.setItem("aire_auth_state", JSON.stringify(state));
 
             try {
                 const res = await AireServices.ID.getLoginUrl(options);
