@@ -325,8 +325,14 @@ export class ChatContext {
     }
 
     public onMessageReceived() {
+        console.debug("Message ended. Response received:", this.response_received);
         if (!this.response_received)
             this.forceResponse();
+    }
+
+    public forceFollowUp() {
+        console.debug("Forcing follow up response");
+        this.response_received = false;
     }
 }
 

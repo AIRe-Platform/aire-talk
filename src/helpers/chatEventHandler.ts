@@ -103,6 +103,8 @@ class ChatEventHandler {
         `
         const msg = createInstructionMessage(inst);
         chat.push(msg);
+
+        chat.forceFollowUp();
     }
 
     public async handleContentSuggestionsEvent(e: AireContentEvent) {
@@ -139,6 +141,7 @@ class ChatEventHandler {
         `
         const msg = createInstructionMessage(inst);
         chat.push(msg);
+        chat.forceFollowUp();
     }
 
     public async handleStatsEvent(stats: AireStatsEvent) {
@@ -166,6 +169,8 @@ class ChatEventHandler {
 
         const inst = createInstructionMessage("A reminder was set successfully.")
         chat.push(inst);
+
+        chat.forceFollowUp();
     }
 
     public async handleDocumentResultsEvent(e: AireDocumentResultsEvent) {
@@ -180,11 +185,14 @@ class ChatEventHandler {
                 Document: ${x.metadata.title || x.metadata.source}
                 Content:  ${x.content}
             >
+
+            Tell about these results to the user!
             `)}
         ` : `No search results with "${e.search}".`;
 
         const msg = createInstructionMessage(inst);
         chat.push(msg);
+        chat.forceFollowUp();
     }
 
     public async handleMessageEvent(message: AireMessageEvent) {
@@ -225,6 +233,7 @@ class ChatEventHandler {
             Greet them and carry on with the conversation normally.
         `)
         chat.push(inst);
+        chat.forceFollowUp();
     }
 
     public async handleEndEvent(e: AireEndEvent) {
