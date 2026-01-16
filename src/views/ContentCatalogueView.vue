@@ -18,7 +18,7 @@ import ContentModal from "@/components/content/ContentModal.vue";
 import KeywordFilter from "@/components/KeywordFilter.vue";
 import useMobileLayout from "@/helpers/mobile";
 import Panel from "@/components/common/Panel.vue";
-import { listChatKeywords } from "@/helpers/chatUtils";
+import { listKeywordsFromChat, loadAllChats } from "@/helpers/chatUtils";
 import useKeywords from "@/context/keywords";
 
 const navigateTo = (path: string) => {
@@ -203,14 +203,23 @@ const leave = (el: Element) => {
     element.style.opacity = '0';
 };
 
+const updateKeywords = async () => {
+    await loadAllChats()
+        .then(async chats => {
+            const keywords = chats.flatMap(x => {
+                return listKeywordsFromChat(x.id)
+            });
+
+            const dedup = [... new Set<string>(keywords)];
+            state.keywords = await useKeywords().updateMetadata(dedup);
+        })
+}
+
 onMounted(async () => {
-
     state.busy = true;
-    await listContent();
 
-    state.keywords = listChatKeywords()
-        .map(x => useKeywords().getCached(x))
-        .filter(x => x !== undefined);
+    await listContent();
+    await updateKeywords();
 
     state.busy = false;
     // Rank the content only if it's not empty

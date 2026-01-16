@@ -8,7 +8,7 @@
 import { l } from '@/locales';
 import { router } from '@/router';
 import { onMounted, reactive } from 'vue';
-import { getAllChats } from '@/helpers/chatUtils';
+import { loadAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 import useTheme, { ThemeContext } from "@/context/theme";
@@ -43,7 +43,7 @@ const newChat = async () => {
 };
 
 const getLastChatId = async () => {
-    const chats = await getAllChats();
+    const chats = await loadAllChats();
     return chats[0]?.id;
 }
 

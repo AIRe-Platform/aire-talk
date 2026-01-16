@@ -9,7 +9,6 @@ import Modal from '@/components/common/Modal.vue';
 import { onMounted, reactive, defineComponent, ref, onUnmounted } from 'vue';
 import { AireReminder } from 'aire';
 import { DateTime } from 'luxon';
-import useChat from '@/context/chat';
 import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
 import { switchFocus } from '@/helpers/keyboardNavigation';
@@ -41,9 +40,6 @@ const checkForEvents = () => {
             let now = DateTime.utc().toUnixInteger();
             state.reminders = res.filter(event => {
                 if (event.trigger_timestamp < now && !event.read_timestamp) {
-                    if (event.chat_id) {
-                        useChat().load(event.chat_id); // Preload
-                    }
                     return event;
                 }
             });
@@ -66,7 +62,7 @@ const canContinue = (chat_id?: string) => {
 }
 
 const markEventAsRead = (index: number) => {
-    const reminder = state.reminders.splice(index, 1); // remove from list immediately
+    const reminder = state.reminders.splice(index, 1);
     if (reminder[0]) {
         statistics.sendEvent(new ReminderEvent(
             reminder[0].trigger_timestamp,
@@ -119,11 +115,13 @@ onUnmounted(() => UIState.reminderModalRef = null);
         <Modal :active="state.reminders.length > 0 && state.visible" :showCloseButton="true" @close="closeModal">
             <div class="reminders-panel">
                 <div class="reminder-item" v-for="(reminder, i) in state.reminders" :key="'reminder_' + i.toString()">
-                    <!-- there are warnings here TODO check this out -->
                     <div class="reminder-date">
-                        {{ DateTime.fromSeconds(reminder.trigger_timestamp).toLocaleString(DateTime.DATETIME_SHORT, {
-                            locale: $i18n.locale
-                        }) }}
+                        {{
+                            DateTime.fromSeconds(reminder.trigger_timestamp)
+                                .toLocaleString(DateTime.DATETIME_SHORT, {
+                                    locale: $i18n.locale
+                                })
+                        }}
                     </div>
                     <div class="reminder-message">
                         {{ reminder.content?.message }}

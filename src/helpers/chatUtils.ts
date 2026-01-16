@@ -47,37 +47,31 @@ const chat = useChat();
 const login = useLogin();
 
 /**
- * Function that gets all the chats the user has save in the database order from newest to oldest.
- * @returns array of chats format id: string, date: string
- */
-export async function getAllChats(): Promise<AireChatMetadata[]> {
-    const memory = useAireMemory().platformDefault();
-    if (memory) {
-        const result = await memory.getChatlogs()
-        if (result.data) {
-            return result.data.sort((b, a) => {
-                return Date.parse(a.time) - Date.parse(b.time)
-            });
-        }
-    } else {
-        console.error("Memory service is not available")
-    }
-    return []
-}
-
-/**
  * Load all chats and cache chat resources
  */
-export async function loadAllChats() {
-    const all = await getAllChats();
-    const loaders = all.map(async (x) => {
-        if (await useChat().load(x.id))
-            return useChatCache().get(x.id);
-        else
-            return undefined;
+export async function loadAllChats(): Promise<AireChatMetadata[]> {
+    const memory = useAireMemory().platformDefault();
+    if (!memory)
+        throw Error("Memory service is not available");
+
+    let chatlogs = await memory.getChatlogs().then(result => result.data);
+    if (!chatlogs)
+        return [];
+
+    // Sort by date, newest first
+    chatlogs = chatlogs.sort((b, a) => (+DateTime.fromISO(a.time) - +DateTime.fromISO(b.time)));
+
+    // Check which logs has not been fetched or are out of date
+    const refresh = chatlogs.filter(x => {
+        const cached = useChatCache().get(x.id);
+        return cached ? (+DateTime.fromISO(cached.metadata.time) < +DateTime.fromISO(x.time)) : true;
     })
 
-    await Promise.all(loaders);
+    // Fetch chats in parallel
+    const load_tasks = refresh.map(x => useChat().load(x.id));
+    await Promise.all(load_tasks);
+
+    return chatlogs;
 }
 
 /**
@@ -127,6 +121,19 @@ export function findChatKeywords(messages: ChatMessage[]): string[] {
     return messages
         .filter(x => x.type == ChatMessageType.Keyword && (x.theme || x.content))
         .map(x => (x.theme || x.content)!)
+}
+
+export function listKeywordsFromChat(chat_id: string): string[] {
+    const chat = useChatCache().get(chat_id);
+    if (!chat)
+        return [];
+
+    if (chat.state?.themes)
+        return (chat.state?.themes ?? []).map(x => x.value);
+    else if (chat.messages)
+        return findChatKeywords(chat.messages);
+    else
+        return [];
 }
 
 export function listChatKeywords(): string[] {
@@ -441,20 +448,22 @@ export function pushKeyword(keyword: AireKeyword) {
         chat.state.themes = [];
     chat.state.themes.push(keyword);
 
-    if (keyword.document) {
+    if (keyword.documents) {
         if (!chat.state.documents)
             chat.state.documents = [];
 
-        if (chat.state.documents.findIndex(x => x.source === keyword.document) < 0) {
-            const origin = useKeywords().getOrigin(keyword.value)
-            if (origin) {
-                const memory = useAireMemory().get(origin);
-                if (memory) {
-                    memory.getDocumentWithId(keyword.document)
-                        .then(res => {
-                            if (res.data)
-                                chat.state.documents?.push(res.data)
-                        })
+        for (const doc of keyword.documents) {
+            if (chat.state.documents.findIndex(x => x.source === doc) < 0) {
+                const origin = useKeywords().getOrigin(keyword.value)
+                if (origin) {
+                    const memory = useAireMemory().get(origin);
+                    if (memory) {
+                        memory.getDocumentWithId(doc)
+                            .then(res => {
+                                if (res.data)
+                                    chat.state.documents?.push(res.data)
+                            })
+                    }
                 }
             }
         }

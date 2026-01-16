@@ -36,14 +36,17 @@ import { ResponseTimeEvent } from "@/models/statistics";
 import useAireMemory from "./memory";
 import ChatEvents from "@/helpers/chatEventHandler";
 import useKeywords from "./keywords";
+import { DateTime } from "luxon";
 
 export class ChatContext {
-    id?: string;
-    autosave_timer?: number;
-    modified: boolean;
-    forced_response: boolean;
-    response_received: boolean;
+    private cache = useChatCache();
 
+    private autosave_timer?: number;
+    private modified: boolean;
+    private forced_response: boolean;
+    protected response_received: boolean;
+
+    public id?: string;
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public state: ChatState;
@@ -66,8 +69,7 @@ export class ChatContext {
         }
 
         if (clear_cache) {
-            const cache = useChatCache();
-            cache.clear();
+            this.cache.clear();
         }
 
         this.id = undefined;
@@ -217,12 +219,11 @@ export class ChatContext {
                 state: this.state,
             };
 
-            const cache = useChatCache();
-
             await memory.saveChat(chatLog, this.id)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
-                        cache.set(result.data.id, {
+                        this.cache.set(result.data.id, {
+                            metadata: result.data,
                             messages: this.messages,
                             state: this.state,
                             stats: this.stats
@@ -238,25 +239,26 @@ export class ChatContext {
         }
     }
 
-    public async open(chat_id: string): Promise<boolean> {
-        if (this.id === chat_id)
+    public async open(id: string): Promise<boolean> {
+        if (this.id === id)
             return true;
+
+        let cached = this.cache.get(id);
+        if (!cached) {
+            const load = await this.load(id);
+            if (!load) {
+                console.warn("Failed to load chat", id);
+                return false;
+            }
+            cached = this.cache.get(id)!;
+        }
 
         await this.reset(false, false);
 
-        const loaded = await this.load(chat_id);
-        if (!loaded)
-            return false;
-
-        const cached = useChatCache().get(chat_id);
-        if (!cached) {
-            return false;
-        }
-
-        this.id = chat_id;
-        this.messages = cached.messages;
+        this.id = id;
+        this.messages = cached.messages || [];
         this.stats = cached.stats || {};
-        this.state = cached.state;
+        this.state = cached.state || {};
 
         const state = cached.state;
         if (state) {
@@ -264,7 +266,9 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        useKeywords().updateMetadata(listChatKeywords());
+        const themes = listChatKeywords();
+        const themeMeta = await useKeywords().updateMetadata(themes);
+        this.state.themes = themeMeta;
 
         scrollChatToBottom();
         return true;
@@ -288,47 +292,51 @@ export class ChatContext {
                 })
         }
 
-        const cache = useChatCache();
-        cache.delete(chat_id);
+        this.cache.delete(chat_id);
     }
 
-    public async load(chat_id: string, force: boolean = false): Promise<boolean> {
-        const cache = useChatCache();
-        const keywords = useKeywords();
-
-        if (chat_id in cache && !force) {
-            return true;
-        }
-
+    public async load(id: string): Promise<boolean> {
         const memory = useAireMemory().platformDefault();
-        if (memory) {
-            const result = await memory.getChat(chat_id);
-            if (result.status != AireStatus.Success || !result.data)
-                return false;
-
-            const chatlog = result.data;
-            const state = (chatlog.state || {}) as ChatState;
-            const messages = chatlog.messages.map(mapMessage);
-
-            state.themes = await keywords.updateMetadata(listChatKeywords());
-
-            cache.set(chat_id, {
-                messages: messages,
-                state: state,
-                stats: (chatlog.stats || {}) as ChatStats
-            })
-
-            return true;
-        }
-        else {
+        if (!memory) {
             console.error("Memory service is not available")
             return false;
         }
+
+        const result = await memory.getChat(id);
+        if (result.status != AireStatus.Success || !result.data)
+            return false;
+
+        const chatlog = result.data;
+        const state = (chatlog.state || {}) as ChatState;
+        const messages = chatlog.messages.map(mapMessage);
+
+        this.cache.set(id, {
+            metadata: result.data.metadata || { id: id, time: DateTime.now().toISO() },
+            messages: messages,
+            state: state,
+            stats: (chatlog.stats || {}) as ChatStats
+        })
+
+        return true;
+    }
+
+    public onReceivingMessage() {
+        this.response_received = true;
+    }
+
+    public onMessageReceived() {
+        console.debug("Message ended. Response received:", this.response_received);
+        if (!this.response_received)
+            this.forceResponse();
+    }
+
+    public forceFollowUp() {
+        console.debug("Forcing follow up response");
+        this.response_received = false;
     }
 }
 
-const context: ChatContext = reactive(new ChatContext());
-
+const context = reactive(new ChatContext());
 export default function useChat() {
     return context;
 }
@@ -387,7 +395,7 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === AireEventType.ContentSuggestions && e.content_suggestions) {
-        //await ChatEvents.handleContentSuggestionsEvent(e.content_suggestions);
+        await ChatEvents.handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
@@ -412,25 +420,21 @@ async function receiver(e: AireTalkEvent) {
     }
 
     if (e.type === AireEventType.Message && e.message) {
-        chat.response_received = true;
+        chat.onReceivingMessage();
         await ChatEvents.handleMessageEvent(e.message);
         return;
     }
 
     if (e.type === AireEventType.End && e.end) {
         await ChatEvents.handleEndEvent(e.end);
+        chat.onMessageReceived();
         useChatbot().reportReady();
-
-        if (!chat.response_received)
-            chat.forceResponse();
     }
 }
 
 function errorHandler(status: AireStatus) {
     console.error("Chat streaming error: ", status);
-
     const msg = createErrorMessage(l.error_ai_not_responding);
     useChat().push(msg);
-
     useChatbot().reportReady();
 }
