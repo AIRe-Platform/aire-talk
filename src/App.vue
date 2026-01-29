@@ -75,6 +75,16 @@ const closeAllTooltips = (event: KeyboardEvent) => {
 };
 
 onMounted(() => {
+    const search = new URLSearchParams(window.location.search);
+
+    const invite = search.get("invite");
+    if (invite) {
+        router.push({ name: "Invite", params: { code: invite } });
+        return;
+    }
+
+    state.showInactivityPopup = search.get("inactivity") == "1";
+    
     const stopLoginWatch = watch(
         () => login.user,
         (user) => {
@@ -96,9 +106,6 @@ onMounted(() => {
 
     const langSelected = hasSelectedLanguage();
     state.showLanguagePopup = !langSelected;
-
-    const search = new URLSearchParams(window.location.search);
-    state.showInactivityPopup = search.get("inactivity") == "1";
 });
 </script>
 

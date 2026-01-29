@@ -260,6 +260,11 @@ export class ChatContext {
         this.stats = cached.stats || {};
         this.state = cached.state || {};
 
+        if (this.messages.length === 0) {
+            const system_message = createSystemMessage(l.system_greeting);
+            this.push(system_message, true, false);
+        }
+
         const state = cached.state;
         if (state) {
             if (state.questionnaire)

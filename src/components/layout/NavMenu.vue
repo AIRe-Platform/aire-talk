@@ -6,8 +6,8 @@
 <script setup lang="ts">
 import i18n, { l } from "@/locales";
 import { router } from "@/router";
-import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
-import { UIPanels, UIState } from "@/context/ui";
+import { computed, onMounted, reactive, ref } from "vue";
+import { UIPanels, UIState, isRestrictedMode } from "@/context/ui";
 import ChatHistory from '@/components/chat/ChatHistory.vue';
 import SettingsPanel from '@/components/settings/SettingsPanel.vue';
 import useLogin from "@/context/login";
@@ -123,36 +123,42 @@ onMounted(async () => {
             </a>
             <div class="nav-menu-list" :class="{ 'nav-menu-closing-effect': UIState.isClosingMenu }">
                 <Separator />
-                <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.History"
-                    @click="toggleChatHistoryMenu" :tabindex="navLinkTabindex" aria-haspopup="true"
-                    :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)" class="nav-btn chat-history-nav-button"
-                    :label="i18n.global.t(l.nav_chat_history)" icon="chat-history-mobile"
-                    :active="UIState.panels.has(UIPanels.ChatHistory)" :tooltip="l.nav_chat_history"
-                    item-type="button" />
-                <div class="popout-panel" v-if="UIState.panels.has(UIPanels.ChatHistory)">
-                    <ChatHistory />
-                </div>
+                <template v-if="!isRestrictedMode">
+                    <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.History"
+                        @click="toggleChatHistoryMenu" :tabindex="navLinkTabindex" aria-haspopup="true"
+                        :aria-expanded="UIState.panels.has(UIPanels.ChatHistory)"
+                        class="nav-btn chat-history-nav-button" :label="i18n.global.t(l.nav_chat_history)"
+                        icon="chat-history-mobile" :active="UIState.panels.has(UIPanels.ChatHistory)"
+                        :tooltip="l.nav_chat_history" item-type="button" />
+                    <div class="popout-panel" v-if="UIState.panels.has(UIPanels.ChatHistory)">
+                        <ChatHistory />
+                    </div>
+                </template>
                 <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat)"
                     icon="new-chat-mobile" item-type="link" :title="$t(l.nav_chat)" @click="navigateTo('/chat')"
                     :active="linkActive('Chat')" :tooltip="l.nav_chat" />
-                <NavItem v-if="chat.id" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_new)"
-                    icon="new-chat-mobile" @keydown.space="newChat" @click="newChat" :active="false"
-                    :tooltip="l.nav_chat_new" item-type="link" />
-                <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_catalogue)"
-                    icon="catalogue-content-mobile margin-left" item-type="link"
-                    @click="navigateTo('/content-catalogue')"
-                    :active="linkActive('Content Catalogue')" :tooltip="l.nav_catalogue" />
+                <template v-if="!isRestrictedMode">
+                    <NavItem v-if="chat.id" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_chat_new)"
+                        icon="new-chat-mobile" @keydown.space="newChat" @click="newChat" :active="false"
+                        :tooltip="l.nav_chat_new" item-type="link" />
+                    <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_catalogue)"
+                        icon="catalogue-content-mobile margin-left" item-type="link"
+                        @click="navigateTo('/content-catalogue')" :active="linkActive('Content Catalogue')"
+                        :tooltip="l.nav_catalogue" />
+                </template>
                 <div class="nav-spacer"></div>
-                <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_login)" icon="login"
-                    @click="navigateTo('/login')" item-type="link"
-                    :active="linkActive('Login')" :tooltip="l.nav_login" />
-                <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_signup)"
-                    icon="signup" item-type="link" @click="navigateTo('/signup')"
-                    :active="linkActive('Signup')" :tooltip="l.nav_signup" />
-                <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.Profile"
-                    :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_profile)"
-                    icon="user-profile-mobile margin-left" item-type="link" @click="navigateTo('/profile')"
-                    :active="linkActive('Profile')" :tooltip="l.nav_profile" />
+                <template v-if="!isRestrictedMode">
+                    <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_login)"
+                        icon="login" @click="navigateTo('/login')" item-type="link" :active="linkActive('Login')"
+                        :tooltip="l.nav_login" />
+                    <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_signup)"
+                        icon="signup" item-type="link" @click="navigateTo('/signup')" :active="linkActive('Signup')"
+                        :tooltip="l.nav_signup" />
+                    <NavItem v-if="login.user" :data-tutorial-state="NavMenuTutorialState.Profile"
+                        :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_profile)"
+                        icon="user-profile-mobile margin-left" item-type="link" @click="navigateTo('/profile')"
+                        :active="linkActive('Profile')" :tooltip="l.nav_profile" />
+                </template>
                 <NavItem @click="toggleSettingsPanel" class="nav-btn settings-nav-button" :tabindex="navLinkTabindex"
                     :data-tutorial-state="NavMenuTutorialState.Settings" :label="i18n.global.t(l.nav_preferences)"
                     icon="settings-mobile" :active="UIState.panels.has(UIPanels.Settings)" aria-haspopup="true"
@@ -162,12 +168,18 @@ onMounted(async () => {
                     <SettingsPanel />
                 </div>
                 <NavItem :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_about)" icon="about"
-                    @click="navigateTo('/about')" item-type="link"
-                    :active="linkActive('About')" :tooltip="l.nav_about" />
+                    @click="navigateTo('/about')" item-type="link" :active="linkActive('About')"
+                    :tooltip="l.nav_about" />
                 <Separator />
-                <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_main_menu)"
-                    icon="main-menu-mobile" item-type="link" @click="navigateTo('/home')"
-                    :active="linkActive('Home')" :tooltip="l.nav_main_menu" />
+                <template v-if="!isRestrictedMode">
+                    <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_main_menu)"
+                        icon="main-menu-mobile" item-type="link" @click="navigateTo('/home')"
+                        :active="linkActive('Home')" :tooltip="l.nav_main_menu" />
+                </template>
+                <template v-else>
+                    <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_logout)"
+                        icon="logout" item-type="link" @click="login.logout()" :active="linkActive('Logout')" />
+                </template>
             </div>
         </Panel>
     </nav>

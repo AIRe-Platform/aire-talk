@@ -2,7 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { reactive, watch } from "vue";
+import { computed, reactive, watch } from "vue";
+import useLogin from "./login";
 
 export enum UIPanels {
     ChatHistory = "chat-history",
@@ -73,6 +74,8 @@ export async function closeBurgerMenu() {
         UIState.isClosingMenu = false;
     }
 }
+
+export const isRestrictedMode = computed(() => !!(useLogin().session?.invite));
 
 watch(UISettings,
     (newSettings, _) => {
