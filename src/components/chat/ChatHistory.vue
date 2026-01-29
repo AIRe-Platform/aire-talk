@@ -132,7 +132,11 @@ const getLastMessage = (id: string) => {
     if (!log)
         return undefined;
 
-    return log.messages?.findLast(x => x.type == ChatMessageType.Default && x.content)?.content || "";
+    const last = log.messages?.findLast(x => x.type == ChatMessageType.Default && x.content);
+    if (last?.content)
+        return last?.localize ? i18n.t(last.content) : last.content;
+    else
+        return "";
 };
 
 const getTokenCount = (id: string) => {
@@ -214,7 +218,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                                 }}
                             </div>
                             <div class="chat-history-item-preview">
-                                {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
+                                {{ getLastMessage(item.id) }}
                             </div>
                             <div class="chat-history-token" v-if="UISettings.tokensEnabled && getTokenCount(item.id)">
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
