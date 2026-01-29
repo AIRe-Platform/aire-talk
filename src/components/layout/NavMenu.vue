@@ -20,7 +20,6 @@ import { closeBurgerMenu } from "@/context/ui";
 import { HomeTutorialState, NavMenuTutorialState, TutorialStates } from "@/context/tutorials";
 import TutorialPopup from "../common/TutorialPopup.vue";
 import useTheme, { ThemeContext } from "@/context/theme";
-import { SpinnerId } from "@/helpers/spinnerUtils";
 import { useRoute } from "vue-router";
 
 const login = useLogin();
@@ -88,31 +87,13 @@ const navLogoClick = () => {
 
 const navLinkTabindex = computed(() => UIState.showMenu ? 0 : -1);
 
-const focusOutListener = async (e: FocusEvent) => {
-    const relTarget = e.relatedTarget as Element;
-    const target = e.target as Element;
-    if (
-        !navMenuRef.value?.contains(relTarget) &&
-        !target.closest('.modal, .tutorial-buttons') &&
-        relTarget?.id !== 'nav-burger-button' &&
-        target.id !== SpinnerId.ChatHistory
-    ) {
-        await closeBurgerMenu();
-        UIState.showMenu = false;
-        UIState.isNavMenuCompressed = false;
-    }
-};
-
 function linkActive(routeName: string): boolean {
     return UIState.panels.size === 0 && route.matched.some((p) => p.name === routeName);
 }
 
 onMounted(async () => {
-    navMenuRef.value?.addEventListener('focusout', focusOutListener);
     state.theme = useTheme();
 });
-
-onUnmounted(() => navMenuRef.value?.removeEventListener('focusout', focusOutListener));
 </script>
 
 <template>

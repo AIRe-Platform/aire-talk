@@ -4,18 +4,24 @@
  -->
 
 <script setup lang="ts">
-import { isSpinnerVisible, spinnerMessage } from '@/helpers/spinnerUtils';
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, useTemplateRef } from 'vue';
 defineComponent({ name: "SpinnerComponent" });
+
+const screenReaderMessage = useTemplateRef("screen-reader-message");
+
+onMounted(() => {
+    screenReaderMessage.value?.focus();
+})
 </script>
 
 <template>
-    <div v-if="isSpinnerVisible" class="spinner" role="status" aria-live="assertive" aria-busy="true" tabindex="0">
-        <span class="screen-readers-only" id="spinner-message">{{ spinnerMessage }}</span>
+    <div class="spinner" role="status" aria-live="assertive" aria-busy="true" tabindex="0">
+        <span class="screen-readers-only" ref="screen-reader-message">
+            <!-- TODO: Localize and test screen readers detect the change -->
+            The page is loading, please wait a moment.
+        </span>
     </div>
 </template>
-
-
 
 <style>
 .spinner {
