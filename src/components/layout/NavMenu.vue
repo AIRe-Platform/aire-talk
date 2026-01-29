@@ -146,6 +146,11 @@ onMounted(async () => {
                         @click="navigateTo('/content-catalogue')" :active="linkActive('Content Catalogue')"
                         :tooltip="l.nav_catalogue" />
                 </template>
+                <template v-else>
+                    <NavItem v-if="login.session?.invite?.allow_upgrade" :tabindex="navLinkTabindex"
+                        :label="i18n.global.t(l.nav_signup)" icon="signup" item-type="link"
+                        @click="navigateTo('/signup')" :active="linkActive('Signup')" :tooltip="l.nav_signup" />
+                </template>
                 <div class="nav-spacer"></div>
                 <template v-if="!isRestrictedMode">
                     <NavItem v-if="!login.user" :tabindex="navLinkTabindex" :label="i18n.global.t(l.nav_login)"

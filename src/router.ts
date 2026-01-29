@@ -75,7 +75,7 @@ export const router = createRouter({
             name: "Signup",
             meta: {
                 title: l.nav_signup,
-                no_login: true
+                allow_restricted: true
             },
         },
         {
