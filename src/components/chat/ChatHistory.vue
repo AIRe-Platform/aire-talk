@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from "vue";
+import { nextTick, onMounted, reactive, ref, watch } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { router } from "@/router";
 import { UIState, UIPanels, UISettings } from "@/context/ui";
@@ -13,7 +13,6 @@ import useChat from "@/context/chat";
 import { loadAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
-import { showSpinner, hideSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { ChatMessageType } from "@/models/chat";
@@ -52,7 +51,6 @@ const emit = defineEmits<{
 
 const refresh = () => {
     state.busy = true;
-    showSpinner(SpinnerId.ChatHistory);
     loadAllChats()
         .then(logs => {
             state.items = logs.map((x) => {
@@ -62,31 +60,13 @@ const refresh = () => {
         })
         .finally(() => {
             state.busy = false;
-            hideSpinner();
             refreshBurgerMenuButtonsRef();
         });
 };
 
-const focusOutListener = (e: FocusEvent) => {
-    const relTarget = e.relatedTarget as Node;
-    const target = e.target as Element;
-    if (
-        !chatHistoryPanelRef.value?.contains(relTarget) &&
-        !target.closest('.modal') &&
-        target.id !== SpinnerId.ChatHistory
-    ) {
-        UIState.panels.delete(UIPanels.ChatHistory);
-        if (UIState.isNavMenuCompressed)
-            UIState.isNavMenuCompressed = false;
-    }
-};
-
 onMounted(() => {
     refresh();
-    chatHistoryPanelRef.value?.addEventListener('focusout', focusOutListener);
 });
-
-onUnmounted(() => chatHistoryPanelRef.value?.removeEventListener('focusout', focusOutListener));
 
 const isOpen = (id: string) => {
     return id === chat.id;
@@ -152,7 +132,11 @@ const getLastMessage = (id: string) => {
     if (!log)
         return undefined;
 
-    return log.messages?.findLast(x => x.type == ChatMessageType.Default && x.content)?.content || "";
+    const last = log.messages?.findLast(x => x.type == ChatMessageType.Default && x.content);
+    if (last?.content)
+        return last?.localize ? i18n.t(last.content) : last.content;
+    else
+        return "";
 };
 
 const getTokenCount = (id: string) => {
@@ -209,7 +193,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
         <div class="chat-history-panel" v-on-click-outside="onClickOutside">
             <div class="chat-history-list">
                 <div class="chat-history-busy" v-if="state.busy">
-                    <Spinner :id="SpinnerId.ChatHistory" />
+                    <Spinner />
                 </div>
                 <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef"
                     tabindex="-1">
@@ -234,7 +218,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                                 }}
                             </div>
                             <div class="chat-history-item-preview">
-                                {{ getLastMessage(item.id) || $t(l.chat_history_loading) }}
+                                {{ getLastMessage(item.id) }}
                             </div>
                             <div class="chat-history-token" v-if="UISettings.tokensEnabled && getTokenCount(item.id)">
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}

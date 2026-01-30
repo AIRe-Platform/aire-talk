@@ -11,7 +11,7 @@ const props = defineProps<{
     label: string,
     icon?: string,
     active: boolean,
-    tooltip: string,
+    tooltip?: string,
     tabindex: number,
     itemType: 'link' | 'button',
 }>()

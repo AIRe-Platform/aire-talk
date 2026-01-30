@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { aireInit } from "aire";
+import { aireInit, AireServices, AireStatus } from "aire";
 import { reactive } from "vue";
 import useLogin from "./login";
 
@@ -31,17 +31,35 @@ export class PlatformContext {
             });
     }
 
-    public async switch(id: string) {
-        const valid = await aireInit({
-            api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
-            client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
-            config_id: id
-        }).catch(_ => false);
+    public async switch(id: string, redirect_to_login: boolean = true): Promise<boolean> {
+        if (this.current() !== id) {
+            const prev = this.current();
 
-        if (valid) {
-            window.sessionStorage.setItem("aire_platform_config", id);
-            await useLogin().redirectToLogin();
+            const valid = await aireInit({
+                api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
+                client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
+                config_id: id
+            }).catch(_ => false);
+
+            if (valid) {
+                console.info("Switching platform to '" + id + "'");
+                window.sessionStorage.setItem("aire_platform_config", id);
+            }
+            else {
+                console.error("Platform '" + id + "' is invalid, restoring previous platform");
+                await aireInit({
+                    api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
+                    client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
+                    config_id: prev
+                })
+                return false;
+            }
         }
+
+        if (redirect_to_login)
+            await useLogin().redirectToLogin();
+
+        return true;
     }
 
     public current() {

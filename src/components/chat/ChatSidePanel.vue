@@ -15,6 +15,7 @@ import { listChatKeywords, suggestContentWithKeywords, summarizeChat } from '@/h
 import { l } from '@/locales';
 import useMobileLayout from '@/helpers/mobile';
 import useAireMemory from '@/context/memory';
+import { isRestrictedMode } from '@/context/ui';
 
 const state = reactive<{
     busy: boolean,
@@ -110,7 +111,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
-                :adjustPosition="true" v-if="state.missingPersonalInfo">
+                :adjustPosition="true" v-if="state.missingPersonalInfo && !isRestrictedMode">
                 <button class="btn chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />

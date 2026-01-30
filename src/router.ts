@@ -13,11 +13,13 @@ import ProfileView from "./views/ProfileView.vue";
 import ChatView from "./views/ChatView.vue";
 import NotFoundView from "./views/NotFoundView.vue";
 import AuthorizationCallbackView from "./views/AuthorizationCallbackView.vue";
+import InviteView from "./views/InviteView.vue";
 import { nextTick } from "vue";
 import i18n, { l } from "./locales";
 import ContentCatalogueView from "./views/ContentCatalogueView.vue";
 import useLogin from "./context/login";
 import { initWithRetry } from "./main";
+import { isRestrictedMode } from "./context/ui";
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +47,8 @@ export const router = createRouter({
             component: AboutView,
             name: "About",
             meta: {
-                title: l.nav_home
+                title: l.nav_about,
+                allow_restricted: true
             },
         },
         {
@@ -72,7 +75,7 @@ export const router = createRouter({
             name: "Signup",
             meta: {
                 title: l.nav_signup,
-                no_login: true
+                allow_restricted: true
             },
         },
         {
@@ -90,7 +93,8 @@ export const router = createRouter({
             name: "Chat",
             meta: {
                 title: l.nav_chat,
-                require_login: true
+                require_login: true,
+                allow_restricted: true
             },
         },
         {
@@ -99,6 +103,15 @@ export const router = createRouter({
             name: "AuthorizationCallback",
             meta: {
                 title: l.nav_login
+            }
+        },
+        {
+            path: "/invite/:code",
+            component: InviteView,
+            name: "Invite",
+            meta: {
+                title: l.nav_login,
+                no_login: true
             }
         },
         {
@@ -111,6 +124,10 @@ export const router = createRouter({
 router.beforeEach(async (to, from) => {
     await initWithRetry();
     const login = useLogin();
+
+    if (isRestrictedMode && !to.meta.allow_restricted)
+        return restrictedModeRedirect();
+
     if (login.user) {
         if (to.meta.no_login)
             return "/home"
@@ -129,3 +146,10 @@ router.afterEach((to, from) => {
         document.title = title;
     });
 });
+
+const restrictedModeRedirect = () => {
+    const login = useLogin();
+    if (login.session?.invite) {
+        return "/chat/" + login.session.invite.chat_id;
+    }
+}

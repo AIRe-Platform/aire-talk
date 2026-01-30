@@ -12,7 +12,7 @@ import Tooltip from '../common/Tooltip.vue';
 const props = defineProps<{
     label: string,
     icon?: string,
-    tooltip: string,
+    tooltip?: string,
 }>();
 
 // create the new key from the label, with lower case all and replacing spaces with _
@@ -24,11 +24,15 @@ function formatTooltipKey(tooltip: string): string {
 <template>
     <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
     </div>
-    <Tooltip :text=$t(formatTooltipKey(props.tooltip)) position="bottom" :useMaxContent="false" :adjustPosition="false">
+    <Tooltip v-if="props.tooltip" :text=$t(formatTooltipKey(props.tooltip)) position="bottom" :useMaxContent="false"
+        :adjustPosition="false">
         <div class="nav-link">
             {{ props.label }}
         </div>
     </Tooltip>
+    <div v-else class="nav-link">
+        {{ props.label }}
+    </div>
 </template>
 
 <style lang="scss" scoped>
