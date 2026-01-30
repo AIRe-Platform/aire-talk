@@ -33,16 +33,27 @@ export class PlatformContext {
 
     public async switch(id: string, redirect_to_login: boolean = true): Promise<boolean> {
         if (this.current() !== id) {
+            const prev = this.current();
+
             const valid = await aireInit({
                 api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
                 client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
                 config_id: id
             }).catch(_ => false);
 
-            if (valid)
+            if (valid) {
+                console.info("Switching platform to '" + id + "'");
                 window.sessionStorage.setItem("aire_platform_config", id);
-            else
+            }
+            else {
+                console.error("Platform '" + id + "' is invalid, restoring previous platform");
+                await aireInit({
+                    api_url: import.meta.env.VITE_AIRE_SERVICES_ENDPOINT,
+                    client_id: import.meta.env.VITE_AIRE_CLIENT_ID,
+                    config_id: prev
+                })
                 return false;
+            }
         }
 
         if (redirect_to_login)
