@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import Spinner from '@/components/common/Spinner.vue';
 import useLogin from '@/context/login';
+import usePlatform from '@/context/platform';
 import { setUILanguage } from '@/locales';
 import { AireServices, AireStatus } from 'aire';
 import { LanguageCode } from 'iso-639-1';
@@ -25,10 +26,19 @@ const state = reactive<{
 
 const checkInviteCode = async () => {
     const inviteToken = route.params.code?.toString();
+    const platform = route.query.platform?.toString();
     const lang = route.query.lang?.toString();
 
     if (lang) {
         setUILanguage(lang as LanguageCode);
+    }
+
+    if (platform) {
+        await usePlatform().switch(platform, false)
+            .then(valid => {
+                if (!valid)
+                    router.push("/");
+            })
     }
 
     if (!inviteToken || !AireServices.ID) {
