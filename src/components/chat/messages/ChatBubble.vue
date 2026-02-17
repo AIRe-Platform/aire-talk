@@ -59,7 +59,8 @@ const sender = computed(() => {
                 {{ sender }}
             </h2>
             <span class="chat-bubble-text" v-if="message.content">
-                <VueMarkdown :source="message.content" />
+                <template v-if="message.localize">{{ $t(message.content) }}</template>
+                <VueMarkdown :source="message.content" v-else />
             </span>
             <span class="chat-bubble-buttons" v-if="props.message.role === 'assistant'">
                 <Tooltip :text="tts.isSpeaking.value
