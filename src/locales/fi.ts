@@ -147,6 +147,7 @@ const fi: Locale = {
 
     error_generic: "Tapahtui tuntematon virhe!",
     error_ai_not_responding: `Vastauksen saaminen epäonnistui. Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.`,
+    error_ai_rate_limited: "Palvelussa on ruuhkaa. Odota hetki ja yritä sitten uudelleen.",
     error_signup_password_mismatch: "Salasanat eivät täsmää. Varmista salasanan kirjoitusasu.",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
 

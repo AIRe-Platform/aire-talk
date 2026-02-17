@@ -138,6 +138,7 @@ const en: Locale = {
 
     error_generic: "An unknown error occurred!",
     error_ai_not_responding: "AIRe failed to respond. If the problem persists, please try again later.",
+    error_ai_rate_limited: "We are currently experiencing a lot of traffic. Please try again later.",
     error_signup_password_mismatch: "The passwords do not match, please check the spelling.",
     error_signup_bad_request: `Registration failed. The email may already be registered or the password does not meet the minimum requirements. The password must contain at least 8 characters including lower and upper case letters as well as numbers.`,
     error_signup_general: "Registration failed. Try again later.",

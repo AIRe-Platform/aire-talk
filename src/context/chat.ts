@@ -18,6 +18,7 @@ import {
     createErrorMessage,
     createSystemMessage,
     createUserMessage,
+    createInstructionMessage,
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -439,7 +440,23 @@ async function receiver(e: AireTalkEvent) {
 
 function errorHandler(status: AireStatus) {
     console.error("Chat streaming error: ", status);
-    const msg = createErrorMessage(l.error_ai_not_responding);
-    useChat().push(msg);
+    if (status === AireStatus.RateLimited) {
+        const inst = createInstructionMessage(`
+            The service is currently experiencing high load. 
+            Apologize to the user when they get through and proceed with the conversation.`);
+        useChat().push(inst);
+
+        const msg = createErrorMessage(l.error_ai_rate_limited);
+        useChat().push(msg);
+    }
+    else {
+        const inst = createInstructionMessage(`
+            There was an internal error with the service.
+            Apologize to the user when they get through and proceed with the conversation.`);
+        useChat().push(inst);
+
+        const msg = createErrorMessage(l.error_ai_not_responding);
+        useChat().push(msg);
+    }
     useChatbot().reportReady();
 }
