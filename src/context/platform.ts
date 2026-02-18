@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { aireInit, AireServices, AireStatus } from "aire";
+import { aireInit } from "aire";
 import { reactive } from "vue";
 import useLogin from "./login";
 
@@ -43,7 +43,7 @@ export class PlatformContext {
 
             if (valid) {
                 console.info("Switching platform to '" + id + "'");
-                window.sessionStorage.setItem("aire_platform_config", id);
+                window.localStorage.setItem("aire_platform_config", id);
             }
             else {
                 console.error("Platform '" + id + "' is invalid, restoring previous platform");
@@ -63,11 +63,11 @@ export class PlatformContext {
     }
 
     public current() {
-        return window.sessionStorage.getItem("aire_platform_config") ?? this.defaultConfig;
+        return window.localStorage.getItem("aire_platform_config") ?? this.defaultConfig;
     }
 
     private reset() {
-        return window.sessionStorage.removeItem("aire_platform_config");
+        return window.localStorage.removeItem("aire_platform_config");
     }
 }
 

@@ -145,6 +145,7 @@ const vi: Locale = {
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
         Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
+    error_ai_rate_limited: "Hiện tại hệ thống đang có lưu lượng truy cập rất lớn. Vui lòng thử lại sau.",
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
     error_signup_bad_request: `Đăng ký không thành công.
 

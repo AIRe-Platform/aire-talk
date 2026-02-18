@@ -135,6 +135,7 @@ export enum LocalizationKey {
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
+    error_ai_rate_limited = "error_ai_rate_limited",
     error_signup_password_mismatch = "error_signup_password_mismatch",
     error_signup_bad_request = "error_signup_bad_request",
     error_signup_general = "error_signup_general",

@@ -142,6 +142,7 @@ const sw: Locale = {
 
     error_generic: "Hitilafu isiyojulikana imetokea!",
     error_ai_not_responding: "Boti haikujibu. Hii inaweza kutokea kutokana na uchujaji wa yaliyomo.\nIkiwa tatizo litabaki, tafadhali jaribu tena baadaye.",
+    error_ai_rate_limited: "Kwa sasa tunapitia trafiki nyingi. Tafadhali jaribu tena baadaye.",
     error_signup_password_mismatch: "Maneno ya siri hayalingani!",
     error_signup_bad_request: "Usajili umeshindwa. \n\nBarua pepe inaweza tayari kuwa imesajiliwa au nenosiri halikidhi mahitaji ya chini.\n    \nNenosiri lazima liwe na angalau herufi 8 ikiwa ni pamoja na herufi ndogo na kubwa pamoja na nambari.",
     error_signup_general: "Usajili umeshindwa. Tafadhali, jaribu tena baadaye.",

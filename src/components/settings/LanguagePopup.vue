@@ -6,7 +6,7 @@
 import { reactive, ref } from 'vue';
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import Modal from '../common/Modal.vue';
-import { l } from '@/locales';
+import { getUILanguage, l, setUILanguage } from '@/locales';
 import { switchFocus } from '@/helpers/keyboardNavigation';
 
 const popupModalRef = ref<HTMLElement | null>(null);
@@ -16,7 +16,10 @@ const state = reactive<{
     isVisible: true,
 });
 
-const closeModal = () => { state.isVisible = false; }
+const closeModal = () => { 
+    state.isVisible = false; 
+    setUILanguage(getUILanguage().value);
+}
 
 </script>
 
