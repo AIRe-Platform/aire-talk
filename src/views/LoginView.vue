@@ -9,7 +9,8 @@ import { onMounted, reactive } from 'vue';
 import { l } from '@/locales';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
-import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
+import { useRoute } from 'vue-router';
+import usePlatform from '@/context/platform';
 
 const state = reactive<{
     busy: boolean,
@@ -21,19 +22,27 @@ const state = reactive<{
     error: false
 });
 
-onMounted(() => {
-    showSpinner(SpinnerId.LoginView);
+const route = useRoute();
+const platform = usePlatform();
+
+onMounted(async () => {
+    if (route.params.platform) {
+        const plat = route.params.platform as string;
+        if (plat !== platform.current())
+            return await platform.switch(plat);
+    }
+
     useLogin()
         .redirectToLogin()
         .then(ok => { state.error = !ok; })
-        .finally(() => { state.busy = false; hideSpinner(); });
+        .finally(() => { state.busy = false; });
 })
 </script>
 
 <template>
     <div class="login-view">
         <template v-if="state.busy">
-            <Spinner :id="SpinnerId.LoginView" />
+            <Spinner />
             <h1 class="login-message">{{ $t(l.login_redirect) }}</h1>
         </template>
         <div class="login-error" v-if="state.error">

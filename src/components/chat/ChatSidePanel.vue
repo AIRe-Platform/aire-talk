@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { onMounted, reactive, defineEmits, defineProps, computed } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import Tooltip from "@/components/common/Tooltip.vue";
 import { createQuestionnaire, queryQuestionnaire } from '@/helpers/questionnaireUtils';
 import { createPersonalInfoQuestionnaire, createPersonalInformationQuestions } from '@/controllers/personalInfoController';
@@ -14,6 +14,8 @@ import Panel from '@/components/common/Panel.vue';
 import { listChatKeywords, suggestContentWithKeywords, summarizeChat } from '@/helpers/chatUtils';
 import { l } from '@/locales';
 import useMobileLayout from '@/helpers/mobile';
+import useAireMemory from '@/context/memory';
+import { isRestrictedMode } from '@/context/ui';
 
 const state = reactive<{
     busy: boolean,
@@ -49,10 +51,16 @@ const querySurveys = async () => {
         state.busy = true;
         const keywords = listChatKeywords();
         const queried = await queryQuestionnaire(keywords);
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
-            if (questionnaire)
+        for (const result of queried) {
+            const memory = useAireMemory().get(result.source);
+            if (!memory)
+                continue;
+
+            const questionnaire = createQuestionnaire(result.result, memory);
+            if (questionnaire) {
                 questionnaires.startQuestionnaire(questionnaire);
+                break;
+            }
         }
     } catch (error) {
         console.error('Error querySurveys in ChatSummary:', error);
@@ -103,7 +111,7 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
                 </button>
             </Tooltip>
             <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
-                :adjustPosition="true" v-if="state.missingPersonalInfo">
+                :adjustPosition="true" v-if="state.missingPersonalInfo && !isRestrictedMode">
                 <button class="btn chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />

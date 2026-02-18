@@ -3,9 +3,10 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { SessionStatsEvent, StatisticsEventBase } from "@/models/statistics";
-import { AireServices, AireStatisticsEvent, AireStatus } from "aire";
+import { AireStatisticsEvent, AireStatus } from "aire";
 import { DateTime } from "luxon";
 import { reactive } from "vue";
+import useAireMemory from "./memory";
 
 const SESSION_UPDATE_INTERVAL = 60 * 1000;
 
@@ -38,7 +39,8 @@ export class StatisticsContext {
     }
 
     public async sendEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
-        return await AireServices.Memory?.postStatisticsEvent(event)
+        const memory = useAireMemory().platformDefault();
+        return await memory?.postStatisticsEvent(event)
             .then(result => {
                 if (result.status == AireStatus.Success && result.data) {
                     console.debug("Statistics event sent", result.data);
@@ -58,8 +60,9 @@ export class StatisticsContext {
     public async updateEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
         if (!event.id)
             return undefined;
+        const memory = useAireMemory().platformDefault();
 
-        return await AireServices.Memory?.updateStatisticsEvent(event)
+        return await memory?.updateStatisticsEvent(event)
             .then(result => {
                 if (result.status == AireStatus.Success && result.data) {
                     console.debug("Statistics event updated", result.data);

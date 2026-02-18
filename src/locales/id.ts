@@ -18,6 +18,7 @@ const id: Locale = {
     system_end_of_conversation: "Percakapan telah berakhir",
     system_end_of_conversation_options: "Apa yang ingin Anda lakukan?",
     system_reminder_set: "Pengingat baru '{subject}' pada {time} telah dibuat.",
+    system_switched_agent: "Anda telah dialihkan ke agen lain.",
 
     conversation_option_continue: "Lanjutkan percakapan",
     conversation_option_new_chat: "Mulai percakapan baru",
@@ -148,6 +149,7 @@ const id: Locale = {
     error_generic: "Terjadi kesalahan yang tidak diketahui!",
     error_ai_not_responding: `Bot gagal merespons. Ini mungkin terjadi karena penyaringan konten.
         Jika masalah berlanjut, harap coba lagi nanti.`,
+    error_ai_rate_limited: "Saat ini kami sedang mengalami banyak lalu lintas. Silakan coba lagi nanti.",
     error_signup_password_mismatch: "Kata sandi tidak cocok!",
     error_signup_bad_request: `Pendaftaran gagal. 
  

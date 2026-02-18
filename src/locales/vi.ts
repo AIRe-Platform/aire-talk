@@ -18,6 +18,7 @@ const vi: Locale = {
     system_end_of_conversation: "Cuộc trò chuyện đã kết thúc",
     system_end_of_conversation_options: "Bạn muốn làm gì?",
     system_reminder_set: "Một lời nhắc nhở mới '{subject}' tại {time} đã được tạo.",
+    system_switched_agent: "Bạn đã được chuyển hướng đến một nhân viên hỗ trợ khác.",
 
     conversation_option_continue: "Tiếp tục cuộc trò chuyện",
     conversation_option_new_chat: "Bắt đầu một cuộc trò chuyện mới",
@@ -144,6 +145,7 @@ const vi: Locale = {
     error_generic: "Đã xảy ra lỗi không xác định!",
     error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
         Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
+    error_ai_rate_limited: "Hiện tại hệ thống đang có lưu lượng truy cập rất lớn. Vui lòng thử lại sau.",
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
     error_signup_bad_request: `Đăng ký không thành công.
 

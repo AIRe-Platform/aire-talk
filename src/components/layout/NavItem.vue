@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { UIState } from "@/context/ui";
 import NavItemContent from './NavItemContent.vue';
 
@@ -12,7 +11,7 @@ const props = defineProps<{
     label: string,
     icon?: string,
     active: boolean,
-    tooltip: string,
+    tooltip?: string,
     tabindex: number,
     itemType: 'link' | 'button',
 }>()

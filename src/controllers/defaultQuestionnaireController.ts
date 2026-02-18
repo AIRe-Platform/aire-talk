@@ -11,12 +11,23 @@ import { checkAnswerForRedFlag, triggerRedFlag } from "@/helpers/questionnaireFl
 import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
 import i18n, { l } from "@/locales";
 import { Questionnaire } from "@/models/questionnaire";
-import { AireQuestion, AireQuestionOption, AireQuestionOptionCheckbox, AireQuestionOptionType, AireQuestionnaireAnswer, AireQuestionnaireResults, AireServices, AireStatus } from "aire";
+import {
+    AireMemory,
+    AireQuestion,
+    AireQuestionOption,
+    AireQuestionOptionCheckbox,
+    AireQuestionOptionType,
+    AireQuestionnaireAnswer,
+    AireQuestionnaireResults,
+    AireServices,
+    AireStatus
+} from "aire";
 import QuestionnaireController from "./questionnaireController";
 import useStatistics from "@/context/statistics";
 import useLogin from "@/context/login";
 import { FeedbackEvent } from "@/models/statistics";
 import { ChatMessageType } from "@/models/chat";
+import useAireMemory from "@/context/memory";
 
 const DefaultQuestionnaireController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -43,7 +54,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const statistics = useStatistics();
         const user = useLogin();
         const questionFeedbackId: string = "feedback.";
-        
+
         if (question.question_id === `${self.id}_start`) {
             if (answer.includes(i18n.global.t(l.button_yes)))
                 context.nextQuestion();
@@ -51,7 +62,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 context.reset();
         }
         else if (question.question_id === `${self.id}_end`) {
-            digest(self.id)
+            digest(self.id, self.memory)
                 .then(() => {
                     context.reset();
                 })
@@ -60,7 +71,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             question.answer = answer;
             question.is_feedback = true;
             const themes: string[] = [];
-            chat.messages.forEach( message => {
+            chat.messages.forEach(message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
                     themes.push(message.content!);
                 }
@@ -77,19 +88,19 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 if (answerIndex === -1) {
                     answerIndex = question.answer;
                 }
-            }else{
+            } else {
                 answerIndex = question.answer;
             }
-            
+
             statistics.sendEvent(new FeedbackEvent(
-                    questionFeedbackId + question.question_id,
-                    chat.id,
-                    user.user?.uuid,
-                    answerIndex,
-                    question.question,
-                    statistics.session?.id,
-                    themesString
-                ));
+                questionFeedbackId + question.question_id,
+                chat.id,
+                user.user?.uuid,
+                answerIndex,
+                question.question,
+                statistics.session?.id,
+                themesString
+            ));
 
             if (checkAnswerForRedFlag(question))
                 triggerRedFlag();
@@ -122,7 +133,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
 
 export default DefaultQuestionnaireController;
 
-async function digest(questionnaire_id: string) {
+async function digest(questionnaire_id: string, source: string) {
     const chat = useChat();
     const bot = useChatbot();
     const answers = getAnsweredQuestions(questionnaire_id);
@@ -137,11 +148,14 @@ async function digest(questionnaire_id: string) {
         return;
     }
 
-    if (!await saveResults(results)) {
-        const err = createErrorMessage(l.error_generic);
-        chat.push(err);
-        bot.reportReady();
-        return;
+    const memory = useAireMemory().get(source);
+    if (memory) {
+        if (!await saveResults(results, memory)) {
+            const err = createErrorMessage(l.error_generic);
+            chat.push(err);
+            bot.reportReady();
+            return;
+        }
     }
 
     let message = "";
@@ -185,13 +199,8 @@ async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): P
         })
 }
 
-async function saveResults(results: AireQuestionnaireResults): Promise<boolean> {
-    if (!AireServices.Memory) {
-        console.warn("Memory module is not available for saving");
-        return false;
-    }
-
-    return await AireServices.Memory.saveQuestionnaireResults(results)
+async function saveResults(results: AireQuestionnaireResults, memory: AireMemory): Promise<boolean> {
+    return await memory.saveQuestionnaireResults(results)
         .then((result) => {
             if (result.status === AireStatus.Success) {
                 return true;

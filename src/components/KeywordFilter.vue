@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { getUILanguage } from '@/locales';
 import { AireKeyword } from 'aire';
-import { defineProps, defineEmits, computed } from 'vue';
+import { computed } from 'vue';
 
 // Define the props interface
 const props = defineProps<{
@@ -15,6 +15,7 @@ const props = defineProps<{
 
 // Emit function to send changes to parent
 const emit = defineEmits<{
+    // eslint-disable-next-line no-unused-vars
     (e: 'update:selectedKeywords', selected: AireKeyword[]): void; // Emit event when selection changes
 }>();
 

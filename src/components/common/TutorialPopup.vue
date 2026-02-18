@@ -14,7 +14,7 @@ import {
 } from '@/context/tutorials';
 import { UIState } from '@/context/ui';
 import { l } from '@/locales';
-import { computed, defineProps, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 

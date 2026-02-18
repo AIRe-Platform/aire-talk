@@ -5,18 +5,18 @@
 
 <script setup lang="ts">
 import { ChatMessage } from '@/models/chat';
-import { defineProps, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { AireContent, AireContentType } from 'aire';
 import Modal from "@/components/common/Modal.vue";
-import { switchFocus } from '@/helpers/keyboarNavigation';
+import { switchFocus } from '@/helpers/keyboardNavigation';
 import { listChatKeywords, openAndContinueChat } from '@/helpers/chatUtils';
 import { router } from '@/router';
-import { l } from '@/locales';
-import { getTranslation, updateKeywordMetadata } from '@/helpers/keywordUtils';
+import { getUILanguage, l } from '@/locales';
 import useStatistics from '@/context/statistics';
 import useChat from '@/context/chat';
 import useLogin from '@/context/login';
 import { ContentEvent, ContentEventAction, ContentEventName } from '@/models/statistics';
+import useKeywords from '@/context/keywords';
 
 const props = defineProps<{
     active: boolean,
@@ -81,11 +81,14 @@ const updateKeywords = async (keywords: string[] | undefined) => {
     if (!keywords || keywords.length === 0) return;
 
     try {
-        const translatedKeywords = await updateKeywordMetadata(keywords);
+        const translatedKeywords = await useKeywords().updateMetadata(keywords);
+
         // Resolve translations
-        state.translatedKeywords = await Promise.all(
-            translatedKeywords.map(async (keyword) => await getTranslation(keyword))
-        );
+        const lang = getUILanguage();
+        state.translatedKeywords = translatedKeywords
+            .map(x => useKeywords().getTranslation(x.value, lang.value))
+            .filter(x => x !== undefined);
+
     } catch (error) {
         console.error("Error updating keywords:", error);
     }
@@ -115,8 +118,8 @@ onMounted(async () => {
                     <div class="message-media" v-if="props.content">
                         <div class="message-media-file">
                             <template v-if="props.content.type == AireContentType.Image">
-                                <img v-bind:src="props.content.url" :alt="props.content.name ||$t(l.screen_recorder_image_content_unnamed)"
-                                    tabindex="0"
+                                <img v-bind:src="props.content.url"
+                                    :alt="props.content.name || $t(l.screen_recorder_image_content_unnamed)" tabindex="0"
                                     :aria-label="`${$t(l.screen_recorder_image_content)} ${props.content.name || $t(l.screen_recorder_image_content_unnamed)}`" />
                             </template>
                             <template v-if="props.content.type == AireContentType.Video">
@@ -124,7 +127,7 @@ onMounted(async () => {
                                     :aria-label="`${$t(l.screen_recorder_video_content)} ${props.content.name || $t(l.screen_recorder_video_content_unnamed)}`">
                                     <source v-bind:src="props.content.url" type="video/mp4" />
                                     <p>{{ $t(l.content_modal_browser_does_not_support_video_tag) }} <a
-                                            :href="props.content.url">{{  $t(l.content_modal_download) }}</a>.</p>
+                                            :href="props.content.url">{{ $t(l.content_modal_download) }}</a>.</p>
                                 </video>
                             </template>
                             <a href="#" v-if="props.content.type == AireContentType.URL"
@@ -158,7 +161,7 @@ onMounted(async () => {
                     </div>
                     <div class="modal-content">
                         <h2 class="modal-title" id="modal-description" tabindex="0">{{ $t(l.content_modal_description)
-                            }}</h2>
+                        }}</h2>
                         <p tabindex="0">{{ props.content.description || $t(l.content_modal_no_description) }}</p>
                     </div>
                     <div class="modal-content">
@@ -320,6 +323,7 @@ onMounted(async () => {
             max-height: 10rem;
             border-radius: 1rem;
         }
+
         .content-document {
             background-position: center;
         }

@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineEmits, defineComponent, defineProps } from 'vue';
+import { defineComponent } from 'vue';
 import Panel from '@/components/common/Panel.vue'
 import { l } from '@/locales';
 import Tooltip from "@/components/common/Tooltip.vue";

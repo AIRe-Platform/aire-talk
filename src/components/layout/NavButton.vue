@@ -4,7 +4,6 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { l } from '@/locales';
 import Tooltip from "@/components/common/Tooltip.vue";
 import { UIState } from "@/context/ui";

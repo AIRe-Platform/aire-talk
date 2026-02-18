@@ -3,84 +3,88 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireKeyword, AireServices, AireStatus } from "aire";
+import { AireKeyword, AireStatus } from "aire";
 import { reactive } from "vue";
 import { LanguageCode } from "iso-639-1";
+import useAireMemory from "./memory";
+import { useKeywordCache } from "./cache";
 
 export class KeywordsContext {
-    public metadata: Array<AireKeyword>;
+    private cache = useKeywordCache();
 
-    constructor() {
-        this.metadata = new Array<AireKeyword>();
+    public getCached(keyword: string): AireKeyword | undefined {
+        return this.cache.get(keyword)?.keyword;
+    }
+
+    public getOrigin(keyword: string): string | undefined {
+        return this.cache.get(keyword)?.origin;
     }
 
     public async updateMetadata(keywords?: string[]): Promise<AireKeyword[]> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
-            return [];
-        }
-
-        if (!keywords || keywords.length == 0) {
-            return [];
-        }
-
-        const newKeywords = keywords.filter(x => this.metadata.findIndex(k => k.value == x) < 0);
+        keywords ??= this.cache.values().map(x => x.keyword.value).toArray();
         const results = new Array<AireKeyword>();
+        const mem = useAireMemory();
 
-        for(let i = 0; i < newKeywords.length; i++) {
-            const keyword = newKeywords[i];
-            await AireServices.Memory?.getKeyword(keyword)
-                .then(result => {
-                    if (result.status == AireStatus.Success && result.data) {
-                        this.metadata.push(result.data);
-                        results.push(result.data);
-                    }
-                    else {
-                        console.warn("Could not get information about a keyword", keyword);
-                    }
-                })
-                .catch(err => {
-                    console.error("Failed to request keyword information", keyword, err);
-                })
+        for (let i = 0; i < keywords.length; i++) {
+            const keyword = keywords[i];
+            const metadata = this.cache.get(keyword);
+            const sources = metadata ? [mem.get(metadata.origin)] : mem.all();
+
+            for (const memory of sources) {
+                if (!memory)
+                    continue;
+
+                const found = await memory.getKeyword(keyword)
+                    .then(result => {
+                        if (result.status == AireStatus.Success && result.data) {
+                            this.cache.set(keyword, { origin: memory.id, keyword: result.data });
+                            results.push(result.data);
+                            return true;
+                        }
+                        else {
+                            console.warn("Could not get information about a keyword", keyword);
+                            return false;
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Failed to request keyword information", keyword, err);
+                        return false;
+                    })
+
+                if (found)
+                    break;
+            }
         }
 
         return results;
     }
 
     public getTranslation(keyword: string, lang: LanguageCode): string | undefined {
-        const item = this.metadata.find(x => x.value == keyword);
+        const item = this.cache.get(keyword);
         if (item) {
-            const translation = item.translations?.find(x => x.languageID == lang);
+            const translation = item.keyword.translations?.find(x => x.languageID == lang);
             return translation?.value;
         }
     }
 
-    public getMetadata(keywords: string[]): AireKeyword[] {
-        return keywords
-            .map(x => this.metadata.find(k => k.value == x))
-            .filter(x => x !== undefined);
-    }
-    
-    public async getKeywords(search?: string): Promise<AireKeyword[] | undefined> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
-            return undefined;
-        }
-    
-        // Call the queryKeywords method
-        return await AireServices.Memory.queryKeywords(search)
-            .then((result) => {
-                if (result.status === AireStatus.Success && result.data) {
-                    // Assuming you have some caching mechanism or need to return the result
-                    return result.data;
-                } else {
-                    throw new Error(`Failed to get keywords: ${result.status}`);
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to get keywords", err);
-                return undefined; // Handle the failure case
-            });
+    public async queryKeywords(search?: string): Promise<AireKeyword[] | undefined> {
+        const sources = useAireMemory().agent();
+
+        return await useAireMemory().aggregate(sources, async memory => {
+            return await memory.queryKeywords(search)
+                .then((result) => {
+                    if (result.status === AireStatus.Success && result.data) {
+                        result.data.forEach(x => this.cache.set(x.value, { origin: memory.id, keyword: x }))
+                        return result.data;
+                    } else {
+                        throw new Error(`Failed to get keywords: ${result.status}`);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Failed to get keywords", err);
+                    return [];
+                });
+        });
     }
 }
 

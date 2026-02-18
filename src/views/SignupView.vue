@@ -5,22 +5,38 @@
 
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { AireStatus } from 'aire';
 import useLogin from '@/context/login';
 import Spinner from '@/components/common/Spinner.vue';
 import TextButton from "@/components/common/TextButton.vue";
-import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
+import { useRoute } from 'vue-router';
+import usePlatform from '@/context/platform';
 
-const busy = ref(false);
-const error = ref<string>();
+const state = reactive<{
+    busy: boolean,
+    invite: boolean,
+    error?: string,
+}>({
+    busy: false,
+    invite: false
+});
+
 const fields = reactive<{
-    email?: string,
-    password?: string,
-    passwordConfirm?: string
-}>({});
+    email: string,
+    password: string,
+    passwordConfirm: string
+}>({
+    email: "",
+    password: "",
+    passwordConfirm: ""
+});
+
+const route = useRoute();
+const platform = usePlatform();
+const login = useLogin();
 
 const onSignup = (e: Event) => {
     const form = e.target as HTMLFormElement
@@ -29,57 +45,85 @@ const onSignup = (e: Event) => {
         return;
 
     if (fields.password !== fields.passwordConfirm) {
-        error.value = l.error_signup_password_mismatch;
+        state.error = l.error_signup_password_mismatch;
         return;
     }
 
-    busy.value = true;
-    showSpinner(SpinnerId.SignUpView);
-    useLogin().signup(fields.email!, fields.password!)
-        .then((status) => {
+    state.busy = true;
+    state.error = undefined;
+
+    const signup = async () => {
+        if (state.invite)
+            return await login.upgradeTrial(fields.password)
+        else
+            return await login.signup(fields.email, fields.password);
+    }
+
+    signup()
+        .then(status => {
             if (status == AireStatus.Success) {
-                router.push({ path: "/", query: { signup_success: "1" } });
+                if (state.invite) {
+                    login.logout();
+                }
+                else {
+                    router.push({ path: "/", query: { signup_success: "1" } });
+                }
             }
             else if (status == AireStatus.BadRequest) {
-                error.value = l.error_signup_bad_request;
+                state.error = l.error_signup_bad_request;
             }
             else {
-                error.value = l.error_signup_general;
+                state.error = l.error_signup_general;
             }
         })
         .finally(() => {
-            busy.value = false;
-            hideSpinner();
+            state.busy = false;
         });
 }
 
 const goBack = () => {
     router.push("/");
 }
+
+onMounted(async () => {
+    if (route.params.platform) {
+        const plat = route.params.platform as string;
+        await platform.switch(plat, false);
+    }
+
+    const upgradeAccount = login.session?.invite?.allow_upgrade ?? false;
+    state.invite = upgradeAccount;
+
+    if (login.user && !upgradeAccount) {
+        goBack();
+        return;
+    }
+})
 </script>
 
 <template>
     <div class="signup-view">
         <form class="form-content" @submit.prevent="onSignup">
             <h1>{{ $t(l.signup_form_title) }}</h1>
-            <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
-            <input type="email" id="signup-email" required="true" autocomplete="email" v-model="fields.email"
-                :readonly="busy" />
+            <template v-if="!state.invite">
+                <label for="signup-email" class="form-label">{{ $t(l.signup_label_email) }}</label>
+                <input type="email" id="signup-email" required="true" autocomplete="email" v-model="fields.email"
+                    :readonly="state.busy" />
+            </template>
             <label for="signup-password" class="form-label">{{ $t(l.signup_label_password) }}</label>
             <input type="password" id="signup-password" required="true" autocomplete="off" v-model="fields.password"
-                :readonly="busy" minlength="8" />
+                :readonly="state.busy" minlength="8" />
             <small id="password-instructions">{{ $t(l.signup_password_instructions) }}</small>
             <label for="signup-password-confirm" class="form-label">{{ $t(l.signup_label_confirm_password) }}</label>
             <input type="password" id="signup-password-confirm" required="true" autocomplete="off"
-                v-model="fields.passwordConfirm" :readonly="busy" minlength="8" />
+                v-model="fields.passwordConfirm" :readonly="state.busy" minlength="8" />
             <br />
-            <small id="signup-failed-message" v-if="error != null">{{ $t(error) }}</small>
-            <button class="btn" v-if="!busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
-            <div class="signup-busy" v-if="busy">
-                <Spinner :id="SpinnerId.SignUpView" />
+            <small id="signup-failed-message" v-if="state.error">{{ $t(state.error) }}</small>
+            <button class="btn" v-if="!state.busy" type="submit">{{ $t(l.signup_form_submit) }}</button>
+            <div class="signup-busy" v-if="state.busy">
+                <Spinner />
             </div>
-            <!-- add a back button -->
-            <TextButton v-if="!busy" v-on:click="goBack" class="go-back">{{ $t(l.button_back) }}</TextButton>
+            <TextButton v-if="!state.busy" v-on:click="goBack" class="go-back">{{ $t(l.button_back) }}</TextButton>
         </form>
     </div>
 </template>

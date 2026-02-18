@@ -11,7 +11,6 @@ import useLogin from '@/context/login';
 import Switch from '@/components/common/Switch.vue';
 import Spinner from '@/components/common/Spinner.vue';
 import Tooltip from "@/components/common/Tooltip.vue";
-import { hideSpinner, showSpinner, SpinnerId } from '@/helpers/spinnerUtils';
 
 const login = useLogin();
 
@@ -40,7 +39,6 @@ const onSave = () => {
     }
 
     state.busy = true;
-    showSpinner(SpinnerId.ProfileExperiments);
     AireServices.ID.saveProfileData(profile)
         .then((res) => {
             if (res.data?.preferences && login.user) {
@@ -50,7 +48,6 @@ const onSave = () => {
         })
         .finally(() => {
             state.busy = false;
-            hideSpinner();
         });
 }
 </script>
@@ -74,10 +71,8 @@ const onSave = () => {
             <p id="prompt-override-desc">{{ $t(l.profile_experiments_add) }} <code>{user_summary}</code> {{
                 $t(l.profile_experiments_description) }}</p>
         </div>
-        <template v-if="state.busy">
-            <Spinner :id="SpinnerId.ProfileExperiments" />
-        </template>
-        <template v-if="!state.busy">
+        <Spinner v-if="state.busy" />
+        <template v-else="!state.busy">
             <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
                 <button class="btn" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
             </Tooltip>

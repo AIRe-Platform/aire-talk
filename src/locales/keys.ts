@@ -15,6 +15,7 @@ export enum LocalizationKey {
     system_end_of_conversation = "system_end_of_conversation",
     system_end_of_conversation_options = "system_end_of_conversation_options",
     system_reminder_set = "system_reminder_set",
+    system_switched_agent = "system_switched_agent",
 
     conversation_option_continue = "conversation_option_continue",
     conversation_option_new_chat = "conversation_option_new_chat",
@@ -134,6 +135,7 @@ export enum LocalizationKey {
 
     error_generic = "error_generic",
     error_ai_not_responding = "error_ai_not_responding",
+    error_ai_rate_limited = "error_ai_rate_limited",
     error_signup_password_mismatch = "error_signup_password_mismatch",
     error_signup_bad_request = "error_signup_bad_request",
     error_signup_general = "error_signup_general",

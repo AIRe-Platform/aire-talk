@@ -4,7 +4,7 @@
  -->
 
 <script setup lang="ts">
-import { defineProps, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import ChatContent from '@/components/chat/ChatContent.vue';
@@ -58,7 +58,7 @@ const showContent = async (content: AireContent) => {
                 ContentEventName.Opened,
                 ContentEventAction.ModalOpen
             ));
-            await contentCtx.addViewCount(content.id);
+            await contentCtx.addViewCount(content);
         }
     } catch (error) {
         console.error('Error addViewCount in content in ChatBubble:', error);

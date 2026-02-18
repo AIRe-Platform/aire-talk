@@ -2,7 +2,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 import {
     AireContent,
     AireQuestion,
@@ -27,6 +26,7 @@ import { ChatMessageType } from "@/models/chat";
 import { onAcceptSummary } from "@/helpers/chatUtils";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import useContent from "@/context/content";
+import useFeedback from "@/context/feedback";
 
 const PersonalFeedbackController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -44,7 +44,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("feedback_personal", q);
+        return createQuestionnaireMessage("feedback_personal", q, true);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any)  =>  {
         const context = useQuestionnaire();
@@ -63,7 +63,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 .then(() => {
                     context.reset();
                 })
-            chat.feedbackQuestionnaireIsCompleted();
+            useFeedback().complete();
         }
         else {
             question.answer = answer;
@@ -87,7 +87,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("feedback_personal", q);
+        return createQuestionnaireMessage("feedback_personal", q, true);
     }
 }
 
@@ -106,25 +106,22 @@ export async function createPersonalFeedbackQuestionnaire(): Promise<Questionnai
         queue: fields,
         answers: [],
         controller_type: QuestionnaireControlFlow.Feedback,
-        completed: false
+        completed: false,
+        memory: "",
     };
 
     return questionnaire;
 }
 
 async function saveFeedbackPersonalInformation() {
-
     const answers = getAnsweredQuestions("feedback_personal");
-
     const info: Record<string, string> = {}
 
     answers.forEach(x => { info[x.question_id] = x.answer; });
 
-    const chat = await useChat();
-
+    const chat = useChat();
     const statistics = useStatistics();
-
-    const user = await useLogin();
+    const user = useLogin();
     
     const themes: string[] = [];
     chat.messages.forEach( message => {

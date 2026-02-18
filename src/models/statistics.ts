@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { getUILanguage } from "@/locales";
-import { AireSettings, AireStatisticsEvent } from "aire";
+import { AireServices, AireStatisticsEvent } from "aire";
 import { DateTime } from "luxon";
 
 // Flexible base class for statistics data, derive your own classes from this
@@ -21,7 +21,7 @@ export class StatisticsEventBase implements AireStatisticsEvent {
         this.client_id = import.meta.env.VITE_AIRE_CLIENT_ID;
         this.client_ver = import.meta.env.VITE_COMMIT_HASH;
         this.ui_language = getUILanguage().value;
-        this.instance_id = AireSettings.PlatformName;
+        this.instance_id = AireServices.PlatformId;
     }
 }
 
@@ -162,7 +162,6 @@ export enum ReminderEventName {
 
 export class ReminderEvent extends StatisticsEventBase {
     constructor(
-        public reminder_topic: string | undefined,
         public reminder_timestamp: number,
         public chat_id: string | undefined,
         public user_id: string | undefined,

@@ -2,17 +2,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
-import { AireServices, AireStatus, AireContent, AireContentType } from "aire";
+import { AireStatus, AireContent, AireContentType } from "aire";
 import { reactive } from "vue";
 import { useContentCache } from "./cache";
+import useAireMemory from "./memory";
 
 export class ContentContext {
-    private ratings: Map<string, number>;
-
-    constructor() {
-        this.ratings = new Map<string, number>();
-    }
+    private ratings: Map<string, number> = new Map<string, number>();
+    private cache = useContentCache();
 
     public reset() {
         this.ratings.clear();
@@ -25,47 +22,45 @@ export class ContentContext {
      * @returns List of found content, sorted first by rating and then by modification date
      */
     public async search(keywords: string[], max_items: number | undefined): Promise<AireContent[]> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
-            return [];
-        }
-
-        return await AireServices.Memory.searchContent(keywords)
-            .then((result) => {
-                if (!result.data) {
-                    throw Error(result.status.toString())
-                }
-
-                const cache = useContentCache();
-                result.data.forEach(x => cache.set(x.id!, x));
-
-                const results = result.data?.sort((a, b) => {
-                    // Sort by rating
-                    if (a.score && b.score) {
-                        const viewersRatingComparison = b.score - a.score;
-                        if (viewersRatingComparison !== 0) {
-                            return viewersRatingComparison;
-                        }
+        const mem = useAireMemory();
+        return await mem.aggregate(mem.agent(), async memory => {
+            return await memory.searchContent(keywords)
+                .then((result) => {
+                    if (!result.data) {
+                        throw Error(result.status.toString())
                     }
 
-                    // Sort by date
-                    // Sort by date
-                    const aDate = a.modified ? new Date(a.modified).getTime() : 0;  // Use 0 as fallback if undefined
-                    const bDate = b.modified ? new Date(b.modified).getTime() : 0;  // Use 0 as fallback if undefined
+                    const cache = useContentCache();
+                    result.data.forEach(x => cache.set(x.id!, { origin: memory.id, content: x }));
 
-                    return bDate - aDate;
-                }) || [];
+                    const results = result.data?.sort((a, b) => {
+                        // Sort by rating
+                        if (a.score && b.score) {
+                            const viewersRatingComparison = b.score - a.score;
+                            if (viewersRatingComparison !== 0) {
+                                return viewersRatingComparison;
+                            }
+                        }
 
-                if (max_items)
-                    return results.slice(0, max_items);
+                        // Sort by date
+                        // Sort by date
+                        const aDate = a.modified ? new Date(a.modified).getTime() : 0;  // Use 0 as fallback if undefined
+                        const bDate = b.modified ? new Date(b.modified).getTime() : 0;  // Use 0 as fallback if undefined
 
-                return results;
+                        return bDate - aDate;
+                    }) || [];
 
-            })
-            .catch((err) => {
-                console.error("Failed to refresh content catalogue", err);
-                return [];
-            })
+                    if (max_items)
+                        return results.slice(0, max_items);
+
+                    return results;
+
+                })
+                .catch((err) => {
+                    console.error("Failed to refresh content catalogue", err);
+                    return [];
+                })
+        })
     }
 
     /**
@@ -74,12 +69,15 @@ export class ContentContext {
      * @param vote > 0 for an upvote, < 0 for a downvote, 0 to undo vote
      */
     public async vote(content_id: string, vote: number): Promise<boolean> {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is unavailable");
+        const cached = this.cache.get(content_id);
+        if (!cached)
             return false;
-        }
 
-        return await AireServices.Memory.postContentRating(content_id, vote)
+        const memory = useAireMemory().get(cached.origin);
+        if (!memory)
+            return false;
+
+        return await memory.postContentRating(content_id, vote)
             .then((result) => {
                 if (result.status !== AireStatus.Success) {
                     throw Error(result.status.toString());
@@ -94,34 +92,28 @@ export class ContentContext {
     }
 
     public async get(content_id: string): Promise<AireContent | undefined> {
-        const cache = useContentCache();
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
-            return;
-        }
-    
-        const cached = cache.get(content_id);
+        const cached = this.cache.get(content_id);
         if (cached) {
             // Check if thumbnailUrl is valid and not expired
-            if (cached.thumbnail_url) {
-                const url = new URL(cached.thumbnail_url);
+            if (cached.content.thumbnail_url) {
+                const url = new URL(cached.content.thumbnail_url);
                 const expiry = url.searchParams.get("se");
                 if (expiry) {
                     const expiryDate = new Date(expiry);
                     if (expiryDate.getTime() > Date.now()) {
                         // Cached thumbnailUrl is valid, now check the content URL
-                        if (cached.type === AireContentType.URL) {
-                            return cached; // Return cached if it's just a URL type
+                        if (cached.content.type === AireContentType.URL) {
+                            return cached.content; // Return cached if it's just a URL type
                         }
-    
+
                         // Check if the main media URL is valid
-                        if (cached.url) {
-                            const mediaUrl = new URL(cached.url);
+                        if (cached.content.url) {
+                            const mediaUrl = new URL(cached.content.url);
                             const mediaExpiry = mediaUrl.searchParams.get("se");
                             if (mediaExpiry) {
                                 const mediaExpiryDate = new Date(mediaExpiry);
                                 if (mediaExpiryDate.getTime() > Date.now()) {
-                                    return cached; // Cached URL is valid
+                                    return cached.content; // Cached URL is valid
                                 }
                             }
                         }
@@ -129,36 +121,49 @@ export class ContentContext {
                 }
             }
         }
-    
+
         // Fetch fresh content if cached data is invalid or missing
-        return await AireServices.Memory.getContentWithId(content_id)
-            .then((result) => {
-                if (result.data) {
-                    // Update the cache with fresh data
-                    cache.set(content_id, result.data);
-                    return result.data;
-                } else {
-                    throw Error(result.status.toString());
-                }
-            })
-            .catch((err) => {
-                console.error("Failed to get content", err);
-                return undefined;
-            });
+        const mem = useAireMemory();
+        const sources = cached ? [mem.get(cached.origin)] : mem.all();
+
+        for (const memory of sources) {
+            if (!memory)
+                continue;
+
+            const content = await memory.getContentWithId(content_id)
+                .then((result) => {
+                    if (result.data) {
+                        // Update the cache with fresh data
+                        this.cache.set(content_id, { origin: memory.id, content: result.data });
+                        return result.data;
+                    } else {
+                        return undefined;
+                    }
+                })
+                .catch(() => { return undefined; });
+
+            if (content)
+                return content;
+        }
+
+        console.warn("Failed to get content", content_id);
     }
-    
+
 
     public async getVote(content_id: string): Promise<number> {
         const vote = this.ratings.get(content_id);
         if (vote)
             return vote;
 
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+        const content = this.cache.get(content_id);
+        if (!content || !content.origin)
             return 0;
-        }
 
-        return await AireServices.Memory.getContentRating(content_id)
+        const memory = useAireMemory().get(content.origin);
+        if (!memory)
+            return 0;
+
+        return await memory.getContentRating(content_id)
             .then((result) => {
                 if (result.data) {
                     return result.data.vote;
@@ -178,24 +183,32 @@ export class ContentContext {
         return content?.url;
     }
 
-    public async addViewCount(content_id: string) {
-        if (!AireServices.Memory) {
-            console.warn("Memory service is not available");
+    public async addViewCount(content: AireContent) {
+        if (!content?.id)
+            return;
+
+        const origin = this.cache.get(content.id)?.origin;
+        if (!origin)
+            return;
+
+        const memory = useAireMemory().get(origin)
+        if (!memory) {
+            console.warn("Content origin unavailable");
             return;
         }
 
-        await AireServices.Memory.postContentView(content_id)
+        await memory.postContentView(content.id)
             .then((result) => {
                 if (result.data) {
                     const cache = useContentCache();
-                    let content = cache.get(content_id);
+                    let cached = cache.get(content.id!);
 
-                    if (content)
-                        content.views = result.data.views;
+                    if (cached)
+                        cached.content.views = result.data.views;
                     else
-                        content = result.data;
+                        cached = { origin: origin, content: result.data };
 
-                    cache.set(content_id, content);
+                    cache.set(content.id!, cached);
                 }
             })
     }

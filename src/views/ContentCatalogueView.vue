@@ -15,10 +15,11 @@ import useContent from "@/context/content";
 import Spinner from "@/components/common/Spinner.vue";
 import CatalogueItem from "@/components/content/CatalogueItem.vue";
 import ContentModal from "@/components/content/ContentModal.vue";
-import { getAllKeywordsFromHistory } from "@/helpers/keywordUtils";
 import KeywordFilter from "@/components/KeywordFilter.vue";
 import useMobileLayout from "@/helpers/mobile";
 import Panel from "@/components/common/Panel.vue";
+import { listKeywordsFromChat, loadAllChats } from "@/helpers/chatUtils";
+import useKeywords from "@/context/keywords";
 
 const navigateTo = (path: string) => {
     router.push(path);
@@ -136,7 +137,7 @@ const updateSearchQuery = (event: Event) => {
 
 const listContent = async () => {
     const ids = await getAllSuggestedContentFromHistory();
-    const uniqueContentMap = new Map<string, any>();
+    const uniqueContentMap = new Map<string, AireContentWithChatId>();
 
     for (const { chatId, contentId } of ids) {
         const item = await contentContext.get(contentId);
@@ -148,12 +149,10 @@ const listContent = async () => {
                 const existingItem = uniqueContentMap.get(contentId);
 
                 // Compare modified timestamps, if both are defined, and keep the latest one
-                if (
-                    wrappedItem.modified && existingItem.modified &&
-                    wrappedItem.modified > existingItem.modified
-                ) {
+                if (wrappedItem.modified && existingItem?.modified &&
+                    wrappedItem.modified > existingItem.modified) {
                     uniqueContentMap.set(contentId, wrappedItem);
-                } else if (!existingItem.modified || (wrappedItem.modified && !existingItem.modified)) {
+                } else if (!existingItem?.modified || (wrappedItem.modified && !existingItem.modified)) {
                     // If existingItem.modified is undefined, prefer wrappedItem
                     uniqueContentMap.set(contentId, wrappedItem);
                 }
@@ -173,7 +172,7 @@ const showContent = async (content: AireContent) => {
         state.openContent = content;
         toggleModal();
         if (content.id) {
-            await contentContext.addViewCount(content.id);
+            await contentContext.addViewCount(content);
         }
     } catch (error) {
         console.error('Error addViewCount in content in content catalogue view:', error);
@@ -204,24 +203,29 @@ const leave = (el: Element) => {
     element.style.opacity = '0';
 };
 
-onMounted(async () => {
+const updateKeywords = async () => {
+    await loadAllChats()
+        .then(async chats => {
+            const keywords = chats.flatMap(x => {
+                return listKeywordsFromChat(x.id)
+            });
 
+            const dedup = [... new Set<string>(keywords)];
+            state.keywords = await useKeywords().updateMetadata(dedup);
+        })
+}
+
+onMounted(async () => {
     state.busy = true;
+
     await listContent();
-    state.keywords = await getAllKeywordsFromHistory();
+    await updateKeywords();
 
     state.busy = false;
     // Rank the content only if it's not empty
     if (state.contentList && state.contentList.length > 0) {
-        // Extract only the content part (AireContent) from the wrapped items
-        const contentWithoutChatId = state.contentList.map(item => {
-            // eslint-disable-next-line no-unused-vars
-            const { chatId, ...content } = item; // Extract content without chatId
-            return content; // Return only the content part
-        });
-
         // Pass the extracted content to the ranking function
-        state.rankedContents = await rankSelectedContent(contentWithoutChatId);
+        state.rankedContents = await rankSelectedContent(state.contentList);
     }
 });
 

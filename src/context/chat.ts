@@ -10,6 +10,7 @@ import {
     AireTalkEvent,
     AireChatLog,
     AireStatus,
+    AireEventType,
 } from "aire";
 import { reactive } from "vue";
 import {
@@ -17,6 +18,7 @@ import {
     createErrorMessage,
     createSystemMessage,
     createUserMessage,
+    createInstructionMessage,
 } from "@/helpers/chatMessages";
 import useChatbot from "./chatbot";
 import { useChatCache } from "./cache";
@@ -26,28 +28,26 @@ import {
     getChatbotInputData,
     listChatKeywords,
     findLatestSummaryMessage,
-    handleReminderEvent,
-    handleKeywordEvent,
-    handleQuestionnaireEvent,
-    handleEndEvent,
-    handleMessageEvent,
     findChatKeywords,
-    handleDocumentResultsEvent,
+    getDefaultAgent,
 } from "@/helpers/chatUtils";
 import useLogin from "./login";
-import { updateKeywordMetadata } from "@/helpers/keywordUtils";
 import useStatistics from "./statistics";
 import { ResponseTimeEvent } from "@/models/statistics";
-import { createQuestionnaire, queryFeedbackQuestionnaire } from "@/helpers/questionnaireUtils";
+import useAireMemory from "./memory";
+import ChatEvents from "@/helpers/chatEventHandler";
+import useKeywords from "./keywords";
+import { DateTime } from "luxon";
 
 export class ChatContext {
-    id?: string;
-    autosave_timer?: number;
-    modified: boolean;
-    forced_response: boolean;
-    is_feedback_given: boolean;
-    response_received: boolean;
+    private cache = useChatCache();
 
+    private autosave_timer?: number;
+    private modified: boolean;
+    private forced_response: boolean;
+    protected response_received: boolean;
+
+    public id?: string;
     public messages: Array<ChatMessage>;
     public stats: ChatStats;
     public state: ChatState;
@@ -58,7 +58,6 @@ export class ChatContext {
         this.stats = {};
         this.state = {};
         this.forced_response = false;
-        this.is_feedback_given = false;
         this.response_received = false;
     }
 
@@ -71,17 +70,17 @@ export class ChatContext {
         }
 
         if (clear_cache) {
-            const cache = useChatCache();
-            cache.clear();
+            this.cache.clear();
         }
 
         this.id = undefined;
         this.messages = [];
         this.modified = false;
         this.stats = {};
-        this.state = {};
+        this.state = {
+            agent: getDefaultAgent()?.name
+        };
         useQuestionnaire().reset();
-        this.is_feedback_given = false;
         this.response_received = false;
 
         const system_message = createSystemMessage(l.system_greeting);
@@ -93,33 +92,6 @@ export class ChatContext {
      */
     public async startNew() {
         await this.reset(false, false);
-    }
-
-    /** 
-     * Start the questionnaire to save into events 
-     */
-    public async giveFeedback() {
-
-        const questionnaires = useQuestionnaire();
-
-        const queried = await queryFeedbackQuestionnaire();
-
-        if (queried) {
-            const questionnaire = createQuestionnaire(queried);
-            if (questionnaire)
-                questionnaires.startQuestionnaire(questionnaire);
-        }
-
-        //First feedback questionnary is still here: 
-        /* const personalInfoQuestionnaire = await createPersonalFeedbackQuestionnaire();
-
-        if (personalInfoQuestionnaire){
-            questionnaires.startQuestionnaire(personalInfoQuestionnaire);
-        } */
-    }
-
-    public feedbackQuestionnaireIsCompleted() {
-        this.is_feedback_given = true;
     }
 
     /**
@@ -167,6 +139,10 @@ export class ChatContext {
 
             if (this.state.themes)
                 this.state.themes = this.state.themes.filter(x => !revertedKeywords.includes(x.value));
+
+            const lastAssistantMessage = this.messages.findLast(x => x.role === 'assistant');
+            if (lastAssistantMessage)
+                this.state.agent = lastAssistantMessage.agent;
 
             if (reset_questionnaire)
                 useQuestionnaire().reset();
@@ -232,8 +208,9 @@ export class ChatContext {
             return;
 
         const questionnaire = useQuestionnaire();
+        const memory = useAireMemory().platformDefault();
 
-        if (AireServices.Memory) {
+        if (memory) {
             this.state.summary = findLatestSummaryMessage(this.messages)?.content;
             this.state.questionnaire = questionnaire.active;
 
@@ -243,12 +220,11 @@ export class ChatContext {
                 state: this.state,
             };
 
-            const cache = useChatCache();
-
-            await AireServices.Memory.saveChat(chatLog, this.id)
+            await memory.saveChat(chatLog, this.id)
                 .then(result => {
                     if (result.status == AireStatus.Success && result.data) {
-                        cache.set(result.data.id, {
+                        this.cache.set(result.data.id, {
+                            metadata: result.data,
                             messages: this.messages,
                             state: this.state,
                             stats: this.stats
@@ -264,25 +240,31 @@ export class ChatContext {
         }
     }
 
-    public async open(chat_id: string): Promise<boolean> {
-        if (this.id === chat_id)
+    public async open(id: string): Promise<boolean> {
+        if (this.id === id)
             return true;
+
+        let cached = this.cache.get(id);
+        if (!cached) {
+            const load = await this.load(id);
+            if (!load) {
+                console.warn("Failed to load chat", id);
+                return false;
+            }
+            cached = this.cache.get(id)!;
+        }
 
         await this.reset(false, false);
 
-        const loaded = await this.load(chat_id);
-        if (!loaded)
-            return false;
-
-        const cached = useChatCache().get(chat_id);
-        if (!cached) {
-            return false;
-        }
-
-        this.id = chat_id;
-        this.messages = cached.messages;
+        this.id = id;
+        this.messages = cached.messages || [];
         this.stats = cached.stats || {};
-        this.state = cached.state;
+        this.state = cached.state || {};
+
+        if (this.messages.length === 0) {
+            const system_message = createSystemMessage(l.system_greeting);
+            this.push(system_message, true, false);
+        }
 
         const state = cached.state;
         if (state) {
@@ -290,7 +272,9 @@ export class ChatContext {
                 useQuestionnaire().restoreState(state.questionnaire);
         }
 
-        updateKeywordMetadata(listChatKeywords());
+        const themes = listChatKeywords();
+        const themeMeta = await useKeywords().updateMetadata(themes);
+        this.state.themes = themeMeta;
 
         scrollChatToBottom();
         return true;
@@ -300,8 +284,10 @@ export class ChatContext {
         if (chat_id == this.id)
             await this.reset(true, false)
 
-        if (AireServices.Memory) {
-            await AireServices.Memory.deleteChat(chat_id)
+        const memory = useAireMemory().platformDefault();
+
+        if (memory) {
+            await memory.deleteChat(chat_id)
                 .then((status) => {
                     if (status === AireStatus.Success) {
                         console.log("Chat deleted", chat_id);
@@ -312,48 +298,51 @@ export class ChatContext {
                 })
         }
 
-        const cache = useChatCache();
-        cache.delete(chat_id);
+        this.cache.delete(chat_id);
     }
 
-    public async load(chat_id: string, force: boolean = false): Promise<boolean> {
-        const cache = useChatCache();
-
-        if (chat_id in cache && !force) {
-            return true;
-        }
-
-        if (AireServices.Memory) {
-            const result = await AireServices.Memory.getChat(chat_id);
-            if (result.status != AireStatus.Success || !result.data)
-                return false;
-
-            const chatlog = result.data;
-            const state = (chatlog.state || {}) as ChatState;
-            const messages = chatlog.messages.map(mapMessage);
-
-            // Old chat logs do not have themes in the state object,
-            // one has to look for the keywords in the messages
-            if (!state.themes)
-                state.themes = await updateKeywordMetadata(findChatKeywords(messages))
-
-            cache.set(chat_id, {
-                messages: messages,
-                state: state,
-                stats: (chatlog.stats || {}) as ChatStats
-            })
-
-            return true;
-        }
-        else {
+    public async load(id: string): Promise<boolean> {
+        const memory = useAireMemory().platformDefault();
+        if (!memory) {
             console.error("Memory service is not available")
             return false;
         }
+
+        const result = await memory.getChat(id);
+        if (result.status != AireStatus.Success || !result.data)
+            return false;
+
+        const chatlog = result.data;
+        const state = (chatlog.state || {}) as ChatState;
+        const messages = chatlog.messages.map(mapMessage);
+
+        this.cache.set(id, {
+            metadata: result.data.metadata || { id: id, time: DateTime.now().toISO() },
+            messages: messages,
+            state: state,
+            stats: (chatlog.stats || {}) as ChatStats
+        })
+
+        return true;
+    }
+
+    public onReceivingMessage() {
+        this.response_received = true;
+    }
+
+    public onMessageReceived() {
+        console.debug("Message ended. Response received:", this.response_received);
+        if (!this.response_received)
+            this.forceResponse();
+    }
+
+    public forceFollowUp() {
+        console.debug("Forcing follow up response");
+        this.response_received = false;
     }
 }
 
-const context: ChatContext = reactive(new ChatContext());
-
+const context = reactive(new ChatContext());
 export default function useChat() {
     return context;
 }
@@ -401,55 +390,73 @@ async function receiver(e: AireTalkEvent) {
     if (chat.state.red_flag_triggered)
         return;
 
-    if (e.type === "keywords" && e.keywords) {
-        await handleKeywordEvent(e.keywords);
+    if (e.type === AireEventType.Keywords && e.keywords) {
+        await ChatEvents.handleKeywordEvent(e.keywords);
         return;
     }
 
-    if (e.type === "questionnaire" && e.questionnaire) {
-        await handleQuestionnaireEvent(e.questionnaire);
+    if (e.type === AireEventType.Questionnaire && e.questionnaire) {
+        await ChatEvents.handleQuestionnaireEvent(e.questionnaire);
         return;
     }
 
-    if (e.type === "content-suggestions" && e.content_suggestions) {
-        //await handleContentSuggestionsEvent(e.content_suggestions);
+    if (e.type === AireEventType.ContentSuggestions && e.content_suggestions) {
+        await ChatEvents.handleContentSuggestionsEvent(e.content_suggestions);
         return;
     }
 
-    if (e.type === "token-count") {
-        chat.stats.token_count = e.tokenCount
+    if (e.type === AireEventType.Stats && e.stats) {
+        await ChatEvents.handleStatsEvent(e.stats);
         return;
     }
 
-    if (e.type === "reminder" && e.reminder) {
-        await handleReminderEvent(e.reminder);
+    if (e.type === AireEventType.Reminder && e.reminder) {
+        await ChatEvents.handleReminderEvent(e.reminder);
         return;
     }
 
-    if (e.type === "document-results" && e.document_results) {
-        await handleDocumentResultsEvent(e.document_results);
+    if (e.type === AireEventType.DocumentResults && e.document_results) {
+        await ChatEvents.handleDocumentResultsEvent(e.document_results);
         return;
     }
 
-    if (e.type === "message" && e.message) {
-        chat.response_received = true;
-        await handleMessageEvent(e.message);
+    if (e.type === AireEventType.AgentSwitch && e.agent_switch) {
+        await ChatEvents.handleAgentSwitchEvent(e.agent_switch)
+        return;
     }
 
-    if (e.type === "end" && e.end) {
-        await handleEndEvent(e.end);
+    if (e.type === AireEventType.Message && e.message) {
+        chat.onReceivingMessage();
+        await ChatEvents.handleMessageEvent(e.message);
+        return;
+    }
+
+    if (e.type === AireEventType.End && e.end) {
+        await ChatEvents.handleEndEvent(e.end);
+        chat.onMessageReceived();
         useChatbot().reportReady();
-
-        if (!chat.response_received)
-            chat.forceResponse();
     }
 }
 
 function errorHandler(status: AireStatus) {
     console.error("Chat streaming error: ", status);
+    if (status === AireStatus.RateLimited) {
+        const inst = createInstructionMessage(`
+            The service is currently experiencing high load. 
+            Apologize to the user when they get through and proceed with the conversation.`);
+        useChat().push(inst);
 
-    const msg = createErrorMessage(l.error_ai_not_responding);
-    useChat().push(msg);
+        const msg = createErrorMessage(l.error_ai_rate_limited);
+        useChat().push(msg);
+    }
+    else {
+        const inst = createInstructionMessage(`
+            There was an internal error with the service.
+            Apologize to the user when they get through and proceed with the conversation.`);
+        useChat().push(inst);
 
+        const msg = createErrorMessage(l.error_ai_not_responding);
+        useChat().push(msg);
+    }
     useChatbot().reportReady();
 }

@@ -9,7 +9,6 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 import Tooltip from "@/components/common/Tooltip.vue";
-
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";

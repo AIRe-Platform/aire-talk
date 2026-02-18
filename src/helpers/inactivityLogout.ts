@@ -2,7 +2,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import { AireSettings } from "aire";
+import { AireServices } from "aire";
 
 let logoutTimer: number | undefined;
 let logoutWarningTimer: number | undefined;
@@ -34,10 +34,11 @@ export const startInactivityListener = (logoutCallback: () => void, warningCallb
         return; // Prevent re-adding event listeners
 
     if (logoutTimerStart === undefined) {
-        if (!AireSettings.Settings || !AireSettings.Settings.inactivityDuration)
+        const timeout = AireServices?.Settings?.inactivity_duration;
+        if (!timeout)
             throw new Error("Inactivity duration has not been configured");
 
-        logoutTimerStart = AireSettings.Settings.inactivityDuration * 60 * 1000;
+        logoutTimerStart = timeout * 60 * 1000;
     }
 
     resetHandler = () => {

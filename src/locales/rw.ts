@@ -18,6 +18,7 @@ const rw: Locale = {
     system_end_of_conversation: "Ikiganiro cyarangiye",
     system_end_of_conversation_options: "Urashaka gukora iki?",
     system_reminder_set: "Kwibutsa gushya '{subject}' mugihe {time}.",
+    system_switched_agent: "Woherejwe ku wundi mukozi.",
 
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",
@@ -146,6 +147,7 @@ const rw: Locale = {
 
     error_generic: "Habayemo ikibazo",
     error_ai_not_responding: `Ntabwo tubashije kugusubiza. ibi bishobora kuba biri guterwa ni uko turi gucagura amakuru yerekeye ibyo wabajije. iki kibazo nikidakemuka, wongere ugerageze mu kanya.`,
+    error_ai_rate_limited: "Ubu turimo guhura n'urujya n'uruza rw'abantu benshi. Nyamuneka ongera ugerageze nyuma.",
     error_signup_password_mismatch: "Ijambobanga ntirihuye!",
     error_signup_bad_request: `Kwiyandikisha ntibikunze. Imeri irashobora kuba yarakoreshejwe cyangwa ijambo ryi banga ryawe rikaba ritujuje ibisabwa.  Ijambobanga rigomba kuba rifite byibuze inyuguti 8 zirimo inyuguti ntoya n'inyuguti nkuru kimwe nimibare.`,
     error_signup_general: "Kwiyandikisha byanze.  Nyamuneka, gerageza nanone nyuma.",

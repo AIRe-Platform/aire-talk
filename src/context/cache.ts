@@ -3,30 +3,42 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { ChatMessage, ChatState, ChatStats } from "@/models/chat";
-import { AireContent, AireKeyword } from "aire";
+import { AireChatMetadata, AireContent, AireKeyword, AireReminder } from "aire";
 import { reactive } from "vue";
 
-export interface ChatCache {
-    messages: ChatMessage[];
-    state: ChatState;
-    stats: ChatStats;
+export interface ContentCacheItem {
+    origin: string;
+    content: AireContent;
+}
+
+export interface ChatCacheItem {
+    metadata: AireChatMetadata;
+    messages?: ChatMessage[];
+    state?: ChatState;
+    stats?: ChatStats;
+}
+
+export interface KeywordCacheItem {
+    origin: string;
+    keyword: AireKeyword;
+}
+
+export interface ReminderCacheItem {
+    origin: string;
+    reminder: AireReminder;
 }
 
 class CacheContext {
-    public chatCache: Map<string, ChatCache>;
-    public contentCache: Map<string, AireContent>;
-    public keywordCache: Map<string, AireKeyword>;
-
-    constructor() {
-        this.chatCache = new Map<string, ChatCache>();
-        this.contentCache = new Map<string, AireContent>();
-        this.keywordCache = new Map<string, AireKeyword>();
-    }
+    public chatCache = new Map<string, ChatCacheItem>();
+    public contentCache = new Map<string, ContentCacheItem>();
+    public keywordCache = new Map<string, KeywordCacheItem>();
+    public reminderCache = new Map<string, ReminderCacheItem>();
 
     public reset() {
-        this.chatCache = new Map<string, ChatCache>();
-        this.contentCache = new Map<string, AireContent>();
-        this.keywordCache = new Map<string, AireKeyword>();
+        this.chatCache.clear();
+        this.contentCache.clear();
+        this.keywordCache.clear();
+        this.reminderCache.clear();
     }
 }
 
@@ -46,4 +58,8 @@ export function useContentCache() {
 
 export function useKeywordCache() {
     return cache.keywordCache;
+}
+
+export function useReminderCache() {
+    return cache.reminderCache;
 }

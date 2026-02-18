@@ -4,17 +4,19 @@
  -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
 import { ChatMessage } from '@/models/chat';
 import { l } from '@/locales';
 import useChat from '@/context/chat';
 import { continueConversation } from '@/helpers/chatUtils';
+import useFeedback from '@/context/feedback';
+import { isRestrictedMode } from '@/context/ui';
 
 const props = defineProps<{
     message: ChatMessage
 }>();
 
 const chat = useChat();
+const feedback = useFeedback();
 </script>
 
 <template>
@@ -24,9 +26,10 @@ const chat = useChat();
         </span>
         <span class="chat-end-conversation-options-buttons">
             <button class="btn" @click="continueConversation()">{{ $t(l.conversation_option_continue) }}</button>
-            <button class="btn" @click="chat.startNew()">{{ $t(l.conversation_option_new_chat) }}</button>
-            <button class="btn" v-if="!chat.is_feedback_given" @click="chat.giveFeedback()"> {{
-                $t(l.conversation_option_give_feedback) }}</button>
+            <button class="btn" @click="chat.startNew()" v-if="!isRestrictedMode">{{ $t(l.conversation_option_new_chat) }}</button>
+            <button class="btn" @click="feedback.beginQuestionnaire()">
+                {{ $t(l.conversation_option_give_feedback) }}
+            </button>
         </span>
     </div>
 </template>

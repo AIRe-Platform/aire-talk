@@ -17,6 +17,7 @@ const es: Locale = {
     system_end_of_conversation: "La conversación ha finalizado",
     system_end_of_conversation_options: "¿Qué te gustaría hacer?",
     system_reminder_set: "Se creó un nuevo recordatorio '{subject}' a las {time}.",
+    system_switched_agent: "Ha sido redirigido a un agente diferente.",
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",
@@ -138,6 +139,7 @@ const es: Locale = {
     error_generic: "¡Sucedió un error desconocido!",
     error_ai_not_responding: `El chatbot no respondió. Esto puede ocurrir debido al filtrado de contenido.
         Si el problema persiste, inténtalo de nuevo más tarde.`,
+    error_ai_rate_limited: "Actualmente tenemos mucho tráfico. Inténtalo de nuevo más tarde.",
     error_signup_password_mismatch: "¡Las contraseñas no coinciden!",
     error_signup_bad_request: `El registro ha fallado. 
     

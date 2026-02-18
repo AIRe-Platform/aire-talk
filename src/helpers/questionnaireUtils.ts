@@ -2,25 +2,25 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-
 import {
+    AireMemory,
     AireQuestion,
     AireQuestionnaire,
-    AireQuestionnaireAnswer,
-    AireServices,
+    AireQuestionnaireAnswer
 } from "aire";
 import useChat from "@/context/chat";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { getUILanguage } from "@/locales";
 import { listChatKeywords } from "./chatUtils";
 import { ChatMessageType } from "@/models/chat";
+import useAireMemory from "@/context/memory";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
  * @param model Questionnaire model
  * @returns Object representing questionnaire state
  */
-export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | undefined {
+export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory): Questionnaire | undefined {
     if (!model.id)
         return undefined;
 
@@ -39,7 +39,8 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
         answers: [],
         controller_type: QuestionnaireControlFlow.Default,
         completed: false,
-        is_feedback: isFeedback
+        is_feedback: isFeedback,
+        memory: source.id
     };
 }
 
@@ -47,39 +48,50 @@ export function createQuestionnaire(model: AireQuestionnaire): Questionnaire | u
  * Query questionnaires with current keywords and 
  * prompt user to start the questionnaire (if a questionnaire was found)
  */
-export async function queryQuestionnaire(keywords: string[]): Promise<AireQuestionnaire | undefined> {
+export async function queryQuestionnaire(keywords: string[]): Promise<{ source: string, result: AireQuestionnaire }[]> {
     if (keywords.length < 1)
-        return;
+        return [];
 
-    if (!AireServices.Memory) {
-        console.error("Memory service is not available");
-        return;
-    }
-    const lang = getUILanguage();
-    const query = await AireServices.Memory.queryQuestionnaire(keywords, lang.value);
+    const sources = useAireMemory().agent();
 
-    if (!query.data)
-        return;
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.queryQuestionnaire(keywords, lang.value);
 
-    return query.data;
+        if (!query.data)
+            return [];
+
+        return [{ source: memory.id, result: query.data }];
+    });
+}
+
+export async function queryQuestionnairesForKeyword(keyword: string): Promise<{ source: string, results: AireQuestionnaire[] }[]> {
+    const sources = useAireMemory().agent();
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.getQuestionnairesWithKeyword(keyword, lang.value);
+
+        if (!query.data)
+            return [];
+
+        return [{ source: memory.id, results: query.data }];
+    });
 }
 
 /**
  * Query feedback questionnaire
  */
-export async function queryFeedbackQuestionnaire(): Promise<AireQuestionnaire | undefined> {
+export async function queryFeedbackQuestionnaire(): Promise<{ source: string, result: AireQuestionnaire }[]> {
+    const sources = useAireMemory().agent();
+    return await useAireMemory().aggregate(sources, async memory => {
+        const lang = getUILanguage();
+        const query = await memory.queryFeedbackQuestionnaire(lang.value);
 
-    if (!AireServices.Memory) {
-        console.error("Memory service is not available");
-        return;
-    }
-    const lang = getUILanguage();
-    const query = await AireServices.Memory.queryFeedbackQuestionnaire(lang.value);
+        if (!query.data)
+            return [];
 
-    if (!query.data)
-        return;
-
-    return query.data;
+        return [{ source: memory.id, result: query.data }];
+    })
 }
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {

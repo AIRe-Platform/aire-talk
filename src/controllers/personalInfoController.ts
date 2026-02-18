@@ -39,7 +39,7 @@ const PersonalInfoController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("personal_info", q);
+        return createQuestionnaireMessage("personal_info", q, false);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any)  =>  {
         const context = useQuestionnaire();
@@ -81,7 +81,7 @@ const PersonalInfoController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("personal_info", q);
+        return createQuestionnaireMessage("personal_info", q, false);
     }
 }
 
@@ -100,7 +100,8 @@ export function createPersonalInfoQuestionnaire(): Questionnaire | undefined {
         queue: fields,
         answers: [],
         controller_type: QuestionnaireControlFlow.PersonalInfo,
-        completed: false
+        completed: false,
+        memory: ""
     };
 
     return questionnaire;

@@ -7,7 +7,7 @@
 import { l } from '@/locales';
 import { ChatMessage } from '@/models/chat';
 import { useClipboard } from '@vueuse/core';
-import { computed, defineProps, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import { AireContent } from 'aire';
 import useChat from '@/context/chat';

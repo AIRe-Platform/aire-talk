@@ -17,7 +17,7 @@ import { createInstructionMessage, createQuestionnaireMessage } from "@/helpers/
 import { getAnsweredQuestions } from "@/helpers/questionnaireUtils";
 import useQuestionnaire from "@/context/questionnaire";
 import QuestionnaireController from "./questionnaireController";
-import { getAllChats, listChatKeywords } from "@/helpers/chatUtils";
+import { listKeywordsFromChat } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
 
 const RecallController: QuestionnaireController = {
@@ -111,22 +111,21 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
     const questions = Array<AireQuestion>();
     const foundKeywords = Array<string>();
     const foundSummaries = Array<string>();
+    const cache = useChatCache();
 
-    const allChats = await getAllChats();
-    const loadedChats = await loadChatMessages(allChats);
-
-    loadedChats.forEach((chatLog) => {
-        if (!chatLog)
+    cache.keys().forEach(key => {
+        const chatlog = cache.get(key);
+        if (!chatlog)
             return;
 
-        const keywords = listChatKeywords();
+        const keywords = listKeywordsFromChat(key);
         keywords.forEach(x => {
             if (!foundKeywords.includes(x))
                 foundKeywords.push(x);
         })
 
-        if (chatLog.state.summary) {
-            foundSummaries.push(chatLog.state.summary)
+        if (chatlog.state.summary) {
+            foundSummaries.push(chatlog.state.summary)
         }
     })
 
@@ -167,21 +166,11 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
         queue: questions,
         answers: [],
         controller_type: QuestionnaireControlFlow.RecallConversations,
-        completed: false
+        completed: false,
+        memory: "",
     };
 
     if (foundKeywords.length > 0 || foundSummaries.length > 0)
         return questionnaire
     else return undefined;
-}
-
-async function loadChatMessages(chatlogs: AireChatMetadata[], amount: number = 3) {
-    const loadedChats = chatlogs.slice(0, amount).map(async (x) => {
-        if (await useChat().load(x.id))
-            return useChatCache().get(x.id);
-        else
-            return undefined;
-    })
-
-    return await Promise.all(loadedChats)
 }

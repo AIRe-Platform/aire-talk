@@ -51,7 +51,6 @@ export enum ChatMessageTag {
 export interface ChatMessage extends AireChatMessage {
     id: string;
     sender: string;
-    localize?: boolean;
 }
 
 export interface ChatStats {
@@ -67,6 +66,7 @@ export interface ChatState {
     red_flag_triggered?: boolean;
     themes?: AireKeyword[];
     documents?: AireDocumentMetadata[];
+    agent?: string;
 }
 
 export interface ChatMessageGroup {
