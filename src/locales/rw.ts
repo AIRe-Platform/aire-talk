@@ -342,6 +342,7 @@ const rw: Locale = {
     about_jamk_logo_alt: "Ikirangantego cya kaminuza ya Jamk yubumenyi",
     about_tou: "Amategeko yo gukoresha",
     about_privacy_policies: "Politiki Yibanga",
+    about_accessibility: "Itangazo ry'ubushobozi bwo kwinjira",
     about_authors: "Abanditsi",
     about_collaboration: "Byakozwe ku bufatanye na",
 

@@ -328,6 +328,7 @@ const en: Locale = {
     about_jamk_logo_alt: "Jamk University of Applied Sciences logo",
     about_tou: "Terms of use",
     about_privacy_policies: "Privacy policies",
+    about_accessibility: "Accessibility statement",
     about_authors: "Authors",
     about_collaboration: "Made in collaboration with",
 
