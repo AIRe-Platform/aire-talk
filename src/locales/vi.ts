@@ -345,6 +345,7 @@ const vi: Locale = {
     about_jamk_logo_alt: "Logo của Đại học Khoa học Ứng dụng Jamk",
     about_tou: "Điều khoản sử dụng",
     about_privacy_policies: "Chính sách bảo mật",
+    about_accessibility: "Tuyên bố về khả năng tiếp cận",
     about_authors: "Tác giả",
     about_collaboration: "Được thực hiện với sự hợp tác của",
 

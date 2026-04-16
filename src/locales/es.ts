@@ -333,6 +333,7 @@ const es: Locale = {
     about_jamk_logo_alt: "Logotipo de la Universidad de Ciencias Aplicadas de Jamk",
     about_tou: "Condiciones de uso",
     about_privacy_policies: "Políticas de privacidad",
+    about_accessibility: "Declaración de accesibilidad",
     about_authors: "Autores",
     about_collaboration: "Hecho en colaboración con",
 

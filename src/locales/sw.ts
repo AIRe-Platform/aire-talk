@@ -331,6 +331,7 @@ const sw: Locale = {
     about_jamk_logo_alt: "Nembo ya Chuo Kikuu cha Jamk cha Sayansi Inayotumika",
     about_tou: "Masharti ya matumizi",
     about_privacy_policies: "Sera za faragha",
+    about_accessibility: "Taarifa ya ufikiaji",
     about_authors: "Waandishi",
     about_collaboration: "Imefanywa kwa ushirikiano na",
 

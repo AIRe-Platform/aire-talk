@@ -348,6 +348,7 @@ const id: Locale = {
     about_jamk_logo_alt: "Logo Universitas Sains Terapan Jamk",
     about_tou: "Ketentuan penggunaan",
     about_privacy_policies: "Kebijakan privasi",
+    about_accessibility: "Pernyataan aksesibilitas",
     about_authors: "Penulis",
     about_collaboration: "Dibuat bekerja sama dengan",
 

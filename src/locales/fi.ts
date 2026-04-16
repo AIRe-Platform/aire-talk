@@ -346,6 +346,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     about_jamk_logo_alt: "Jyväskylän ammattikorkeakoulun logo",
     about_tou: "Käyttöehdot",
     about_privacy_policies: "Tietosuojakäytännöt",
+    about_accessibility: "Saavutettavuusseloste",
     about_authors: "Tekijät",
     about_collaboration: "Tehty yhteistyössä",
 
