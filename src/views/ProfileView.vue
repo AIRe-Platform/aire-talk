@@ -43,8 +43,8 @@ onMounted(async () => {
         <div class="profile-content">
             <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
                 class="xmark-icon">
-                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')"
-                    :aria-label="$t(l.tooltip_close)" href="#" @keydown.space="navigateTo('/chat')">
+                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
+                    href="#" @keydown.space="navigateTo('/chat')">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </a>
             </Tooltip>
@@ -97,7 +97,7 @@ onMounted(async () => {
             </div>
         </template>
         <Separator />
-        <div class="profile-section">
+        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.FeatureTokenCount)">
             <ProfileChatHistoryTokens />
         </div>
     </div>

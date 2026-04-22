@@ -19,6 +19,7 @@ import { ChatMessageType } from "@/models/chat";
 import Tooltip from "@/components/common/Tooltip.vue";
 import { DateTime } from "luxon";
 import { useI18n } from "vue-i18n";
+import { AireScope, AireServices } from "aire";
 
 interface ChatLogItem {
     id: string;
@@ -140,12 +141,12 @@ const getLastMessage = (id: string) => {
 };
 
 const getTokenCount = (id: string) => {
+    if(!UISettings.tokensEnabled || !AireServices.ID?.hasScope(AireScope.FeatureTokenCount))
+        return undefined;
+
     const log = cache.get(id);
     const tokenCount = log?.stats?.token_count;
-    if (tokenCount)
-        return tokenCount;
-    else return undefined;
-
+    return tokenCount;
 };
 
 const onClickOutside = async (e: Event) => {
@@ -220,7 +221,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                             <div class="chat-history-item-preview">
                                 {{ getLastMessage(item.id) }}
                             </div>
-                            <div class="chat-history-token" v-if="UISettings.tokensEnabled && getTokenCount(item.id)">
+                            <div class="chat-history-token" v-if="getTokenCount(item.id)">
                                 {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
                             </div>
                         </a>
