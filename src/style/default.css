@@ -183,11 +183,11 @@ body {
 a {
     text-decoration: none;
     cursor: pointer;
-    color: var(--text-color);
+    color: var(--link-color);
     transition: color 0.5s;
 
     &:hover {
-        color: var(--hover-text);
+        color: var(--accent-primary-color);
     }
 }
 

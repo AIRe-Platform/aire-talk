@@ -36,13 +36,15 @@ function formatTooltipKey(tooltip: string): string {
 </template>
 
 <style lang="scss" scoped>
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
+.nav-link {
+    color: var(--text-color);
+}
 
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .short-nav-menu .nav-link {
         display: none;
         width: 0;
         height: 0;
     }
-
 }
 </style>
