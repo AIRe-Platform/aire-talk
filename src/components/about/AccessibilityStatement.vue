@@ -63,7 +63,7 @@ const lang = getUILanguage();
         <p>
             Liikenne- ja viestintävirasto Traficom<br />
             Digitaalisen esteettömyyden ja saavutettavuuden valvontayksikkö<br />
-            <a href="www.saavutettavuusvaatimukset.fi">www.saavutettavuusvaatimukset.fi</a><br />
+            <a href="https://www.saavutettavuusvaatimukset.fi">www.saavutettavuusvaatimukset.fi</a><br />
             <a href="mailto:saavutettavuus@traficom.fi">saavutettavuus@traficom.fi</a><br />
             Puh: 029 534 5000
         </p>
@@ -129,7 +129,7 @@ const lang = getUILanguage();
         <p>
             Finnish Transport and Communications Agency Traficom<br />
             Digital Accessibility and Accessibility Supervision Unit<br />
-            <a href="www.saavutettavuusvaatimukset.fi">www.saavutettavuusvaatimukset.fi</a><br />
+            <a href="https://www.saavutettavuusvaatimukset.fi">www.saavutettavuusvaatimukset.fi</a><br />
             <a href="mailto:saavutettavuus@traficom.fi">saavutettavuus@traficom.fi</a><br />
             Tel: +358 29 534 5000
         </p>
