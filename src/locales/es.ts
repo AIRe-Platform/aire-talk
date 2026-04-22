@@ -21,7 +21,7 @@ const es: Locale = {
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",
-    conversation_option_give_feedback: "Give feedback",
+    conversation_option_give_feedback: "Da tu opinión",
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 
@@ -392,12 +392,13 @@ const es: Locale = {
     feedback_answer_like_it_very_much: "Me gusta mucho",
    
     en: "Inglés",
-    fi: "Finés",
+    fi: "Finlandés",
+    sv: "Sueco",
     es: "Español",
     vi: "Vietnamita",
     id: "Indonesio",
-    sw: "Swajili",
-    rw: "Kinyarwanda",
+    sw: "Suajili",
+    rw: "Kinyarwanda"
 };
 
 export default es;

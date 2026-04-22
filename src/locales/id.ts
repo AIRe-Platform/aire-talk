@@ -37,7 +37,7 @@ const id: Locale = {
     start_disclaimer: "AIRe bukan alat diagnosis medis.",
     start_view_alternative_image_logo: "Logo chatbot AIRe untuk tampilan awal.",
 
-    home_title: "home_title",
+    home_title: "Halaman beranda AIRe",
     home_start_new_chat: "Mulai obrolan baru",
     home_continue_chat: "Lanjutkan obrolan sebelumnya",
     home_view_alternative_image_logo: "Gambar logo tampilan beranda AIRe.",
@@ -351,6 +351,7 @@ const id: Locale = {
     about_accessibility: "Pernyataan aksesibilitas",
     about_authors: "Penulis",
     about_collaboration: "Dibuat bekerja sama dengan",
+    about_support: "Apakah Anda memerlukan bantuan dalam menggunakan layanan ini?",
 
     feedback_question_confirm: "Apakah Anda ingin memberikan umpan balik?",
     feedback_question_completed: "Klik lanjutkan jika jawaban Anda benar. Terima kasih.",
@@ -406,12 +407,13 @@ const id: Locale = {
     feedback_answer_like_it_very_much: "Saya sangat menyukainya",
 
     en: "Inggris",
-    fi: "Finlandia",
+    fi: "Suomi",
+    sv: "Swedia",
     es: "Spanyol",
     vi: "Vietnam",
     id: "Indonesia",
     sw: "Swahili",
-    rw: "kinyarwanda"
+    rw: "Kinyarwanda"
 };
 
 export default id;

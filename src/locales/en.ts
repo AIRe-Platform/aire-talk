@@ -7,7 +7,7 @@ import { Locale } from ".";
 
 const en: Locale = {
     aire_bot: "AIRe",
-    aire_system: "AIRe System",
+    aire_system: "AIRe Service",
 
     footer: "Versio",
     not_found: "Page not found",
@@ -36,8 +36,8 @@ const en: Locale = {
     start_greeting: "Welcome to the AIRe!",
     start_first_paragraph: "Partner for better functioning and wellbeing",
     start_second_paragraph: "Proceed by logging in or creating a new profile.",
-    start_footer: "AIRe is an AI-assisted solution that helps you identify your rehabilitation needs and guides you to personalized rehabilitation services and content.",
-    start_disclaimer: "AIRe is not a medical diagnostic tool.",
+    start_footer: "AIRe is an AI-assisted service that helps you to identify rehabilitation needs and guides you to personalized rehabilitation services and content.",
+    start_disclaimer: "It does not replace the assessment of a healthcare professional and is not a medical diagnostic tool.",
     start_view_alternative_image_logo: "AIRe chatbot logo for the start view.",
  
     login_redirect: "Redirecting to login page...",
@@ -149,7 +149,7 @@ const en: Locale = {
     summary_title: "Summary",
     summary_acceptation_question: "Is the summary correct?",
 
-    suggestions_title: "Suggestions",
+    suggestions_title: "Content suggestions",
 
     tools_title: "Tools",
     tools_button_summarize: "Summarize",
@@ -177,7 +177,7 @@ const en: Locale = {
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
     questionnaire_end: "End of questionnaire",
-    questionnaire_explanation: "The following questions are being recorded for analysis",
+    questionnaire_explanation: "Your answers to the following questions will be saved for further processing.",
     question_answer: "Your answer",
 
     recall_start_question: "Do you want to continue some earlier conversation?",
@@ -226,7 +226,7 @@ const en: Locale = {
     tooltip_delete_chat: "Delete this chat.",
     tooltip_suggestions: "Generate new suggestions.",
     tooltip_summarize: "Generate new summary.",
-    tooltip_personal_information: "Ask personal questions.",
+    tooltip_personal_information: "Questions to help complete your user profile.",
     tooltip_query_surveys: "Do questionnare.",
     tooltip_open_chat_side_panel: "Open/close panel.",
     tooltip_open_catalogue_content: "Open catalogue content.",
@@ -247,7 +247,7 @@ const en: Locale = {
     tooltip_nav_chat_history: "Go to check old chats.",
     tooltip_nav_chat_new: "Start a new chat.",
     tooltip_nav_content_catalogue: "Check all content shown to you in the AIRe.",
-    tooltip_nav_profile: "Go to profile.",
+    tooltip_nav_profile: "Go to your user profile.",
     tooltip_nav_login: "Go to login.",
     tooltip_nav_log_out: "Get logout.",
     tooltip_nav_signup: "Start using AIRe.",
@@ -268,11 +268,11 @@ const en: Locale = {
     tutorial_home_welcome_message: "Welcome to AIRe! Would you like to take a quick tour on how to use the service?",
     tutorial_chat_welcome_message: "On this page, you can chat with AIRe. Would you like a quick tour about how to use the chat?",
     tutorial_start_chat_message: "Click here to start a new conversation with AIRe.",
-    tutorial_menu_message: "Click here to find your chat history, profile, settings, and more.",
-    tutorial_history_message: "Once you have had conversations with AIRe, you can find your chat history here.",
-    tutorial_profile_message: "Here you can see and edit your profile information.",
+    tutorial_menu_message: "Click here to find your chat history, user profile, settings, and more.",
+    tutorial_history_message: "Here you can view your previous conversations with AIRe.",
+    tutorial_profile_message: "Here you can see and edit your user profile.",
     tutorial_settings_message: "Here you can change the language, theme color, and size.",
-    tutorial_input_message: "Let's start by typing 'Hello AIRe' in this field.",
+    tutorial_input_message: "Start the chat by typing \"Hi AIRe\" in this field.",
     tutorial_sidepanel_message: "Click here to open the side panel for additional chat tools.",
     tutorial_next: "Next",
     tutorial_skip: "Skip",
@@ -331,6 +331,7 @@ const en: Locale = {
     about_accessibility: "Accessibility statement",
     about_authors: "Authors",
     about_collaboration: "Made in collaboration with",
+    about_support: "Do you need support in using the service?",
 
     feedback_question_confirm: "Do you want to give as a feedback?",
     feedback_question_completed: "Click continue if you answers are correct. Thank you.",
@@ -346,8 +347,8 @@ const en: Locale = {
     feedback_question_household_size: "How many people live in your household?",
     feedback_question_can_get_support: "Are there people around you who can support you?",
     feedback_question_gender: "Gender:",
-    feedback_question_platform_rating: "Please rate the AIRe platform.",
-    feedback_question_platform_rating_description: "(Selection: 1 = I don't like it, 5 = I like it very much)",
+    feedback_question_platform_rating: "Please rate the AIRe service.",
+    feedback_question_platform_rating_description: "(Selection: 1 = I don't like the AIRe Service, 5 = I like the AIRe Service very much)",
     feedback_question_todays_experience: "How much did AIRe help you today?",
     feedback_question_todays_experience_description: "(Selection: 1 = Not at all, 5 = Very much)",
     feedback_question_open_feedback: "Open feedback",
@@ -388,11 +389,12 @@ const en: Locale = {
 
     en: "English",
     fi: "Finnish",
+    sv: "Swedish",
     es: "Spanish",
     vi: "Vietnamese",
     id: "Indonesian",
     sw: "Swahili",
-    rw: "kinyarwanda"
+    rw: "Kinyarwanda"
 };
 
 export default en;

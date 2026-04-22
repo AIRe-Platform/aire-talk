@@ -383,9 +383,11 @@ export enum LocalizationKey {
     about_accessibility = "about_accessibility",
     about_authors = "about_authors",
     about_collaboration = "about_collaboration",
+    about_support = "about_support",
 
     en = "en",
     fi = "fi",
+    sv = "sv",
     es = "es",
     vi = "vi",
     id = "id",

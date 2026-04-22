@@ -7,7 +7,7 @@ import { Locale } from ".";
 
 const fi: Locale = {
     aire_bot: "AIRe",
-    aire_system: "AIRe-järjestelmä",
+    aire_system: "AIRe-palvelu",
 
     footer: "Versio",
     not_found: "Sivua ei löytynyt",
@@ -33,8 +33,8 @@ const fi: Locale = {
     start_second_paragraph:
         "Jatka kirjautumalla sisään tai luomalla itsellesi uusi käyttäjätili.",
     start_footer:
-        "AIRe on tekoälyavusteinen sovellus, joka auttaa sinua tunnistamaan kuntoutumisen tarpeitasi ja opastaa sinut yksilöllisesti kuntoutuksen palveluiden ja sisällön pariin.",
-    start_disclaimer: "AIRe ei ole lääketieteellinen diagnostinen työkalu.",
+        "AIRe on tekoälyavusteinen palvelu, joka tukee sinua kuntoutumisen tarpeiden tunnistamisessa ja ohjaa sinut yksilöllisesti sopivien kuntoutuspalveluiden ja -sisältöjen pariin. ",
+    start_disclaimer: "Se ei korvaa terveydenhuollon ammattilaisen arviota eikä ole lääketieteellinen diagnostinen työkalu.",
     start_view_alternative_image_logo: "AIRe chatbotin logo aloitusnäkymässä.",
 
     home_title: "AIRe kotisivu",
@@ -146,7 +146,7 @@ const fi: Locale = {
     switch_color_mode: "Teema (vaalea/tumma)",
 
     error_generic: "Tapahtui tuntematon virhe!",
-    error_ai_not_responding: `Vastauksen saaminen epäonnistui. Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.`,
+    error_ai_not_responding: "Vastauksen saaminen epäonnistui. Mikäli virhe toistuu useasti, yritä myöhemmin uudelleen.",
     error_ai_rate_limited: "Palvelussa on ruuhkaa. Odota hetki ja yritä sitten uudelleen.",
     error_signup_password_mismatch: "Salasanat eivät täsmää. Varmista salasanan kirjoitusasu.",
     error_signup_bad_request: `Rekisteröityminen epäonnistui.
@@ -154,18 +154,15 @@ const fi: Locale = {
 Sähköpostiosoite saattaa olla jo rekisteröity tai salasanasi ei täytä vähimmäisvaatimuksia. 
 
 Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja isoja kirjaimia sekä numeroita.`,
-    error_signup_general:
-        "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_signup_general: "Rekisteröityminen epäonnistui. Yritä myöhemmin uudelleen.",
     error_profile_edit: "Tallentaminen epäonnistui.",
-    error_profile_delete_account:
-        "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
-    error_profile_password:
-        "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset.",
+    error_profile_delete_account: "Tilin poistaminen epäonnistui. Yritä myöhemmin uudelleen.",
+    error_profile_password: "Salasanan vaihtaminen epäonnistui. Tarkista, että antamasi salasana on oikein ja uusi salasana täyttää vaatimukset.",
 
     summary_title: "Yhteenveto",
     summary_acceptation_question: "Onko tiivistelmä oikein?",
 
-    suggestions_title: "Ehdotuksia",
+    suggestions_title: "Sisältöehdotuksia",
     suggestion_check_for_more: "Katso lisää täältä",
 
     tools_title: "Työkalut",
@@ -194,8 +191,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     questionnaire: "Kysely",
     questionnaire_start: "Kyselyn alku",
     questionnaire_end: "Kyselyn loppu",
-    questionnaire_explanation:
-        "Seuraavat kysymykset tallennetaan analysoitavaksi",
+    questionnaire_explanation: "Seuraaviin kysymyksiin antamasi vastaukset tallennetaan jatkokäsittelyä varten.",
     question_answer: "Vastauksesi",
 
     recall_start_question: "Haluatko jatkaa jotain aiempaa keskustelua?",
@@ -212,7 +208,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     button_mark_as_read: "Merkitse luetuksi",
     button_return_to_conversation: "Palaa keskusteluun",
 
-    content_catalogue_empty: "Tämä on oma sisältökirjastosi, joka täydentyy AIRen ehdottamien sisältöjen perusteella.",
+    content_catalogue_empty: "Tämä on oma sisältökirjastosi, joka täydentyy AIRen ehdottamilla sisällöillä.",
     content_catalogue_filters: "suodattimet",
     content_catalogue_clear_filter: "Tyhjennä suodatin",
     content_catalogue_newest_filter: "Uusimmat ensin",
@@ -244,7 +240,7 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_delete_chat: "Poista tämä keskustelu.",
     tooltip_suggestions: "Luo uusia ehdotuksia.",
     tooltip_summarize: "Luo uusi yhteenveto.",
-    tooltip_personal_information: "Kysy henkilökohtaisia kysymyksiä.",
+    tooltip_personal_information: "Kysymyksiä, joilla täydennetään käyttäjätilisi tietoja.",
     tooltip_query_surveys: "Tee kysely.",
     tooltip_open_chat_side_panel: "Avaa/sulje paneeli.",
     tooltip_open_catalogue_content: "Avaa sisältöluettelo.",
@@ -264,11 +260,11 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_nav_chat: "Keskustele botin kanssa.",
     tooltip_nav_chat_history: "Tarkastele vanhoja keskusteluja.",
     tooltip_nav_chat_new: "Aloita uusi keskustelu.",
-    tooltip_nav_content_catalogue: "Tarkastele kaikkea AIRe-alustalla näkyvää sisältöä.",
-    tooltip_nav_profile: "Siirry profiiliin.",
+    tooltip_nav_content_catalogue: "Tarkastele kaikkea AIRe-palvelussa näkyvää sisältöä.",
+    tooltip_nav_profile: "Siirry käyttäjätietohin.",
     tooltip_nav_login: "Siirry kirjautumiseen.",
     tooltip_nav_log_out: "Kirjaudu ulos.",
-    tooltip_nav_signup: "Aloita AIRekäyttö.",
+    tooltip_nav_signup: "Aloita AIRen käyttö.",
     tooltip_nav_preferences: "Siirry omiin asetuksiisi.",
     tooltip_nav_main_menu: "Siirry päävalikkoon.",
     tooltip_nav_catalogue: "Sisältöluettelon kuvaus.",
@@ -283,14 +279,14 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     tooltip_chat_tts_read_new_messages_on: "Lue uudet viestit",
     tooltip_tokens: "Tokenit päällä/pois päältä",
 
-    tutorial_home_welcome_message: "Tervetuloa AIReen! Haluaisitko opastusta sovelluksen käytöstä?",
-    tutorial_chat_welcome_message: "Tällä sivulla voit keskustella AIRe-botin kanssa. Haluaisitko nopean opastuksen keskustelusta botin kanssa?",
+    tutorial_home_welcome_message: "Tervetuloa AIReen! Haluaisitko opastusta palvelun käytöstä?",
+    tutorial_chat_welcome_message: "Tällä sivulla voit käydä keskustelua AIRen kanssa. Haluaisitko nopean opastuksen keskusteluun AIRen kanssa?",
     tutorial_start_chat_message: "Klikkaa tästä aloittaaksesi uuden keskustelun AIRe-botin kanssa.",
-    tutorial_menu_message: "Klikkaa tästä löytääksesi keskusteluhistoriasi, profiilisi, asetukset ja paljon muuta.",
-    tutorial_history_message: "Kun olet keskustellut AIRe-botin kanssa, löydät keskusteluhistoriasi täältä.",
-    tutorial_profile_message: "Täältä voit nähdä ja muokata profiilitietojasi.",
+    tutorial_menu_message: "Klikkaa tästä löytääksesi keskusteluhistoriasi, käyttäjätilisi, asetukset ja paljon muuta.",
+    tutorial_history_message: "Täältä näet aiemmat keskustelusi AIRen kanssa.",
+    tutorial_profile_message: "Täältä voit tarkastella ja muokata käyttäjätilisi tietoja.",
     tutorial_settings_message: "Täältä voit muuttaa käyttöliittymän kieltä, teemaa ja kokoa.",
-    tutorial_input_message: "Aloitetaan kirjoittamalla 'Hei AIRe' tähän kenttään ja katsotaan mitä tapahtuu...",
+    tutorial_input_message: "Aloita keskustelu kirjoittamalla \"Hei AIRe\" tähän kenttään",
     tutorial_sidepanel_message: "Klikkaa tästä avataksesi sivupaneelin lisäkeskustelutyökaluja varten.",
     tutorial_next: "Seuraava",
     tutorial_skip: "Ohita",
@@ -298,14 +294,14 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
 
     language_default_message: "Valitse käyttöliittymän oletuskieli:",
 
-    screen_recorder_bot_writing: "Botti kirjoittaa vastausta.",
-    screen_recorder_bot_stop_writing: "Botti on lopettanut vastaamisen.",
+    screen_recorder_bot_writing: "AIRe kirjoittaa vastausta.",
+    screen_recorder_bot_stop_writing: "AIRe on lopettanut vastaamisen.",
     screen_recorder_loading: "Sivua ladataan, odota hetki.",
     screen_recorder_stop_text_to_speech: "Pysäytä tekstistä puheeksi -toiminto.",
     screen_recorder_play_text_to_speech: "Toista tekstistä puheeksi -toiminto.",
     screen_recorder_chat_input_description: "Syötä viestin sisältö.",
-    screen_recorder_open_chat_side_panel: "Avaa chatin sivupaneeli.",
-    screen_recorder_close_chat_side_panel: "Sulje chatin sivupaneeli.",
+    screen_recorder_open_chat_side_panel: "Avaa keskustelun sivupaneeli.",
+    screen_recorder_close_chat_side_panel: "Sulje keskustelun sivupaneeli.",
     screen_recorder_open_message_menu: "Avaa viestivalikko.",
     screen_recorder_close_message_menu: "Sulje viestivalikko.",
     screen_recorder_thumbs_up: "Peukku ylös.",
@@ -349,23 +345,24 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     about_accessibility: "Saavutettavuusseloste",
     about_authors: "Tekijät",
     about_collaboration: "Tehty yhteistyössä",
+    about_support: "Tarvitsetko tukea palvelun käytössä?",
 
     feedback_question_confirm: "Haluatko antaa palautetta?",
     feedback_question_completed: "Valitse 'Jatka', jos tietosi ovat oikein. Kiitos.",
     feedback_question_need_identification: "Miten hyvin AIRe on onnistunut tarpeen tunnistamisessa?",
     feedback_question_target_setting: "Miten hyvin AIRe on onnistunut auttamaan tavoitteen asettamisessa? ",
-    feedback_question_benefited_from_content: "Oletko hyötynyt hyötynyt AIRen sisällöstä ja/tai keskusteluista?",
+    feedback_question_benefited_from_content: "Oletko hyötynyt AIRen sisällöstä ja/tai keskusteluista?",
     feedback_question_ability_improved: "Onko AIRen käyttö parantanut toimintakykyäsi?",
     feedback_question_target_reached: "Oletko päässyt asettamiisi tavoitteisiin? ",
-    feedback_question_most_useful_content: "Mitkä sisällöt olleet hyödyllisimpiä?",
+    feedback_question_most_useful_content: "Mitkä sisällöt ovat olleet hyödyllisimpiä?",
     feedback_question_usage: "Käytätkö AIRea itsenäisesti vai avustajan kanssa?",
     feedback_question_occupational_group: "Ammattiryhmäsi",
     feedback_question_age_group: "Ikäryhmäsi",
     feedback_question_household_size: "Kuinka monta ihmistä asuu taloudessasi?",
     feedback_question_can_get_support: "Onko ympärilläsi ihmisiä, jotka voivat tukea sinua?",
     feedback_question_gender: "Sukupuoli",
-    feedback_question_platform_rating: "Anna arvosana AIRe alustalle.",
-    feedback_question_platform_rating_description: "(Valinta: 1 = En tykkää, 5 = Tykkään todella paljon)",
+    feedback_question_platform_rating: "Anna arvosana AIRe-palvelulle.",
+    feedback_question_platform_rating_description: "(Valinta: 1 = En pidä AIRe-palvelusta, 5 = Pidän AIRe-palvelusta todella paljon)",
     feedback_question_todays_experience: "Kuinka paljon AIRe auttoi sinua tänään?",
     feedback_question_todays_experience_description: "(Valinta: 1 = Ei yhtään, 5 = Todella paljon)",
     feedback_question_open_feedback: "Avoin palaute",
@@ -398,19 +395,20 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     feedback_answer_80_100: "80 - 100",
     feedback_answer_yes: "Kyllä",
     feedback_answer_no: "Ei",
-    feedback_answer_do_not_like: "En tykkää",
-    feedback_answer_dislike: "I somewhat dislike it",
-    feedback_answer_neutral: "I'm neutral",
-    feedback_answer_like_it: "Tykkään",
-    feedback_answer_like_it_very_much: "Tykkään todella paljon",
-    
+    feedback_answer_do_not_like: "En pidä",
+    feedback_answer_dislike: "En pidä kovin paljoa",
+    feedback_answer_neutral: "En osaa sanoa / neutraali",
+    feedback_answer_like_it: "Pidän",
+    feedback_answer_like_it_very_much: "Pidän todella paljon",
+
     en: "Englanti",
     fi: "Suomi",
+    sv: "Ruotsi",
     es: "Espanja",
     vi: "Vietnam",
     id: "Indonesia",
     sw: "Swahili",
-    rw: "Ruandan kieli"
+    rw: "Kinyarwanda"
 };
 
 export default fi;

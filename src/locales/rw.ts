@@ -22,7 +22,7 @@ const rw: Locale = {
 
     conversation_option_continue: "Komeza ikiganiro",
     conversation_option_new_chat: "Tangira ikiganiro gishya",
-    conversation_option_give_feedback: "Give feedback",
+    conversation_option_give_feedback: "Tanga ibitekerezo",
 
     notification_keyword: "Insanganyamatsiko \"{keyword}\" yamenyekanye",
 
@@ -37,7 +37,7 @@ const rw: Locale = {
     start_disclaimer: "AIRe ntabwo isuzuma cyangwa ngo isimbure muganga.",
     start_view_alternative_image_logo: "Ikirango cya chatbot AIRe ku ishusho y'itangiriro.",
 
-    home_title: "home_title",
+    home_title: "Urupapuro rw'ibanze rwa AIRe",
     home_start_new_chat: "Tangira ikiganiro gishya",
     home_continue_chat: "Komereza ku kiganiro cyabanje",
     home_view_alternative_image_logo: "Isura y'ikirango cy'urupapuro rwa AIRe.",
@@ -345,6 +345,7 @@ const rw: Locale = {
     about_accessibility: "Itangazo ry'ubushobozi bwo kwinjira",
     about_authors: "Abanditsi",
     about_collaboration: "Byakozwe ku bufatanye na",
+    about_support: "Ese ukeneye ubufasha mu gukoresha iyi serivisi?",
 
     feedback_question_confirm: "Urashaka gutanga nkigitekerezo?",
     feedback_question_completed: "Kanda komeza niba wasubije neza. Murakoze.",
@@ -401,12 +402,13 @@ const rw: Locale = {
     feedback_answer_like_it_very_much: "Ndabikunda cyane",
 
     en: "Icyongereza",
-    fi: "Igifinilande",
-    es: "Icyespanyoro",
-    vi: "Igiviyetinamu",
-    id: "Umunyandonezia",
-    sw: "Igiswayili",
-    rw: "kinyarwanda"
+    fi: "Icyongereza",
+    sv: "Igisuwede",
+    es: "Icyesipanyolo",
+    vi: "Icyaviyetinamu",
+    id: "Icyindonesiya",
+    sw: "Ikiswahili",
+    rw: "Kinyarwanda"
 };
 
 export default rw;
