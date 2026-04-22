@@ -336,6 +336,7 @@ const es: Locale = {
     about_accessibility: "Declaración de accesibilidad",
     about_authors: "Autores",
     about_collaboration: "Hecho en colaboración con",
+    about_support: "¿Necesitas ayuda para usar el servicio?",
 
     feedback_question_confirm: "¿Desea dar su opinión?",
     feedback_question_completed: "Haga clic en continuar si sus respuestas son correctas. Gracias.",
