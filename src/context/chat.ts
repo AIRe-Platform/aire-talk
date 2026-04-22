@@ -405,7 +405,7 @@ async function receiver(e: AireTalkEvent) {
         return;
     }
 
-    if (e.type === AireEventType.Stats && e.stats) {
+    if (e.type === AireEventType.TokenStats && e.stats) {
         await ChatEvents.handleStatsEvent(e.stats);
         return;
     }
