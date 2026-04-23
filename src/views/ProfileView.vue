@@ -16,7 +16,7 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
-import { onMounted, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import useTheme, { ThemeContext } from "@/context/theme";
 import ProfileChatHistoryTokens from "@/components/profile/ProfileChatHistoryTokens.vue";
 
@@ -29,12 +29,15 @@ const navigateTo = (path: string) => {
     router.push(path);
 }
 
-const show_experiments = (AireServices.ID?.getScopes() || [])
-    .findIndex(x => x.startsWith("experimental-")) > -1;
-
 onMounted(async () => {
     state.theme = useTheme();
+})
 
+const experiments_enabled = computed(() => {
+    return (
+        // check if any experimental feature is enabled
+        AireServices.ID?.hasScope(AireScope.FeatureCustomPrompt) // ||
+    );
 })
 </script>
 
@@ -66,7 +69,7 @@ onMounted(async () => {
         <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
             <ProfileForm />
         </div>
-        <template v-if="show_experiments">
+        <template v-if="experiments_enabled">
             <Separator />
             <div class="profile-section">
                 <ProfileExperiments />
