@@ -10,27 +10,26 @@ import { l } from "@/locales";
 import Tooltip from "@/components/common/Tooltip.vue";
 
 const theme = useTheme();
-
-const onSwitchTheme = (dark: boolean) => {
-    theme.apply(dark ? "theme-dark" : 'theme-default');
+const darkMode = theme.isDarkTheme();
+const toggleTheme = () => {
+    theme.applyStyle(darkMode.value ? 'theme-default' : "theme-dark");
 }
 </script>
 <template>
     <div class="theme-container">
         <label for="theme-switch" class="theme-switch-label">{{ $t(l.switch_color_mode) }}</label>
         <div id="theme-switch-info" hidden aria-hidden="true">
-            {{ theme.style === 'theme-dark'
-                ? $t(l.screen_recorder_theme_switch_dark)
-                : $t(l.screen_recorder_theme_switch_light) }}
+            {{
+                darkMode
+                    ? $t(l.screen_recorder_theme_switch_dark)
+                    : $t(l.screen_recorder_theme_switch_light)
+            }}
         </div>
-        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false"
-            :adjustPosition="true">
+        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top">
             <div class="theme-switch">
                 <font-awesome-icon icon="fa-solid fa-sun" />
-                <Switch input-id="theme-switch"
-                    :is-on="theme.style === 'theme-dark'"
-                    describedby="theme-switch-info"
-                    @change="onSwitchTheme(theme.style !== 'theme-dark')" />
+                <Switch input-id="theme-switch" :is-on="darkMode" describedby="theme-switch-info"
+                    @change="toggleTheme" />
                 <font-awesome-icon icon="fa-solid fa-moon" />
             </div>
         </Tooltip>

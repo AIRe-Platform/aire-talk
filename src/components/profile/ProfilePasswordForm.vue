@@ -70,7 +70,7 @@ const onChangePassword = (e: Event) => {
         </div>
         <div class="form-buttons">
             <template v-if="!state.busy">
-                <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <Tooltip :text="$t(l.tooltip_save)" position="top">
                     <button class="btn" type="submit">{{ $t(l.profile_button_change_password) }}</button>
                 </Tooltip>
 

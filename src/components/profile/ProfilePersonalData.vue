@@ -49,7 +49,7 @@ const onDownload = () => {
         <div class="profile-personal-data-error" v-if="state.error" aria-live="assertive" role="alert">
             {{ $t(state.error) }}
         </div>
-        <Tooltip :text="$t(l.tooltip_download)" position="top" :useMaxContent="false" :adjustPosition="true">
+        <Tooltip :text="$t(l.tooltip_download)" position="top">
             <button class="btn profile-personal-data-button" @click="onDownload" :disabled="state.busy" aria-describedby="profile-personal-data-description">
                 {{ $t(l.profile_button_download_personal_data) }}
             </button>

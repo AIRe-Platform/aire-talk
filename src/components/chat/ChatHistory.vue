@@ -8,17 +8,17 @@ import { l } from "@/locales";
 import { nextTick, onMounted, reactive, ref, watch } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { router } from "@/router";
-import { UIState, UIPanels, UISettings } from "@/context/ui";
+import { UIState, UIPanels } from "@/context/ui";
 import useChat from "@/context/chat";
 import { loadAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
-import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { ChatMessageType } from "@/models/chat";
 import Tooltip from "@/components/common/Tooltip.vue";
 import { DateTime } from "luxon";
 import { useI18n } from "vue-i18n";
+import { AireScope, AireServices } from "aire";
 
 interface ChatLogItem {
     id: string;
@@ -27,8 +27,6 @@ interface ChatLogItem {
 
 const chat = useChat();
 const cache = useChatCache();
-const chatHistoryPanelRef = ref<HTMLElement | null>(null);
-const deleteMessageRef = ref<HTMLElement | null>(null);
 const i18n = useI18n();
 
 const state = reactive<{
@@ -60,7 +58,6 @@ const refresh = () => {
         })
         .finally(() => {
             state.busy = false;
-            refreshBurgerMenuButtonsRef();
         });
 };
 
@@ -73,24 +70,13 @@ const isOpen = (id: string) => {
 };
 
 const onSelect = async (id: string) => {
-    if (isOpen(id)) {
-        UIState.panels.delete(UIPanels.ChatHistory);
-        await closeBurgerMenu();
-        UIState.isNavMenuCompressed = false;
-        UIState.showMenu = false;
-        return;
+    if (!isOpen(id)) {
+        router.push({
+            name: "Chat",
+            params: { id: id }
+        });
     }
-
-    router.push({
-        name: "Chat",
-        params: { id: id }
-    });
-
-    UIState.panels.delete(UIPanels.ChatHistory);
-    await closeBurgerMenu();
-    emit("closePanel", undefined);
-    UIState.showMenu = false;
-    UIState.isNavMenuCompressed = false;
+    UIState.closeMenu();
 };
 
 const onConfirmDelete = () => {
@@ -140,41 +126,26 @@ const getLastMessage = (id: string) => {
 };
 
 const getTokenCount = (id: string) => {
+    if (!UIState.showChatTokens().value || !AireServices.ID?.hasScope(AireScope.FeatureTokenCount))
+        return undefined;
+
     const log = cache.get(id);
     const tokenCount = log?.stats?.token_count;
-    if (tokenCount)
-        return tokenCount;
-    else return undefined;
-
+    return tokenCount;
 };
 
 const onClickOutside = async (e: Event) => {
-    //If clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
-    if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
+    if (!state.deleteId) {
+        UIState.closePanel(UIPanels.ChatHistory);
         e.stopImmediatePropagation();
-        //If it is settings panel switch between them
-    } else if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
-        UIState.panels.delete(UIPanels.ChatHistory);
-        UIState.panels.add(UIPanels.Settings);
-        e.stopImmediatePropagation();
-    } else {
-        if (!state.deleteId) {
-            UIState.panels.delete(UIPanels.ChatHistory);
-
-            await closeBurgerMenu();
-            UIState.isNavMenuCompressed = false;
-            UIState.showMenu = false;
-        }
     }
 };
 
 watch(() => state.showChatDeletedMessage, (newVal) => {
     if (newVal) {
         nextTick(() => {
-            deleteMessageRef.value?.focus();
             setTimeout(() => {
                 state.showChatDeletedMessage = false;
-                chatHistoryPanelRef.value?.querySelector('a')?.focus();
             }, 5000);
         })
     }
@@ -182,56 +153,51 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
 </script>
 
 <template>
-    <div ref="chatHistoryPanelRef" class="chat-history-wrapper">
-        <DialogModal :active="state.confirmDelete" :show-close-button="false" :buttons="[
-            { loc_key: l.button_yes, onClick: onConfirmDelete },
-            { loc_key: l.button_no, className: 'cancel-button', onClick: onCancelDelete }
-        ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()"
-            question-id="confirm-remove-chat-dialog-modal">
-            {{ $t(l.popup_confirm_remove_chat) }}
-        </DialogModal>
-        <div class="chat-history-panel" v-on-click-outside="onClickOutside">
-            <div class="chat-history-list">
-                <div class="chat-history-busy" v-if="state.busy">
-                    <Spinner />
-                </div>
-                <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef"
-                    tabindex="-1">
-                    {{ $t(l.chat_history_delete_success) }}
-                </div>
-                <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
-                    :class="{ 'restore-chat-item-open': isOpen(item.id) }">
-                    <div class="chat-history-item-row">
-                        <a href="#" class="chat-history-item-details" tabindex="0" role="link"
-                            @keydown.space="onSelect(item.id)" @click="onSelect(item.id)">
-                            <div class="chat-history-item-date">
-                                {{
-                                    item.time.toLocaleString({
-                                        day: 'numeric',
-                                        month: 'long',
-                                        year: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                    }, {
-                                        locale: i18n.locale.value,
-                                    })
-                                }}
-                            </div>
-                            <div class="chat-history-item-preview">
-                                {{ getLastMessage(item.id) }}
-                            </div>
-                            <div class="chat-history-token" v-if="UISettings.tokensEnabled && getTokenCount(item.id)">
-                                {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
-                            </div>
-                        </a>
-                        <button class="chat-history-item-delete" role="button" @click="onDeleteChat(item.id, $event)"
-                            :aria-label="$t(l.tooltip_delete_chat)">
-                            <Tooltip :text="$t(l.tooltip_delete_chat)" position="top" :useMaxContent="false"
-                                :adjustPosition="true">
-                                <div class="icon delete-bin"></div>
-                            </Tooltip>
-                        </button>
-                    </div>
+    <DialogModal :active="state.confirmDelete" :show-close-button="false" :buttons="[
+        { loc_key: l.button_yes, onClick: onConfirmDelete },
+        { loc_key: l.button_no, className: 'cancel-button', onClick: onCancelDelete }
+    ]" @focus-first-button="(btn: HTMLElement | null) => btn?.focus()" question-id="confirm-remove-chat-dialog-modal">
+        {{ $t(l.popup_confirm_remove_chat) }}
+    </DialogModal>
+    <div class="chat-history-panel" v-on-click-outside="onClickOutside">
+        <div class="chat-history-list">
+            <div class="chat-history-busy" v-if="state.busy">
+                <Spinner />
+            </div>
+            <div v-if="state.showChatDeletedMessage" class="notification-message" ref="deleteMessageRef" tabindex="-1">
+                {{ $t(l.chat_history_delete_success) }}
+            </div>
+            <div class="chat-history-item" v-for="item in state.items" v-bind:key="item.id"
+                :class="{ 'restore-chat-item-open': isOpen(item.id) }">
+                <div class="chat-history-item-row">
+                    <a href="#" class="chat-history-item-details" tabindex="0" role="link"
+                        @keydown.space="onSelect(item.id)" @click="onSelect(item.id)">
+                        <div class="chat-history-item-date">
+                            {{
+                                item.time.toLocaleString({
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                }, {
+                                    locale: i18n.locale.value,
+                                })
+                            }}
+                        </div>
+                        <div class="chat-history-item-preview">
+                            {{ getLastMessage(item.id) }}
+                        </div>
+                        <div class="chat-history-token" v-if="getTokenCount(item.id)">
+                            {{ $t(l.chat_history_tokens, [getTokenCount(item.id)]) }}
+                        </div>
+                    </a>
+                    <button class="chat-history-item-delete" role="button" @click="onDeleteChat(item.id, $event)"
+                        :aria-label="$t(l.tooltip_delete_chat)">
+                        <Tooltip :text="$t(l.tooltip_delete_chat)" position="right">
+                            <div class="icon delete-bin"></div>
+                        </Tooltip>
+                    </button>
                 </div>
             </div>
         </div>
@@ -239,10 +205,6 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
 </template>
 
 <style lang="scss" scoped>
-.chat-history-wrapper {
-    height: 100%;
-}
-
 .chat-history-panel {
     position: relative;
     display: flex;
@@ -255,8 +217,8 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
     border: 1px solid var(--border-color);
     box-shadow: 0 0 5px var(--shadow-color);
     overflow: hidden;
-    margin: 0;
-    margin-left: 15.5rem;
+    margin: 0.2rem;
+    align-self: flex-start;
 }
 
 .chat-history-busy {
@@ -368,11 +330,8 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .chat-history-panel {
-        width: 80%;
-        z-index: 10;
-        padding: 0.5rem;
-        max-height: 80%;
-        margin-left: 4rem;
+        width: calc(100% - 0.5rem);
+        max-width: 24rem;
     }
 
     .chat-history-item {
@@ -381,20 +340,6 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
 
     .chat-history-item-row {
         gap: 0;
-    }
-}
-
-@media screen and (max-width: 376px) {
-    .chat-history-item-row {
-        flex-direction: column;
-    }
-
-    .chat-history-item-preview {
-        margin-right: 0;
-    }
-
-    .chat-history-item-delete {
-        padding-bottom: 0;
     }
 }
 </style>

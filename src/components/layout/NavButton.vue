@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import Tooltip from "@/components/common/Tooltip.vue";
-import { UIState } from "@/context/ui";
 
 const props = defineProps<{
     open: boolean
@@ -15,14 +14,14 @@ const props = defineProps<{
 
 <template>
     <button type="button" class="nav-button" :class="{ 'nav-button-active': props.open }" :aria-expanded="props.open"
-        aria-haspopup="menu" :aria-label=$t(l.screen_recorder_main_navigation_menu)
-        :tabindex="UIState.reminderModalRef ? -1 : 0">
+        aria-haspopup="menu" :aria-label=$t(l.screen_recorder_main_navigation_menu)>
         <div>
-            <Tooltip class="nav-button-graphics" :text="$t(l.nav_main_menu)" position="top" :useMaxContent="false"
-                :adjustPosition="true">
-                <span class="button-bar button-bar--1"></span>
-                <span class="button-bar button-bar--2"></span>
-                <span class="button-bar button-bar--3"></span>
+            <Tooltip :text="$t(l.nav_main_menu)" position="right">
+                <div class="nav-button-graphics">
+                    <span class="button-bar button-bar--1"></span>
+                    <span class="button-bar button-bar--2"></span>
+                    <span class="button-bar button-bar--3"></span>
+                </div>
             </Tooltip>
         </div>
     </button>

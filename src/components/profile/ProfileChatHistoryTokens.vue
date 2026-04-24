@@ -5,24 +5,22 @@
 -->
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import Switch from '../common/Switch.vue';
-import { UISettings } from '@/context/ui';
 import { l } from '@/locales';
 import Tooltip from '../common/Tooltip.vue';
+import { UIState } from '@/context/ui';
 
-const showTokens = ref<boolean>(UISettings.tokensEnabled);
+const showTokens = UIState.showChatTokens();
 
 function toggleShowTokens() {
-    showTokens.value = !showTokens.value;
-    UISettings.tokensEnabled = showTokens.value;
+    UIState.setChatTokensVisible(!showTokens.value);
 }
 </script>
 <template>
     <div>
         <h2>{{ $t(l.profile_chat_history_tokens_heading) }}</h2>
         <div class="token-switch-wrapper">
-            <Tooltip :text="$t(l.tooltip_tokens)" position="top" :useMaxContent="false" :adjustPosition="false">
+            <Tooltip :text="$t(l.tooltip_tokens)" position="top">
                 <Switch input-id="chat-history-token-toggle"
                     :is-on="showTokens"
                     @change="toggleShowTokens"

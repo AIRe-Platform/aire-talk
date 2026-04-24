@@ -16,42 +16,38 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
-import { onMounted, reactive } from "vue";
-import useTheme, { ThemeContext } from "@/context/theme";
+import { computed } from "vue";
+import useTheme from "@/context/theme";
 import ProfileChatHistoryTokens from "@/components/profile/ProfileChatHistoryTokens.vue";
 
-const state = reactive<{
-    theme: ThemeContext,
-}>({
-    theme: new ThemeContext()
-});
+const darkTheme = useTheme().isDarkTheme();
 const navigateTo = (path: string) => {
     router.push(path);
 }
 
-const show_experiments = (AireServices.ID?.getScopes() || [])
-    .findIndex(x => x.startsWith("experimental-")) > -1;
-
-onMounted(async () => {
-    state.theme = useTheme();
-
+const experiments_enabled = computed(() => {
+    return (
+        // check if any experimental feature is enabled
+        AireServices.ID?.hasScope(AireScope.FeatureCustomPrompt) // ||
+    );
 })
 </script>
 
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                class="xmark-icon">
-                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')"
-                    :aria-label="$t(l.tooltip_close)" href="#" @keydown.space="navigateTo('/chat')">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </a>
+            <Tooltip :text="$t(l.tooltip_close)" position="left">
+                <div class="xmark-icon">
+                    <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
+                        href="#" @keydown.space="navigateTo('/chat')">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                    </a>
+                </div>
             </Tooltip>
         </div>
         <div class="profile-header">
             <div class="profile-logo">
-                <div class="image-logo" v-if="state.theme.style == 'theme-default'">
+                <div class="image-logo" v-if="!darkTheme">
                     <img src="@/assets/images/aire-logo-letter.svg" :alt=$t(l.profile_view_alternative_image_logo) />
                 </div>
                 <div class="image-logo" v-else>
@@ -66,7 +62,7 @@ onMounted(async () => {
         <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.ProfileEdit)">
             <ProfileForm />
         </div>
-        <template v-if="show_experiments">
+        <template v-if="experiments_enabled">
             <Separator />
             <div class="profile-section">
                 <ProfileExperiments />
@@ -97,7 +93,7 @@ onMounted(async () => {
             </div>
         </template>
         <Separator />
-        <div class="profile-section">
+        <div class="profile-section" v-if="AireServices.ID?.hasScope(AireScope.FeatureTokenCount)">
             <ProfileChatHistoryTokens />
         </div>
     </div>

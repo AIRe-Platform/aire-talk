@@ -6,13 +6,12 @@
 <script setup lang="ts">
 import { l } from '@/locales';
 import Modal from '@/components/common/Modal.vue';
-import { onMounted, reactive, defineComponent, ref, onUnmounted } from 'vue';
+import { onMounted, reactive, defineComponent, ref } from 'vue';
 import { AireReminder } from 'aire';
 import { DateTime } from 'luxon';
 import { router } from '@/router';
 import { useChatCache } from '@/context/cache';
 import { switchFocus } from '@/helpers/keyboardNavigation';
-import { UIState } from '@/context/ui';
 import { openAndContinueChat } from '@/helpers/chatUtils';
 import Tooltip from "@/components/common/Tooltip.vue";
 import useStatistics from '@/context/statistics';
@@ -47,11 +46,6 @@ const checkForEvents = () => {
         .catch(err => {
             console.error(err);
             closeModal();
-        })
-        .finally(() => {
-            if (state.reminders.length !== 0) {
-                UIState.reminderModalRef = reminderModalRef.value;
-            }
         });
 }
 
@@ -99,14 +93,11 @@ const returnToConversation = (reminder: AireReminder) => {
 
 const closeModal = () => {
     state.visible = false;
-    UIState.reminderModalRef = null;
 };
 
 onMounted(async () => {
     checkForEvents();
 });
-
-onUnmounted(() => UIState.reminderModalRef = null);
 </script>
 
 <template>
@@ -127,14 +118,13 @@ onUnmounted(() => UIState.reminderModalRef = null);
                         {{ reminder.content?.message }}
                     </div>
                     <div class="reminder-buttons">
-                        <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom" :useMaxContent="false"
-                            :adjustPosition="true" v-if="canContinue(reminder.chat_id)">
+                        <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom"
+                            v-if="canContinue(reminder.chat_id)">
                             <button type="button" class="btn" @click.stop="returnToConversation(reminder)">
                                 {{ $t(l.button_return_to_conversation) }}
                             </button>
                         </Tooltip>
-                        <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom" :useMaxContent="false"
-                            :adjustPosition="true">
+                        <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom">
                             <button type="button" class="btn" @click.stop="markEventAsRead(i)">
                                 {{ $t(l.button_mark_as_read) }}
                             </button>

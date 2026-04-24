@@ -3,39 +3,40 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { reactive, watch } from "vue";
+import { computed, reactive } from "vue";
 
 export type Style = "theme-default" | "theme-dark";
 
 export class ThemeContext {
-    style: Style;
+    private _style: Style;
 
     constructor() {
-        const defaultTheme: Style = window.matchMedia("(prefers-color-scheme: dark)") ? "theme-dark" : "theme-default";    
-        this.style = (localStorage.getItem("theme-style") || defaultTheme) as Style;
-        this.apply(this.style);
+        this._style = (localStorage.getItem("theme-style") ?? this.getPreferredStyle()) as Style;
+        this.applyStyle(this._style);
     }
 
-    public apply(style: Style) {
-        if (this.style) {
-            document.documentElement.classList.remove(this.style);
-            localStorage.setItem("theme-style", style);
-        }
+    public style() {
+        return computed(() => this._style);
+    }
+
+    public isDarkTheme() {
+        return computed(() => this._style === "theme-dark");
+    }
+
+    public applyStyle(style: Style) {
+        document.documentElement.classList.remove("theme-default", "theme-dark");
+        localStorage.setItem("theme-style", style);
         document.documentElement.classList.add(style)
-        this.style = style;
+        this._style = style;
+    }
+
+    public getPreferredStyle(): Style {
+        return window.matchMedia("(prefers-color-scheme: dark)") ? "theme-dark" : "theme-default";
     }
 }
 
-const context = reactive<ThemeContext>(new ThemeContext());
-
+const context = reactive(new ThemeContext());
 export default function useTheme() {
     return context;
 }
 
-watch(
-    () => context.style,
-    (value) => {
-        context.apply(value)
-    },
-    { deep: true }
-);

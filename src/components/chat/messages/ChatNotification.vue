@@ -35,7 +35,7 @@ const content = computed(() => {
 <template>
     <div :id="props.message.id" class="chat-notification" v-if="props.message.type == ChatMessageType.Keyword">
         {{ $t(l.notification_keyword, { keyword: content }) }}
-        <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="false" :adjustPosition="true">
+        <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top">
             <button class="button-keyword-delete" type="button" :aria-label=$t(l.tooltip_remove_keyword)
                 @click="removeKeyword(keyword, true)">
                 <font-awesome-icon icon="fa-solid fa-xmark" />

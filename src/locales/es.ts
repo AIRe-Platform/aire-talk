@@ -21,7 +21,7 @@ const es: Locale = {
 
     conversation_option_continue: "Continuar la conversación",
     conversation_option_new_chat: "Iniciar una nueva conversación",
-    conversation_option_give_feedback: "Give feedback",
+    conversation_option_give_feedback: "Da tu opinión",
 
     notification_keyword: "Tema \"{keyword}\" reconocido",
 
@@ -63,7 +63,7 @@ const es: Locale = {
     nav_logout: "Salir",
     nav_signup: "Regístrate",
     nav_preferences: "Configuración",
-    nav_main_menu: "Principal",
+    nav_main_menu: "Menú principal",
     nav_catalogue: "Catálogo de contenidos",
     nav_about: "Nosotros",
     nav_menu_alternative_image_logo: "Logo del menú de navegación de AIRe.",
@@ -336,6 +336,7 @@ const es: Locale = {
     about_accessibility: "Declaración de accesibilidad",
     about_authors: "Autores",
     about_collaboration: "Hecho en colaboración con",
+    about_support: "¿Necesitas ayuda para usar el servicio?",
 
     feedback_question_confirm: "¿Desea dar su opinión?",
     feedback_question_completed: "Haga clic en continuar si sus respuestas son correctas. Gracias.",
@@ -392,12 +393,13 @@ const es: Locale = {
     feedback_answer_like_it_very_much: "Me gusta mucho",
    
     en: "Inglés",
-    fi: "Finés",
+    fi: "Finlandés",
+    sv: "Sueco",
     es: "Español",
     vi: "Vietnamita",
     id: "Indonesio",
-    sw: "Swajili",
-    rw: "Kinyarwanda",
+    sw: "Suajili",
+    rw: "Kinyarwanda"
 };
 
 export default es;

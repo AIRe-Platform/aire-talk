@@ -57,7 +57,7 @@ const onSave = () => {
         <h2>{{ $t(l.profile_experiments_title) }}</h2>
         <div class="experimental-item">
             <div class="experimental-item-toggle">
-                <Tooltip :text="$t(l.tooltip_override)" position="top" :useMaxContent="false" :adjustPosition="false">
+                <Tooltip :text="$t(l.tooltip_override)" position="top">
                     <Switch input-id="experimental-prompt-toggle" class="experimental-item-toggle-switch"
                         :is-on="state.overridePrompt" @change="toggleOverridePrefs" :colorized="true" />
                 </Tooltip>
@@ -73,7 +73,7 @@ const onSave = () => {
         </div>
         <Spinner v-if="state.busy" />
         <template v-else="!state.busy">
-            <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_save)" position="top">
                 <button class="btn" @click="onSave">{{ $t(l.profile_experiments_apply) }}</button>
             </Tooltip>
         </template>

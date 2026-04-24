@@ -22,7 +22,7 @@ const vi: Locale = {
 
     conversation_option_continue: "Tiếp tục cuộc trò chuyện",
     conversation_option_new_chat: "Bắt đầu một cuộc trò chuyện mới",
-    conversation_option_give_feedback: "Give feedback",
+    conversation_option_give_feedback: "Hãy đưa ra phản hồi",
 
     notification_keyword: "Chủ đề \"{keyword}\" đã được công nhận",
 
@@ -36,7 +36,7 @@ const vi: Locale = {
     start_disclaimer: "AIRe không phải là một công cụ chẩn đoán y tế.",
     start_view_alternative_image_logo: "Logo chatbot của AIRe cho giao diện bắt đầu.",
 
-    home_title: "home_title",
+    home_title: "Trang chủ AIRe",
     home_start_new_chat: "Bắt đầu phiên bản trò chuyện mới",
     home_continue_chat: "Tiếp tục cuộc trò chuyện trước đó",
     home_view_alternative_image_logo: "Hình ảnh logo giao diện trang chủ của AIRe.",
@@ -66,7 +66,7 @@ const vi: Locale = {
     nav_logout: "Đăng xuất",
     nav_signup: "Đăng ký",
     nav_preferences: "Cài đặt",
-    nav_main_menu: "Ukurasa wa mbele",
+    nav_main_menu: "Menu chính",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
     nav_menu_alternative_image_logo: "Logo menu điều hướng của AIRe.",
@@ -143,8 +143,7 @@ const vi: Locale = {
     switch_color_mode: "Màu chế độ chủ đề",
 
     error_generic: "Đã xảy ra lỗi không xác định!",
-    error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung.
-        Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
+    error_ai_not_responding: `Chatbot không phản hồi được. Điều này có thể xảy ra do lọc nội dung. Nếu sự cố vẫn tiếp diễn, vui lòng thử lại sau.`,
     error_ai_rate_limited: "Hiện tại hệ thống đang có lưu lượng truy cập rất lớn. Vui lòng thử lại sau.",
     error_signup_password_mismatch: "Mật khẩu không trùng khớp!",
     error_signup_bad_request: `Đăng ký không thành công.
@@ -348,6 +347,7 @@ const vi: Locale = {
     about_accessibility: "Tuyên bố về khả năng tiếp cận",
     about_authors: "Tác giả",
     about_collaboration: "Được thực hiện với sự hợp tác của",
+    about_support: "Bạn có cần hỗ trợ khi sử dụng dịch vụ không?",
 
     feedback_question_confirm: "Bạn có muốn đưa ra phản hồi không?",
     feedback_question_completed: "Nhấp vào tiếp tục nếu câu trả lời của bạn là đúng. Cảm ơn bạn.",
@@ -405,11 +405,12 @@ const vi: Locale = {
 
     en: "Tiếng Anh",
     fi: "Tiếng Phần Lan",
-    es: "Người Tây Ban Nha",
+    sv: "Tiếng Thụy Điển",
+    es: "Tiếng Tây Ban Nha",
     vi: "Tiếng Việt",
     id: "Tiếng Indonesia",
     sw: "Tiếng Swahili",
-    rw: "Tiếng Rwanda"
+    rw: "Tiếng Rwanda",
 };
 
 export default vi;

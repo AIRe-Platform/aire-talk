@@ -10,6 +10,7 @@ import { router } from '@/router';
 import Separator from "@/components/common/Separator.vue";
 import LanguageSelector from '@/components/settings/LanguageSelector.vue';
 import { nextTick, onMounted, ref } from 'vue';
+import SupportMailto from '@/components/common/SupportMailto.vue';
 
 const signUpSuccess = ref<boolean>(false);
 const signUpSuccessMessageRef = ref<HTMLElement | null>(null);
@@ -62,6 +63,7 @@ onMounted(() => {
             <div class="start-footer">
                 <p>{{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
             </div>
+            <SupportMailto />
         </div>
     </div>
 </template>
@@ -87,6 +89,7 @@ onMounted(() => {
     align-items: center;
     color: black;
     justify-content: space-around;
+    text-align: center;
 }
 
 .greeting {
@@ -142,6 +145,10 @@ onMounted(() => {
     text-align: center;
     font-size: var(--font-small);
     margin-inline: 0.5rem;
+}
+
+.support-mailto {
+    align-items: center;
 }
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {

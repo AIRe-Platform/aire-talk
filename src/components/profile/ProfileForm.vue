@@ -163,7 +163,7 @@ const bioMaxLengthReached = (): boolean => !!profile.bio && profile.bio.length =
             {{ $t(state.error) }}
         </div>
         <div class="tooltip-unique-style">
-            <Tooltip :text="$t(l.tooltip_save)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_save)" position="top">
                 <div class="form-buttons">
                     <template v-if="!state.busy">
                         <button class="btn" type="submit">{{ $t(l.profile_button_save) }}</button>

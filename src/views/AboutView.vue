@@ -8,6 +8,7 @@
 import AccessibilityStatement from '@/components/about/AccessibilityStatement.vue';
 import PrivacyStatement from '@/components/about/PrivacyStatement.vue';
 import TermsOfUse from '@/components/about/TermsOfUse.vue';
+import SupportMailto from '@/components/common/SupportMailto.vue';
 import useTheme from '@/context/theme';
 import { getUILanguage, l } from '@/locales';
 import { reactive } from 'vue';
@@ -16,7 +17,7 @@ const state = reactive<{
     open?: 'tos' | 'privacy' | 'accessibility',
 }>({});
 
-const theme = useTheme();
+const darkTheme = useTheme().isDarkTheme();
 const lang = getUILanguage();
 
 const toggleTermsModal = () => { state.open = 'tos'; };
@@ -38,6 +39,7 @@ const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
                 <button type="button" class="btn" @click="toggleAccessibilityModal">
                     {{ $t(l.about_accessibility) }}
                 </button>
+                <SupportMailto />
             </div>
             <div class="collab-container">
                 <h2>{{ $t(l.about_collaboration) }}</h2>
@@ -47,7 +49,7 @@ const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
                             :alt="$t(l.about_goodlife_logo_alt)">
                     </a>
                     <a href="https://www.jamk.fi/fi" target="_blank">
-                        <template v-if="theme.style === 'theme-dark'">
+                        <template v-if="darkTheme">
                             <img v-if="lang === 'fi'" src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png"
                                 :alt="$t(l.about_jamk_logo_alt)">
                             <img v-else src="@/assets/images/jamk_tunnus_valkoinen_nimella_englanti.png"
@@ -59,7 +61,6 @@ const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
                             <img v-else src="@/assets/images/jamk_tunnus_sininen_nimella_englanti.png"
                                 :alt="$t(l.about_jamk_logo_alt)">
                         </template>
-
                     </a>
                 </div>
             </div>
@@ -157,6 +158,15 @@ const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
     }
 }
 
+.support-mailto {
+    p {
+        text-align: left;
+        font-size: var(--font-small)
+    }
+
+    align-items: start;
+    gap: 0.5rem;
+}
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .about-view {

@@ -3,8 +3,19 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import { getUILanguage } from "@/locales";
-import { AireServices, AireStatisticsEvent } from "aire";
+import { AireServices, AireStatisticsEvent, AireTokenStatsEvent } from "aire";
 import { DateTime } from "luxon";
+
+// Base event classes
+// Event names are hierarchical
+enum EventPrefix {
+    Chat = "chat.",
+    Configuration = "configuration.",
+    Content = "content.",
+    Feedback = "feedback.",
+    Reminder = "reminder.",
+    Session = "session.",
+}
 
 // Flexible base class for statistics data, derive your own classes from this
 export class StatisticsEventBase implements AireStatisticsEvent {
@@ -13,6 +24,7 @@ export class StatisticsEventBase implements AireStatisticsEvent {
     public event_name: string;
     public client_id?: string | undefined;
     public client_ver?: string | undefined;
+    public instance_id?: string | undefined;
     [x: string]: any;
 
     constructor(event_name: string) {
@@ -20,57 +32,36 @@ export class StatisticsEventBase implements AireStatisticsEvent {
         this.ts = DateTime.utc();
         this.client_id = import.meta.env.VITE_AIRE_CLIENT_ID;
         this.client_ver = import.meta.env.VITE_COMMIT_HASH;
-        this.ui_language = getUILanguage().value;
         this.instance_id = AireServices.PlatformId;
+        this.ui_language = getUILanguage().value;
     }
 }
 
 export class SessionStatsEvent extends StatisticsEventBase {
-    duration_minutes: number;
-
-    constructor(public user_id: string | undefined) {
+    constructor(
+        public user_id: string | undefined,
+        public session_id: string | undefined = undefined,
+        public duration_minutes: number = 0,
+    ) {
         super(`${EventPrefix.Session}duration_minutes`);
-        this.duration_minutes = 0;
     }
 }
 
-export enum ActionName {
-    LoggedIn = "logged-in",
-    SignUp = "sign-up",
-    NewChat = "new-chat",
-    ThemeLight = "theme-light",
-    ThemeDark = "theme-dark",
-    //? Add actions here
-}
+export class ChatTokenStatsEvent extends StatisticsEventBase {
+    total_tokens?: number;
+    input_tokens?: number;
+    output_tokens?: number;
 
-export class ActionEvent extends StatisticsEventBase {
-    action: ActionName;
-
-    constructor(action: ActionName) {
-        super("action");
-        this.action = action;
-    }
-}
-
-export class ChatStatsEvent extends StatisticsEventBase {
-    theme_added: number = 0;
-    theme_removed: number = 0;
-    summary_accepted: number = 0;
-    summary_rejected: number = 0;
-    enabled_tts: number = 0;
-    disabled_tts: number = 0;
-    enabled_stt: number = 0;
-    disabled_stt: number = 0;
-    bubble_tts_play: number = 0;
-    token_count: number = 0;
-    messages_sent: number = 0;
-    content_suggestions: number = 0;
-    questionnaires: number = 0;
-    reminders: number = 0;
-    errors: number = 0;
-
-    constructor() {
-        super("chat-stats");
+    constructor(
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+        stats_event: AireTokenStatsEvent
+    ) {
+        super(`${EventPrefix.Chat}token-stats`);
+        this.total_tokens = stats_event.total_tokens;
+        this.input_tokens = stats_event.input_tokens;
+        this.output_tokens = stats_event.output_tokens;
     }
 }
 
@@ -86,47 +77,22 @@ export class ResponseTimeEvent extends StatisticsEventBase {
 }
 
 export class FeedbackEvent extends StatisticsEventBase {
-    user_id?: string;
-    instance_id?: string;
-    chat_id?: string;
-    themes?:  string;
-    answer?: any;
-    question?: string;
-    session_id?: string;
-
-    constructor(name: string, chat_id: string | undefined, user_id: string | undefined, answer: any, question: string, session_id: string | undefined, themes: string) {
-        super(name);
-        this.chat_id = chat_id;
-        this.user_id = user_id;
-        this.answer = answer;
-        this.question = question;
-        this.session_id = session_id;
-        this.themes = themes;
+    constructor(
+        name: string,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public answer: any,
+        public question: string | undefined,
+        public session_id: string | undefined,
+        public themes: string | undefined
+    ) {
+        super(`${EventPrefix.Feedback}${name}`);
     }
-}
-
-export class SurveyResultsEvent extends StatisticsEventBase {
-    constructor(data: { [key: string]: any }) {
-        super("survey-results");
-        Object.keys(data).forEach(x => {
-            if (!this[x])
-                this[x] = data[x];
-        })
-    }
-}
-
-enum EventPrefix {
-    Chat = "chat.",
-    Configuration = "configuration.",
-    Content = "content.",
-    Reminder = "reminder.",
-    Session = "session.",
 }
 
 export enum SessionEventName {
     Start = "start",
     End = "end",
-    ActiveDuration = "active_duration",
 }
 
 export class SessionEvent extends StatisticsEventBase {
