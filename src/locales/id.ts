@@ -67,7 +67,7 @@ const id: Locale = {
     nav_logout: "Keluar",
     nav_signup: "Daftar",
     nav_preferences: "Pengaturan",
-    nav_main_menu: "Halaman depan",
+    nav_main_menu: "Menu utama",
     nav_catalogue: "Katalog Konten",
     nav_about: "Tentang",
     nav_menu_alternative_image_logo: "Logo menu navigasi AIRe.",

@@ -64,7 +64,7 @@ const sv: Locale = {
     nav_logout: "Logga ut",
     nav_signup: "Skapa konto",
     nav_preferences: "Inställningar",
-    nav_main_menu: "Första sidan",
+    nav_main_menu: "Huvudmeny",
     nav_catalogue: "Eget innehållsbibliotek",
     nav_about: "Information om tjänsten AIRe",
     nav_menu_alternative_image_logo: "Logotyp för AIRe navigeringsmenyn.",

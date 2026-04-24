@@ -66,7 +66,7 @@ const vi: Locale = {
     nav_logout: "Đăng xuất",
     nav_signup: "Đăng ký",
     nav_preferences: "Cài đặt",
-    nav_main_menu: "Ukurasa wa mbele",
+    nav_main_menu: "Menu chính",
     nav_catalogue: "Danh mục nội dung",
     nav_about: "Về",
     nav_menu_alternative_image_logo: "Logo menu điều hướng của AIRe.",

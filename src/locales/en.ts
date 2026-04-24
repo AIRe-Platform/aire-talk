@@ -64,7 +64,7 @@ const en: Locale = {
     nav_logout: "Logout",
     nav_signup: "Sign up",
     nav_preferences: "Settings",
-    nav_main_menu: "Home page",
+    nav_main_menu: "Main menu",
     nav_catalogue: "My content catalogue",
     nav_about: "About",
     nav_menu_alternative_image_logo: "AIRe navigation menu logo.",
