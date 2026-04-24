@@ -125,7 +125,7 @@ router.beforeEach(async (to, from) => {
     await initWithRetry();
     const login = useLogin();
 
-    if (isRestrictedMode && !to.meta.allow_restricted)
+    if (isRestrictedMode.value && !to.meta.allow_restricted)
         return restrictedModeRedirect();
 
     if (login.user) {
