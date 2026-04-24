@@ -189,8 +189,9 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: left;
     width: 100%;
-    height: 33px;
+    min-height: 33px;
 }
 
 .chat-tool-button-text {

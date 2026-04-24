@@ -73,16 +73,10 @@ function linkActive(routeName: string): boolean {
         <Panel class="nav-menu-bar" tabindex="-1">
             <a class="nav-link" href="#" :tabindex="navLinkTabindex" @click="navLogoClick"
                 @keydown.space="navLogoClick">
-                <div class="nav-logo">
-                    <div class="aire-logo" v-if="!darkTheme">
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter.svg"
-                            :alt=$t(l.nav_menu_alternative_image_logo) />
-                    </div>
-                    <div class="aire-logo" v-else>
-                        <img class="image-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
-                            :alt=$t(l.nav_menu_alternative_image_logo_dark_mode) />
-                    </div>
-                </div>
+                <img class="nav-logo" src="@/assets/images/aire-logo-letter.svg" :alt=$t(l.nav_menu_alternative_image_logo)
+                    v-if="!darkTheme" />
+                <img class="nav-logo" src="@/assets/images/aire-logo-letter-dark-mode.svg"
+                    :alt=$t(l.nav_menu_alternative_image_logo_dark_mode) v-else />
             </a>
             <div class="nav-menu-list">
                 <Separator />
@@ -173,7 +167,7 @@ function linkActive(routeName: string): boolean {
 }
 
 .nav-menu-list {
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
     flex-grow: 1;
     flex-shrink: 1;
@@ -193,16 +187,12 @@ function linkActive(routeName: string): boolean {
 
 .nav-logo {
     width: 100%;
-    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    img {
-        display: block;
-        object-fit: contain;
-        width: 8rem;
-    }
+    height: 3.5rem;
+    max-height: 10dvh;
+    margin-top: 1rem;
 }
 
 .nav-link {
