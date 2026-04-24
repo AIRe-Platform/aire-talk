@@ -29,27 +29,25 @@ const currentSize = UIState.fontSize();
 
 <template>
     <Panel class="settings-panel" v-on-click-outside="onClickOutside">
-        <div ref="settingsPanelRef" class="settings-panel-ref">
-            <h2 class="settings-header">
-                {{ $t(l.settings_title) }}
-            </h2>
-            <Separator />
-            <LanguageSelector />
-            <Separator />
-            <ThemeSwitch />
-            <Separator />
-            <div class="settings-item">
-                <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
-                <Tooltip :text="$t(l.settings_ui_size)" position="top">
-                    <select id="settings-text-size" @change="setTextSize" :value="currentSize">
-                        <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
-                        <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
-                    </select>
-                </Tooltip>
-            </div>
-            <Separator />
-            <button class="btn button-close" @click="onClickOutside">{{ $t(l.button_close) }}</button>
+        <h2 class="settings-header">
+            {{ $t(l.settings_title) }}
+        </h2>
+        <Separator />
+        <LanguageSelector />
+        <Separator />
+        <ThemeSwitch />
+        <Separator />
+        <div class="settings-item">
+            <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
+            <Tooltip :text="$t(l.settings_ui_size)" position="top">
+                <select id="settings-text-size" @change="setTextSize" :value="currentSize">
+                    <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
+                    <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
+                </select>
+            </Tooltip>
         </div>
+        <Separator />
+        <button class="btn" @click="onClickOutside">{{ $t(l.button_close) }}</button>
     </Panel>
 </template>
 
@@ -59,22 +57,20 @@ const currentSize = UIState.fontSize();
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-    align-self: flex-end;
+    text-align: center;
+
     margin: 1rem 10px;
-    z-index: 8;
     padding: 1rem 2rem;
     width: 12rem;
-    gap: 1rem;
+    gap: 0.2rem;
+    z-index: 8;
     font-weight: bold;
-    margin-left: 15rem;
+
+    align-self: flex-start;
+    margin-top: auto;
 }
 
-.settings-panel-ref {
-    display: flex;
-    flex-direction: column;
-}
-
-#settings-text-size {
+.settings-label {
     width: 12rem;
 }
 
@@ -85,53 +81,18 @@ const currentSize = UIState.fontSize();
     margin-block-end: 0;
 }
 
-.capitalize {
-    text-transform: capitalize;
-}
-
 .settings-item {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-.button-close {
-    margin-top: 1rem;
-}
-
-.settings-panels-mobile-screen {
-    margin-top: 14rem;
-    margin-left: 16rem;
-}
-
-
-
-@media screen and ((max-aspect-ratio: 1/1) or (max-width: 520px)) {
+@media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
     .settings-panel {
-        width: 58%;
-        margin-left: 5rem;
-        margin-bottom: 0rem;
-        font-size: var(--font-small);
-
-    }
-
-    .settings-panel-ref {
-        display: flex;
-    }
-
-    #settings-text-size {
-        width: -webkit-fill-available;
-    }
-}
-
-@media screen and (max-height: 400px) and (orientation: landscape) {
-    .settings-panel {
-        margin-left: -15rem;
-        padding: 0.5rem 2rem;
-    }
-
-    .button-close {
-        margin-top: 0.5rem;
+        width: calc(100% - 3rem);
+        max-width: 12rem;
+        padding: 1rem;
+        margin-left: 0.5rem;
     }
 }
 </style>

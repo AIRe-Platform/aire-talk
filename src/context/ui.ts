@@ -20,7 +20,7 @@ export class UIContext {
     // State
     // =====
     private _showMenu: boolean = false;
-    private _compressMenu: boolean = false;
+    private _mobileLayout: boolean = false;
     private _panels = new Set<UIPanels>;
 
     // Settings
@@ -33,6 +33,17 @@ export class UIContext {
         this.setFontSize(this._fontSize);
 
         this._tokensEnabled = (localStorage.getItem("show-chat-tokens") === "true");
+
+        const mediaQuery = this.mobileMediaQuery();
+        this._mobileLayout = mediaQuery.matches;
+        mediaQuery.addEventListener("change", (e: MediaQueryListEvent) => {
+            console.debug("Layout change. Mobile layout: ", e.matches);
+            UIState.setMobileLayout(e.matches);
+        });
+    }
+
+    private mobileMediaQuery() {
+        return window.matchMedia("screen and ((max-aspect-ratio: 1/1) or (max-width: 920px))");
     }
 
     public isMenuOpen() {
@@ -78,8 +89,16 @@ export class UIContext {
         return computed(() => [... this._panels]);
     }
 
+    public mobileLayout() {
+        return computed(() => this._mobileLayout);
+    }
+
+    public setMobileLayout(enabled: boolean) {
+        this._mobileLayout = enabled;
+    }
+
     public compressMenu() {
-        return computed(() => this._compressMenu);
+        return computed(() => this._mobileLayout && this._panels.size > 0);
     }
 
     public fontSize() {

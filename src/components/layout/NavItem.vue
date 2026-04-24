@@ -5,31 +5,42 @@
 
 <script setup lang="ts">
 import { UIState } from "@/context/ui";
-import NavItemContent from './NavItemContent.vue';
+import Tooltip from "../common/Tooltip.vue";
+import { computed } from "vue";
 
 const props = defineProps<{
     label: string,
     icon?: string,
     active: boolean,
-    tooltip?: string,
+    tooltip: string,
     tabindex: number,
-    itemType: 'link' | 'button',
 }>()
 
-const compress = UIState.compressMenu();
+const menuCompressed = UIState.compressMenu();
+
+function formatTooltipKey(tooltip?: string) {
+    if (tooltip)
+        return 'tooltip_' + tooltip;
+    else
+        return undefined;
+}
+
+const text = computed(() => formatTooltipKey(props.tooltip));
 </script>
 
 <template>
-    <a v-if="props.itemType === 'link'" href="#" class="nav-item" :aria-label="props.label"
-        :class="[{ 'nav-item-active': props.active, 'small-layout': compress }]"
-        :tabindex="props.tabindex" @click="$emit('click')" @keydown.space="$emit('click')">
-        <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
-    </a>
-    <button v-else type="button" class="nav-item nav-btn" :aria-label="props.label"
-        :class="[{ 'nav-item-active': props.active, 'small-layout': compress }]"
-        :tabindex="props.tabindex" @click="$emit('click')">
-        <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
-    </button>
+    <Tooltip :text="!!(text) ? $t(text) : ''" position="right">
+        <button type="button" class="nav-item nav-btn" :aria-label="props.label"
+            :class="[{ 'nav-item-active': props.active, 'nav-item-compress': menuCompressed }]"
+            :tabindex="props.tabindex" @click="$emit('click')">
+            <div class="nav-icon">
+                <div v-if="props.icon" :class="['icon ' + props.icon]"></div>
+            </div>
+            <div class="nav-label" v-if="!menuCompressed">
+                {{ props.label }}
+            </div>
+        </button>
+    </Tooltip>
 </template>
 
 <style lang="scss" scoped>
@@ -48,6 +59,22 @@ const compress = UIState.compressMenu();
     }
 }
 
+.nav-icon {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+}
+
 .nav-btn {
     border: none;
     background-color: transparent;
@@ -63,21 +90,21 @@ const compress = UIState.compressMenu();
 
 @media screen and ((max-aspect-ratio: 1/1) or (max-width: 920px)) {
 
-    .nav-item {
-        padding: 2rem;
-    }
+    // .nav-item {
+    //     padding: 2rem;
+    // }
 
-    .short-nav-menu .nav-item {
-        flex-wrap: wrap;
-    }
+    // .short-nav-menu .nav-item {
+    //     flex-wrap: wrap;
+    // }
 
-    .short-nav-menu {
-        padding: 0rem;
-        margin: 1rem;
-    }
+    // .short-nav-menu {
+    //     padding: 0rem;
+    //     margin: 1rem;
+    // }
 
-    .nav-item-active {
-        background-color: transparent;
-    }
+    // .nav-item-active {
+    //     background-color: transparent;
+    // }
 }
 </style>

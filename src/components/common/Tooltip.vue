@@ -11,7 +11,7 @@ import { compile, computed, defineComponent, onBeforeUnmount, onMounted, onUnmou
 defineComponent({ name: "TooltipInjector" })
 
 const props = defineProps<{
-    text: string,
+    text?: string,
     position: TooltipPosition
 }>();
 
@@ -20,7 +20,7 @@ const element = computed(() => wrapper.value?.children.item(0) as HTMLElement);
 const tooltip = useTooltip();
 
 onMounted(() => {
-    if (element.value)
+    if (element.value && props.text)
         tooltip.register(element.value, props.text, props.position);
     else
         console.warn("Failed to register tooltip", props.text);
