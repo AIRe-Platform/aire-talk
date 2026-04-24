@@ -14,7 +14,7 @@ import {
 } from '@/context/tutorials';
 import { UIState } from '@/context/ui';
 import { l } from '@/locales';
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, StyleValue, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
@@ -101,13 +101,15 @@ const positionStyle = computed(() => {
         right: props.tutorial.position.right !== undefined ? `${props.tutorial.position.right}px` : 'unset',
     };
 });
-const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) ? 1 : 0 }));
+const visible = computed(() => props.tutorial.isVisible(route));
+const opacityStyle = computed((): StyleValue => ({
+    opacity: visible.value ? 1 : 0,
+    pointerEvents: visible.value ? 'auto' : 'none'
+}));
 </script>
 
 <template>
-    <div ref="popupRef"
-        class="tutorial-popup"
-        :class="[props.tutorial.trianglePosition]"
+    <div ref="popupRef" class="tutorial-popup" :class="[props.tutorial.trianglePosition]"
         :style="[positionStyle, opacityStyle]">
         <span>{{ message }}</span>
         <div class="tutorial-buttons">
@@ -115,10 +117,8 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
                 :tabindex="props.tutorial.isVisible($route) ? 0 : -1">
                 {{ $t(props.tutorial.isLastState() ? l.tutorial_done : l.tutorial_skip) }}
             </button>
-            <button class="btn" type="button"
-                :tabindex="props.tutorial.isVisible($route) ? 0 : -1"
-                v-show="!props.tutorial.isLastState()"
-                @click="props.tutorial.next">
+            <button class="btn" type="button" :tabindex="props.tutorial.isVisible($route) ? 0 : -1"
+                v-show="!props.tutorial.isLastState()" @click="props.tutorial.next">
                 {{ $t(l.tutorial_next) }}
             </button>
         </div>

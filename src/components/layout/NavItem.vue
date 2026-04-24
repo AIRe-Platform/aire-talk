@@ -29,34 +29,43 @@ const text = computed(() => formatTooltipKey(props.tooltip));
 </script>
 
 <template>
-    <Tooltip :text="!!(text) ? $t(text) : ''" position="right">
-        <button type="button" class="nav-item nav-btn" :aria-label="props.label"
-            :class="[{ 'nav-item-active': props.active, 'nav-item-compress': menuCompressed }]"
-            :tabindex="props.tabindex" @click="$emit('click')">
-            <div class="nav-icon">
-                <div v-if="props.icon" :class="['icon ' + props.icon]"></div>
+    <button type="button" class="nav-item nav-btn" :aria-label="props.label"
+        :class="[{ 'nav-item-active': props.active, 'nav-item-compress': menuCompressed }]" :tabindex="props.tabindex"
+        @click="$emit('click')">
+        <Tooltip :text="!!(text) ? $t(text) : ''" position="right">
+            <div class="nav-item-content">
+                <div class="nav-icon">
+                    <div v-if="props.icon" :class="['icon ' + props.icon]"></div>
+                </div>
+                <div class="nav-label" v-if="!menuCompressed">
+                    {{ props.label }}
+                </div>
             </div>
-            <div class="nav-label" v-if="!menuCompressed">
-                {{ props.label }}
-            </div>
-        </button>
-    </Tooltip>
+        </Tooltip>
+    </button>
 </template>
 
 <style lang="scss" scoped>
 .nav-item {
-    padding: 1rem;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     cursor: pointer;
     text-align: center;
     font-weight: bold;
-    align-items: center;
-    gap: 1rem;
+    align-items: stretch;
+    padding: 0;
 
     &:hover {
         color: var(--nav-item-hover);
     }
+}
+
+.nav-item-content {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .nav-icon {
