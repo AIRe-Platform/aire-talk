@@ -19,7 +19,7 @@ import { router } from './router';
 import LanguagePopup from "@/components/settings/LanguagePopup.vue";
 import TutorialPopup from './components/common/TutorialPopup.vue';
 import { TutorialStates } from './context/tutorials';
-import { tooltipState } from '@/context/tooltipState';
+import TooltipPopup from './components/common/TooltipPopup.vue';
 
 const login = useLogin();
 const state = reactive<{
@@ -109,6 +109,7 @@ onMounted(() => {
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'">
         <LanguagePopup v-if="state.showLanguagePopup" />
+        <TooltipPopup />
         <template v-if="login.user">
             <TutorialPopup :tutorial="TutorialStates.home" v-if="!TutorialStates.home.isDone()" />
             <TutorialPopup :tutorial="TutorialStates.chat" v-if="!TutorialStates.chat.isDone()" />

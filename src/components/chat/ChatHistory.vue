@@ -199,8 +199,7 @@ watch(() => state.showChatDeletedMessage, (newVal) => {
                         </a>
                         <button class="chat-history-item-delete" role="button" @click="onDeleteChat(item.id, $event)"
                             :aria-label="$t(l.tooltip_delete_chat)">
-                            <Tooltip :text="$t(l.tooltip_delete_chat)" position="top" :useMaxContent="false"
-                                :adjustPosition="true">
+                            <Tooltip :text="$t(l.tooltip_delete_chat)" position="right">
                                 <div class="icon delete-bin"></div>
                             </Tooltip>
                         </button>

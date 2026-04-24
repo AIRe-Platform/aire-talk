@@ -25,8 +25,7 @@ const toggleTheme = () => {
                     : $t(l.screen_recorder_theme_switch_light)
             }}
         </div>
-        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top" :useMaxContent="false"
-            :adjustPosition="true">
+        <Tooltip id="theme-tooltip" :text="$t(l.tooltip_menu_ui_mode)" position="top">
             <div class="theme-switch">
                 <font-awesome-icon icon="fa-solid fa-sun" />
                 <Switch input-id="theme-switch" :is-on="darkMode" describedby="theme-switch-info"

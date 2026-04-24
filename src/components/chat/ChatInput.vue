@@ -122,8 +122,7 @@ const toggleTTS = () => {
         <div class="chat-input-right">
             <div class="chat-input-right-top">
                 <template v-if="getChatContentIds(chat.messages).length > 0">
-                    <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="top-left" :useMaxContent="true"
-                        :adjustPosition="true">
+                    <Tooltip :text="$t(l.tooltip_open_catalogue_content)" position="left">
                         <button class="chat-input-button" @keydown.space="() => router.push('/content-catalogue')"
                             @click="() => router.push('/content-catalogue')">
                             <div class="icon chatbox-content-default"></div>
@@ -133,7 +132,7 @@ const toggleTTS = () => {
                 <template v-if="tts.isSupported.value">
                     <Tooltip :text="tts.isEnabled.value
                         ? $t(l.tooltip_chat_tts_read_new_messages_off)
-                        : $t(l.tooltip_chat_tts_read_new_messages_on)" position="left" :useMaxContent="true"
+                        : $t(l.tooltip_chat_tts_read_new_messages_on)" position="left"
                         :adjustPosition="true">
                         <button class="chat-input-button" @click="toggleTTS" type="button" :aria-label="tts.isEnabled.value
                             ? $t(l.tooltip_chat_tts_read_new_messages_off)
@@ -147,8 +146,7 @@ const toggleTTS = () => {
                     </Tooltip>
                 </template>
                 <template v-if="props.optionsVisible">
-                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="top-left" :useMaxContent="false"
-                        :adjustPosition="true">
+                    <Tooltip :text="$t(l.tooltip_open_chat_side_panel)" position="left">
                         <button class="chat-input-button" :class="{ 'chat-options-button-active': props.optionsOpen }"
                             type="button" :data-tutorial-state="ChatTutorialState.Sidepanel"
                             @click="$emit('toggleOptions')" :aria-label="props.optionsOpen
@@ -163,8 +161,7 @@ const toggleTTS = () => {
                 <template v-if="stt.isSupported.value">
                     <Tooltip :text="stt.isListening.value
                         ? $t(l.tooltip_chat_speech_recognition_off)
-                        : $t(l.tooltip_chat_speech_recognition_on)" position="top-left" :useMaxContent="true"
-                        :adjustPosition="true">
+                        : $t(l.tooltip_chat_speech_recognition_on)" position="left">
                         <button class="chat-input-button" @click="toggleListening" type="button" :aria-label="stt.isListening.value
                             ? $t(l.tooltip_chat_speech_recognition_off)
                             : $t(l.tooltip_chat_speech_recognition_on)">
@@ -177,8 +174,7 @@ const toggleTTS = () => {
                         </button>
                     </Tooltip>
                 </template>
-                <Tooltip :text="$t(l.tooltip_send_message)" position="top-left" :useMaxContent="true"
-                    :adjustPosition="true">
+                <Tooltip :text="$t(l.tooltip_send_message)" position="left">
                     <button class="chat-input-button" @click="submit" type="button"
                         :aria-label=$t(l.tooltip_send_message)>
                         <div class="icon send-message-default"></div>

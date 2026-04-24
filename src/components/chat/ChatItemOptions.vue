@@ -159,21 +159,20 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
             <div v-if="state.menuOpen">
                 <div class="icon chat-option-desktop"></div>
             </div>
-            <Tooltip v-else :text="$t(l.tooltip_message_options)" position="bottom" :useMaxContent="false"
-                :adjustPosition="true">
+            <Tooltip v-else :text="$t(l.tooltip_message_options)" position="left">
                 <div class="icon chat-option-desktop"></div>
             </Tooltip>
         </button>
         <div class="chat-item-options-menu" ref="optionsMenuRef" v-if="state.menuOpen"
             v-on-click-outside="onToggleMenu">
-            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="left" :useMaxContent="true" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_thumbs_up)" position="left">
                 <button @click.stop="onThumbsUp" type="button" :tabindex="optionsMenuTabindex"
                     :aria-label=$t(l.screen_recorder_thumbs_up) class="chat-item-options-menu-button thumbs-up"
                     :class="{ 'is-selected': state.rating > 0 }">
                     <font-awesome-icon icon="fa-solid fa-thumbs-up" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="left" :useMaxContent="true" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_thumbs_down)" position="left">
                 <button @click.stop="onThumbsDown" type="button" :tabindex="optionsMenuTabindex"
                     :aria-label=$t(l.screen_recorder_thumbs_down) class="chat-item-options-menu-button thumbs-down"
                     :class="{ 'is-selected': state.rating < 0 }">
@@ -182,15 +181,14 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
             </Tooltip>
             <template v-if="!props.content">
                 <Tooltip :text="$t(state.copiedToClipboard ? l.tooltip_message_copied :
-                    l.tooltip_copy_message)" position="left" :useMaxContent="true" :adjustPosition="true">
+                    l.tooltip_copy_message)" position="left">
                     <button @click.stop="onCopyClipboard" type="button" :tabindex="optionsMenuTabindex"
                         :aria-label="state.copiedToClipboard ? $t(l.screen_recorder_copied_text_clipboard) : $t(l.screen_recorder_copy_text_clipboard)"
                         class="chat-item-options-menu-button check" :class="{ 'is-selected': state.copiedToClipboard }">
                         <font-awesome-icon :icon="['fa-solid', state.copiedToClipboard ? 'fa-check' : 'fa-copy']" />
                     </button>
                 </Tooltip>
-                <Tooltip :text="$t(l.tooltip_revert_message)" position="left" :useMaxContent="true"
-                    :adjustPosition="true" v-if="props.can_revert">
+                <Tooltip :text="$t(l.tooltip_revert_message)" position="left" v-if="props.can_revert">
                     <button @click.stop="onRevert" type="button" :tabindex="optionsMenuTabindex"
                         :aria-label=$t(l.screen_recorder_revert_here)
                         class="chat-item-options-menu-button fa-arrows-spin">
@@ -220,12 +218,9 @@ const optionsMenuTabindex = computed(() => state.menuOpen ? 0 : -1);
     color: var(--chat-bubble-background-color);
     border: none;
     border-radius: 0.6rem;
+    padding: 0;
     background-color: transparent;
     transition: background-color 0.25s;
-
-    &:hover {
-        background-color: var(--hover-text);
-    }
 }
 
 .chat-item-options-menu-button {

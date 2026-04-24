@@ -40,7 +40,7 @@ const currentSize = UIState.fontSize();
             <Separator />
             <div class="settings-item">
                 <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
-                <Tooltip :text="$t(l.settings_ui_size)" position="top" :useMaxContent="false" :adjustPosition="true">
+                <Tooltip :text="$t(l.settings_ui_size)" position="top">
                     <select id="settings-text-size" @change="setTextSize" :value="currentSize">
                         <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
                         <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>

@@ -118,14 +118,13 @@ onMounted(async () => {
                         {{ reminder.content?.message }}
                     </div>
                     <div class="reminder-buttons">
-                        <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom" :useMaxContent="false"
-                            :adjustPosition="true" v-if="canContinue(reminder.chat_id)">
+                        <Tooltip :text="$t(l.tooltip_reminder_back_to_chat)" position="bottom"
+                            v-if="canContinue(reminder.chat_id)">
                             <button type="button" class="btn" @click.stop="returnToConversation(reminder)">
                                 {{ $t(l.button_return_to_conversation) }}
                             </button>
                         </Tooltip>
-                        <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom" :useMaxContent="false"
-                            :adjustPosition="true">
+                        <Tooltip :text="$t(l.tooltip_mark_reminder_read)" position="bottom">
                             <button type="button" class="btn" @click.stop="markEventAsRead(i)">
                                 {{ $t(l.button_mark_as_read) }}
                             </button>

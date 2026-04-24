@@ -97,35 +97,34 @@ const sidePanelTabindex = computed(() => props.isOpen ? 0 : -1);
         </div>
         <Spinner v-if="state.busy" />
         <div class="chat-tool-buttons" v-else>
-            <Tooltip :text="$t(l.tooltip_summarize)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_summarize)" position="left">
                 <button class="btn chat-tool-button" @click="generateSummary" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_summarize) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_query_surveys)" position="top" :useMaxContent="false" :adjustPosition="true"
+            <Tooltip :text="$t(l.tooltip_query_surveys)" position="left"
                 v-if="listChatKeywords().length > 0 && !questionnaires.active">
                 <button class="btn chat-tool-button" @click="querySurveys" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_query_surveys) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_personal_information)" position="top" :useMaxContent="false"
-                :adjustPosition="true" v-if="state.missingPersonalInfo && !isRestrictedMode">
+            <Tooltip :text="$t(l.tooltip_personal_information)" position="left"
+                v-if="state.missingPersonalInfo && !isRestrictedMode">
                 <button class="btn chat-tool-button" @click="askPersonalInformation" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.profile_question_button) }} </span>
                     <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
                 </button>
             </Tooltip>
-            <Tooltip :text="$t(l.tooltip_suggestions)" position="top" :useMaxContent="false" :adjustPosition="true">
+            <Tooltip :text="$t(l.tooltip_suggestions)" position="left">
                 <button class="btn chat-tool-button" @click="makeSuggestions" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.tools_button_suggestions) }} </span>
                     <font-awesome-icon icon="fa-solid fa-lightbulb" />
                 </button>
             </Tooltip>
 
-            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="true" :adjustPosition="true"
-                class="xmark-icon">
+            <Tooltip :text="$t(l.tooltip_close)" position="left" class="xmark-icon">
                 <button class="btn chat-tool-button" @click="emits('close')" :tabindex="sidePanelTabindex">
                     <span class="chat-tool-button-text"> {{ $t(l.button_close) }} </span>
                     <div class="tooltip-inside circle-icon">

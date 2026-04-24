@@ -40,8 +40,7 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
             <div class="chat-summary-keyword" v-for="(keyword, i) in contentKeyword"
                 :key="'keyword_' + props.message.id + '_' + i">
                 <span class="chat-summary-keyword-label">{{ keyword }}</span>
-                <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top" :useMaxContent="true"
-                    :adjustPosition="true">
+                <Tooltip :text="$t(l.tooltip_remove_keyword)" position="top">
                     <button class="chat-summary-keyword-delete" type="button"
                         :aria-label="$t(l.tooltip_remove_keyword)"
                         @click="removeKeyword(keywords[i], true)">
@@ -55,14 +54,12 @@ const isLastMessage = computed(() => getLastMessage()?.id == props.message.id);
                 {{ $t(l.summary_acceptation_question) }}
             </h3>
             <span class="chat-summary-options-buttons">
-                <Tooltip :text="$t(l.tooltip_accept_summary)" position="top" :useMaxContent="true"
-                    :adjustPosition="true">
+                <Tooltip :text="$t(l.tooltip_accept_summary)" position="top">
                     <button @click="onAcceptSummary" class="btn button-accept">
                         {{ $t(l.button_yes) }}
                     </button>
                 </Tooltip>
-                <Tooltip :text="$t(l.tooltip_reject_summary)" position="top" :useMaxContent="true"
-                    :adjustPosition="true">
+                <Tooltip :text="$t(l.tooltip_reject_summary)" position="top">
                     <button @click="onRejectSummary" class="btn button-accept">
                         {{ $t(l.button_no) }}
                     </button>

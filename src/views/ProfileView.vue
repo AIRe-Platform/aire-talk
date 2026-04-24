@@ -36,12 +36,13 @@ const experiments_enabled = computed(() => {
 <template>
     <div class="profile-view">
         <div class="profile-content">
-            <Tooltip :text="$t(l.tooltip_close)" position="top" :useMaxContent="false" :adjustPosition="true"
-                class="xmark-icon">
-                <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
-                    href="#" @keydown.space="navigateTo('/chat')">
-                    <font-awesome-icon icon="fa-solid fa-xmark" />
-                </a>
+            <Tooltip :text="$t(l.tooltip_close)" position="left">
+                <div class="xmark-icon">
+                    <a class="tooltip-inside circle-icon" @click="navigateTo('/chat')" :aria-label="$t(l.tooltip_close)"
+                        href="#" @keydown.space="navigateTo('/chat')">
+                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                    </a>
+                </div>
             </Tooltip>
         </div>
         <div class="profile-header">

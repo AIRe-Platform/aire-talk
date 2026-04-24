@@ -20,7 +20,7 @@ function toggleShowTokens() {
     <div>
         <h2>{{ $t(l.profile_chat_history_tokens_heading) }}</h2>
         <div class="token-switch-wrapper">
-            <Tooltip :text="$t(l.tooltip_tokens)" position="top" :useMaxContent="false" :adjustPosition="false">
+            <Tooltip :text="$t(l.tooltip_tokens)" position="top">
                 <Switch input-id="chat-history-token-toggle"
                     :is-on="showTokens"
                     @change="toggleShowTokens"

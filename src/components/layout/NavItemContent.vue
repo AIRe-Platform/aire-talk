@@ -22,8 +22,7 @@ function formatTooltipKey(tooltip: string): string {
 <template>
     <div v-if="props.icon" :class="['icon ' + props.icon]">
     </div>
-    <Tooltip v-if="props.tooltip" :text=$t(formatTooltipKey(props.tooltip)) position="bottom" :useMaxContent="false"
-        :adjustPosition="false">
+    <Tooltip v-if="props.tooltip" :text=$t(formatTooltipKey(props.tooltip)) position="right">
         <div class="nav-link">
             {{ props.label }}
         </div>
