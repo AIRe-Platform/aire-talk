@@ -15,16 +15,18 @@ const props = defineProps<{
     tabindex: number,
     itemType: 'link' | 'button',
 }>()
+
+const compress = UIState.compressMenu();
 </script>
 
 <template>
     <a v-if="props.itemType === 'link'" href="#" class="nav-item" :aria-label="props.label"
-        :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
+        :class="[{ 'nav-item-active': props.active, 'small-layout': compress }]"
         :tabindex="props.tabindex" @click="$emit('click')" @keydown.space="$emit('click')">
         <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
     </a>
     <button v-else type="button" class="nav-item nav-btn" :aria-label="props.label"
-        :class="[{ 'nav-item-active': props.active, 'small-layout': UIState.isNavMenuCompressed }]"
+        :class="[{ 'nav-item-active': props.active, 'small-layout': compress }]"
         :tabindex="props.tabindex" @click="$emit('click')">
         <NavItemContent :label="props.label" :icon="props.icon" :tooltip="props.tooltip" />
     </button>

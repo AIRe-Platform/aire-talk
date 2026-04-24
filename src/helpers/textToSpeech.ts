@@ -4,7 +4,15 @@
 
 import { getUILanguage } from "@/locales";
 import { useSpeechSynthesis } from "@vueuse/core";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
+
+const ttsState = reactive<{
+    playing: boolean,
+    enabled: boolean
+}>({
+    playing: false,
+    enabled: (localStorage.getItem("tts-enabled") === "true")
+});
 
 export default function useTTS() {
     const synthesis = useSpeechSynthesis('')
@@ -26,6 +34,13 @@ export default function useTTS() {
         stop: () => {
             synthesis.stop();
         },
+        enable: (enabled: boolean) => {
+            localStorage.setItem("tts-enabled", enabled ? "true" : "false");
+            ttsState.enabled = enabled;
+        },
+        isEnabled: computed(() => {
+            return ttsState.enabled;
+        }),
         isSupported: computed(() => {
             synthesis.utterance.value.lang = getUILanguage().value;
             return synthesis.isSupported.value;

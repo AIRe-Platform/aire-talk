@@ -12,7 +12,6 @@ import useChatbot from "@/context/chatbot";
 import { getChatContentIds } from "@/helpers/contentUtils";
 import { conversationEnded } from "@/helpers/chatUtils";
 import useTTS from "@/helpers/textToSpeech";
-import { UISettings } from "@/context/ui";
 import useSTT from "@/helpers/speechToText";
 import { l } from "@/locales";
 import { ChatTutorialState } from "@/context/tutorials";
@@ -81,7 +80,7 @@ const toggleListening = () => {
 
 const tts = useTTS();
 const toggleTTS = () => {
-    UISettings.ttsEnabled = !UISettings.ttsEnabled;
+    tts.enable(!tts.isEnabled.value);
 }
 </script>
 
@@ -132,16 +131,16 @@ const toggleTTS = () => {
                     </Tooltip>
                 </template>
                 <template v-if="tts.isSupported.value">
-                    <Tooltip :text="UISettings.ttsEnabled
+                    <Tooltip :text="tts.isEnabled.value
                         ? $t(l.tooltip_chat_tts_read_new_messages_off)
-                        : $t(l.tooltip_chat_tts_read_new_messages_on)" position="top-left" :useMaxContent="true"
+                        : $t(l.tooltip_chat_tts_read_new_messages_on)" position="left" :useMaxContent="true"
                         :adjustPosition="true">
-                        <button class="chat-input-button" @click="toggleTTS" type="button" :aria-label="UISettings.ttsEnabled
+                        <button class="chat-input-button" @click="toggleTTS" type="button" :aria-label="tts.isEnabled.value
                             ? $t(l.tooltip_chat_tts_read_new_messages_off)
                             : $t(l.tooltip_chat_tts_read_new_messages_on)">
                             <div class="icon-background">
                                 <font-awesome-icon icon="fa-solid fa-volume-xmark" class="fa-volume-input"
-                                    v-if="UISettings.ttsEnabled" />
+                                    v-if="tts.isEnabled.value" />
                                 <font-awesome-icon icon="fa-solid fa-volume-high" class="fa-volume-input" v-else />
                             </div>
                         </button>

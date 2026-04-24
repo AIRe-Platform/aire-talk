@@ -16,72 +16,92 @@ export enum UIFontSize {
     Large = "font-large",
 }
 
-export interface UISettingsOptions {
-    fontSize: UIFontSize;
-    ttsEnabled: boolean;
-    tokensEnabled: boolean;
-}
+export class UIContext {
+    // State
+    // =====
+    private _showMenu: boolean = false;
+    private _compressMenu: boolean = false;
+    private _panels = new Set<UIPanels>;
 
-export interface UIStateOptions {
-    showMenu: boolean;
-    isNavMenuCompressed: boolean;
-    isClosingMenu: boolean;
-    panels: Set<UIPanels>;
-    chatHistoryButtonRef: HTMLElement | null;
-    settingsButtonRef: HTMLElement | null;
-    reminderModalRef: HTMLElement | null;
-}
+    // Settings
+    // ========
+    private _fontSize: UIFontSize;
+    private _tokensEnabled: boolean;
 
-export const UIState = reactive<UIStateOptions>({
-    showMenu: false,
-    isNavMenuCompressed: false,
-    isClosingMenu: false,
-    panels: new Set<UIPanels>(),
-    chatHistoryButtonRef: document.querySelector('.chat-history-nav-button') || null,
-    settingsButtonRef: document.querySelector('.settings-nav-button') || null,
-    reminderModalRef: null,
-});
+    constructor() {
+        this._fontSize = (localStorage.getItem("ui-font-size") || UIFontSize.Normal) as UIFontSize;
+        this.setFontSize(this._fontSize);
 
-export const UISettings = reactive<UISettingsOptions>(initSettings());
+        this._tokensEnabled = (localStorage.getItem("show-chat-tokens") === "true");
+    }
 
-function initSettings(): UISettingsOptions {
-    const options: UISettingsOptions = {
-        fontSize: (localStorage.getItem("ui-font-size") || UIFontSize.Normal) as UIFontSize,
-        ttsEnabled: (localStorage.getItem("tts-enabled") === "true"),
-        tokensEnabled: (localStorage.getItem("tokens-enabled") === "true"),
-    };
-    applyFontSize(options.fontSize);
-    return options;
-}
+    public isMenuOpen() {
+        return computed(() => this._showMenu);
+    }
 
-function applyFontSize(size: UIFontSize) {
-    document.documentElement.classList.remove(UIFontSize.Large, UIFontSize.Normal);
-    document.documentElement.classList.add(size);
-    localStorage.setItem("ui-font-size", size);
-}
+    public toggleMenu() {
+        if (this._showMenu) {
+            this.closeMenu();
+        }
+        else {
+            this._showMenu = true;
+        }
+    }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    public openMenu() {
+        this._showMenu = true;
+    }
 
-export async function refreshBurgerMenuButtonsRef() {
-    UIState.chatHistoryButtonRef = document.querySelector('.chat-history-nav-button') || null;
-    UIState.settingsButtonRef = document.querySelector('.settings-nav-button') || null;
-}
+    public closeMenu() {
+        this._showMenu = false;
+        this.closePanels();
+    }
 
-export async function closeBurgerMenu() {
-    if (UIState.showMenu) {
-        UIState.isClosingMenu = true;
-        await sleep(500);
-        UIState.isClosingMenu = false;
+    public isPanelOpen(panel: UIPanels) {
+        return computed(() => this._panels.has(panel));
+    }
+
+    public openPanel(panel: UIPanels) {
+        if (!this._panels.has(panel))
+            this._panels.add(panel);
+    }
+
+    public closePanel(panel: UIPanels) {
+        this._panels.delete(panel);
+    }
+
+    public closePanels() {
+        this._panels.clear();
+    }
+
+    public openPanels() {
+        return computed(() => [... this._panels]);
+    }
+
+    public compressMenu() {
+        return computed(() => this._compressMenu);
+    }
+
+    public fontSize() {
+        return computed(() => this._fontSize);
+    }
+
+    public showChatTokens() {
+        return computed(() => this._tokensEnabled);
+    }
+
+    public setFontSize(size: UIFontSize) {
+        document.documentElement.classList.remove(UIFontSize.Large, UIFontSize.Normal);
+        document.documentElement.classList.add(size);
+        localStorage.setItem("ui-font-size", size);
+        this._fontSize = size;
+    }
+
+    public setChatTokensVisible(show: boolean) {
+        localStorage.setItem("show-chat-tokens", show ? "true" : "false");
+        this._tokensEnabled = show;
     }
 }
 
 export const isRestrictedMode = computed(() => !!(useLogin().session?.invite));
-
-watch(UISettings,
-    (newSettings, _) => {
-        applyFontSize(newSettings.fontSize);
-        localStorage.setItem("tts-enabled", newSettings.ttsEnabled ? "true" : "false");
-        localStorage.setItem("tokens-enabled", newSettings.tokensEnabled ? "true" : "false");
-    },
-    { deep: true }
-);
+export const UIState = reactive(new UIContext());

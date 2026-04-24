@@ -18,6 +18,7 @@ import { HomeTutorialState } from '@/context/tutorials';
 
 const login = useLogin();
 const chat = useChat();
+const darkTheme = useTheme().isDarkTheme();
 
 const state = reactive<{
     showConfirmLogout: boolean,
@@ -70,7 +71,7 @@ onMounted(async () => {
             <div class="home-header">
                 <h1 class="visually-hidden">{{ $t(l.home_title) }}</h1>
                 <div class="home-header-title">
-                    <div class="aire-logo" v-if="state.theme.style == 'theme-default'">
+                    <div class="aire-logo" v-if="!darkTheme">
                         <img class="image-logo" src="@/assets/images/aire-logo-letter.svg"
                             :alt=$t(l.nav_menu_alternative_image_logo) />
                     </div>

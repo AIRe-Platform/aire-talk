@@ -17,7 +17,7 @@ const state = reactive<{
     open?: 'tos' | 'privacy' | 'accessibility',
 }>({});
 
-const theme = useTheme();
+const darkTheme = useTheme().isDarkTheme();
 const lang = getUILanguage();
 
 const toggleTermsModal = () => { state.open = 'tos'; };
@@ -49,7 +49,7 @@ const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
                             :alt="$t(l.about_goodlife_logo_alt)">
                     </a>
                     <a href="https://www.jamk.fi/fi" target="_blank">
-                        <template v-if="theme.style === 'theme-dark'">
+                        <template v-if="darkTheme">
                             <img v-if="lang === 'fi'" src="@/assets/images/jamk_tunnus_valkoinen_nimella_suomi.png"
                                 :alt="$t(l.about_jamk_logo_alt)">
                             <img v-else src="@/assets/images/jamk_tunnus_valkoinen_nimella_englanti.png"

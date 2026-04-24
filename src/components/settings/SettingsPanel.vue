@@ -5,53 +5,26 @@
 
 <script setup lang="ts">
 import { l } from "@/locales";
-import { onMounted, onUnmounted, ref } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
-import { UIFontSize, UIPanels, UISettings, UIState, closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
+import { UIFontSize, UIPanels, UIState } from "@/context/ui";
 import Tooltip from "@/components/common/Tooltip.vue";
 import LanguageSelector from "@/components/settings/LanguageSelector.vue";
 import ThemeSwitch from "@/components/settings/ThemeSwitch.vue";
 import Separator from "@/components/common/Separator.vue";
 import Panel from "@/components/common/Panel.vue";
 
-const settingsPanelRef = ref<HTMLElement | null>(null);
 const setTextSize = (e: Event) => {
     const el = e.target as HTMLSelectElement;
-    UISettings.fontSize = el.value as UIFontSize;
+    const fontSize = el.value as UIFontSize;
+    UIState.setFontSize(fontSize);
 }
 
 const onClickOutside = async (e: Event) => {
-    //If clicking outside of chatHistory panel is just clicking again in button of settings => do nothing
-    if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
-        e.stopImmediatePropagation();
-        //If it is chat history panel switch between them
-    } else if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
-        UIState.panels.add(UIPanels.ChatHistory);
-        UIState.panels.delete(UIPanels.Settings);
-        e.stopImmediatePropagation();
-    } else {
-        UIState.panels.delete(UIPanels.Settings);
-        await closeBurgerMenu();
-        UIState.isNavMenuCompressed = false;
-        UIState.showMenu = false;
-    }
+    UIState.closePanel(UIPanels.Settings);
+    e.stopImmediatePropagation();
 };
 
-const focusOutListener = async (e: FocusEvent) => {
-    const relTarget = e.relatedTarget as Node;
-    if (!settingsPanelRef.value?.contains(relTarget)) {
-        UIState.panels.delete(UIPanels.Settings);
-        if (UIState.isNavMenuCompressed)
-            UIState.isNavMenuCompressed = false;
-    }
-};
-
-onMounted(() => {
-    refreshBurgerMenuButtonsRef();
-    settingsPanelRef.value?.addEventListener('focusout', focusOutListener);
-});
-
-onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusOutListener));
+const currentSize = UIState.fontSize();
 </script>
 
 <template>
@@ -68,7 +41,7 @@ onUnmounted(() => settingsPanelRef.value?.removeEventListener('focusout', focusO
             <div class="settings-item">
                 <label for="settings-text-size">{{ $t(l.settings_ui_size) }}</label>
                 <Tooltip :text="$t(l.settings_ui_size)" position="top" :useMaxContent="false" :adjustPosition="true">
-                    <select id="settings-text-size" @change="setTextSize" :value="UISettings.fontSize">
+                    <select id="settings-text-size" @change="setTextSize" :value="currentSize">
                         <option :value="UIFontSize.Normal">{{ $t(l.settings_ui_size_normal) }}</option>
                         <option :value="UIFontSize.Large">{{ $t(l.settings_ui_size_large) }}</option>
                     </select>

@@ -8,11 +8,10 @@ import { l } from "@/locales";
 import { nextTick, onMounted, reactive, ref, watch } from "vue";
 import { vOnClickOutside } from "@vueuse/components";
 import { router } from "@/router";
-import { UIState, UIPanels, UISettings } from "@/context/ui";
+import { UIState, UIPanels } from "@/context/ui";
 import useChat from "@/context/chat";
 import { loadAllChats } from "@/helpers/chatUtils";
 import { useChatCache } from "@/context/cache";
-import { closeBurgerMenu, refreshBurgerMenuButtonsRef } from "@/context/ui";
 import Spinner from "@/components/common/Spinner.vue";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import { ChatMessageType } from "@/models/chat";
@@ -61,7 +60,6 @@ const refresh = () => {
         })
         .finally(() => {
             state.busy = false;
-            refreshBurgerMenuButtonsRef();
         });
 };
 
@@ -74,24 +72,13 @@ const isOpen = (id: string) => {
 };
 
 const onSelect = async (id: string) => {
-    if (isOpen(id)) {
-        UIState.panels.delete(UIPanels.ChatHistory);
-        await closeBurgerMenu();
-        UIState.isNavMenuCompressed = false;
-        UIState.showMenu = false;
-        return;
+    if (!isOpen(id)) {
+        router.push({
+            name: "Chat",
+            params: { id: id }
+        });
     }
-
-    router.push({
-        name: "Chat",
-        params: { id: id }
-    });
-
-    UIState.panels.delete(UIPanels.ChatHistory);
-    await closeBurgerMenu();
-    emit("closePanel", undefined);
-    UIState.showMenu = false;
-    UIState.isNavMenuCompressed = false;
+    UIState.closeMenu();
 };
 
 const onConfirmDelete = () => {
@@ -141,7 +128,7 @@ const getLastMessage = (id: string) => {
 };
 
 const getTokenCount = (id: string) => {
-    if(!UISettings.tokensEnabled || !AireServices.ID?.hasScope(AireScope.FeatureTokenCount))
+    if (!UIState.showChatTokens().value || !AireServices.ID?.hasScope(AireScope.FeatureTokenCount))
         return undefined;
 
     const log = cache.get(id);
@@ -150,23 +137,8 @@ const getTokenCount = (id: string) => {
 };
 
 const onClickOutside = async (e: Event) => {
-    //If clicking outside of chatHistory panel is just clicking again in button of chat history => do nothing
-    if (UIState.chatHistoryButtonRef && UIState.chatHistoryButtonRef.contains(e.target as Node)) {
-        e.stopImmediatePropagation();
-        //If it is settings panel switch between them
-    } else if (UIState.settingsButtonRef && UIState.settingsButtonRef.contains(e.target as Node)) {
-        UIState.panels.delete(UIPanels.ChatHistory);
-        UIState.panels.add(UIPanels.Settings);
-        e.stopImmediatePropagation();
-    } else {
-        if (!state.deleteId) {
-            UIState.panels.delete(UIPanels.ChatHistory);
-
-            await closeBurgerMenu();
-            UIState.isNavMenuCompressed = false;
-            UIState.showMenu = false;
-        }
-    }
+    UIState.closePanel(UIPanels.ChatHistory);
+    e.stopImmediatePropagation();
 };
 
 watch(() => state.showChatDeletedMessage, (newVal) => {

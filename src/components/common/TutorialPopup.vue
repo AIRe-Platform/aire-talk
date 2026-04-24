@@ -67,7 +67,7 @@ watch(route, (newRoute) => {
         trySetPosition();
 });
 // This sets the menu tutorial positions properly.
-watch(() => UIState.showMenu, () => {
+watch(UIState.isMenuOpen(), () => {
     if (props.tutorial.shouldShow(route)) {
         setTimeout(trySetPosition, 250); // Same duration as the transition duration in `.nav-menu`.
     }
@@ -106,7 +106,7 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
 
 <template>
     <div ref="popupRef"
-        class="tutorial-pupup"
+        class="tutorial-popup"
         :class="[props.tutorial.trianglePosition]"
         :style="[positionStyle, opacityStyle]">
         <span>{{ message }}</span>
@@ -126,7 +126,7 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
 </template>
 
 <style lang="scss" scoped>
-.tutorial-pupup {
+.tutorial-popup {
     --spacing: 1rem;
     display: grid;
     gap: calc(var(--spacing) / 2);
@@ -134,7 +134,7 @@ const opacityStyle = computed(() => ({ opacity: props.tutorial.isVisible(route) 
     padding: calc(var(--spacing) / 2) var(--spacing);
     border-radius: var(--spacing);
     position: absolute;
-    z-index: 8;
+    z-index: 20;
     box-shadow: 0 0 calc(var(--spacing) * 1.5) rgb(43, 43, 43);
     transition: opacity 350ms ease-in-out;
     background-color: #fff;

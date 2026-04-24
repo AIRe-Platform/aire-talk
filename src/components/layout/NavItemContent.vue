@@ -5,10 +5,8 @@
 -->
 
 <script setup lang="ts">
-import { UIState } from '@/context/ui';
 import Tooltip from '../common/Tooltip.vue';
 
-// eslint-disable-next-line no-undef
 const props = defineProps<{
     label: string,
     icon?: string,
@@ -22,7 +20,7 @@ function formatTooltipKey(tooltip: string): string {
 </script>
 
 <template>
-    <div v-if="props.icon || UIState.isNavMenuCompressed" :class="['icon ' + props.icon]">
+    <div v-if="props.icon" :class="['icon ' + props.icon]">
     </div>
     <Tooltip v-if="props.tooltip" :text=$t(formatTooltipKey(props.tooltip)) position="bottom" :useMaxContent="false"
         :adjustPosition="false">

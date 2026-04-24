@@ -7,7 +7,6 @@
 <script setup lang="ts">
 import { AppState } from '@/main';
 import { UIState } from '@/context/ui';
-import { closeBurgerMenu } from "@/context/ui";
 import FooterBar from '@/components/layout/FooterBar.vue';
 import NavMenu from '@/components/layout/NavMenu.vue';
 import AppLoadingIndicator from '@/components/layout/AppLoadingIndicator.vue';
@@ -37,11 +36,9 @@ const state = reactive<{
 let logoutCountdownInterval: number | undefined;
 
 const closeNavMenu = async () => {
-    await closeBurgerMenu();
-    UIState.showMenu = false;
-    UIState.isNavMenuCompressed = false;
-    UIState.panels.clear();
+    UIState.closeMenu();
 };
+const menuOpen = UIState.isMenuOpen();
 
 const onInactivityTimeout = async () => {
     stopInactivityListener();
@@ -68,11 +65,6 @@ const setInactivityWarningPopupVisibility = (newState: boolean) => {
         clearInterval(logoutCountdownInterval);
     }
 }
-const closeAllTooltips = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-        tooltipState.isVisible = false;
-    }
-};
 
 onMounted(() => {
     const search = new URLSearchParams(window.location.search);
@@ -84,7 +76,7 @@ onMounted(() => {
     }
 
     state.showInactivityPopup = search.get("inactivity") == "1";
-    
+
     const stopLoginWatch = watch(
         () => login.user,
         (user) => {
@@ -96,12 +88,10 @@ onMounted(() => {
             }
         }
     );
-    document.addEventListener('keydown', closeAllTooltips);
 
     onUnmounted(() => {
         stopLoginWatch();
         stopInactivityListener();
-        document.removeEventListener('keydown', closeAllTooltips);
     });
 
     const langSelected = hasSelectedLanguage();
@@ -119,11 +109,14 @@ onMounted(() => {
     </DialogModal>
     <div id="main" v-if="AppState === 'loaded'">
         <LanguagePopup v-if="state.showLanguagePopup" />
+        <template v-if="login.user">
+            <TutorialPopup :tutorial="TutorialStates.home" v-if="!TutorialStates.home.isDone()" />
+            <TutorialPopup :tutorial="TutorialStates.chat" v-if="!TutorialStates.chat.isDone()" />
+            <TutorialPopup :tutorial="TutorialStates.nav" v-if="menuOpen && !TutorialStates.nav.isDone()" />
+        </template>
         <NavMenu />
         <main class="main-content">
-            <TutorialPopup :tutorial="TutorialStates.home" v-if="login.user && !TutorialStates.home.isDone()" />
-            <TutorialPopup :tutorial="TutorialStates.chat" v-if="login.user && !TutorialStates.chat.isDone()" />
-            <div class="main-mask" v-if="UIState.showMenu" @click="closeNavMenu"></div>
+            <div class="main-mask" v-if="menuOpen" @click="closeNavMenu"></div>
             <RouterView />
         </main>
         <FooterBar />

@@ -79,7 +79,7 @@ class HomeTutorial extends TutorialBase<typeof HomeTutorialState> implements ITu
 
     shouldShow(route: RouteLocationNormalizedLoaded): boolean {
         return route.matched.some((p) => p.name === 'Home') &&
-            (!UIState.showMenu || UIState.isClosingMenu);
+            (!UIState.isMenuOpen().value);
     }
 
     calculatePosition(elRect: DOMRect, popupRect: DOMRect): void {
@@ -152,7 +152,7 @@ class NavMenuTutorial extends TutorialBase<typeof NavMenuTutorialState> implemen
     }
 
     shouldShow(): boolean {
-        return UIState.showMenu && !UIState.isClosingMenu;
+        return UIState.isMenuOpen().value;
     }
 
     calculatePosition(elRect: DOMRect, popupRect: DOMRect): void {
@@ -204,7 +204,7 @@ class ChatTutorial extends TutorialBase<typeof ChatTutorialState> implements ITu
 
     shouldShow(route: RouteLocationNormalizedLoaded): boolean {
         return route.matched.some((p) => p.name === 'Chat') &&
-            (!UIState.showMenu || UIState.isClosingMenu);
+            (!UIState.isMenuOpen().value);
     }
 
     calculatePosition(elRect: DOMRect, popupRect: DOMRect): void {

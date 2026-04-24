@@ -5,17 +5,15 @@
 -->
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import Switch from '../common/Switch.vue';
-import { UISettings } from '@/context/ui';
 import { l } from '@/locales';
 import Tooltip from '../common/Tooltip.vue';
+import { UIState } from '@/context/ui';
 
-const showTokens = ref<boolean>(UISettings.tokensEnabled);
+const showTokens = UIState.showChatTokens();
 
 function toggleShowTokens() {
-    showTokens.value = !showTokens.value;
-    UISettings.tokensEnabled = showTokens.value;
+    UIState.setChatTokensVisible(!showTokens.value);
 }
 </script>
 <template>

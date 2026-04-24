@@ -22,7 +22,6 @@ import {
     queryAndStartQuestionnaireWithKeyword, removeKeyword, showContentSuggestions
 } from "./chatUtils";
 import useTTS from "./textToSpeech";
-import { UISettings } from "@/context/ui";
 import {
     createAssistantMessage, createInstructionMessage, createReminderCreatedMessage,
     createSystemMessage
@@ -282,7 +281,7 @@ class ChatEventHandler {
             if (message.id === last?.id)
                 chat.push(last, false, true);
 
-            if (UISettings.ttsEnabled)
+            if (tts.isEnabled.value)
                 tts.speak(message.content!);
         }
 

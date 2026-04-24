@@ -16,22 +16,14 @@ import ProfileDeletionForm from "@/components/profile/ProfileDeletionForm.vue";
 import Separator from "@/components/common/Separator.vue";
 import ProfileExperiments from "@/components/profile/ProfileExperiments.vue";
 import Tooltip from "@/components/common/Tooltip.vue";
-import { computed, onMounted, reactive } from "vue";
-import useTheme, { ThemeContext } from "@/context/theme";
+import { computed } from "vue";
+import useTheme from "@/context/theme";
 import ProfileChatHistoryTokens from "@/components/profile/ProfileChatHistoryTokens.vue";
 
-const state = reactive<{
-    theme: ThemeContext,
-}>({
-    theme: new ThemeContext()
-});
+const darkTheme = useTheme().isDarkTheme();
 const navigateTo = (path: string) => {
     router.push(path);
 }
-
-onMounted(async () => {
-    state.theme = useTheme();
-})
 
 const experiments_enabled = computed(() => {
     return (
@@ -54,7 +46,7 @@ const experiments_enabled = computed(() => {
         </div>
         <div class="profile-header">
             <div class="profile-logo">
-                <div class="image-logo" v-if="state.theme.style == 'theme-default'">
+                <div class="image-logo" v-if="!darkTheme">
                     <img src="@/assets/images/aire-logo-letter.svg" :alt=$t(l.profile_view_alternative_image_logo) />
                 </div>
                 <div class="image-logo" v-else>

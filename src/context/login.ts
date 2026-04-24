@@ -74,7 +74,7 @@ export class LoginContext {
             code_challenge_method: "S256",
             redirect_uri: document.location.origin + "/auth/callback",
             locale: getUILanguage().value,
-            theme: useTheme().style.includes("dark") ? "dark" : "light",
+            theme: useTheme().isDarkTheme().value ? "dark" : "light",
         };
 
         const state = {
@@ -245,7 +245,7 @@ export class LoginContext {
         if (AireServices.ID) {
             const options: AireLogoutOptions = {
                 return_url: document.location.origin,
-                theme: useTheme().style.includes("dark") ? "dark" : "light",
+                theme: useTheme().isDarkTheme().value ? "dark" : "light",
                 locale: getUILanguage().value
             };
 
