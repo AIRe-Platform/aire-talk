@@ -92,6 +92,7 @@ defineComponent({ name: "ModalComponent" })
 .modal-content {
     overflow-x: auto;
     overflow-y: auto;
+    padding: 0.5rem;
     display: flex;
     align-items: stretch;
 }
