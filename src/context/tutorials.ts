@@ -6,6 +6,8 @@ import { reactive } from "vue";
 import { RouteLocationNormalizedLoaded } from "vue-router";
 import { UIState } from "./ui";
 import useLogin from "./login";
+import useChat from "./chat";
+import { conversationEnded } from "@/helpers/chatUtils";
 
 const login = useLogin();
 
@@ -204,7 +206,7 @@ class ChatTutorial extends TutorialBase<typeof ChatTutorialState> implements ITu
 
     shouldShow(route: RouteLocationNormalizedLoaded): boolean {
         return route.matched.some((p) => p.name === 'Chat') &&
-            (!UIState.isMenuOpen().value);
+            (!UIState.isMenuOpen().value) && !conversationEnded(useChat().messages);
     }
 
     calculatePosition(elRect: DOMRect, popupRect: DOMRect): void {
