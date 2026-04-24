@@ -29,7 +29,7 @@ export async function getAllSuggestedContentFromHistory(): Promise<{ chatId: str
         if (!chat)
             continue;
 
-        getChatContentIds(chat.messages).forEach(contentId => {
+        getChatContentIds(chat.messages ?? []).forEach(contentId => {
             content.push({
                 chatId: id,
                 contentId: contentId
