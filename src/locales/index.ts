@@ -5,6 +5,7 @@
 import { createI18n } from 'vue-i18n';
 import en from './en';
 import fi from './fi';
+import sv from './sv';
 import es from './es';
 import vi from './vi';
 import id from './id';
@@ -19,20 +20,28 @@ export const l = LocalizationKey;
 export type Locale = { [id in LocalizationKey]: string };
 
 export const supportedLocales: LanguageCode[] = [
-    "en", "fi", "es", "vi", "id", "sw", "rw"
+    "en", "fi", "sv", "es", "vi", "id", "sw", "rw"
 ]
 
 const LANGUAGE_KEY = "locale";
-const DEFAULT_LANGUAGE_SELECTED = "hasSelectedLanguage";
 
 const i18n = initLocale();
 export default i18n;
 
 function initLocale() {
-    const storedLocale = localStorage.getItem(LANGUAGE_KEY);
+    const storedLocale = getStoredLanguage();
+    const browserLocale = getBrowserLanguage();
     const defaultLocale: LanguageCode = "en";
 
-    const loc = storedLocale ?? defaultLocale;
+    let loc: LanguageCode | null = defaultLocale;
+    if (storedLocale) {
+        loc = storedLocale;
+    }
+    else if (browserLocale) {
+        loc = browserLocale;
+        setLanguageSetting(loc);
+    }
+
     document.documentElement.lang = loc;
 
     return createI18n({
@@ -41,6 +50,7 @@ function initLocale() {
         messages: {
             en: { ...en },
             fi: { ...fi },
+            sv: { ...sv },
             es: { ...es },
             id: { ...id },
             sw: { ...sw },
@@ -53,15 +63,15 @@ function initLocale() {
 }
 
 export function setUILanguage(lang: LanguageCode) {
-    if (!supportedLocales.includes(lang)) return;
+    if (!supportedLocales.includes(lang))
+        return;
 
     document.documentElement.lang = lang;
 
     const loc = i18n.global.locale as any;
     loc.value = lang;
 
-    localStorage.setItem(LANGUAGE_KEY, lang);
-    localStorage.setItem(DEFAULT_LANGUAGE_SELECTED, "true"); // Mark as language selected
+    setLanguageSetting(lang);
 }
 
 export function getUILanguage() {
@@ -72,5 +82,24 @@ export function getUILanguage() {
 }
 
 export function hasSelectedLanguage() {
-    return localStorage.getItem(DEFAULT_LANGUAGE_SELECTED) === "true";
+    return localStorage.getItem(LANGUAGE_KEY) != null;
+}
+
+function getStoredLanguage() {
+    return localStorage.getItem(LANGUAGE_KEY) as LanguageCode | null;
+}
+
+function setLanguageSetting(lang: LanguageCode) {
+    localStorage.setItem(LANGUAGE_KEY, lang);
+}
+
+function getBrowserLanguage() {
+    if (navigator.language.length < 2)
+        return null;
+
+    const lang = navigator.language.substring(0, 2) as LanguageCode;
+    if (supportedLocales.includes(lang))
+        return lang;
+    else
+        return null;
 }

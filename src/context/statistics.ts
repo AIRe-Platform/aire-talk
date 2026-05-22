@@ -18,8 +18,10 @@ export class StatisticsContext {
 
         await this.sendEvent(this.session)
             .then(event => {
-                if (event && this.session)
+                if (event && this.session) {
                     this.session.id = event.id;
+                    this.session.session_id = event.id;
+                }
             })
 
         if (auto_update)

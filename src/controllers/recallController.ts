@@ -124,7 +124,7 @@ export async function createRecallQuestionnaire(): Promise<Questionnaire | undef
                 foundKeywords.push(x);
         })
 
-        if (chatlog.state.summary) {
+        if (chatlog.state?.summary) {
             foundSummaries.push(chatlog.state.summary)
         }
     })

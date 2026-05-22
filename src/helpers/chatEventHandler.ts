@@ -6,22 +6,29 @@ import useChat from "@/context/chat";
 import useQuestionnaire from "@/context/questionnaire";
 import { ChatMessageTag, ChatMessageType } from "@/models/chat";
 import {
-    AireAgentSwitchEvent, AireContentEvent, AireDocumentResultsEvent, AireEndEvent,
-    AireKeywordEvent, AireMessageEvent, AireQuestionnaireEvent, AireReminderEvent, AireStatsEvent, AireStatus
+    AireAgentSwitchEvent,
+    AireContentEvent,
+    AireDocumentResultsEvent,
+    AireEndEvent,
+    AireKeywordEvent,
+    AireMessageEvent,
+    AireQuestionnaireEvent,
+    AireReminderEvent,
+    AireTokenStatsEvent,
+    AireStatus
 } from "aire";
 import {
     getLastMessage, listChatKeywords, onEndConversation, pushKeyword,
     queryAndStartQuestionnaireWithKeyword, removeKeyword, showContentSuggestions
 } from "./chatUtils";
 import useTTS from "./textToSpeech";
-import { UISettings } from "@/context/ui";
 import {
     createAssistantMessage, createInstructionMessage, createReminderCreatedMessage,
     createSystemMessage
 } from "./chatMessages";
 import useStatistics from "@/context/statistics";
 import useLogin from "@/context/login";
-import { ReminderEvent, ReminderEventName } from "@/models/statistics";
+import { ChatTokenStatsEvent, ReminderEvent, ReminderEventName } from "@/models/statistics";
 import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
 import { createQuestionnaire, getChatQuestionnairesIds } from "./questionnaireUtils";
 import useAireMemory from "@/context/memory";
@@ -144,10 +151,19 @@ class ChatEventHandler {
         chat.forceFollowUp();
     }
 
-    public async handleStatsEvent(stats: AireStatsEvent) {
+    public async handleStatsEvent(stats: AireTokenStatsEvent) {
         console.debug("Handling stats event", stats);
         const chat = useChat();
-        chat.stats.token_count = stats.token_count;
+        chat.stats.token_count = stats.total_tokens;
+
+        const statistics = useStatistics();
+
+        statistics.sendEvent(new ChatTokenStatsEvent(
+            chat.id,
+            useLogin().user?.uuid,
+            statistics.session?.id,
+            stats
+        ));
     }
 
     public async handleReminderEvent(e: AireReminderEvent) {
@@ -265,7 +281,7 @@ class ChatEventHandler {
             if (message.id === last?.id)
                 chat.push(last, false, true);
 
-            if (UISettings.ttsEnabled)
+            if (tts.isEnabled.value)
                 tts.speak(message.content!);
         }
 

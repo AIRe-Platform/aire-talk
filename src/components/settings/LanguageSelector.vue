@@ -27,7 +27,7 @@ const setLang = async (e: Event) => {
 <template>
     <div class="language-selector-panel">
         <label for="settings-language" v-if="!props.hideLabel">{{ $t(l.settings_language) }}</label>
-        <Tooltip :text="$t(l.tooltip_menu_language)" position="top" :useMaxContent="false" :adjustPosition="true">
+        <Tooltip :text="$t(l.tooltip_menu_language)" position="top">
             <select id="settings-language" class="capitalize" @change="setLang" :value="!props.blank ? $i18n.locale : ''">
                 <option v-if="props.blank" value="" disabled hidden> {{ props.blank }} </option>
                 <option v-for="lang in supportedLocales" :value="lang" :key="lang">

@@ -49,7 +49,7 @@ const getIconClass = (type: AireContentType | undefined): string => {
                     :aria-label=$t(l.screen_recorder_content_published)>
                     {{ new Date(props.content.modified).toLocaleString($i18n.locale) }}
                 </div>
-                <Tooltip :text="`${$t(l.screen_recorder_content_type)} ${props.content.type}`">
+                <Tooltip :text="`${$t(l.screen_recorder_content_type)} ${props.content.type}`" position="bottom">
                     <div :class="getIconClass(props.content.type)" class="icon" tabindex="0"
                         :aria-label="`${$t(l.screen_recorder_content_type)} ${props.content.type}`"></div>
                 </Tooltip>

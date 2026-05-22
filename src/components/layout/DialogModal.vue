@@ -62,22 +62,30 @@ onUnmounted(() => observer?.disconnect());
     <div ref="dialogModalRef" @keydown.prevent.tab.exact="switchFocus(true, dialogModalRef)"
         @keydown.prevent.shift.tab="switchFocus(false, dialogModalRef)">
         <Modal :active="props.active" :show-close-button="props.showCloseButton" @close="handleClose">
-            <div class="dialog-question" :id="props.questionId">
-                <slot></slot>
-            </div>
-            <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
-                <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)" :key="`dialog-button-${i}`"
-                    :aria-describedby="props.questionId"
-                    :class="btn.className">
-                    {{ $t(btn.loc_key) }}
-                </button>
+            <div class="dialog-content">
+                <div class="dialog-question" :id="props.questionId">
+                    <slot></slot>
+                </div>
+                <div v-if="hasButtons" class="dialog-buttons" ref="buttonsRef">
+                    <button class="btn" v-for="(btn, i) in props.buttons" @click.stop="emitSelect(i)"
+                        :key="`dialog-button-${i}`" :aria-describedby="props.questionId" :class="btn.className">
+                        {{ $t(btn.loc_key) }}
+                    </button>
+                </div>
             </div>
         </Modal>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .dialog-question {
+    text-align: center;
     font-size: var(--font-medium);
     font-family: var(--font-family);
 }
@@ -86,9 +94,13 @@ onUnmounted(() => observer?.disconnect());
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    gap: 1rem;
+    gap: 2rem;
     flex-wrap: wrap;
-    margin-top: 3rem;
+
+    .btn {
+        min-width: 8rem;
+        min-height: 2.5rem;
+    }
 }
 
 .cancel-button {

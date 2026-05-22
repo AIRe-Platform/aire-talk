@@ -5,7 +5,7 @@
 
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { l } from '@/locales';
 import { router } from '@/router';
 import { AireStatus } from 'aire';

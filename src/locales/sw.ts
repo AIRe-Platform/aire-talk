@@ -22,7 +22,7 @@ const sw: Locale = {
 
     conversation_option_continue: "Endelea na mazungumzo",
     conversation_option_new_chat: "Anzisha mazungumzo mapya",
-    conversation_option_give_feedback: "Give feedback",
+    conversation_option_give_feedback: "Toa maoni",
 
     notification_keyword: "Mandhari \"{keyword}\" inatambulika",
 
@@ -37,7 +37,7 @@ const sw: Locale = {
     start_disclaimer: "AIRe si zana ya uchunguzi wa kimatibabu.",
     start_view_alternative_image_logo: "Nembo ya chatbot ya AIRe kwa mtazamo wa mwanzo.",
 
-    home_title: "home_title",
+    home_title: "Ukurasa wa nyumbani wa AIRe",
     home_start_new_chat: "Anzisha gumzo jipya",
     home_continue_chat: "Endelea gumzo la awali",
     home_view_alternative_image_logo: "Picha ya nembo ya mtazamo wa nyumbani wa AIRe.",
@@ -67,7 +67,7 @@ const sw: Locale = {
     nav_logout: "Ondoka",
     nav_signup: "Jisajili",
     nav_preferences: "Mipangilio",
-    nav_main_menu: "Ukurasa wa mbele",
+    nav_main_menu: "Menyu kuu",
     nav_catalogue: "Katalogi ya Maudhui",
     nav_about: "Kuhusu",
     nav_menu_alternative_image_logo: "Nembo ya menyu ya urambazaji ya AIRe.",
@@ -334,6 +334,7 @@ const sw: Locale = {
     about_accessibility: "Taarifa ya ufikiaji",
     about_authors: "Waandishi",
     about_collaboration: "Imefanywa kwa ushirikiano na",
+    about_support: "Je, unahitaji usaidizi katika kutumia huduma hii?",
 
     feedback_question_confirm: "Je, unataka kutoa kama mrejesho?",
     feedback_question_completed: "Bofya endelea ikiwa majibu ni sahihi. Asante.",
@@ -391,9 +392,10 @@ const sw: Locale = {
 
     en: "Kiingereza",
     fi: "Kifini",
+    sv: "Kiswidi",
     es: "Kihispania",
     vi: "Kivietinamu",
-    id: "Kihindonesia",
+    id: "Kiindonesia",
     sw: "Kiswahili",
     rw: "Kinyarwanda"
 };
