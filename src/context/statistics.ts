@@ -13,8 +13,7 @@ const SESSION_UPDATE_INTERVAL = 60 * 1000;
 export interface SessionStatsProps {
     session_id?: string;
     user_id?: string;
-    invite_id?: string;
-    invite_name?: string;
+    invitation?: string;
     [key: string]: string | undefined;
 }
 

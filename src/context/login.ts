@@ -192,8 +192,7 @@ export class LoginContext {
                     }
 
                     const sessionStarted = await this.startSession({
-                        invite_id: res.data.invite_id,
-                        invite_name: res.data.invite_name
+                        invitation: res.data.invitation
                     });
 
                     if (!sessionStarted)
