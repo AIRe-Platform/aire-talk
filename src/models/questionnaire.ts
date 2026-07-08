@@ -10,7 +10,8 @@ export enum QuestionnaireControlFlow
     Default = "default",
     PersonalInfo = "personal_info",
     RecallConversations = "recall_conversations",
-    Feedback = "feedback"
+    Feedback = "feedback",
+    External = "external",
 }
 
 export interface Questionnaire {
@@ -22,4 +23,5 @@ export interface Questionnaire {
     completed: boolean;
     is_feedback?: boolean;
     memory: string;
+    external_url?: string;
 }

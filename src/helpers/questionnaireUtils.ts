@@ -14,6 +14,7 @@ import { getUILanguage } from "@/locales";
 import { listChatKeywords } from "./chatUtils";
 import { ChatMessageType } from "@/models/chat";
 import useAireMemory from "@/context/memory";
+import { openInNewTab } from "./linkUtils";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -24,12 +25,18 @@ export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory
     if (!model.id)
         return undefined;
 
+    if (model.external_url && model.is_feedback) {
+        openInNewTab(model.external_url);
+        return;
+    }
+
     const keywords = listChatKeywords();
     const questions = getRelevantQuestions(model, keywords);
     const answers = getAnsweredQuestions(model.id);
     const unanswered = getUnansweredQuestions(questions, answers);
     const isFeedback = model.is_feedback;
-    if (unanswered.length === 0)
+
+    if (unanswered.length === 0 && !model.external_url)
         return;
 
     return {
@@ -37,9 +44,14 @@ export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory
         name: model.name,
         queue: unanswered,
         answers: [],
-        controller_type: QuestionnaireControlFlow.Default,
+        controller_type: (
+            !!(model.external_url)
+                ? QuestionnaireControlFlow.External
+                : QuestionnaireControlFlow.Default
+        ),
         completed: false,
         is_feedback: isFeedback,
+        external_url: model.external_url,
         memory: source.id
     };
 }
@@ -95,6 +107,9 @@ export async function queryFeedbackQuestionnaire(): Promise<{ source: string, re
 }
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {
+    if (!questionnaire.content)
+        return [];
+
     const questions = questionnaire.content.flatMap(x => {
         let match_content = x.keywords === undefined || x.keywords.length < 1;
         if (x.keywords)
