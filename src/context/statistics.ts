@@ -10,17 +10,28 @@ import useAireMemory from "./memory";
 
 const SESSION_UPDATE_INTERVAL = 60 * 1000;
 
+export interface SessionStatsProps {
+    session_id?: string;
+    user_id?: string;
+    invite_id?: string;
+    invite_name?: string;
+    [key: string]: string | undefined;
+}
+
 export class StatisticsContext {
     session?: SessionStatsEvent;
+    props: SessionStatsProps = {};
 
-    public async startSession(user_id: string | undefined, auto_update: boolean = true) {
-        this.session = new SessionStatsEvent(user_id);
+    public async startSession(props: SessionStatsProps = {}, auto_update: boolean = true) {
+        this.session = new SessionStatsEvent();
+        this.props = props;
 
         await this.sendEvent(this.session)
             .then(event => {
                 if (event && this.session) {
                     this.session.id = event.id;
                     this.session.session_id = event.id;
+                    this.props.session_id = event.id;
                 }
             })
 
@@ -42,6 +53,8 @@ export class StatisticsContext {
 
     public async sendEvent(event: StatisticsEventBase): Promise<AireStatisticsEvent | undefined> {
         const memory = useAireMemory().platformDefault();
+        event = { ...event, ...this.props }
+
         return await memory?.postStatisticsEvent(event)
             .then(result => {
                 if (result.status == AireStatus.Success && result.data) {

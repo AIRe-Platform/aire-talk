@@ -17,7 +17,6 @@ import QuestionnaireController from "./questionnaireController";
 import { openInNewTab } from "@/helpers/linkUtils";
 import useChat from "@/context/chat";
 import useStatistics from "@/context/statistics";
-import useLogin from "@/context/login";
 import { SurveyEvent, SurveyEventName } from "@/models/statistics";
 
 const ExternalQuestionnaireController: QuestionnaireController = {
@@ -53,16 +52,13 @@ const ExternalQuestionnaireController: QuestionnaireController = {
     onComplete: (self: Questionnaire) => {
         const chat = useChat();
         const statistics = useStatistics();
-        const user = useLogin();
         const context = useQuestionnaire();
 
         statistics.sendEvent(new SurveyEvent(
             SurveyEventName.Open,
             self.name,
             self.external_url ?? "",
-            chat.id,
-            user.user?.uuid,
-            statistics.session?.id
+            chat.id
         ));
 
         context.reset();

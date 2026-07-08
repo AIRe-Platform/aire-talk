@@ -360,13 +360,7 @@ async function streamResponse() {
         await AireServices.AI.stream(input, receiver, errorHandler);
 
         const responseTime = Date.now() - start; // Calculate response time
-
-        statistics.sendEvent(new ResponseTimeEvent(
-            responseTime,
-            chat.id,
-            useLogin().user?.uuid,
-            statistics.session?.id
-        ));
+        statistics.sendEvent(new ResponseTimeEvent(responseTime, chat.id));
 
         // Only add delay if the response was quick (less than 200 ms)
         if (responseTime < 200) {

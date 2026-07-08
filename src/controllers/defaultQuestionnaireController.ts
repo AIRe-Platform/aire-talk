@@ -24,7 +24,6 @@ import {
 } from "aire";
 import QuestionnaireController from "./questionnaireController";
 import useStatistics from "@/context/statistics";
-import useLogin from "@/context/login";
 import { FeedbackEvent } from "@/models/statistics";
 import { ChatMessageType } from "@/models/chat";
 import useAireMemory from "@/context/memory";
@@ -52,7 +51,6 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const context = useQuestionnaire();
         const chat = useChat();
         const statistics = useStatistics();
-        const user = useLogin();
         const questionFeedbackId: string = "feedback.";
 
         if (question.question_id === `${self.id}_start`) {
@@ -95,10 +93,8 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             statistics.sendEvent(new FeedbackEvent(
                 questionFeedbackId + question.question_id,
                 chat.id,
-                user.user?.uuid,
                 answerIndex,
                 question.question,
-                statistics.session?.id,
                 themesString
             ));
 

@@ -37,14 +37,12 @@ import {
     ContentEvent,
     ContentEventName,
 } from "@/models/statistics";
-import useLogin from "@/context/login";
 import { useChatCache } from "@/context/cache";
 import useAireMemory from "@/context/memory";
 import useKeywords from "@/context/keywords";
 
 const statistics = useStatistics();
 const chat = useChat();
-const login = useLogin();
 
 /**
  * Load all chats and cache chat resources
@@ -163,14 +161,10 @@ export function getLastMessage(): ChatMessage | undefined {
 }
 
 export async function onAcceptSummary() {
-    const keywords = listChatKeywords()
-    keywords.forEach((kw) => statistics.sendEvent(new ChatThemeEvent(
-        kw,
-        chat.id,
-        login.user?.uuid,
-        statistics.session?.id,
-        ChatThemeEventName.ThemeConfirmed,
-    )))
+    const keywords = listChatKeywords();
+    keywords.forEach((kw) => statistics.sendEvent(
+        new ChatThemeEvent(kw, chat.id, ChatThemeEventName.ThemeConfirmed,)
+    ));
     await suggestContentWithKeywords(keywords);
 
     const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
@@ -190,8 +184,6 @@ export async function onAcceptSummary() {
         tokenCount,
         keywords.join(','),
         chat.id,
-        login.user?.uuid,
-        statistics.session?.id,
         summary
     ));
 }
@@ -255,8 +247,6 @@ export async function showContentSuggestions(content: AireContent[]) {
             x.name,
             keywords,
             chat.id,
-            login.user?.uuid,
-            statistics.session?.id,
             ContentEventName.Showed
         ));
 
@@ -472,13 +462,7 @@ export function pushKeyword(keyword: AireKeyword) {
     const notification = createKeywordMessage(keyword);
     chat.push(notification);
 
-    statistics.sendEvent(new ChatThemeEvent(
-        keyword.value,
-        chat.id,
-        login.user?.uuid,
-        statistics.session?.id,
-        ChatThemeEventName.ThemeAdded
-    ));
+    statistics.sendEvent(new ChatThemeEvent(keyword.value, chat.id, ChatThemeEventName.ThemeAdded));
 }
 
 /**
@@ -504,13 +488,7 @@ export function removeKeyword(keyword: string, blacklist: boolean = false) {
         chat.messages.splice(i, 1);
     }
 
-    statistics.sendEvent(new ChatThemeEvent(
-        keyword,
-        chat.id,
-        login.user?.uuid,
-        statistics.session?.id,
-        ChatThemeEventName.ThemeRemoved
-    ))
+    statistics.sendEvent(new ChatThemeEvent(keyword, chat.id, ChatThemeEventName.ThemeRemoved))
 
     if (blacklist) {
         chat.state.keyword_blacklist ??= [];

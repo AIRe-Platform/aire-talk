@@ -40,8 +40,6 @@ export class StatisticsEventBase implements AireStatisticsEvent {
 
 export class SessionStatsEvent extends StatisticsEventBase {
     constructor(
-        public user_id: string | undefined,
-        public session_id: string | undefined = undefined,
         public duration_minutes: number = 0,
     ) {
         super(`${EventPrefix.Session}duration_minutes`);
@@ -55,8 +53,6 @@ export class ChatTokenStatsEvent extends StatisticsEventBase {
 
     constructor(
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
         stats_event: AireTokenStatsEvent
     ) {
         super(`${EventPrefix.Chat}token-stats`);
@@ -69,9 +65,7 @@ export class ChatTokenStatsEvent extends StatisticsEventBase {
 export class ResponseTimeEvent extends StatisticsEventBase {
     constructor(
         public response_time_ms: number,
-        public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
+        public chat_id: string | undefined
     ) {
         super(`${EventPrefix.Chat}response_time`);
     }
@@ -81,10 +75,8 @@ export class FeedbackEvent extends StatisticsEventBase {
     constructor(
         name: string,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
         public answer: any,
         public question: string | undefined,
-        public session_id: string | undefined,
         public themes: string | undefined
     ) {
         super(`${EventPrefix.Feedback}${name}`);
@@ -97,11 +89,7 @@ export enum SessionEventName {
 }
 
 export class SessionEvent extends StatisticsEventBase {
-    constructor(
-        public user_id: string | undefined,
-        public session_id: string | undefined,
-        eventName: SessionEventName
-    ) {
+    constructor(eventName: SessionEventName) {
         super(`${EventPrefix.Session}${eventName}`);
     }
 }
@@ -112,11 +100,7 @@ export enum ConfigurationEventName {
 }
 
 export class ConfigurationEvent extends StatisticsEventBase {
-    constructor(
-        public user_id: string | undefined,
-        public session_id: string | undefined,
-        eventName: ConfigurationEventName
-    ) {
+    constructor(eventName: ConfigurationEventName) {
         super(`${EventPrefix.Configuration}${eventName}`);
     }
 }
@@ -131,8 +115,6 @@ export class ReminderEvent extends StatisticsEventBase {
     constructor(
         public reminder_timestamp: number,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
         eventName: ReminderEventName
     ) {
         super(`${EventPrefix.Reminder}${eventName}`);
@@ -149,8 +131,6 @@ export class ChatThemeEvent extends StatisticsEventBase {
     constructor(
         public theme_name: string,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
         eventName: ChatThemeEventName
     ) {
         super(`${EventPrefix.Chat}${eventName}`);
@@ -175,8 +155,6 @@ export class ContentEvent extends StatisticsEventBase {
         public content_name: string | undefined,
         public theme_names: string,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
         eventName: ContentEventName,
         action?: ContentEventAction
     ) {
@@ -191,8 +169,6 @@ export class ChatSummaryAcceptEvent extends StatisticsEventBase {
         public token_count: number | undefined,
         public theme_names: string,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
         public summary: string | undefined,
     ) {
         super(`${EventPrefix.Chat}summary_accept`);
@@ -209,8 +185,6 @@ export class SurveyEvent extends StatisticsEventBase {
         public survey_name: string,
         public external_url: string,
         public chat_id: string | undefined,
-        public user_id: string | undefined,
-        public session_id: string | undefined,
 
     ) {
         super(`${EventPrefix.Survey}${eventName}`)
