@@ -15,6 +15,7 @@ enum EventPrefix {
     Feedback = "feedback.",
     Reminder = "reminder.",
     Session = "session.",
+    Survey = "survey.",
 }
 
 // Flexible base class for statistics data, derive your own classes from this
@@ -195,5 +196,23 @@ export class ChatSummaryAcceptEvent extends StatisticsEventBase {
         public summary: string | undefined,
     ) {
         super(`${EventPrefix.Chat}summary_accept`);
+    }
+}
+
+export enum SurveyEventName {
+    Open = "open"
+}
+
+export class SurveyEvent extends StatisticsEventBase {
+    constructor(
+        eventName: SurveyEventName,
+        public survey_name: string,
+        public external_url: string,
+        public chat_id: string | undefined,
+        public user_id: string | undefined,
+        public session_id: string | undefined,
+
+    ) {
+        super(`${EventPrefix.Survey}${eventName}`)
     }
 }

@@ -15,6 +15,10 @@ import {
 } from "aire";
 import QuestionnaireController from "./questionnaireController";
 import { openInNewTab } from "@/helpers/linkUtils";
+import useChat from "@/context/chat";
+import useStatistics from "@/context/statistics";
+import useLogin from "@/context/login";
+import { SurveyEvent, SurveyEventName } from "@/models/statistics";
 
 const ExternalQuestionnaireController: QuestionnaireController = {
     onStart: (self: Questionnaire) => {
@@ -36,6 +40,7 @@ const ExternalQuestionnaireController: QuestionnaireController = {
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
+
         if (!answer.includes(i18n.global.t(l.button_yes)))
             context.reset();
 
@@ -46,11 +51,21 @@ const ExternalQuestionnaireController: QuestionnaireController = {
         context.endQuestionnaire();
     },
     onComplete: (self: Questionnaire) => {
-        // TODO: Log event
-
+        const chat = useChat();
+        const statistics = useStatistics();
+        const user = useLogin();
         const context = useQuestionnaire();
-        context.reset();
 
+        statistics.sendEvent(new SurveyEvent(
+            SurveyEventName.Open,
+            self.name,
+            self.external_url ?? "",
+            chat.id,
+            user.user?.uuid,
+            statistics.session?.id
+        ));
+
+        context.reset();
         return createInstructionMessage("The user opened the external survey.");
     },
 }
