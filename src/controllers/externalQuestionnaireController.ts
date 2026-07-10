@@ -40,8 +40,10 @@ const ExternalQuestionnaireController: QuestionnaireController = {
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
 
-        if (!answer.includes(i18n.global.t(l.button_yes)))
+        if (!answer.includes(i18n.global.t(l.button_yes))) {
             context.reset();
+            return;
+        }
 
         if (self.external_url) {
             openInNewTab(self.external_url);

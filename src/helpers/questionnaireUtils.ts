@@ -14,7 +14,6 @@ import { getUILanguage } from "@/locales";
 import { listChatKeywords } from "./chatUtils";
 import { ChatMessageType } from "@/models/chat";
 import useAireMemory from "@/context/memory";
-import { openInNewTab } from "./linkUtils";
 
 /**
  * Build a questionnaire object from the AIRe questionnaire model
@@ -24,11 +23,6 @@ import { openInNewTab } from "./linkUtils";
 export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory): Questionnaire | undefined {
     if (!model.id)
         return undefined;
-
-    if (model.external_url && model.is_feedback) {
-        openInNewTab(model.external_url);
-        return;
-    }
 
     const keywords = listChatKeywords();
     const questions = getRelevantQuestions(model, keywords);
