@@ -6,6 +6,7 @@
 .icon {
     background-repeat: no-repeat;
     background-size: contain;
+    background-position: center;
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
@@ -178,14 +179,12 @@
     background-image: url("@/assets/icons/user-profile-dark-mobile.svg");
     width: 2rem;
     height: 2rem;
-    margin-left: 0.38rem;
 }
 
 .theme-default .icon.user-profile-mobile {
     background-image: url("@/assets/icons/user-profile-light-mobile.svg");
     width: 2rem;
     height: 2rem;
-    margin-left: 0.38rem;
 }
 
 .theme-dark .icon.play-video {
