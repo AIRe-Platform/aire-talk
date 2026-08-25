@@ -64,6 +64,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
             digest(self, self.memory)
                 .then(() => {
                     context.reset();
+                    chat.forceResponse();
                 })
         }
         else {
