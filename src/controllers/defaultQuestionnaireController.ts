@@ -68,7 +68,8 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         }
         else {
             question.answer = answer;
-            question.is_feedback = true;
+            question.is_feedback = self.is_feedback;
+
             const themes: string[] = [];
             chat.messages.forEach(message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
@@ -91,13 +92,15 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 answerIndex = question.answer;
             }
 
-            statistics.sendEvent(new FeedbackEvent(
-                questionFeedbackId + question.question_id,
-                chat.id,
-                answerIndex,
-                question.question,
-                themesString
-            ));
+            if (self.is_feedback) {
+                statistics.sendEvent(new FeedbackEvent(
+                    questionFeedbackId + question.question_id,
+                    chat.id,
+                    answerIndex,
+                    question.question,
+                    themesString
+                ));
+            }
 
             if (checkAnswerForRedFlag(question))
                 triggerRedFlag();
