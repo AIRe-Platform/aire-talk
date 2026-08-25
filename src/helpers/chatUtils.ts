@@ -109,7 +109,7 @@ export function getChatbotInputData(): AireChatbotInput {
             themes: chat.state.themes,
             documents: chat.state.documents,
         },
-        agent: chat.state.agent
+        agent: chat.state.agent,
     };
 
     return input;
