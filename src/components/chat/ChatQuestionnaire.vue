@@ -24,8 +24,8 @@ const props = defineProps<{
             <div class="chat-questionnaire-privacy">
                 {{
                     questionnaire.active?.privacy
-                        ? $t(" questionnaire_privacy_desc_" + questionnaire.active.privacy) :
-                        $t(l.questionnaire_privacy_desc_private)
+                        ? $t("questionnaire_privacy_desc_" + questionnaire.active.privacy)
+                        : $t(l.questionnaire_privacy_desc_private)
                 }}
             </div>
         </div>
@@ -62,6 +62,8 @@ const props = defineProps<{
 
 .chat-questionnaire-privacy {
     font-size: small;
+    white-space: pre-line;
+    text-align: center;
 }
 
 .chat-questionnaire-start {
