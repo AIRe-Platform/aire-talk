@@ -11,10 +11,11 @@ import { onMounted, reactive } from 'vue';
 import { loadAllChats } from '@/helpers/chatUtils';
 import useLogin from '@/context/login';
 import useChat from '@/context/chat';
-import useTheme, { ThemeContext } from "@/context/theme";
+import useTheme from "@/context/theme";
 import DialogModal from "@/components/layout/DialogModal.vue";
 import ReminderComponent from "@/components/common/Reminder.vue";
 import { HomeTutorialState } from '@/context/tutorials';
+import Spinner from '@/components/common/Spinner.vue';
 
 const login = useLogin();
 const chat = useChat();
@@ -22,14 +23,10 @@ const darkTheme = useTheme().isDarkTheme();
 
 const state = reactive<{
     showConfirmLogout: boolean,
-    showLastChatButton: boolean,
-    isLoadingView: boolean,
-    theme: ThemeContext,
+    hasLastChat?: boolean,
 }>({
     showConfirmLogout: false,
-    showLastChatButton: false,
-    isLoadingView: true,
-    theme: new ThemeContext()
+    hasLastChat: undefined,
 });
 
 const onConfirmLogout = async () => {
@@ -58,15 +55,13 @@ const navigateTo = (path: string) => {
 }
 
 onMounted(async () => {
-    state.theme = useTheme();
     const last = await getLastChatId();
-    state.showLastChatButton = (last !== undefined);
-    state.isLoadingView = false;
+    state.hasLastChat = !!(last);
 })
 </script>
 
 <template>
-    <div id="home-view" v-if="!state.isLoadingView">
+    <div id="home-view">
         <div class="home-container">
             <div class="home-header">
                 <h1 class="visually-hidden">{{ $t(l.home_title) }}</h1>
@@ -84,21 +79,25 @@ onMounted(async () => {
             </div>
             <ReminderComponent />
             <div class="quick-nav">
-                <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" href="#"
-                    @keydown.space="newChat()" @click="newChat()">
-                    {{ $t(l.home_start_new_chat) }}
-                </a>
-                <a class="icon frontpage-button" href="#" @keydown.space="openLastChat()" @click="openLastChat()"
-                    v-if="state.showLastChatButton">
-                    {{ $t(l.home_continue_chat) }}
-                </a>
-                <button class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
-                    {{ $t(l.nav_logout) }}
-                </button>
+                <Spinner v-if="state.hasLastChat === undefined" />
+                <template v-else>
+                    <a class="icon frontpage-button" :data-tutorial-state="HomeTutorialState.StartChat" href="#"
+                        @keydown.space="newChat()" @click="newChat()">
+                        {{ $t(l.home_start_new_chat) }}
+                    </a>
+                    <a class="icon frontpage-button" href="#" @keydown.space="openLastChat()" @click="openLastChat()"
+                        v-if="state.hasLastChat">
+                        {{ $t(l.home_continue_chat) }}
+                    </a>
+                    <button class="icon frontpage-button" @click="state.showConfirmLogout = !state.showConfirmLogout">
+                        {{ $t(l.nav_logout) }}
+                    </button>
+                </template>
             </div>
             <div class="home-footer">
-                <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">{{ $t(l.start_footer)
-                    }}<br /><b>{{ $t(l.start_disclaimer) }}</b></p>
+                <p class="disclaimer" :data-tutorial-state="HomeTutorialState.Welcome">
+                    {{ $t(l.start_footer) }}<br /><b>{{ $t(l.start_disclaimer) }}</b>
+                </p>
                 <div class="chat-bot">
                 </div>
             </div>
