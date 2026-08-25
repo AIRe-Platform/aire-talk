@@ -46,7 +46,8 @@ export function createQuestionnaire(model: AireQuestionnaire, source: AireMemory
         completed: false,
         is_feedback: isFeedback,
         external_url: model.external_url,
-        memory: source.id
+        memory: source.id,
+        privacy: model.privacy
     };
 }
 

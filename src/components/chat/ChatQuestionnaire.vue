@@ -8,6 +8,9 @@ import { l } from '@/locales';
 import { ChatMessageGroup } from '@/models/chat';
 import QuestionAnswer from '@/components/questionnaire/QuestionAnswer.vue';
 import QuestionItem from '@/components/questionnaire/QuestionItem.vue';
+import useQuestionnaire from '@/context/questionnaire';
+
+const questionnaire = useQuestionnaire();
 
 const props = defineProps<{
     group: ChatMessageGroup
@@ -18,7 +21,13 @@ const props = defineProps<{
     <div class="chat-group-questionnaire">
         <div class="chat-questionnaire-start">
             <h2>{{ $t(l.questionnaire_start) }}</h2>
-            <div>{{ $t(l.questionnaire_explanation) }}</div>
+            <div class="chat-questionnaire-privacy">
+                {{
+                    questionnaire.active?.privacy
+                        ? $t(" questionnaire_privacy_desc_" + questionnaire.active.privacy) :
+                        $t(l.questionnaire_privacy_desc_private)
+                }}
+            </div>
         </div>
         <template v-for="msg in props.group.messages" v-bind:key="msg.id">
             <div class="chat-questionnaire-row">
@@ -49,6 +58,10 @@ const props = defineProps<{
     border: 1px solid var(--panel-border-color);
     margin: 1rem;
     padding: 1rem;
+}
+
+.chat-questionnaire-privacy {
+    font-size: small;
 }
 
 .chat-questionnaire-start {

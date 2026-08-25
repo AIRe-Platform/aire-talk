@@ -72,10 +72,10 @@ const id: Locale = {
     nav_about: "Tentang",
     nav_menu_alternative_image_logo: "Logo menu navigasi AIRe.",
     nav_menu_alternative_image_logo_dark_mode: "Logo menu navigasi AIRe dalam mode gelap.",
-    
+
     profile_view_alternative_image_logo: "Logo profil AIRe.",
     profile_view_alternative_image_logo_dark_mode: "Logo profil AIRe dalam mode gelap.",
-    
+
     profile_title: "Akun pengguna",
     profile_label_first_name: "Nama Depan",
     profile_label_last_name: "Nama Belakang",
@@ -189,15 +189,20 @@ const id: Locale = {
     popup_confirm_logout: "Apakah Anda yakin ingin keluar?",
     popup_confirm_profile_updated: "Profil diperbarui.",
 
-    confirm_questionnaire_start:
-        'Apakah Anda ingin mengisi kuesioner "{0}"?',
-    confirm_questionnaire_completion:
-        "Ketika Anda puas dengan jawaban Anda, pilih lanjutkan.",
+    confirm_questionnaire_start: 'Apakah Anda ingin mengisi kuesioner "{0}"?',
+    confirm_questionnaire_completion: "Ketika Anda puas dengan jawaban Anda, pilih lanjutkan.",
+
     questionnaire: "Kuesioner",
     questionnaire_start: "Awal kuesioner",
     questionnaire_end: "Akhir kuesioner",
-    questionnaire_explanation:
-        "Pertanyaan-pertanyaan berikut sedang direkam untuk analisis",
+    questionnaire_privacy_desc_private: `Kuesioner ini bersifat pribadi.
+Jawaban Anda dienkripsi dan hanya akan tersedia untuk AIRe saat Anda masuk dan sedang mengobrol.`,
+    questionnaire_privacy_desc_anonymous: `Kuesioner ini anonim.
+Jawaban Anda tersedia untuk AIRe tetapi TIDAK dikaitkan dengan Anda.
+Harap dicatat bahwa informasi identitas pribadi apa pun yang Anda berikan akan tidak dienkripsi.`,
+    questionnaire_privacy_desc_public: `Kuesioner ini bersifat publik.
+Jawaban Anda tersedia untuk AIRe dan dapat dikaitkan dengan Anda untuk tujuan penelitian.`,
+
     question_answer: "Jawaban Anda",
 
     recall_start_question: "Apakah Anda ingin melanjutkan percakapan sebelumnya?",
@@ -227,7 +232,7 @@ const id: Locale = {
     content_modal_continue_to_chat: "Kembali ke obrolan",
     content_modal_description: "Keterangan:",
     content_modal_themes: "Tema:",
-    content_modal_untitled: "Konten tanpa judul", 
+    content_modal_untitled: "Konten tanpa judul",
     content_modal_download: "Unduh video",
     content_modal_browser_does_not_support_video_tag: "Peramban Anda tidak mendukung tag video.",
     content_modal_untitled_url_thumbnail: "Thumbnail URL tanpa judul.",

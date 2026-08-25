@@ -18,6 +18,7 @@ import {
     AireQuestionOptionCheckbox,
     AireQuestionOptionType,
     AireQuestionnaireAnswer,
+    AireQuestionnaireDigest,
     AireQuestionnaireResults,
     AireServices,
     AireStatus
@@ -60,7 +61,7 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 context.reset();
         }
         else if (question.question_id === `${self.id}_end`) {
-            digest(self.id, self.memory)
+            digest(self, self.memory)
                 .then(() => {
                     context.reset();
                 })
@@ -129,14 +130,19 @@ const DefaultQuestionnaireController: QuestionnaireController = {
 
 export default DefaultQuestionnaireController;
 
-async function digest(questionnaire_id: string, source: string) {
+async function digest(questionnaire: Questionnaire, source: string) {
     const chat = useChat();
     const bot = useChatbot();
-    const answers = getAnsweredQuestions(questionnaire_id);
+    const answers = getAnsweredQuestions(questionnaire.id);
 
     bot.makeBusy();
 
-    const results = await processAnswers(questionnaire_id, answers);
+    const results = await processAnswers({
+        questionnaire_id: questionnaire.id,
+        answers: answers,
+        privacy: questionnaire.privacy
+    });
+
     if (!results) {
         const err = createErrorMessage(l.error_ai_not_responding);
         chat.push(err);
@@ -174,13 +180,14 @@ function isAireQuestionOptionCheckbox(options: AireQuestionOption | undefined): 
     return (options as AireQuestionOptionCheckbox)?.values !== undefined;
 }
 
-async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {
+async function processAnswers(digest: AireQuestionnaireDigest)
+    : Promise<AireQuestionnaireResults | undefined> {
     if (!AireServices.AI) {
         console.warn("AI module is not available for LLM processing");
         return;
     }
 
-    return await AireServices.AI.processQuestionnaire(id, answers)
+    return await AireServices.AI.processQuestionnaire(digest)
         .then((result) => {
             if (result.data) {
                 return result.data;

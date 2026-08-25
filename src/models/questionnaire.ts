@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireQuestion, AireQuestionnaireAnswer } from "aire";
+import { AireQuestion, AireQuestionnaireAnswer, AireQuestionnairePrivacy } from "aire";
 
 export enum QuestionnaireControlFlow 
 {
@@ -24,4 +24,5 @@ export interface Questionnaire {
     is_feedback?: boolean;
     memory: string;
     external_url?: string;
+    privacy?: AireQuestionnairePrivacy;
 }

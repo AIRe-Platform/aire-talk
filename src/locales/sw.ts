@@ -177,10 +177,18 @@ const sw: Locale = {
 
     confirm_questionnaire_start: 'Je, ungependa kujaza uchunguzi "{0}"?',
     confirm_questionnaire_completion: "Unapokuwa umefurahishwa na majibu yako, chagua kuendelea.",
+    
     questionnaire: "Uchunguzi",
     questionnaire_start: "Mwanzo wa uchunguzi",
     questionnaire_end: "Mwisho wa uchunguzi",
-    questionnaire_explanation: "Maswali yafuatayo yanarekodiwa kwa ajili ya uchambuzi",
+    questionnaire_privacy_desc_private: `Hojaji hii ni ya faragha.
+Majibu yako yamesimbwa kwa njia fiche na yatapatikana kwa AIRe tu unapoingia na kupiga gumzo.`,
+    questionnaire_privacy_desc_anonymous: `Hojaji hii ni ya faragha.
+Majibu yako yanapatikana kwa AIRe lakini HAYAJAunganishwa na wewe.
+Tafadhali kumbuka kwamba taarifa yoyote inayoweza kukutambulisha binafsi ambayo unaweza kutoa haitasimbwa kwa njia fiche.`,
+    questionnaire_privacy_desc_public: `Hojaji hii ni ya umma.
+Majibu yako yanapatikana kwa AIRe na yanaweza kuunganishwa na wewe kwa madhumuni ya utafiti.`,
+
     question_answer: "Jibu lako",
 
     recall_start_question: "Je, ungependa kuendelea na mazungumzo ya awali?",
