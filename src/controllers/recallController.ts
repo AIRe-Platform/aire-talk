@@ -4,7 +4,6 @@
 
 
 import {
-    AireChatMetadata,
     AireQuestion,
     AireQuestionOptionCheckbox,
     AireQuestionOptionType,

@@ -57,6 +57,7 @@ const PersonalInfoController: QuestionnaireController = {
             savePersonalInformation()
                 .then(() => {
                     context.reset();
+                    chat.forceResponse();
                 })
         }
         else {

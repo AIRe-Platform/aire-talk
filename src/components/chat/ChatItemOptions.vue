@@ -17,7 +17,6 @@ import Tooltip from "@/components/common/Tooltip.vue";
 import { listChatKeywords, rateMessage } from '@/helpers/chatUtils';
 import useStatistics from '@/context/statistics';
 import { ContentEvent, ContentEventName } from '@/models/statistics';
-import useLogin from '@/context/login';
 
 const props = defineProps<{
     parent: ChatMessage
@@ -30,7 +29,6 @@ const clipboard = useClipboard();
 const chat = useChat();
 const contentContext = useContent();
 const statistics = useStatistics();
-const login = useLogin();
 
 const state = reactive<{
     menuOpen: boolean,
@@ -76,8 +74,6 @@ const applyRating = () => {
                 props.content.name,
                 listChatKeywords().join(','),
                 chat.id,
-                login.user?.uuid,
-                statistics.session?.id,
                 state.rating === 1 ? ContentEventName.Liked : ContentEventName.Disliked
             ));
         }

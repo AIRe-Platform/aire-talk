@@ -39,7 +39,7 @@ const en: Locale = {
     start_footer: "AIRe is an AI-assisted service that helps you to identify rehabilitation needs and guides you to personalized rehabilitation services and content.",
     start_disclaimer: "It does not replace the assessment of a healthcare professional and is not a medical diagnostic tool.",
     start_view_alternative_image_logo: "AIRe chatbot logo for the start view.",
- 
+
     login_redirect: "Redirecting to login page...",
     login_failure: "The login service is unavailable at the moment. Please try again later.",
     login_callback_failure: "Login attempt failed.",
@@ -69,9 +69,9 @@ const en: Locale = {
     nav_about: "About",
     nav_menu_alternative_image_logo: "AIRe navigation menu logo.",
     nav_menu_alternative_image_logo_dark_mode: "AIRe navigation menu logo for dark mode.",
-    
+
     profile_view_alternative_image_logo: "AIRe profile logo.",
-    profile_view_alternative_image_logo_dark_mode: "AIRe profile logo for dark mode.",    
+    profile_view_alternative_image_logo_dark_mode: "AIRe profile logo for dark mode.",
 
     profile_title: "User account",
     profile_label_first_name: "First name",
@@ -171,13 +171,20 @@ const en: Locale = {
     popup_confirm_remove_chat: "Are you sure you want to remove this chat?",
     popup_confirm_logout: "Are you sure you want to logout?",
     popup_confirm_profile_updated: "Profile updated.",
-
     confirm_questionnaire_start: 'Would you like to fill a questionnaire "{0}"?',
     confirm_questionnaire_completion: "When you are happy with your answers, choose Continue.",
+
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
     questionnaire_end: "End of questionnaire",
-    questionnaire_explanation: "Your answers to the following questions will be saved for further processing.",
+    questionnaire_privacy_desc_private: `This questionnaire is private.
+Your answers are encrypted and will be available to AIRe only when you are logged in and chatting.`,
+    questionnaire_privacy_desc_anonymous: `This questionnaire is anonymous. 
+Your answers are available to AIRe but are NOT linked to you. 
+Please note that any personally identifiable information you may provide will be unencrypted.`,
+    questionnaire_privacy_desc_public: `This questionnaire is public.
+Your answers are available to AIRe and can be linked to you for research purposes.`,
+
     question_answer: "Your answer",
 
     recall_start_question: "Do you want to continue some earlier conversation?",
@@ -316,7 +323,7 @@ const en: Locale = {
     screen_recorder_theme_switch_dark: "Dark theme selected. Switch to light theme.",
     screen_recorder_theme_switch_light: "Light theme selected. Switch to dark theme.",
     screen_recorder_thumbnail: "Thumbnail for the content",
- 
+
     catalogue_item_alternative_image: "Image of the content.",
     catalogue_item_alternative_url_thumbnail: "Thumbnail of the URL.",
     catalogue_item_alternative_document_thumbnail: "Thumbnail of the document.",
@@ -352,7 +359,7 @@ const en: Locale = {
     feedback_question_todays_experience: "How much did AIRe help you today?",
     feedback_question_todays_experience_description: "(Selection: 1 = Not at all, 5 = Very much)",
     feedback_question_open_feedback: "Open feedback",
-    
+
     feedback_answer_very_litle: "Very litle",
     feedback_answer_litle: "Litle",
     feedback_answer_normal: "Normal",

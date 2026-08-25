@@ -14,7 +14,6 @@ import { router } from '@/router';
 import { getUILanguage, l } from '@/locales';
 import useStatistics from '@/context/statistics';
 import useChat from '@/context/chat';
-import useLogin from '@/context/login';
 import { ContentEvent, ContentEventAction, ContentEventName } from '@/models/statistics';
 import useKeywords from '@/context/keywords';
 
@@ -34,7 +33,6 @@ const state = reactive<{
 const contentModalRef = ref<HTMLElement | null>(null);
 const statistics = useStatistics();
 const chat = useChat();
-const login = useLogin();
 
 const openUrl = (url?: string) => {
     if (url) {
@@ -44,8 +42,6 @@ const openUrl = (url?: string) => {
                 props.content?.name,
                 listChatKeywords().join(','),
                 chat.id,
-                login.user?.uuid,
-                statistics.session?.id,
                 ContentEventName.Opened,
                 ContentEventAction.LinkOpen,
             ));
@@ -119,7 +115,8 @@ onMounted(async () => {
                         <div class="message-media-file">
                             <template v-if="props.content.type == AireContentType.Image">
                                 <img v-bind:src="props.content.url"
-                                    :alt="props.content.name || $t(l.screen_recorder_image_content_unnamed)" tabindex="0"
+                                    :alt="props.content.name || $t(l.screen_recorder_image_content_unnamed)"
+                                    tabindex="0"
                                     :aria-label="`${$t(l.screen_recorder_image_content)} ${props.content.name || $t(l.screen_recorder_image_content_unnamed)}`" />
                             </template>
                             <template v-if="props.content.type == AireContentType.Video">

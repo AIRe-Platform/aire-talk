@@ -174,7 +174,9 @@ export enum LocalizationKey {
     questionnaire = "questionnaire",
     questionnaire_start = "questionnaire_start",
     questionnaire_end = "questionnaire_end",
-    questionnaire_explanation = "questionnaire_explanation",
+    questionnaire_privacy_desc_private = "questionnaire_privacy_desc_private",
+    questionnaire_privacy_desc_anonymous = "questionnaire_privacy_desc_anonymous",
+    questionnaire_privacy_desc_public = "questionnaire_privacy_desc_public",
 
     question_answer = "question_answer",
 

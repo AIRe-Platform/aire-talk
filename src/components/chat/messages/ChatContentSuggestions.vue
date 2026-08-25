@@ -13,7 +13,6 @@ import { AireContent } from 'aire';
 import useContent from '@/context/content';
 import { fetchAndRankContents } from '@/helpers/contentUtils';
 import useStatistics from '@/context/statistics';
-import useLogin from '@/context/login';
 import useChat from '@/context/chat';
 import { ContentEvent, ContentEventAction, ContentEventName } from '@/models/statistics';
 import { listChatKeywords } from '@/helpers/chatUtils';
@@ -32,7 +31,6 @@ const state = reactive<{
 });
 
 const statistics = useStatistics();
-const login = useLogin();
 const chat = useChat();
 const contentCtx = useContent();
 
@@ -53,8 +51,6 @@ const showContent = async (content: AireContent) => {
                 content.name,
                 listChatKeywords().join(','),
                 chat.id,
-                login.user?.uuid,
-                statistics.session?.id,
                 ContentEventName.Opened,
                 ContentEventAction.ModalOpen
             ));

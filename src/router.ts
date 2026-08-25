@@ -43,7 +43,7 @@ export const router = createRouter({
             },
         },
         {
-            path: "/about",
+            path: "/about/:panel?",
             component: AboutView,
             name: "About",
             meta: {

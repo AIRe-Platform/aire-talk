@@ -18,13 +18,13 @@ import {
     AireQuestionOptionCheckbox,
     AireQuestionOptionType,
     AireQuestionnaireAnswer,
+    AireQuestionnaireDigest,
     AireQuestionnaireResults,
     AireServices,
     AireStatus
 } from "aire";
 import QuestionnaireController from "./questionnaireController";
 import useStatistics from "@/context/statistics";
-import useLogin from "@/context/login";
 import { FeedbackEvent } from "@/models/statistics";
 import { ChatMessageType } from "@/models/chat";
 import useAireMemory from "@/context/memory";
@@ -52,7 +52,6 @@ const DefaultQuestionnaireController: QuestionnaireController = {
         const context = useQuestionnaire();
         const chat = useChat();
         const statistics = useStatistics();
-        const user = useLogin();
         const questionFeedbackId: string = "feedback.";
 
         if (question.question_id === `${self.id}_start`) {
@@ -62,14 +61,16 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 context.reset();
         }
         else if (question.question_id === `${self.id}_end`) {
-            digest(self.id, self.memory)
+            digest(self, self.memory)
                 .then(() => {
                     context.reset();
+                    chat.forceResponse();
                 })
         }
         else {
             question.answer = answer;
-            question.is_feedback = true;
+            question.is_feedback = self.is_feedback;
+
             const themes: string[] = [];
             chat.messages.forEach(message => {
                 if (message.type === ChatMessageType.Keyword && !themes.includes(message.content!)) {
@@ -92,15 +93,15 @@ const DefaultQuestionnaireController: QuestionnaireController = {
                 answerIndex = question.answer;
             }
 
-            statistics.sendEvent(new FeedbackEvent(
-                questionFeedbackId + question.question_id,
-                chat.id,
-                user.user?.uuid,
-                answerIndex,
-                question.question,
-                statistics.session?.id,
-                themesString
-            ));
+            if (self.is_feedback) {
+                statistics.sendEvent(new FeedbackEvent(
+                    questionFeedbackId + question.question_id,
+                    chat.id,
+                    answerIndex,
+                    question.question,
+                    themesString
+                ));
+            }
 
             if (checkAnswerForRedFlag(question))
                 triggerRedFlag();
@@ -133,14 +134,19 @@ const DefaultQuestionnaireController: QuestionnaireController = {
 
 export default DefaultQuestionnaireController;
 
-async function digest(questionnaire_id: string, source: string) {
+async function digest(questionnaire: Questionnaire, source: string) {
     const chat = useChat();
     const bot = useChatbot();
-    const answers = getAnsweredQuestions(questionnaire_id);
+    const answers = getAnsweredQuestions(questionnaire.id);
 
     bot.makeBusy();
 
-    const results = await processAnswers(questionnaire_id, answers);
+    const results = await processAnswers({
+        questionnaire_id: questionnaire.id,
+        answers: answers,
+        privacy: questionnaire.privacy
+    });
+
     if (!results) {
         const err = createErrorMessage(l.error_ai_not_responding);
         chat.push(err);
@@ -178,13 +184,14 @@ function isAireQuestionOptionCheckbox(options: AireQuestionOption | undefined): 
     return (options as AireQuestionOptionCheckbox)?.values !== undefined;
 }
 
-async function processAnswers(id: string, answers: AireQuestionnaireAnswer[]): Promise<AireQuestionnaireResults | undefined> {
+async function processAnswers(digest: AireQuestionnaireDigest)
+    : Promise<AireQuestionnaireResults | undefined> {
     if (!AireServices.AI) {
         console.warn("AI module is not available for LLM processing");
         return;
     }
 
-    return await AireServices.AI.processQuestionnaire(id, answers)
+    return await AireServices.AI.processQuestionnaire(digest)
         .then((result) => {
             if (result.data) {
                 return result.data;
