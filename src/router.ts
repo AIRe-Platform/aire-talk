@@ -110,7 +110,6 @@ export const router = createRouter({
             name: "Invite",
             meta: {
                 title: l.nav_login,
-                no_login: true
             }
         },
         {

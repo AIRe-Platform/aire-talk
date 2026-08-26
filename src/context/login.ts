@@ -158,14 +158,15 @@ export class LoginContext {
         }
     }
 
+    public isCurrentInviteSession(inviteToken: string): boolean {
+        if(!this.session)
+            return false;
+        return this.session.invite?.token === inviteToken;
+    }
+
     public async loginWithInvitation(inviteToken: string): Promise<AireStatus> {
         if (!AireServices.ID)
             return AireStatus.NotSupported;
-
-        if (this.session && this.session.invite?.token !== inviteToken) {
-            await this.logout("invite=" + inviteToken);
-            return AireStatus.NotSupported;
-        }
 
         return await AireServices.ID.validateInvite(inviteToken)
             .then(async res => {
@@ -227,7 +228,7 @@ export class LoginContext {
         return status;
     }
 
-    public async logout(return_params?: string) {
+    public async logout(return_params?: URLSearchParams) {
         await useChat().reset(false, true);
 
         useContent().reset();
@@ -251,8 +252,7 @@ export class LoginContext {
             };
 
             if (return_params) {
-                const p = new URLSearchParams(return_params);
-                options.return_url += "?" + p.toString();
+                options.return_url += "?" + return_params.toString();
             }
 
             const logout = await AireServices.ID.getLogoutUrl(options);
@@ -260,7 +260,11 @@ export class LoginContext {
 
             if (logout.status == AireStatus.Success && logout.data)
                 window.open(logout.data, "_self");
+
+            return logout.status;
         }
+
+        return AireStatus.NotSupported;
     }
 
     public async saveProfile(user: AireUser): Promise<AireUser | undefined> {
