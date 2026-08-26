@@ -42,7 +42,7 @@ const menuOpen = UIState.isMenuOpen();
 
 const onInactivityTimeout = async () => {
     stopInactivityListener();
-    login.logout("inactivity=1");
+    login.logout(new URLSearchParams({ "inactivity": "1" }));
 };
 
 const closeInactivityPopup = () => {
@@ -71,7 +71,11 @@ onMounted(() => {
 
     const invite = search.get("invite");
     if (invite) {
-        router.push({ name: "Invite", params: { code: invite } });
+        router.push({
+            name: "Invite",
+            params: { code: invite },
+            query: { platform: search.get("platform") }
+        });
         return;
     }
 
