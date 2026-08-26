@@ -274,7 +274,7 @@ Jawaban Anda tersedia untuk AIRe dan dapat dikaitkan dengan Anda untuk tujuan pe
     tooltip_nav_content_catalogue: "Lihat semua konten yang ditampilkan di platform AIRe.",
     tooltip_nav_profile: "Pergi ke profil.",
     tooltip_nav_login: "Pergi ke login.",
-    tooltip_nav_log_out: "Keluar.",
+    tooltip_nav_logout: "Keluar.",
     tooltip_nav_signup: "Mulai menggunakan AIRe.",
     tooltip_nav_preferences: "Buka pengaturan Anda.",
     tooltip_nav_main_menu: "Pergi ke menu utama.",

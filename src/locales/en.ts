@@ -256,7 +256,7 @@ Your answers are available to AIRe and can be linked to you for research purpose
     tooltip_nav_content_catalogue: "Check all content shown to you in the AIRe.",
     tooltip_nav_profile: "Go to your user profile.",
     tooltip_nav_login: "Go to login.",
-    tooltip_nav_log_out: "Get logout.",
+    tooltip_nav_logout: "Get logout.",
     tooltip_nav_signup: "Start using AIRe.",
     tooltip_nav_preferences: "Go to your own settings.",
     tooltip_nav_main_menu: "Go to main menu.",

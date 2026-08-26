@@ -252,7 +252,7 @@ Dina svar är tillgängliga för AIre och kan kopplas till dig för forskningsä
     tooltip_nav_content_catalogue: "Granska allt innehåll som syns i tjänsten AIRe.",
     tooltip_nav_profile: "Gå till användaruppgifterna.",
     tooltip_nav_login: "Gå till inloggningen.",
-    tooltip_nav_log_out: "Logga ut.",
+    tooltip_nav_logout: "Logga ut.",
     tooltip_nav_signup: "Börja använda AIRe.",
     tooltip_nav_preferences: "Gå till dina egna inställningar.",
     tooltip_nav_main_menu: "Gå till huvudmenyn.",

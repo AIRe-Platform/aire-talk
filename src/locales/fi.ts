@@ -270,7 +270,7 @@ Antamasi vastaukset ovat AIRen käytettävissä ja ne ovat yhdistettävissä sin
     tooltip_nav_content_catalogue: "Tarkastele kaikkea AIRe-palvelussa näkyvää sisältöä.",
     tooltip_nav_profile: "Siirry käyttäjätietohin.",
     tooltip_nav_login: "Siirry kirjautumiseen.",
-    tooltip_nav_log_out: "Kirjaudu ulos.",
+    tooltip_nav_logout: "Kirjaudu ulos.",
     tooltip_nav_signup: "Aloita AIRen käyttö.",
     tooltip_nav_preferences: "Siirry omiin asetuksiisi.",
     tooltip_nav_main_menu: "Siirry päävalikkoon.",

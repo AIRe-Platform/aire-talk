@@ -127,7 +127,7 @@ function linkActive(routeName: string): boolean {
                 </template>
                 <template v-else>
                     <NavItem v-if="login.user" :tabindex="navLinkTabindex" :label="$t(l.nav_logout)"
-                        :tooltip="$t(l.tooltip_nav_log_out)" icon="logout" @click="login.logout()"
+                        :tooltip="l.nav_logout" icon="logout" @click="login.logout()"
                         :active="linkActive('Logout')" />
                 </template>
             </div>

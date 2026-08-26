@@ -272,7 +272,7 @@ Câu trả lời của bạn được AIRe truy cập và có thể được li�
     tooltip_nav_content_catalogue: "Kiểm tra tất cả nội dung hiển thị trên nền tảng AIRe.",
     tooltip_nav_profile: "Đi đến hồ sơ.",
     tooltip_nav_login: "Đi đến đăng nhập.",
-    tooltip_nav_log_out: "Đăng xuất.",
+    tooltip_nav_logout: "Đăng xuất.",
     tooltip_nav_signup: "Bắt đầu sử dụng AIRe.",
     tooltip_nav_preferences: "Đi đến cài đặt của bạn.",
     tooltip_nav_main_menu: "Đi đến menu chính.",

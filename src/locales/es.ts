@@ -262,7 +262,7 @@ Sus respuestas están disponibles para AIRe y pueden vincularse a usted con fine
     tooltip_nav_content_catalogue: "Ver todo el contenido mostrado en la plataforma AIRe.",
     tooltip_nav_profile: "Ir a perfil.",
     tooltip_nav_login: "Ir a iniciar sesión.",
-    tooltip_nav_log_out: "Cerrar sesión.",
+    tooltip_nav_logout: "Cerrar sesión.",
     tooltip_nav_signup: "Empezar a usar AIRe.",
     tooltip_nav_preferences: "Ir a tus propias configuraciones.",
     tooltip_nav_main_menu: "Ir al menú principal.",

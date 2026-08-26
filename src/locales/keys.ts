@@ -249,7 +249,7 @@ export enum LocalizationKey {
     tooltip_nav_content_catalogue = "tooltip_nav_content_catalogue",
     tooltip_nav_profile = "tooltip_nav_profile",
     tooltip_nav_login = "tooltip_nav_login",
-    tooltip_nav_log_out = "tooltip_nav_log_out",
+    tooltip_nav_logout = "tooltip_nav_logout",
     tooltip_nav_signup = "tooltip_nav_signup",
     tooltip_nav_preferences = "tooltip_nav_preferences",
     tooltip_nav_main_menu = "tooltip_nav_main_menu",
