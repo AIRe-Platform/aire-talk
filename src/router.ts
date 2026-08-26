@@ -66,7 +66,6 @@ export const router = createRouter({
             name: "Login",
             meta: {
                 title: l.nav_login,
-                no_login: true
             },
         },
         {
