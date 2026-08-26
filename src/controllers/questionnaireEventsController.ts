@@ -14,7 +14,6 @@ import {
 } from "aire";
 import i18n, { l } from "@/locales";
 import useChat from "@/context/chat";
-import useLogin from "@/context/login";
 import { Questionnaire, QuestionnaireControlFlow } from "@/models/questionnaire";
 import { createInstructionMessage, createQuestionnaireMessage } from "@/helpers/chatMessages";
 import useQuestionnaire from "@/context/questionnaire";
@@ -121,7 +120,6 @@ async function saveFeedbackPersonalInformation() {
 
     const chat = useChat();
     const statistics = useStatistics();
-    const user = useLogin();
     
     const themes: string[] = [];
     chat.messages.forEach( message => {
@@ -135,10 +133,8 @@ async function saveFeedbackPersonalInformation() {
         statistics.sendEvent(new FeedbackEvent(
                 a.question_id,
                 chat.id,
-                user.user?.uuid,
                 a.answer,
                 a.question,
-                statistics.session?.id,
                 themesString
             ));
     });

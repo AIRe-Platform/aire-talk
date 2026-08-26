@@ -10,12 +10,18 @@ import PrivacyStatement from '@/components/about/PrivacyStatement.vue';
 import TermsOfUse from '@/components/about/TermsOfUse.vue';
 import SupportMailto from '@/components/common/SupportMailto.vue';
 import useTheme from '@/context/theme';
-import { getUILanguage, l } from '@/locales';
-import { reactive } from 'vue';
+import { getUILanguage, l, setUILanguage } from '@/locales';
+import { LanguageCode } from 'iso-639-1';
+import { onMounted, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const state = reactive<{
-    open?: 'tos' | 'privacy' | 'accessibility',
-}>({});
+    open?: 'tos' | 'privacy' | 'accessibility' | string,
+}>({
+    open: route.params.panel as string
+});
 
 const darkTheme = useTheme().isDarkTheme();
 const lang = getUILanguage();
@@ -23,6 +29,13 @@ const lang = getUILanguage();
 const toggleTermsModal = () => { state.open = 'tos'; };
 const togglePrivacyModal = () => { state.open = 'privacy'; };
 const toggleAccessibilityModal = () => { state.open = 'accessibility'; };
+
+onMounted(() => {
+    const lang = route.query["lang"] as string | undefined;
+    if(lang) {
+        setUILanguage(lang as LanguageCode);
+    }
+})
 </script>
 
 <template>

@@ -6,6 +6,7 @@ import { AireStatus, AireContent, AireContentType } from "aire";
 import { reactive } from "vue";
 import { useContentCache } from "./cache";
 import useAireMemory from "./memory";
+import { getUILanguage } from "@/locales";
 
 export class ContentContext {
     private ratings: Map<string, number> = new Map<string, number>();
@@ -23,8 +24,9 @@ export class ContentContext {
      */
     public async search(keywords: string[], max_items: number | undefined): Promise<AireContent[]> {
         const mem = useAireMemory();
+        const lang = getUILanguage();
         return await mem.aggregate(mem.agent(), async memory => {
-            return await memory.searchContent(keywords)
+            return await memory.searchContent(keywords, lang.value)
                 .then((result) => {
                     if (!result.data) {
                         throw Error(result.status.toString())
@@ -148,7 +150,6 @@ export class ContentContext {
 
         console.warn("Failed to get content", content_id);
     }
-
 
     public async getVote(content_id: string): Promise<number> {
         const vote = this.ratings.get(content_id);

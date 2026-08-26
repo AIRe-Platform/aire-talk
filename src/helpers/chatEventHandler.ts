@@ -27,7 +27,6 @@ import {
     createSystemMessage
 } from "./chatMessages";
 import useStatistics from "@/context/statistics";
-import useLogin from "@/context/login";
 import { ChatTokenStatsEvent, ReminderEvent, ReminderEventName } from "@/models/statistics";
 import { fetchAndRankContents, getChatContentIds } from "./contentUtils";
 import { createQuestionnaire, getChatQuestionnairesIds } from "./questionnaireUtils";
@@ -157,13 +156,7 @@ class ChatEventHandler {
         chat.stats.token_count = stats.total_tokens;
 
         const statistics = useStatistics();
-
-        statistics.sendEvent(new ChatTokenStatsEvent(
-            chat.id,
-            useLogin().user?.uuid,
-            statistics.session?.id,
-            stats
-        ));
+        statistics.sendEvent(new ChatTokenStatsEvent(chat.id, stats));
     }
 
     public async handleReminderEvent(e: AireReminderEvent) {
@@ -171,15 +164,13 @@ class ChatEventHandler {
 
         const chat = useChat();
         const statistics = useStatistics();
-        const login = useLogin();
 
         statistics.sendEvent(new ReminderEvent(
             e.reminder.trigger_timestamp,
             e.reminder.chat_id,
-            login.user?.uuid,
-            statistics.session?.id,
             ReminderEventName.Added
         ));
+
         const msg = createReminderCreatedMessage(e.reminder);
         chat.push(msg);
 

@@ -71,7 +71,7 @@ const vi: Locale = {
     nav_about: "Về",
     nav_menu_alternative_image_logo: "Logo menu điều hướng của AIRe.",
     nav_menu_alternative_image_logo_dark_mode: "Logo menu điều hướng của AIRe cho chế độ tối.",
-    
+
     profile_view_alternative_image_logo: "Logo hồ sơ của AIRe.",
     profile_view_alternative_image_logo_dark_mode: "Logo hồ sơ của AIRe cho chế độ tối.",
 
@@ -189,11 +189,18 @@ const vi: Locale = {
         'Bạn có muốn điền vào bảng câu hỏi "{0}" không?',
     confirm_questionnaire_completion:
         "Khi bạn hài lòng với câu trả lời của mình, hãy chọn tiếp tục.",
+
     questionnaire: "Bảng câu hỏi",
     questionnaire_start: "Bắt đầu bảng câu hỏi",
     questionnaire_end: "Kết thúc bảng câu hỏi",
-    questionnaire_explanation:
-        "Các câu hỏi sau đây đang được ghi lại để phân tích",
+    questionnaire_privacy_desc_private: `Bảng câu hỏi này là riêng tư.
+Câu trả lời của bạn được mã hóa và chỉ được AIRe truy cập khi bạn đăng nhập và đang trò chuyện.`,
+    questionnaire_privacy_desc_anonymous: `Bảng câu hỏi này là ẩn danh.
+Câu trả lời của bạn được AIRe truy cập nhưng KHÔNG được liên kết với bạn.
+Vui lòng lưu ý rằng bất kỳ thông tin nhận dạng cá nhân nào bạn cung cấp sẽ không được mã hóa.`,
+    questionnaire_privacy_desc_public: `Bảng câu hỏi này là công khai.
+Câu trả lời của bạn được AIRe truy cập và có thể được liên kết với bạn cho mục đích nghiên cứu.`,
+
     question_answer: "Câu trả lời của bạn",
 
     recall_start_question: "Bạn có muốn tiếp tục cuộc trò chuyện trước đó không?",

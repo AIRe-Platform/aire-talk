@@ -68,7 +68,7 @@ const es: Locale = {
     nav_about: "Nosotros",
     nav_menu_alternative_image_logo: "Logo del menú de navegación de AIRe.",
     nav_menu_alternative_image_logo_dark_mode: "Logo del menú de navegación de AIRe en modo oscuro.",
-    
+
     profile_view_alternative_image_logo: "Logo del perfil de AIRe.",
     profile_view_alternative_image_logo_dark_mode: "Logo del perfil de AIRe en modo oscuro.",
 
@@ -171,7 +171,7 @@ const es: Locale = {
     chat_input_alternative_image_logo_idle_state: "Chatbot de AIRe en estado inactivo.",
     chat_input_alternative_image_logo_thinking: "El chatbot de AIRe está pensando.",
     chat_input_alternative_image_logo_finish: "El chatbot de AIRe ha terminado de responder.",
-    
+
     popup_confirm_revert_message: "¿Estas seguro de que quieres revertir el chat hasta este mensaje?",
     popup_confirm_remove_chat: "¿Estas seguro de que quieres borrar este chat?",
     popup_confirm_logout: "¿Estas seguro de que quieres salir?",
@@ -179,10 +179,18 @@ const es: Locale = {
 
     confirm_questionnaire_start: '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
+    
     questionnaire: "Cuestionario",
     questionnaire_start: "Principio del cuestionario",
     questionnaire_end: "Final del cuestionario",
-    questionnaire_explanation: "Las siguientes preguntas se están registrando para su análisis.",
+    questionnaire_privacy_desc_private: `Este cuestionario es privado.
+Sus respuestas están cifradas y AIRe solo podrá acceder a ellas cuando inicie sesión y esté chateando.`,
+    questionnaire_privacy_desc_anonymous: `Este cuestionario es anónimo.
+Sus respuestas están disponibles para AIRe, pero NO están vinculadas a usted.
+Tenga en cuenta que cualquier información personal que proporcione no estará cifrada.`,
+    questionnaire_privacy_desc_public: `Este cuestionario es público.
+Sus respuestas están disponibles para AIRe y pueden vincularse a usted con fines de investigación.`,
+
     question_answer: "Tu respuesta",
 
     recall_start_question: "¿Quieres continuar alguna conversación anterior?",
@@ -218,7 +226,7 @@ const es: Locale = {
     content_modal_untitled_url_thumbnail: "Miniatura de URL sin título.",
     content_modal_untitled_document_thumbnail: "Miniatura de documento sin título.",
     content_modal_no_description: "No hay descripción disponible.",
-    
+
     logout_inactivity_message: "Se ha cerrado la sesión debido a inactividad.",
     logout_inactivity_warning_message: "Se cerrará su sesión en {duration} segundo(s) debido a inactividad.",
 
@@ -325,7 +333,7 @@ const es: Locale = {
     catalogue_item_alternative_image: "Imagen del contenido.",
     catalogue_item_alternative_url_thumbnail: "Miniatura de la URL.",
     catalogue_item_alternative_document_thumbnail: "Miniatura del documento.",
-    
+
     loading_indicator_alternative_image: "Imagen de carga mostrada mientras la página se carga.",
 
     about_title: "Acerca de AIRe",
@@ -357,7 +365,7 @@ const es: Locale = {
     feedback_question_todays_experience: "¿Cuánto te ayudó AIRe hoy?",
     feedback_question_todays_experience_description: "(Selección: 1 = Nada, 5 = Mucho)",
     feedback_question_open_feedback: "Abrir comentarios",
-    
+
     feedback_answer_very_litle: "Muy poco",
     feedback_answer_litle: "Poco",
     feedback_answer_normal: "Normal",
@@ -391,7 +399,7 @@ const es: Locale = {
     feedback_answer_neutral: "Soy neutral",
     feedback_answer_like_it: "Me gusta",
     feedback_answer_like_it_very_much: "Me gusta mucho",
-   
+
     en: "Inglés",
     fi: "Finlandés",
     sv: "Sueco",

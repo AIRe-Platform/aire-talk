@@ -18,7 +18,7 @@ import useContent from "./content";
 import { randomHexString, SHA256 } from "@/helpers/crypto";
 import { getUILanguage } from "@/locales";
 import useTheme from "./theme";
-import useStatistics from "./statistics";
+import useStatistics, { SessionStatsProps } from "./statistics";
 import {
     ConfigurationEventName,
     ConfigurationEvent,
@@ -124,12 +124,12 @@ export class LoginContext {
                 if (userResponse.status == AireStatus.Success) {
                     this.user = userResponse.data;
                     this.saveSession();
-                    await statistics.startSession(this.user?.uuid);
-                    statistics.sendEvent(new SessionEvent(
-                        this.user?.uuid,
-                        statistics.session?.id,
-                        SessionEventName.Start
-                    ));
+
+                    await statistics.startSession({
+                        user_id: this.user?.uuid
+                    });
+
+                    statistics.sendEvent(new SessionEvent(SessionEventName.Start));
 
                     useChat().reset(false, true);
                     return { ok: true };
@@ -191,7 +191,10 @@ export class LoginContext {
                         allow_upgrade: res.data.account_upgrade,
                     }
 
-                    const sessionStarted = await this.startSession();
+                    const sessionStarted = await this.startSession({
+                        invitation: res.data.invitation
+                    });
+
                     if (!sessionStarted)
                         return AireStatus.UnknownError;
 
@@ -230,13 +233,11 @@ export class LoginContext {
         useContent().reset();
         useCache().reset();
 
-        statistics.sendEvent(new SessionEvent(
-            this.user?.uuid,
-            statistics.session?.id,
-            SessionEventName.End
-        )).finally(() => {
-            statistics.session = undefined;
-        });
+        statistics
+            .sendEvent(new SessionEvent(SessionEventName.End))
+            .finally(() => {
+                statistics.session = undefined;
+            });
 
         this.user = undefined;
         this.session = undefined;
@@ -267,11 +268,7 @@ export class LoginContext {
             const result = await AireServices.ID.saveProfileData(user);
             if (result.status == AireStatus.Success) {
                 this.user = result.data;
-                statistics.sendEvent(new ConfigurationEvent(
-                    this.user?.uuid,
-                    statistics.session?.id,
-                    ConfigurationEventName.ProfileUpdate
-                ));
+                statistics.sendEvent(new ConfigurationEvent(ConfigurationEventName.ProfileUpdate));
             }
             return result.data;
         }
@@ -314,7 +311,7 @@ export class LoginContext {
         }
     }
 
-    private async startSession() {
+    private async startSession(props?: SessionStatsProps) {
         if (!AireServices.ID)
             return false;
 
@@ -323,12 +320,12 @@ export class LoginContext {
             this.user = userResponse.data;
             this.saveSession()
 
-            await statistics.startSession(this.user?.uuid);
-            statistics.sendEvent(new SessionEvent(
-                this.user?.uuid,
-                statistics.session?.id,
-                SessionEventName.Start
-            ));
+            await statistics.startSession({
+                ...props,
+                user_id: this.user?.uuid
+            });
+
+            statistics.sendEvent(new SessionEvent(SessionEventName.Start));
 
             await useChat().reset(false, true);
             return true;

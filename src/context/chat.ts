@@ -104,7 +104,7 @@ export class ChatContext {
 
         this.forced_response = false;
         this.response_received = false;
-        streamResponse();
+        streamResponse(false);
     }
 
     /**
@@ -183,7 +183,7 @@ export class ChatContext {
     public forceResponse() {
         if (!this.forced_response) {
             this.forced_response = true;
-            streamResponse();
+            streamResponse(true);
         }
     }
 
@@ -194,7 +194,7 @@ export class ChatContext {
         if (this.messages[this.messages.length - 1].role === "assistant") {
             this.messages.splice(this.messages.length - 1, 1);
             this.forced_response = true;
-            streamResponse();
+            streamResponse(true);
         }
     }
 
@@ -347,7 +347,7 @@ export default function useChat() {
     return context;
 }
 
-async function streamResponse() {
+async function streamResponse(force: boolean) {
     const statistics = useStatistics();
     const chat = useChat();
     const start = Date.now(); // Start time
@@ -355,18 +355,13 @@ async function streamResponse() {
     if (AireServices.AI) {
         useChatbot().makeBusy(false);
         const input = getChatbotInputData();
+        input.disable_tools = force;
 
         // Measure the time taken to start the response
         await AireServices.AI.stream(input, receiver, errorHandler);
 
         const responseTime = Date.now() - start; // Calculate response time
-
-        statistics.sendEvent(new ResponseTimeEvent(
-            responseTime,
-            chat.id,
-            useLogin().user?.uuid,
-            statistics.session?.id
-        ));
+        statistics.sendEvent(new ResponseTimeEvent(responseTime, chat.id));
 
         // Only add delay if the response was quick (less than 200 ms)
         if (responseTime < 200) {

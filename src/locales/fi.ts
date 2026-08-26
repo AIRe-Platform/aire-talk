@@ -186,12 +186,19 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     popup_confirm_profile_updated: "Käyttäjätiedot päivitetty.",
 
     confirm_questionnaire_start: 'Haluaisitko täyttää kyselyn "{0}"?',
-    confirm_questionnaire_completion:
-        "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+    confirm_questionnaire_completion: "Kun olet tyytyväinen vastauksiisi, valitse jatka.",
+
     questionnaire: "Kysely",
     questionnaire_start: "Kyselyn alku",
     questionnaire_end: "Kyselyn loppu",
-    questionnaire_explanation: "Seuraaviin kysymyksiin antamasi vastaukset tallennetaan jatkokäsittelyä varten.",
+    questionnaire_privacy_desc_private: `Tämä kysely on yksityinen.
+Vastauksesi salataan ja ne ovat AIRen käytettävissä vain silloin kun olet kirjautuneena.`,
+    questionnaire_privacy_desc_anonymous: `Tämä kysely on anonyymi.
+Vastauksesi ovat AIRen käytettävissä, mutta niitä ei yhdistetä sinuun.
+Huomioithan, että kyselyyn syöttämäsi henkilökohtaisia tietoja ei salata.`,
+    questionnaire_privacy_desc_public: `Tämä kysely on julkinen.
+Antamasi vastaukset ovat AIRen käytettävissä ja ne ovat yhdistettävissä sinuun tutkimustarkoituksessa.`,
+
     question_answer: "Vastauksesi",
 
     recall_start_question: "Haluatko jatkaa jotain aiempaa keskustelua?",
