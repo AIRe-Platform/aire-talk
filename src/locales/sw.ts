@@ -260,7 +260,7 @@ Majibu yako yanapatikana kwa AIRe na yanaweza kuunganishwa na wewe kwa madhumuni
     tooltip_nav_content_catalogue: "Angalia maudhui yote yanayoonyeshwa kwenye jukwaa la AIRe.",
     tooltip_nav_profile: "Nenda kwenye wasifu.",
     tooltip_nav_login: "Nenda kwenye ukurasa wa kuingia.",
-    tooltip_nav_log_out: "Ondoka.",
+    tooltip_nav_logout: "Ondoka.",
     tooltip_nav_signup: "Anza kutumia AIRe.",
     tooltip_nav_preferences: "Nenda kwenye mipangilio yako.",
     tooltip_nav_main_menu: "Nenda kwenye menyu kuu.",

@@ -16,6 +16,7 @@ import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
+const login = useLogin();
 
 const state = reactive<{
     busy: boolean,
@@ -29,32 +30,47 @@ const checkInviteCode = async () => {
     const platform = route.query.platform?.toString();
     const lang = route.query.lang?.toString();
 
+    // Change language
     if (lang) {
         setUILanguage(lang as LanguageCode);
     }
 
-    if (platform) {
-        await usePlatform().switch(platform, false)
-            .then(valid => {
-                if (!valid)
-                    router.push("/");
-            })
-    }
-
+    // Check token exists and services available
     if (!inviteToken || !AireServices.ID) {
         router.push("/");
         return;
     }
 
-    state.busy = false;
+    state.busy = true;
     state.status = undefined;
 
-    await useLogin().loginWithInvitation(inviteToken)
+    // Logout from any existing session
+    if (login.session) {
+        if (!login.isCurrentInviteSession(inviteToken)) {
+            var returnParams = new URLSearchParams({
+                "invite": inviteToken,
+                "platform": platform ?? ""
+            });
+            await login.logout(returnParams);
+        }
+    }
+
+    // Switch platform if needed
+    if (platform) {
+        await usePlatform().switch(platform, false)
+            .then(valid => {
+                if (!valid) router.push("/");
+            })
+    }
+
+    // Finally, login using the invite token
+    await login.loginWithInvitation(inviteToken)
         .then(res => {
             state.status = res;
 
+            // Go to start page if invitation is not valid
             if (res !== AireStatus.Success)
-                router.push({ name: "Login" });
+                router.push({ name: "Start" });
         })
         .catch(() => {
             state.status = AireStatus.UnknownError;

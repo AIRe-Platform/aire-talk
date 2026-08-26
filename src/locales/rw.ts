@@ -270,7 +270,7 @@ Ibisubizo byawe biraboneka kuri AIRe kandi bishobora guhuzwa nawe mu rwego rw'ub
     tooltip_nav_content_catalogue: "Reba ibikubiyeho byose bigaragara kuri AIRe.",
     tooltip_nav_profile: "Jya ku mafoto yawe.",
     tooltip_nav_login: "Jya kwinjira.",
-    tooltip_nav_log_out: "Siba konti.",
+    tooltip_nav_logout: "Siba konti.",
     tooltip_nav_signup: "Tangira gukoresha AIRe.",
     tooltip_nav_preferences: "Jya mu mahitamo yawe.",
     tooltip_nav_main_menu: "Jya mu mahitamo y'ibanze.",
