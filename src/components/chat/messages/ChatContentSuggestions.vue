@@ -79,8 +79,8 @@ onMounted(async () => {
         <h2 class="chat-content-suggestions-title">
             {{ $t(l.suggestions_title) }}
         </h2>
-        <span class="chat-content-suggestions-text">
-            {{ message.content }}
+        <span class="chat-content-suggestions-text" v-if="props.message.content">
+            {{ props.message.localize ? $t(props.message.content) : props.message.content }}
         </span>
         <div class="chat-content-items" v-if="props.message.media">
             <ChatContent v-for="content in state.rankedContents" :parent="props.message" :content="content"
