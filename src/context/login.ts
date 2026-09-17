@@ -59,7 +59,7 @@ export class LoginContext {
     private AUTH_STATE_KEY = "aire_auth_state";
 
     constructor() {
-        const auth_state_data = window.sessionStorage.getItem(this.AUTH_STATE_KEY);
+        const auth_state_data = sessionStorage.getItem(this.AUTH_STATE_KEY);
         if (auth_state_data)
             this.auth_state = JSON.parse(auth_state_data);
     }
@@ -68,21 +68,20 @@ export class LoginContext {
         if (!AireServices.ID)
             return false;
 
+        const verifier = randomHexString(32);
+
         const options: AireLoginOptions = {
             state: randomHexString(32),
-            code_challenge: randomHexString(32),
+            code_challenge: await SHA256(verifier),
             code_challenge_method: "S256",
             redirect_uri: document.location.origin + "/auth/callback",
             locale: getUILanguage().value,
             theme: useTheme().isDarkTheme().value ? "dark" : "light",
         };
 
-        const state = {
-            state: options.state,
-            code_verifier: await SHA256(options.code_challenge!)
-        };
+        const state = { state: options.state, code_verifier: verifier };
 
-        window.sessionStorage.setItem(this.AUTH_STATE_KEY, JSON.stringify(state));
+        sessionStorage.setItem(this.AUTH_STATE_KEY, JSON.stringify(state));
 
         try {
             const res = await AireServices.ID.getLoginUrl(options);
@@ -116,6 +115,8 @@ export class LoginContext {
                 state: this.auth_state.state,
                 redirect_uri: document.location.origin + "/auth/callback",
             };
+
+            sessionStorage.removeItem(this.AUTH_STATE_KEY);
 
             const response = await AireServices.ID.loginWithCode(options);
 
@@ -159,7 +160,7 @@ export class LoginContext {
     }
 
     public isCurrentInviteSession(inviteToken: string): boolean {
-        if(!this.session)
+        if (!this.session)
             return false;
         return this.session.invite?.token === inviteToken;
     }
