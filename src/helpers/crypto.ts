@@ -4,16 +4,9 @@
 
 
 export function randomHexString(bytes: number) {
-    if (import.meta.env.VITE_AIRE_ENVIRONMENT === 'development') {
-        return [...Array(bytes)]
-            .map(() => Math.floor(Math.random() * 255).toString(16))
-            .join('');
-    }
-    else {
-        return [...crypto.getRandomValues(new Uint8Array(bytes))]
-            .map(x => x.toString(16))
-            .join('');
-    }
+    return [...crypto.getRandomValues(new Uint8Array(bytes))]
+        .map(x => x.toString(16))
+        .join('');
 }
 
 export async function SHA256(input: string) {
