@@ -16,6 +16,7 @@ import useStatistics from '@/context/statistics';
 import useChat from '@/context/chat';
 import { ContentEvent, ContentEventAction, ContentEventName } from '@/models/statistics';
 import useKeywords from '@/context/keywords';
+import { sanitizeUrl } from '@/helpers/sanitizer';
 
 const props = defineProps<{
     active: boolean,
@@ -35,7 +36,8 @@ const statistics = useStatistics();
 const chat = useChat();
 
 const openUrl = (url?: string) => {
-    if (url) {
+    const target = sanitizeUrl(url);
+    if (target) {
         if (!props.chatId) {
             statistics.sendEvent(new ContentEvent(
                 props.content?.id,
@@ -46,7 +48,7 @@ const openUrl = (url?: string) => {
                 ContentEventAction.LinkOpen,
             ));
         }
-        window.open(url, '_blank');
+        window.open(target, '_blank');
     }
 };
 
@@ -123,8 +125,10 @@ onMounted(async () => {
                                 <video controls autoplay aria-labelledby="modal-title"
                                     :aria-label="`${$t(l.screen_recorder_video_content)} ${props.content.name || $t(l.screen_recorder_video_content_unnamed)}`">
                                     <source v-bind:src="props.content.url" type="video/mp4" />
-                                    <p>{{ $t(l.content_modal_browser_does_not_support_video_tag) }} <a
-                                            :href="props.content.url">{{ $t(l.content_modal_download) }}</a>.</p>
+                                    <p>
+                                        {{ $t(l.content_modal_browser_does_not_support_video_tag) }}
+                                        <a :href="sanitizeUrl(props.content.url)">{{ $t(l.content_modal_download) }}</a>.
+                                    </p>
                                 </video>
                             </template>
                             <a href="#" v-if="props.content.type == AireContentType.URL"
@@ -158,7 +162,7 @@ onMounted(async () => {
                     </div>
                     <div class="modal-content">
                         <h2 class="modal-title" id="modal-description" tabindex="0">{{ $t(l.content_modal_description)
-                        }}</h2>
+                            }}</h2>
                         <p tabindex="0">{{ props.content.description || $t(l.content_modal_no_description) }}</p>
                     </div>
                     <div class="modal-content">
