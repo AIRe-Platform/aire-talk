@@ -6,7 +6,7 @@
 export function sanitizeUrl(url?: string): string | undefined {
     if (!url) return undefined;
     const uri = new URL(url);
-    if (uri.protocol !== 'https' && uri.protocol !== 'http')
+    if (uri.protocol !== 'https:' && uri.protocol !== 'http:')
         return undefined;
     return uri.toString();
 }
