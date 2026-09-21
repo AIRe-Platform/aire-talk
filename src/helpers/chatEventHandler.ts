@@ -264,7 +264,7 @@ class ChatEventHandler {
                 endConversation = true;
             }
 
-            if (message.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
+            if (!message.hidden && message.content?.includes(ChatMessageTag.RED_FLAG_TAG)) {
                 message.content = message.content.replace(ChatMessageTag.RED_FLAG_TAG, "").trim();
                 chat.state.red_flag_triggered = true;
             }
