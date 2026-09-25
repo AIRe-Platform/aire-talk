@@ -415,6 +415,8 @@ export async function continueConversation() {
 
     const inst = createInstructionMessage("The user wishes to continue the conversation.");
     chat.messages.push(inst);
+
+    chat.state.red_flag_triggered = false;
 }
 
 /**
