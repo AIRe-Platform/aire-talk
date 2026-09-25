@@ -276,6 +276,9 @@ export class ChatContext {
         const themeMeta = await useKeywords().updateMetadata(themes);
         this.state.themes = themeMeta;
 
+        if(!this.state.agent)
+            this.state.agent = getDefaultAgent()?.name
+
         scrollChatToBottom();
         return true;
     }
