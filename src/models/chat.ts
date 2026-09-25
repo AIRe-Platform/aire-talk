@@ -3,7 +3,7 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 
-import { AireChatMessage, AireKeyword } from "aire";
+import { AireChatMessage, AireKeyword, AireQuestionnairePrivacy } from "aire";
 import { Questionnaire } from "./questionnaire";
 import { AireDocumentMetadata } from "submodules/aire-typescript-sdk/src/models/document";
 
@@ -72,6 +72,7 @@ export interface ChatState {
 export interface ChatMessageGroup {
     id: string;
     messages: Array<ChatMessage>;
+    privacy?: AireQuestionnairePrivacy;
     isQuestionnaire: boolean;
     isCompleted?: boolean;
 }
