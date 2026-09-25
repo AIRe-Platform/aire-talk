@@ -179,17 +179,13 @@ const es: Locale = {
 
     confirm_questionnaire_start: '¿Le gustaría completar un cuestionario "{0}"?',
     confirm_questionnaire_completion: "Cuando esté satisfecho con sus respuestas, elija continuar.",
-    
+
     questionnaire: "Cuestionario",
     questionnaire_start: "Principio del cuestionario",
     questionnaire_end: "Final del cuestionario",
-    questionnaire_privacy_desc_private: `Este cuestionario es privado.
-Sus respuestas están cifradas y AIRe solo podrá acceder a ellas cuando inicie sesión y esté chateando.`,
-    questionnaire_privacy_desc_anonymous: `Este cuestionario es anónimo.
-Sus respuestas están disponibles para AIRe, pero NO están vinculadas a usted.
-Tenga en cuenta que cualquier información personal que proporcione no estará cifrada.`,
-    questionnaire_privacy_desc_public: `Este cuestionario es público.
-Sus respuestas están disponibles para AIRe y pueden vincularse a usted con fines de investigación.`,
+    questionnaire_privacy_desc_private: `Sus respuestas son privadas y están cifradas.`,
+    questionnaire_privacy_desc_anonymous: `Sus respuestas son anónimas y no están vinculadas a otra información.`,
+    questionnaire_privacy_desc_public: `Sus respuestas son anónimas y no están vinculadas a su información personal. Sus respuestas pueden asociarse a otra información anonimizada.`,
 
     question_answer: "Tu respuesta",
 

@@ -191,13 +191,9 @@ Salasanan tulee olla vähintään 8 merkkiä pitkä sekä sisältää pieniä ja
     questionnaire: "Kysely",
     questionnaire_start: "Kyselyn alku",
     questionnaire_end: "Kyselyn loppu",
-    questionnaire_privacy_desc_private: `Tämä kysely on yksityinen.
-Vastauksesi salataan ja ne ovat AIRen käytettävissä vain silloin kun olet kirjautuneena.`,
-    questionnaire_privacy_desc_anonymous: `Tämä kysely on anonyymi.
-Vastauksesi ovat AIRen käytettävissä, mutta niitä ei yhdistetä sinuun.
-Huomioithan, että kyselyyn syöttämäsi henkilökohtaisia tietoja ei salata.`,
-    questionnaire_privacy_desc_public: `Tämä kysely on julkinen.
-Antamasi vastaukset ovat AIRen käytettävissä ja ne ovat yhdistettävissä sinuun tutkimustarkoituksessa.`,
+    questionnaire_privacy_desc_private: `Vastauksesi ovat yksityisiä ja ne tallennetaan salattuina.`,
+    questionnaire_privacy_desc_anonymous: `Vastauksesi tallennetaan anonyymisti, eikä niitä yhdistetä muihin tietoihisi.`,
+    questionnaire_privacy_desc_public: `Vastauksesi tallennetaan anonyymisti siten, että niitä ei voida yhdistää henkilötietoihisi. Vastauksiasi voidaan yhdistää muihin anonymisoituihin tietoihin.`,
 
     question_answer: "Vastauksesi",
 
