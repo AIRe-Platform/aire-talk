@@ -386,11 +386,15 @@ export async function queryAndStartQuestionnaireWithKeyword(keyword: string): Pr
  * When the user trigger end of the convesation, the sumarize and suggestion are shown if not red flag have been triggered
  */
 export async function onEndConversation() {
-    if (!chat.state.red_flag_triggered) {
-        await summarizeChat();
-    } else {
+    if (chat.state.red_flag_triggered) {
         const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
         chat.messages.push(end);
+
+        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
+        chat.push(options);
+    }
+    else {
+        await summarizeChat();
     }
 }
 
@@ -411,6 +415,8 @@ export async function continueConversation() {
 
     const inst = createInstructionMessage("The user wishes to continue the conversation.");
     chat.messages.push(inst);
+
+    chat.state.red_flag_triggered = false;
 }
 
 /**

@@ -174,13 +174,9 @@ Ditt lösenord måste vara minst 8 tecken långt och innehålla gemener, versale
     questionnaire: "Enkät",
     questionnaire_start: "Enkätens början",
     questionnaire_end: "Enkätens slut",
-    questionnaire_privacy_desc_private: `Denna enkät är privat.
-Dina svar är krypterade och kommer endast att vara tillgängliga för AIre när du är inloggad och chattar.`,
-    questionnaire_privacy_desc_anonymous: `Denna enkät är anonym.
-Dina svar är tillgängliga för AIre men är INTE kopplade till dig.
-Observera att all personligt identifierbar information som du kan lämna kommer att vara okrypterad.`,
-    questionnaire_privacy_desc_public: `Denna enkät är offentlig.
-Dina svar är tillgängliga för AIre och kan kopplas till dig för forskningsändamål.`,
+    questionnaire_privacy_desc_private: `Dina svar är privata och krypterade.`,
+    questionnaire_privacy_desc_anonymous: `Dina svar är anonyma och kopplas inte till annan information.`,
+    questionnaire_privacy_desc_public: `Dina svar är anonyma och kopplas inte till dina personuppgifter. Dina svar kan komma att kopplas samman med annan anonymiserad information.`,
 
     question_answer: "Ditt svar",
 

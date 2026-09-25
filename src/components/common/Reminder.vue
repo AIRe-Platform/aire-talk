@@ -61,8 +61,6 @@ const markEventAsRead = (index: number) => {
         statistics.sendEvent(new ReminderEvent(
             reminder[0].trigger_timestamp,
             reminder[0].chat_id,
-            login.user?.uuid,
-            statistics.session?.id,
             ReminderEventName.Removed
         ));
         reminder[0].read_timestamp = DateTime.utc().toUnixInteger();
@@ -77,8 +75,6 @@ const returnToConversation = (reminder: AireReminder) => {
     statistics.sendEvent(new ReminderEvent(
         reminder.trigger_timestamp,
         reminder.chat_id,
-        login.user?.uuid,
-        statistics.session?.id,
         ReminderEventName.ContinueConversation
     ));
     openAndContinueChat(reminder.chat_id!)

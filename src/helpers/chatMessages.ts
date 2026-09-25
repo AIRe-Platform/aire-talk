@@ -7,6 +7,7 @@ import useContent from "@/context/content";
 import useLogin from "@/context/login";
 import { l } from "@/locales";
 import { ChatMessage, ChatMessageType } from "@/models/chat";
+import { Questionnaire } from "@/models/questionnaire";
 import {
     AireChatMessage,
     AireChatRole,
@@ -14,7 +15,8 @@ import {
     AireContent,
     AireQuestion,
     AireReminder,
-    AireKeyword
+    AireKeyword,
+    AireQuestionnairePrivacy
 } from "aire";
 
 const BOT_NAME = "aire_bot"
@@ -119,11 +121,17 @@ export function createControlFlowMessage(type: ChatMessageType, message_loc_key?
     return createMessage(type, "system", message_loc_key, hasMessage, !hasMessage);
 }
 
-export function createQuestionnaireMessage(questionnaire_id: string, question: AireQuestion, is_feedback: boolean): ChatMessage {
+export function createQuestionnaireMessage(
+    questionnaire_id: string,
+    privacy: AireQuestionnairePrivacy | undefined,
+    question: AireQuestion,
+    is_feedback: boolean): ChatMessage {
+
     const msg = createMessage(ChatMessageType.Questionnaire, "assistant");
     const item: AireQuestionnaireAnswer = {
         questionnaire_id: questionnaire_id,
         question_id: question.id,
+        privacy: is_feedback ? undefined : privacy,
         type: question.type,
         question: question.question,
         prompt: question.prompt,

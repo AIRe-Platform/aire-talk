@@ -195,13 +195,9 @@ const id: Locale = {
     questionnaire: "Kuesioner",
     questionnaire_start: "Awal kuesioner",
     questionnaire_end: "Akhir kuesioner",
-    questionnaire_privacy_desc_private: `Kuesioner ini bersifat pribadi.
-Jawaban Anda dienkripsi dan hanya akan tersedia untuk AIRe saat Anda masuk dan sedang mengobrol.`,
-    questionnaire_privacy_desc_anonymous: `Kuesioner ini anonim.
-Jawaban Anda tersedia untuk AIRe tetapi TIDAK dikaitkan dengan Anda.
-Harap dicatat bahwa informasi identitas pribadi apa pun yang Anda berikan akan tidak dienkripsi.`,
-    questionnaire_privacy_desc_public: `Kuesioner ini bersifat publik.
-Jawaban Anda tersedia untuk AIRe dan dapat dikaitkan dengan Anda untuk tujuan penelitian.`,
+    questionnaire_privacy_desc_private: `Jawaban Anda bersifat pribadi dan dienkripsi.`,
+    questionnaire_privacy_desc_anonymous: `Jawaban Anda bersifat anonim dan tidak dikaitkan dengan informasi lain.`,
+    questionnaire_privacy_desc_public: `Jawaban Anda bersifat anonim dan tidak dikaitkan dengan informasi pribadi Anda. Jawaban Anda mungkin digabungkan dengan informasi lain yang telah dianonimkan.`,
 
     question_answer: "Jawaban Anda",
 

@@ -66,6 +66,7 @@ const groupedMessages = () => {
                 currentGroup = {
                     id: "msg-group-" + groupIndex++,
                     messages: [],
+                    privacy: message.question?.privacy,
                     isQuestionnaire: !!message.question,
                 } as ChatMessageGroup;
                 currentGroup.messages.push(message);

@@ -86,7 +86,7 @@ export class QuestionnaireContext {
             return false;
 
         const chat = useChat();
-        const msg = createQuestionnaireMessage(this.active.id, next, this.active.is_feedback!);
+        const msg = createQuestionnaireMessage(this.active.id, this.active.privacy, next, this.active.is_feedback!);
         chat.push(msg);
         return true;
     }

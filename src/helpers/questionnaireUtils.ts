@@ -89,16 +89,25 @@ export async function queryQuestionnairesForKeyword(keyword: string): Promise<{ 
  * Query feedback questionnaire
  */
 export async function queryFeedbackQuestionnaire(): Promise<{ source: string, result: AireQuestionnaire }[]> {
-    const sources = useAireMemory().agent();
-    return await useAireMemory().aggregate(sources, async memory => {
-        const lang = getUILanguage();
-        const query = await memory.queryFeedbackQuestionnaire(lang.value);
+    const query = async (sources: AireMemory[]) => {
+        return await useAireMemory().aggregate(sources, async memory => {
+            const lang = getUILanguage();
+            const query = await memory.queryFeedbackQuestionnaire(lang.value);
+            if (!query.data)
+                return [];
 
-        if (!query.data)
-            return [];
+            return [{ source: memory.id, result: query.data }];
+        })
+    }
 
-        return [{ source: memory.id, result: query.data }];
-    })
+    const agentSources = useAireMemory().agent();
+    const agentResults = await query(agentSources);
+    if (agentResults.length > 0)
+        return agentResults;
+
+    // Fallback to all internal platform modules
+    const platSources = useAireMemory().internal();
+    return await query(platSources);
 }
 
 export function getRelevantQuestions(questionnaire: AireQuestionnaire, keywords: string[]): AireQuestion[] {

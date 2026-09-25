@@ -193,13 +193,9 @@ const vi: Locale = {
     questionnaire: "Bảng câu hỏi",
     questionnaire_start: "Bắt đầu bảng câu hỏi",
     questionnaire_end: "Kết thúc bảng câu hỏi",
-    questionnaire_privacy_desc_private: `Bảng câu hỏi này là riêng tư.
-Câu trả lời của bạn được mã hóa và chỉ được AIRe truy cập khi bạn đăng nhập và đang trò chuyện.`,
-    questionnaire_privacy_desc_anonymous: `Bảng câu hỏi này là ẩn danh.
-Câu trả lời của bạn được AIRe truy cập nhưng KHÔNG được liên kết với bạn.
-Vui lòng lưu ý rằng bất kỳ thông tin nhận dạng cá nhân nào bạn cung cấp sẽ không được mã hóa.`,
-    questionnaire_privacy_desc_public: `Bảng câu hỏi này là công khai.
-Câu trả lời của bạn được AIRe truy cập và có thể được liên kết với bạn cho mục đích nghiên cứu.`,
+    questionnaire_privacy_desc_private: `Câu trả lời của bạn được bảo mật và mã hóa.`,
+    questionnaire_privacy_desc_anonymous: `Câu trả lời của bạn ẩn danh và không được liên kết với các thông tin khác.`,
+    questionnaire_privacy_desc_public: `Câu trả lời của bạn ẩn danh và không được liên kết với thông tin cá nhân của bạn. Câu trả lời của bạn có thể được gộp cùng các thông tin ẩn danh khác.`,
 
     question_answer: "Câu trả lời của bạn",
 

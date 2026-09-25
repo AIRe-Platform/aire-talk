@@ -2,13 +2,18 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-export function openInNewTab(url: string) {
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("target", '_blank');
-    link.style.visibility = "hidden";
+import { sanitizeUrl } from "./sanitizer";
 
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+export function openInNewTab(url: string) {
+    const sanitized = sanitizeUrl(url);
+    if (sanitized) {
+        const link = document.createElement("a");
+        link.setAttribute("href", sanitized);
+        link.setAttribute("target", '_blank');
+        link.style.visibility = "hidden";
+
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
 }

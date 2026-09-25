@@ -124,7 +124,8 @@ router.beforeEach(async (to, from) => {
     const login = useLogin();
 
     if (isRestrictedMode.value && !to.meta.allow_restricted)
-        return restrictedModeRedirect();
+        if(!to.path.startsWith("/invite"))
+            return restrictedModeRedirect();
 
     if (login.user) {
         if (to.meta.no_login)

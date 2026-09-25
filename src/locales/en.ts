@@ -177,13 +177,9 @@ const en: Locale = {
     questionnaire: "Questionnaire",
     questionnaire_start: "Start of questionnaire",
     questionnaire_end: "End of questionnaire",
-    questionnaire_privacy_desc_private: `This questionnaire is private.
-Your answers are encrypted and will be available to AIRe only when you are logged in and chatting.`,
-    questionnaire_privacy_desc_anonymous: `This questionnaire is anonymous. 
-Your answers are available to AIRe but are NOT linked to you. 
-Please note that any personally identifiable information you may provide will be unencrypted.`,
-    questionnaire_privacy_desc_public: `This questionnaire is public.
-Your answers are available to AIRe and can be linked to you for research purposes.`,
+    questionnaire_privacy_desc_private: `Your answers are private and encrypted.`,
+    questionnaire_privacy_desc_anonymous: `Your answers are anonymous and not connected with other information.`,
+    questionnaire_privacy_desc_public: `Your answers are anonymous and not connected to your personal information. Your answers may be attached to other anonymized information.`,
 
     question_answer: "Your answer",
 

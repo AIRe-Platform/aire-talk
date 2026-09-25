@@ -39,13 +39,13 @@ const PersonalInfoController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("personal_info", q, false);
+        return createQuestionnaireMessage("personal_info", self.privacy, q, false);
     },
-    onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any)  =>  {
+    onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
         const chat = useChat();
 
-        if(question.question_id === "personal_info_start") {
+        if (question.question_id === "personal_info_start") {
             if (answer.includes(i18n.global.t(l.button_yes))) {
                 context.nextQuestion();
             }
@@ -82,7 +82,7 @@ const PersonalInfoController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("personal_info", q, false);
+        return createQuestionnaireMessage("personal_info", self.privacy, q, false);
     }
 }
 

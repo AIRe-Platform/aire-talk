@@ -72,7 +72,7 @@ const sw: Locale = {
     nav_about: "Kuhusu",
     nav_menu_alternative_image_logo: "Nembo ya menyu ya urambazaji ya AIRe.",
     nav_menu_alternative_image_logo_dark_mode: "Nembo ya menyu ya urambazaji ya AIRe kwa njia ya giza.",
-    
+
     profile_view_alternative_image_logo: "Nembo ya wasifu ya AIRe.",
     profile_view_alternative_image_logo_dark_mode: "Nembo ya wasifu ya AIRe kwa njia ya giza.",
 
@@ -177,17 +177,13 @@ const sw: Locale = {
 
     confirm_questionnaire_start: 'Je, ungependa kujaza uchunguzi "{0}"?',
     confirm_questionnaire_completion: "Unapokuwa umefurahishwa na majibu yako, chagua kuendelea.",
-    
+
     questionnaire: "Uchunguzi",
     questionnaire_start: "Mwanzo wa uchunguzi",
     questionnaire_end: "Mwisho wa uchunguzi",
-    questionnaire_privacy_desc_private: `Hojaji hii ni ya faragha.
-Majibu yako yamesimbwa kwa njia fiche na yatapatikana kwa AIRe tu unapoingia na kupiga gumzo.`,
-    questionnaire_privacy_desc_anonymous: `Hojaji hii ni ya faragha.
-Majibu yako yanapatikana kwa AIRe lakini HAYAJAunganishwa na wewe.
-Tafadhali kumbuka kwamba taarifa yoyote inayoweza kukutambulisha binafsi ambayo unaweza kutoa haitasimbwa kwa njia fiche.`,
-    questionnaire_privacy_desc_public: `Hojaji hii ni ya umma.
-Majibu yako yanapatikana kwa AIRe na yanaweza kuunganishwa na wewe kwa madhumuni ya utafiti.`,
+    questionnaire_privacy_desc_private: `Majibu yako ni ya siri na yamesimbwa kwa njia fiche.`,
+    questionnaire_privacy_desc_anonymous: `Majibu yako hayatajulikana nani kayatoa na hayahusishwi na taarifa nyingine.`,
+    questionnaire_privacy_desc_public: `Majibu yako hayatajulikana nani kayatoa na hayahusishwi na taarifa zako binafsi. Majibu yako yanaweza kuunganishwa na taarifa nyingine ambazo pia hazionyeshi utambulisho wa mtu.`,
 
     question_answer: "Jibu lako",
 
@@ -331,7 +327,7 @@ Majibu yako yanapatikana kwa AIRe na yanaweza kuunganishwa na wewe kwa madhumuni
     catalogue_item_alternative_image: "Picha ya maudhui.",
     catalogue_item_alternative_url_thumbnail: "Thumbail ya URL.",
     catalogue_item_alternative_document_thumbnail: "Thumbail ya hati.",
-    
+
     loading_indicator_alternative_image: "Picha ya upakiaji inayonyeshwa wakati ukurasa unapojazwa.",
 
     about_title: "Kuhusu AIRe",

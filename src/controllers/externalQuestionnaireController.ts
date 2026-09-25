@@ -35,7 +35,7 @@ const ExternalQuestionnaireController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         }
-        return createQuestionnaireMessage(self.id + "_start", q, self.is_feedback!);
+        return createQuestionnaireMessage(self.id + "_start", self.privacy, q, self.is_feedback!);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
