@@ -35,7 +35,7 @@ const RecallController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("recall", q, false);
+        return createQuestionnaireMessage("recall", self.privacy, q, false);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any) => {
         const context = useQuestionnaire();
@@ -100,7 +100,7 @@ const RecallController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("recall", q, false);
+        return createQuestionnaireMessage("recall", self.privacy, q, false);
     }
 }
 
