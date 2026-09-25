@@ -131,7 +131,7 @@ export function createQuestionnaireMessage(
     const item: AireQuestionnaireAnswer = {
         questionnaire_id: questionnaire_id,
         question_id: question.id,
-        privacy: privacy,
+        privacy: is_feedback ? undefined : privacy,
         type: question.type,
         question: question.question,
         prompt: question.prompt,
