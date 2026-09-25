@@ -191,13 +191,9 @@ const rw: Locale = {
     questionnaire: "Ibibazo",
     questionnaire_start: "Aho ibibazo bitangirira",
     questionnaire_end: "Aho ibibazo birangirira",
-    questionnaire_privacy_desc_private: `Iki kibazo ni ibanga.
-Ibisubizo byawe birahishe kandi bizaboneka kuri AIRe gusa iyo winjiye kandi ukaganira.`,
-    questionnaire_privacy_desc_anonymous: `Iki kibazo ntabwo ari ibanga.
-Ibisubizo byawe biraboneka kuri AIRe ariko ntabwo ari ibanga.
-Menya neza ko amakuru yose y'umuntu ku giti cye ushobora gutanga azaba adahishe.`,
-    questionnaire_privacy_desc_public: `Iki kibazo ni rusange.
-Ibisubizo byawe biraboneka kuri AIRe kandi bishobora guhuzwa nawe mu rwego rw'ubushakashatsi.`,
+    questionnaire_privacy_desc_private: `Ibisubizo byawe ni ibanga kandi byashyizwe mu buryo budashobora gusomwa n’abandi (encrypted).`,
+    questionnaire_privacy_desc_anonymous: `Ibisubizo byawe bitangwa utagaragaje umwirondoro wawe kandi ntibihuza n’andi makuru akwerekeye.`,
+    questionnaire_privacy_desc_public: `Ibisubizo byawe bitangwa utagaragaje umwirondoro wawe kandi ntibihuza n’amakuru yihariye akwerekeye. Ibisubizo byawe bishobora guhuzwa n’andi makuru atagaragaza ba nyirayo.`,
 
     question_answer: "Igisubizo cyawe",
 

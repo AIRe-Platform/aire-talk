@@ -43,7 +43,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 ]
             } as AireQuestionOptionCheckbox
         };
-        return createQuestionnaireMessage("feedback_personal", q, true);
+        return createQuestionnaireMessage("feedback_personal", self.privacy, q, true);
     },
     onAnswer: (self: Questionnaire, question: AireQuestionnaireAnswer, answer: any)  =>  {
         const context = useQuestionnaire();
@@ -86,7 +86,7 @@ const PersonalFeedbackController: QuestionnaireController = {
                 values: [i18n.global.t(l.button_continue)]
             } as AireQuestionOptionCheckbox,
         };
-        return createQuestionnaireMessage("feedback_personal", q, true);
+        return createQuestionnaireMessage("feedback_personal", self.privacy, q, true);
     }
 }
 
