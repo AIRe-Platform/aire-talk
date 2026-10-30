@@ -146,6 +146,8 @@ export class ChatContext {
 
             if (reset_questionnaire)
                 useQuestionnaire().reset();
+
+            this.state.red_flag_triggered = false;
             this.autoSave();
         }
         else {
@@ -276,7 +278,7 @@ export class ChatContext {
         const themeMeta = await useKeywords().updateMetadata(themes);
         this.state.themes = themeMeta;
 
-        if(!this.state.agent)
+        if (!this.state.agent)
             this.state.agent = getDefaultAgent()?.name
 
         scrollChatToBottom();
@@ -385,8 +387,6 @@ async function streamResponse(force: boolean) {
 // Return true if event handled
 async function receiver(e: AireTalkEvent) {
     const chat = useChat();
-    if (chat.state.red_flag_triggered)
-        return;
 
     if (e.type === AireEventType.Keywords && e.keywords) {
         await ChatEvents.handleKeywordEvent(e.keywords);
