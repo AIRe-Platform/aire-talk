@@ -24,8 +24,6 @@ export class TooltipState {
             rect: rect,
             position: position
         };
-
-        console.log("Tooltip set", this.tooltip);
     }
 
     public get() {
