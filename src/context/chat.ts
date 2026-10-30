@@ -146,6 +146,8 @@ export class ChatContext {
 
             if (reset_questionnaire)
                 useQuestionnaire().reset();
+
+            this.state.red_flag_triggered = false;
             this.autoSave();
         }
         else {
