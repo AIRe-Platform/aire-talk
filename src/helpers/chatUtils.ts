@@ -163,9 +163,13 @@ export function getLastMessage(): ChatMessage | undefined {
 export async function onAcceptSummary() {
     const keywords = listChatKeywords();
     keywords.forEach((kw) => statistics.sendEvent(
-        new ChatThemeEvent(kw, chat.id, ChatThemeEventName.ThemeConfirmed,)
+        new ChatThemeEvent(kw, chat.id, ChatThemeEventName.ThemeConfirmed)
     ));
-    await suggestContentWithKeywords(keywords);
+
+    if (!chat.state.red_flag_triggered) {
+        // Suggest content based on keywords except when red flag flow was triggered
+        await suggestContentWithKeywords(keywords);
+    }
 
     const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
     chat.push(end);
@@ -203,9 +207,9 @@ export async function suggestContentWithKeywords(keywords: string[]): Promise<nu
     //in case it is a new chat and there is no id yet
     await chat.save();
 
-    if (chat.state.red_flag_triggered || keywords.length === 0) {
+    if (keywords.length === 0)
         return 0;
-    }
+
     const q = keywords.sort().join(",");
     if (chat.state.content_queries?.includes(q))
         return 0; // No requeries with the same keys
@@ -383,19 +387,10 @@ export async function queryAndStartQuestionnaireWithKeyword(keyword: string): Pr
 }
 
 /**
- * When the user trigger end of the convesation, the sumarize and suggestion are shown if not red flag have been triggered
+ * Actions to take after the conversation has ended
  */
 export async function onEndConversation() {
-    if (chat.state.red_flag_triggered) {
-        const end = createControlFlowMessage(ChatMessageType.EndOfConversation, l.system_end_of_conversation);
-        chat.messages.push(end);
-
-        const options = createControlFlowMessage(ChatMessageType.EndOfConversationOptions, l.system_end_of_conversation_options);
-        chat.push(options);
-    }
-    else {
-        await summarizeChat();
-    }
+    await summarizeChat();
 }
 
 /**
